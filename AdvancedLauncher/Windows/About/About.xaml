@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="AdvancedLauncher.About"
+             xmlns:local="clr-namespace:AdvancedLauncher"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml"/>
+                <ResourceDictionary Source="About_res.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" d:Visibility="Collapsed" Background="#90000000" d:DataContext="{d:DesignData AboutSampleData.xaml}">
+        <Grid.Effect>
+            <BlurEffect Radius="0"/>
+        </Grid.Effect>
+        <Border Width="360" CornerRadius="100,100,15,15" Height="320" Background="#90000000">
+            <Grid>
+                <StackPanel Height="290">
+                    <Image Source="..\..\Resources\logo.png" Stretch="None" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="100" Width="360"/>
+                    <TextBlock Width="300" Text="{Binding Version}" x:Name="VersionBlock"/>
+
+                    <StackPanel Margin="0,10,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock Text="{Binding Developer}" />
+                        <TextBlock>
+                                <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" RequestNavigate="Hyperlink_RequestNavigate">GoldRenard (Erogov Ilya)</Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock Text="{Binding Designer}" />
+                        <TextBlock>
+                                <Hyperlink NavigateUri="mailto:dragon_vs@live.ru" RequestNavigate="Hyperlink_RequestNavigate">DragonVs (Savinskiy Vladislav)</Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Margin="0,20,0,0" Text="{Binding Projects}"/>
+                    <TextBlock Margin="0,5,0,0" Text="Plüss Roland (DMO Pack Manager)"/>
+                    <TextBlock Margin="0,0,0,0" Text="David Polomis (TargaImage)"/>
+                    <TextBlock Margin="0,0,0,0" Text="Html Agility Pack Team"/>
+                    <TextBlock Margin="0,0,0,0" Text="SQLite library"/>
+                    <TextBlock Margin="0,0,0,0" Text="SharpZipLib"/>
+                </StackPanel>
+                <Button x:Name="BtnClose" Margin="10" Style="{StaticResource BlueButtonSmall}" Height="20" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding CloseBtn}" Click="BtnClose_Click" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

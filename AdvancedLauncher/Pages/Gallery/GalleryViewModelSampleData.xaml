@@ -1,0 +1,28 @@
+﻿<local:GalleryViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AdvancedLauncher;assembly=AdvancedLauncher">
+
+    <local:GalleryViewModel.Items>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+        <local:GalleryItemViewModel Thumb="D:\Games\DMO\ScreenShot\thumbnails\111120_173851.jpg"/>
+    </local:GalleryViewModel.Items>
+</local:GalleryViewModel>

@@ -1,0 +1,11 @@
+﻿<local:Personalization_DC  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AdvancedLauncher;assembly=AdvancedLauncher"
+    Select="Выберите изображение:"
+    SelectMessage="Нажмите сюда, чтобы выбрать изображение"
+    Current="Текущее изображение:"
+    Save="Сохранить текущее изображение"
+    Close="Закрыть"
+    Apply="Применить">
+</local:Personalization_DC> 

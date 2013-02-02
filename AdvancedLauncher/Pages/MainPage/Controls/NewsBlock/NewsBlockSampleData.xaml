@@ -1,0 +1,7 @@
+﻿<local:NewsBlock_DC  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AdvancedLauncher;assembly=AdvancedLauncher"
+    PubDate="Дата публикации: "
+    ReadMore="Подробнее...">
+</local:NewsBlock_DC> 

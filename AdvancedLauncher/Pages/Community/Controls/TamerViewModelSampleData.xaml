@@ -1,0 +1,24 @@
+﻿<local:TamerViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AdvancedLauncher;assembly=AdvancedLauncher"
+    xmlns:dmo="clr-namespace:DMO;assembly=AdvancedLauncher">
+
+    <local:TamerViewModel.Items>
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+        <local:TamerItemViewModel TName="GoldRenard" DCnt="17" Level="99" PName="Renamon" Rank="93" Image="http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/80002.gif" />
+    </local:TamerViewModel.Items>
+</local:TamerViewModel>

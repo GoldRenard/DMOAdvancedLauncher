@@ -1,0 +1,43 @@
+﻿<Window x:Class="AdvancedLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AdvancedLauncher"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        mc:Ignorable="d"
+        Title="Digimon Masters Online" Height="470" Width="850" MinHeight="470" MinWidth="850" Background="#6DC6E8" WindowStartupLocation="CenterScreen" Icon="/AdvancedLauncher;component/app_icon.ico">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+     </Window.Resources>
+
+    <Grid x:Name="LayoutRoot" d:DataContext="{d:DesignData MainWindowSampleData.xaml}">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/background.jpg" Stretch="None" TileMode="FlipY" Viewbox="0,0,333,800" Viewport="0,0,333,800" ViewboxUnits="Absolute" ViewportUnits="Absolute" />
+            </Grid.Background>
+            <TabControl x:Name="NavControl" Style="{StaticResource NavTabControl}" SelectionChanged="NavControl_SelectionChanged_1">
+                <TabItem x:Name="NavMain" Style="{StaticResource NavTabItem}" Header="{Binding NewsTab}">
+                    <local:MainPage x:Name="MainPage_" />
+                </TabItem>
+                <TabItem x:Name="NavGallery" Style="{StaticResource NavTabItem}" Header="{Binding GalleryTab}"/>
+                <TabItem x:Name="NavCommunity" Style="{StaticResource NavTabItem}" Header="{Binding CommunityTab}"/>
+                <TabItem x:Name="NavPersonalization" Style="{StaticResource NavTabItem}" Header="{Binding CustTab}"/>
+            </TabControl>
+        </Grid>
+        <StackPanel Margin="0,5,5,0" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Button x:Name="bnt_about" Style="{StaticResource ButtonIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="bnt_about_Click_1">
+                <Image Source="/AdvancedLauncher;component/Resources/about.png" Stretch="None" />
+            </Button>
+            <Button x:Name="btn_settings" Style="{StaticResource ButtonIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btn_settings_Click_1">
+                <Image Source="/AdvancedLauncher;component/Resources/settings.png" Stretch="None" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

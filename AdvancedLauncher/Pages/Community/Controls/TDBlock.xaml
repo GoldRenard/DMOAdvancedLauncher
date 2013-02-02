@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="AdvancedLauncher.TDBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml"/>
+                <ResourceDictionary Source="TDBlock_res.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Border x:Name="CommRoot" CornerRadius="10" Background="{StaticResource MainFrameBrush}">
+            <Grid>
+                <ScrollViewer x:Name="CommScroll" Style="{StaticResource RoundedSV}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left"
+                            Width="{Binding ElementName = CommRoot, Path=ActualWidth}">
+                    <Grid x:Name="NewsWrap" HorizontalAlignment="Left" Width="{Binding ElementName=CommScroll, Path=ActualWidth, Converter={StaticResource WidthConverter}}">
+                        <ListBox x:Name="Tamers" Visibility="Collapsed" Opacity="0" BorderThickness="0" 
+                                     d:DataContext="{d:DesignData TamerViewModelSampleData.xaml}"
+                                     ItemContainerStyle="{StaticResource TamersItemContainer}"
+                                     Background="Transparent" ItemsSource="{Binding Items}"
+                                     IsSynchronizedWithCurrentItem="True"
+                                     SelectionMode="Single"
+                                     MouseLeftButtonUp="Tamers_MouseLeftButtonDown_1">
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <Grid Height="20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="0.8*" />
+                                                <ColumnDefinition Width="0.4*" />
+                                                <ColumnDefinition Width="0.6*" />
+                                                <ColumnDefinition Width="0.8*" />
+                                                <ColumnDefinition Width="70" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Type}" Style="{StaticResource ListBoxHeader}" Loaded="TamerHeader_Loaded_1" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="TamerHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Level}" Style="{StaticResource ListBoxHeader}" Loaded="TamerHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding Ranking}" Style="{StaticResource ListBoxHeader}" Loaded="TamerHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding Partner}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="TamerHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="5" Text="{Binding Mercenary}" Style="{StaticResource ListBoxHeader}" Loaded="TamerHeader_Loaded_1"/>
+                                        </Grid>
+                                        <ItemsPresenter/>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                        <Grid Height="30">
+                                            <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="0.8*" />
+                                            <ColumnDefinition Width="0.4*" />
+                                            <ColumnDefinition Width="0.6*" />
+                                            <ColumnDefinition Width="0.8*" />
+                                            <ColumnDefinition Width="70" />
+                                        </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" ToolTip="{Binding TType}">
+                                                <!-- Rectangle is needed for showing ToolTip with empty content (image) -->
+                                                <Rectangle Fill="Transparent" />
+                                                <Image Source="{Binding Image}" Stretch="None" />
+                                            </Grid>
+                                            <TextBlock Grid.Column="1" Text="{Binding TName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Level}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding Rank}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding PName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                            <TextBlock Grid.Column="5" Text="{Binding DCnt}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                        </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <ListBox x:Name="Digimons" Visibility="Collapsed" Opacity="0" BorderThickness="0" 
+                                     d:DataContext="{d:DesignData DigimonViewModelSampleData.xaml}"
+                                     ItemContainerStyle="{StaticResource DigimonsItemContainer}"
+                                     Background="Transparent" ItemsSource="{Binding Items}">
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <Grid Height="20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="0.8*" />
+                                                <ColumnDefinition Width="0.4*" />
+                                                <ColumnDefinition Width="0.6*" />
+                                                <ColumnDefinition Width="0.8*" />
+                                                <ColumnDefinition Width="0.68*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Type}" Style="{StaticResource ListBoxHeader}" Loaded="DigimonHeader_Loaded_1" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="DigimonHeader_Loaded_1" />
+                                            <TextBlock Grid.Column="2" Text="{Binding Level}" Style="{StaticResource ListBoxHeader}" Loaded="DigimonHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding Ranking}" Style="{StaticResource ListBoxHeader}" Loaded="DigimonHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding Tamer}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="DigimonHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="5" Text="{Binding Size}" Style="{StaticResource ListBoxHeader}" Loaded="DigimonHeader_Loaded_1"/>
+                                        </Grid>
+                                        <ItemsPresenter/>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="0.8*" />
+                                            <ColumnDefinition Width="0.4*" />
+                                            <ColumnDefinition Width="0.6*" />
+                                            <ColumnDefinition Width="0.8*" />
+                                            <ColumnDefinition Width="0.68*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" ToolTip="{Binding DType}">
+                                            <!-- Rectangle is needed for showing ToolTip with empty content (image) -->
+                                            <Rectangle Fill="Transparent" />
+                                            <Image Source="{Binding Image}" Stretch="None" />
+                                        </Grid>
+                                        <TextBlock Grid.Column="1" Text="{Binding DName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding Level}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                        <TextBlock Grid.Column="3" Text="{Binding Rank}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                        <TextBlock Grid.Column="4" Text="{Binding TName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                        <TextBlock Grid.Column="5" Text="{Binding Size}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

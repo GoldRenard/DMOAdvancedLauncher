@@ -1,0 +1,7 @@
+﻿<local:MainPage_DC  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AdvancedLauncher;assembly=AdvancedLauncher"
+        Button_StartGame="НАЧАТЬ ИГРУ"
+        ShowNewsTab="НОВОСТИ:">
+</local:MainPage_DC> 

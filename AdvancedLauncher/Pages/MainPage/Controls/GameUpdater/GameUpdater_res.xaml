@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AdvancedLauncher">
+    <Style x:Key="UpdatePB" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Margin" Value="0,2,0,0"/>
+        <Setter Property="Height" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid MinWidth="200">
+                        <Border Name="PART_Track" CornerRadius="4" BorderBrush="#15A5F9" BorderThickness="1">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#00FFFFFF"/>
+                                    <GradientStop Color="#60FFFFFF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <Border Name="PART_Indicator" CornerRadius="4" BorderBrush="Transparent" BorderThickness="1" HorizontalAlignment="Left">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#45B7F9"/>
+                                    <GradientStop Color="#1392DB" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="UpdateText" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5,0,0,0" />
+        <Setter Property="FontFamily" Value="Tahoma" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+</ResourceDictionary>

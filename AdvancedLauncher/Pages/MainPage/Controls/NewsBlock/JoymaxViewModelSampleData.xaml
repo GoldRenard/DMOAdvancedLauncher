@@ -1,0 +1,13 @@
+﻿<local:JoymaxViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AdvancedLauncher;assembly=AdvancedLauncher">
+
+    <local:JoymaxViewModel.Items>
+        <local:JoymaxItemViewModel ImgVB="215, 0, 90, 18" Title="Compensation Regarding the DigiCore Shop Bug" Date="20.07.12" Content="Hello, this is GM Miyazaki. Heroes of the Digital World Rejoice!!! Prepare your selves for the coming of Exciting new UPDATES and EVENTS that will be implemented next Server Inspection (July 24, 2012), Game update: We are receiving a lot of request from our..." Link="http://dmocp.joymax.com/News/Notice/NoticeView.aspx?bno=351&amp;bid=1" Type="уведомление" />
+        <local:JoymaxItemViewModel ImgVB="215, 0, 90, 18" Title="Upcoming Update on July 24, 2012 Notice" Date="20.07.12" Content="Hello, this is GM Miyazaki. Heroes of the Digital World Rejoice!!! Prepare your selves for the coming of Exciting new UPDATES and EVENTS that will be implemented next Server Inspection (July 24, 2012), Game update: We are receiving a lot of request from our..." Link="http://dmocp.joymax.com/News/Notice/NoticeView.aspx?bno=351&amp;bid=1" Type="уведомление" />
+        <local:JoymaxItemViewModel ImgVB="215, 0, 90, 18" Title="Upcoming Update on July 24, 2012 Notice" Date="20.07.12" Content="Hello, this is GM Miyazaki. Heroes of the Digital World Rejoice!!! Prepare your selves for the coming of Exciting new UPDATES and EVENTS that will be implemented next Server Inspection (July 24, 2012), Game update: We are receiving a lot of request from our..." Link="http://dmocp.joymax.com/News/Notice/NoticeView.aspx?bno=351&amp;bid=1" Type="уведомление" />
+        <local:JoymaxItemViewModel ImgVB="215, 0, 90, 18" Title="Upcoming Update on July 24, 2012 Notice" Date="20.07.12" Content="Hello, this is GM Miyazaki. Heroes of the Digital World Rejoice!!! Prepare your selves for the coming of Exciting new UPDATES and EVENTS that will be implemented next Server Inspection (July 24, 2012), Game update: We are receiving a lot of request from our..." Link="http://dmocp.joymax.com/News/Notice/NoticeView.aspx?bno=351&amp;bid=1" Type="уведомление" />
+    </local:JoymaxViewModel.Items>
+    
+</local:JoymaxViewModel>

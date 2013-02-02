@@ -38,9 +38,10 @@ namespace AdvancedLauncher
         VistaSaveFileDialog sv_file = new VistaSaveFileDialog();
         Personalization_DC DContext = new Personalization_DC();
         ResourceViewModel Resource_DC = new ResourceViewModel();
-        DMOFileSystem dmo_fs;
+        DMOFileSystem dmo_fs = null;
         TargaImage ti = new TargaImage();
         bool isGameImageLoaded = false;
+        bool isFSInitialized = false;
 
         public Personalization()
         {
@@ -51,28 +52,43 @@ namespace AdvancedLauncher
             ItemsComboBox.ItemsSource = Resource_DC.Items;
             LayoutRoot.DataContext = DContext;
 
-            while (!Utils.CheckUpdateAccess()) ;
+            ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
+        }
 
+        public void InitFS()
+        {
             dmo_fs = new DMOFileSystem(16, SettingsProvider.GAME_PATH() + SettingsProvider.PACK_HF_FILE, SettingsProvider.GAME_PATH() + SettingsProvider.PACK_PF_FILE);
-            if (dmo_fs.ArchiveEntries.Count <= 0) // if FS opened
+            if (dmo_fs.ArchiveEntries.Count == 0) // if FS not opened
             {
                 SelectBtn.IsEnabled = false;
                 CurrentHelp.Text = LanguageProvider.strings.CUST_CANT_OPEN_FS;
             }
-            else if (Resource_DC.Items.Count > 0)
+            else
+            {
+                SelectBtn.IsEnabled = true;
+                CurrentHelp.Text = string.Empty;
+                isFSInitialized = true;
+            }
+
+            if (Resource_DC.Items.Count > 0)
                 LoadGameImage((ResourceItemViewModel)ItemsComboBox.SelectedValue);
             else
             {
                 Utils.MSG_ERROR(string.Format(LanguageProvider.strings.CUST_RES_FILE_NOT_FOUND, SettingsProvider.RES_LIST_FILE));
                 ItemsComboBox.IsEnabled = false;
             }
-
-            ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
         }
 
-        public void Activate()
+        public bool Activate()
         {
-            ShowWindow.Begin();
+            if (Utils.CheckUpdateAccess())
+            {
+                if (!isFSInitialized)
+                    InitFS();
+                ShowWindow.Begin();
+                return true;
+            }
+            return false;
         }
 
         private void LoadResourceList()
@@ -195,11 +211,13 @@ namespace AdvancedLauncher
 
         private void BtnApply_Click(object sender, RoutedEventArgs e)
         {
-            while (!Utils.CheckUpdateAccess()) ;
-            if (!dmo_fs.WriteStream(new MemoryStream(selected_image_bytes), ((ResourceItemViewModel)ItemsComboBox.SelectedValue).RPath))
-                Utils.MSG_ERROR(LanguageProvider.strings.CUST_CANT_WRITE);
-            else
-                isGameImageLoaded = LoadGameImage((ResourceItemViewModel)ItemsComboBox.SelectedValue);
+            if (Utils.CheckUpdateAccess())
+            {
+                if (!dmo_fs.WriteStream(new MemoryStream(selected_image_bytes), ((ResourceItemViewModel)ItemsComboBox.SelectedValue).RPath))
+                    Utils.MSG_ERROR(LanguageProvider.strings.CUST_CANT_WRITE);
+                else
+                    isGameImageLoaded = LoadGameImage((ResourceItemViewModel)ItemsComboBox.SelectedValue);
+            }
         }
 
         #region Utils

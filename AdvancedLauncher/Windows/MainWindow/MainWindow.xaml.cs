@@ -59,11 +59,12 @@ namespace AdvancedLauncher
             //Prevent handling over changing inside tab item
             if (current_tab == NavControl.SelectedIndex)
                 return;
-            switch (current_tab = NavControl.SelectedIndex)
+            switch (NavControl.SelectedIndex)
             {
                 case 0:
                     {
                         MainPage_.Activate();
+                        current_tab = NavControl.SelectedIndex;
                         break;
                     }
                 case 1:
@@ -74,6 +75,7 @@ namespace AdvancedLauncher
                             NavGallery.Content = Gallery_tab;
                         }
                         Gallery_tab.Activate();
+                        current_tab = NavControl.SelectedIndex;
                         break;
                     }
                 case 2:
@@ -84,6 +86,7 @@ namespace AdvancedLauncher
                             NavCommunity.Content = Community_tab;
                         }
                         Community_tab.Activate();
+                        current_tab = NavControl.SelectedIndex;
                         break;
                     }
                 case 3:
@@ -93,10 +96,14 @@ namespace AdvancedLauncher
                             Personalization_tab = new Personalization();
                             NavPersonalization.Content = Personalization_tab;
                         }
-                        Personalization_tab.Activate();
+                        if (Personalization_tab.Activate())
+                            current_tab = NavControl.SelectedIndex;
+                        else
+                            NavControl.SelectedIndex = current_tab;
                         break;
                     }
             }
+            ((TabItem)NavControl.Items[current_tab]).Focus();
         }
 
         private void bnt_about_Click_1(object sender, RoutedEventArgs e)

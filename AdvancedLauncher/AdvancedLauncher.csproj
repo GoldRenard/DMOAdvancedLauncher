@@ -100,6 +100,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IniFile.cs" />
     <Compile Include="Pages\MainPage\Controls\GameUpdater\GameUpdater.xaml.cs">
       <DependentUpon>GameUpdater.xaml</DependentUpon>
     </Compile>

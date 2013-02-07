@@ -121,13 +121,28 @@ namespace AdvancedLauncher
         {
             if (isNeedUpdate)
             {
-                if (ApplicationLauncher.Execute(SettingsProvider.GAME_PATH() + SettingsProvider.DEF_LAUNCHER))
+                if (ApplicationLauncher.Execute(SettingsProvider.DEFLAUNCHER_EXE(), SettingsProvider.DEF_ARGS))
                     CloseApp();
             }
             else
             {
-                if (ApplicationLauncher.Execute(SettingsProvider.GAME_PATH() + SettingsProvider.GAME_APP, "true"))
-                    CloseApp();
+                if (SettingsProvider.STEAM_COMMAND != string.Empty)
+                {
+                    bool isSuccess = false;
+                    try
+                    {
+                        System.Diagnostics.Process.Start(SettingsProvider.STEAM_COMMAND);
+                        isSuccess = true;
+                    }
+                    catch { isSuccess = false; }
+                    if (isSuccess)
+                        CloseApp();
+                }
+                else
+                {
+                    if (ApplicationLauncher.Execute(SettingsProvider.GAME_EXE(), SettingsProvider.GAME_ARGS))
+                        CloseApp();
+                }
             }
         }
 

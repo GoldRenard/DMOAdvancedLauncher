@@ -104,7 +104,7 @@ public static class ApplicationLauncher
     /// <param name="commandline">Command line</param>
     /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
     /// -------------------------------------------------------------------------------------------------
-    private static bool StartProc(string program, string commandline)
+    public static bool StartProc(string program, string commandline)
     {
         try
         {

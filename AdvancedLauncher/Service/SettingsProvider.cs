@@ -45,18 +45,24 @@ namespace AdvancedLauncher
 
         public static string APP_PATH = null;
         private static string GAME_PATH_ = null;
+        private static string GAME_PATH_PREFIX = "{DMODIR}";
 
+        public static string VERSION_FILE = "\\LauncherLib\\vGDMO.ini";
         public static string JOYMAX_PATH_INFO_URI = "http://patch.dmo.joymax.com/PatchInfo_GDMO.ini";
         public static string JOYMAX_FILE_PATCH = "http://patch.dmo.joymax.com/GDMO{0}.zip";
+
+        public static string DEF_LAUNCHER = "{DMODIR}\\DMLauncher.exe";
+        public static string DEF_ARGS = string.Empty;
+        public static string GAME_EXE_PATH = "{DMODIR}\\GDMO.exe";
+        public static string GAME_ARGS = "true";
+        public static string STEAM_COMMAND = string.Empty;
+
         public static string RES_HF_FILE = "\\Resources.hf";
         public static string RES_PF_FILE = "\\Resources.pf";
         public static string LANGS_DIR = "\\Languages\\";
         public static string RES_IMPORT_DIR = "\\Resources\\";
         public static string RES_LIST_FILE = "\\GameResourceList.cfg";
 
-        public static string DEF_LAUNCHER = "\\DMLauncher.exe";
-        public static string GAME_APP = "\\GDMO.exe";
-        public static string VERSION_FILE = "\\LauncherLib\\vGDMO.ini";
         public static string PACK_HF_FILE = "\\Data\\Pack01.hf";
         public static string PACK_PF_FILE = "\\Data\\Pack01.pf";
         public static string PACK_IMPORT_DIR = "\\Pack01";
@@ -76,6 +82,22 @@ namespace AdvancedLauncher
         public static void LoadSettings()
         {
             APP_PATH = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+
+            if (File.Exists(APP_PATH + "\\config.ini"))
+            {
+                IniFile ifile = new IniFile(APP_PATH + "\\config.ini");
+                string section = "game_updater";
+                VERSION_FILE = ifile.ReadString(section, "local_version");
+                JOYMAX_PATH_INFO_URI = ifile.ReadString(section, "remote_version");
+                JOYMAX_FILE_PATCH = ifile.ReadString(section, "update_archive");
+                section = "game_launcher";
+                DEF_LAUNCHER = ifile.ReadString(section, "default_launcher");
+                DEF_ARGS = ifile.ReadString(section, "default_launcher_args");
+                GAME_EXE_PATH = ifile.ReadString(section, "game_exe");
+                GAME_ARGS = ifile.ReadString(section, "game_args");
+
+                STEAM_COMMAND = ifile.ReadString(section, "steam_command");
+            }
 
             RegistryKey read_settings = Registry.CurrentUser.CreateSubKey(SETTINGS_KEY);
 
@@ -173,6 +195,16 @@ namespace AdvancedLauncher
             return GAME_PATH_;
         }
 
+        public static string GAME_EXE()
+        {
+            return GAME_EXE_PATH.Replace(GAME_PATH_PREFIX, GAME_PATH());
+        }
+
+        public static string DEFLAUNCHER_EXE()
+        {
+            return DEF_LAUNCHER.Replace(GAME_PATH_PREFIX, GAME_PATH());
+        }
+
         /// <summary> Provides full path DMO SQLite database </summary>
         public static string DMO_DB_PATH()
         {
@@ -235,7 +267,7 @@ namespace AdvancedLauncher
         {
             if (dir == null)
                 return false;
-            if (!File.Exists(dir + VERSION_FILE) || !File.Exists(dir + DEF_LAUNCHER) || !File.Exists(dir + GAME_APP))
+            if (!File.Exists(dir + VERSION_FILE) || !File.Exists(DEF_LAUNCHER.Replace(GAME_PATH_PREFIX, dir)) || !File.Exists(GAME_EXE_PATH.Replace(GAME_PATH_PREFIX, dir)))
             {
                 if (!isSilent)
                     Utils.MSG_ERROR(LanguageProvider.strings.SELECT_GAME_DIR_WRONG);

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Translation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LANGUAGE_NAME>Русский</LANGUAGE_NAME>
+  
+  <!-- SHARED -->
+  <ERROR>Ошибка</ERROR>
+  <CANT_OPEN_LINK>Не удается открыть ссылку. Попробуйте изменить браузер по-умолчанию. Ошибка: </CANT_OPEN_LINK>
+  <BROWSE>Обзор</BROWSE>
+  <CLOSE>Закрыть</CLOSE>
+  <CANCEL>Отмена</CANCEL>
+  <APPLY>Применить</APPLY>
+  <PLEASE_WAIT>Пожалуйста, подождите...</PLEASE_WAIT>
+  <NEED_CLOSE_GAME>Пожалуйста, закройте игру.</NEED_CLOSE_GAME>
+  <NEED_CLOSE_DEF_LAUNCHER>Пожалуйста, закройте стандартный лаунчер.</NEED_CLOSE_DEF_LAUNCHER>
+  <GAME_FILES_IN_USE>Нет доступа к требуемым файлам игры. Пожалуйста, закройте все использующие их программы.</GAME_FILES_IN_USE>
+  
+  <!-- MAIN WINDOW -->
+  <MAIN_NEWS_TAB>НОВОСТИ</MAIN_NEWS_TAB>
+  <MAIN_GALLERY_TAB>ГАЛЕРЕЯ</MAIN_GALLERY_TAB>
+  <MAIN_COMMUNITY_TAB>СООБЩЕСТВО</MAIN_COMMUNITY_TAB>
+  <MAIN_CUSTOMIZATION_TAB>ПЕРСОНАЛИЗАЦИЯ</MAIN_CUSTOMIZATION_TAB>
+  
+  <!-- NEWS PAGE -->
+  <MAIN_START_GAME>НАЧАТЬ ИГРУ</MAIN_START_GAME>
+  <MAIN_START_WAITING>ОЖИДАНИЕ</MAIN_START_WAITING>
+  <MAIN_UPDATE_GAME>ОБНОВИТЬ ИГРУ</MAIN_UPDATE_GAME>
+  <MAIN_SHOW_TAB>НОВОСТИ:</MAIN_SHOW_TAB>
+  
+  <!-- NEWS PAGE - GAME UPDATER -->
+  <UPDATE_CANT_GET_GAME_VERSION>Не удается получить версию игры</UPDATE_CANT_GET_GAME_VERSION>
+  <UPDATE_CANT_CONNECT_TO_JOYMAX>Не удается подключиться к серверу обновлений JOYMAX.</UPDATE_CANT_CONNECT_TO_JOYMAX>
+  <UPDATE_DOWNLOADING>Загрузка обновления {0}... [{1:0.00}MB / {2:0.00}MB]</UPDATE_DOWNLOADING>
+  <UPDATE_EXTRACTING>Распаковка обновления {0}... [{1} / {2}]</UPDATE_EXTRACTING>
+  <UPDATE_INSTALLING>Установка обновлений... [{0} / {1}]</UPDATE_INSTALLING>
+  
+  <!-- NEWS PAGE - NEWS BLOCK -->
+  <NEWS_TYPE_NOTICE>уведомление</NEWS_TYPE_NOTICE>
+  <NEWS_TYPE_EVENT>событие</NEWS_TYPE_EVENT>
+  <NEWS_TYPE_PATCH>обновление</NEWS_TYPE_PATCH>
+  <NEWS_CANT_GET_TWITLIST>Не удалось получить список твитов</NEWS_CANT_GET_TWITLIST>
+  <NEWS_PUBLICATION_DATE>Дата публикации</NEWS_PUBLICATION_DATE>
+  <NEWS_READ_MORE>Подробнее...</NEWS_READ_MORE>
+  
+  <!-- NEWS PAGE - DIGIMON ROTATION -->
+  <ROT_LOADING>Загрузка списка Дигимонов</ROT_LOADING>
+  <ROT_TAMER>Теймер</ROT_TAMER>
+  <ROT_LEVEL>уровень</ROT_LEVEL>
+  <ROT_ERRMSG1>Произошла ошибка!</ROT_ERRMSG1>
+  <ROT_ERRMSG2>Проверьте Ваше соединение с интернетом.</ROT_ERRMSG2>
+  
+  <!-- GALLERY PAGE -->
+  <GAL_HELP>КЛИКНИТЕ ДВАЖДЫ ПО СКРИНШОТУ ДЛЯ ОТКРЫТИЯ</GAL_HELP>
+  <GAL_NOSCREENSHOTS>НЕТ НИ ОДНОГО СКРИНШОТА</GAL_NOSCREENSHOTS>
+  <GAL_CANT_OPEN>Не удается открыть изображение. Ошибка: </GAL_CANT_OPEN>
+  
+  <!-- COMMUNITY PAGE -->
+  <COMM_SHOWTAB>ПОКАЗАТЬ:</COMM_SHOWTAB>
+  <COMM_TAMERS_TAB>ТЕЙМЕРОВ</COMM_TAMERS_TAB>
+  <COMM_DIGIMONS_TAB>ДИГИМОНОВ</COMM_DIGIMONS_TAB>
+  
+  <COMM_SELECT_GUILD>Какую гильдию ищем:</COMM_SELECT_GUILD>
+  <COMM_CB_DETAILED>Получать подробные данные (долго)</COMM_CB_DETAILED>
+  <COMM_BTN_SEARCH>Найти гильдию</COMM_BTN_SEARCH>
+  
+  <COMM_INFO>Информация:</COMM_INFO>
+  <COMM_GMASTER>Мастер:</COMM_GMASTER>
+  <COMM_GBEST>Лучший:</COMM_GBEST>
+  <COMM_GRANK>Ранг:</COMM_GRANK>
+  <COMM_GREP>Репутация:</COMM_GREP>
+  <COMM_TAMER_COUNT>Количество теймеров:</COMM_TAMER_COUNT>
+  <COMM_DIGIMON_COUNT>Количество Дигимонов:</COMM_DIGIMON_COUNT>
+  
+  <COMM_TB_GUILD_NAME>Название гильдии</COMM_TB_GUILD_NAME>
+  <COMM_TB_EMPTY_MSG>Введите название гильдии!</COMM_TB_EMPTY_MSG>
+  <COMM_TB_INCORRECT>Название гильдии содержит недопустимые символы!</COMM_TB_INCORRECT>
+  
+  <COMM_STATUS_GUILD_SEARCHING>Поиск гильдии</COMM_STATUS_GUILD_SEARCHING>
+  <COMM_STATUS_TAMER_GETTING>Получение теймера: {0}</COMM_STATUS_TAMER_GETTING>
+  
+  <COMM_LHEADER_TYPE>Тип</COMM_LHEADER_TYPE>
+  <COMM_LHEADER_LEVEL>Уровень</COMM_LHEADER_LEVEL>
+  <COMM_LHEADER_RANKING>Ранк</COMM_LHEADER_RANKING>
+  <COMM_LHEADER_TAMER>Теймер</COMM_LHEADER_TAMER>
+  <COMM_LHEADER_PARTNER>Партнёр</COMM_LHEADER_PARTNER>
+  <COMM_LHEADER_MERCENARY>Дигимонов</COMM_LHEADER_MERCENARY>
+  <COMM_LHEADER_NAME>Имя</COMM_LHEADER_NAME>
+  <COMM_LHEADER_SIZE>Размер</COMM_LHEADER_SIZE>
+  
+  <COMM_CANT_GET_GUILD>Не удается получить информацию о гильдии</COMM_CANT_GET_GUILD>
+  <COMM_CANT_CONNECT_TO_DB>Не удается подключиться к локальной базе данных</COMM_CANT_CONNECT_TO_DB>
+  <COMM_GUILD_NOT_FOUND>Такая гильдия не найдена</COMM_GUILD_NOT_FOUND>
+  <COMM_GUILD_NO_CONNECTION>Не удается получить информацию, проверьте соединение с интернетом</COMM_GUILD_NO_CONNECTION>
+  
+  <!-- CUSTOMIZATION PAGE -->
+  <CUST_SELECT_PICTURE>Выберите изображение:</CUST_SELECT_PICTURE>
+  <CUST_SELECT_MESSAGE>Нажмите сюда, чтобы выбрать изображение</CUST_SELECT_MESSAGE>
+  <CUST_CURRENT_PICTURE>Текущее изображение:</CUST_CURRENT_PICTURE>
+  <CUST_SAVE_PICTURE>Сохранить текущее изображение</CUST_SAVE_PICTURE>
+  <CUST_SELECT_TITLE>Выберите TGA-изображение</CUST_SELECT_TITLE>
+  <CUST_SAVE_TITLE>Сохранить изображение</CUST_SAVE_TITLE>
+  <CUST_CANT_OPEN_FS>Не удалось получить доступ к файлам игры :(</CUST_CANT_OPEN_FS>
+  <CUST_WRONG_TGA>Это не TGA-изображение!</CUST_WRONG_TGA>
+  <CUST_CANT_SAVE>Не удалось сохранить изображение.</CUST_CANT_SAVE>
+  <CUST_CANT_WRITE>Не удалось записать изображение в игру!</CUST_CANT_WRITE>
+  <CUST_GAME_FILE_NOT_FOUND>Файл "{0}" не найден или отсутствует доступ к игровым ресурсам.</CUST_GAME_FILE_NOT_FOUND>
+  <CUST_RES_FILE_NOT_FOUND>Файл списка ресурсов "{0}" не найден или пуст. Пожалуйста, заполните его.</CUST_RES_FILE_NOT_FOUND>
+  
+  <!-- SETTINGS POPUP -->
+  <SELECT_GAME_DIR>Пожалуйста, укажите папку с игрой</SELECT_GAME_DIR>
+  <SELECT_GAME_DIR_WRONG>Необходимо указать правильную папку с игрой.</SELECT_GAME_DIR_WRONG>
+  <SETTINGS_CANT_USE_APPLOC>Нельзя запустить игру через AppLocale по следующим причинам:</SETTINGS_CANT_USE_APPLOC>
+  <SETTINGS_CANT_USE_APPLOC_CAPTION>Запуск через AppLocale сейчас невозможен</SETTINGS_CANT_USE_APPLOC_CAPTION>
+  <SETTINGS_APPLOC_ISNT_INSTALLED> - Не установлена служебная программа Microsoft AppLocale</SETTINGS_APPLOC_ISNT_INSTALLED>
+  <SETTINGS_ALP_ISNT_INSTALLED> - Не установлена поддержка языков с письмом иероглифами</SETTINGS_ALP_ISNT_INSTALLED>
+  <SETTINGS_QUESTION_DOWNLOAD_NOW>Перейти прямо сейчас к странице загрузки и инструкций по исправлению данных ошибок?</SETTINGS_QUESTION_DOWNLOAD_NOW>
+  <SETTINGS_NEED_RESTART>Некоторые изменения вступят в силу после перезапуска лаунчера.</SETTINGS_NEED_RESTART>
+  <SETTINGS_NEED_RESTART_CAPTION>Перезапуск</SETTINGS_NEED_RESTART_CAPTION>
+  
+  <SETTINGS_LANG>Язык лаунчера:</SETTINGS_LANG>
+  <SETTINGS_ROTATION_GUILD>Гильдия для ротации Дигимонов:</SETTINGS_ROTATION_GUILD>
+  <SETTINGS_ROT_UPD_FREQ>Частота обновления (дни):</SETTINGS_ROT_UPD_FREQ>
+  
+  <SETTINGS_NEWS>Настройка новостей:</SETTINGS_NEWS>
+  <SETTINGS_TWITTER_USER>Пользователь Твиттер для новостей:</SETTINGS_TWITTER_USER>
+  <SETTINGS_START_NEWS>Начальная вкладка новостей:</SETTINGS_START_NEWS>
+  
+  <SETTINGS_GAME>Настройка игры:</SETTINGS_GAME>
+  <SETTINGS_GAME_PATH>Путь к игре:</SETTINGS_GAME_PATH>
+  <SETTINGS_USE_UPDATER>Обновлять игру</SETTINGS_USE_UPDATER>
+  <SETTINGS_USE_APPLOCALE>Использовать AppLocale для запуска</SETTINGS_USE_APPLOCALE>
+  <SETTINGS_APPLOCALE_HELP>Помощь</SETTINGS_APPLOCALE_HELP>
+  
+  <!-- APPLICATION LAUNCHER (APPLOCALE) -->
+  <APPLAUNCHER_APPLOCALE_NOT_FOUND_MSG>Microsoft AppLocale не был найден на этом компьютере. Хотите скачать и установить его сейчас?</APPLAUNCHER_APPLOCALE_NOT_FOUND_MSG>
+  <APPLAUNCHER_APPLOCALE_NOT_FOUND_TITLE>Microsoft AppLocale не найден</APPLAUNCHER_APPLOCALE_NOT_FOUND_TITLE>
+  <APPLAUNCHER_APPLOCALE_CANT_PATCH>Не удалось модифицирвать Microsoft AppLocale.</APPLAUNCHER_APPLOCALE_CANT_PATCH>
+  <APPLAUNCHER_CANT_EXECURE>Не удается запустить программу</APPLAUNCHER_CANT_EXECURE>
+  
+  <!-- ABOUT POPUP -->
+  <ABOUT_VERSION>Версия</ABOUT_VERSION>
+  <ABOUT_DEV>Разработчик</ABOUT_DEV>
+  <ABOUT_DES>Помощь по дизайну</ABOUT_DES>
+  <ABOUT_PROJECTS>В проекте использованы наработки</ABOUT_PROJECTS>
+  
+  <!-- LAUNCHER UPDATER -->
+  <LAUNCHER_UPDATE_NEW_AVAILABLE>Доступна новая версия лаунчера {0}. Изменения:</LAUNCHER_UPDATE_NEW_AVAILABLE>
+  <LAUNCHER_UPDATE_NEW_AVAILABLE_CAPTION>Доступна новая версия лаунчера {0}</LAUNCHER_UPDATE_NEW_AVAILABLE_CAPTION>
+  <LAUNCHER_Q_UPDATE_WANT_DOWNLOAD>Хотите скачать прямо сейчас?</LAUNCHER_Q_UPDATE_WANT_DOWNLOAD>
+</Translation>

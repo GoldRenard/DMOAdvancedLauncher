@@ -1,7 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:core="clr-namespace:System;assembly=mscorlib"
-                    xmlns:local="clr-namespace:AdvancedLauncher">
+                    xmlns:local="clr-namespace:AdvancedLauncher"
+                    xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=PresentationFramework">
+    <Controls:BooleanToVisibilityConverter x:Key="BoolToHiddenConverter" />
+    
     <Storyboard x:Key="ShowWindow">
         <DoubleAnimation From="0" To="1" Duration="0:0:0.15"  Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LayoutRoot"/>
         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(UIElement.Visibility)">
@@ -326,6 +329,7 @@
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                            <Setter TargetName="CheckMark" Property="Stroke" Value="{StaticResource DisabledForegroundBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -365,6 +369,7 @@
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                            <Setter TargetName="CheckMark" Property="Stroke" Value="{StaticResource DisabledForegroundBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -401,14 +406,55 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
                             <Setter TargetName="Border" Property="Stroke" Value="#40000000" />
-                            <Setter Property="Foreground" Value="#80000000"/>
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                            <Setter TargetName="CheckMark" Property="Fill" Value="{StaticResource DisabledForegroundBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style x:Key="BlueRadioButtonWhite" TargetType="{x:Type RadioButton}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="FocusVisualStyle"	Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <BulletDecorator Background="Transparent">
+                        <BulletDecorator.Bullet>
+                            <Grid Width="13" Height="13" >
+                                <Ellipse x:Name="Border" Fill="{StaticResource NormalBrush}" StrokeThickness="1" Stroke="{StaticResource NormalBorderBrush}" />
+                                <Ellipse x:Name="CheckMark" Margin="4" Fill="{StaticResource GlyphBrush}" />
+                            </Grid>
+                        </BulletDecorator.Bullet>
+                        <ContentPresenter Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True"/>
+                    </BulletDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Fill" Value="{StaticResource LightBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Fill" Value="{StaticResource PressedBrush}" />
+                            <Setter TargetName="Border" Property="Stroke" Value="{StaticResource GlyphBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Stroke" Value="#40000000" />
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                            <Setter TargetName="CheckMark" Property="Fill" Value="{StaticResource DisabledForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="BlueHyperLink" TargetType="{x:Type Hyperlink}">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -439,6 +485,10 @@
                         <Trigger Property="Validation.HasError" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="#FFF0F0"/>
                         </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
+                            </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -474,7 +524,7 @@
             </StackPanel>
         </StackPanel>
     </ControlTemplate>
-    
+
     <Style x:Key="LoadingPB" TargetType="{x:Type ProgressBar}">
         <Setter Property="Template">
             <Setter.Value>
@@ -494,6 +544,136 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- LOGIN FORM RESOURCES -->
+    <Style x:Key="LoginTBHelp" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontStretch" Value="Normal"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Width" Value="225"/>
+        <Setter Property="Padding" Value="6,0"/>
+        <Setter Property="Foreground" Value="Gray"/>
+    </Style>
+    <Style x:Key="TryTB" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontStretch" Value="Normal"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Height" Value="12"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+    <Style x:Key="StatusTB" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontStretch" Value="Normal"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Margin" Value="10,0,0,0"/>
+    </Style>
+
+    <Style x:Key="LoginTBox" TargetType="TextBox">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="AllowDrop" Value="true" />
+
+        <Setter Property="MinWidth" Value="30" />
+        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Width" Value="225"/>
+
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontStretch" Value="Normal"/>
+        <Setter Property="FontSize" Value="20"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border Name="Border" Padding="5,0" CornerRadius="5" Background="#C0FFFFFF">
+                        <ScrollViewer x:Name="PART_ContentHost" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#FFFFFFFF" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#C0FFFFFF" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="LoginPWBox" TargetType="{x:Type PasswordBox}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="AllowDrop" Value="true" />
+
+        <Setter Property="MinWidth" Value="30" />
+        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Width" Value="225"/>
+
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontStretch" Value="Normal"/>
+        <Setter Property="FontSize" Value="20"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border Name="Border" Padding="5,0" CornerRadius="5" Background="#C0FFFFFF">
+                        <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#FFFFFFFF" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#C0FFFFFF" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     
     <!-- ComboBox -->
     <ControlTemplate x:Key="BlueComboBoxToggleButton" TargetType="ToggleButton">

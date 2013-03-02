@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.Linq;
-using DMOLibrary.DMOWebInfo;
 using DMOLibrary.DMOFileSystem;
 using DMOLibrary;
 using System.IO;
@@ -35,12 +34,10 @@ namespace AdvancedLauncher
     {
         static string SIZE_FORMAT = "{0}cm ({1}%)";
         static string images_path = "community_icons\\{0}.png";
-        DMODatabase dmo_db;
         DMOFileSystem res_fs;
         public DigimonViewModel()
         {
             this.Items = new ObservableCollection<DigimonItemViewModel>();
-            dmo_db = new DMODatabase(SettingsProvider.DMO_DB_PATH());
             res_fs = new DMOFileSystem(32, SettingsProvider.APP_PATH + SettingsProvider.RES_HF_FILE, SettingsProvider.APP_PATH + SettingsProvider.RES_PF_FILE);
         }
 
@@ -57,17 +54,17 @@ namespace AdvancedLauncher
             this.IsDataLoaded = true;
             string TYPE_NAME;
             digimon_type dtype;
-            if (dmo_db.OpenConnection())
+            if (App.DMOProfile.Database.OpenConnection())
             {
                 foreach (digimon item in tamer.Digimons)
                 {
-                    dtype = dmo_db.Digimon_GetTypeById(item.Type_id);
+                    dtype = App.DMOProfile.Database.Digimon_GetTypeById(item.Type_id);
                     TYPE_NAME = dtype.Name;
                     if (dtype.Name_alt != null)
                         TYPE_NAME += " (" + dtype.Name_alt + ")";
                     this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.Type_id), TName = tamer.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
                 }
-                dmo_db.CloseConnection();
+                App.DMOProfile.Database.CloseConnection();
             }
             else
                 foreach (digimon item in tamer.Digimons)
@@ -79,20 +76,20 @@ namespace AdvancedLauncher
             this.IsDataLoaded = true;
             string TYPE_NAME;
             digimon_type dtype;
-            if (dmo_db.OpenConnection())
+            if (App.DMOProfile.Database.OpenConnection())
             {
                 foreach (tamer t in tamers)
                 {
                     foreach (digimon item in t.Digimons)
                     {
-                        dtype = dmo_db.Digimon_GetTypeById(item.Type_id);
+                        dtype = App.DMOProfile.Database.Digimon_GetTypeById(item.Type_id);
                         TYPE_NAME = dtype.Name;
                         if (dtype.Name_alt != null)
                             TYPE_NAME += " (" + dtype.Name_alt + ")";
                         this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.Type_id), TName = t.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
                     }
                 }
-                dmo_db.CloseConnection();
+                App.DMOProfile.Database.CloseConnection();
             }
             else
                 foreach (tamer t in tamers)

@@ -1,17 +1,18 @@
 ﻿[Setup]
 AppId={{F95215F2-3DC9-4B42-9DC8-3E46B448B055}
-AppName=GDMO Advanced Launcher
-AppVersion=2.0
+AppName=DMO Advanced Launcher
+AppVersion=2.1
 AppPublisher=GoldRenard & DragonVs
-DefaultDirName={pf}\GoldRenard\GDMOAdvancedLauncher
+DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no
 DefaultGroupName=Digimon Masters Online
 OutputDir=.\Setups\
-OutputBaseFilename=GDMOLauncher_Setup_2.0
+OutputBaseFilename=DMOLauncher_Setup_2.1
 SetupIconFile=..\AdvancedLauncher\app_icon.ico
 Compression=lzma
 SolidCompression=yes
 DirExistsWarning=no
+LicenseFile=LICENSE.txt
 UninstallFilesDir={app}
 WizardImageFile=wizardimage.bmp
 WizardSmallImageFile=icon.bmp
@@ -41,9 +42,20 @@ Source: "..\AdvancedLauncher\bin\Release\Ookii.Dialogs.Wpf.dll"; DestDir: "{app}
 Filename: {tmp}\dotNetFx40_Full_setup.exe; Parameters: "/q:a /c:""install /l /q"""; Check: not IsRequiredDotNetDetected; StatusMsg: Microsoft Framework 4.0 is beïng installed. Please wait... 
 
 [Icons]
-Name: "{group}\Digimon Masters Online"; Filename: "{app}\AdvancedLauncher.exe"
-Name: "{commondesktop}\Digimon Masters Online"; Filename: "{app}\AdvancedLauncher.exe"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online"; Filename: "{app}\AdvancedLauncher.exe"; Tasks: quicklaunchicon
+Name: "{group}\Digimon Masters Online Joymax"; Filename: "{app}\AdvancedLauncher.exe";
+Name: "{group}\Digimon Masters Online Aeria"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOAeria";
+Name: "{group}\Digimon Masters Online KDMO"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKorea";
+Name: "{group}\Digimon Masters Online KDMO IMBC"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKoreaIMBC";
+
+Name: "{commondesktop}\Digimon Masters Online Joymax"; Filename: "{app}\AdvancedLauncher.exe"; Tasks: desktopicon
+Name: "{commondesktop}\Digimon Masters Online Aeria"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOAeria"; Tasks: desktopicon
+Name: "{commondesktop}\Digimon Masters Online KDMO"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKorea"; Tasks: desktopicon
+Name: "{commondesktop}\Digimon Masters Online KDMO IMBC"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKoreaIMBC"; Tasks: desktopicon
+
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online Joymax"; Filename: "{app}\AdvancedLauncher.exe"; Tasks: quicklaunchicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online Aeria"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOAeria"; Tasks: quicklaunchicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online KDMO"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKorea"; Tasks: quicklaunchicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online KDMO IMBC"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKoreaIMBC"; Tasks: quicklaunchicon
 
 [Code]
 function IsDotNetDetected(version: string; service: cardinal): boolean;

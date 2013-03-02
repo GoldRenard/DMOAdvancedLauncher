@@ -13,6 +13,7 @@
     
     GameSettings="Настройка игры"
     GamePath="Путь к игре:"
+    LauncherPath="Путь к лаунчеру:"
     UseGameUpdater="Обновлять игру (beta)"
     UseAL="Использовать AppLocale для запуска"
     ALHelp="Помощь"

@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.Linq;
-using DMOLibrary.DMOWebInfo;
 using DMOLibrary.DMOFileSystem;
 using DMOLibrary;
 using System.IO;
@@ -34,13 +33,11 @@ namespace AdvancedLauncher
     public class TamerViewModel : INotifyPropertyChanged
     {
         static string images_path = "community_icons\\{0}.png";
-        DMODatabase dmo_db;
         DMOFileSystem res_fs;
 
         public TamerViewModel()
         {
             this.Items = new ObservableCollection<TamerItemViewModel>();
-            dmo_db = new DMODatabase(SettingsProvider.DMO_DB_PATH());
             res_fs = new DMOFileSystem(32, SettingsProvider.APP_PATH + SettingsProvider.RES_HF_FILE, SettingsProvider.APP_PATH + SettingsProvider.RES_PF_FILE);
         }
 
@@ -55,11 +52,11 @@ namespace AdvancedLauncher
         public void LoadData(List<tamer> List)
         {
             this.IsDataLoaded = true;
-            if (dmo_db.OpenConnection())
+            if (App.DMOProfile.Database.OpenConnection())
             {
                 foreach (tamer item in List)
-                    this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = dmo_db.Tamer_GetTypeById(item.Type_id).Name, Level = item.Lvl, PName = item.Partner_name, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.Type_id) });
-                dmo_db.CloseConnection();
+                    this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = App.DMOProfile.Database.Tamer_GetTypeById(item.Type_id).Name, Level = item.Lvl, PName = item.Partner_name, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.Type_id) });
+                App.DMOProfile.Database.CloseConnection();
             }
             else
                 foreach (tamer item in List)

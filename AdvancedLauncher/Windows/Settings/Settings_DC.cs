@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ namespace AdvancedLauncher
 
         public string GameSettings { set; get; }
         public string GamePath { set; get; }
+        public string LauncherPath { set; get; }
         public string UseGameUpdater { set; get; }
         public string UseAL { set; get; }
         public string ALHelp { set; get; }
@@ -63,6 +64,7 @@ namespace AdvancedLauncher
 
             GameSettings = LanguageProvider.strings.SETTINGS_GAME;
             GamePath = LanguageProvider.strings.SETTINGS_GAME_PATH;
+            LauncherPath = LanguageProvider.strings.SETTINGS_LAUNCHER_PATH;
             UseGameUpdater = LanguageProvider.strings.SETTINGS_USE_UPDATER + " (beta)";
             UseAL = LanguageProvider.strings.SETTINGS_USE_APPLOCALE;
             ALHelp = LanguageProvider.strings.SETTINGS_APPLOCALE_HELP;
@@ -81,6 +83,7 @@ namespace AdvancedLauncher
 
             NotifyPropertyChanged("GameSettings");
             NotifyPropertyChanged("GamePath");
+            NotifyPropertyChanged("LauncherPath");
             NotifyPropertyChanged("UseGameUpdater");
             NotifyPropertyChanged("UseAL");
             NotifyPropertyChanged("ALHelp");

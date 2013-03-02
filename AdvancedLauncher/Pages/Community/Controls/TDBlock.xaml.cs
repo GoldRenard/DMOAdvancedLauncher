@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using DMOLibrary.DMOWebInfo;
+
+using DMOLibrary;
 
 namespace AdvancedLauncher
 {

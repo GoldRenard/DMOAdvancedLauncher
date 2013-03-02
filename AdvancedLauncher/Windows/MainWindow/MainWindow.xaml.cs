@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -26,9 +26,13 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Controls;
 using System.Reflection;
-using DMOLibrary.DMOWebInfo;
 using DMOLibrary.DMOFileSystem;
 using System.Windows.Shell;
+
+using DMOLibrary;
+using DMOLibrary.Profiles;
+using DMOLibrary.Profiles.Aeria;
+using DMOLibrary.Profiles.Joymax;
 
 namespace AdvancedLauncher
 {
@@ -47,11 +51,15 @@ namespace AdvancedLauncher
             UpdateChecker.Check();
             InitializeComponent();
             LayoutRoot.DataContext = DContext;
+            this.Title += string.Format(" [{0} - {1}]", App.DMOProfile.GetTypeName(), App.DMOProfile.GetProfileName());
 
             #if DEBUG
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             this.Title += " (development build " + version.ToString() + ")";
             #endif
+
+            if (!App.DMOProfile.IsWebSupported)
+                NavCommunity.Visibility = Visibility.Collapsed;
         }
 
         private void NavControl_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -59,50 +67,46 @@ namespace AdvancedLauncher
             //Prevent handling over changing inside tab item
             if (current_tab == NavControl.SelectedIndex)
                 return;
-            switch (NavControl.SelectedIndex)
+
+            string Header = (string)((TabItem)NavControl.SelectedValue).Header;
+            if (Header == LanguageProvider.strings.MAIN_NEWS_TAB)
             {
-                case 0:
-                    {
-                        MainPage_.Activate();
-                        current_tab = NavControl.SelectedIndex;
-                        break;
-                    }
-                case 1:
-                    {
-                        if (Gallery_tab == null)
-                        {
-                            Gallery_tab = new Gallery();
-                            NavGallery.Content = Gallery_tab;
-                        }
-                        Gallery_tab.Activate();
-                        current_tab = NavControl.SelectedIndex;
-                        break;
-                    }
-                case 2:
-                    {
-                        if (Community_tab == null)
-                        {
-                            Community_tab = new Community();
-                            NavCommunity.Content = Community_tab;
-                        }
-                        Community_tab.Activate();
-                        current_tab = NavControl.SelectedIndex;
-                        break;
-                    }
-                case 3:
-                    {
-                        if (Personalization_tab == null)
-                        {
-                            Personalization_tab = new Personalization();
-                            NavPersonalization.Content = Personalization_tab;
-                        }
-                        if (Personalization_tab.Activate())
-                            current_tab = NavControl.SelectedIndex;
-                        else
-                            NavControl.SelectedIndex = current_tab;
-                        break;
-                    }
+                MainPage_.Activate();
+                current_tab = NavControl.SelectedIndex;
             }
+            else if (Header == LanguageProvider.strings.MAIN_GALLERY_TAB)
+            {
+                if (Gallery_tab == null)
+                {
+                    Gallery_tab = new Gallery();
+                    NavGallery.Content = Gallery_tab;
+                }
+                Gallery_tab.Activate();
+                current_tab = NavControl.SelectedIndex;
+            }
+            else if (Header == LanguageProvider.strings.MAIN_COMMUNITY_TAB)
+            {
+                if (Community_tab == null)
+                {
+                    Community_tab = new Community();
+                    NavCommunity.Content = Community_tab;
+                }
+                Community_tab.Activate();
+                current_tab = NavControl.SelectedIndex;
+            }
+            else if (Header == LanguageProvider.strings.MAIN_CUSTOMIZATION_TAB)
+            {
+                if (Personalization_tab == null)
+                {
+                    Personalization_tab = new Personalization();
+                    NavPersonalization.Content = Personalization_tab;
+                }
+                if (Personalization_tab.Activate())
+                    current_tab = NavControl.SelectedIndex;
+                else
+                    NavControl.SelectedIndex = current_tab;
+            }
+
             ((TabItem)NavControl.Items[current_tab]).Focus();
         }
 

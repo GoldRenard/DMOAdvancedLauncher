@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ using System.Windows.Media.Animation;
 using System.IO;
 using System.ComponentModel;
 using DMOLibrary;
-using DMOLibrary.DMOWebInfo;
+using DMOLibrary.Profiles;
 using DMOLibrary.DMOFileSystem;
 
 namespace AdvancedLauncher
@@ -38,6 +38,7 @@ namespace AdvancedLauncher
         server ROT_SERV;
         DigiRotation_DC DContext;
         public bool isLoaded = false;
+        public bool IsStatic = false;
 
         static string images_path = "rotation_icons\\{0}.png";
         static BitmapImage unk_digi = new BitmapImage(new Uri(@"images/unknown.png", UriKind.Relative));
@@ -55,12 +56,12 @@ namespace AdvancedLauncher
 
         private delegate void UpdateInfo(string DType, int Level, string TName, int TLevel, ImageSource Image, ImageSource Medal);
 
-        DMOWebInfo dmo_db;
+        DMOWebProfile dmo_db;
         DMOFileSystem res_fs;
 
         public DigiRotation()
         {
-            dmo_db = new DMOWebInfo(SettingsProvider.DMO_DB_PATH());
+            dmo_db = App.DMOProfile.GetWebProfile();
             dmo_db.DownloadCompleted += dmo_db_DownloadCompleted;
 
             res_fs = new DMOFileSystem(32, SettingsProvider.APP_PATH + SettingsProvider.RES_HF_FILE, SettingsProvider.APP_PATH + SettingsProvider.RES_PF_FILE);
@@ -128,35 +129,60 @@ namespace AdvancedLauncher
             bw.DoWork += (s, e) =>
             {
                 isLoading(true);
-                ROT_GUILD = SettingsProvider.ROTATION_GNAME;
-                ROT_SERV = SettingsProvider.ROTATION_GSERV;
-                dmo_db.GetGuild(ROT_GUILD, ROT_SERV, false, SettingsProvider.ROTATION_URATE);
+                ROT_GUILD = App.DMOProfile.S_ROTATION_GNAME;
+                ROT_SERV = App.DMOProfile.S_ROTATION_GSERV;
+                dmo_db.GetGuild(ROT_GUILD, ROT_SERV, false, App.DMOProfile.S_ROTATION_URATE);
             };
             bw.RunWorkerAsync();
+        }
+
+        public void InitializeStaticRotation()
+        {
+            BlockPanel1.Visibility = Visibility.Collapsed;
+            BlockPanel2.Visibility = Visibility.Collapsed;
+            isLoaded = true;
+            IsStatic = true;
+            load_bl1_1st.RunWorkerAsync();
         }
 
         #region Utils
         public void UpdateDigiInfo(ref Grid block, DInfoItemViewModel vmodel)
         {
-            BitmapImage Medal = null;
-            digimon d = dmo_db.GetRandomDigimon(ROT_SERV, ROT_GUILD, 70);
-
-            if (d.Lvl >= 70 && d.Lvl < 75)
-                Medal = medal_bronze;
-            else if (d.Lvl >= 75 && d.Lvl < 80)
-                Medal = medal_silver;
-            else if (d.Lvl >= 80)
-                Medal = medal_gold;
-
-            block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) =>
+            if (!IsStatic)
             {
-                vmodel.DType = DType_;
-                vmodel.Level = Level_;
-                vmodel.TName = string.Format("{0}: {1} (Lv. {2})", LanguageProvider.strings.ROT_TAMER, TName_, TLevel_);
-                vmodel.TLevel = TLevel_;
-                vmodel.Image = Image_;
-                vmodel.Medal = Medal_;
-            }), d.Name, d.Lvl, d.Custom_Tamer_Name, d.Custom_Tamer_lvl, GetDigimonImage(d.Type_id), Medal);
+                BitmapImage Medal = null;
+                digimon d = dmo_db.GetRandomDigimon(ROT_SERV, ROT_GUILD, 70);
+
+                if (d.Lvl >= 70 && d.Lvl < 75)
+                    Medal = medal_bronze;
+                else if (d.Lvl >= 75 && d.Lvl < 80)
+                    Medal = medal_silver;
+                else if (d.Lvl >= 80)
+                    Medal = medal_gold;
+
+                block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) =>
+                {
+                    vmodel.DType = DType_;
+                    vmodel.Level = Level_;
+                    vmodel.TName = string.Format("{0}: {1} (Lv. {2})", LanguageProvider.strings.ROT_TAMER, TName_, TLevel_);
+                    vmodel.TLevel = TLevel_;
+                    vmodel.Image = Image_;
+                    vmodel.Medal = Medal_;
+                }), d.Name, d.Lvl, d.Custom_Tamer_Name, d.Custom_Tamer_lvl, GetDigimonImage(d.Type_id), Medal);
+            }
+            else
+            {
+                digimon_type dt = dmo_db.GetRandomDigimonType();
+                block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) =>
+                {
+                    vmodel.DType = DType_;
+                    vmodel.Level = Level_;
+                    vmodel.TName = string.Format("{0}: {1} (Lv. {2})", LanguageProvider.strings.ROT_TAMER, TName_, TLevel_);
+                    vmodel.TLevel = TLevel_;
+                    vmodel.Image = Image_;
+                    vmodel.Medal = Medal_;
+                }), string.Empty, 0, string.Empty, 0, GetDigimonImage(dt.Id), null);
+            }
         }
 
         public BitmapImage GetDigimonImage(int digi_id)

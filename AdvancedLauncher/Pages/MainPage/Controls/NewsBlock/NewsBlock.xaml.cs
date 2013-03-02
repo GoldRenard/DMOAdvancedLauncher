@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using DMOLibrary;
-using DMOLibrary.DMOWebInfo;
 
 namespace AdvancedLauncher
 {
@@ -91,6 +90,7 @@ namespace AdvancedLauncher
         {
             if (isLoading_)
                 return;
+
             OnChanged(tab);
 
             //этот флаг нужен для того, чтобы не вызывать анимации загрузки, если ничего не было загружено
@@ -237,6 +237,7 @@ namespace AdvancedLauncher
                         p_image = new ProfileImage();
                         p_image.url = profile_image;
                         p_image.bitmap = GetImage(profile_image);
+                      if (p_image.bitmap != null)
                         prof_images.Add(p_image);
                     }
                     else
@@ -263,7 +264,9 @@ namespace AdvancedLauncher
             wc.Proxy = (IWebProxy)null;
 
             Uri uri = new Uri(url);
-            byte[] image_bytes = wc.DownloadData(uri);
+            byte[] image_bytes;
+            try { image_bytes = wc.DownloadData(uri); }
+            catch { return null; }
 
             MemoryStream img_stream = new MemoryStream(image_bytes, 0, image_bytes.Length);
             BitmapImage bitmap = new BitmapImage();
@@ -295,7 +298,7 @@ namespace AdvancedLauncher
 
         private void GetJoymax_News()
         {
-            List<NewsItem> news = DMOWebInfo.GetJoymaxNews();
+            List<NewsItem> news = App.DMOProfile.GetNewsProfile().GetNews();
 
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) =>
             {

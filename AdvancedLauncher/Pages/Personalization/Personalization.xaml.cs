@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ namespace AdvancedLauncher
 
         public void InitFS()
         {
-            dmo_fs = new DMOFileSystem(16, SettingsProvider.GAME_PATH() + SettingsProvider.PACK_HF_FILE, SettingsProvider.GAME_PATH() + SettingsProvider.PACK_PF_FILE);
+            dmo_fs = new DMOFileSystem(16, App.DMOProfile.GetPackHFPath(), App.DMOProfile.GetPackPFPath());
             if (dmo_fs.ArchiveEntries.Count == 0) // if FS not opened
             {
                 SelectBtn.IsEnabled = false;
@@ -74,29 +74,30 @@ namespace AdvancedLauncher
                 LoadGameImage((ResourceItemViewModel)ItemsComboBox.SelectedValue);
             else
             {
-                Utils.MSG_ERROR(string.Format(LanguageProvider.strings.CUST_RES_FILE_NOT_FOUND, SettingsProvider.RES_LIST_FILE));
+                Utils.MSG_ERROR(string.Format(LanguageProvider.strings.CUST_RES_FILE_NOT_FOUND, string.Format(SettingsProvider.RES_LIST_FILE, App.DMOProfile.GetTypeName())));
                 ItemsComboBox.IsEnabled = false;
             }
         }
 
         public bool Activate()
         {
-            if (Utils.CheckUpdateAccess())
+            if (App.DMOProfile.CheckUpdateAccess())
             {
                 if (!isFSInitialized)
                     InitFS();
                 ShowWindow.Begin();
                 return true;
             }
+            MessageBox.Show(LanguageProvider.strings.GAME_FILES_IN_USE, LanguageProvider.strings.ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
 
         private void LoadResourceList()
         {
             string[] lines = null;
-            if (File.Exists(SettingsProvider.APP_PATH + SettingsProvider.RES_LIST_FILE))
+            if (File.Exists(SettingsProvider.APP_PATH + string.Format(SettingsProvider.RES_LIST_FILE, App.DMOProfile.GetTypeName())))
             {
-                lines = System.IO.File.ReadAllLines(SettingsProvider.APP_PATH + SettingsProvider.RES_LIST_FILE);
+                lines = System.IO.File.ReadAllLines(SettingsProvider.APP_PATH + string.Format(SettingsProvider.RES_LIST_FILE, App.DMOProfile.GetTypeName()));
 
                 for (int i = 0; i < lines.Length; i++)
                 {
@@ -211,7 +212,7 @@ namespace AdvancedLauncher
 
         private void BtnApply_Click(object sender, RoutedEventArgs e)
         {
-            if (Utils.CheckUpdateAccess())
+            if (App.DMOProfile.CheckUpdateAccess())
             {
                 if (!dmo_fs.WriteStream(new MemoryStream(selected_image_bytes), ((ResourceItemViewModel)ItemsComboBox.SelectedValue).RPath))
                     Utils.MSG_ERROR(LanguageProvider.strings.CUST_CANT_WRITE);

@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using DMOLibrary;
-using DMOLibrary.DMOWebInfo;
+using DMOLibrary.Profiles;
+using System.Linq;
 
 namespace AdvancedLauncher
 {
@@ -33,7 +34,7 @@ namespace AdvancedLauncher
         Storyboard ShowWindow, HideWindow;
         private delegate void DoOneText(string text);
         ServerViewModel SERVER_DC = new ServerViewModel();
-        DMOWebInfo dmo_web;
+        DMOWebProfile dmo_web;
         guild CURRENT_GUILD = new guild() { Id = -1 };
 
         public Community()
@@ -43,13 +44,13 @@ namespace AdvancedLauncher
             textBox_g_name.Text = LanguageProvider.strings.COMM_TB_GUILD_NAME;
 
             TDBlock_.TabChanged += TDBlock_TabChanged;
-            SERVER_DC.LoadData(SettingsProvider.server_list);
+            SERVER_DC.LoadData(App.DMOProfile.ServerList);
             ComboBoxServer.ItemsSource = SERVER_DC.Items;
 
             ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
             HideWindow = ((Storyboard)this.FindResource("HideWindow"));
 
-            dmo_web = new DMOWebInfo(SettingsProvider.DMO_DB_PATH());
+            dmo_web = App.DMOProfile.GetWebProfile();
             dmo_web.DownloadStarted += dmo_web_DownloadStarted;
             dmo_web.DownloadCompleted += dmo_web_DownloadCompleted;
             dmo_web.StatusChanged += dmo_web_StatusChanged;
@@ -227,6 +228,7 @@ namespace AdvancedLauncher
         #endregion
     }
 
+
     class GuildNameValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
@@ -234,10 +236,15 @@ namespace AdvancedLauncher
             if (value.ToString() == LanguageProvider.strings.COMM_TB_GUILD_NAME)
                 return new ValidationResult(true, null);
             int code = 0;
+
+            if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1)
+                return new ValidationResult(false, LanguageProvider.strings.COMM_TB_INCORRECT);
+
             foreach (char chr in value.ToString())
             {
                 code = Convert.ToInt32(chr);
-                if (!((code > 96 && code < 123) || (code > 64 && code < 91) || Char.IsDigit(chr)))
+                //if (!((code > 96 && code < 123) || (code > 64 && code < 91) || Char.IsDigit(chr)))
+                if (Char.IsWhiteSpace(chr) || Char.IsControl(chr) )
                     return new ValidationResult(false, LanguageProvider.strings.COMM_TB_INCORRECT);
             }
             return new ValidationResult(true, null);

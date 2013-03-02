@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ namespace AdvancedLauncher
     public partial class MainPage : UserControl
     {
         MainPage_DC DContext = new MainPage_DC();
-        bool isNeedUpdate = false;
         bool isPageLoaded = false;
         Storyboard ShowWindow;
         private delegate void DoChangeTextNBool(string text, bool bool_);
@@ -51,27 +50,111 @@ namespace AdvancedLauncher
                 return;
             isPageLoaded = true;
 
+            App.DMOProfile.GameStartCompleted += DMOProfile_GameStartCompleted;
             Updater.UpdateCompleted += Updater_UpdateCompleted;
             Updater.UpdateStarted += Updater_UpdateStarted;
             Updater.UpdateFailed += Updater_UpdateFailed;
             Updater.DefaultUpdateRequired += Updater_DefaultUpdateRequired;
             Updater.CheckUpdates(this.Dispatcher);
 
-            NewsBlock_.twitter_username = SettingsProvider.TWITTER_USER;
+            NewsBlock_.twitter_username = App.DMOProfile.S_TWITTER_USER;
             NewsBlock_.TabChanged += NewsTabCnagned;
-            NewsBlock_.ShowTab(SettingsProvider.FIRST_TAB, false);
-
-            if (SettingsProvider.FIRST_TAB == 1)
-                Twitter.IsEnabled = false;
+            if (App.DMOProfile.IsNewsSupported)
+            {
+                NewsBlock_.ShowTab(App.DMOProfile.S_FIRST_TAB, false);
+                if (App.DMOProfile.S_FIRST_TAB == 1)
+                    Twitter.IsEnabled = false;
+                else
+                    Joymax.IsEnabled = false;
+            }
             else
+            {
+                NewsBlock_.ShowTab(1, false);
+                Twitter.IsEnabled = false;
                 Joymax.IsEnabled = false;
+                Joymax.Visibility = Visibility.Collapsed;
+            }
 
-            DigiRotator.InitializeRotation();
+            if (App.DMOProfile.IsWebSupported)
+                DigiRotator.InitializeRotation();
+            else
+                DigiRotator.InitializeStaticRotation();
+        }
+
+        public void CloseApp()
+        {
+            if (LoginForm.Visibility == System.Windows.Visibility.Visible)
+                ((Storyboard)LayoutRoot.FindResource("HideLoginForm")).Begin();
+            StartButton.Content = LanguageProvider.strings.MAIN_START_WAITING;
+            StartButton.IsEnabled = false;
+            BackgroundWorker queue_worker = new BackgroundWorker();
+            queue_worker.DoWork += (s, e) =>
+            {
+                while (!DigiRotator.isLoaded) { System.Threading.Thread.Sleep(1000); };
+            };
+            queue_worker.RunWorkerCompleted += (s, e) =>
+            {
+                if (!Application.Current.Dispatcher.CheckAccess())
+                    Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() { Application.Current.Shutdown(); }));
+                else
+                    Application.Current.Shutdown();
+            };
+            queue_worker.RunWorkerAsync();
+        }
+
+        #region Обработка интерфейса
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!App.DMOProfile.IsLoginRequired)
+                App.DMOProfile.GameStart();
+            else
+            {
+                if (LoginForm.Visibility == System.Windows.Visibility.Collapsed)
+                {
+                    LoginForm.Update();
+                    ((Storyboard)LayoutRoot.FindResource("ShowLoginForm")).Begin();
+                }
+                else
+                {
+                    if (LoginForm.GameStart())
+                        StartButton.IsEnabled = false;
+                }
+            }
+        }
+
+        void DMOProfile_GameStartCompleted(object sender, DMOLibrary.LoginCode code, string result)
+        {
+            StartButton.IsEnabled = true;
+            switch (code)
+            {
+                case DMOLibrary.LoginCode.SUCCESS:
+                    {
+                        CloseApp();
+                        break;
+                    }
+            }
+        }
+
+        private void NewsTabCnagned(object sender, int tab)
+        {
+            Twitter.IsEnabled = tab == 1 ? false : true;
+            Joymax.IsEnabled = tab == 1 ? true : false;
+        }
+
+        private void Twitter_Click(object sender, RoutedEventArgs e)
+        {
+            NewsBlock_.ShowTab(1, true);
+        }
+
+        private void Joymax_Click(object sender, RoutedEventArgs e)
+        {
+            NewsBlock_.ShowTab(2, true);
         }
 
         void Updater_DefaultUpdateRequired(object sender)
         {
-            isNeedUpdate = true;
+            App.DMOProfile.IsUpdateNeeded = true;
             StartButton.IsEnabled = true;
             DContext.SetButtonText(LanguageProvider.strings.MAIN_UPDATE_GAME);
         }
@@ -96,73 +179,7 @@ namespace AdvancedLauncher
         }
 
 
-        public void CloseApp()
-        {
-            StartButton.Content = LanguageProvider.strings.MAIN_START_WAITING;
-            StartButton.IsEnabled = false;
-            BackgroundWorker queue_worker = new BackgroundWorker();
-            queue_worker.DoWork += (s, e) =>
-            {
-                while (!DigiRotator.isLoaded) { System.Threading.Thread.Sleep(1000); };
-            };
-            queue_worker.RunWorkerCompleted += (s, e) =>
-            {
-                if (!Application.Current.Dispatcher.CheckAccess())
-                    Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {Application.Current.Shutdown();}));
-                else
-                    Application.Current.Shutdown();
-            };
-            queue_worker.RunWorkerAsync();
-        }
 
-        #region Обработка интерфейса
-
-        private void StartButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (isNeedUpdate)
-            {
-                if (ApplicationLauncher.Execute(SettingsProvider.DEFLAUNCHER_EXE(), SettingsProvider.DEF_ARGS))
-                    CloseApp();
-            }
-            else
-            {
-                if (SettingsProvider.STEAM_COMMAND != string.Empty)
-                {
-                    bool isSuccess = false;
-                    try
-                    {
-                        System.Diagnostics.Process.Start(SettingsProvider.STEAM_COMMAND);
-                        isSuccess = true;
-                    }
-                    catch { isSuccess = false; }
-                    if (isSuccess)
-                        CloseApp();
-                }
-                else
-                {
-                    if (ApplicationLauncher.Execute(SettingsProvider.GAME_EXE(), SettingsProvider.GAME_ARGS))
-                        CloseApp();
-                }
-            }
-        }
-
-        private void NewsTabCnagned(object sender, int tab)
-        {
-                Twitter.IsEnabled = tab == 1 ? false : true;
-                Joymax.IsEnabled = tab == 1 ? true : false;
-        }
-
-        private void Twitter_Click(object sender, RoutedEventArgs e)
-        {
-            NewsBlock_.ShowTab(1, true);
-        }
-
-        private void Joymax_Click(object sender, RoutedEventArgs e)
-        {
-            NewsBlock_.ShowTab(2, true);
-        }
-
-
-        #endregion
+        #endregion Обработка интерфейса
     }
 }

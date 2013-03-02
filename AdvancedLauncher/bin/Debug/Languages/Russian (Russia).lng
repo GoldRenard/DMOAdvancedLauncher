@@ -26,6 +26,20 @@
   <MAIN_UPDATE_GAME>ОБНОВИТЬ ИГРУ</MAIN_UPDATE_GAME>
   <MAIN_SHOW_TAB>НОВОСТИ:</MAIN_SHOW_TAB>
   
+  <!-- LOGIN WINDOW -->
+  <LOGIN_START_LAST_SESSION>Запустить последнюю сессию</LOGIN_START_LAST_SESSION>
+  <LOGIN_LOGIN>логин</LOGIN_LOGIN>
+  <LOGIN_PASSWORD>пароль</LOGIN_PASSWORD>
+  <LOGIN_SAVEPASS>Запомнить пароль</LOGIN_SAVEPASS>
+  <LOGIN_TRY_TEXT>Попытка {0}</LOGIN_TRY_TEXT>
+  <LOGIN_GETTING_DATA>Получение данных...</LOGIN_GETTING_DATA>
+  <LOGIN_LOGINNING>Вход в учетную запись...</LOGIN_LOGINNING>
+  <LOGIN_WAS_ERROR>(была ошибка {0})</LOGIN_WAS_ERROR>
+  <LOGIN_BAD_LOGIN_PW>Не удается войти в учетную запись. Возможно, неправильный логин или пароль.</LOGIN_BAD_LOGIN_PW>
+  <LOGIN_EMPTY_LOGIN>Пожалуйста, введите логин!</LOGIN_EMPTY_LOGIN>
+  <LOGIN_EMPTY_PASSWORD>Пожалуйста, введите пароль!</LOGIN_EMPTY_PASSWORD>
+  <LOGIN_CANT_LOGIN>Страница входа изменена или некорректна. Пожалуйста, обратитесь к разработчику лаунчера.</LOGIN_CANT_LOGIN>
+  
   <!-- NEWS PAGE - GAME UPDATER -->
   <UPDATE_CANT_GET_GAME_VERSION>Не удается получить версию игры</UPDATE_CANT_GET_GAME_VERSION>
   <UPDATE_CANT_CONNECT_TO_JOYMAX>Не удается подключиться к серверу обновлений JOYMAX.</UPDATE_CANT_CONNECT_TO_JOYMAX>
@@ -61,7 +75,7 @@
   <COMM_SELECT_GUILD>Какую гильдию ищем:</COMM_SELECT_GUILD>
   <COMM_CB_DETAILED>Получать подробные данные (долго)</COMM_CB_DETAILED>
   <COMM_BTN_SEARCH>Найти гильдию</COMM_BTN_SEARCH>
-  
+
   <COMM_INFO>Информация:</COMM_INFO>
   <COMM_GMASTER>Мастер:</COMM_GMASTER>
   <COMM_GBEST>Лучший:</COMM_GBEST>
@@ -126,6 +140,7 @@
   
   <SETTINGS_GAME>Настройка игры:</SETTINGS_GAME>
   <SETTINGS_GAME_PATH>Путь к игре:</SETTINGS_GAME_PATH>
+  <SETTINGS_LAUNCHER_PATH>Путь к лаунчеру (D-Player):</SETTINGS_LAUNCHER_PATH>
   <SETTINGS_USE_UPDATER>Обновлять игру</SETTINGS_USE_UPDATER>
   <SETTINGS_USE_APPLOCALE>Использовать AppLocale для запуска</SETTINGS_USE_APPLOCALE>
   <SETTINGS_APPLOCALE_HELP>Помощь</SETTINGS_APPLOCALE_HELP>

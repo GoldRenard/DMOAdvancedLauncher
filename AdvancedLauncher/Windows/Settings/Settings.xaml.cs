@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -47,12 +47,13 @@ namespace AdvancedLauncher
         {
             InitializeComponent();
             LayoutRoot.DataContext = DContext;
-            SERVER_DC.LoadData(SettingsProvider.server_list);
+            SERVER_DC.LoadData(App.DMOProfile.ServerList);
             ComboBoxServer.ItemsSource = SERVER_DC.Items;
 
             current_lang = SettingsProvider.TRANSLATION_FILE;
             string[] langs = LanguageProvider.GetTranslations();
-            ComboBoxLanguage.Items.Add(LanguageProvider.def.LANGUAGE_NAME);
+
+            ComboBoxLanguage.Items.Add(LanguageProvider.Translation.DEF_LANG_NAME);
             foreach (string lang in langs)
                 ComboBoxLanguage.Items.Add(Path.GetFileNameWithoutExtension(lang));
 
@@ -161,13 +162,13 @@ namespace AdvancedLauncher
 
         public void LoadSettings()
         {
-            textBox_game_path.Text = SettingsProvider.GAME_PATH();
-            textBox_t_user.Text = SettingsProvider.TWITTER_USER;
-            Chk_UseAppLoc.IsChecked = SettingsProvider.USE_APPLOC;
-            Chk_UseUpdateEngine.IsChecked = SettingsProvider.USE_UPDATE_ENGINE;
-            textBox_g_name.Text = SettingsProvider.ROTATION_GNAME;
-            ComboBoxServer.SelectedIndex = SettingsProvider.ROTATION_GSERV.Id - 1;
-            ComboBoxURate.SelectedIndex = SettingsProvider.ROTATION_URATE - 1;
+            textBox_game_path.Text = App.DMOProfile.GetGamePath();
+            textBox_t_user.Text = App.DMOProfile.S_TWITTER_USER;
+            Chk_UseAppLoc.IsChecked = App.DMOProfile.S_USE_APPLOC;
+            Chk_UseUpdateEngine.IsChecked = App.DMOProfile.S_USE_UPDATE_ENGINE;
+            textBox_g_name.Text = App.DMOProfile.S_ROTATION_GNAME;
+            ComboBoxServer.SelectedIndex = App.DMOProfile.S_ROTATION_GSERV.Id - 1;
+            ComboBoxURate.SelectedIndex = App.DMOProfile.S_ROTATION_URATE - 1;
 
             for (int i = 0; i < ComboBoxLanguage.Items.Count; i++)
             {
@@ -178,10 +179,31 @@ namespace AdvancedLauncher
                 }
             }
 
-                if (SettingsProvider.FIRST_TAB == 1)
-                    RB_News_Twitter.IsChecked = true;
-                else
-                    RB_News_Joymax.IsChecked = true;
+            if (App.DMOProfile.S_FIRST_TAB == 1)
+                RB_News_Twitter.IsChecked = true;
+            else
+                RB_News_Joymax.IsChecked = true;
+
+            if (!App.DMOProfile.IsWebSupported)
+                GuildGroupBox.Visibility = Visibility.Collapsed;
+
+            if (!App.DMOProfile.IsNewsSupported)
+            {
+                RB_News_Twitter.IsChecked = true;
+                RB_News_Joymax.IsChecked = false;
+                RB_News_Joymax.IsEnabled = false;
+            }
+
+            if (!App.DMOProfile.IsUpdateSupported)
+            {
+                Chk_UseUpdateEngine.IsChecked = false;
+                Chk_UseUpdateEngine.IsEnabled = false;
+            }
+
+            if (App.DMOProfile.IsSeparateLauncher)
+                textBox_launcher_path.Text = App.DMOProfile.GetLauncherPath();
+            else
+                LauncherPathBlock.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void BtnApply_Click(object sender, RoutedEventArgs e)
@@ -189,28 +211,38 @@ namespace AdvancedLauncher
             if (isValidName(textBox_g_name.Text))
             {
                 current_lang = SettingsProvider.TRANSLATION_FILE;
-                SettingsProvider.ROTATION_GNAME = textBox_g_name.Text;
-                SettingsProvider.ROTATION_GSERV.Id = (byte)(ComboBoxServer.SelectedIndex + 1);
-                SettingsProvider.ROTATION_URATE = (byte)(ComboBoxURate.SelectedIndex + 1);
-                SettingsProvider.TWITTER_USER = textBox_t_user.Text;
-                SettingsProvider.USE_APPLOC = (bool)Chk_UseAppLoc.IsChecked;
-                SettingsProvider.USE_UPDATE_ENGINE = (bool)Chk_UseUpdateEngine.IsChecked;
+                App.DMOProfile.S_ROTATION_GNAME = textBox_g_name.Text;
+                App.DMOProfile.S_ROTATION_GSERV.Id = (byte)(ComboBoxServer.SelectedIndex + 1);
+                App.DMOProfile.S_ROTATION_URATE = (byte)(ComboBoxURate.SelectedIndex + 1);
+                App.DMOProfile.S_TWITTER_USER = textBox_t_user.Text;
+                App.DMOProfile.S_USE_APPLOC = (bool)Chk_UseAppLoc.IsChecked;
+                App.DMOProfile.S_USE_UPDATE_ENGINE = (bool)Chk_UseUpdateEngine.IsChecked;
 
                 if (RB_News_Twitter.IsChecked == true)
-                    SettingsProvider.FIRST_TAB = 1;
+                    App.DMOProfile.S_FIRST_TAB = 1;
                 else
-                    SettingsProvider.FIRST_TAB = 2;
+                    App.DMOProfile.S_FIRST_TAB = 2;
 
                 SettingsProvider.SaveSettings();
+                App.DMOProfile.WriteSettings();
 
                 MessageBox.Show(LanguageProvider.strings.SETTINGS_NEED_RESTART, LanguageProvider.strings.SETTINGS_NEED_RESTART_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
                 Show(false);
             }
         }
 
-        private void BtnBrowse_Click_1(object sender, RoutedEventArgs e)
+        private void BtnGameBrowse_Click_1(object sender, RoutedEventArgs e)
         {
-            textBox_game_path.Text = SettingsProvider.SelectGameDir(true);
+            string new_path = App.DMOProfile.SelectGameDir(true);
+            if (new_path != string.Empty)
+                textBox_game_path.Text = new_path;
+        }
+
+        private void BtnLauncherBrowse_Click_1(object sender, RoutedEventArgs e)
+        {
+            string new_path = App.DMOProfile.SelectLauncherDir(true);
+            if (new_path != string.Empty)
+                textBox_launcher_path.Text = new_path;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -232,5 +264,24 @@ namespace AdvancedLauncher
                 currentKey = rootKey.CreateSubKey(keyName);
             return currentKey;
         }
+    }
+
+    public class BorderHeightConverter : System.Windows.Data.IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is double)
+                return ((double)value + 10);
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+
+        #endregion
     }
 }

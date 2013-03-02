@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -150,7 +150,7 @@ namespace AdvancedLauncher
 
         public GameUpdater()
         {
-            dmo_fs = new DMOFileSystem(this.Dispatcher, 16, SettingsProvider.GAME_PATH() + SettingsProvider.PACK_HF_FILE, SettingsProvider.GAME_PATH() + SettingsProvider.PACK_PF_FILE);
+            dmo_fs = new DMOFileSystem(this.Dispatcher, 16, App.DMOProfile.GetPackHFPath(), App.DMOProfile.GetPackPFPath());
             dmo_fs.WriteStatusChanged += dmo_fs_WriteStatusChanged;
             web_Downloader.DownloadProgressChanged += web_Downloader_DownloadProgressChanged;
             web_Downloader.DownloadFileCompleted += web_Downloader_DownloadFileCompleted;
@@ -167,18 +167,18 @@ namespace AdvancedLauncher
             BackgroundWorker bw_checkupdates = new BackgroundWorker();
             bw_checkupdates.DoWork += (s1, e2) =>
             {
-                if (File.Exists(SettingsProvider.GAME_PATH() + SettingsProvider.VERSION_FILE))
+                if (File.Exists(App.DMOProfile.GetVersionFile()))
                 {
-                    StreamReader streamReader = new StreamReader(SettingsProvider.GAME_PATH() + SettingsProvider.VERSION_FILE);
+                    StreamReader streamReader = new StreamReader(App.DMOProfile.GetVersionFile());
                     CURRENT_PATCH = Utils.GetVersion(streamReader.ReadToEnd());
                     streamReader.Close();
                 }
 
-                if (SettingsProvider.USE_UPDATE_ENGINE && Directory.Exists(SettingsProvider.GAME_PATH() + SettingsProvider.PACK_IMPORT_DIR))
+                if (App.DMOProfile.IsUpdateSupported && App.DMOProfile.S_USE_UPDATE_ENGINE && Directory.Exists(App.DMOProfile.GetPackImportDir()))
                 {
                     OnBegin();
-                    while (!Utils.CheckUpdateAccess()) ; 
-                    dmo_fs.WriteDirectory(SettingsProvider.GAME_PATH() + SettingsProvider.PACK_IMPORT_DIR, true);
+                    while (!App.DMOProfile.CheckUpdateAccess()) ;
+                    dmo_fs.WriteDirectory(App.DMOProfile.GetPackImportDir(), true);
                 }
 
                 WebClient client = new WebClient();
@@ -186,7 +186,7 @@ namespace AdvancedLauncher
                 try
                 {
                     int REMOTE_VERSION;
-                    string result = client.DownloadString(SettingsProvider.JOYMAX_PATH_INFO_URI);
+                    string result = client.DownloadString(App.DMOProfile.GetRemoteVersionURL());
                     REMOTE_VERSION = Utils.GetVersion(result);
 
                     if (REMOTE_VERSION < 0 || CURRENT_PATCH < 0)
@@ -198,7 +198,7 @@ namespace AdvancedLauncher
 
                     if (REMOTE_VERSION > CURRENT_PATCH)
                     {
-                        if (SettingsProvider.USE_UPDATE_ENGINE)
+                        if (App.DMOProfile.IsUpdateSupported && App.DMOProfile.S_USE_UPDATE_ENGINE)
                             BeginUpdate(CURRENT_PATCH, REMOTE_VERSION);
                         else
                             OnDefaultUpdateRequired();
@@ -213,21 +213,22 @@ namespace AdvancedLauncher
 
         private void BeginUpdate(int local, int remote)
         {
-            string GAME_PATH = SettingsProvider.GAME_PATH(); //some stupid users can change game dir in progress of updating
+            string GAME_PATH = App.DMOProfile.GetGamePath();
             OnBegin();
-            while (!Utils.CheckUpdateAccess()) ; 
+            while (!App.DMOProfile.CheckUpdateAccess())
+                MessageBox.Show(LanguageProvider.strings.GAME_FILES_IN_USE, LanguageProvider.strings.NEED_CLOSE_GAME, MessageBoxButton.OK, MessageBoxImage.Warning);
             string patch_file;
             UpdateMainProgressBar(0, remote - local);
             for (int i = local + 1; i <= remote; i++)
             {
                 UpdateSubProgressBar(0, 100);
-                patch_file = GAME_PATH + string.Format("\\GDMO{0}.zip", i);
+                patch_file = GAME_PATH + string.Format("\\UPDATE{0}.zip", i);
                 CURRENT_PATCH = i;
 
                 //downloading
                 try
                 {
-                    web_Downloader.DownloadFileAsync(new Uri(string.Format(SettingsProvider.JOYMAX_FILE_PATCH, i)), patch_file);
+                    web_Downloader.DownloadFileAsync(new Uri(string.Format(App.DMOProfile.GetPatchURL(), i)), patch_file);
                     while (web_Downloader.IsBusy)
                         System.Threading.Thread.Sleep(100);
                 }
@@ -238,10 +239,10 @@ namespace AdvancedLauncher
                 UpdateMainProgressBar(i - local);
             }
 
-            while (!Utils.CheckUpdateAccess()) ; 
+            while (!App.DMOProfile.CheckUpdateAccess()) ; 
             //install updates to game
-            dmo_fs.WriteDirectory(GAME_PATH + SettingsProvider.PACK_IMPORT_DIR, true);
-            File.WriteAllLines(GAME_PATH + SettingsProvider.VERSION_FILE, new string[] { "[VERSION]", "version=" + CURRENT_PATCH.ToString() });
+            dmo_fs.WriteDirectory(App.DMOProfile.GetPackImportDir(), true);
+            File.WriteAllLines(App.DMOProfile.GetVersionFile(), new string[] { "[VERSION]", "version=" + CURRENT_PATCH.ToString() });
             OnComplete();
         }
 

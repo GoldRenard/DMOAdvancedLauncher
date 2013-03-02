@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ namespace AdvancedLauncher
         {
             Button_StartGame = LanguageProvider.strings.MAIN_START_GAME;
             ShowNewsTab = LanguageProvider.strings.MAIN_SHOW_TAB;
+
 
             NotifyPropertyChanged("Button_StartGame");
             NotifyPropertyChanged("ShowNewsTab");

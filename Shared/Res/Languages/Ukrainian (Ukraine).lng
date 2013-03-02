@@ -26,6 +26,20 @@
   <MAIN_UPDATE_GAME>ОНОВИТИ ГРУ</MAIN_UPDATE_GAME>
   <MAIN_SHOW_TAB>НОВИНИ:</MAIN_SHOW_TAB>
   
+  <!-- LOGIN WINDOW -->
+  <LOGIN_START_LAST_SESSION>Запустити останню сесію</LOGIN_START_LAST_SESSION>
+  <LOGIN_LOGIN>логін</LOGIN_LOGIN>
+  <LOGIN_PASSWORD>пароль</LOGIN_PASSWORD>
+  <LOGIN_SAVEPASS>Запам'ятати пароль</LOGIN_SAVEPASS>
+  <LOGIN_TRY_TEXT>Спроба {0}</LOGIN_TRY_TEXT>
+  <LOGIN_GETTING_DATA>Отримання даних...</LOGIN_GETTING_DATA>
+  <LOGIN_LOGINNING>Вхід в акаунт...</LOGIN_LOGINNING>
+  <LOGIN_WAS_ERROR>(Була помилка {0})</LOGIN_WAS_ERROR>
+  <LOGIN_BAD_LOGIN_PW>Не вдається увійти в акаунт. Можливо, неправильний логін або пароль.</LOGIN_BAD_LOGIN_PW>
+  <LOGIN_EMPTY_LOGIN>Будь ласка, введіть логін!</LOGIN_EMPTY_LOGIN>
+  <LOGIN_EMPTY_PASSWORD>Будь ласка, введіть пароль!</LOGIN_EMPTY_PASSWORD>
+  <LOGIN_CANT_LOGIN>Сторінка входу змінена або некоректна. Будь ласка, зверніться до розробника лаунчера.</LOGIN_CANT_LOGIN>
+  
   <!-- NEWS PAGE - GAME UPDATER -->
   <UPDATE_CANT_GET_GAME_VERSION>Не вдається отримати версію гри</UPDATE_CANT_GET_GAME_VERSION>
   <UPDATE_CANT_CONNECT_TO_JOYMAX>Не вдається підключитися до сервера оновлень JOYMAX.</UPDATE_CANT_CONNECT_TO_JOYMAX>
@@ -126,6 +140,7 @@
   
   <SETTINGS_GAME>Налаштування гри:</SETTINGS_GAME>
   <SETTINGS_GAME_PATH>Шлях до гри:</SETTINGS_GAME_PATH>
+  <SETTINGS_LAUNCHER_PATH>Шлях до лаунчера (D-Player):</SETTINGS_LAUNCHER_PATH>
   <SETTINGS_USE_UPDATER>Оновлювати гру</SETTINGS_USE_UPDATER>
   <SETTINGS_USE_APPLOCALE>Використовувати AppLocale для запуску</SETTINGS_USE_APPLOCALE>
   <SETTINGS_APPLOCALE_HELP>Допомога</SETTINGS_APPLOCALE_HELP>

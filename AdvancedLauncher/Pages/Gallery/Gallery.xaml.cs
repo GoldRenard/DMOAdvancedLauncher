@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// GLOBAL DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ namespace AdvancedLauncher
         private delegate void DoAddThumb(BitmapImage bitmap, string path);
         private GalleryViewModel GalleryVM = new GalleryViewModel();
 
+        string game_path = string.Empty;
         string screenshot_path = "\\ScreenShot";
         string thumbnails_path = "\\ScreenShot\\thumbnails";
         static string thumb_path;
@@ -57,19 +58,20 @@ namespace AdvancedLauncher
             BackgroundWorker bw = new BackgroundWorker();
             GalleryVM.UnLoadData();
             isLoading(true);
+
             bw.DoWork += (s, e) =>
             {
-                string[] file_list = Directory.GetFiles(SettingsProvider.GAME_PATH() + screenshot_path, "*.jpg");
-                if (!Directory.Exists(SettingsProvider.GAME_PATH() + thumbnails_path))
+                string[] file_list = Directory.GetFiles(game_path + screenshot_path, "*.jpg");
+                if (!Directory.Exists(game_path + thumbnails_path))
                 {
-                    try { Directory.CreateDirectory(SettingsProvider.GAME_PATH() + thumbnails_path); }
+                    try { Directory.CreateDirectory(game_path + thumbnails_path); }
                     catch { return; }
                 }
 
                 for (int i = 0; i < file_list.Length; i++)
                 {
                     BitmapImage bitmap;
-                    thumb_path = SettingsProvider.GAME_PATH() + thumbnails_path + "\\" + Path.GetFileName(file_list[i]);
+                    thumb_path = game_path + thumbnails_path + "\\" + Path.GetFileName(file_list[i]);
                     if (!File.Exists(thumb_path))
                         ImageEncoder.ResizeScreenShot(file_list[i], thumb_path);
 
@@ -92,6 +94,7 @@ namespace AdvancedLauncher
         #region Interface processing
         public void Activate()
         {
+            game_path = App.DMOProfile.GetGamePath();
             try
             {
                 ShowWindow.Begin();
@@ -100,9 +103,9 @@ namespace AdvancedLauncher
             {
                 MessageBox.Show(ex.Message);
             }
-            if (Directory.Exists(SettingsProvider.GAME_PATH() + screenshot_path))
+            if (Directory.Exists(game_path + screenshot_path))
             {
-                if (Directory.GetFiles(SettingsProvider.GAME_PATH() + screenshot_path, "*.jpg").Length == 0)
+                if (Directory.GetFiles(game_path + screenshot_path, "*.jpg").Length == 0)
                 {
                     Info.Text = LanguageProvider.strings.GAL_NOSCREENSHOTS;
                     return;
@@ -116,7 +119,7 @@ namespace AdvancedLauncher
                 return;
             }
 
-            if (!isInitialized || GalleryVM.Count() != Directory.GetFiles(SettingsProvider.GAME_PATH() + screenshot_path, "*.jpg").Length)
+            if (!isInitialized || GalleryVM.Count() != Directory.GetFiles(game_path + screenshot_path, "*.jpg").Length)
                 UpdateThumbs();
         }
 

@@ -11,18 +11,20 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml"/>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Windows/About/About_res.xaml"/>
+                <ResourceDictionary>
+                    <local:BorderHeightConverter x:Key="BorderHeightConverter"></local:BorderHeightConverter>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot" d:Visibility="Collapsed" Background="#90000000" d:DataContext="{d:DesignData SettingsSampleData.xaml}">
-        <Border Width="450" Padding="10" CornerRadius="15" Height="330" Background="#90000000">
-            <Grid>
-                <StackPanel>
+        <Border Width="450" CornerRadius="15" Height="{Binding ElementName=MainSettingsStack, Path=ActualHeight, Converter={StaticResource BorderHeightConverter}}" Background="#90000000">
+            <StackPanel x:Name="MainSettingsStack" Margin="10,10,10,0">
                     <StackPanel Height="20" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
                         <TextBlock Text="{Binding Language}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" />
                         <ComboBox x:Name="ComboBoxLanguage" Style="{StaticResource BlueComboBox}" Height="20" Width="150" SelectedIndex="0" SelectionChanged="ComboBoxLanguage_SelectionChanged_1"  IsSynchronizedWithCurrentItem="True"/>
                     </StackPanel>
-                    <GroupBox Height="70" Header="{Binding RotationGuild}" Style="{StaticResource BlueGroupBox}">
+                    <GroupBox x:Name="GuildGroupBox" Height="70" Header="{Binding RotationGuild}" Style="{StaticResource BlueGroupBox}">
                         <StackPanel Margin="3">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -58,18 +60,18 @@
                             </Grid>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Height="80" Header="{Binding NewsSettings}" Style="{StaticResource BlueGroupBox}">
+                    <GroupBox Header="{Binding NewsSettings}" Style="{StaticResource BlueGroupBox}">
                         <StackPanel Margin="3">
                             <TextBlock Text="{Binding TwitterUser}" HorizontalAlignment="Left" />
                             <TextBox Style="{StaticResource RoundedTextBox}" x:Name="textBox_t_user" Height="20" Foreground="Gray"/>
                             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                 <TextBlock Text="{Binding StartNewsTab}" HorizontalAlignment="Left" />
-                                <RadioButton x:Name="RB_News_Twitter" Style="{StaticResource BlueRadioButton}" Margin="5,0" Content="Twitter" Foreground="White" HorizontalAlignment="Left"/>
-                                <RadioButton x:Name="RB_News_Joymax" Style="{StaticResource BlueRadioButton}" Margin="5,0" Content="JOYMAX" Foreground="White" HorizontalAlignment="Left"/>
+                                <RadioButton x:Name="RB_News_Twitter" Style="{StaticResource BlueRadioButtonWhite}" Margin="5,0" Content="Twitter" HorizontalAlignment="Left"/>
+                                <RadioButton x:Name="RB_News_Joymax" Style="{StaticResource BlueRadioButtonWhite}" Margin="5,0" Content="JOYMAX" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Height="100" Header="{Binding GameSettings}" Style="{StaticResource BlueGroupBox}">
+                    <GroupBox Header="{Binding GameSettings}" Style="{StaticResource BlueGroupBox}">
                         <StackPanel Margin="3">
                             <TextBlock Text="{Binding GamePath}" HorizontalAlignment="Left" />
                             <Grid Height="30">
@@ -78,21 +80,31 @@
                                     <ColumnDefinition Width="110" />
                                 </Grid.ColumnDefinitions>
                                 <TextBox Grid.Column="0" Style="{StaticResource RoundedTextBox}" IsReadOnly="True" x:Name="textBox_game_path" Height="20"/>
-                                <Button Grid.Column="1" x:Name="BtnBrowse" Style="{StaticResource BlueButtonSmall}" Height="20" Width="100" Content="{Binding Browse}" Click="BtnBrowse_Click_1" />
+                                <Button Grid.Column="1" x:Name="BtnGameBrowse" Style="{StaticResource BlueButtonSmall}" Height="20" Width="100" Content="{Binding Browse}" Click="BtnGameBrowse_Click_1" />
                             </Grid>
-                            <CheckBox Style="{StaticResource BlueCheckBoxWhite}" x:Name="Chk_UseUpdateEngine" Content="{Binding UseGameUpdater}" IsChecked="False" />
+                        <StackPanel x:Name="LauncherPathBlock">
+                            <TextBlock Text="{Binding LauncherPath}" HorizontalAlignment="Left" />
+                            <Grid Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="110" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Style="{StaticResource RoundedTextBox}" IsReadOnly="True" x:Name="textBox_launcher_path" Height="20"/>
+                                <Button Grid.Column="1" x:Name="BtnLauncherBrowse" Style="{StaticResource BlueButtonSmall}" Height="20" Width="100" Content="{Binding Browse}" Click="BtnLauncherBrowse_Click_1" />
+                            </Grid>
+                        </StackPanel>
+                        <CheckBox Style="{StaticResource BlueCheckBoxWhite}" x:Name="Chk_UseUpdateEngine" Content="{Binding UseGameUpdater}" IsChecked="False" />
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox Style="{StaticResource BlueCheckBoxWhite}" x:Name="Chk_UseAppLoc" Content="{Binding UseAL}" IsChecked="False" />
                                 <TextBlock x:Name="AL_Helper" Margin="5,0,0,0" Visibility="Visible"><Hyperlink Click="HLWhyAL_Click"><Run Text="{Binding ALHelp}" /></Hyperlink></TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,15,10,10">
                         <Button x:Name="BtnApply" Margin="0,0,5,0" Style="{StaticResource BlueButtonSmall}" Height="20" Width="110" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Apply}" Click="BtnApply_Click" />
                         <Button x:Name="BtnClose" Margin="5,0,0,0" Style="{StaticResource BlueButtonSmall}" Height="20" Width="110" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Cancel}" Click="BtnClose_Click" />
                     </StackPanel>
                 </StackPanel>
-            </Grid>
         </Border>
     </Grid>
 </UserControl>

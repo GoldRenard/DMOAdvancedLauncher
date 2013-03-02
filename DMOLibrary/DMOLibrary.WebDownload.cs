@@ -57,6 +57,7 @@ namespace DMOLibrary
             {
                 html = string.Empty;
                 WebDownload wd = new WebDownload();
+                wd.Encoding = System.Text.Encoding.UTF8;
                 wd.Proxy = (IWebProxy)null;
                 wd.Timeout = 3000;
                 try { html = wd.DownloadString(url); }

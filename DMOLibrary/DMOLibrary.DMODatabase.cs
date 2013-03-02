@@ -23,7 +23,6 @@ using System.Data.Common;
 using System.Data.SQLite;
 using System.Collections.Generic;
 using System.Windows.Threading;
-using DMOLibrary.DMOWebInfo;
 
 namespace DMOLibrary
 {
@@ -39,7 +38,9 @@ namespace DMOLibrary
         static bool isConnected = false;
 
         #region Query list
+        static string Q_DTYPE_ALL = "SELECT * FROM Digimon_types;";
         static string Q_DTYPE_BY_NAME = "SELECT * FROM Digimon_types WHERE name = '{0}';";
+        static string Q_DTYPE_BY_KNAME = "SELECT * FROM Digimon_types WHERE name_korean = '{0}';";
         static string Q_DTYPE_BY_ID = "SELECT * FROM Digimon_types WHERE id = '{0}';";
         static string Q_TTYPE_BY_ID = "SELECT * FROM Tamer_types WHERE id = '{0}';";
         static string Q_S_BY_NAME = "SELECT * FROM Servers;";
@@ -78,6 +79,8 @@ SELECT * FROM (
 	    [isActive] = 1
     ) as digimon JOIN Tamers ON digimon.tamer_id = Tamers.id AND Tamers.serv_id = {0}
 ) ORDER BY RANDOM() LIMIT 1";
+
+        static string Q_D_SELECT_RANDOM_TYPE = @"SELECT * FROM Digimon_types ORDER BY RANDOM() LIMIT 1";
 
         #endregion
 
@@ -148,7 +151,7 @@ SELECT * FROM (
         #endregion
 
         #region First initialization
-        static string CREATE_DATABASE_QUERY = @"CREATE TABLE Servers(
+        public static string CREATE_DATABASE_QUERY = @"CREATE TABLE Servers(
 	[id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
 	[name] CHAR(100) NOT NULL
 );
@@ -190,7 +193,8 @@ CREATE TABLE Tamers(
 CREATE TABLE Digimon_types(
 	[id] INTEGER PRIMARY KEY NOT NULL,
 	[name] CHAR(100) NOT NULL,
-	[name_alt] CHAR(100)
+	[name_alt] CHAR(100),
+    [name_korean] CHAR(100)
 );
 CREATE TABLE Digimons(
 	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
@@ -209,77 +213,81 @@ CREATE TABLE Digimons(
 	FOREIGN KEY ([type_id]) REFERENCES Digimon_types([id])
 );
 
-INSERT INTO Servers([name]) VALUES ('Leviamon');
-INSERT INTO Servers([name]) VALUES ('Lucemon');
-INSERT INTO Servers([name]) VALUES ('Lilithmon');
-INSERT INTO Servers([name]) VALUES ('Barbamon');
-
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31018, 'Gotsumon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31028, 'Drimogemon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31029, 'Kunemon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31048, 'Biyomon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31049, 'Elecmon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31066, 'Impmon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31138, 'Gabumon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31017, 'Keramon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31020, 'Hawkmon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (21134, 'DemiMeramon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31006, 'Renamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31031, 'Tentomon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31011, 'Monodramon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (41132, 'Kiwimon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31050, 'Gomamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31019, 'Salamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31038, 'Dokunemon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31008, 'ExV-mon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31012, 'Patamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31007, 'Agumon(Classic)', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31001, 'Agumon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (32008, 'Veedramon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (32034, 'MechaNorimon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31034, 'Gardromon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31027, 'Ryuudamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31036, 'Dorumon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31021, 'Kotemon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (41033, 'Dobermon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (41159, 'Deputymon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31041, 'Palmon', 'Woodmon');
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (32041, 'Palmon', 'Togemon');
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31121, 'Bearmon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (32021, 'Mosyamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31005, 'Guilmon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31022, 'Candlemon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (32036, 'Dorumon[Dex]', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31010, 'Terriermon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31035, 'CommanDramon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31033, 'Goblimon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31014, 'Dracomon', 'Blue');
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (32014, 'Dracomon', 'Green');
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31015, 'Lopmon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (41088, 'Starmon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31142, 'Wormmon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31003, 'Gaomon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31002, 'Lalamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31004, 'Falcomon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (41075, 'Gizumon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31026, 'Betamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (41146, 'Doggymon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (21137, 'Tanemon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31016, 'FanBeemon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31051, 'Kamemon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31023, 'Kudamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31009, 'PawnChessmonBlack', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31013, 'PawnChessmonWhite', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31067, 'DemiDevimon', 'Devimon');
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (32067, 'DemiDevimon', 'Soulmon');
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31030, 'Armadillomon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31032, 'Sharmamon', NULL);
-INSERT INTO Digimon_types([id], [name], [name_alt]) VALUES (31039, 'Dracumon', NULL);
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31003, 'Gaomon', NULL, '가오몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31002, 'Lalamon', NULL, '라라몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31004, 'Falcomon', NULL, '팰코몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31001, 'Agumon', NULL, '아구몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31007, 'Agumon(Classic)', NULL, '아구몬클래식');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31043, 'Agumon(Black)', NULL, '아구몬(흑)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (32019, 'Salamon(BlackGatomon)', NULL, '플롯트몬(블랙가트몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31019, 'Salamon', NULL, '플롯트몬(가트몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31138, 'Gabumon', NULL, '파피몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31068, 'Gabumon(Black)', NULL, '파피몬(흑)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31008, 'ExV-mon', NULL, '브이몬(엑스브이몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (32008, 'Veedramon', NULL, '브이몬(브이드라몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31013, 'PawnChessmonWhite', NULL, '폰체스몬W');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31009, 'PawnChessmonBlack', NULL, '폰체스몬B');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31067, 'DemiDevimon', 'Devimon', '피코데블몬(고스몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (32067, 'DemiDevimon', 'Soulmon', '피코데블몬(소울몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (32021, 'Mosyamon', NULL, '코테몬(무사몬계열)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31021, 'Kotemon', NULL, '코테몬(그라디몬계열)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31014, 'Dracomon', 'Blue', '드라코몬(청)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (32014, 'Dracomon', 'Green', '드라코몬(녹)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31041, 'Palmon', 'Woodmon', '팔몬(우드몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (32041, 'Palmon', 'Togemon', '팔몬(니드몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31033, 'Goblimon', NULL, '고부리몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31032, 'Sharmamon', NULL, '원시고부리몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31029, 'Kunemon', NULL, '쿠네몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31038, 'Dokunemon', NULL, '도쿠네몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (32034, 'MechaNorimon', NULL, '톱니몬(메카노몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31034, 'Gardromon', NULL, '톱니몬(가드로몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31036, 'Dorumon', NULL, '돌몬(돌가몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (32036, 'Dorumon[Dex]', NULL, '돌몬(데크스돌가몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (33036, 'Dorumon(Reptiledramon)', NULL, '돌몬(라프타드라몬계열)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31006, 'Renamon', NULL, '레나몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31010, 'Terriermon', NULL, '테리어몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31049, 'Elecmon', NULL, '에렉몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31050, 'Gomamon', NULL, '쉬라몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31028, 'Drimogemon', NULL, '두리몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31039, 'Dracumon', NULL, '드라큐몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31031, 'Tentomon', NULL, '텐타몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31018, 'Gotsumon', NULL, '울퉁몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31048, 'Biyomon', NULL, '피요몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31066, 'Impmon', NULL, '임프몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31017, 'Keramon', NULL, '케라몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31020, 'Hawkmon', NULL, '호크몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (21134, 'DemiMeramon', NULL, '페티메라몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31011, 'Monodramon', NULL, '모노드라몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (41132, 'Kiwimon', NULL, '키위몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31012, 'Patamon', NULL, '파닥몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31027, 'Ryuudamon', NULL, '류우다몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (41033, 'Dobermon', NULL, '도베르몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (41159, 'Deputymon', NULL, '카우보이몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31121, 'Bearmon', NULL, '베어몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31005, 'Guilmon', NULL, '길몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31022, 'Candlemon', NULL, '캔들몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31035, 'CommanDramon', NULL, '코만드라몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31015, 'Lopmon', NULL, '로프몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (41088, 'Starmon', NULL, '스타몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31142, 'Wormmon', NULL, '추추몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (41075, 'Gizumon', NULL, '기즈몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31026, 'Betamon', NULL, '베타몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (41146, 'Doggymon', NULL, '도그몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (21137, 'Tanemon', NULL, '시드몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31016, 'FanBeemon', NULL, '아기벌몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31051, 'Kamemon', NULL, '카메몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31023, 'Kudamon', NULL, '쿠다몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31030, 'Armadillomon', NULL, '아르마몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31042, 'Mushroomon', NULL, '머슈몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31037, 'Arkadimon', NULL, '알카디몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (33067, 'Myotismon', NULL, '피코데블몬(묘티스몬)');
 
 INSERT INTO Tamer_types([id], [name]) VALUES (80001, 'Marcus Damon');
 INSERT INTO Tamer_types([id], [name]) VALUES (80002, 'Thomas H. Norstein');
 INSERT INTO Tamer_types([id], [name]) VALUES (80003, 'Yoshino Fujieda');
-INSERT INTO Tamer_types([id], [name]) VALUES (80004, 'Keenan Krier');";
+INSERT INTO Tamer_types([id], [name]) VALUES (80004, 'Keenan Krier');
+INSERT INTO Tamer_types([id], [name]) VALUES (80005, 'Taichi Kamiya');
+";
         private bool RecreateDB()
         {
             if (File.Exists(DB_FILE))
@@ -336,7 +344,6 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80004, 'Keenan Krier');";
             return result;
         }
 
-
         private string DateTime2String(DateTime datetime)
         {
             return datetime.ToString("yyyy-MM-dd HH:mm:ss.FFFFFFF");
@@ -353,11 +360,73 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80004, 'Keenan Krier');";
         #endregion
 
         #region Read section
+        public List<digimon_type> Digimon_GetTypes()
+        {
+            List<digimon_type> types = new List<digimon_type>();
+
+            string query = Q_DTYPE_ALL;
+            try
+            {
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                SQLiteDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    digimon_type type = new digimon_type();
+                    if (dataReader["name_alt"] != DBNull.Value)
+                        type.Name_alt = (string)dataReader["name_alt"];
+                    type.Name = (string)dataReader["name"];
+                    type.Id = Convert.ToInt32(dataReader["id"]);
+                    types.Add(type);
+                }
+                dataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                return null;
+            }
+
+            if (types.Count > 0)
+                return types;
+            return null;
+        }
+
         public List<digimon_type> Digimon_GetTypesByName(string name)
         {
             List<digimon_type> types = new List<digimon_type>();
 
             string query = string.Format(Q_DTYPE_BY_NAME, name);
+            try
+            {
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                SQLiteDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    digimon_type type = new digimon_type();
+                    if (dataReader["name_alt"] != DBNull.Value)
+                        type.Name_alt = (string)dataReader["name_alt"];
+                    type.Name = (string)dataReader["name"];
+                    type.Id = Convert.ToInt32(dataReader["id"]);
+                    types.Add(type);
+                }
+                dataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                return null;
+            }
+
+            if (types.Count > 0)
+                return types;
+            return null;
+        }
+
+        public List<digimon_type> Digimon_GetTypesByKoreanName(string name)
+        {
+            List<digimon_type> types = new List<digimon_type>();
+
+            string query = string.Format(Q_DTYPE_BY_KNAME, name);
             try
             {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
@@ -679,6 +748,27 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80004, 'Keenan Krier');";
             catch (Exception ex)
             {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                return d;
+            }
+            return d;
+        }
+
+        public digimon_type RandomDigimonType()
+        {
+            digimon_type d = new digimon_type();
+            try
+            {
+                SQLiteCommand cmd = new SQLiteCommand(Q_D_SELECT_RANDOM_TYPE, connection);
+                SQLiteDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    d.Id = Convert.ToInt32(dataReader["Id"]);
+                }
+                dataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, Q_D_SELECT_RANDOM_TYPE));
                 return d;
             }
             return d;

@@ -81,8 +81,8 @@ namespace AdvancedLauncher
             //Game Update
             public string UPDATE_CANT_GET_GAME_VERSION = "Unable to get the version of the game.";
             public string UPDATE_CANT_CONNECT_TO_JOYMAX = "Can't connect to the update servers.";
-            public string UPDATE_DOWNLOADING = "Downloading update {0}... [{1:0.00}MB / {2:0.00}MB]";
-            public string UPDATE_EXTRACTING = "Unpacking update {0}... [{1} / {2}]";
+            public string UPDATE_DOWNLOADING = "Downloading update {0} of {1}... [{2:0.00}MB / {3:0.00}MB]";
+            public string UPDATE_EXTRACTING = "Unpacking update {0} of {1}... [{2} / {3}]";
             public string UPDATE_INSTALLING = "Installing updates... [{0} / {1}]";
 
             //NEWS

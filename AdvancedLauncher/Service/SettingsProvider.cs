@@ -23,7 +23,6 @@ using System.Text;
 using Microsoft.Win32;
 using System.IO;
 using System.Globalization;
-using Ookii.Dialogs.Wpf;
 using DMOLibrary;
 
 namespace AdvancedLauncher

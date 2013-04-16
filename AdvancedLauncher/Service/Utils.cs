@@ -55,6 +55,17 @@ namespace AdvancedLauncher
       }
     }
 
+    /// <summary> Opens URL with default browser (without URL decode) </summary>
+    /// <param name="url">URL to web</param>
+    public static void OpenSiteNoDecode(string url)
+    {
+        try { System.Diagnostics.Process.Start(url); }
+        catch (Exception ex)
+        {
+            MSG_ERROR(LanguageProvider.strings.CANT_OPEN_LINK + ex.Message);
+        }
+    }
+
 #if DEBUG
     static string DEBUG_FILE = string.Empty;
     public static void SetDebug(string file)

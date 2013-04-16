@@ -42,7 +42,6 @@ namespace AdvancedLauncher
         BackgroundWorker bw_load_news;
 
         private bool isLoading_ = false;
-        private Regex URLRegex = new Regex("((https?|s?ftp|ssh)\\:\\/\\/[^\"\\s\\<\\>]*[^.,;'\">\\:\\s\\<\\>\\)\\]\\!])", RegexOptions.Compiled);
 
         private TwitterViewModel TwitterVM = new TwitterViewModel();
         private List<TwitterItemViewModel> twitter_statuses = new List<TwitterItemViewModel>();
@@ -163,6 +162,11 @@ namespace AdvancedLauncher
 
         #region Twitter statuses
 
+        private Regex URLRegex = new Regex("((https?|s?ftp|ssh)\\:\\/\\/[^\"\\s\\<\\>]*[^.,;'\">\\:\\s\\<\\>\\)\\]\\!])", RegexOptions.Compiled);
+        private Regex HashRegex = new Regex(@"(\B#\w*[a-zA-Z]+\w*)", RegexOptions.Compiled);
+        private Regex TUserRegex = new Regex(@"(\B@\w*[a-zA-Z]+\w*)", RegexOptions.Compiled);
+        private static string LINK_REPL = "%DMOAL:LINK%", HASHTAG_REPL = "%DMOAL:HASHTAG%", USER_REPL = "%DMOAL:TWUSER%";
+
         public struct UserStatus
         {
             public string UserName;
@@ -179,6 +183,20 @@ namespace AdvancedLauncher
         {
             public string url;
             public BitmapImage bitmap;
+        }
+
+        enum TwitterTextType
+        {
+            Text,
+            Link,
+            HashTag,
+            UserName
+        }
+
+        struct TwitterTextPart
+        {
+            public TwitterTextType Type;
+            public string Data;
         }
 
         //получение статусов
@@ -292,6 +310,134 @@ namespace AdvancedLauncher
             return ret;
         }
 
+        //подмена всех ссылок контролом гипер-ссылки
+        private void TextBlock_Parse(object sender, RoutedEventArgs e)
+        {
+            TextBlock tb = ((TextBlock)sender);
+
+            if (tb.Text.Contains(LINK_REPL) || tb.Text.Contains(HASHTAG_REPL))
+                return;
+
+            string FormatString = URLRegex.Replace(tb.Text, LINK_REPL);
+            FormatString = HashRegex.Replace(FormatString, HASHTAG_REPL);
+            FormatString = TUserRegex.Replace(FormatString, USER_REPL);
+
+            //Collecting links, hashtags and users in lists
+            int LinkCounter = 0;
+            List<string> links = new List<string>();
+            foreach (Match match in URLRegex.Matches(tb.Text))
+                links.Add(match.Groups[0].Value);
+
+            int HashCounter = 0;
+            List<string> tags = new List<string>();
+            foreach (Match match in HashRegex.Matches(tb.Text))
+                tags.Add(match.Groups[0].Value);
+
+            int UserCounter = 0;
+            List<string> users = new List<string>();
+            foreach (Match match in TUserRegex.Matches(tb.Text))
+                users.Add(match.Groups[0].Value);
+
+            //Creating list of splitted text by links
+            List<TwitterTextPart> Parts = GetTwitterParts(ref links, ref LinkCounter, FormatString, LINK_REPL, TwitterTextType.Link, false);
+
+            //Creating list of splitted text (from older list) by hashtags
+            List<TwitterTextPart> TempParts = new List<TwitterTextPart>();
+            foreach (TwitterTextPart part in Parts)
+            {
+                if (part.Type == TwitterTextType.Text)
+                {
+                    List<TwitterTextPart> HashParts = GetTwitterParts(ref tags, ref HashCounter, part.Data, HASHTAG_REPL, TwitterTextType.HashTag, false);
+                    TempParts.AddRange(HashParts);
+                }
+                else
+                    TempParts.Add(part);
+            }
+            Parts = TempParts;
+
+            //Creating list of splitted text (from older list) by usernames
+            TempParts = new List<TwitterTextPart>();
+            foreach (TwitterTextPart part in Parts)
+            {
+                if (part.Type == TwitterTextType.Text)
+                {
+                    List<TwitterTextPart> HashParts = GetTwitterParts(ref users, ref UserCounter, part.Data, USER_REPL, TwitterTextType.UserName, false);
+                    TempParts.AddRange(HashParts);
+                }
+                else
+                    TempParts.Add(part);
+            }
+            Parts = TempParts;
+
+            tb.Inlines.Clear();
+            foreach (TwitterTextPart part in Parts)
+            {
+                switch (part.Type)
+                {
+                    case TwitterTextType.Text:
+                        {
+                            tb.Inlines.Add(part.Data);
+                            break;
+                        }
+                    case TwitterTextType.Link:
+                        {
+                            Hyperlink hyperLink = new Hyperlink() { NavigateUri = new Uri(part.Data) };
+                            hyperLink.Inlines.Add(part.Data);
+                            hyperLink.Style = (Style)FindResource("BlueHyperLink");
+                            hyperLink.RequestNavigate += Hyperlink_RequestNavigate;
+                            tb.Inlines.Add(hyperLink);
+                            break;
+                        }
+                    case TwitterTextType.HashTag:
+                        {
+                            Hyperlink hyperLink = new Hyperlink() { NavigateUri = new Uri(string.Format("https://twitter.com/search?q=%23{0}&src=hash", part.Data.Substring(1))) };
+                            hyperLink.Inlines.Add(part.Data);
+                            hyperLink.Style = (Style)FindResource("BlueHyperLink");
+                            hyperLink.RequestNavigate += Hyperlink_RequestNavigate;
+                            tb.Inlines.Add(hyperLink);
+                            break;
+                        }
+                    case TwitterTextType.UserName:
+                        {
+                            Hyperlink hyperLink = new Hyperlink() { NavigateUri = new Uri(string.Format("https://twitter.com/{0}/", part.Data.Substring(1))) };
+                            hyperLink.Inlines.Add(part.Data);
+                            hyperLink.Style = (Style)FindResource("BlueHyperLink");
+                            hyperLink.RequestNavigate += Hyperlink_RequestNavigate;
+                            tb.Inlines.Add(hyperLink);
+                            break;
+                        }
+                }
+            }
+
+        }
+
+        private List<TwitterTextPart> GetTwitterParts(ref List<string> DataArr, ref int DataCounter, string FormatString, string SplitText, TwitterTextType NonStringType, bool IsReturnNull)
+        {
+            List<TwitterTextPart> parts = new List<TwitterTextPart>();
+
+            string[] link_splited = FormatString.Split(new string[] { SplitText }, StringSplitOptions.None);
+            if (link_splited.Length > 1)
+            {
+                bool IsFirstAdded = false;
+                foreach (string part in link_splited)
+                {
+                    if (IsFirstAdded)
+                        parts.Add(new TwitterTextPart { Type = NonStringType, Data = DataArr[DataCounter++] });
+                    parts.Add(new TwitterTextPart { Type = TwitterTextType.Text, Data = part });
+                    IsFirstAdded = true;
+                }
+                return parts;
+            }
+            else
+            {
+                if (IsReturnNull)
+                    return null;
+                parts.Add(new TwitterTextPart { Data = FormatString, Type = TwitterTextType.Text });
+                return parts;
+            }
+        }
+
+
         #endregion
 
         #region joymax news
@@ -335,7 +481,7 @@ namespace AdvancedLauncher
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Utils.OpenSite(e.Uri.ToString());
+            Utils.OpenSiteNoDecode(e.Uri.ToString());
         }
 
         private void isLoading(bool state)
@@ -388,32 +534,6 @@ namespace AdvancedLauncher
             double x = (double)eargs.Delta;
             double y = NewsScroll.VerticalOffset;
             NewsScroll.ScrollToVerticalOffset(y - x);
-        }
-
-        //подмена всех ссылок контролом гипер-ссылки
-        private void TextBlock_Parse(object sender, RoutedEventArgs e)
-        {
-            TextBlock tb = ((TextBlock)sender);
-            List<string> links = new List<string>();
-            foreach (Match match in URLRegex.Matches(tb.Text))
-                links.Add(match.Groups[0].Value);
-            string[] strs = URLRegex.Replace(tb.Text, "%LINK%").Split(new string[] { "%LINK%" }, StringSplitOptions.None);
-            if (strs.Length > 1)
-            {
-                tb.Inlines.Clear();
-                for (int i = 0; i < strs.Length; i++)
-                {
-                    tb.Inlines.Add(strs[i]);
-                    if (i < links.Count)
-                    {
-                        Hyperlink hyperLink = new Hyperlink() { NavigateUri = new Uri(links[i]) };
-                        hyperLink.Style = (Style)FindResource("BlueHyperLink");
-                        hyperLink.Inlines.Add(links[i]);
-                        hyperLink.RequestNavigate += Hyperlink_RequestNavigate;
-                        tb.Inlines.Add(hyperLink);
-                    }
-                }
-            }
         }
 
         #endregion

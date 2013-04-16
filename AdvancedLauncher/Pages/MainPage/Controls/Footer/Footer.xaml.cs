@@ -27,8 +27,12 @@ namespace AdvancedLauncher
         public Footer()
         {
             InitializeComponent();
-            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            VersionBlock.Text = string.Format(VersionBlock.Text,version.Major.ToString() + "." + version.Minor.ToString() + " (build " + version.Build.ToString() + ")");
+            Version v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            string ver = v.Major.ToString() + "." + v.Minor.ToString();
+            if (App.SubVersion != ' ')
+                ver += App.SubVersion;
+            ver += " (build " + v.Build.ToString() + ")";
+            VersionBlock.Text = string.Format(VersionBlock.Text, ver);
         }
     }
 }

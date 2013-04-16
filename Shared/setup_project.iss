@@ -1,13 +1,13 @@
 ﻿[Setup]
 AppId={{F95215F2-3DC9-4B42-9DC8-3E46B448B055}
 AppName=DMO Advanced Launcher
-AppVersion=2.1
+AppVersion=2.1a
 AppPublisher=GoldRenard & DragonVs
 DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no
 DefaultGroupName=Digimon Masters Online
 OutputDir=.\Setups\
-OutputBaseFilename=DMOLauncher_Setup_2.1
+OutputBaseFilename=DMOLauncher_Setup_2.1a
 SetupIconFile=..\AdvancedLauncher\app_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -21,25 +21,26 @@ WizardSmallImageFile=icon.bmp
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
+Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "Apps\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall; Check: not IsRequiredDotNetDetected 
+Source: "..\AdvancedLauncher\bin\Release\*"; DestDir: "{app}"; Excludes: "*.pdb,\Databases\*,\Profiles\*,*.vshost.*"; Flags: ignoreversion recursesubdirs
 Source: "Apps\apploc.msi"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
 Source: "Apps\AppLoc.exe"; DestDir:"{win}\apppatch"; Flags: ignoreversion uninsneveruninstall; BeforeInstall: InstallAL('{tmp}\apploc.msi')
-Source: "Res\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
-Source: "..\AdvancedLauncher\bin\Release\AdvancedLauncher.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\AdvancedLauncher\bin\Release\AdvancedLauncher.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\AdvancedLauncher\bin\Release\DMOLibrary.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\AdvancedLauncher\bin\Release\HtmlAgilityPack.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\AdvancedLauncher\bin\Release\ICSharpCode.SharpZipLib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\AdvancedLauncher\bin\Release\Ookii.Dialogs.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Apps\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
+Source: "Apps\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Check: not CheckForNetFx4 
 
 [Run]
-Filename: {tmp}\dotNetFx40_Full_setup.exe; Parameters: "/q:a /c:""install /l /q"""; Check: not IsRequiredDotNetDetected; StatusMsg: Microsoft Framework 4.0 is beïng installed. Please wait... 
+Filename: {tmp}\dotNetFx40_Full_setup.exe; Parameters: "/q:a /c:""install /l /q"""; Check: not CheckForNetFx4; StatusMsg: Microsoft Framework 4.0 is being installed. Please wait... 
+Filename: {tmp}\vcredist_x86.exe; Parameters: "/q"; StatusMsg: Microsoft Visual C++ 2010 SP1 is being installed. Please wait...
+;Filename: {code:GetNetFx4InstallRoot|Ngen.exe}; Parameters: "install ""{app}\System.Data.SQLite.dll"" /nologo"; Flags: skipifdoesntexist; StatusMsg: Registering SQLite...
+
+[UninstallRun]
+;Filename: {code:GetNetFx4InstallRoot|Ngen.exe}; Parameters: "uninstall ""{app}\System.Data.SQLite.dll"" /nologo"; Flags: skipifdoesntexist;
 
 [Icons]
 Name: "{group}\Digimon Masters Online Joymax"; Filename: "{app}\AdvancedLauncher.exe";
@@ -58,65 +59,48 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters On
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online KDMO IMBC"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKoreaIMBC"; Tasks: quicklaunchicon
 
 [Code]
-function IsDotNetDetected(version: string; service: cardinal): boolean;
-// Indicates whether the specified version and service pack of the .NET Framework is installed.
-//
-// version -- Specify one of these strings for the required .NET Framework version:
-//    'v1.1.4322'     .NET Framework 1.1
-//    'v2.0.50727'    .NET Framework 2.0
-//    'v3.0'          .NET Framework 3.0
-//    'v3.5'          .NET Framework 3.5
-//    'v4\Client'     .NET Framework 4.0 Client Profile
-//    'v4\Full'       .NET Framework 4.0 Full Installation
-//    'v4.5'          .NET Framework 4.5
-//
-// service -- Specify any non-negative integer for the required service pack level:
-//    0               No service packs required
-//    1, 2, etc.      Service pack 1, 2, etc. required
+function TrimSlash(const Path: String): String;
+var
+  LastCharacter: String;
+begin
+  Result := Path;
+  if Result <> '' then
+  begin
+    LastCharacter := Copy(Result, Length(Result), 1);
+    if (LastCharacter = '\') or (LastCharacter = '/') then
+      Result := Copy(Result, 1, Length(Result) - 1);
+  end;
+end;
+
+function CheckForNetFx4(): boolean;
 var
     key: string;
-    install, release, serviceCount: cardinal;
-    check45, success: boolean;
-var reqNetVer : string;
+    install : cardinal;
+    success: boolean;
 begin
-    // .NET 4.5 installs as update to .NET 4.0 Full
-    if version = 'v4.5' then begin
-        version := 'v4\Full';
-        check45 := true;
-    end else
-        check45 := false;
-
-    // installation key group for all .NET versions
-    key := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\' + version;
-
-    // .NET 3.0 uses value InstallSuccess in subkey Setup
-    if Pos('v3.0', version) = 1 then begin
-        success := RegQueryDWordValue(HKLM, key + '\Setup', 'InstallSuccess', install);
-    end else begin
-        success := RegQueryDWordValue(HKLM, key, 'Install', install);
-    end;
-
-    // .NET 4.0/4.5 uses value Servicing instead of SP
-    if Pos('v4', version) = 1 then begin
-        success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);
-    end else begin
-        success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);
-    end;
-
-    // .NET 4.5 uses additional value Release
-    if check45 then begin
-        success := success and RegQueryDWordValue(HKLM, key, 'Release', release);
-        success := success and (release >= 378389);
-    end;
-
-    result := success and (install = 1) and (serviceCount >= service);
+    key := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full';
+    success := RegQueryDWordValue(HKLM, key, 'Install', install);
+    result := success and (install = 1);
 end;
 
-function IsRequiredDotNetDetected(): Boolean;  
+function GetNetFx4InstallRoot(const FileName: String): String;
+var
+  InstallRoot: String;
 begin
-    result := IsDotNetDetected('v4\Full', 0);
+  Result := '';
+  if RegQueryStringValue(HKEY_LOCAL_MACHINE, 'Software\Microsoft\.NETFramework', 'InstallRoot', InstallRoot) then
+  begin
+    if InstallRoot <> '' then
+    begin
+      Result := TrimSlash(InstallRoot) + '\v4.0.30319';
+      if FileName <> '' then
+      begin
+        Result := TrimSlash(Result) + '\' + FileName;
+      end;
+    end;
+  end;
 end;
-           
+    
 procedure InstallAL(FileName: String);
 var
   installed:Boolean;
@@ -141,7 +125,7 @@ begin
 
   if not installed then
     begin
-      WizardForm.FilenameLabel.Caption := 'Intalling AppLocale...'
+      WizardForm.FilenameLabel.Caption := 'Microsoft AppLocale is being installed. Please wait...'
       ShellExec('', 'msiexec', ExpandConstant('/I "' + FileName + '" /passive /qn'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
     end;
 end;

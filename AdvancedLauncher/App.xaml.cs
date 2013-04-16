@@ -28,7 +28,7 @@ namespace AdvancedLauncher
 {
     public partial class App : Application
     {
-
+        public static char SubVersion = 'a';
         public static DMOProfile DMOProfile;
         Window WpfBugWindow = new Window()
         {
@@ -50,7 +50,6 @@ namespace AdvancedLauncher
             Utils.SetDebug("Debug.log");
 #endif
             SettingsProvider.LoadSettings();
-            DMOLibrary.AssemblyResolver.HandleUnresovledAssemblies();
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)

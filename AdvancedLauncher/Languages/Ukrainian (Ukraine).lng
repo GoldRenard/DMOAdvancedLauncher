@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Translation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LANGUAGE_NAME>Українська</LANGUAGE_NAME>
+  <LANG_AUTHOR>Vladislav Savinsky aka DragonVs (dragon_vs@live.ru)</LANG_AUTHOR>
+  
+  <!-- SHARED -->
+  <ERROR>Помилка</ERROR>
+  <CANT_OPEN_LINK>Не вдається відкрити ссилку. Спробуйте змінити браузер за замовчуванням. Помилка: </CANT_OPEN_LINK>
+  <BROWSE>Обзор</BROWSE>
+  <CLOSE>Закрити</CLOSE>
+  <CANCEL>Відмінити</CANCEL>
+  <APPLY>Застосувати</APPLY>
+  <PLEASE_WAIT>Будь ласка, зачекайте...</PLEASE_WAIT>
+  <NEED_CLOSE_GAME>Будь ласка, закрийте гру.</NEED_CLOSE_GAME>
+  <NEED_CLOSE_DEF_LAUNCHER>Будь ласка, закрийте стандартний лаунчер.</NEED_CLOSE_DEF_LAUNCHER>
+  <GAME_FILES_IN_USE>Немає доступу до необхідних файлів гри. Будь ласка, закрийте всі використовуючі їх програми.</GAME_FILES_IN_USE>
+  
+  <!-- MAIN WINDOW -->
+  <MAIN_NEWS_TAB>НОВИНИ</MAIN_NEWS_TAB>
+  <MAIN_GALLERY_TAB>ГАЛЕРЕЯ</MAIN_GALLERY_TAB>
+  <MAIN_COMMUNITY_TAB>ТОВАРИСТВО</MAIN_COMMUNITY_TAB>
+  <MAIN_CUSTOMIZATION_TAB>ПЕРСОНАЛIЗАЦIЯ</MAIN_CUSTOMIZATION_TAB>
+  
+  <!-- NEWS PAGE -->
+  <MAIN_START_GAME>ПОЧАТИ ГРУ</MAIN_START_GAME>
+  <MAIN_START_WAITING>ОЧIКУВАННЯ</MAIN_START_WAITING>
+  <MAIN_UPDATE_GAME>ОНОВИТИ ГРУ</MAIN_UPDATE_GAME>
+  <MAIN_SHOW_TAB>НОВИНИ:</MAIN_SHOW_TAB>
+  
+  <!-- LOGIN WINDOW -->
+  <LOGIN_START_LAST_SESSION>Запустити останню сесію</LOGIN_START_LAST_SESSION>
+  <LOGIN_LOGIN>логін</LOGIN_LOGIN>
+  <LOGIN_PASSWORD>пароль</LOGIN_PASSWORD>
+  <LOGIN_SAVEPASS>Запам'ятати пароль</LOGIN_SAVEPASS>
+  <LOGIN_TRY_TEXT>Спроба {0}</LOGIN_TRY_TEXT>
+  <LOGIN_GETTING_DATA>Отримання даних...</LOGIN_GETTING_DATA>
+  <LOGIN_LOGINNING>Вхід в акаунт...</LOGIN_LOGINNING>
+  <LOGIN_WAS_ERROR>(Була помилка {0})</LOGIN_WAS_ERROR>
+  <LOGIN_BAD_LOGIN_PW>Не вдається увійти в акаунт. Можливо, неправильний логін або пароль.</LOGIN_BAD_LOGIN_PW>
+  <LOGIN_EMPTY_LOGIN>Будь ласка, введіть логін!</LOGIN_EMPTY_LOGIN>
+  <LOGIN_EMPTY_PASSWORD>Будь ласка, введіть пароль!</LOGIN_EMPTY_PASSWORD>
+  <LOGIN_CANT_LOGIN>Сторінка входу змінена або некоректна. Будь ласка, зверніться до розробника лаунчера.</LOGIN_CANT_LOGIN>
+  
+  <!-- NEWS PAGE - GAME UPDATER -->
+  <UPDATE_CANT_GET_GAME_VERSION>Не вдається отримати версію гри</UPDATE_CANT_GET_GAME_VERSION>
+  <UPDATE_CANT_CONNECT_TO_JOYMAX>Не вдається підключитися до сервера оновлень JOYMAX.</UPDATE_CANT_CONNECT_TO_JOYMAX>
+  <UPDATE_DOWNLOADING>Завантаження оновлення {0} з {1}... [{2:0.00}MB / {3:0.00}MB]</UPDATE_DOWNLOADING>
+  <UPDATE_EXTRACTING>Розпакування оновлення {0} з {1}... [{2} / {3}]</UPDATE_EXTRACTING>
+  <UPDATE_INSTALLING>Установка оновлень... [{0} / {1}]</UPDATE_INSTALLING>
+  
+  <!-- NEWS PAGE - NEWS BLOCK -->
+  <NEWS_TYPE_NOTICE>повідомлення</NEWS_TYPE_NOTICE>
+  <NEWS_TYPE_EVENT>подiя</NEWS_TYPE_EVENT>
+  <NEWS_TYPE_PATCH>оновлення</NEWS_TYPE_PATCH>
+  <NEWS_CANT_GET_TWITLIST>Не вдалося отримати список твітів</NEWS_CANT_GET_TWITLIST>
+  <NEWS_PUBLICATION_DATE>Дата публікації</NEWS_PUBLICATION_DATE>
+  <NEWS_READ_MORE>Детальніше...</NEWS_READ_MORE>
+  
+  <!-- NEWS PAGE - DIGIMON ROTATION -->
+  <ROT_LOADING>Завантаження списку Дігімонов</ROT_LOADING>
+  <ROT_TAMER>Теймер</ROT_TAMER>
+  <ROT_LEVEL>рiвень</ROT_LEVEL>
+  <ROT_ERRMSG1>Сталася помилка!</ROT_ERRMSG1>
+  <ROT_ERRMSG2>Перевірте Ваше з'єднання з інтернетом.</ROT_ERRMSG2>
+  
+  <!-- GALLERY PAGE -->
+  <GAL_HELP>КЛАЦНIТЬ ДВIЧI ПО СКРIНШОТАМ ДЛЯ ВIДКРИТТЯ</GAL_HELP>
+  <GAL_NOSCREENSHOTS>НЕМАЄ ЖОДНОГО СКРIНШОТА</GAL_NOSCREENSHOTS>
+  <GAL_CANT_OPEN>Не вдається відкрити зображення. Помилка: </GAL_CANT_OPEN>
+  
+  <!-- COMMUNITY PAGE -->
+  <COMM_SHOWTAB>ПОКАЗАТИ:</COMM_SHOWTAB>
+  <COMM_TAMERS_TAB>ТЕЙМЕРОВ</COMM_TAMERS_TAB>
+  <COMM_DIGIMONS_TAB>ДIГIМОНIВ</COMM_DIGIMONS_TAB>
+  
+  <COMM_SELECT_GUILD>Яку гільдію шукаємо:</COMM_SELECT_GUILD>
+  <COMM_CB_DETAILED>Отримувати докладні дані (довго)</COMM_CB_DETAILED>
+  <COMM_BTN_SEARCH>Знайти гільдію</COMM_BTN_SEARCH>
+  
+  <COMM_INFO>Iнформація:</COMM_INFO>
+  <COMM_GMASTER>Голова:</COMM_GMASTER>
+  <COMM_GBEST>Кращий:</COMM_GBEST>
+  <COMM_GRANK>Ранг:</COMM_GRANK>
+  <COMM_GREP>Репутація:</COMM_GREP>
+  <COMM_TAMER_COUNT>Кількість теймеров:</COMM_TAMER_COUNT>
+  <COMM_DIGIMON_COUNT>Кількість Дигимонов:</COMM_DIGIMON_COUNT>
+  
+  <COMM_TB_GUILD_NAME>Назва гільдії</COMM_TB_GUILD_NAME>
+  <COMM_TB_EMPTY_MSG>Введіть назву гільдії!</COMM_TB_EMPTY_MSG>
+  <COMM_TB_INCORRECT>Назва гільдії містить неприпустимі символи!</COMM_TB_INCORRECT>
+  
+  <COMM_STATUS_GUILD_SEARCHING>Пошук гільдії</COMM_STATUS_GUILD_SEARCHING>
+  <COMM_STATUS_TAMER_GETTING>Отримання теймера: {0}</COMM_STATUS_TAMER_GETTING>
+  
+  <COMM_LHEADER_TYPE>Тип</COMM_LHEADER_TYPE>
+  <COMM_LHEADER_LEVEL>Рiвень</COMM_LHEADER_LEVEL>
+  <COMM_LHEADER_RANKING>Ранк</COMM_LHEADER_RANKING>
+  <COMM_LHEADER_TAMER>Теймер</COMM_LHEADER_TAMER>
+  <COMM_LHEADER_PARTNER>Партнер</COMM_LHEADER_PARTNER>
+  <COMM_LHEADER_MERCENARY>Дiгiмонiв</COMM_LHEADER_MERCENARY>
+  <COMM_LHEADER_NAME>Iм'я</COMM_LHEADER_NAME>
+  <COMM_LHEADER_SIZE>Розмiр</COMM_LHEADER_SIZE>
+  
+  <COMM_CANT_GET_GUILD>Не вдається отримати інформацію щодо гільдії</COMM_CANT_GET_GUILD>
+  <COMM_CANT_CONNECT_TO_DB>Не вдається підключитися до локальної бази даних</COMM_CANT_CONNECT_TO_DB>
+  <COMM_GUILD_NOT_FOUND>Така гільдія не знайдена</COMM_GUILD_NOT_FOUND>
+  <COMM_GUILD_NO_CONNECTION>Не вдається отримати інформацію, перевірте з'єднання з інтернетом</COMM_GUILD_NO_CONNECTION>
+  
+  <!-- CUSTOMIZATION PAGE -->
+  <CUST_SELECT_PICTURE>Виберіть зображення:</CUST_SELECT_PICTURE>
+  <CUST_SELECT_MESSAGE>Натисніть сюди, щоб вибрати зображення</CUST_SELECT_MESSAGE>
+  <CUST_CURRENT_PICTURE>Поточне зображення:</CUST_CURRENT_PICTURE>
+  <CUST_SAVE_PICTURE>Зберегти поточне зображення</CUST_SAVE_PICTURE>
+  <CUST_SELECT_TITLE>Вибрати TGA-зображення</CUST_SELECT_TITLE>
+  <CUST_SAVE_TITLE>Зберегти зображення</CUST_SAVE_TITLE>
+  <CUST_CANT_OPEN_FS>Не вдалося отримати доступ до файлів гри :(</CUST_CANT_OPEN_FS>
+  <CUST_WRONG_TGA>Це не TGA-зображення!</CUST_WRONG_TGA>
+  <CUST_CANT_SAVE>Не вдалося зберегти зображення.</CUST_CANT_SAVE>
+  <CUST_CANT_WRITE>Не вдалося записати зображення в гру!</CUST_CANT_WRITE>
+  <CUST_GAME_FILE_NOT_FOUND>Файл "{0}" не знайдений або відсутній доступ до ігрових ресурсів.</CUST_GAME_FILE_NOT_FOUND>
+  <CUST_RES_FILE_NOT_FOUND>Файл списку ресурсів "{0}" не знайдений або порожній. Будь ласка, заповніть його.</CUST_RES_FILE_NOT_FOUND>
+  
+  <!-- SETTINGS POPUP -->
+  <SELECT_GAME_DIR>Будь ласка, вкажіть папку з грою</SELECT_GAME_DIR>
+  <SELECT_GAME_DIR_WRONG>Необхідно вказати правильну папку з грою.</SELECT_GAME_DIR_WRONG>
+  <SETTINGS_CANT_USE_APPLOC>Не можна запустити гру через AppLocale з наступних причин:</SETTINGS_CANT_USE_APPLOC>
+  <SETTINGS_CANT_USE_APPLOC_CAPTION>Запуск через AppLocale зараз неможливий</SETTINGS_CANT_USE_APPLOC_CAPTION>
+  <SETTINGS_APPLOC_ISNT_INSTALLED>- Не встановлена ​​службова програма Microsoft AppLocale</SETTINGS_APPLOC_ISNT_INSTALLED>
+  <SETTINGS_ALP_ISNT_INSTALLED>- Не встановлена ​​підтримка мов з письмом ієрогліфами</SETTINGS_ALP_ISNT_INSTALLED>
+  <SETTINGS_QUESTION_DOWNLOAD_NOW>Перейти прямо зараз до сторінки завантаження та інструкцій щодо виправлення даних помилок?</SETTINGS_QUESTION_DOWNLOAD_NOW>
+  <SETTINGS_NEED_RESTART>Деякі зміни вступлять в силу після перезапуску лаунчера.</SETTINGS_NEED_RESTART>
+  <SETTINGS_NEED_RESTART_CAPTION>Перезапуск</SETTINGS_NEED_RESTART_CAPTION>
+  
+  <SETTINGS_LANG>Мова лаунчера:</SETTINGS_LANG>
+  <SETTINGS_ROTATION_GUILD>Гільдія для ротації Дігімонов:</SETTINGS_ROTATION_GUILD>
+  <SETTINGS_ROT_UPD_FREQ>Частота оновлення (дні):</SETTINGS_ROT_UPD_FREQ>
+  
+  <SETTINGS_NEWS>Налаштування новин:</SETTINGS_NEWS>
+  <SETTINGS_TWITTER_USER>Користувач Твіттер для новин:</SETTINGS_TWITTER_USER>
+  <SETTINGS_START_NEWS>Початкова вкладка новин:</SETTINGS_START_NEWS>
+  
+  <SETTINGS_GAME>Налаштування гри:</SETTINGS_GAME>
+  <SETTINGS_GAME_PATH>Шлях до гри:</SETTINGS_GAME_PATH>
+  <SETTINGS_LAUNCHER_PATH>Шлях до лаунчера (D-Player):</SETTINGS_LAUNCHER_PATH>
+  <SETTINGS_USE_UPDATER>Оновлювати гру</SETTINGS_USE_UPDATER>
+  <SETTINGS_USE_APPLOCALE>Використовувати AppLocale для запуску</SETTINGS_USE_APPLOCALE>
+  <SETTINGS_APPLOCALE_HELP>Допомога</SETTINGS_APPLOCALE_HELP>
+  
+  <!-- APPLICATION LAUNCHER (APPLOCALE) -->
+  <APPLAUNCHER_APPLOCALE_NOT_FOUND_MSG>Microsoft AppLocale не був знайдений на цьому комп'ютері. Хочете завантажити і встановити його зараз?</APPLAUNCHER_APPLOCALE_NOT_FOUND_MSG>
+  <APPLAUNCHER_APPLOCALE_NOT_FOUND_TITLE>Microsoft AppLocale не знайдений</APPLAUNCHER_APPLOCALE_NOT_FOUND_TITLE>
+  <APPLAUNCHER_APPLOCALE_CANT_PATCH>Не вдалося модифікувати Microsoft AppLocale.</APPLAUNCHER_APPLOCALE_CANT_PATCH>
+  <APPLAUNCHER_CANT_EXECURE>Не вдається запустити програму</APPLAUNCHER_CANT_EXECURE>
+  
+  <!-- ABOUT POPUP -->
+  <ABOUT_VERSION>Версія</ABOUT_VERSION>
+  <ABOUT_DEV>Розробник</ABOUT_DEV>
+  <ABOUT_DES>Допомога по дизайну</ABOUT_DES>
+  <ABOUT_PROJECTS>У проекті використані напрацювання</ABOUT_PROJECTS>
+  
+  <!-- LAUNCHER UPDATER -->
+  <LAUNCHER_UPDATE_NEW_AVAILABLE>Доступна нова версія лаунчера {0}. Зміни:</LAUNCHER_UPDATE_NEW_AVAILABLE>
+  <LAUNCHER_UPDATE_NEW_AVAILABLE_CAPTION>Доступна нова версія лаунчера {0}</LAUNCHER_UPDATE_NEW_AVAILABLE_CAPTION>
+  <LAUNCHER_Q_UPDATE_WANT_DOWNLOAD>Хочете завантажити прямо зараз?</LAUNCHER_Q_UPDATE_WANT_DOWNLOAD>
+</Translation>

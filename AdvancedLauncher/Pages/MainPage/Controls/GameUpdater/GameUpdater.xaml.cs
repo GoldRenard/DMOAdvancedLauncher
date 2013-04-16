@@ -40,7 +40,6 @@ namespace AdvancedLauncher
         [DllImport("user32.dll")]
         private static extern int EnableMenuItem(IntPtr hMenu, int wIDEnableItem, int wEnable);
 
-
         TaskbarItemInfo taskbar = new TaskbarItemInfo();
         IntPtr Main_hWnd;
         Dispatcher owner_dispatcher;
@@ -48,7 +47,8 @@ namespace AdvancedLauncher
         DMOFileSystem dmo_fs;
 
         double MB_R, MB_T;
-        int CURRENT_PATCH = -1;
+        int p_current = -1;
+        int p_remote = -1;
 
         public delegate void SetProgressBar(int value, int maxvalue);
         public delegate void SetProgressBarVal(int value);
@@ -170,7 +170,7 @@ namespace AdvancedLauncher
                 if (File.Exists(App.DMOProfile.GetVersionFile()))
                 {
                     StreamReader streamReader = new StreamReader(App.DMOProfile.GetVersionFile());
-                    CURRENT_PATCH = Utils.GetVersion(streamReader.ReadToEnd());
+                    p_current = Utils.GetVersion(streamReader.ReadToEnd());
                     streamReader.Close();
                 }
 
@@ -185,21 +185,20 @@ namespace AdvancedLauncher
                 client.Proxy = (IWebProxy)null;
                 try
                 {
-                    int REMOTE_VERSION;
                     string result = client.DownloadString(App.DMOProfile.GetRemoteVersionURL());
-                    REMOTE_VERSION = Utils.GetVersion(result);
+                    p_remote = Utils.GetVersion(result);
 
-                    if (REMOTE_VERSION < 0 || CURRENT_PATCH < 0)
+                    if (p_remote < 0 || p_current < 0)
                     {
                         OnFail();
                         Utils.MSG_ERROR(LanguageProvider.strings.UPDATE_CANT_GET_GAME_VERSION);
                         return;
                     }
 
-                    if (REMOTE_VERSION > CURRENT_PATCH)
+                    if (p_remote > p_current)
                     {
                         if (App.DMOProfile.IsUpdateSupported && App.DMOProfile.S_USE_UPDATE_ENGINE)
-                            BeginUpdate(CURRENT_PATCH, REMOTE_VERSION);
+                            BeginUpdate(p_current, p_remote);
                         else
                             OnDefaultUpdateRequired();
                     }
@@ -213,40 +212,45 @@ namespace AdvancedLauncher
 
         private void BeginUpdate(int local, int remote)
         {
-            string GAME_PATH = App.DMOProfile.GetGamePath();
             OnBegin();
+            bool p_success = true;
+            string p_file;
+            string GAME_PATH = App.DMOProfile.GetGamePath();
             while (!App.DMOProfile.CheckUpdateAccess())
                 MessageBox.Show(LanguageProvider.strings.GAME_FILES_IN_USE, LanguageProvider.strings.NEED_CLOSE_GAME, MessageBoxButton.OK, MessageBoxImage.Warning);
-            string patch_file;
             UpdateMainProgressBar(0, remote - local);
             for (int i = local + 1; i <= remote; i++)
             {
+                p_current = i;
+                p_success = true;
+                p_file = GAME_PATH + string.Format("\\UPDATE{0}.zip", i);
                 UpdateSubProgressBar(0, 100);
-                patch_file = GAME_PATH + string.Format("\\UPDATE{0}.zip", i);
-                CURRENT_PATCH = i;
 
                 //downloading
                 try
                 {
-                    web_Downloader.DownloadFileAsync(new Uri(string.Format(App.DMOProfile.GetPatchURL(), i)), patch_file);
+                    web_Downloader.DownloadFileAsync(new Uri(string.Format(App.DMOProfile.GetPatchURL(), i)), p_file);
                     while (web_Downloader.IsBusy)
                         System.Threading.Thread.Sleep(100);
                 }
-                catch (Exception ex) { Utils.MSG_ERROR(LanguageProvider.strings.UPDATE_CANT_CONNECT_TO_JOYMAX + " " + ex.Message); }
+                catch (Exception ex) {
+                    Utils.MSG_ERROR(LanguageProvider.strings.UPDATE_CANT_CONNECT_TO_JOYMAX + " " + ex.Message);
+                    p_success = false;
+                }
 
-                //extracting
-                ExtractUpdate(patch_file, GAME_PATH, true);
+                if (p_success)
+                    ExtractUpdate(p_current, p_remote, p_file, GAME_PATH, true);
                 UpdateMainProgressBar(i - local);
             }
 
             while (!App.DMOProfile.CheckUpdateAccess()) ; 
             //install updates to game
             dmo_fs.WriteDirectory(App.DMOProfile.GetPackImportDir(), true);
-            File.WriteAllLines(App.DMOProfile.GetVersionFile(), new string[] { "[VERSION]", "version=" + CURRENT_PATCH.ToString() });
+            File.WriteAllLines(App.DMOProfile.GetVersionFile(), new string[] { "[VERSION]", "version=" + p_current.ToString() });
             OnComplete();
         }
 
-        private void ExtractUpdate(string archiveFilenameIn, string outFolder, bool DeleteAfterExtract)
+        private void ExtractUpdate(int upd_num, int upd_num_of, string archiveFilenameIn, string outFolder, bool DeleteAfterExtract)
         {
             ZipFile zf = null;
             FileStream fs = null;
@@ -259,7 +263,7 @@ namespace AdvancedLauncher
                 int z_num = 1;
                 foreach (ZipEntry zipEntry in zf)
                 {
-                    UpdateInfoText(1, CURRENT_PATCH, z_num, zf.Count);
+                    UpdateInfoText(1, upd_num, upd_num_of, z_num, zf.Count);
                     if (!zipEntry.IsFile)
                         continue;
                     byte[] buffer = new byte[4096];
@@ -299,7 +303,7 @@ namespace AdvancedLauncher
 
         void dmo_fs_WriteStatusChanged(object sender, int file_num, int file_count)
         {
-            UpdateInfoText(2, file_num, file_count, null);
+            UpdateInfoText(2, file_num, file_count, null, null);
             UpdateSubProgressBar(file_num, file_count);
         }
 
@@ -312,7 +316,7 @@ namespace AdvancedLauncher
         {
             MB_R = (e.BytesReceived / (1024.0 * 1024.0));
             MB_T = (e.TotalBytesToReceive / (1024.0 * 1024.0));
-            UpdateInfoText(0, CURRENT_PATCH, MB_R, MB_T);
+            UpdateInfoText(0, p_current, p_remote, MB_R, MB_T);
             int t = e.ProgressPercentage;
             UpdateSubProgressBar(e.ProgressPercentage, 100);
         }
@@ -349,27 +353,19 @@ namespace AdvancedLauncher
             }), value, maxvalue);
         }
 
-        /*private void UpdateSubProgressBar(int value)
-        {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SetProgressBarVal((value_) =>
-            {
-                SubProgressBar.Value = value_;
-            }), value);
-        }*/
-
-        private void UpdateInfoText(int code, object arg1, object arg2, object arg3)
+        private void UpdateInfoText(int code, object arg1, object arg2, object arg3, object arg4)
         {
             string text = string.Empty;
             switch (code)
             {
                 case 0: //downloading
                     {
-                        text = string.Format(LanguageProvider.strings.UPDATE_DOWNLOADING, arg1, arg2, arg3);
+                        text = string.Format(LanguageProvider.strings.UPDATE_DOWNLOADING, arg1, arg2, arg3, arg4);
                         break;
                     }
                 case 1: //extracting
                     {
-                        text = string.Format(LanguageProvider.strings.UPDATE_EXTRACTING, arg1, arg2, arg3);
+                        text = string.Format(LanguageProvider.strings.UPDATE_EXTRACTING, arg1, arg2, arg3, arg4);
                         break;
                     }
                 case 2: //installing

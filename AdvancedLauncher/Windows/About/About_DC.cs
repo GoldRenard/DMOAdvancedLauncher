@@ -41,8 +41,10 @@ namespace AdvancedLauncher
         static string separator = ": ";
         public void Update()
         {
-
-            Version = LanguageProvider.strings.ABOUT_VERSION + separator + version.Major.ToString() + "." + version.Minor.ToString() + " (build " + version.Build.ToString() + ")";
+            string ver = string.Empty;
+            if (App.SubVersion != ' ')
+                ver += App.SubVersion;
+            Version = string.Format("{0}: {1}.{2}{3} (build {4})", LanguageProvider.strings.ABOUT_VERSION, version.Major, version.Minor, ver, version.Build);
             Developer = LanguageProvider.strings.ABOUT_DEV + separator;
             Designer = LanguageProvider.strings.ABOUT_DES + separator;
             Projects = LanguageProvider.strings.ABOUT_PROJECTS + separator;

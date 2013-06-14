@@ -172,7 +172,8 @@ namespace AdvancedLauncher
             public string SETTINGS_ROT_UPD_FREQ = "Update frequency (days):";
 
             public string SETTINGS_NEWS = "Settings of news page";
-            public string SETTINGS_TWITTER_USER = "Get news from Twitter user:";
+            public string SETTINGS_TWITTER_JSON = "Link to Twitter's JSON timeline of user:";
+            public string SETTINGS_TWITTER_JSON_LINK_WRONG = "Wront URL to Twitter's JSON timeline of user!";
             public string SETTINGS_START_NEWS = "First news:";
 
             public string SETTINGS_GAME = "Settings of game";

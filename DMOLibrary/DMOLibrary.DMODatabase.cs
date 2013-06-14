@@ -281,12 +281,18 @@ INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31030
 INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31042, 'Mushroomon', NULL, '머슈몬');
 INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31037, 'Arkadimon', NULL, '알카디몬');
 INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (33067, 'Myotismon', NULL, '피코데블몬(묘티스몬)');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (33069, 'Tsukaimon', NULL, '츄카이몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (33068, 'Gazimon', NULL, '가지몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31040, 'Swimmon', NULL, '스윔몬');
 
 INSERT INTO Tamer_types([id], [name]) VALUES (80001, 'Marcus Damon');
 INSERT INTO Tamer_types([id], [name]) VALUES (80002, 'Thomas H. Norstein');
 INSERT INTO Tamer_types([id], [name]) VALUES (80003, 'Yoshino Fujieda');
 INSERT INTO Tamer_types([id], [name]) VALUES (80004, 'Keenan Krier');
 INSERT INTO Tamer_types([id], [name]) VALUES (80005, 'Taichi Kamiya');
+INSERT INTO Tamer_types([id], [name]) VALUES (80006, 'Tachikawa Mimi');
+INSERT INTO Tamer_types([id], [name]) VALUES (80007, 'Ishida Yamato');
+INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
 ";
         private bool RecreateDB()
         {

@@ -47,6 +47,7 @@ namespace DMOLibrary.Profiles
         public bool IsUpdateSupported = false;
         public bool IsLoginRequired = false;
         public bool IsNewsSupported = false;
+        public bool IsLastSessionAvailable = false;
         public string GetProfileName() { return PROFILE_NAME; }
         public string GetTypeName() { return TYPE_NAME; }
 
@@ -336,11 +337,22 @@ namespace DMOLibrary.Profiles
         public server S_ROTATION_GSERV = new server() { Id = 1 };
         public int S_ROTATION_URATE = 2;
         public int S_FIRST_TAB = 1;
-        public string S_TWITTER_USER = "dmo_russian";
+        public string S_TWITTER_JSON = "http://renamon.ru/launcher/dmor_timeline.php";
 
         protected string GetSettingsPath()
         {
             return string.Format(PROFILES_FOLDER + "\\{1}.{2}.ini", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), TYPE_NAME, PROFILE_NAME);
+        }
+
+        /// <summary> Checks URL </summary>
+        /// <param name="url">URL to web</param>
+        /// <returns> <see cref="true"/> if URL is valid </returns>
+        private static bool IsValidLink(string url)
+        {
+            System.Text.RegularExpressions.Regex r = new System.Text.RegularExpressions.Regex(@"^(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*$");
+            while (r.Match(url).Success)
+                return true;
+            return false;
         }
 
         public void ReadSettings()
@@ -388,7 +400,10 @@ namespace DMOLibrary.Profiles
             tmp = ini.ReadString("News", "FirstTab");
             if ((bool)Int32.TryParse(tmp, out tmp_int))
                 S_FIRST_TAB = tmp_int;
-            S_TWITTER_USER = ini.ReadString("News", "TwitterUser");
+
+            tmp = ini.ReadString("News", "TwitterJSONUrl");
+            if (IsValidLink(tmp))
+                S_TWITTER_JSON = ini.ReadString("News", "TwitterJSONUrl");
         }
 
         public void WriteSettings()
@@ -434,7 +449,7 @@ namespace DMOLibrary.Profiles
             settings.Add("[News]");
             if (IsNewsSupported)
                 settings.Add("FirstTab=" + S_FIRST_TAB.ToString());
-            settings.Add("TwitterUser=" + S_TWITTER_USER);
+            settings.Add("TwitterJSONUrl=" + S_TWITTER_JSON);
 
             try { File.WriteAllLines(GetSettingsPath(), settings.ToArray()); }
             catch { }

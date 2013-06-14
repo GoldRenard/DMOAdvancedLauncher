@@ -59,7 +59,7 @@ namespace AdvancedLauncher
             RotUpdateFreq = LanguageProvider.strings.SETTINGS_ROT_UPD_FREQ;
 
             NewsSettings = LanguageProvider.strings.SETTINGS_NEWS;
-            TwitterUser = LanguageProvider.strings.SETTINGS_TWITTER_USER;
+            TwitterUser = LanguageProvider.strings.SETTINGS_TWITTER_JSON;
             StartNewsTab = LanguageProvider.strings.SETTINGS_START_NEWS;
 
             GameSettings = LanguageProvider.strings.SETTINGS_GAME;

@@ -47,6 +47,7 @@ namespace DMOLibrary.Profiles.Korea
             IsLoginRequired = true;
             IsNewsSupported = false;
             IsSeparateLauncher = true;
+            IsLastSessionAvailable = true;
 
             ReadSettings();
 

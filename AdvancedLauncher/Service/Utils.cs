@@ -19,6 +19,7 @@
 using System;
 using System.Windows;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace AdvancedLauncher
 {
@@ -64,6 +65,17 @@ namespace AdvancedLauncher
         {
             MSG_ERROR(LanguageProvider.strings.CANT_OPEN_LINK + ex.Message);
         }
+    }
+
+    /// <summary> Checks URL </summary>
+    /// <param name="url">URL to web</param>
+    /// <returns> <see cref="true"/> if URL is valid </returns>
+    public static bool IsValidLink(string url)
+    {
+        Regex r = new Regex(@"^(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*$");
+        while (r.Match(url).Success)
+            return true;
+        return false;
     }
 
 #if DEBUG

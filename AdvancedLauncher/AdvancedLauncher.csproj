@@ -101,6 +101,9 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Libs\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ookii.Dialogs.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\Ookii.Dialogs.Wpf.dll</HintPath>
@@ -109,6 +112,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
@@ -148,6 +152,7 @@
     <Compile Include="Pages\Personalization\ResourceItemViewModel.cs" />
     <Compile Include="Pages\Personalization\ResourceViewModel.cs" />
     <Compile Include="Service\UpdateChecker.cs" />
+    <Compile Include="Pages\MainPage\Controls\NewsBlock\TwitterReader.cs" />
     <Compile Include="Windows\About\About_DC.cs" />
     <Compile Include="Pages\Gallery\Gallery_DC.cs" />
     <Compile Include="Pages\MainPage\Controls\DigiRotation\DigiRotation_DC.cs" />
@@ -374,14 +379,15 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Languages\Polish %28Poland%29.lng">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Languages\Russian %28Russia%29.lng">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Languages\Ukrainian %28Ukraine%29.lng">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -485,7 +491,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Languages\Template_for_translation.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

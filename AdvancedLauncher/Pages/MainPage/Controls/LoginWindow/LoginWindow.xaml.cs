@@ -36,6 +36,8 @@ namespace AdvancedLauncher
             HideWindow = ((Storyboard)this.FindResource("HideWindow"));
             App.DMOProfile.GameStartCompleted += DMOProfile_GameStartCompleted;
             App.DMOProfile.LoginStateChanged += DMOProfile_LoginStateChanged;
+            if (!App.DMOProfile.IsLastSessionAvailable)
+                cb_lastsession.Visibility = Visibility.Collapsed;
         }
 
         void DMOProfile_LoginStateChanged(object sender, DMOLibrary.LoginState state, int try_num, int last_error)

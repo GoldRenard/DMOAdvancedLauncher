@@ -19,6 +19,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Linq;
 using System.Xml.Linq;
 using System.ComponentModel;
@@ -33,6 +34,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using DMOLibrary;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AdvancedLauncher
 {
@@ -61,15 +65,15 @@ namespace AdvancedLauncher
                 TabChanged(this, tab_num);
         }
 
-        public string _username;
-        public string twitter_username
+        public string _json_url;
+        public string twitter_json_url
         {
-            get { return _username; }
+            get { return _json_url; }
             set
             {
-                if (value != _username)
+                if (value != _json_url)
                 {
-                    _username = value;
+                    _json_url = value;
                     TwitterVM.UnLoadData();
                 }
             }
@@ -104,7 +108,7 @@ namespace AdvancedLauncher
                     {
                         isLoading(true);
                         isDownloaded = true;
-                        GetTwitter_News(_username);
+                        GetTwitter_News_API11(_json_url);
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadTwitter((list) =>
                         {
                             TwitterVM.LoadData(list);
@@ -199,8 +203,80 @@ namespace AdvancedLauncher
             public string Data;
         }
 
+        public void GetTwitter_News_API11(string url)
+        {
+            WebClient wc = new WebClient();
+            wc.Proxy = (IWebProxy)null;
+            Uri link = new Uri(url);
+            twitter_statuses.Clear();
+            string response;
+            try
+            {
+                response = wc.DownloadString(link);
+            }
+            catch (Exception e)
+            {
+                twitter_statuses.Add(new TwitterItemViewModel { Title = LanguageProvider.strings.NEWS_CANT_GET_TWITLIST + ": " + e.Message + " [ERRCODE 3 - Remote Error]" });
+                return;
+            }
+
+            JArray tList;
+            try
+            {
+                tList = JArray.Parse(System.Web.HttpUtility.HtmlDecode(response));
+            }
+            catch
+            {
+                twitter_statuses.Add(new TwitterItemViewModel { Title = LanguageProvider.strings.NEWS_CANT_GET_TWITLIST + " [ERRCODE 1 - Parse Error]" });
+                return;
+            }
+
+            List<UserStatus> statuses = new List<UserStatus>();
+            List<ProfileImage> prof_images = new List<ProfileImage>();
+            List<ProfileImage> cur_image;
+            ProfileImage p_image;
+            for (int i = 0; i < tList.Count(); i++)
+            {
+                JObject tweet = JObject.Parse(tList[i].ToString());
+                UserStatus status = new UserStatus();
+
+                status.UserName = tweet["user"]["name"].ToString();
+                status.UserScreenName = tweet["user"]["screen_name"].ToString();
+                status.ProfileImageUrl = tweet["user"]["profile_image_url"].ToString();
+                try { status.RetweetImageUrl = tweet["retweeted_status"]["user"]["profile_image_url"].ToString(); }
+                catch { };
+                status.Status = tweet["text"].ToString();
+                status.StatusId = tweet["id"].ToString();
+                status.StatusDate = ParseDateTime(tweet["created_at"].ToString());
+
+                string profile_image;
+                if (status.RetweetImageUrl != null)
+                    profile_image = status.RetweetImageUrl;
+                else
+                    profile_image = status.ProfileImageUrl;
+
+                cur_image = prof_images.FindAll(im => (im.url == profile_image));
+                if (cur_image.Count == 0)
+                {
+                    p_image = new ProfileImage();
+                    p_image.url = profile_image;
+                    p_image.bitmap = GetImage(profile_image);
+                    if (p_image.bitmap != null)
+                        prof_images.Add(p_image);
+                }
+                else
+                    p_image = cur_image[0];
+
+                status.ProfileImageBitmap = p_image.bitmap;
+
+                statuses.Add(status);
+            }
+            foreach (UserStatus status in statuses)
+                twitter_statuses.Add(new TwitterItemViewModel { Title = status.Status, Date = status.StatusDate.ToLongDateString() + " " + status.StatusDate.ToShortTimeString(), Image = status.ProfileImageBitmap });
+        }
+
         //получение статусов
-        public void GetTwitter_News(string username)
+        public void GetTwitter_News_API10(string username)
         {
             WebClient wc = new WebClient();
             wc.Proxy = (IWebProxy)null;

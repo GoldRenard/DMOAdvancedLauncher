@@ -139,6 +139,7 @@ namespace AdvancedLauncher
                 Utils.MSG_ERROR(vr.ErrorContent.ToString());
             return vr.IsValid;
         }
+
         #endregion
 
         public void Show(bool state)
@@ -163,7 +164,7 @@ namespace AdvancedLauncher
         public void LoadSettings()
         {
             textBox_game_path.Text = App.DMOProfile.GetGamePath();
-            textBox_t_user.Text = App.DMOProfile.S_TWITTER_USER;
+            textBox_t_user.Text = App.DMOProfile.S_TWITTER_JSON;
             Chk_UseAppLoc.IsChecked = App.DMOProfile.S_USE_APPLOC;
             Chk_UseUpdateEngine.IsChecked = App.DMOProfile.S_USE_UPDATE_ENGINE;
             textBox_g_name.Text = App.DMOProfile.S_ROTATION_GNAME;
@@ -208,13 +209,20 @@ namespace AdvancedLauncher
 
         private void BtnApply_Click(object sender, RoutedEventArgs e)
         {
+            textBox_t_user.Text = textBox_t_user.Text.Trim();
+            if (!Utils.IsValidLink(textBox_t_user.Text))
+            {
+                Utils.MSG_ERROR(LanguageProvider.strings.SETTINGS_TWITTER_JSON_LINK_WRONG);
+                return;
+            }
+
             if (isValidName(textBox_g_name.Text))
             {
                 current_lang = SettingsProvider.TRANSLATION_FILE;
                 App.DMOProfile.S_ROTATION_GNAME = textBox_g_name.Text;
                 App.DMOProfile.S_ROTATION_GSERV.Id = (byte)(ComboBoxServer.SelectedIndex + 1);
                 App.DMOProfile.S_ROTATION_URATE = (byte)(ComboBoxURate.SelectedIndex + 1);
-                App.DMOProfile.S_TWITTER_USER = textBox_t_user.Text;
+                App.DMOProfile.S_TWITTER_JSON = textBox_t_user.Text;
                 App.DMOProfile.S_USE_APPLOC = (bool)Chk_UseAppLoc.IsChecked;
                 App.DMOProfile.S_USE_UPDATE_ENGINE = (bool)Chk_UseUpdateEngine.IsChecked;
 

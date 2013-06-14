@@ -57,7 +57,7 @@ namespace AdvancedLauncher
             Updater.DefaultUpdateRequired += Updater_DefaultUpdateRequired;
             Updater.CheckUpdates(this.Dispatcher);
 
-            NewsBlock_.twitter_username = App.DMOProfile.S_TWITTER_USER;
+            NewsBlock_.twitter_json_url = App.DMOProfile.S_TWITTER_JSON;
             NewsBlock_.TabChanged += NewsTabCnagned;
             if (App.DMOProfile.IsNewsSupported)
             {

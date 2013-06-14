@@ -28,7 +28,7 @@ namespace AdvancedLauncher
 {
     public partial class App : Application
     {
-        public static char SubVersion = 'a';
+        public static char SubVersion = 'b';
         public static DMOProfile DMOProfile;
         Window WpfBugWindow = new Window()
         {

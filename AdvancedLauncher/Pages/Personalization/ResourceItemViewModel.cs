@@ -58,6 +58,23 @@ namespace AdvancedLauncher
             }
         }
 
+        private bool _IsRID;
+        public bool IsRID
+        {
+            get
+            {
+                return _IsRID;
+            }
+            set
+            {
+                if (value != _IsRID)
+                {
+                    _IsRID = value;
+                    NotifyPropertyChanged("IsRID");
+                }
+            }
+        }
+
         public ResourceItemViewModel Item
         {
             get

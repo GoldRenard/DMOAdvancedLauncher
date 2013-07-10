@@ -1,13 +1,13 @@
 ﻿[Setup]
 AppId={{F95215F2-3DC9-4B42-9DC8-3E46B448B055}
 AppName=DMO Advanced Launcher
-AppVersion=2.1a
+AppVersion=2.1b
 AppPublisher=GoldRenard & DragonVs
 DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no
 DefaultGroupName=Digimon Masters Online
 OutputDir=.\Setups\
-OutputBaseFilename=DMOLauncher_Setup_2.1a
+OutputBaseFilename=DMOLauncher_Setup_2.1c
 SetupIconFile=..\AdvancedLauncher\app_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -33,6 +33,9 @@ Source: "Apps\apploc.msi"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterins
 Source: "Apps\AppLoc.exe"; DestDir:"{win}\apppatch"; Flags: ignoreversion uninsneveruninstall; BeforeInstall: InstallAL('{tmp}\apploc.msi')
 Source: "Apps\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
 Source: "Apps\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Check: not CheckForNetFx4 
+
+[InstallDelete]
+Type: files; Name: "{app}\Databases\*.sqlite"
 
 [Run]
 Filename: {tmp}\dotNetFx40_Full_setup.exe; Parameters: "/q:a /c:""install /l /q"""; Check: not CheckForNetFx4; StatusMsg: Microsoft Framework 4.0 is being installed. Please wait... 

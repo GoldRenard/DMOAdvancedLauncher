@@ -1,3 +1,6 @@
+2.1c:
+- Fixed crash in customization caused by unknown file path (resource file with only known ID)
+
 2.1b:
 Common:
 - Fixed: "Last session" was available for Aeria

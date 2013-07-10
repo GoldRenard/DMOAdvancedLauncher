@@ -28,7 +28,7 @@ namespace AdvancedLauncher
 {
     public partial class App : Application
     {
-        public static char SubVersion = 'b';
+        public static char SubVersion = 'c';
         public static DMOProfile DMOProfile;
         Window WpfBugWindow = new Window()
         {
@@ -107,6 +107,13 @@ namespace AdvancedLauncher
                 MessageBox.Show(ex.Message + " " + ex.StackTrace, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
             }
+        }
+
+        void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            DateTime t = DateTime.Now;
+            MiniDump.MiniDumpToFile(string.Format("Crash_{0:00}_{1:00}_{2:00}{3:00}{4:0000}.dmp", t.Hour, t.Minute, t.Day, t.Month, t.Year));
+            //e.Handled = true;
         }
     }
 }

@@ -112,7 +112,8 @@ namespace AdvancedLauncher
                         ResourceItemViewModel item = new ResourceItemViewModel();
                         item.RName = vars[0].ToUpper();
                         uint n = 0;
-                        if (uint.TryParse(vars[1], out n))
+                        item.IsRID = uint.TryParse(vars[1], out n);
+                        if (item.IsRID)
                             item.RID = n;
                         else
                             item.RPath = vars[1];
@@ -214,10 +215,16 @@ namespace AdvancedLauncher
         {
             if (App.DMOProfile.CheckUpdateAccess())
             {
-                if (!dmo_fs.WriteStream(new MemoryStream(selected_image_bytes), ((ResourceItemViewModel)ItemsComboBox.SelectedValue).RPath))
+                ResourceItemViewModel r_selected = (ResourceItemViewModel)ItemsComboBox.SelectedValue;
+                bool wr_result = false;
+                if (r_selected.IsRID)
+                    wr_result = dmo_fs.WriteStream(new MemoryStream(selected_image_bytes), r_selected.RID);
+                else
+                    wr_result = dmo_fs.WriteStream(new MemoryStream(selected_image_bytes), r_selected.RPath);
+                if (!wr_result)
                     Utils.MSG_ERROR(LanguageProvider.strings.CUST_CANT_WRITE);
                 else
-                    isGameImageLoaded = LoadGameImage((ResourceItemViewModel)ItemsComboBox.SelectedValue);
+                    isGameImageLoaded = LoadGameImage(r_selected);
             }
         }
 

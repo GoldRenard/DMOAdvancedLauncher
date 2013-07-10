@@ -151,6 +151,8 @@
     <Compile Include="Pages\MainPage\MainPage_DC.cs" />
     <Compile Include="Pages\Personalization\ResourceItemViewModel.cs" />
     <Compile Include="Pages\Personalization\ResourceViewModel.cs" />
+    <Compile Include="Service\MiniDump.cs" />
+    <Compile Include="Service\ProcessExtensions.cs" />
     <Compile Include="Service\UpdateChecker.cs" />
     <Compile Include="Pages\MainPage\Controls\NewsBlock\TwitterReader.cs" />
     <Compile Include="Windows\About\About_DC.cs" />

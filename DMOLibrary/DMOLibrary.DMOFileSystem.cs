@@ -208,7 +208,11 @@ namespace DMOLibrary.DMOFileSystem
 
         public bool WriteStream(Stream source_stream, string destination)
         {
-            uint entryId = FileHash(destination);
+            return WriteStream(source_stream, FileHash(destination));
+        }
+
+        public bool WriteStream(Stream source_stream, uint entryId)
+        {
             long pf_file_length = 0;
             if (File.Exists(PF_File))
                 pf_file_length = (new FileInfo(PF_File)).Length;

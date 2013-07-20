@@ -111,8 +111,6 @@ namespace AdvancedLauncher
 
         private void bnt_about_Click_1(object sender, RoutedEventArgs e)
         {
-            byte[] t = new byte[5];
-            t[10] = 1;
             if (About_Window == null)
             {
                 About_Window = new About();

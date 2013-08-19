@@ -7,7 +7,7 @@ DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no
 DefaultGroupName=Digimon Masters Online
 OutputDir=.\Setups\
-OutputBaseFilename=DMOLauncher_Setup_2.2.4979.22972_RC
+OutputBaseFilename=DMOLauncher_Setup_2.2.4979.26042
 SetupIconFile=..\AdvancedLauncher\app_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -28,7 +28,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "..\AdvancedLauncher\bin\Release\*"; DestDir: "{app}"; Excludes: "*.pdb,\Databases\*,\Configs\*,*.vshost.exe,*.xml"; Flags: ignoreversion recursesubdirs
+Source: "..\AdvancedLauncher\bin\Release\*"; DestDir: "{app}"; Excludes: "*.pdb,\Databases\*,\Configs\*,*.vshost.*,*.xml"; Flags: ignoreversion recursesubdirs
 Source: "Apps\apploc.msi"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
 Source: "Apps\AppLoc.exe"; DestDir:"{win}\apppatch"; Flags: ignoreversion uninsneveruninstall; BeforeInstall: InstallAL('{tmp}\apploc.msi')
 Source: "Apps\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;

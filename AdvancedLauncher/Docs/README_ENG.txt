@@ -34,20 +34,9 @@ Main features:
 ● [S] Screenshot gallery
 ● [S] Let the game meets. Possibility of change some game resources like login background, dialogs, etc.
 ● [S] Launching game through AppLocale (fixing codepage troubles like bad cyrillic at guild chat)
-● [S] Profile system. You can make many shortcuts with separate settings for each profile
+● [S] Profile system. You can make many profiles for every server/account/etc.
 * Update feature on the BETA stage and it is DISABLED by default. I'm still not sure that I did everything absolutely correctly. Use that at your own risk.
 With disabled option checking updates still works, but will be used default launcher for updating.
-
-Profile system:
-Each profile contains separate settings of launcher (DigiRotation, AppLocale, updating, account data, etc).
-To use that feature you must use command line of launcher:
-"AdvancedLauncher.exe <SERVER> <PROFILE_NAME>"
-Where:
-<SERVER> - DMOJoymax, DMOAeria, DMOKorea or DMOKoreaIMBC
-<PROFILE_NAME> - profile name. Can be empty, in this case will be used default profile. Can't contain special symbols like \/:*?"<>|
-Examples:
-1) "AdvancedLauncher.exe DMOJoymax blahblah" - will be used "blahblah" profile with Joymax mode.
-2) "AdvancedLauncher.exe DMOKoreaIMBC" - will be used default profile with Korea IMBC mode.
 
 2. System requiremets:
 ● Windows® XP (SP3) / Vista (SP1+) / 7 / 8
@@ -63,7 +52,7 @@ Please send an email with new translations.
 All translations I will add to Translations page and include into installer in future.
 
 5. Known issues:
-Community page and DigiRotation uses information of game website. You know, not all digimons are provided at ranking or tamer's information pages (especially at Joymax). So not all digimons provided at our launcher.
+Community page and DigiRotation uses information of game website. Not all digimons are provided at ranking or tamer's information pages (especially at Joymax). So not all digimons provided at our launcher.
 In additional, launcher can read only ONE digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of launcher.
 
 6. Source code:

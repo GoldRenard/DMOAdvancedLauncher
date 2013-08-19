@@ -1,13 +1,13 @@
 ﻿[Setup]
 AppId={{F95215F2-3DC9-4B42-9DC8-3E46B448B055}
 AppName=DMO Advanced Launcher
-AppVersion=2.1b
+AppVersion=2.2a
 AppPublisher=GoldRenard & DragonVs
 DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no
 DefaultGroupName=Digimon Masters Online
 OutputDir=.\Setups\
-OutputBaseFilename=DMOLauncher_Setup_2.1c
+OutputBaseFilename=DMOLauncher_Setup_2.2.4979.22972_RC
 SetupIconFile=..\AdvancedLauncher\app_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -28,7 +28,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "..\AdvancedLauncher\bin\Release\*"; DestDir: "{app}"; Excludes: "*.pdb,\Databases\*,\Profiles\*,*.vshost.*"; Flags: ignoreversion recursesubdirs
+Source: "..\AdvancedLauncher\bin\Release\*"; DestDir: "{app}"; Excludes: "*.pdb,\Databases\*,\Configs\*,*.vshost.exe,*.xml"; Flags: ignoreversion recursesubdirs
 Source: "Apps\apploc.msi"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
 Source: "Apps\AppLoc.exe"; DestDir:"{win}\apppatch"; Flags: ignoreversion uninsneveruninstall; BeforeInstall: InstallAL('{tmp}\apploc.msi')
 Source: "Apps\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
@@ -46,20 +46,9 @@ Filename: {tmp}\vcredist_x86.exe; Parameters: "/q"; StatusMsg: Microsoft Visual 
 ;Filename: {code:GetNetFx4InstallRoot|Ngen.exe}; Parameters: "uninstall ""{app}\System.Data.SQLite.dll"" /nologo"; Flags: skipifdoesntexist;
 
 [Icons]
-Name: "{group}\Digimon Masters Online Joymax"; Filename: "{app}\AdvancedLauncher.exe";
-Name: "{group}\Digimon Masters Online Aeria"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOAeria";
-Name: "{group}\Digimon Masters Online KDMO"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKorea";
-Name: "{group}\Digimon Masters Online KDMO IMBC"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKoreaIMBC";
-
-Name: "{commondesktop}\Digimon Masters Online Joymax"; Filename: "{app}\AdvancedLauncher.exe"; Tasks: desktopicon
-Name: "{commondesktop}\Digimon Masters Online Aeria"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOAeria"; Tasks: desktopicon
-Name: "{commondesktop}\Digimon Masters Online KDMO"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKorea"; Tasks: desktopicon
-Name: "{commondesktop}\Digimon Masters Online KDMO IMBC"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKoreaIMBC"; Tasks: desktopicon
-
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online Joymax"; Filename: "{app}\AdvancedLauncher.exe"; Tasks: quicklaunchicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online Aeria"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOAeria"; Tasks: quicklaunchicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online KDMO"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKorea"; Tasks: quicklaunchicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online KDMO IMBC"; Filename: "{app}\AdvancedLauncher.exe"; Parameters: "DMOKoreaIMBC"; Tasks: quicklaunchicon
+Name: "{group}\Digimon Masters Online"; Filename: "{app}\AdvancedLauncher.exe";
+Name: "{commondesktop}\Digimon Masters Online"; Filename: "{app}\AdvancedLauncher.exe"; Tasks: desktopicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters Online"; Filename: "{app}\AdvancedLauncher.exe"; Tasks: quicklaunchicon
 
 [Code]
 function TrimSlash(const Path: String): String;

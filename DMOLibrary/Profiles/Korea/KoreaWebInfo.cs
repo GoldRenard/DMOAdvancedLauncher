@@ -45,6 +45,7 @@ namespace DMOLibrary.Profiles.Korea
 
         public override guild GetGuild(string g_name, server serv, bool isDetailed, int ActualDays)
         {
+            if (IsBusy) DispatcherHelper.DoEvents();
             OnStarted();
             if (Database.OpenConnection())
             {
@@ -130,7 +131,7 @@ namespace DMOLibrary.Profiles.Korea
             return empty;
         }
 
-        public override bool GetGuildInfo(ref guild g, bool isDetailed)
+        protected override bool GetGuildInfo(ref guild g, bool isDetailed)
         {
             List<tamer> tamer_list = new List<tamer>();
             HtmlDocument doc = new HtmlDocument();
@@ -193,7 +194,7 @@ namespace DMOLibrary.Profiles.Korea
             return true;
         }
 
-        public override List<digimon> GetDigimons(tamer tamer, bool isDetailed)
+        protected override List<digimon> GetDigimons(tamer tamer, bool isDetailed)
         {
             List<digimon> digi_list = new List<digimon>();
             HtmlDocument doc = new HtmlDocument();
@@ -258,7 +259,7 @@ namespace DMOLibrary.Profiles.Korea
             return digi_list;
         }
 
-        public override bool StarterInfo(ref digimon digimon, string tamer_name)
+        protected override bool StarterInfo(ref digimon digimon, string tamer_name)
         {
             HtmlDocument doc = new HtmlDocument();
 
@@ -299,7 +300,7 @@ namespace DMOLibrary.Profiles.Korea
             return false;
         }
 
-        public override bool DigimonInfo(ref digimon digimon, string tamer_name)
+        protected override bool DigimonInfo(ref digimon digimon, string tamer_name)
         {
             //we don't need starters info
             if (digimon.Type_id == 31003 || digimon.Type_id == 31002 || digimon.Type_id == 31004 || digimon.Type_id == 31001)

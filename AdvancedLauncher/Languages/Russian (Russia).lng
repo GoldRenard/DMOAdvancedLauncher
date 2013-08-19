@@ -1,166 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Translation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <LANGUAGE_NAME>Русский</LANGUAGE_NAME>
-  <LANG_AUTHOR>Ilya Egorov aka GoldRenard (goldrenard@gmail.com)</LANG_AUTHOR>
-  
-  <!-- SHARED -->
-  <ERROR>Ошибка</ERROR>
-  <CANT_OPEN_LINK>Не удается открыть ссылку. Попробуйте изменить браузер по-умолчанию. Ошибка: </CANT_OPEN_LINK>
-  <BROWSE>Обзор</BROWSE>
-  <CLOSE>Закрыть</CLOSE>
-  <CANCEL>Отмена</CANCEL>
-  <APPLY>Применить</APPLY>
-  <PLEASE_WAIT>Пожалуйста, подождите...</PLEASE_WAIT>
-  <NEED_CLOSE_GAME>Пожалуйста, закройте игру.</NEED_CLOSE_GAME>
-  <NEED_CLOSE_DEF_LAUNCHER>Пожалуйста, закройте стандартный лаунчер.</NEED_CLOSE_DEF_LAUNCHER>
-  <GAME_FILES_IN_USE>Нет доступа к требуемым файлам игры. Пожалуйста, закройте все использующие их программы.</GAME_FILES_IN_USE>
-  
-  <!-- MAIN WINDOW -->
-  <MAIN_NEWS_TAB>НОВОСТИ</MAIN_NEWS_TAB>
-  <MAIN_GALLERY_TAB>ГАЛЕРЕЯ</MAIN_GALLERY_TAB>
-  <MAIN_COMMUNITY_TAB>СООБЩЕСТВО</MAIN_COMMUNITY_TAB>
-  <MAIN_CUSTOMIZATION_TAB>ПЕРСОНАЛИЗАЦИЯ</MAIN_CUSTOMIZATION_TAB>
-  
-  <!-- NEWS PAGE -->
-  <MAIN_START_GAME>НАЧАТЬ ИГРУ</MAIN_START_GAME>
-  <MAIN_START_WAITING>ОЖИДАНИЕ</MAIN_START_WAITING>
-  <MAIN_UPDATE_GAME>ОБНОВИТЬ ИГРУ</MAIN_UPDATE_GAME>
-  <MAIN_SHOW_TAB>НОВОСТИ:</MAIN_SHOW_TAB>
-  
-  <!-- LOGIN WINDOW -->
-  <LOGIN_START_LAST_SESSION>Запустить последнюю сессию</LOGIN_START_LAST_SESSION>
-  <LOGIN_LOGIN>логин</LOGIN_LOGIN>
-  <LOGIN_PASSWORD>пароль</LOGIN_PASSWORD>
-  <LOGIN_SAVEPASS>Запомнить пароль</LOGIN_SAVEPASS>
-  <LOGIN_TRY_TEXT>Попытка {0}</LOGIN_TRY_TEXT>
-  <LOGIN_GETTING_DATA>Получение данных...</LOGIN_GETTING_DATA>
-  <LOGIN_LOGINNING>Вход в учетную запись...</LOGIN_LOGINNING>
-  <LOGIN_WAS_ERROR>(была ошибка {0})</LOGIN_WAS_ERROR>
-  <LOGIN_BAD_LOGIN_PW>Не удается войти в учетную запись. Возможно, неправильный логин или пароль.</LOGIN_BAD_LOGIN_PW>
-  <LOGIN_EMPTY_LOGIN>Пожалуйста, введите логин!</LOGIN_EMPTY_LOGIN>
-  <LOGIN_EMPTY_PASSWORD>Пожалуйста, введите пароль!</LOGIN_EMPTY_PASSWORD>
-  <LOGIN_CANT_LOGIN>Страница входа изменена или некорректна. Пожалуйста, обратитесь к разработчику лаунчера.</LOGIN_CANT_LOGIN>
-  
-  <!-- NEWS PAGE - GAME UPDATER -->
-  <UPDATE_CANT_GET_GAME_VERSION>Не удается получить версию игры</UPDATE_CANT_GET_GAME_VERSION>
-  <UPDATE_CANT_CONNECT_TO_JOYMAX>Не удается подключиться к серверу обновлений JOYMAX.</UPDATE_CANT_CONNECT_TO_JOYMAX>
-  <UPDATE_DOWNLOADING>Загрузка обновления {0} из {1}... [{2:0.00}MB / {3:0.00}MB]</UPDATE_DOWNLOADING>
-  <UPDATE_EXTRACTING>Распаковка обновления {0} из {1}... [{2} / {3}]</UPDATE_EXTRACTING>
-  <UPDATE_INSTALLING>Установка обновлений... [{0} / {1}]</UPDATE_INSTALLING>
-  
-  <!-- NEWS PAGE - NEWS BLOCK -->
-  <NEWS_TYPE_NOTICE>уведомление</NEWS_TYPE_NOTICE>
-  <NEWS_TYPE_EVENT>событие</NEWS_TYPE_EVENT>
-  <NEWS_TYPE_PATCH>обновление</NEWS_TYPE_PATCH>
-  <NEWS_CANT_GET_TWITLIST>Не удалось получить список твитов</NEWS_CANT_GET_TWITLIST>
-  <NEWS_PUBLICATION_DATE>Дата публикации</NEWS_PUBLICATION_DATE>
-  <NEWS_READ_MORE>Подробнее...</NEWS_READ_MORE>
-  
-  <!-- NEWS PAGE - DIGIMON ROTATION -->
-  <ROT_LOADING>Загрузка списка Дигимонов</ROT_LOADING>
-  <ROT_TAMER>Теймер</ROT_TAMER>
-  <ROT_LEVEL>уровень</ROT_LEVEL>
-  <ROT_ERRMSG1>Произошла ошибка!</ROT_ERRMSG1>
-  <ROT_ERRMSG2>Проверьте Ваше соединение с интернетом.</ROT_ERRMSG2>
-  
-  <!-- GALLERY PAGE -->
-  <GAL_HELP>КЛИКНИТЕ ДВАЖДЫ ПО СКРИНШОТУ ДЛЯ ОТКРЫТИЯ</GAL_HELP>
-  <GAL_NOSCREENSHOTS>НЕТ НИ ОДНОГО СКРИНШОТА</GAL_NOSCREENSHOTS>
-  <GAL_CANT_OPEN>Не удается открыть изображение. Ошибка: </GAL_CANT_OPEN>
-  
-  <!-- COMMUNITY PAGE -->
-  <COMM_SHOWTAB>ПОКАЗАТЬ:</COMM_SHOWTAB>
-  <COMM_TAMERS_TAB>ТЕЙМЕРОВ</COMM_TAMERS_TAB>
-  <COMM_DIGIMONS_TAB>ДИГИМОНОВ</COMM_DIGIMONS_TAB>
-  
-  <COMM_SELECT_GUILD>Какую гильдию ищем:</COMM_SELECT_GUILD>
-  <COMM_CB_DETAILED>Получать подробные данные (долго)</COMM_CB_DETAILED>
-  <COMM_BTN_SEARCH>Найти гильдию</COMM_BTN_SEARCH>
+<Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <COMM_INFO>Информация:</COMM_INFO>
-  <COMM_GMASTER>Мастер:</COMM_GMASTER>
-  <COMM_GBEST>Лучший:</COMM_GBEST>
-  <COMM_GRANK>Ранг:</COMM_GRANK>
-  <COMM_GREP>Репутация:</COMM_GREP>
-  <COMM_TAMER_COUNT>Количество теймеров:</COMM_TAMER_COUNT>
-  <COMM_DIGIMON_COUNT>Количество Дигимонов:</COMM_DIGIMON_COUNT>
+  <CantOpenLink>Не удается открыть ссылку. Попробуйте изменить браузер по-умолчанию. Ошибка: </CantOpenLink>
+  <Error>Ошибка</Error>
+  <CreateButton>Создать</CreateButton>
+  <DeleteButton>Удалить</DeleteButton>
+  <BrowseButton>Обзор</BrowseButton>
+  <ApplyButton>Применить</ApplyButton>
+  <CancelButton>Отмена</CancelButton>
+  <CloseButton>Закрыть</CloseButton>
+  <StartButton>Начать игру</StartButton>
+  <WaitForComplete>Пожалуйста, дождитесь завершения текущей операции</WaitForComplete>
+  <PleaseWait>Пожалуйста, подождите</PleaseWait>
+  <ErrorOccured>Произошла ошибка!</ErrorOccured>
+  <ConnectionError>Проверьте Ваше соединение с интернетом.</ConnectionError>
+  <DBConnectionError>Ошибка соединения с базой данных.</DBConnectionError>
+  <CantGetError>Не удается получить информацию.</CantGetError>
+  <GuildNotFoundError>Гильдия не найдена, проверьте настройки.</GuildNotFoundError>
+  <GameFilesInUse>Не удается получить доступ к файлам игры. Пожалуйста, закройте все программы, использующих их.</GameFilesInUse>
+  <PleaseCloseGame>Пожалуйста, закройте игру.</PleaseCloseGame>
+  <PleaseSelectGamePath>Пожалуйста, укажите правильный путь к папке с игрой в настройках лаунчера.</PleaseSelectGamePath>
+  <PleaseSelectLauncherPath>Пожалуйста, укажите правильный путь к папке со стандартным лаунчером в настройках.</PleaseSelectLauncherPath>
+
+  <MainWindow_NewsTab>НОВОСТИ</MainWindow_NewsTab>
+  <MainWindow_GalleryTab>ГАЛЕРЕЯ</MainWindow_GalleryTab>
+  <MainWindow_CommunityTab>СООБЩЕСТВО</MainWindow_CommunityTab>
+  <MainWindow_PersonalizationTab>Персонализация</MainWindow_PersonalizationTab>
+
+  <About>О программе</About>
+  <About_Version>Версия</About_Version>
+  <About_Developer>Разработчик</About_Developer>
+  <About_DesignHelp>Помощь по дизайну</About_DesignHelp>
+  <About_Acknowledgments>Благодарности</About_Acknowledgments>
+  <About_Translators>Переводы</About_Translators>
+  <About_Licence404>Файл текста лицензии "{0}" не найден.</About_Licence404>
+
+  <Settings>Настройки</Settings>
+  <Settings_Language>Язык</Settings_Language>
+  <Settings_LastProfile>Невозможно удалить последний профиль. Лаунчер должен иметь как минимум один.</Settings_LastProfile>
+  <Settings_MainGroup>Профиль</Settings_MainGroup>
+  <Settings_RotationGroup>ДигиРотация</Settings_RotationGroup>
+  <Settings_NewsGroup>Новости</Settings_NewsGroup>
+  <Settings_GameGroup>Игра</Settings_GameGroup>
+  <Settings_AccountGroup>Учетная запись</Settings_AccountGroup>
+  <Settings_ProfileNameHint>Введите имя профиля</Settings_ProfileNameHint>
+  <Settings_SetAsDefaultButton>Назначить профилем по-умолчанию</Settings_SetAsDefaultButton>
+  <Settings_RotationGuildHint>Гильдия для ротации</Settings_RotationGuildHint>
+  <Settings_RotationTamerHint>Теймер для ротации (опционально)</Settings_RotationTamerHint>
+  <Settings_RotationUpdateFREQ>Частота обновления (в днях)</Settings_RotationUpdateFREQ>
+  <Settings_TwitterHint>Twitter URL (JSON-источник)</Settings_TwitterHint>
+  <Settings_FirstNewsTab>Начальная вкладка новостей</Settings_FirstNewsTab>
+  <Settings_ClientType>Тип клиента</Settings_ClientType>
+  <Settings_GamePath>Путь к игре</Settings_GamePath>
+  <Settings_LauncherPath>Путь к стандартному лаунчеру</Settings_LauncherPath>
+  <Settings_UpdateEngine>Интегрированная система обновления</Settings_UpdateEngine>
+  <Settings_AppLocale>Запускать через Microsoft AppLocale</Settings_AppLocale>
+  <Settings_AppLocale_Help>Почему неактивно?</Settings_AppLocale_Help>
+  <Settings_Account_User>Имя пользователя</Settings_Account_User>
+  <Settings_Account_Password>Пароль</Settings_Account_Password>
+  <Settings_SelectGameDir>Пожалуйста, выберите папку с игрой</Settings_SelectGameDir>
+  <Settings_SelectGameDirError>Вы должны указать правильную папку с игрой</Settings_SelectGameDirError>
+  <Settings_SelectLauncherDir>Пожалуйста, укажите папку со стандартным лаунчером</Settings_SelectLauncherDir>
+  <Settings_SelectLauncherDirError>Вы должны указать правильную папку со стандартным лаунчером</Settings_SelectLauncherDirError>
+
+  <AppLocale_FailReasons>Не удается использовать AppLocale по следующим причинам:</AppLocale_FailReasons>
+  <AppLocale_Error>Ошибка Microsoft AppLocale</AppLocale_Error>
+  <AppLocale_NotInstalled> - Не установлена служебная программа Microsoft AppLocale</AppLocale_NotInstalled>
+  <AppLocale_EALNotInstalled> - Не установлена поддержка языков с письмом иероглифами</AppLocale_EALNotInstalled>
+  <AppLocale_FixQuestion>Перейти прямо сейчас к странице загрузки и/или инструкций по исправлению данных ошибок?</AppLocale_FixQuestion>
   
-  <COMM_TB_GUILD_NAME>Название гильдии</COMM_TB_GUILD_NAME>
-  <COMM_TB_EMPTY_MSG>Введите название гильдии!</COMM_TB_EMPTY_MSG>
-  <COMM_TB_INCORRECT>Название гильдии содержит недопустимые символы!</COMM_TB_INCORRECT>
+  <RotationLevelText>уровень</RotationLevelText>
+  <RotationDownloading>Загрузка данных...</RotationDownloading>
+  <RotationTamer>Теймер</RotationTamer>
+
+  <News>Новости</News>
+  <NewsPubDate>Дата публикации</NewsPubDate>
+  <NewsReadMore>Подробнее...</NewsReadMore>
+  <NewsTwitterError>Не удается получить список твитов</NewsTwitterError>
+  <NewsType_Notice>уведомление</NewsType_Notice>
+  <NewsType_Event>ивент</NewsType_Event>
+  <NewsType_Patch>патч</NewsType_Patch>
   
-  <COMM_STATUS_GUILD_SEARCHING>Поиск гильдии</COMM_STATUS_GUILD_SEARCHING>
-  <COMM_STATUS_TAMER_GETTING>Получение теймера: {0}</COMM_STATUS_TAMER_GETTING>
+  <GameButton_Waiting>Ожидание</GameButton_Waiting>
+  <GameButton_UpdateGame>Обновить игру</GameButton_UpdateGame>
+  <UpdateCantGetVersion>Не удалось получить версию игры.</UpdateCantGetVersion>
+  <UpdateCantConnect>Не удалось подключиться к серверам обновлений.</UpdateCantConnect>
+  <UpdateDownloading>Загрузка обновления {0} из {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
+  <UpdateExtracting>Распаковка обновления {0} из {1}... [{2} / {3}]</UpdateExtracting>
+  <UpdateInstalling>Установка обновлений... [{0} / {1}]</UpdateInstalling>
+  <UseLastSession>Использовать последнюю сессию</UseLastSession>
   
-  <COMM_LHEADER_TYPE>Тип</COMM_LHEADER_TYPE>
-  <COMM_LHEADER_LEVEL>Уровень</COMM_LHEADER_LEVEL>
-  <COMM_LHEADER_RANKING>Ранк</COMM_LHEADER_RANKING>
-  <COMM_LHEADER_TAMER>Теймер</COMM_LHEADER_TAMER>
-  <COMM_LHEADER_PARTNER>Партнёр</COMM_LHEADER_PARTNER>
-  <COMM_LHEADER_MERCENARY>Дигимонов</COMM_LHEADER_MERCENARY>
-  <COMM_LHEADER_NAME>Имя</COMM_LHEADER_NAME>
-  <COMM_LHEADER_SIZE>Размер</COMM_LHEADER_SIZE>
+  <LoginTry>Попытка {0}...</LoginTry>
+  <LoginGettingData>Получение данных...</LoginGettingData>
+  <LoginLogIn>Вход в учетную запись...</LoginLogIn>
+  <LoginWasError>была ошибка</LoginWasError>
+  <LoginBadAccount>Не удается войти в учетную запись. Возможно, неправильное имя пользователя или пароль</LoginBadAccount>
+  <LoginEmptyUsername>Пожалуйста, введите имя пользователя!</LoginEmptyUsername>
+  <LoginEmptyPassword>Пожалуйста, введите пароль!</LoginEmptyPassword>
+  <LoginWrongPage>Удаленная страница авторизации испорчена или изменена. Пожалуйста, сообщите разработчику об этой ошибке.</LoginWrongPage>
+
+  <GalleryHint>Кликните дважды по скриншоту для открытия</GalleryHint>
+  <GalleryNoScreenshots>Скриншоты не найдены</GalleryNoScreenshots>
+  <GalleryCantOpenImage>Не удается открыть изображение. Ошибка: </GalleryCantOpenImage>
+
+  <PersonalizationWrongTGA>Это не TGA-изображение!</PersonalizationWrongTGA>
+  <PersonalizationCantSave>Не удается сохранить изображение.</PersonalizationCantSave>
+  <PersonalizationCantWrite>Не удается записать изображение в игру.</PersonalizationCantWrite>
+  <PersonalizationSelectTitle>Выберите изображение:</PersonalizationSelectTitle>
+  <PersonalizationSelectMessage>Кликните сюда для выбора изображения</PersonalizationSelectMessage>
+  <PersonalizationCurrentTitle>Текущее изображение:</PersonalizationCurrentTitle>
+  <PersonalizationSaveButton>Сохранить текущее изображение</PersonalizationSaveButton>
+
+  <CommGuildName>Название гильдии</CommGuildName>
+  <CommGuildNameEmpty>Введите название гильдии!</CommGuildNameEmpty>
+  <CommWrongGuildName>Название гильдии содержит недопустимые символы!</CommWrongGuildName>
   
-  <COMM_CANT_GET_GUILD>Не удается получить информацию о гильдии</COMM_CANT_GET_GUILD>
-  <COMM_CANT_CONNECT_TO_DB>Не удается подключиться к локальной базе данных</COMM_CANT_CONNECT_TO_DB>
-  <COMM_GUILD_NOT_FOUND>Такая гильдия не найдена</COMM_GUILD_NOT_FOUND>
-  <COMM_GUILD_NO_CONNECTION>Не удается получить информацию, проверьте соединение с интернетом</COMM_GUILD_NO_CONNECTION>
+  <CommSearchingGuild>Поиск гильдии</CommSearchingGuild>
+  <CommGettingTamer>Получение теймера: {0}</CommGettingTamer>
   
-  <!-- CUSTOMIZATION PAGE -->
-  <CUST_SELECT_PICTURE>Выберите изображение:</CUST_SELECT_PICTURE>
-  <CUST_SELECT_MESSAGE>Нажмите сюда, чтобы выбрать изображение</CUST_SELECT_MESSAGE>
-  <CUST_CURRENT_PICTURE>Текущее изображение:</CUST_CURRENT_PICTURE>
-  <CUST_SAVE_PICTURE>Сохранить текущее изображение</CUST_SAVE_PICTURE>
-  <CUST_SELECT_TITLE>Выберите TGA-изображение</CUST_SELECT_TITLE>
-  <CUST_SAVE_TITLE>Сохранить изображение</CUST_SAVE_TITLE>
-  <CUST_CANT_OPEN_FS>Не удалось получить доступ к файлам игры :(</CUST_CANT_OPEN_FS>
-  <CUST_WRONG_TGA>Это не TGA-изображение!</CUST_WRONG_TGA>
-  <CUST_CANT_SAVE>Не удалось сохранить изображение.</CUST_CANT_SAVE>
-  <CUST_CANT_WRITE>Не удалось записать изображение в игру!</CUST_CANT_WRITE>
-  <CUST_GAME_FILE_NOT_FOUND>Файл "{0}" не найден или отсутствует доступ к игровым ресурсам.</CUST_GAME_FILE_NOT_FOUND>
-  <CUST_RES_FILE_NOT_FOUND>Файл списка ресурсов "{0}" не найден или пуст. Пожалуйста, заполните его.</CUST_RES_FILE_NOT_FOUND>
+  <CommShowTab>ПОКАЗАТЬ</CommShowTab>
+  <CommTamersTab>ТЕЙМЕРОВ</CommTamersTab>
+  <CommDigimonsTab>ДИГИМОНОВ</CommDigimonsTab>
+
+  <CommSelect_Guild>Какую гильдию ищем</CommSelect_Guild>
+  <CommCheckBox_Detailed>Получать подробные данные (долго)</CommCheckBox_Detailed>
+  <CommButton_Search>Найти гильдию</CommButton_Search>
+
+  <CommInformation>Информация</CommInformation>
+  <CommGMaster>Мастер</CommGMaster>
+  <CommGBest>Лучший</CommGBest>
+  <CommGRank>Ранг</CommGRank>
+  <CommGRep>Репутация</CommGRep>
+  <CommGTCnt>Количество теймеров</CommGTCnt>
+  <CommGDCnt>Количество Дигимонов</CommGDCnt>
+
+  <CommHeader_Type>Тип</CommHeader_Type>
+  <CommHeader_Level>Уровень</CommHeader_Level>
+  <CommHeader_Ranking>Ранк</CommHeader_Ranking>
+  <CommHeader_Tamer>Теймер</CommHeader_Tamer>
+  <CommHeader_Partner>Партнёр</CommHeader_Partner>
+  <CommHeader_Mercenary>Дигимонов</CommHeader_Mercenary>
+  <CommHeader_Name>Имя</CommHeader_Name>
+  <CommHeader_Size>Размер</CommHeader_Size>
   
-  <!-- SETTINGS POPUP -->
-  <SELECT_GAME_DIR>Пожалуйста, укажите папку с игрой</SELECT_GAME_DIR>
-  <SELECT_GAME_DIR_WRONG>Необходимо указать правильную папку с игрой.</SELECT_GAME_DIR_WRONG>
-  <SETTINGS_CANT_USE_APPLOC>Нельзя запустить игру через AppLocale по следующим причинам:</SETTINGS_CANT_USE_APPLOC>
-  <SETTINGS_CANT_USE_APPLOC_CAPTION>Запуск через AppLocale сейчас невозможен</SETTINGS_CANT_USE_APPLOC_CAPTION>
-  <SETTINGS_APPLOC_ISNT_INSTALLED> - Не установлена служебная программа Microsoft AppLocale</SETTINGS_APPLOC_ISNT_INSTALLED>
-  <SETTINGS_ALP_ISNT_INSTALLED> - Не установлена поддержка языков с письмом иероглифами</SETTINGS_ALP_ISNT_INSTALLED>
-  <SETTINGS_QUESTION_DOWNLOAD_NOW>Перейти прямо сейчас к странице загрузки и инструкций по исправлению данных ошибок?</SETTINGS_QUESTION_DOWNLOAD_NOW>
-  <SETTINGS_NEED_RESTART>Некоторые изменения вступят в силу после перезапуска лаунчера.</SETTINGS_NEED_RESTART>
-  <SETTINGS_NEED_RESTART_CAPTION>Перезапуск</SETTINGS_NEED_RESTART_CAPTION>
-  
-  <SETTINGS_LANG>Язык лаунчера:</SETTINGS_LANG>
-  <SETTINGS_ROTATION_GUILD>Гильдия для ротации Дигимонов:</SETTINGS_ROTATION_GUILD>
-  <SETTINGS_ROT_UPD_FREQ>Частота обновления (дни):</SETTINGS_ROT_UPD_FREQ>
-  
-  <SETTINGS_NEWS>Настройка новостей:</SETTINGS_NEWS>
-  <SETTINGS_TWITTER_JSON>Ссылка на JSON-источник твитов:</SETTINGS_TWITTER_JSON>
-  <SETTINGS_TWITTER_JSON_LINK_WRONG>Неправильная ссылка на JSON-источник твитов!</SETTINGS_TWITTER_JSON_LINK_WRONG>
-  <SETTINGS_START_NEWS>Начальная вкладка новостей:</SETTINGS_START_NEWS>
-  
-  <SETTINGS_GAME>Настройка игры:</SETTINGS_GAME>
-  <SETTINGS_GAME_PATH>Путь к игре:</SETTINGS_GAME_PATH>
-  <SETTINGS_LAUNCHER_PATH>Путь к лаунчеру (D-Player):</SETTINGS_LAUNCHER_PATH>
-  <SETTINGS_USE_UPDATER>Обновлять игру</SETTINGS_USE_UPDATER>
-  <SETTINGS_USE_APPLOCALE>Использовать AppLocale для запуска</SETTINGS_USE_APPLOCALE>
-  <SETTINGS_APPLOCALE_HELP>Помощь</SETTINGS_APPLOCALE_HELP>
-  
-  <!-- APPLICATION LAUNCHER (APPLOCALE) -->
-  <APPLAUNCHER_APPLOCALE_NOT_FOUND_MSG>Microsoft AppLocale не был найден на этом компьютере. Хотите скачать и установить его сейчас?</APPLAUNCHER_APPLOCALE_NOT_FOUND_MSG>
-  <APPLAUNCHER_APPLOCALE_NOT_FOUND_TITLE>Microsoft AppLocale не найден</APPLAUNCHER_APPLOCALE_NOT_FOUND_TITLE>
-  <APPLAUNCHER_APPLOCALE_CANT_PATCH>Не удалось модифицирвать Microsoft AppLocale.</APPLAUNCHER_APPLOCALE_CANT_PATCH>
-  <APPLAUNCHER_CANT_EXECURE>Не удается запустить программу</APPLAUNCHER_CANT_EXECURE>
-  
-  <!-- ABOUT POPUP -->
-  <ABOUT_VERSION>Версия</ABOUT_VERSION>
-  <ABOUT_DEV>Разработчик</ABOUT_DEV>
-  <ABOUT_DES>Помощь по дизайну</ABOUT_DES>
-  <ABOUT_PROJECTS>В проекте использованы наработки</ABOUT_PROJECTS>
-  
-  <!-- LAUNCHER UPDATER -->
-  <LAUNCHER_UPDATE_NEW_AVAILABLE>Доступна новая версия лаунчера {0}. Изменения:</LAUNCHER_UPDATE_NEW_AVAILABLE>
-  <LAUNCHER_UPDATE_NEW_AVAILABLE_CAPTION>Доступна новая версия лаунчера {0}</LAUNCHER_UPDATE_NEW_AVAILABLE_CAPTION>
-  <LAUNCHER_Q_UPDATE_WANT_DOWNLOAD>Хотите скачать прямо сейчас?</LAUNCHER_Q_UPDATE_WANT_DOWNLOAD>
-</Translation>
+  <UpdateAvailableText>Доступна новая версия лаунчера - {0}. Список изменений:</UpdateAvailableText>
+  <UpdateAvailableCaption>Доступна новая версия лаунчера - {0}</UpdateAvailableCaption>
+  <UpdateDownloadQuestion>Хотите перейти на страницу загрузки прямо сейчас?</UpdateDownloadQuestion>
+</Language>

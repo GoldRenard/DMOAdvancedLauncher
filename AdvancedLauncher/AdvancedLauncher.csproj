@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0FF01280-2987-4DC0-82DB-CC1901262A24}</ProjectGuid>
+    <ProjectGuid>{91A457B6-E472-4D26-8666-BBCCF930707E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AdvancedLauncher</RootNamespace>
@@ -13,23 +13,6 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>D:\WebSite\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,31 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>app_icon.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>F41790459F6CBF1EA6F2E3D852089D01F4D72946</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>AdvancedLauncher_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>AdvancedLauncher.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -83,7 +43,9 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Release\</OutputPath>
@@ -93,33 +55,32 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\Libs\HtmlAgilityPack.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Libs\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Ookii.Dialogs.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Ookii.Dialogs.Wpf.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -129,171 +90,134 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Pages\MainPage\Controls\LoginWindow\LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MainPage\Controls\GameUpdater\GameUpdater.xaml.cs">
-      <DependentUpon>GameUpdater.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Community\Controls\TDBlock_DC.cs" />
-    <Compile Include="Pages\Community\Controls\TDBlock.xaml.cs">
+    <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Community\Community.xaml.cs">
-      <DependentUpon>Community.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Community\Controls\TamerItemViewModel.cs" />
-    <Compile Include="Pages\Community\Controls\TamerViewModel.cs" />
-    <Compile Include="Pages\Community\Controls\DigimonViewModel.cs" />
-    <Compile Include="Pages\Community\Controls\ServerItemViewModel.cs" />
-    <Compile Include="Pages\Community\Controls\ServerViewModel.cs" />
-    <Compile Include="Pages\Community\Community_DC.cs" />
-    <Compile Include="Pages\MainPage\MainPage_DC.cs" />
-    <Compile Include="Pages\Personalization\ResourceItemViewModel.cs" />
-    <Compile Include="Pages\Personalization\ResourceViewModel.cs" />
-    <Compile Include="Service\MiniDump.cs" />
-    <Compile Include="Service\ProcessExtensions.cs" />
-    <Compile Include="Service\UpdateChecker.cs" />
-    <Compile Include="Pages\MainPage\Controls\NewsBlock\TwitterReader.cs" />
-    <Compile Include="Windows\About\About_DC.cs" />
-    <Compile Include="Pages\Gallery\Gallery_DC.cs" />
-    <Compile Include="Pages\MainPage\Controls\DigiRotation\DigiRotation_DC.cs" />
-    <Compile Include="Pages\MainPage\Controls\NewsBlock\NewsBlock_DC.cs" />
-    <Compile Include="Pages\Personalization\Personalization_DC.cs" />
-    <Compile Include="Pages\MainPage\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Service\LanguageProvider.cs" />
-    <Compile Include="Service\ApplicationHelper.cs" />
-    <Compile Include="Windows\About\About.xaml.cs">
-      <DependentUpon>About.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MainPage\Controls\DigiRotation\DigiRotation.xaml.cs">
+    <Compile Include="Controls\TDBlock\DigimonItemViewModel.cs" />
+    <Compile Include="Controls\DigiRotation\DigiRotation.xaml.cs">
       <DependentUpon>DigiRotation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Gallery\Gallery.xaml.cs">
-      <DependentUpon>Gallery.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Personalization\Personalization.xaml.cs">
-      <DependentUpon>Personalization.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MainPage\Controls\Footer\Footer.xaml.cs">
+    <Compile Include="Controls\DigiRotation\DInfoItemViewModel.cs" />
+    <Compile Include="Controls\Footer.xaml.cs">
       <DependentUpon>Footer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MainPage\Controls\NewsBlock\NewsBlock.xaml.cs">
+    <Compile Include="Controls\GameControl.xaml.cs">
+      <DependentUpon>GameControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NewsBlock\NewsBlock.xaml.cs">
       <DependentUpon>NewsBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Gallery\jpeg_enc.cs" />
-    <Compile Include="Pages\Personalization\TargaImage.cs" />
-    <Compile Include="Pages\MainPage\Controls\LoginWindow\LoginWindow_DC.cs" />
-    <Compile Include="Windows\MainWindow\MainWindow_DC.cs" />
-    <Compile Include="Windows\Settings\Settings_DC.cs" />
-    <Compile Include="Windows\Settings\Settings.xaml.cs">
+    <Compile Include="Controls\NewsBlock\JoymaxViewModel.cs" />
+    <Compile Include="Controls\NewsBlock\JoymaxItemViewModel.cs" />
+    <Compile Include="Controls\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NewsBlock\TwitterItemViewModel.cs" />
+    <Compile Include="Controls\NewsBlock\TwitterViewModel.cs" />
+    <Compile Include="Controls\TDBlock\DigimonViewModel.cs" />
+    <Compile Include="Controls\TDBlock\TamerItemViewModel.cs" />
+    <Compile Include="Controls\TDBlock\TamerViewModel.cs" />
+    <Compile Include="Environment\Containers\NewsData.cs" />
+    <Compile Include="Environment\Containers\RotationData.cs" />
+    <Compile Include="Environment\GameEnv.cs" />
+    <Compile Include="Environment\Containers\LoginData.cs" />
+    <Compile Include="Environment\Containers\Profile.cs" />
+    <Compile Include="Environment\Containers\Settings.cs" />
+    <Compile Include="Environment\LanguageEnv.cs" />
+    <Compile Include="Pages\Community.xaml.cs">
+      <DependentUpon>Community.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Gallery.xaml.cs">
+      <DependentUpon>Gallery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Personalization.xaml.cs">
+      <DependentUpon>Personalization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Service\ApplicationLauncher.cs" />
+    <Compile Include="Service\DispatcherHelper.cs" />
+    <Compile Include="Service\FingerPrint.cs" />
+    <Compile Include="Service\InstanceChecker.cs" />
+    <Compile Include="Environment\LauncherEnv.cs" />
+    <Compile Include="Service\IntConverter.cs" />
+    <Compile Include="Service\JpegEncoder.cs" />
+    <Compile Include="Service\ParentProcessUtilities.cs" />
+    <Compile Include="Service\PassEncrypt.cs" />
+    <Compile Include="Service\TargaImage.cs" />
+    <Compile Include="Service\TaskManager.cs" />
+    <Compile Include="Service\UACHelper.cs" />
+    <Compile Include="Service\UpdateChecker.cs" />
+    <Compile Include="Service\Utils.cs" />
+    <Compile Include="Validators\GuildNameValidationRule.cs" />
+    <Compile Include="Validators\NameValidationRule.cs" />
+    <Compile Include="Validators\ProfileNameValidationRule.cs" />
+    <Compile Include="Validators\URLValidationRule.cs" />
+    <Compile Include="Validators\SettingsGamePathValidationRule.cs" />
+    <Compile Include="Validators\SettingsLauncherPathValidationRule.cs" />
+    <Compile Include="Windows\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Service\SettingsProvider.cs" />
-    <Compile Include="Service\Utils.cs" />
-    <Compile Include="Pages\MainPage\Controls\DigiRotation\DInfoViewModel.cs" />
-    <Compile Include="Pages\Community\Controls\DigimonItemViewModel.cs" />
-    <Compile Include="Pages\Gallery\GalleryItemViewModel.cs" />
-    <Compile Include="Pages\Gallery\GalleryViewModel.cs" />
-    <Compile Include="Pages\MainPage\Controls\NewsBlock\TwitterItemViewModel.cs" />
-    <Compile Include="Pages\MainPage\Controls\NewsBlock\TwitterViewModel.cs" />
-    <Compile Include="Pages\MainPage\Controls\NewsBlock\JoymaxItemViewModel.cs" />
-    <Compile Include="Pages\MainPage\Controls\NewsBlock\JoymaxViewModel.cs" />
-    <Page Include="Pages\MainPage\Controls\LoginWindow\LoginPage_res.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\MainPage\Controls\LoginWindow\LoginWindow.xaml">
+    <Page Include="Controls\DigiRotation\DigiRotation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainPage\Controls\GameUpdater\GameUpdater.xaml">
+    <Page Include="Controls\Footer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Community\Controls\TDBlock.xaml">
+    <Page Include="Controls\GameControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Community\Community.xaml">
+    <Page Include="Controls\HintPasswordBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Community\Controls\TDBlock_res.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Controls\MainMenu.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Pages\Community\Controls\TamerViewModelSampleData.xaml">
+    <DesignData Include="Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <DesignData Include="Pages\Community\CommunitySampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="Pages\MainPage\MainPageSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <Page Include="Pages\MainPage\Controls\GameUpdater\GameUpdater_res.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\About\About.xaml">
+    <Page Include="Controls\NewsBlock\NewsBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Windows\About\AboutSampleData.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </DesignData>
-    <DesignData Include="Pages\Gallery\GallerySampleData.xaml">
+    <DesignData Include="Controls\NewsBlock\TwitterViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="Pages\MainPage\Controls\Footer\Footer.xaml">
+    <Page Include="Controls\TDBlock\TDBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Gallery\Gallery.xaml">
+    <Page Include="Pages\Community.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Pages\MainPage\Controls\DigiRotation\DigiRotationSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="Pages\MainPage\Controls\NewsBlock\NewsBlockSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="Pages\Personalization\PersonalizationSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <Page Include="Pages\Personalization\Personalization.xaml">
+    <Page Include="Pages\Gallery.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainPage\Controls\DigiRotation\DigiRotation.xaml">
+    <Page Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainPage\MainPage.xaml">
+    <Page Include="Pages\Personalization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Windows\MainWindow\MainWindowSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="Pages\MainPage\Controls\LoginWindow\LoginWindowSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <Page Include="Windows\MainWindow\MainWindow.xaml">
+    <Page Include="Resources\Shared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -301,59 +225,24 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Windows\MainWindow\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="Controls\HintPasswordBox.xaml.cs">
+      <DependentUpon>HintPasswordBox.xaml</DependentUpon>
     </Compile>
-    <DesignData Include="Pages\MainPage\Controls\NewsBlock\TwitterViewModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="Pages\MainPage\Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <Page Include="Pages\MainPage\Controls\NewsBlock\NewsBlock.xaml">
+    <Compile Include="Controls\HintTextBox.cs" />
+    <Compile Include="Controls\Trigger.cs" />
+    <Page Include="Resources\MagicoUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Pages\Gallery\GalleryViewModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="Pages\Community\Controls\DigimonViewModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <Page Include="Windows\About\About_res.xaml">
+    <Page Include="Windows\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Gallery\Gallery_res.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainPage\Controls\NewsBlock\NewsBlock_res.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Personalization\Personalization_res.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Shared.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MainPage\Controls\DigiRotation\DigiRotation_res.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <DesignData Include="Windows\Settings\SettingsSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <Page Include="Windows\Settings\Settings.xaml">
+    <Page Include="Windows\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -376,15 +265,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="app.manifest">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Languages\Polish %28Poland%29.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="app.manifest" />
     <None Include="Languages\Russian %28Russia%29.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Languages\Ukrainian %28Ukraine%29.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -395,106 +279,31 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="ResourceList_Aeria.cfg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\ResourceList_Aeria.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ResourceList_Joymax.cfg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\ResourceList_Joymax.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ResourceList_Korea.cfg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\ResourceList_Korea.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ResourceList_KoreaIMBC.cfg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\ResourceList_KoreaIMBC.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Password.png" />
+    <Resource Include="Resources\Icons\User.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\background.jpg" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Resources\loading.png" />
     <Resource Include="Resources\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\Footer\images\footer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\Footer\images\copy_icons.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\NewsBlock\images\twitter_news.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\NewsBlock\images\joymax_news.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\NewsBlock\images\bbs_mode.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\NewsBlock\images\minus.png" />
-    <Resource Include="Pages\MainPage\Controls\NewsBlock\images\plus.png" />
+    <Resource Include="Resources\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="app_icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\Gallery\images\close.png" />
-    <Resource Include="Pages\Gallery\images\thumbs.png" />
-    <Resource Include="Pages\Gallery\images\trash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\Gallery\images\nav_left.png" />
-    <Resource Include="Pages\Gallery\images\nav_right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\Gallery\images\scale_to_fit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\Personalization\images\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\DigiRotation\images\bronze.png" />
-    <Resource Include="Pages\MainPage\Controls\DigiRotation\images\gold.png" />
-    <Resource Include="Pages\MainPage\Controls\DigiRotation\images\silver.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\DigiRotation\images\unknown.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <SplashScreen Include="Resources\splashscreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pages\MainPage\Controls\DigiRotation\images\Hagurumon.png" />
-    <Resource Include="Pages\MainPage\Controls\DigiRotation\images\Haguru_gear.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\loading.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 4.5</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Languages\Template_for_translation.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMOLibrary\DMOLibrary.csproj">
@@ -503,450 +312,538 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\about.png" />
-    <Resource Include="Resources\settings.png" />
+    <Resource Include="Resources\Icons\NoAvatar.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\community_icons\21134.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\21137.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31001.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31002.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31003.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31004.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31005.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31006.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31007.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31008.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31009.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31010.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31011.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31012.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31013.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31014.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31015.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31016.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31017.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31018.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31019.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31020.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31021.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31022.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31023.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31026.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31027.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31028.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31029.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31030.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31031.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31032.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31033.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31034.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31035.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31036.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31037.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31038.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31039.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31041.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31042.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31043.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31048.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31049.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31050.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31051.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31066.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31067.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31068.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31121.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31138.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\31142.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\32008.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\32014.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\32019.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\32021.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\32034.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\32036.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\32041.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\32067.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\33036.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\33067.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\41033.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\41075.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\41088.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\41132.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\41146.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\41159.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\80001.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\80002.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\80003.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\80004.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\community_icons\80005.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Resource Include="Resources\Icons\Configuration.png" />
+    <Resource Include="Resources\Icons\Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\background_dark.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Docs\Changelog.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Docs\LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Docs\README_ENG.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Docs\README_RUS.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Docs\README_RUS_ANSI.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LICENSE.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Resource Include="Resources\Icons\twitter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Community\21134.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="README_ENG.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\Community\21137.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="README_RUS.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\Community\31001.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31002.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31003.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31004.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31005.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31006.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31007.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31008.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31009.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31010.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31011.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31012.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31013.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31014.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31015.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31016.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31017.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31018.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31019.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31020.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31021.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31022.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31023.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31026.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31027.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31028.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31029.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31030.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31031.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31032.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31033.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31034.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31035.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31036.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31037.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31038.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31039.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31040.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31041.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31042.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31043.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31048.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31049.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31050.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31051.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31066.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31067.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31068.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31121.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31138.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\31142.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\32008.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\32014.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\32019.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\32021.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\32034.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\32036.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\32041.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\32067.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\33036.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\33067.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\33068.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\33069.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\41033.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\41075.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\41088.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\41132.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\41146.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\41159.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\80001.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\80002.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\80003.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\80004.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\80005.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\80006.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\80007.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Community\80008.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\rotation_icons\21134.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\21134.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\21137.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\21137.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31001.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31001.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31002.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31002.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31003.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31003.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31004.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31004.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31005.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31005.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31006.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31006.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31007.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31007.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31008.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31008.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31009.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31009.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31010.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31010.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31011.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31011.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31012.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31012.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31013.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31013.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31014.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31014.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31015.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31015.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31016.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31016.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31017.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31017.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31018.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31018.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31019.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31019.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31020.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31020.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31021.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31021.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31022.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31022.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31023.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31023.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31026.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31026.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31027.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31027.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31028.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31028.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31029.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31029.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31030.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31030.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31031.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31031.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31032.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31032.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31033.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31033.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31034.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31034.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31035.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31035.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31036.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31036.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31037.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31037.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31038.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31038.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31039.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31039.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31041.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31040.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31042.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31041.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31043.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31042.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31048.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31043.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31049.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31048.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31050.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31049.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31051.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31050.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31066.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31051.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31067.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31066.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31068.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31067.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31121.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31068.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31138.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31121.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\31142.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31138.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\32008.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\31142.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\32014.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\32008.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\32019.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\32014.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\32021.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\32019.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\32034.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\32021.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\32036.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\32034.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\32041.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\32036.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\32067.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\32041.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\33036.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\32067.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\33067.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\33036.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\41033.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\33067.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\41075.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\33068.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\41088.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\33069.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\41132.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\41033.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\41146.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\41075.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\rotation_icons\41159.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Resources\DigiRotation\41088.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\41132.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\41146.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\41159.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\80001.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\80002.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\80003.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\80004.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\80005.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\80006.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\80007.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DigiRotation\80008.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Changelog.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Resource Include="Resources\copy_icons.png" />
+    <Resource Include="Resources\footer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\NewsBlock\Images\bbs_mode.png" />
+    <Resource Include="Controls\NewsBlock\Images\joymax_news.png" />
+    <Resource Include="Controls\NewsBlock\Images\minus.png" />
+    <Resource Include="Controls\NewsBlock\Images\plus.png" />
+    <Resource Include="Controls\NewsBlock\Images\twitter_news.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\DigiRotation\Images\bronze.png" />
+    <Resource Include="Controls\DigiRotation\Images\gold.png" />
+    <Resource Include="Controls\DigiRotation\Images\Hagurumon.png" />
+    <Resource Include="Controls\DigiRotation\Images\Haguru_gear.png" />
+    <Resource Include="Controls\DigiRotation\Images\silver.png" />
+    <Resource Include="Controls\DigiRotation\Images\unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Languages\Template_for_translation.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

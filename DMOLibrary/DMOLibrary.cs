@@ -22,10 +22,10 @@ using System.Collections.Generic;
 namespace DMOLibrary
 {
     #region Structs
-    public struct server
+    public class server
     {
-        public int Id;
-        public string Name;
+        public int Id { set; get; }
+        public string Name { set; get; }
     }
 
     public struct guild
@@ -50,7 +50,7 @@ namespace DMOLibrary
         public string Name_alt;
     }
 
-    public struct digimon
+    public class digimon
     {
         public int Key;
         public int Type_id;

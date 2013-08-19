@@ -16,15 +16,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-
 using System;
 using System.Net;
 using System.ComponentModel;
 using System.Windows;
+using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher
+namespace AdvancedLauncher.Service
 {
-    public class UpdateChecker
+    public static class UpdateChecker
     {
         public static void Check()
         {
@@ -38,10 +38,11 @@ namespace AdvancedLauncher
 
                 try
                 {
-                    string result = client.DownloadString(new Uri("http://renamon.ru/launcher/check_updates.php"));
+                    string result = client.DownloadString(new Uri(LauncherEnv.RemotePath + "check_updates.php"));
                     res_arr = result.Split('|');
                 }
-                catch {
+                catch
+                {
                     return;
                 }
 
@@ -52,8 +53,8 @@ namespace AdvancedLauncher
                         Version remote_version = new Version(res_arr[0]);
                         if (remote_version.CompareTo(current_version) > 0)
                         {
-                            if (MessageBoxResult.Yes == MessageBox.Show(string.Format(LanguageProvider.strings.LAUNCHER_UPDATE_NEW_AVAILABLE, res_arr[0]) + Environment.NewLine + res_arr[2] +
-                                Environment.NewLine + LanguageProvider.strings.LAUNCHER_Q_UPDATE_WANT_DOWNLOAD, string.Format(LanguageProvider.strings.LAUNCHER_UPDATE_NEW_AVAILABLE_CAPTION, res_arr[0]), MessageBoxButton.YesNo, MessageBoxImage.Question))
+                            if (MessageBoxResult.Yes == MessageBox.Show(string.Format(LanguageEnv.Strings.UpdateAvailableText, res_arr[0]) + System.Environment.NewLine + res_arr[2] +
+                                System.Environment.NewLine + LanguageEnv.Strings.UpdateDownloadQuestion, string.Format(LanguageEnv.Strings.UpdateAvailableCaption, res_arr[0]), MessageBoxButton.YesNo, MessageBoxImage.Question))
                                 Utils.OpenSite(res_arr[1]);
                         }
                     }

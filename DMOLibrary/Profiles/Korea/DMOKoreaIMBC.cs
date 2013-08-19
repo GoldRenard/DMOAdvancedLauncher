@@ -17,6 +17,7 @@
 // ======================================================================
 
 using System;
+using System.Security;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,36 +34,20 @@ namespace DMOLibrary.Profiles.Korea
         private void InitVars()
         {
             TYPE_NAME = "KoreaIMBC";
-            GAME_EXE = "DigimonMasters.exe";
-            LAUNCHER_EXE = "D-Player.exe";
-            LOCAL_VERSION_FILE = @"\LauncherLib\vDMO.ini";
-            REMOTE_VERSION_FILE = "http://digimonmasters.nowcdn.co.kr/s1/PatchInfo.ini";
-            PATCHES_URL = "http://digimonmasters.nowcdn.co.kr/s1/{0}.zip";
-            REGEDIT_GAME_KEY = "Software\\Digitalic\\DigimonMasters";
-            REGEDIT_LAUNCHER_KEY = "Software\\Digitalic\\Launcher";
-            S_ROTATION_GNAME = "VirusBusters";
-
-            IsWebSupported = true;
-            IsUpdateSupported = true;
-            IsLoginRequired = true;
-            IsNewsSupported = false;
-            IsSeparateLauncher = true;
-            IsLastSessionAvailable = true;
-
-            ReadSettings();
-
             DATABASE_NAME = "Korea";
-            DMODatabase.CREATE_DATABASE_QUERY += @"
+            _IsLoginRequired = true;
+
+            Database = new DMODatabase(GetDatabasePath(), @"
             INSERT INTO Servers([name]) VALUES ('Lucemon');
             INSERT INTO Servers([name]) VALUES ('Leviamon');
             INSERT INTO Servers([name]) VALUES ('Lilithmon');
-            INSERT INTO Servers([name]) VALUES ('Barbamon');";
-            Database = new DMODatabase(GetDatabasePath());
+            INSERT INTO Servers([name]) VALUES ('Barbamon');");
             if (Database.OpenConnection())
             {
-                ServerList = Database.GetServers();
+                _ServerList = Database.GetServers();
                 Database.CloseConnection();
             }
+            _WebProfile = new KoreaWebInfo(Database);
         }
 
         #region Constructors
@@ -77,20 +62,6 @@ namespace DMOLibrary.Profiles.Korea
             InitVars();
         }
 
-        public DMOKoreaIMBC(string profile)
-        {
-            if (profile != string.Empty)
-                PROFILE_NAME = profile;
-            InitVars();
-        }
-
-        public DMOKoreaIMBC(System.Windows.Threading.Dispatcher owner_dispatcher, string profile)
-        {
-            this.owner_dispatcher = owner_dispatcher;
-            if (profile != string.Empty)
-                PROFILE_NAME = profile;
-            InitVars();
-        }
         #endregion
 
         #region Getting user login commandline
@@ -112,8 +83,8 @@ namespace DMOLibrary.Profiles.Korea
                         bool isFound = true;
                         try
                         {
-                            wb.Document.GetElementsByTagName("input").GetElementsByName("Uid")[0].SetAttribute("value", USER_ID);
-                            wb.Document.GetElementsByTagName("input").GetElementsByName("Password")[0].SetAttribute("value", USER_PASSWORD);
+                            wb.Document.GetElementsByTagName("input").GetElementsByName("Uid")[0].SetAttribute("value", UserId);
+                            wb.Document.GetElementsByTagName("input").GetElementsByName("Password")[0].SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
                         }
                         catch { isFound = false; }
 
@@ -149,9 +120,11 @@ namespace DMOLibrary.Profiles.Korea
             }
         }
 
-        public override void GameStart()
+        public override void TryLogin(string UserId, SecureString Password)
         {
-            if (USER_ID.Length == 0 || USER_PASSWORD.Length == 0)
+            this.UserId = UserId;
+            this.Password = Password;
+            if (UserId.Length == 0 || Password.Length == 0)
             {
                 OnCompleted(LoginCode.WRONG_USER, string.Empty);
                 return;
@@ -166,37 +139,17 @@ namespace DMOLibrary.Profiles.Korea
             OnChanged(LoginState.LOGINNING);
         }
 
-        public override void LastSessionStart()
-        {
-            if (LastSessionArgs.Length == 0)
-                return;
-            if (IsUpdateNeeded)
-            {
-                string EXE = string.Format(PATH_FORMAT, GetLauncherPath(), LAUNCHER_EXE);
-                if (ApplicationLauncher.Execute(EXE, LastSessionArgs, S_USE_APPLOC))
-                    OnCompleted(LoginCode.SUCCESS, string.Empty);
-                else
-                    OnCompleted(LoginCode.EXECUTE_ERROR, EXE);
-            }
-            else
-            {
-                string EXE = string.Format(PATH_FORMAT, GetGamePath(), GAME_EXE);
-                if (ApplicationLauncher.Execute(EXE, LastSessionArgs.Replace(" 1 ", " "), S_USE_APPLOC))
-                    OnCompleted(LoginCode.SUCCESS, LastSessionArgs);
-                else
-                    OnCompleted(LoginCode.EXECUTE_ERROR, EXE);
-            }
-        }
         #endregion
 
-        public override DMOWebProfile GetWebProfile()
+        public override string GetGameStartArgs(string args)
         {
-            return new KoreaWebInfo(Database);
+            return args.Replace(" 1 ", " ");
         }
 
-        public override DMONewsProfile GetNewsProfile()
+
+        public override string GetLauncherStartArgs(string args)
         {
-            return new DMOLibrary.Profiles.Joymax.JMNews();
+            return args;
         }
     }
 }

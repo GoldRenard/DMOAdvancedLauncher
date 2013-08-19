@@ -22,6 +22,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Threading;
 
 namespace DMOLibrary
@@ -80,17 +81,32 @@ SELECT * FROM (
     ) as digimon JOIN Tamers ON digimon.tamer_id = Tamers.id AND Tamers.serv_id = {0}
 ) ORDER BY RANDOM() LIMIT 1";
 
+        static string Q_D_SELECT_RANDOM2 = @"
+SELECT * FROM (
+    SELECT *, Tamers.name as 'tamer_name', Tamers.lvl as 'tamer_lvl' FROM (
+	    SELECT * FROM Digimons WHERE
+	    [serv_id] = {0} AND
+	    [tamer_id] IN (
+		    SELECT [id] FROM Tamers WHERE [serv_id] = {0} AND [name] = '{2}' AND [isActive] = 1 AND [guild_id] = (
+			    SELECT [id] FROM Guilds WHERE [name] = '{1}'
+		    )
+	    ) AND
+	    [lvl] >= {3} AND
+	    [isActive] = 1
+    ) as digimon JOIN Tamers ON digimon.tamer_id = Tamers.id AND Tamers.serv_id = {0}
+) ORDER BY RANDOM() LIMIT 1";
+
         static string Q_D_SELECT_RANDOM_TYPE = @"SELECT * FROM Digimon_types ORDER BY RANDOM() LIMIT 1";
 
         #endregion
 
         #region Connection creating, opening, closing
-        public DMODatabase(string DB_FILE_)
+        public DMODatabase(string DB_FILE_, string cInitQuery)
         {
             DB_FILE = DB_FILE_;
             if (!File.Exists(DB_FILE))
             {
-                if (!RecreateDB())
+                if (!RecreateDB(cInitQuery))
                     System.Windows.Application.Current.Shutdown();
                 else
                     return;
@@ -99,31 +115,9 @@ SELECT * FROM (
                 connection = new SQLiteConnection("Data Source = " + DB_FILE);
         }
 
-
-        #region Dispatcher DoEvents()
-        private static DispatcherOperationCallback exitFrameCallback = new
-                             DispatcherOperationCallback(ExitFrame);
-
-        public static void DoEvents()
-        {
-            DispatcherFrame nestedFrame = new DispatcherFrame();
-            DispatcherOperation exitOperation = Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, exitFrameCallback, nestedFrame);
-            Dispatcher.PushFrame(nestedFrame);
-            if (exitOperation.Status != DispatcherOperationStatus.Completed)
-                exitOperation.Abort();
-        }
-
-        private static Object ExitFrame(Object state)
-        {
-            DispatcherFrame frame = state as DispatcherFrame;
-            frame.Continue = false;
-            return null;
-        }
-#endregion
-
         public bool OpenConnection()
         {
-            while (isConnected) DoEvents();
+            while (isConnected) DispatcherHelper.DoEvents();
             try
             {
                 connection.Open();
@@ -294,7 +288,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80006, 'Tachikawa Mimi');
 INSERT INTO Tamer_types([id], [name]) VALUES (80007, 'Ishida Yamato');
 INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
 ";
-        private bool RecreateDB()
+        private bool RecreateDB(string cInitQuery)
         {
             if (File.Exists(DB_FILE))
             {
@@ -305,6 +299,11 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             connection = new SQLiteConnection("Data Source = " + DB_FILE);
             OpenConnection();
             if (!Query(CREATE_DATABASE_QUERY))
+            {
+                CloseConnection();
+                return false;
+            }
+            if (!Query(cInitQuery))
             {
                 CloseConnection();
                 return false;
@@ -515,9 +514,9 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return type;
         }
 
-        public List<server> GetServers()
+        public ObservableCollection<server> GetServers()
         {
-            List<server> servers = new List<server>();
+            ObservableCollection<server> servers = new ObservableCollection<server>();
             string query = Q_S_BY_NAME;
             try
             {
@@ -756,6 +755,42 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return d;
             }
+            return d;
+        }
+
+        public digimon RandomDigimon(server serv, string g_name, string t_name, int minlvl)
+        {
+            digimon d = new digimon();
+            bool IsLoaded = false;
+            string query = string.Format(Q_D_SELECT_RANDOM2, serv.Id, g_name, t_name, minlvl);
+            try
+            {
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                SQLiteDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    d.Serv_id = Convert.ToInt32(dataReader["serv_id"]);
+                    d.Tamer_id = Convert.ToInt32(dataReader["tamer_id"]);
+                    d.Type_id = Convert.ToInt32(dataReader["type_id"]);
+                    d.Custom_Tamer_Name = (string)dataReader["tamer_name"];
+                    d.Custom_Tamer_lvl = Convert.ToInt32(dataReader["tamer_lvl"]);
+                    d.Name = (string)dataReader["name"];
+                    d.Rank = Convert.ToInt32(dataReader["rank"]);
+                    d.Lvl = Convert.ToInt32(dataReader["lvl"]);
+                    d.Size_cm = Convert.ToDouble(dataReader["size_cm"]);
+                    d.Size_pc = Convert.ToInt32(dataReader["size_pc"]);
+                    d.Size_rank = Convert.ToInt32(dataReader["size_rank"]);
+                    IsLoaded = true;
+                }
+                dataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                return d;
+            }
+            if (!IsLoaded)
+                return null;
             return d;
         }
 

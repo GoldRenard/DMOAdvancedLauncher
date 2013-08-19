@@ -1,0 +1,15 @@
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\x86\Debug\SQLite.Interop.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\x86\Debug\DMOLibrary.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\x86\Debug\DMOLibrary.pdb
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\x86\Debug\HtmlAgilityPack.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\x86\Debug\Ookii.Dialogs.Wpf.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\x86\Debug\System.Data.SQLite.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Debug\SQLite.Interop.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Debug\DMOLibrary.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Debug\DMOLibrary.pdb
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Debug\Ookii.Dialogs.Wpf.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Debug\System.Data.SQLite.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\obj\x86\Debug\DMOLibrary.dll
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\obj\x86\Debug\DMOLibrary.pdb
+C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\obj\x86\Debug\DMOLibrary.csprojResolveAssemblyReference.cache

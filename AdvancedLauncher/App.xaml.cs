@@ -18,18 +18,16 @@
 
 using System;
 using System.Windows;
-using DMOLibrary.Profiles;
-using DMOLibrary.Profiles.Aeria;
-using DMOLibrary.Profiles.Joymax;
-using DMOLibrary.Profiles.Korea;
-using DMOLibrary.DMOFileSystem;
+using AdvancedLauncher.Service;
+using AdvancedLauncher.Windows;
+using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher
 {
     public partial class App : Application
     {
-        public static char SubVersion = 'c';
-        public static DMOProfile DMOProfile;
+        public static SplashScreen splash = new SplashScreen("Resources/SplashScreen.png");
+        public static char SubVersion = 'a';
         Window WpfBugWindow = new Window()
         {
             AllowsTransparency = true,
@@ -44,54 +42,17 @@ namespace AdvancedLauncher
 
         public App()
         {
-            //it's a cute fix for "SplashScreen & Modal Dialogs" WPF's bug ;)
             WpfBugWindow.Show();
-#if DEBUG
-            Utils.SetDebug("Debug.log");
-#endif
-            SettingsProvider.LoadSettings();
+            LauncherEnv.Load();
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            try
+            if (UACHelper.IsProcessElevated)
             {
-                string type = e.Args.Length > 0 ? e.Args[0].ToLower() : "dmojoymax";
-                string profile = e.Args.Length > 1 ? e.Args[1] : string.Empty;
-
-                //Check for bad chars in profile name (cuz it will be used for filename)
-                if (profile.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) >= 0)
+                splash.Show(false);
+                if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109"))
                 {
-                    Application.Current.Shutdown();
-                    return;
-                }
-#if DEBUG
-                Utils.WriteDebug("Type=" + type + "; Profile=" + profile);
-#endif
-                string mutex_type = type;
-                if (mutex_type == "dmokoreaimbc")
-                    mutex_type = "dmokorea";
-                if (!ApplicationHelper.AlreadyRunningMutex("327D5E06-1C06-47EC-B391-" + mutex_type))
-                {
-#if DEBUG
-                    Utils.WriteDebug("Creating new instance for type=" + type);
-#endif
-                    if (type == "dmojoymax")
-                        App.DMOProfile = new DMOJoymax(this.Dispatcher, profile);
-                    else if (type == "dmoaeria")
-                        App.DMOProfile = new DMOAeria(this.Dispatcher, profile);
-                    else if (type == "dmokorea")
-                        App.DMOProfile = new DMOKorea(this.Dispatcher, profile);
-                    else if (type == "dmokoreaimbc")
-                        App.DMOProfile = new DMOKoreaIMBC(this.Dispatcher, profile);
-                    else
-                    {
-                        Application.Current.Shutdown();
-                        return;
-                    }
-
-                    DMOFileSystem res_fs = new DMOFileSystem(32, SettingsProvider.APP_PATH + SettingsProvider.RES_HF_FILE, SettingsProvider.APP_PATH + SettingsProvider.RES_PF_FILE);
-                    res_fs.WriteDirectory(SettingsProvider.APP_PATH + SettingsProvider.RES_IMPORT_DIR, true);
                     MainWindow mw = new MainWindow();
                     mw.Show();
                     WpfBugWindow.Close();
@@ -99,20 +60,14 @@ namespace AdvancedLauncher
                 else
                     Application.Current.Shutdown();
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                Utils.WriteDebug(ex.Message + " " + ex.StackTrace);
-#endif
-                MessageBox.Show(ex.Message + " " + ex.StackTrace, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Application.Current.Shutdown();
-            }
+            else
+                MessageBox.Show("Administrator Privileges are required to run DMO AdvancedLauncher. Please run application as Administrator.", "Please run application as Administrator", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            DateTime t = DateTime.Now;
-            MiniDump.MiniDumpToFile(string.Format("Crash_{0:00}_{1:00}_{2:00}{3:00}{4:0000}.dmp", t.Hour, t.Minute, t.Day, t.Month, t.Year));
+            //DateTime t = DateTime.Now;
+            //MiniDump.MiniDumpToFile(string.Format("Crash_{0:00}_{1:00}_{2:00}{3:00}{4:0000}.dmp", t.Hour, t.Minute, t.Day, t.Month, t.Year));
             //e.Handled = true;
         }
     }

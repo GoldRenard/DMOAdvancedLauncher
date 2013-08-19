@@ -24,12 +24,12 @@ using System.IO.MemoryMappedFiles;
 
 namespace DMOLibrary.DMOFileSystem
 {
-    public struct DMOFileEntry
+    public class DMOFileEntry
     {
-        public uint fileId;
-        public uint fileOffset;
         public uint fileSize_cur;
         public uint fileSize_full;
+        public uint fileId;
+        public long fileOffset;
     }
 
     public class DMOFileSystem
@@ -37,6 +37,13 @@ namespace DMOLibrary.DMOFileSystem
         int ArchiveHeader = 0;
         string HF_File, PF_File;
         public List<DMOFileEntry> ArchiveEntries = new List<DMOFileEntry>();
+
+        bool IsOpened = false;
+
+        BinaryWriter MapWriter;
+        FileStream ArchiveStream;
+        FileAccess fAccess;
+
         System.Windows.Threading.Dispatcher owner_dispatcher;
 
         #region EVENTS
@@ -62,31 +69,36 @@ namespace DMOLibrary.DMOFileSystem
         static string ERROR_CANT_WRITE_FILEMAP = "Can't write filemap. \"{0}\".";
         static string ERROR_CANT_WRITE_FILE = "Can't write file. \"{0}\".";
 
-        public DMOFileSystem(int ArchiveHeader, string HF_File, string PF_File)
+        public DMOFileSystem()
         {
-            this.ArchiveHeader = ArchiveHeader;
-            this.HF_File = HF_File;
-            this.PF_File = PF_File;
-            if (File.Exists(HF_File))
-                ReadMapFile();
+
         }
 
-        public DMOFileSystem(System.Windows.Threading.Dispatcher owner_dispatcher, int ArchiveHeader, string HF_File, string PF_File)
+        public DMOFileSystem(System.Windows.Threading.Dispatcher owner_dispatcher)
         {
             this.owner_dispatcher = owner_dispatcher;
+        }
+
+
+        public bool Open(FileAccess fAccess, int ArchiveHeader, string HF_File, string PF_File)
+        {
+            if (IsOpened)
+                return false;
+
+            if (!File.Exists(HF_File) || !File.Exists(PF_File))
+                throw new FileNotFoundException();
+            if (IsFileLocked(HF_File) || IsFileLocked(PF_File))
+                throw new UnauthorizedAccessException();
+
+            this.fAccess = fAccess;
             this.ArchiveHeader = ArchiveHeader;
             this.HF_File = HF_File;
             this.PF_File = PF_File;
-            if (File.Exists(HF_File))
-                ReadMapFile();
-        }
+            this.ArchiveEntries.Clear();
 
-        #region Read Section
-        public void ReadMapFile()
-        {
             BinaryReader binr = null;
             try { binr = new BinaryReader(File.OpenRead(HF_File), Encoding.Default); }
-            catch (Exception ex) { throw ex; }
+            catch { if (binr != null) binr.Close(); throw; }
 
             if (binr.ReadUInt32() != ArchiveHeader)
                 throw new FileFormatException();
@@ -103,29 +115,63 @@ namespace DMOLibrary.DMOFileSystem
                 entry.fileSize_cur = binr.ReadUInt32();
                 entry.fileSize_full = binr.ReadUInt32();
                 entry.fileId = binr.ReadUInt32();
-                entry.fileOffset = binr.ReadUInt32();
-                ArchiveEntries.Add(entry);
+                entry.fileOffset = binr.ReadInt64();
 
-                if (binr.ReadUInt32() != 0)
-                    throw new FileFormatException();
+                ArchiveEntries.Add(entry);
             }
             binr.Close();
+            binr.Dispose();
+
+            if (fAccess == FileAccess.ReadWrite || fAccess == FileAccess.Write)
+            {
+                try {
+                    MapWriter = new BinaryWriter(File.Open(HF_File, FileMode.OpenOrCreate, fAccess, FileShare.None));
+                    ArchiveStream = File.Open(PF_File, FileMode.OpenOrCreate, fAccess, FileShare.None);
+                }
+                catch { throw; }
+            }
+
+            IsOpened = true;
+            return true;
         }
+
+        public void Close()
+        {
+            if (IsOpened)
+            {
+                if (MapWriter != null)
+                {
+                    MapWriter.Close();
+                    MapWriter.Dispose();
+                    MapWriter = null;
+                }
+                if (ArchiveStream != null)
+                {
+                    ArchiveStream.Close();
+                    ArchiveStream.Dispose();
+                    ArchiveStream = null;
+                }
+                IsOpened = false;
+            }
+        }
+
+        #region Read Section
 
         public Stream ReadFile(string file)
         {
-            int entry_index = GetEntryIndex(FileHash(file));
-            return ReadFile(entry_index);
+            return ReadFile(GetEntryIndex(FileHash(file)));
         }
 
         public Stream ReadFile(uint ID)
         {
-            int entry_index = GetEntryIndex(ID);
-            return ReadFile(entry_index);
+            return ReadFile(GetEntryIndex(ID));
         }
 
         public Stream ReadFile(int entry_index)
         {
+            if (!IsOpened && !(fAccess == FileAccess.Read || fAccess == FileAccess.ReadWrite))
+                return null;
+
             if (entry_index < 0)
                 return null;
 
@@ -142,18 +188,6 @@ namespace DMOLibrary.DMOFileSystem
             try { outStream = mmf.CreateViewStream(ArchiveEntries[entry_index].fileOffset, ArchiveEntries[entry_index].fileSize_cur, MemoryMappedFileAccess.Read); }
             catch { return null; }
 
-            /*FileStream fs = File.OpenRead(PF_File);
-            fs.Seek(ArchiveEntries[entry_index].fileOffset, SeekOrigin.Begin);
-            BinaryReader br = new BinaryReader(fs);
-
-            int b_cnt = (int)ArchiveEntries[entry_index].fileSize_cur;
-
-            byte[] bs = br.ReadBytes(b_cnt);
-
-            MemoryStream ms = new MemoryStream(bs);
-            fs.Close();
-            br.Close();*/
-
             return outStream;
         }
         #endregion
@@ -161,40 +195,32 @@ namespace DMOLibrary.DMOFileSystem
         #region Write Section
         public bool WriteMapFile()
         {
-            BinaryWriter b = null;
+            if (!IsOpened && !(fAccess == FileAccess.ReadWrite || fAccess == FileAccess.Write))
+                return false;
+
+            ArchiveEntries.Sort((s1, s2) => s1.fileId.CompareTo(s2.fileId));
+
             try
             {
-                b = new BinaryWriter(File.Open(HF_File + ".tmp", FileMode.Create));
-                b.Write(ArchiveHeader);
-                b.Write((uint)ArchiveEntries.Count);
+                MapWriter.BaseStream.SetLength(0);
+                MapWriter.Seek(0, SeekOrigin.Begin);
+
+                MapWriter.Write(ArchiveHeader);
+                MapWriter.Write((uint)ArchiveEntries.Count);
                 foreach (DMOFileEntry entry in ArchiveEntries)
                 {
-                    b.Write(1);
-                    b.Write(entry.fileSize_cur);
-                    b.Write(entry.fileSize_full);
-                    b.Write(entry.fileId);
-                    b.Write(entry.fileOffset);
-                    b.Write(0);
+                    MapWriter.Write(1);
+                    MapWriter.Write(entry.fileSize_cur);
+                    MapWriter.Write(entry.fileSize_full);
+                    MapWriter.Write(entry.fileId);
+                    MapWriter.Write(entry.fileOffset);
                 }
-                b.Close();
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(string.Format(ERROR_CANT_WRITE_FILEMAP, ex.Message), "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return false;
             }
-            finally
-            {
-                if (b != null)
-                    b.Close();
-            }
-
-            try
-            {
-                File.Delete(HF_File);
-                File.Move(HF_File + ".tmp", HF_File);
-            }
-            catch { return false; }
             return true;
         }
 
@@ -213,83 +239,82 @@ namespace DMOLibrary.DMOFileSystem
 
         public bool WriteStream(Stream source_stream, uint entryId)
         {
-            long pf_file_length = 0;
-            if (File.Exists(PF_File))
-                pf_file_length = (new FileInfo(PF_File)).Length;
-            int entry_index = GetEntryIndex(entryId);
+            List<DMOFileEntry> ArchiveEntries_New = ArchiveEntries;
+            if (!_WriteStream(source_stream, entryId))
+                return false;
+            if (!WriteMapFile())
+                return false;
+            return true;
+        }
 
+        private bool _WriteStream(Stream SourceStream, uint entryId)
+        {
+            if (!IsOpened && !(fAccess == FileAccess.ReadWrite || fAccess == FileAccess.Write))
+                return false;
+
+            int entry_index = GetEntryIndex(entryId);
             DMOFileEntry entry;
 
-            bool isAppend = false;
-            if (entry_index >= 0)
+            if (entry_index > 0)
             {
-                entry = ArchiveEntries[entry_index];
-                entry.fileSize_cur = (uint)source_stream.Length;
-                isAppend = source_stream.Length > ArchiveEntries[entry_index].fileSize_full;
-                if (isAppend)
+                ArchiveEntries[entry_index].fileSize_cur = (uint)SourceStream.Length;
+                if (SourceStream.Length > ArchiveEntries[entry_index].fileSize_full)
                 {
-                    entry.fileSize_full = (uint)source_stream.Length;
-                    entry.fileOffset = (uint)pf_file_length;
+                    ArchiveEntries[entry_index].fileOffset = ArchiveStream.Length;
+                    ArchiveEntries[entry_index].fileSize_full = (uint)SourceStream.Length;
                 }
-                ArchiveEntries[entry_index] = entry;
+                entry = ArchiveEntries[entry_index];
             }
             else
             {
-                isAppend = true;
                 entry = new DMOFileEntry();
                 entry.fileId = entryId;
-                entry.fileOffset = (uint)pf_file_length;
-                entry.fileSize_cur = (uint)source_stream.Length;
-                entry.fileSize_full = (uint)source_stream.Length;
+                entry.fileSize_cur = (uint)SourceStream.Length;
+                entry.fileSize_full = (uint)SourceStream.Length;
+                entry.fileOffset = ArchiveStream.Length;
                 ArchiveEntries.Add(entry);
             }
-
-            if (WriteMapFile())
+            try
             {
-                FileStream target = null;
-                try
-                {
-                    target = new FileStream(PF_File, isAppend ? FileMode.Append : FileMode.Open, FileAccess.Write);
-                    if (!isAppend)
-                        target.Seek((long)entry.fileOffset, SeekOrigin.Begin);
-                    source_stream.CopyTo(target);
-                    target.Close();
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.MessageBox.Show(string.Format(ERROR_CANT_WRITE_FILE, ex.Message), "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                    source_stream.Close();
-                    if (target != null)
-                        target.Close();
-                    return false;
-                }
-                source_stream.Close();
-                return true;
+                ArchiveStream.Seek(entry.fileOffset, SeekOrigin.Begin);
+                SourceStream.CopyTo(ArchiveStream);
             }
-            else
+            catch (Exception ex)
             {
-                source_stream.Close();
+                System.Windows.MessageBox.Show(string.Format(ERROR_CANT_WRITE_FILE, ex.Message), "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return false;
             }
+            return true;
         }
 
         public bool WriteDirectory(string path, bool DeleteOnComplete)
         {
+            if (!IsOpened && !(fAccess == FileAccess.ReadWrite || fAccess == FileAccess.Write))
+                return false;
             if (!Directory.Exists(path))
                 return false;
             string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
             string import_file;
             int f_num = 1;
+
             foreach (string file in files)
             {
                 import_file = file.Replace(path, string.Empty);
                 if (import_file[0] == '\\')
                     import_file = import_file.Substring(1);
-                if (!WriteFile(file, import_file))
+
+                FileStream fStream = new FileStream(file, FileMode.Open, FileAccess.Read);
+                if (!_WriteStream(fStream, FileHash(import_file)))
                     return false;
+                fStream.Close();
+                fStream.Dispose();
+
                 OnFileWrited(f_num, files.Length);
                 f_num++;
             }
+
+            if (!WriteMapFile())
+                return false;
 
             if (DeleteOnComplete)
             {
@@ -324,6 +349,30 @@ namespace DMOLibrary.DMOFileSystem
             }
 
             return result;
+        }
+
+        /// <summary> Checks access to file </summary>
+        /// <param name="file">Full path to file</param>
+        /// <returns> <see langword="True"/> if file is locked </returns>
+        public static bool IsFileLocked(string file)
+        {
+            FileStream stream = null;
+
+            try { stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None); }
+            catch (IOException) { return true; }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
+            return false;
+        }
+
+        private uint ConvertToUint32(long l)
+        {
+            while (l > UInt32.MaxValue)
+                l -= UInt32.MaxValue;
+            return Convert.ToUInt32(l);
         }
 
         private int GetEntryIndex(uint file_id)

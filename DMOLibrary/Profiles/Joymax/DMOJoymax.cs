@@ -29,32 +29,20 @@ namespace DMOLibrary.Profiles.Joymax
         private void InitVars()
         {
             TYPE_NAME = "Joymax";
-            GAME_EXE = "GDMO.exe";
-            LAUNCHER_EXE = "DMLauncher.exe";
-            LOCAL_VERSION_FILE = @"\LauncherLib\vGDMO.ini";
-            REMOTE_VERSION_FILE = "http://patch.dmo.joymax.com/PatchInfo_GDMO.ini";
-            PATCHES_URL = "http://patch.dmo.joymax.com/GDMO{0}.zip";
-            REGEDIT_GAME_KEY = "Software\\Joymax\\DMO";
 
-            IsWebSupported = true;
-            IsUpdateSupported = true;
-            IsLoginRequired = false;
-            IsNewsSupported = true;
-            IsSeparateLauncher = false;
-
-            ReadSettings();
-
-            DMODatabase.CREATE_DATABASE_QUERY += @"
+            Database = new DMODatabase(GetDatabasePath(), @"
             INSERT INTO Servers([name]) VALUES ('Leviamon');
             INSERT INTO Servers([name]) VALUES ('Lucemon');
             INSERT INTO Servers([name]) VALUES ('Lilithmon');
-            INSERT INTO Servers([name]) VALUES ('Barbamon');";
-            Database = new DMODatabase(GetDatabasePath());
+            INSERT INTO Servers([name]) VALUES ('Barbamon');
+            INSERT INTO Servers([name]) VALUES ('Beelzemon');");
             if (Database.OpenConnection())
             {
-                ServerList = Database.GetServers();
+                _ServerList = Database.GetServers();
                 Database.CloseConnection();
             }
+            _WebProfile = new JMWebInfo(Database);
+            _NewsProfile = new JMNews();
         }
 
         #region Constructors
@@ -69,58 +57,25 @@ namespace DMOLibrary.Profiles.Joymax
             InitVars();
         }
 
-        public DMOJoymax(string profile)
-        {
-            if (profile != string.Empty)
-                PROFILE_NAME = profile;
-            InitVars();
-        }
-
-        public DMOJoymax(System.Windows.Threading.Dispatcher owner_dispatcher, string profile)
-        {
-            this.owner_dispatcher = owner_dispatcher;
-            if (profile != string.Empty)
-                PROFILE_NAME = profile;
-            InitVars();
-        }
         #endregion
 
         #region Getting user login commandline
-        public override void GameStart()
+        public override void TryLogin(string UserId, System.Security.SecureString Password)
         {
-            if (IsUpdateNeeded)
-            {
-                string EXE = string.Format(PATH_FORMAT, GetGamePath(), LAUNCHER_EXE);
-                if (ApplicationLauncher.Execute(EXE, S_USE_APPLOC))
-                    OnCompleted(LoginCode.SUCCESS, string.Empty);
-                else
-                    OnCompleted(LoginCode.EXECUTE_ERROR, EXE);
-            }
-            else
-            {
-                string args = "true";
-                string EXE = string.Format(PATH_FORMAT, GetGamePath(), LAUNCHER_EXE);
-                if (ApplicationLauncher.Execute(string.Format(PATH_FORMAT, GetGamePath(), GAME_EXE), args, S_USE_APPLOC))
-                    OnCompleted(LoginCode.SUCCESS, args);
-                else
-                    OnCompleted(LoginCode.EXECUTE_ERROR, EXE);
-            }
+            OnCompleted(LoginCode.SUCCESS, "true");
         }
 
-        public override void LastSessionStart()
-        {
-            GameStart();
-        }
         #endregion
 
-        public override DMOWebProfile GetWebProfile()
+        public override string GetGameStartArgs(string args)
         {
-            return new JMWebInfo(Database);
+            return "true";
         }
 
-        public override DMONewsProfile GetNewsProfile()
+
+        public override string GetLauncherStartArgs(string args)
         {
-            return new JMNews();
+            return string.Empty;
         }
     }
 }

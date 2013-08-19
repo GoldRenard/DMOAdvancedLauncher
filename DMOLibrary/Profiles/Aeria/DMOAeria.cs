@@ -17,6 +17,7 @@
 // ======================================================================
 
 using System;
+using System.Security;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,29 +34,8 @@ namespace DMOLibrary.Profiles.Aeria
         private void InitVars()
         {
             TYPE_NAME = "Aeria";
-            GAME_EXE = "GDMO.exe";
-            LAUNCHER_EXE = "DMLauncher.exe";
-            LOCAL_VERSION_FILE = @"\LauncherLib\vGDMO.ini";
-            REMOTE_VERSION_FILE = "http://patch.dmo.joymax.com/Aeria/PatchInfo_GDMO.ini";
-            PATCHES_URL = "http://patch.dmo.joymax.com/Aeria/GDMO{0}.zip";
-            REGEDIT_GAME_KEY = "Software\\Aeria Games\\DMO";
-            S_ROTATION_GNAME = "VirusBusters";
-
-            IsWebSupported = false;
-            IsUpdateSupported = true;
-            IsLoginRequired = true;
-            IsNewsSupported = true;
-            IsSeparateLauncher = false;
-
-            ReadSettings();
-
-            DMODatabase.CREATE_DATABASE_QUERY += @"INSERT INTO Servers([name]) VALUES ('Seraphimon');";
-            Database = new DMODatabase(GetDatabasePath());
-            if (Database.OpenConnection())
-            {
-                ServerList = Database.GetServers();
-                Database.CloseConnection();
-            }
+            _IsLoginRequired = true;
+            _NewsProfile = new DMOLibrary.Profiles.Joymax.JMNews();
         }
 
         #region Constructors
@@ -67,21 +47,6 @@ namespace DMOLibrary.Profiles.Aeria
         public DMOAeria(System.Windows.Threading.Dispatcher owner_dispatcher)
         {
             this.owner_dispatcher = owner_dispatcher;
-            InitVars();
-        }
-
-        public DMOAeria(string profile)
-        {
-            if (profile != string.Empty)
-                PROFILE_NAME = profile;
-            InitVars();
-        }
-
-        public DMOAeria(System.Windows.Threading.Dispatcher owner_dispatcher, string profile)
-        {
-            this.owner_dispatcher = owner_dispatcher;
-            if (profile != string.Empty)
-                PROFILE_NAME = profile;
             InitVars();
         }
         #endregion
@@ -104,8 +69,8 @@ namespace DMOLibrary.Profiles.Aeria
                         bool isFound = true;
                         try
                         {
-                            wb.Document.GetElementById("edit-id").SetAttribute("value", USER_ID);
-                            wb.Document.GetElementById("edit-pass").SetAttribute("value", USER_PASSWORD);
+                            wb.Document.GetElementById("edit-id").SetAttribute("value", UserId);
+                            wb.Document.GetElementById("edit-pass").SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
                         }
                         catch { isFound = false; }
 
@@ -125,75 +90,45 @@ namespace DMOLibrary.Profiles.Aeria
                 //logged
                 case "/code2token.html":
                     {
-                        OnChanged(LoginState.GETTING_DATA);
-                        LastSessionArgs = string.Format("{0} {1} {2}", "Aeria", HttpUtility.ParseQueryString(e.Url.Query).Get("code"), USER_ID);
-                        LastSessionStart();
+                        OnCompleted(LoginCode.SUCCESS, string.Format("{0} {1} {2}", "Aeria", HttpUtility.ParseQueryString(e.Url.Query).Get("code"), UserId));
                         break;
                     }
                 default:
                     {
-                        OnCompleted(LoginCode.UNKNOWN_URL, string.Empty);
+                        if (!e.Url.Host.Contains("facebook"))
+                            OnCompleted(LoginCode.UNKNOWN_URL, string.Empty);
                         break;
                     }
             }
         }
 
-        public override void GameStart()
+        public override void TryLogin(string UserId, SecureString Password)
         {
-            if (IsUpdateNeeded)
+            this.UserId = UserId;
+            this.Password = Password;
+            if (UserId.Length == 0 || Password.Length == 0)
             {
-                string EXE = string.Format(PATH_FORMAT, GetGamePath(), LAUNCHER_EXE);
-                if (ApplicationLauncher.Execute(EXE, S_USE_APPLOC))
-                    OnCompleted(LoginCode.SUCCESS, string.Empty);
-                else
-                    OnCompleted(LoginCode.EXECUTE_ERROR, EXE);
-            }
-            else
-            {
-                if (USER_ID.Length == 0 || USER_PASSWORD.Length == 0)
-                {
-                    OnCompleted(LoginCode.WRONG_USER, string.Empty);
-                    return;
-                }
-
-                login_try = 0;
-                wb.DocumentCompleted += LoginDocumentCompleted;
-                wb.Navigate("http://www.aeriagames.com/dialog/oauth?response_type=code&client_id=f24233f2506681f0ba2022418e6a5b44050b5216f&https://agoa-dmo.joymax.com/code2token.html&&state=xyz");
-                OnChanged(LoginState.LOGINNING);
-            }
-        }
-
-        public override void LastSessionStart()
-        {
-            if (LastSessionArgs.Length == 0)
+                OnCompleted(LoginCode.WRONG_USER, string.Empty);
                 return;
-            if (IsUpdateNeeded)
-            {
-                string EXE = string.Format(PATH_FORMAT, GetGamePath(), LAUNCHER_EXE);
-                if (ApplicationLauncher.Execute(EXE, S_USE_APPLOC))
-                    OnCompleted(LoginCode.SUCCESS, string.Empty);
-                else
-                    OnCompleted(LoginCode.EXECUTE_ERROR, EXE);
             }
-            else
-            {
-                string EXE = string.Format(PATH_FORMAT, GetGamePath(), GAME_EXE);
-                if (ApplicationLauncher.Execute(EXE, LastSessionArgs, S_USE_APPLOC))
-                    OnCompleted(LoginCode.SUCCESS, LastSessionArgs);
-                else
-                    OnCompleted(LoginCode.EXECUTE_ERROR, EXE);
-            }
+
+            login_try = 0;
+            wb.DocumentCompleted += LoginDocumentCompleted;
+            wb.Navigate("http://www.aeriagames.com/dialog/oauth?response_type=code&client_id=f24233f2506681f0ba2022418e6a5b44050b5216f&https://agoa-dmo.joymax.com/code2token.html&&state=xyz");
+            OnChanged(LoginState.LOGINNING);
         }
+
         #endregion
 
-        public override DMOWebProfile GetWebProfile()
+        public override string GetGameStartArgs(string args)
         {
-            return new DMOLibrary.Profiles.Joymax.JMWebInfo(Database);
+            return args;
         }
 
-        public override DMONewsProfile GetNewsProfile()
+
+        public override string GetLauncherStartArgs(string args)
         {
-            return new DMOLibrary.Profiles.Joymax.JMNews();
+            return string.Empty;
         }
     }
 }

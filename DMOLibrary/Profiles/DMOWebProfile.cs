@@ -49,6 +49,7 @@ namespace DMOLibrary.Profiles
         public event DownloadStatusChangedHandler StatusChanged;
         protected virtual void OnStarted()
         {
+            IsBusy = true;
             if (DownloadStarted != null)
             {
                 if (owner_dispatcher != null && !owner_dispatcher.CheckAccess())
@@ -76,6 +77,7 @@ namespace DMOLibrary.Profiles
                 else
                     DownloadCompleted(this, code, result);
             }
+            IsBusy = false;
         }
         protected virtual void OnStatusChanged(DMODownloadStatusCode code, string info, int p, int pm)
         {
@@ -99,6 +101,8 @@ namespace DMOLibrary.Profiles
         }
         #endregion
 
+        protected bool IsBusy = false;
+
         public void GetGuildAsync(System.Windows.Threading.Dispatcher owner_dispatcher, string g_name, server serv, bool isDetailed, int ActualDays)
         {
             this.owner_dispatcher = owner_dispatcher;
@@ -116,6 +120,18 @@ namespace DMOLibrary.Profiles
             }
             return d;
         }
+
+        public digimon GetRandomDigimon(server serv, string g_name, string t_name, int minlvl)
+        {
+            digimon d = new digimon();
+            if (Database.OpenConnection())
+            {
+                d = Database.RandomDigimon(serv, g_name, t_name, minlvl);
+                Database.CloseConnection();
+            }
+            return d;
+        }
+
         public digimon_type GetRandomDigimonType()
         {
             digimon_type d = new digimon_type();
@@ -128,9 +144,9 @@ namespace DMOLibrary.Profiles
         }
 
         public abstract guild GetGuild(string g_name, server serv, bool isDetailed, int ActualDays);
-        public abstract bool GetGuildInfo(ref guild g, bool isDetailed);
-        public abstract List<digimon> GetDigimons(tamer tamer, bool isDetailed);
-        public abstract bool StarterInfo(ref digimon digimon, string tamer_name);
-        public abstract bool DigimonInfo(ref digimon digimon, string tamer_name);
+        protected abstract bool GetGuildInfo(ref guild g, bool isDetailed);
+        protected abstract List<digimon> GetDigimons(tamer tamer, bool isDetailed);
+        protected abstract bool StarterInfo(ref digimon digimon, string tamer_name);
+        protected abstract bool DigimonInfo(ref digimon digimon, string tamer_name);
     }
 }

@@ -18,86 +18,59 @@
 
 using System;
 using System.Windows;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
+using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher
+namespace AdvancedLauncher.Service
 {
-  class Utils
-  {
-    /// <summary> Parse version file (like vGDMO.ini) </summary>
-    /// <param name="text">Version file content</param>
-    /// <returns> Version (integer) or -1 if version not found </returns>
-    public static int GetVersion(string text)
+    public static class Utils
     {
-      string expr = "(version)(=)(\\d+)";
-      System.Text.RegularExpressions.Regex r = new System.Text.RegularExpressions.Regex(expr, System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.Singleline);
-      System.Text.RegularExpressions.Match m = r.Match(text);
-      if (m.Success)
-        return Convert.ToInt32(m.Groups[3].ToString());
-      return -1;
-    }
-
-    /// <summary> Error MessageBox </summary>
-    /// <param name="text">Content of error</param>
-    public static void MSG_ERROR(string text)
-    {
-      MessageBox.Show(text, LanguageProvider.strings.ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-    }
-
-    /// <summary> Opens URL with default browser </summary>
-    /// <param name="url">URL to web</param>
-    public static void OpenSite(string url)
-    {
-      try { System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url)); }
-      catch (Exception ex)
-      {
-        MSG_ERROR(LanguageProvider.strings.CANT_OPEN_LINK + ex.Message);
-      }
-    }
-
-    /// <summary> Opens URL with default browser (without URL decode) </summary>
-    /// <param name="url">URL to web</param>
-    public static void OpenSiteNoDecode(string url)
-    {
-        try { System.Diagnostics.Process.Start(url); }
-        catch (Exception ex)
+        /// <summary> Error MessageBox </summary>
+        /// <param name="text">Content of error</param>
+        public static void MSG_ERROR(string text)
         {
-            MSG_ERROR(LanguageProvider.strings.CANT_OPEN_LINK + ex.Message);
+            MessageBox.Show(text, LanguageEnv.Strings.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary> Opens URL with default browser </summary>
+        /// <param name="url">URL to web</param>
+        public static void OpenSite(string url)
+        {
+            try { System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url)); }
+            catch (Exception ex)
+            {
+                MSG_ERROR(LanguageEnv.Strings.CantOpenLink + ex.Message);
+            }
+        }
+
+        /// <summary> Opens URL with default browser (without URL decode) </summary>
+        /// <param name="url">URL to web</param>
+        public static void OpenSiteNoDecode(string url)
+        {
+            try { System.Diagnostics.Process.Start(url); }
+            catch (Exception ex)
+            {
+                MSG_ERROR(LanguageEnv.Strings.CantOpenLink + ex.Message);
+            }
+        }
+
+        /// <summary> Checks access to file </summary>
+        /// <param name="file">Full path to file</param>
+        /// <returns> <see langword="True"/> if file is locked </returns>
+        public static bool IsFileLocked(string file)
+        {
+            FileStream stream = null;
+
+            try { stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None); }
+            catch (IOException) { return true; }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
+            return false;
         }
     }
-
-    /// <summary> Checks URL </summary>
-    /// <param name="url">URL to web</param>
-    /// <returns> <see cref="true"/> if URL is valid </returns>
-    public static bool IsValidLink(string url)
-    {
-        Regex r = new Regex(@"^(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*$");
-        while (r.Match(url).Success)
-            return true;
-        return false;
-    }
-
-#if DEBUG
-    static string DEBUG_FILE = string.Empty;
-    public static void SetDebug(string file)
-    {
-      try { File.Delete(file); }
-      catch { }
-      DEBUG_FILE = file;
-      WriteDebug("Starting new session.");
-    }
-    public static void WriteDebug(string message)
-    {
-      if (DEBUG_FILE != string.Empty)
-      {
-        using (StreamWriter sw = File.AppendText(DEBUG_FILE))
-        {
-          sw.Write("[" + DateTime.Now + "] ");
-          sw.WriteLine(message);
-        }
-      }
-    }
-#endif
-  }
 }

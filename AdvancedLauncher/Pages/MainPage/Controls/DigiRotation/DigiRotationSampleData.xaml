@@ -1,7 +1,0 @@
-﻿<local:DigiRotation_DC  
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:AdvancedLauncher;assembly=AdvancedLauncher"
-    Loading="Загрузка списка Дигимонов"
-    Wait="Пожалуйста, подождите...">
-</local:DigiRotation_DC> 

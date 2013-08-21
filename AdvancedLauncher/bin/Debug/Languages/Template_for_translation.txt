@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <CantOpenLink>Can't open link. Try to change the default browser. Error: </CantOpenLink>
+  <Error>Error</Error>
+  <CreateButton>Create</CreateButton>
+  <DeleteButton>Delete</DeleteButton>
+  <BrowseButton>Browse</BrowseButton>
+  <ApplyButton>Apply</ApplyButton>
+  <CancelButton>Cancel</CancelButton>
+  <CloseButton>Close</CloseButton>
+  <StartButton>GAME START</StartButton>
+  <WaitForComplete>Please wait completion of the current operation</WaitForComplete>
+  <PleaseWait>Please wait</PleaseWait>
+  <ErrorOccured>An error has occurred!</ErrorOccured>
+  <ConnectionError>Check your Internet connection.</ConnectionError>
+  <DBConnectionError>Database connection error.</DBConnectionError>
+  <CantGetError>Can't get remote information</CantGetError>
+  <GuildNotFoundError>Guild not found. Check your settings.</GuildNotFoundError>
+  <GameFilesInUse>Unable to get access to the required game files. Please close all programs that use them.</GameFilesInUse>
+  <PleaseCloseGame>Please close the game.</PleaseCloseGame>
+  <PleaseSelectGamePath>Please select correct path to directory of game in settings of launcher.</PleaseSelectGamePath>
+  <PleaseSelectLauncherPath>Please select correct path to directory of default launcher in settings.</PleaseSelectLauncherPath>
+  
+  <MainWindow_NewsTab>NEWS</MainWindow_NewsTab>
+  <MainWindow_GalleryTab>GALLERY</MainWindow_GalleryTab>
+  <MainWindow_CommunityTab>COMMUNITY</MainWindow_CommunityTab>
+  <MainWindow_PersonalizationTab>PERSONALIZATION</MainWindow_PersonalizationTab>
+  
+  <About>About</About>
+  <About_Version>Version</About_Version>
+  <About_Developer>Developer</About_Developer>
+  <About_DesignHelp>Design help</About_DesignHelp>
+  <About_Acknowledgments>Acknowledgments</About_Acknowledgments>
+  <About_Translators>Translators</About_Translators>
+  <About_Licence404>Licence file "{0}" not found.</About_Licence404>
+  
+  <Settings>Settings</Settings>
+  <Settings_Language>Language</Settings_Language>
+  <Settings_LastProfile>It is impossible to delete the latest profile. Launcher must has at least one profile.</Settings_LastProfile>
+  <Settings_MainGroup>Profile</Settings_MainGroup>
+  <Settings_RotationGroup>DigiRotation</Settings_RotationGroup>
+  <Settings_NewsGroup>News</Settings_NewsGroup>
+  <Settings_GameGroup>Game</Settings_GameGroup>
+  <Settings_AccountGroup>Account</Settings_AccountGroup>
+  <Settings_ProfileNameHint>Write profile name</Settings_ProfileNameHint>
+  <Settings_SetAsDefaultButton>Set as default profile</Settings_SetAsDefaultButton>
+  <Settings_RotationGuildHint>Guild for Rotation</Settings_RotationGuildHint>
+  <Settings_RotationTamerHint>Tamer for Rotation (optional)</Settings_RotationTamerHint>
+  <Settings_RotationUpdateFREQ>Update frequency (days)</Settings_RotationUpdateFREQ>
+  <Settings_TwitterHint>Twitter URL (JSON-source)</Settings_TwitterHint>
+  <Settings_FirstNewsTab>First news tab</Settings_FirstNewsTab>
+  <Settings_ClientType>Type of client</Settings_ClientType>
+  <Settings_GamePath>Path to game</Settings_GamePath>
+  <Settings_LauncherPath>Path to default launcher</Settings_LauncherPath>
+  <Settings_UpdateEngine>Integrated Update Engine</Settings_UpdateEngine>
+  <Settings_AppLocale>Run through Microsoft AppLocale</Settings_AppLocale>
+  <Settings_AppLocale_Help>Why inactive?</Settings_AppLocale_Help>
+  <Settings_Account_User>Username</Settings_Account_User>
+  <Settings_Account_Password>Password</Settings_Account_Password>
+  <Settings_SelectGameDir>Please specify the directory where the game is located</Settings_SelectGameDir>
+  <Settings_SelectGameDirError>You must specify the correct folder of the game.</Settings_SelectGameDirError>
+  <Settings_SelectLauncherDir>Please specify the directory where the default launcher is located</Settings_SelectLauncherDir>
+  <Settings_SelectLauncherDirError>You must specify the correct folder of the default launcher.</Settings_SelectLauncherDirError>
+  
+  <AppLocale_FailReasons>Can't run the game through AppLocale for the following reasons:</AppLocale_FailReasons>
+  <AppLocale_Error>Microsoft AppLocale Error</AppLocale_Error>
+  <AppLocale_NotInstalled> - Microsoft AppLocale Utility is not installed</AppLocale_NotInstalled>
+  <AppLocale_EALNotInstalled> - Support of East Asian languages is not installed</AppLocale_EALNotInstalled>
+  <AppLocale_FixQuestion>Want to open the download page and/or instructions to fix these errors right now?</AppLocale_FixQuestion>
+  
+  <RotationLevelText>level</RotationLevelText>
+  <RotationDownloading>Downloading data...</RotationDownloading>
+  <RotationTamer>Tamer</RotationTamer>
+  
+  <News>NEWS</News>
+  <NewsPubDate>Publication date</NewsPubDate>
+  <NewsReadMore>Read more...</NewsReadMore>
+  <NewsTwitterError>Unable to get a list of tweets</NewsTwitterError>
+  <NewsType_Notice>notice</NewsType_Notice>
+  <NewsType_Event>event</NewsType_Event>
+  <NewsType_Patch>patch</NewsType_Patch>
+  
+  <GameButton_Waiting>WAITING</GameButton_Waiting>
+  <GameButton_UpdateGame>UPDATE GAME</GameButton_UpdateGame>
+  <UpdateCantGetVersion>Unable to get the version of the game.</UpdateCantGetVersion>
+  <UpdateCantConnect>Can't connect to the update servers.</UpdateCantConnect>
+  <UpdateDownloading>Downloading update {0} of {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
+  <UpdateExtracting>Unpacking update {0} of {1}... [{2} / {3}]</UpdateExtracting>
+  <UpdateInstalling>Installing updates... [{0} / {1}]</UpdateInstalling>
+  <UseLastSession>Use last session</UseLastSession>
+  
+  <LoginTry>Try {0}...</LoginTry>
+  <LoginGettingData>Obtaining data...</LoginGettingData>
+  <LoginLogIn>Log in...</LoginLogIn>
+  <LoginWasError>was error</LoginWasError>
+  <LoginBadAccount>Can't login. Your username or password may be incorrect.</LoginBadAccount>
+  <LoginEmptyUsername>Please type your username!</LoginEmptyUsername>
+  <LoginEmptyPassword>Please type your password!</LoginEmptyPassword>
+  <LoginWrongPage>Login page is incorrect or has been changed. Please contact the developer of launcher.</LoginWrongPage>
+  
+  <GalleryHint>CLICK TWICE ON THE SCREENSHOT FOR OPENING</GalleryHint>
+  <GalleryNoScreenshots>THERE IS NO SCREENSHOTS</GalleryNoScreenshots>
+  <GalleryCantOpenImage>Can't open the image. Error: </GalleryCantOpenImage>
+  
+  <PersonalizationWrongTGA>It is not a TGA-image!</PersonalizationWrongTGA>
+  <PersonalizationCantSave>Unable to save the Image.</PersonalizationCantSave>
+  <PersonalizationCantWrite>Unable to write the Image into the game!</PersonalizationCantWrite>
+  <PersonalizationSelectTitle>Select Image:</PersonalizationSelectTitle>
+  <PersonalizationSelectMessage>Click here to select the Image</PersonalizationSelectMessage>
+  <PersonalizationCurrentTitle>Current Image:</PersonalizationCurrentTitle>
+  <PersonalizationSaveButton>Save Image</PersonalizationSaveButton>
+  
+  <CommGuildName>Guild name</CommGuildName>
+  <CommGuildNameEmpty>Please enter the name of the guild!</CommGuildNameEmpty>
+  <CommWrongGuildName>Guild's name contains invalid characters!</CommWrongGuildName>
+  
+  <CommSearchingGuild>Searching the guild</CommSearchingGuild>
+  <CommGettingTamer>Obtaining Tamer: {0}</CommGettingTamer>
+  
+  <CommShowTab>SHOW</CommShowTab>
+  <CommTamersTab>TAMERS</CommTamersTab>
+  <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
+  
+  <CommSelect_Guild>What guild you are looking for</CommSelect_Guild>
+  <CommCheckBox_Detailed>Receive detailed data (long)</CommCheckBox_Detailed>
+  <CommButton_Search>Search a guild</CommButton_Search>
+  
+  <CommInformation>Information</CommInformation>
+  <CommGMaster>Master</CommGMaster>
+  <CommGBest>Best</CommGBest>
+  <CommGRank>Ranking</CommGRank>
+  <CommGRep>Reputation</CommGRep>
+  <CommGTCnt>Quantity of tamers</CommGTCnt>
+  <CommGDCnt>Quantity of digimons</CommGDCnt>
+  
+  <CommHeader_Type>Type</CommHeader_Type>
+  <CommHeader_Level>Level</CommHeader_Level>
+  <CommHeader_Ranking>Ranking</CommHeader_Ranking>
+  <CommHeader_Tamer>Tamer</CommHeader_Tamer>
+  <CommHeader_Partner>Partner</CommHeader_Partner>
+  <CommHeader_Mercenary>Mercenary</CommHeader_Mercenary>
+  <CommHeader_Name>Name</CommHeader_Name>
+  <CommHeader_Size>Size</CommHeader_Size>
+  
+  <UpdateAvailableText>New version {0} available. Changelog:</UpdateAvailableText>
+  <UpdateAvailableCaption>New version {0} available</UpdateAvailableCaption>
+  <UpdateDownloadQuestion>Do you want to download it now?</UpdateDownloadQuestion>
+</Language>

@@ -1,0 +1,39 @@
+2.2a:
+Common:
+- New "All in one" profile system
+- New Settings/About interface
+- Improvements in almost any module
+DigiRotation:
+- Added feature to disable DigiRotation just by typing empty guild name
+- Added feature to show Digimons of specific Tamer
+Account authentication:
+- Account data can be stored in profile (optional, password will be encrypted)
+- Fixed Aeria authentication
+Update engine:
+- New algorithm. It must be a more stable.
+- Fixed critical bug in filemap structure. If you played Aeria with enabled update engine, please install a fresh copy of Aeria client.
+
+2.1c:
+- Fixed crash in customization caused by unknown file path (resource file with only known ID)
+
+2.1b:
+Common:
+- Fixed: "Last session" was available for Aeria
+- Updated pack of icons (new Tamers & Digimons)
+Twitter fix:
+- Fixed Twitter user timeline (now use Twitter API v1.1).
+- Is no longer supported easy reading timelines of any user (Twitter API 1.1 requires OAuth authentification)
+- Setting "Twitter username" was replaced with URL to the generated Twitter's JSON (statuses/user_timeline).
+
+2.1a:
+- Fixed SQLite initialization error
+- Fixed DPI of some icons (DigiRotation)
+- Some improvements of update engine
+- Twitter: #HashTags and @UserNames are clickable now
+- Polish translation added (thanks Czip)
+- Minor fixes and improvements
+
+2.1:
+ - Added ADMO (Aeria) and KDMO support
+ - Added profile system
+ - Various bug fixes

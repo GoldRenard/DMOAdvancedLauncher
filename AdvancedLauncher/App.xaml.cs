@@ -21,6 +21,7 @@ using System.Windows;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
 using AdvancedLauncher.Environment;
+using System.Security.Principal;
 
 namespace AdvancedLauncher
 {
@@ -40,15 +41,25 @@ namespace AdvancedLauncher
             ShowInTaskbar = false
         };
 
+        public static bool IsAdministrator()
+        {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
         public App()
         {
-            WpfBugWindow.Show();
-            LauncherEnv.Load();
+            if (IsAdministrator())
+            {
+                WpfBugWindow.Show();
+                LauncherEnv.Load();
+            }
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            if (UACHelper.IsProcessElevated)
+            if (IsAdministrator())
             {
                 splash.Show(false);
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109"))
@@ -66,9 +77,8 @@ namespace AdvancedLauncher
 
         void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            //DateTime t = DateTime.Now;
-            //MiniDump.MiniDumpToFile(string.Format("Crash_{0:00}_{1:00}_{2:00}{3:00}{4:0000}.dmp", t.Hour, t.Minute, t.Day, t.Month, t.Year));
-            //e.Handled = true;
+            BugWindow bw = new BugWindow(sender, e);
+            bw.ShowDialog();
         }
     }
 }

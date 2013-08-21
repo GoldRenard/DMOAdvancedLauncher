@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Language>Russian (Russia)</Language>
+  <DefaultProfile>0</DefaultProfile>
+  <Profiles>
+    <Profile Id="0" Name="Default" AppLocale="true" UpdateEngine="false">
+      <Login />
+      <Rotation Guild="" Tamer="" ServerId="0" UpdateInterval="0" />
+      <News FirstTab="0" TwitterUrl="http://renamon.ru/launcher/dmor_timeline.php" />
+      <GameEnv Type="ADMO">
+        <GamePath>D:\Games\digimonmasters_us_installer_20130419sfx</GamePath>
+        <DefLauncherPath>D:\Games\digimonmasters_us_installer_20130419sfx</DefLauncherPath>
+      </GameEnv>
+    </Profile>
+  </Profiles>
+</Settings>

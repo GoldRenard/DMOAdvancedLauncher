@@ -1,8 +1,0 @@
-C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Release\SQLite.Interop.dll
-C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Release\DMOLibrary.dll
-C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Release\DMOLibrary.pdb
-C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Release\HtmlAgilityPack.dll
-C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Release\Ookii.Dialogs.Wpf.dll
-C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\bin\Release\System.Data.SQLite.dll
-C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\obj\Release\DMOLibrary.dll
-C:\Users\Renard\Desktop\AdvancedLauncher\DMOLibrary\obj\Release\DMOLibrary.pdb

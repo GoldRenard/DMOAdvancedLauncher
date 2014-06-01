@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 	<script src="//j.maxmind.com/app/geoip.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="javascripts/main.js"></script>
 	<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     <!--[if lt IE 9]>
@@ -150,12 +152,39 @@ $ git clone https://github.com/GoldRenard/DMOAdvancedLauncher.git</code></pre>
             <small>View project on</small>
             GitHub
           </a>
-
-          <p class="repo-owner"><a href="https://github.com/GoldRenard/DMOAdvancedLauncher">Project</a> is maintained by<br/>
-		  <a href="https://github.com/GoldRenard">GoldRenard</a> and <a href="#">DragonVs</a>.</p>
+		  
+		  
+		<div id="release_stats" style="display: none;">
+			<div id="release_info_title">Release info:</div>
+			<div id="release_info_wrap">
+				<div id="release_name"></div>
+				<div>
+					<span class="bold">Published:</span>
+					<span id="release_pubdate"></span>
+				</div>
+				<div>
+					<span class="bold">Size:</span>
+					<span id="release_size"></span>
+				</div>
+				<div>
+					<span class="bold">Downloads:</span>
+					<span id="release_dls"></span>
+				</div>
+			</div>
+			
+			<div id="release_author_wrap">
+				<div>Brought to you by:</div>
+				<a id="release_author_link" href="#" target="_blank">
+					<div id="release_author_avatar_wrap"><img id="release_author_avatar" /></div>
+					<div id="release_author_name"></div>
+					<div id="release_author_guild">&lt;MonolithMesa&gt;</div>
+				</a>
+			</div>
+		</div>
         </aside>
       </div>
-	  <p style="text-align: center;">* Trademarks belong to their respective owners. All rights reserved.</p>
+	  <p style="text-align: center;"><a href="https://github.com/GoldRenard/DMOAdvancedLauncher">Project</a> is maintained by <a href="https://github.com/GoldRenard">GoldRenard</a> and <a href="#">DragonVs</a>.<br/>
+	  * Trademarks belong to their respective owners. All rights reserved.</p>
     </div>
   </body>
 </html>

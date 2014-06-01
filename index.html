@@ -16,17 +16,19 @@
 
   <script>
     (function(){
-        var target = [];
-        target.RU  = "index-ru.html";
-		target.UA  = "index-ru.html";
-        function visitor_country_code() {
-            if(typeof geoip_country_code == 'function') return geoip_country_code();
-            return 'UNKNOWN';
-        }
-        var visitorCountryCode = visitor_country_code();
-        var redirectURL = target[visitorCountryCode];
-        if (redirectURL != null && !window.location.hash) {
-			window.top.location.href = redirectURL;
+		if (!window.location.hash) {
+			var target = [];
+			target.RU  = "index-ru.html";
+			target.UA  = "index-ru.html";
+			function visitor_country_code() {
+				if(typeof geoip_country_code == 'function') return geoip_country_code();
+				return 'UNKNOWN';
+			}
+			var visitorCountryCode = visitor_country_code();
+			var redirectURL = target[visitorCountryCode];
+			if (redirectURL != null) {
+				window.top.location.href = redirectURL;
+			}
 		}
     })();
   </script>

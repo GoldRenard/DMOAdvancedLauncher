@@ -6,13 +6,13 @@
 @font-face {
     font-family: 'Aaargh';
     src: url(../fonts/aaargh_cyrillic.eot);
-    src: local('Aaargh Regular'), local('AaarghCyrillicNormal'), url(../aaargh_cyrillic.woff) format('woff');
+    src: local('Aaargh Regular'), local('AaarghCyrillicNormal'), url(../fonts/aaargh_cyrillic.woff) format('woff');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'Aaargh';
-    src: local('Aaargh Bold'), local('AaarghCyrillicBold'), url(../aaargh_cyrillic.woff) format('woff');
+    src: local('Aaargh Bold'), local('AaarghCyrillicBold'), url(../fonts/aaargh_cyrillic.woff) format('woff');
     font-weight: bold;
     font-style: normal;
 }

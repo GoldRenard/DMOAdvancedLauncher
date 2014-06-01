@@ -33,7 +33,7 @@ function jsonLoad(data) {
 		$("#release_author_avatar").attr('src', author["avatar_url"]);
 		$("#release_author_name").text(author["login"]);
 		
-		$("#release_stats").css('display', 'block');
+		$("#release_stats").fadeIn("fast");
 	}
 }
 

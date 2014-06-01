@@ -26,39 +26,87 @@
 
     <div id="content-wrapper">
       <div class="inner clearfix">
-        <section id="main-content">
-          <h3><a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3><a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3><a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3><a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3><a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+		<section id="main-content">
+			<h3>Welcome to DMO Advanced Launcher GitHub Page.</h3>
+			<p>Hello. We would like to present to you the custom DMO game launcher. We invested all our effort and soul into its creation. It doesn't look like a default launcher. It is: beautiful, comfortable, functional.</p>
+			
+			<h3>Overview and features</h3>
+			<p>DMO Advanced Launcher supports ADMO (Aeria), GDMO (Joymax), KDMO (www.digimonmasters.com and IMBC) servers. Unfortunately, not all features are supported for all servers. For example, Digimon Rotation and Community page not available for ADMO.<br/>
+			Let's make "marks" to define support features for a each server:
+			<ul>
+				<li>[A] - supported for Aeria mode</li>
+				<li>[G] - supported for Joymax mode</li>
+				<li>[K] - supported for Korean mode (both www.digimonmasters.com and IMBC)</li>
+				<li>[S] - supported for any mode</li>
+			</ul>
+			Main features:
+			<ul>
+				<li>[G|K] Rotation of top Digimons of your guild</li>
+				<li>[G|K] Stay Up-to-Date! Getting information about any guild (ranking, reputation, list of tamers, digimons, etc)</li>
+				<li>[A|G] Joymax news</li>
+				<li>[S] Twitter statuses loaded by Twitter API 1.1 JSON user timeline</li>
+				<li>[S] Checking and installing game updates (beta)*</li>
+				<li>[S] Screenshot gallery</li>
+				<li>[S] Let the game meets. Possibility of change some game resources like login background, dialogs, etc.</li>
+				<li>[S] Launching game through AppLocale (fixing codepage troubles like bad cyrillic at guild chat)</li>
+				<li>[S] Profile system. You can make many profiles for every server/account/etc.</li>
+			</ul>
+			* Update feature on the <span style="font-weight:bold;">BETA</span> stage and it is <span style="font-weight:bold;">DISABLED</span> by default. We aren't sure that we did everything absolutely correctly. Use that at your own risk.
+With disabled option checking updates still works, but default launcher will be used for updating.
+			</p>
+			
+			<h3>System requirements</h3>
+			<p>
+				<ul>
+					<li>Windows® XP (SP3) / Vista (SP1+) / 7 / 8</li>
+					<li>Microsoft .NET Framework 4.0</li>
+					<li>Microsoft Visual C++ 2010 SP1 Redistributable Package</li>
+				</ul>
+			</p>
+			
+			<h3>Installation</h3>
+			<p>
+				<ol>
+					<li>Download and install the <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/releases/latest">latest release</a>.</li>
+					<li>If you have Windows XP and want use AppLocale, you MUST install East Asian Language support (instruction), then turn on the AppLocale in options of launcher.</li>
+				</ol>
+			</p>
+			
+			<h3>Help with Translations</h3>
+			<p>
+				We'll glad to getting help in the translation of the launcher into other languages. Look at the folder "Languages" of root launcher's folder. Use "Template_for_translation.txt" as template. Also you can correct our English translation. We know that current is bad xD<br/>
+				Please send <a href="mailto:goldrenard@gmail.com">an email</a> with new translations.<br/>
+			</p>
+			
+			<h3>How to get Steam Overlay work with AdvancedLauncher</h3>
+			<p>
+				There are two things that prevent game launching through Steam+AdvancedLauncher with working In-game status and Overlay.<br/>
+				First, Steam must be runned <span style="font-weight:bold;">AS ADMIN</span>.<br/>
+				Second, Steam can't properly detect the game if it was launched through AppLocale. So Advanced Launcher will disable AppLocale if it launched through Steam. If you want use AppLocale, you must <span style="font-weight:bold;">run Steam</span> through AppLocale:
+				<ul>
+					<li>Open Microsoft AppLocale Wizard ("AppLocale" in the Start Menu)</li>
+					<li>In "Locate The Application" screen click "Browse..." and choose Steam.exe</li>
+					<li>Choose Korean (한국어) on the next screen</li>
+					<li>On the next screen check "Create a Shortcut to always run this application with AppLocale" and click Finish</li>
+					<li>The shortcut should be in the folder of the Start Menu where AppLocale is. Change it to always run Steam as Administrator in Properties > Compatibility tab. You can also make it run this way for all users if you want</li>
+					<li>Click Ok and run it. You can also copy the shortcut to the Desktop or Pin it to the Start Menu or Task Bar for easy access</li>
+					<li>In-game status and Overlay should work now</li>
+				</ul>
+			</p>
+			
+			<h3>Source code</h3>
+			<p>
+				DMO Advanced Launcher is <span style="font-weight:bold;">Open Source project</span> under GNU GPL 3.0, so you can be sure that it doesn't include any malware, keyloggers, etc. It is safe to use, but keep in mind - <span style="color:red;font-weight:bold;">DO NOT</span> share any configuration files with untrusted persons.<br/><br/>
+				<span style="margin-top:20px;font-weight:bold;">Download source code:</span>
+				<pre><code>$ cd your_repo_root
+$ git clone https://github.com/GoldRenard/DMOAdvancedLauncher.git</code></pre>
+			</p>
         </section>
 
         <aside id="sidebar">
-          <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/raw/master/Shared/Setups/DMOLauncher_Setup_2.2.4981.21424.exe" class="button">
+          <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/releases/latest" class="button">
             <small>Download</small>
-            installer
+            Installer
           </a>
           <a href="https://github.com/GoldRenard/DMOAdvancedLauncher" class="button github" target="_blank">
             <small>View project on</small>

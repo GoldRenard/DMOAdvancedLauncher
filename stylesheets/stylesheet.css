@@ -12,7 +12,7 @@
 }
 @font-face {
     font-family: 'Aaargh';
-    src: local('Aaargh Bold'), local('AaarghCyrillicBold'), url(../fonts/aaargh_cyrillic.woff) format('woff');
+    src: local('Aaargh Bold'), local('AaarghCyrillicBold'), url(../fonts/aaargh_cyrillic_bold.woff) format('woff');
     font-weight: bold;
     font-style: normal;
 }
@@ -243,6 +243,7 @@ form {
 #main-content h1 {
   font-family: 'Aaargh', 'Helvetica Neue', Helvetica, Arial, serif; 
   font-size: 2.8em;
+  font-weight: bold;
   letter-spacing: -1px;
   color: #474747;
 } 

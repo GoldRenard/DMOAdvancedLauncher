@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+	<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>DMO Advanced Launcher</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+		<img src="images/logo-en.png" />
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+		<section id="main-content">
+			<h3>Добро пожаловать на страницу проекта DMO Advanced Launcher</h3>
+			<p>Привет! Хотим представить вашему вниманию первый пользовательский лаунчер Digimon Masters Online! Мы вложили все усилия и душу в его создание, он совсем не похож на стандартный лаунчер. Он: красивее, удобнее, функциональнее.</p>
+			
+			<h3>Обзор и возможности</h3>
+			<p>DMO Advanced Launcher поддерживает ADMO (Aeria), GDMO (Joymax), KDMO (www.digimonmasters.com и IMBC) серверы. Однако, не все возможности лаунчера поддерживаются всеми серверами. Например, ДигиРотация и страница сообщества недоступны в режиме работы для сервера Aeria.<br/>
+			Опишем "марки" для определения поддержки возможности тем или иным сервером:
+			<ul>
+				<li>[A] - поддерживается в режиме <a href="http://www.aeriagames.com/playnow/dmus">Aeria</a></li>
+				<li>[G] - поддерживается в режиме <a href="http://www.joymax.com/dmo/">Joymax</a></li>
+				<li>[K] - поддерживается в режиме Korean (оба <a href="http://www.digimonmasters.com">www.digimonmasters.com</a> и <a href="http://dm.imbc.com">IMBC</a>)</li>
+				<li>[S] - поддерживается в любом режиме</li>
+			</ul>
+			Основные возможности:
+			<ul>
+				<li>[G|K] Ротация всех лидирующих Дигимонов Вашей гильдий</li>
+				<li>[G|K] Будьте в курсе! Получение информации о любой гильдии игры с любого сервера (члены гильдий, их дигимоны и т.п.)</li>
+				<li>[A|G] Новости Joymax</li>
+				<li>[S] Cтатусы Твиттера нашего сообщества (или другого источника через Twitter API 1.1 JSON)</li>
+				<li>[S] Автоматическая проверка и установка обновлений игры (beta)*</li>
+				<li>[S] Галерея скриншотов</li>
+				<li>[S] Пускай игра встречает. Вы можете заменить фон окна ввода учетных данных и не только</li>
+				<li>[S] Долой транслит. Исправление кириллицы в чате игры, используя Microsoft AppLocale</li>
+				<li>[S] Система профилей. Вы можете создать много профилей для каждого сервера / аккаунта.</li>
+			</ul>
+			* Данная возможность на стадии <span style="font-weight:bold;">БЕТА-тестирования</span> и <span style="font-weight:bold;">ОТКЛЮЧЕНА</span> по-умолчанию. Мы не уверены, что сделали все абсолютно правильно. Используйте на свой страх и риск.<br/>
+С выключенной опцией проверка обновлений будет работать, но для обновления будет использоваться стандартный лаунчер.
+			</p>
+			
+			<h3>Системные требования</h3>
+			<p>
+				<ul>
+					<li>Windows® XP (SP3) / Vista (SP1+) / 7 / 8</li>
+					<li>Microsoft .NET Framework 4.0</li>
+					<li>Microsoft Visual C++ 2010 SP1 Redistributable Package</li>
+				</ul>
+			</p>
+			
+			<h3>Установка</h3>
+			<p>
+				<ol>
+					<li>Скачиваем и устанавливаем <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/releases/latest" target="_blank">последнюю версию</a>.</li>
+					<li>Если у Вас Windows XP и хотите исправить кириллицу в чате гильдии, Вам НЕОБХОДИМО установить поддержку иероглифических языков, после чего включить AppLocale в настройках лаунчера.</li>
+				</ol>
+			</p>
+			
+			<h3>Помощь в переводе</h3>
+			<p>
+				Мы рады получить любую помощь в переводе нашего лаунчера на другие языки. Обратите внимание на папку "Languages" в корневом каталоге лаунчера. Используйте файл "Template_for_translation.txt" как шаблон.<br/><br/>Кроме того, вы можете помочь в исправлении нашего Английского перевода. Мы знаем, он очень плохой :)<br/>
+				Пожалуйста, отправляйте готовые языковые файлы <a href="mailto:goldrenard@gmail.com">на нашу электронную почту</a>.<br/>
+			</p>
+			
+			<h3>Известные проблемы</h3>
+			<p>
+				<ul>
+					<li>Страница сообщества и ДигиРотация используют информацию с веб-сайта. Вы знаете, не все Дигимоны предоставлены в рейтинге или страницах теймеров. Поэтому их не будет и в лаунчере.</li>
+					<li>К тому же, только ОДИН Дигимон ОДНОГО типа может быть получен с сайта игры. Так что, если у Вас два Импмона, в лаунчере будет только один из них.</li>
+					<li>Долгий провесс авторизации для KDMO IMBC. Ошибка 705 - это нормально, просто повторяйте попытку снова. Если вы получаете эту ошибку более десяти раз, проверьте данные вашей учетной записи.</li>
+				</ul>
+			</p>
+			
+			<h3>Как заставить лаунчер корректно работать через Steam</h3>
+			<p>
+				Есть две проблемы, препятствующие запуску игры через Steam + AdvancedLauncher с работающим статусом "В игре" и внутриигровым оверлеем.<br/>
+				<ul>
+					<li>По-первых, Steam должен быть запущен <span style="font-weight:bold;">от имени администратора</span>.</li>
+					<li>
+						Во-вторых, Steam не может корректно определить игру если она была запущена через AppLocale. Таким образом, наш лаунчер принудительно отключает поддержку AppLocale, если он запускается через Steam. Если вы хотите использовать AppLocale, вы должны <span style="font-weight:bold;">запустить Steam</span> через AppLocale:
+						<ol style="margin:20px 0 0 10px;">
+							<li>Откройте мастер настройки Microsoft AppLocale ("AppLocale" в пуске)</li>
+							<li>В окне "Locate The Application" нажмите "Browse..." и выберите Steam.exe</li>
+							<li>Выберите Korean (한국어) на следующем шаге</li>
+							<li>На следующем шаге поставьте галочку "Create a Shortcut to always run this application with AppLocale" и нажмите Finish</li>
+							<li>Новый ярлык Steam должен был появиться в разделе AppLocale меню Пуск. Настройте его на запуск от имени администратора (в свойствах ярлыка вкладка Совместимость).</li>
+							<li>Закройте запущенную копию Steam и запустите через новый ярлык. Для удобства скопируйте его себе на рабочий стол или закрепите в панели быстрого доступа</li>
+							<li>Статус "В игре" и внутриигровой оверлей теперь должны работать</li>
+						</ol>
+					</li>
+				</ul>
+			</p>
+			
+			<h3>Исходный код</h3>
+			<p>
+				DMO Advanced Launcher - <span style="font-weight:bold;">проект с открытым исходным кодом</span> под лицензией GNU GPL 3.0, поэтому вы можете быть уверены, что он не включает в себя никакие вредоносные программы, кейлоггеры и т.д. Его использование абсолютно безопасно, но имейте в виду - <span style="color:red;font-weight:bold;">НИКОГДА</span> не делитесь никакими конфигурационными файлами лаунчера с недоверенными лицами.<br/><br/>
+				<span style="margin-top:20px;font-weight:bold;">Скачать исходный код:</span>
+				<pre><code>$ cd your_repo_root
+$ git clone https://github.com/GoldRenard/DMOAdvancedLauncher.git</code></pre>
+			</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/releases/latest" class="button">
+            <small>Скачать</small>
+            Инсталлер
+          </a>
+          <a href="https://github.com/GoldRenard/DMOAdvancedLauncher" class="button github" target="_blank">
+            <small>Проект на</small>
+            GitHub
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/GoldRenard/DMOAdvancedLauncher">Проект</a> поддерживается<br/>
+		  <a href="https://github.com/GoldRenard">GoldRenard</a> и <a href="#">DragonVs</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>

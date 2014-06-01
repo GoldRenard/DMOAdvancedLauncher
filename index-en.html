@@ -4,7 +4,6 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
@@ -28,15 +27,15 @@
       <div class="inner clearfix">
 		<section id="main-content">
 			<h3>Welcome to DMO Advanced Launcher GitHub Page.</h3>
-			<p>Hello. We would like to present to you the custom DMO game launcher. We invested all our effort and soul into its creation. It doesn't look like a default launcher. It is: beautiful, comfortable, functional.</p>
+			<p>Hello! We would like to present to you the custom DMO game launcher. We invested all our effort and soul into its creation. It doesn't look like a default launcher. It is: beautiful, comfortable, functional.</p>
 			
 			<h3>Overview and features</h3>
 			<p>DMO Advanced Launcher supports ADMO (Aeria), GDMO (Joymax), KDMO (www.digimonmasters.com and IMBC) servers. Unfortunately, not all features are supported for all servers. For example, Digimon Rotation and Community page not available for ADMO.<br/>
 			Let's make "marks" to define support features for a each server:
 			<ul>
-				<li>[A] - supported for Aeria mode</li>
-				<li>[G] - supported for Joymax mode</li>
-				<li>[K] - supported for Korean mode (both www.digimonmasters.com and IMBC)</li>
+				<li>[A] - supported for <a href="http://www.aeriagames.com/playnow/dmus">Aeria</a> mode</li>
+				<li>[G] - supported for <a href="http://www.joymax.com/dmo/">Joymax</a> mode</li>
+				<li>[K] - supported for Korean mode (both <a href="http://www.digimonmasters.com">www.digimonmasters.com</a> and <a href="http://dm.imbc.com">IMBC</a>)</li>
 				<li>[S] - supported for any mode</li>
 			</ul>
 			Main features:
@@ -67,30 +66,43 @@ With disabled option checking updates still works, but default launcher will be 
 			<h3>Installation</h3>
 			<p>
 				<ol>
-					<li>Download and install the <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/releases/latest">latest release</a>.</li>
+					<li>Download and install the <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/releases/latest" target="_blank">latest release</a>.</li>
 					<li>If you have Windows XP and want use AppLocale, you MUST install East Asian Language support (instruction), then turn on the AppLocale in options of launcher.</li>
 				</ol>
 			</p>
 			
 			<h3>Help with Translations</h3>
 			<p>
-				We'll glad to getting help in the translation of the launcher into other languages. Look at the folder "Languages" of root launcher's folder. Use "Template_for_translation.txt" as template. Also you can correct our English translation. We know that current is bad xD<br/>
+				We'll glad to getting help in the translation of the launcher into other languages. Look at the folder "Languages" of root launcher's folder. Use "Template_for_translation.txt" as template.<br/><br/>Also you can correct our English translation. We know that current is bad :)<br/>
 				Please send <a href="mailto:goldrenard@gmail.com">an email</a> with new translations.<br/>
+			</p>
+			
+			<h3>Known issues</h3>
+			<p>
+				<ul>
+					<li>Community page and DigiRotation uses information of game website. You know, not all digimons are provided at ranking or tamer's information pages (especially at Joymax). So not all digimons provided at our launcher</li>
+					<li>In additional, launcher can read only ONE digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of launcher. Usually it's a latest hatched Digimon</li>
+					<li>Long logon process for KDMO IMBC. Error 705 is normal, you must just wait for successful login. If you will get error 705 10 or more times, check your account data</li>
+				</ul>
 			</p>
 			
 			<h3>How to get Steam Overlay work with AdvancedLauncher</h3>
 			<p>
 				There are two things that prevent game launching through Steam+AdvancedLauncher with working In-game status and Overlay.<br/>
-				First, Steam must be runned <span style="font-weight:bold;">AS ADMIN</span>.<br/>
-				Second, Steam can't properly detect the game if it was launched through AppLocale. So Advanced Launcher will disable AppLocale if it launched through Steam. If you want use AppLocale, you must <span style="font-weight:bold;">run Steam</span> through AppLocale:
 				<ul>
-					<li>Open Microsoft AppLocale Wizard ("AppLocale" in the Start Menu)</li>
-					<li>In "Locate The Application" screen click "Browse..." and choose Steam.exe</li>
-					<li>Choose Korean (한국어) on the next screen</li>
-					<li>On the next screen check "Create a Shortcut to always run this application with AppLocale" and click Finish</li>
-					<li>The shortcut should be in the folder of the Start Menu where AppLocale is. Change it to always run Steam as Administrator in Properties > Compatibility tab. You can also make it run this way for all users if you want</li>
-					<li>Click Ok and run it. You can also copy the shortcut to the Desktop or Pin it to the Start Menu or Task Bar for easy access</li>
-					<li>In-game status and Overlay should work now</li>
+					<li>First, Steam must be runned <span style="font-weight:bold;">AS ADMIN</span>.</li>
+					<li>
+						Second, Steam can't properly detect the game if it was launched through AppLocale. So Advanced Launcher will disable AppLocale if it launched through Steam. If you want use AppLocale, you must <span style="font-weight:bold;">run Steam</span> through AppLocale:
+						<ol style="margin:20px 0 0 10px;">
+							<li>Open Microsoft AppLocale Wizard ("AppLocale" in the Start Menu)</li>
+							<li>In "Locate The Application" screen click "Browse..." and choose Steam.exe</li>
+							<li>Choose Korean (한국어) on the next screen</li>
+							<li>On the next screen check "Create a Shortcut to always run this application with AppLocale" and click Finish</li>
+							<li>The shortcut should be in the folder of the Start Menu where AppLocale is. Change it to always run Steam as Administrator in Properties > Compatibility tab. You can also make it run this way for all users if you want</li>
+							<li>Click Ok and run it. You can also copy the shortcut to the Desktop or Pin it to the Start Menu or Task Bar for easy access</li>
+							<li>In-game status and Overlay should work now</li>
+						</ol>
+					</li>
 				</ul>
 			</p>
 			

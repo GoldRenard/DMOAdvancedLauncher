@@ -64,11 +64,9 @@ a:hover {
 }
 
 header {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 20px;
   font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif; 
-  background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
-  border-bottom: solid 1px #275da1;
+  background: #6DC6E8 url(../images/background.jpg) 0 0 repeat-x;
 }
 
 header h1 {
@@ -96,8 +94,8 @@ header h2 {
 }
 
 #content-wrapper {
-  border-top: solid 1px #fff;
-  padding-top: 30px;
+  padding-top: 60px;
+  background: #FFF url(../images/content_bg.png) 0 0 repeat-x;
 }
 
 #main-content {
@@ -155,6 +153,10 @@ aside a.button {
   background: transparent url(../images/download-button.png) 0 0 no-repeat;
   margin-bottom: 20px;
   font-size: 21px;
+}
+
+aside a.github {
+	background: transparent url(../images/github-button.png) 0 0 no-repeat;
 }
 
 code, pre {

@@ -107,6 +107,22 @@ header h2 {
   margin: 0 auto;
 }
 
+.inner-footer {
+	height:50px;
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, transparent),
+		color-stop(1, #fafafa)
+	);
+	background-image: -o-linear-gradient(bottom, transparent 0%, #fafafa 100%);
+	background-image: -moz-linear-gradient(bottom, transparent 0%, #fafafa 100%);
+	background-image: -webkit-linear-gradient(bottom, transparent 0%, #fafafa 100%);
+	background-image: -ms-linear-gradient(bottom, transparent 0%, #fafafa 100%);
+	background-image: linear-gradient(to bottom, transparent 0%, #fafafa 100%);
+}
+
 div #logo {
 	width: 360px;
 	height: 100px;
@@ -148,8 +164,7 @@ div .flag_en { background: transparent url(../images/flag_en.png) 0 0 no-repeat;
 
 
 #content-wrapper {
-  padding-top: 60px;
-  background: #FFF url(../images/content_bg.png) 0 0 repeat-x;
+  padding-top: 10px;
 }
 
 #main-content {
@@ -465,6 +480,10 @@ div.mark-any { background-color: #24C324; }
   header h1, header h2 {
     width: 340px;
   }
+  #preview,
+  #preview_ru {
+	display: none;
+  }
   header h1 {
     font-size: 60px;
   }
@@ -490,9 +509,6 @@ div.mark-any { background-color: #24C324; }
 @media only screen and (max-width: 767px) {
   .inner {
     width: 93%;
-  }
-  header {
-    padding: 20px 0;
   }
   header .inner {
     position: relative;
@@ -544,7 +560,7 @@ div.mark-any { background-color: #24C324; }
     min-height: 0;
   }
   aside#sidebar a.button {
-    display: none;
+    display: inline-block;
   }
   #main-content h1:before,
   #main-content h2:before,

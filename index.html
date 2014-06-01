@@ -57,24 +57,24 @@
 			<h3>Overview and features</h3>
 			<p>DMO Advanced Launcher supports ADMO (Aeria), GDMO (Joymax), KDMO (www.digimonmasters.com and IMBC) servers. Unfortunately, not all features are supported for all servers. For example, Digimon Rotation and Community page not available for ADMO.<br/>
 			Let's make "marks" to define support features for a each server:
-			<ul>
-				<li>[A] - supported for <a href="http://www.aeriagames.com/playnow/dmus">Aeria</a> mode</li>
-				<li>[G] - supported for <a href="http://www.joymax.com/dmo/">Joymax</a> mode</li>
-				<li>[K] - supported for Korean mode (both <a href="http://www.digimonmasters.com">www.digimonmasters.com</a> and <a href="http://dm.imbc.com">IMBC</a>)</li>
-				<li>[S] - supported for any mode</li>
-			</ul>
+			<div style="margin:15px;">
+				<div class="mark mark-admo">A</div> - supported for <a href="http://www.aeriagames.com/playnow/dmus">Aeria</a> mode<br/>
+				<div class="mark mark-gdmo">G</div> - supported for <a href="http://www.joymax.com/dmo/">Joymax</a> mode<br/>
+				<div class="mark mark-kdmo">K</div> - supported for Korean mode (both <a href="http://www.digimonmasters.com">www.digimonmasters.com</a> and <a href="http://dm.imbc.com">IMBC</a>)<br/>
+				<div class="mark mark-any">S</div> - supported for any mode
+			</div>
 			Main features:
-			<ul>
-				<li>[G|K] Rotation of top Digimons of your guild</li>
-				<li>[G|K] Stay Up-to-Date! Getting information about any guild (ranking, reputation, list of tamers, digimons, etc)</li>
-				<li>[A|G] Joymax news</li>
-				<li>[S] Twitter statuses loaded by Twitter API 1.1 JSON user timeline</li>
-				<li>[S] Checking and installing game updates (beta)*</li>
-				<li>[S] Screenshot gallery</li>
-				<li>[S] Let the game meets. Possibility of change some game resources like login background, dialogs, etc.</li>
-				<li>[S] Launching game through AppLocale (fixing codepage troubles like bad cyrillic at guild chat)</li>
-				<li>[S] Profile system. You can make many profiles for every server/account/etc.</li>
-			</ul>
+			<div style="margin:15px;">
+				<div class="mark mark-gdmo">G</div><div class="mark mark-kdmo">K</div> Rotation of top Digimons of your guild<br/>
+				<div class="mark mark-gdmo">G</div><div class="mark mark-kdmo">K</div> Stay Up-to-Date! Getting information about any guild (ranking, reputation, digimons, etc)<br/>
+				<div class="mark mark-gdmo">G</div><div class="mark mark-admo">A</div> Joymax news<br/>
+				<div class="mark mark-any">S</div> Twitter statuses powered by Twitter API 1.1 JSON user timeline<br/>
+				<div class="mark mark-any">S</div> Checking and installing game updates (beta)*<br/>
+				<div class="mark mark-any">S</div> Screenshot gallery<br/>
+				<div class="mark mark-any">S</div> Let the game meets. Possibility of change game resources like login background, dialogs, etc.<br/>
+				<div class="mark mark-any">S</div> Launching game through AppLocale (fixing codepage troubles like bad cyrillic at guild chat)<br/>
+				<div class="mark mark-any">S</div> Profile system. You can make many profiles for every server/account/etc.
+			</div>
 			* Update feature on the <span style="font-weight:bold;">BETA</span> stage and it is <span style="font-weight:bold;">DISABLED</span> by default. We aren't sure that we did everything absolutely correctly. Use that at your own risk.
 With disabled option checking updates still works, but default launcher will be used for updating.
 			</p>
@@ -98,7 +98,7 @@ With disabled option checking updates still works, but default launcher will be 
 			
 			<h3>Help with Translations</h3>
 			<p>
-				We'll glad to getting help in the translation of the launcher into other languages. Look at the folder "Languages" of root launcher's folder. Use "Template_for_translation.txt" as template.<br/><br/>Also you can correct our English translation. We know that current is bad :)<br/>
+				We'll glad to getting help in the translation of the launcher into other languages. Use <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/blob/master/AdvancedLauncher/Languages/Template_for_translation.txt">Template_for_translation.txt</a> as template.<br/><br/>Also you can correct our English translation. We know that current is bad :)<br/>
 				Please send <a href="mailto:goldrenard@gmail.com">an email</a> with new translations.<br/>
 			</p>
 			
@@ -113,7 +113,7 @@ With disabled option checking updates still works, but default launcher will be 
 			
 			<h3>How to get Steam Overlay work with AdvancedLauncher</h3>
 			<p>
-				There are two things that prevent game launching through Steam+AdvancedLauncher with working In-game status and Overlay.<br/>
+				There are two things that prevent game launching through Steam + AdvancedLauncher with working In-game status and Overlay.<br/>
 				<ul>
 					<li>First, Steam must be runned <span style="font-weight:bold;">AS ADMIN</span>.</li>
 					<li>

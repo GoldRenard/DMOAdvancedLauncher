@@ -143,7 +143,6 @@ div .flag {
 }
 
 div .flag_selected { opacity: 0.9; }
-
 div .flag_ru { background: transparent url(../images/flag_ru.png) 0 0 no-repeat; }
 div .flag_en { background: transparent url(../images/flag_en.png) 0 0 no-repeat; }
 
@@ -428,6 +427,30 @@ footer a:hover {
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
 
+/* Marks
+================================================== */
+
+div.mark {
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	display: inline-block;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	font-family: Courier New, serif; 
+    font-size: 14px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	margin: 2px;
+}
+
+div.mark-admo { background-color: #585D64; }
+div.mark-gdmo { background-color: #FEB913; }
+div.mark-kdmo { background-color: #08C4E6; }
+div.mark-any { background-color: #24C324; }
+
 /* #Media Queries
 ================================================== */
 
@@ -500,6 +523,10 @@ footer a:hover {
     -webkit-border-radius: 5px;                     
     border-radius: 5px;    
   }
+  #preview,
+  #preview_ru {
+	display: none;
+  }
   header a.button small {
     font-size: 13px;
     display: inline;
@@ -536,3 +563,4 @@ footer a:hover {
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {}
+

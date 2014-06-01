@@ -25,7 +25,7 @@
         }
         var visitorCountryCode = visitor_country_code();
         var redirectURL = target[visitorCountryCode];
-        if (redirectURL != null) {
+        if (redirectURL != null && !window.location.hash) {
 			window.top.location.href = redirectURL;
 		}
     })();

@@ -317,7 +317,26 @@ form {
 	margin: 0 auto;
 }
 
-#release_author_name, #release_author_guild { text-align: center; }
+
+
+#release_author_name_wrap {
+	margin: 20px 0 20px 0;
+	font-family: Tahoma;
+	font-weight: normal;
+	text-align: center;
+}
+
+#release_author_name {
+	color: #67D300;
+	font-size: 24px;
+	margin-bottom: 5px;
+}
+
+#release_author_guild {
+	color: #EBE42E;
+	font-size: 18px;
+}
+
 
 /* GENERAL ELEMENT TYPE STYLES */
 

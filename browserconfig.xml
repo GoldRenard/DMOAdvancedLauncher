@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+	<msapplication>
+		<tile>
+			<square70x70logo src="images/tile_tiny.png"/>
+			<square150x150logo src="images/tile_square.png"/>
+			<wide310x150logo src="images/tile_wide.png"/>
+			<square310x310logo src="images/tile_large.png"/>
+			<TileColor>#E4D28C</TileColor>
+		</tile>
+		<badge>
+			<polling-uri src="http://renamon.ru/badge.php"/>
+			<frequency>30</frequency>
+		</badge>
+	</msapplication>
+</browserconfig>

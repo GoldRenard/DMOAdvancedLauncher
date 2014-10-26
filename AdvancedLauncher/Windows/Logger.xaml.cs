@@ -37,7 +37,7 @@ using System.IO;
 namespace AdvancedLauncher.Windows {
     public partial class Logger : UserControl, INotifyPropertyChanged {
         private Storyboard ShowWindow, HideWindow;
-        public delegate void AddLogHandler(LoggingEvent logEvent);
+        public delegate void AddLogHandler(LoggingEvent logEvent, bool notify);
         private int recentIndex = -1;
 
         private static Logger _Instance;
@@ -58,9 +58,16 @@ namespace AdvancedLauncher.Windows {
         }
 
         private static ObservableCollection<LoggingEvent> _LogEntries = new ObservableCollection<LoggingEvent>();
+        private static ObservableCollection<LoggingEvent> _LogEntriesFiltered = new ObservableCollection<LoggingEvent>();
         public static ObservableCollection<LoggingEvent> LogEntries {
             get {
                 return _LogEntries;
+            }
+        }
+
+        public static ObservableCollection<LoggingEvent> LogEntriesFiltered {
+            get {
+                return _LogEntriesFiltered;
             }
         }
 
@@ -71,7 +78,7 @@ namespace AdvancedLauncher.Windows {
             };
             ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
             HideWindow = ((Storyboard)this.FindResource("HideWindow"));
-            this.Items.ItemsSource = LogEntries;
+            this.Items.ItemsSource = LogEntriesFiltered;
         }
 
         public void Show(bool state) {
@@ -100,21 +107,91 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        public void AddEntry(LoggingEvent logEvent) {
+        public void AddEntry(LoggingEvent logEvent, bool notify) {
             if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
-                    AddEntry(_logEvent);
-                }), logEvent);
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent, _notify) => {
+                    AddEntry(_logEvent, _notify);
+                }), logEvent, notify);
                 return;
             }
-            if (LogEntries.Count == 0) {
-                LogEntries.Add(logEvent);
-            } else {
-                LogEntries.Insert(0, logEvent);
+            AddFilteredEntry(logEvent, notify);
+            _LogEntries.Add(logEvent);
+            if (notify) {
+                NotifyPropertyChanged("LogEntries");
             }
-            NotifyPropertyChanged("LogEntries");
         }
 
+        public void AddFilteredEntry(LoggingEvent logEvent, bool notify) {
+            if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent, _notify) => {
+                    AddFilteredEntry(_logEvent, _notify);
+                }), logEvent, notify);
+                return;
+            }
+            if (IsApplicable(logEvent) == true) {
+                if (_LogEntriesFiltered.Count == 0) {
+                    _LogEntriesFiltered.Add(logEvent);
+                } else {
+                    _LogEntriesFiltered.Insert(0, logEvent);
+                }
+            }
+            if (notify) {
+                NotifyPropertyChanged("LogEntriesFiltered");
+            }
+        }
+
+        #region Filter Things
+        private void OnFilterChecked(object sender, RoutedEventArgs e) {
+            _LogEntriesFiltered.Clear();
+            foreach (LoggingEvent log in LogEntries) {
+                AddFilteredEntry(log, false);
+            }
+            NotifyPropertyChanged("LogEntriesFiltered");
+        }
+
+        enum LogLevel {
+            DEBUG,
+            ERROR,
+            FATAL,
+            INFO,
+            WARN,
+            OTNER
+        }
+
+        private LogLevel ConvertLevel(Level logLevel) {
+            if (Level.Debug.Equals(logLevel)) {
+                return LogLevel.DEBUG;
+            } else if (Level.Error.Equals(logLevel)) {
+                return LogLevel.ERROR;
+            } else if (Level.Fatal.Equals(logLevel)) {
+                return LogLevel.FATAL;
+            } else if (Level.Warn.Equals(logLevel)) {
+                return LogLevel.WARN;
+            } else if (Level.Info.Equals(logLevel)) {
+                return LogLevel.INFO;
+            }
+            return LogLevel.OTNER;
+        }
+
+        private bool? IsApplicable(LoggingEvent logEvent) {
+            switch (ConvertLevel(logEvent.Level)) {
+                case LogLevel.DEBUG:
+                    return FilterDebug.IsChecked;
+                case LogLevel.ERROR:
+                    return FilterError.IsChecked;
+                case LogLevel.FATAL:
+                    return FilterFatal.IsChecked;
+                case LogLevel.INFO:
+                    return FilterInfo.IsChecked;
+                case LogLevel.WARN:
+                    return FilterWarn.IsChecked;
+                default:
+                    return true;
+            }
+        }
+        #endregion
+
+        #region Console Things
         private void OnConsoleSendClick(object sender, RoutedEventArgs e) {
             CommandHandler.Send(ConsoleInput.Text.Trim());
             ConsoleInput.Clear();
@@ -152,5 +229,7 @@ namespace AdvancedLauncher.Windows {
                     return recentIndex;
             }
         }
+        #endregion
+
     }
 }

@@ -86,7 +86,16 @@
                     </ItemsControl>
                 </Grid>
             </Grid>
-            <Button x:Name="BtnClose" Margin="20,10,0,10" Height="30" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="OnCloseClick" />
+            <Grid Margin="20,10" VerticalAlignment="Bottom">
+                <Button x:Name="BtnClose" Height="30" Width="100" HorizontalAlignment="Right" Content="{Binding CloseButton}" Click="OnCloseClick" />
+                <StackPanel Orientation="Horizontal" Height="20">
+                    <CheckBox x:Name="FilterFatal" Content="Fatal" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                    <CheckBox x:Name="FilterError" Content="Error" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                    <CheckBox x:Name="FilterWarn" Content="Warn" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                    <CheckBox x:Name="FilterInfo" Content="Info" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                    <CheckBox x:Name="FilterDebug" Content="Debug" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

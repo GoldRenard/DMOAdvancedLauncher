@@ -626,12 +626,14 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
         #region Write Section
         public bool WriteGuildInfo(Guild g, bool isDetailed) {
             if (QueryIntRes(string.Format(Q_G_COUNT, g.Id, g.ServId)) > 0) {
-                if (isDetailed)
+                if (isDetailed) {
                     return Query(string.Format(Q_G_UPDATE_WD, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime), 1));
-                else
+                } else {
                     return Query(string.Format(Q_G_UPDATE, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime)));
-            } else
+                }
+            } else {
                 return Query(string.Format(Q_G_INSERT, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime), isDetailed ? 1 : 0));
+            }
         }
 
         public bool WriteTamer(Tamer t) {

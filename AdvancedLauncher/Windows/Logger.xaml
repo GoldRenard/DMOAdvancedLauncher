@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="AdvancedLauncher.Windows.Logger"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:log4netCore="clr-namespace:log4net.Core;assembly=log4net"
+             mc:Ignorable="d" 
+             d:DesignHeight="470" d:DesignWidth="900"
+             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml"/>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/MagicoUI.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                <Setter Property="TextAlignment" Value="Left" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+
+            <Style TargetType="{x:Type Hyperlink}">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="Foreground" Value="#8BD5FF" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="true">
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Trigger>
+                </Style.Triggers>
+                <Setter Property="Foreground" Value="#A1DBFE" />
+                <Setter Property="TextDecorations" Value="None" />
+            </Style>
+
+            <Style TargetType="ItemsControl" x:Key="LogViewerStyle">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <ScrollViewer CanContentScroll="True">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate DataType="{x:Type log4netCore:LoggingEvent}">
+                <Grid IsSharedSizeScope="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="Info" Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="11" FontFamily="Courier New" Foreground="{StaticResource TBFGNormalBrush}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="[{0} {1} {2}]">
+                                <Binding Path="TimeStamp" />
+                                <Binding Path="Level.DisplayName" />
+                                <Binding Path="LoggerName" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <TextBlock Text="{Binding MessageObject}" Grid.Column="1" Foreground="{StaticResource TBFGNormalBrush}" FontSize="11" FontFamily="Courier New" TextWrapping="Wrap" Margin="5,0,5,0" />
+                </Grid>
+            </DataTemplate>
+
+        </ResourceDictionary>
+        
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" d:Visibility="Collapsed" Background="#524885">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/background_dark.jpg"
+                    Stretch="None"
+                    TileMode="FlipY"
+                    Viewbox="0,0,333,800"
+                    ViewboxUnits="Absolute"
+                    Viewport="0,0,333,800"
+                    ViewportUnits="Absolute" />
+            </Grid.Background>
+            <Grid Margin="20,20,20,50" Grid.Column="1" x:Name="LicenceRoot" Background="{StaticResource DeepSurfaceBrush}">
+                <!--<TextBox x:Name="Licence" 
+                     Height="{Binding Path=ActualHeight, ElementName=LicenceRoot}"
+                     IsReadOnly="True" 
+                     FontSize="11" 
+                     FontFamily="Courier New" 
+                     TextWrapping="Wrap" 
+                     AcceptsReturn="True" 
+                     VerticalAlignment="Top"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                </TextBox>-->
+
+                <ItemsControl x:Name="Items" Style="{StaticResource LogViewerStyle}">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <ScrollViewer CanContentScroll="True">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+            <Button x:Name="BtnClose" Margin="20,10,0,10" Height="30" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="OnCloseClick" />
+        </Grid>
+    </Grid>
+</UserControl>

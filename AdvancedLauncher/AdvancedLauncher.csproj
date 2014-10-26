@@ -64,6 +64,9 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Libs\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Libs\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -124,6 +127,7 @@
     <Compile Include="Environment\Containers\Profile.cs" />
     <Compile Include="Environment\Containers\Settings.cs" />
     <Compile Include="Environment\LanguageEnv.cs" />
+    <Compile Include="Environment\LogAppender.cs" />
     <Compile Include="Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>
     </Compile>
@@ -166,6 +170,9 @@
     </Compile>
     <Compile Include="Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Logger.xaml.cs">
+      <DependentUpon>Logger.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\DigiRotation\DigiRotation.xaml">
       <SubType>Designer</SubType>
@@ -252,6 +259,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Logger.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -271,6 +282,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="Languages\Russian %28Russia%29.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

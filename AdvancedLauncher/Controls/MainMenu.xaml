@@ -323,7 +323,7 @@
                         </ListBox>
                     <Grid Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=IsChangeEnabled, Converter={StaticResource BoolToHiddenConverter}}"
                           IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=IsChangeEnabled}">
-                        <Button x:Name="Settings" Content="{Binding Settings}" Click="Settings_Click"/>
+                        <Button x:Name="Settings" Content="{Binding Settings}" Click="OnSettingsClick"/>
                         <Image IsHitTestVisible="False" Margin="3,0,0,0" Width="25" Height="25" HorizontalAlignment="Left" Source="/AdvancedLauncher;component/Resources/Icons/Configuration.png" Stretch="UniformToFill" />
                     </Grid>
                         <TextBlock Margin="5,10"
@@ -335,7 +335,13 @@
                     <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrushLow}" />
                     <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrush}" />
                     <Grid>
-                        <Button x:Name="About" Content="{Binding About}" Click="About_Click" />
+                        <Button x:Name="About" Content="{Binding About}" Click="OnAboutClick" />
+                        <Image IsHitTestVisible="False" Margin="3,0,0,0" Width="25" Height="25" HorizontalAlignment="Left" Source="/AdvancedLauncher;component/Resources/Icons/Info.png" Stretch="UniformToFill" />
+                    </Grid>
+                    <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrushLow}" />
+                    <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrush}" />
+                    <Grid>
+                        <Button x:Name="Logger" Content="Logger" Click="OnLoggerClick" />
                         <Image IsHitTestVisible="False" Margin="3,0,0,0" Width="25" Height="25" HorizontalAlignment="Left" Source="/AdvancedLauncher;component/Resources/Icons/Info.png" Stretch="UniformToFill" />
                     </Grid>
                 </StackPanel>

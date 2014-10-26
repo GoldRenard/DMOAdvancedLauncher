@@ -26,6 +26,7 @@ using System.Runtime.InteropServices;
 
 namespace AdvancedLauncher.Windows {
     public partial class MainWindow : Window {
+        public static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));  
         private const int SC_CLOSE = 0xF060;
         private const int MF_ENABLED = 0x0000;
         private const int MF_GRAYED = 0x0001;
@@ -48,6 +49,9 @@ namespace AdvancedLauncher.Windows {
 
         public MainWindow() {
             InitializeComponent();
+            if (!LayoutRoot.Children.Contains(Logger.Instance)) {
+                LayoutRoot.Children.Add(Logger.Instance);
+            }
             AdvancedLauncher.Service.UpdateChecker.Check();
             LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
             LauncherEnv.Settings.ProfileChanged += ReloadTabs;
@@ -57,11 +61,13 @@ namespace AdvancedLauncher.Windows {
             this.Closing += (s, e) => { e.Cancel = IsCloseLocked; };
             MainMenu.AboutClick += OnAboutClick;
             MainMenu.SettingsClick += OnSettingsClick;
+            MainMenu.LoggerClick += OnLoggerClick;
             ReloadTabs();
             try { App.splash.Close(TimeSpan.FromSeconds(1)); } catch { }
 #if DEBUG
             this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
+            LOGGER.Info(this.Title + " initialized");
         }
 
         private void OnFileSystemLocked(bool IsLocked) {
@@ -87,7 +93,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void OnProfileLocked(bool IsLocked) {
-            MainMenu.IsEnabled = !IsLocked;
+            MainMenu.IsChangeEnabled = !IsLocked;
         }
 
         public void ReloadTabs() {
@@ -164,6 +170,13 @@ namespace AdvancedLauncher.Windows {
                 LayoutRoot.Children.Add(AboutWindow);
             }
             AboutWindow.Show(true);
+        }
+
+        private void OnLoggerClick(object sender, RoutedEventArgs e) {
+            if (!LayoutRoot.Children.Contains(Logger.Instance)) {
+                LayoutRoot.Children.Add(Logger.Instance);
+            }
+            Logger.Instance.Show(true);
         }
     }
 }

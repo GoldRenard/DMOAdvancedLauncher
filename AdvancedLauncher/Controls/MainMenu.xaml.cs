@@ -43,22 +43,35 @@ namespace AdvancedLauncher.Controls {
         #region Buttons Handler
         public event RoutedEventHandler SettingsClick;
         private void NotifySettingsClick(object sender, RoutedEventArgs e) {
-            if (SettingsClick != null)
+            if (SettingsClick != null) {
                 SettingsClick(sender, e);
+            }
         }
 
         public event RoutedEventHandler AboutClick;
         private void NotifyAboutClick(object sender, RoutedEventArgs e) {
-            if (AboutClick != null)
+            if (AboutClick != null) {
                 AboutClick(sender, e);
+            }
         }
 
-        private void Settings_Click(object sender, RoutedEventArgs e) {
+        public event RoutedEventHandler LoggerClick;
+        private void NotifyLoggerClick(object sender, RoutedEventArgs e) {
+            if (LoggerClick != null) {
+                LoggerClick(sender, e);
+            }
+        }
+
+        private void OnSettingsClick(object sender, RoutedEventArgs e) {
             NotifySettingsClick(sender, e);
         }
 
-        private void About_Click(object sender, RoutedEventArgs e) {
+        private void OnAboutClick(object sender, RoutedEventArgs e) {
             NotifyAboutClick(sender, e);
+        }
+
+        private void OnLoggerClick(object sender, RoutedEventArgs e) {
+            NotifyLoggerClick(sender, e);
         }
         #endregion
 

@@ -34,16 +34,21 @@ using AdvancedLauncher.Environment.Containers;
 
 namespace AdvancedLauncher.Windows {
     public partial class Settings : UserControl, INotifyPropertyChanged {
-        string LINK_EAL_INSTALLING_RUS = "http://www.bolden.ru/index.php?option=com_content&task=view&id=76";
-        string LINK_EAL_INSTALLING = "http://www.voom.net/install-files-for-east-asian-languages-windows-xp";
-        string LINK_MS_APPLOCALE = "http://www.microsoft.com/en-us/download/details.aspx?id=2043";
+        private string LINK_EAL_INSTALLING_RUS = "http://www.bolden.ru/index.php?option=com_content&task=view&id=76";
+        private string LINK_EAL_INSTALLING = "http://www.voom.net/install-files-for-east-asian-languages-windows-xp";
+        private string LINK_MS_APPLOCALE = "http://www.microsoft.com/en-us/download/details.aspx?id=2043";
 
-        Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog() { Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png" };
-        System.Windows.Forms.FolderBrowserDialog Folderdialog = new System.Windows.Forms.FolderBrowserDialog() { ShowNewFolderButton = false };
+        private Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog() {
+            Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png"
+        };
+        private System.Windows.Forms.FolderBrowserDialog Folderdialog = new System.Windows.Forms.FolderBrowserDialog() {
+            ShowNewFolderButton = false
+        };
 
-        AdvancedLauncher.Environment.Containers.Settings sContainer;
-        Storyboard ShowWindow, HideWindow;
-        int cLangInd;
+        private AdvancedLauncher.Environment.Containers.Settings settingsContainer;
+        private Storyboard ShowWindow, HideWindow;
+        private int currentLangIndex;
+
         public Settings() {
             InitializeComponent();
             ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
@@ -54,7 +59,7 @@ namespace AdvancedLauncher.Windows {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
 
                 //Copying settings object and set it as DataContext
-                ProfileList.DataContext = sContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings);
+                ProfileList.DataContext = settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings);
                 //Search and set current profile
                 foreach (Profile p in ((AdvancedLauncher.Environment.Containers.Settings)ProfileList.DataContext).Profiles) {
                     if (p.Id == LauncherEnv.Settings.CurrentProfile.Id) {
@@ -65,11 +70,12 @@ namespace AdvancedLauncher.Windows {
 
                 //Load language list
                 ComboBoxLanguage.Items.Add(LanguageEnv.DefaultName);
-                foreach (string lang in LanguageEnv.GetTranslations())
+                foreach (string lang in LanguageEnv.GetTranslations()) {
                     ComboBoxLanguage.Items.Add(Path.GetFileNameWithoutExtension(lang));
+                }
                 for (int i = 0; i < ComboBoxLanguage.Items.Count; i++) {
                     if (ComboBoxLanguage.Items[i].ToString() == LauncherEnv.Settings.LanguageFile) {
-                        ComboBoxLanguage.SelectedIndex = cLangInd = i;
+                        ComboBoxLanguage.SelectedIndex = currentLangIndex = i;
                         break;
                     }
                 }
@@ -79,82 +85,90 @@ namespace AdvancedLauncher.Windows {
         #region Profile Section
 
         public static Profile SelectedProfile;
-        private void ProfileList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
             SelectedProfile = (Profile)ProfileList.SelectedItem;
             ValidatePaths();
             NotifyPropertyChanged("IsSelectedNotDefault");
         }
 
-        private void ComboBoxType_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void OnTypeSelectionChanged(object sender, SelectionChangedEventArgs e) {
             ValidatePaths();
         }
 
-        private void BtnSetDef_Click(object sender, RoutedEventArgs e) {
-            sContainer.DefaultProfile = SelectedProfile.Id;
+        private void OnSetDefaultClick(object sender, RoutedEventArgs e) {
+            settingsContainer.DefaultProfile = SelectedProfile.Id;
             NotifyPropertyChanged("IsSelectedNotDefault");
         }
 
         public bool IsSelectedNotDefault {
             set { }
             get {
-                return SelectedProfile.Id != sContainer.DefaultProfile;
+                return SelectedProfile.Id != settingsContainer.DefaultProfile;
             }
         }
 
-        private void BtnAdd_Click(object sender, RoutedEventArgs e) {
-            sContainer.AddProfile();
+        private void OnAddClick(object sender, RoutedEventArgs e) {
+            settingsContainer.AddProfile();
         }
 
-        private void BtnDel_Click(object sender, RoutedEventArgs e) {
+        private void OnRemoveClick(object sender, RoutedEventArgs e) {
             if (ProfileList.Items.Count == 1) {
                 Utils.MSG_ERROR(LanguageEnv.Strings.Settings_LastProfile);
                 return;
             }
-            Profile pToDel = SelectedProfile;
+            Profile profile = SelectedProfile;
 
-            if (ProfileList.SelectedIndex != ProfileList.Items.Count - 1)
+            if (ProfileList.SelectedIndex != ProfileList.Items.Count - 1) {
                 ProfileList.SelectedIndex++;
-            else
+            } else {
                 ProfileList.SelectedIndex--;
+            }
 
-            sContainer.RemoveProfile(pToDel);
+            settingsContainer.RemoveProfile(profile);
         }
 
-        private void ImageBorder_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void OnImageSelect(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Nullable<bool> result = FileDialog.ShowDialog();
-            if (result == true)
+            if (result == true) {
                 SelectedProfile.ImagePath = FileDialog.FileName;
+            }
         }
 
         #endregion
 
         #region Path Browse Section
 
-        private void BtnGameBrowse_Click_1(object sender, RoutedEventArgs e) {
+        private void OnGameBrowse(object sender, RoutedEventArgs e) {
             Folderdialog.Description = LanguageEnv.Strings.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                     if (SelectedProfile.GameEnv.CheckGame(Folderdialog.SelectedPath)) {
                         SelectedProfile.GameEnv.GamePath = Folderdialog.SelectedPath;
                         break;
-                    } else
-                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectGameDirError, LanguageEnv.Strings.Settings_GamePath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                } else
+                    } else {
+                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectGameDirError, 
+                            LanguageEnv.Strings.Settings_GamePath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                } else {
                     break;
+                }
             }
         }
 
-        private void BtnLauncherBrowse_Click_1(object sender, RoutedEventArgs e) {
+        private void OnLauncherBrowse(object sender, RoutedEventArgs e) {
             Folderdialog.Description = LanguageEnv.Strings.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                     if (SelectedProfile.GameEnv.CheckDefLauncher(Folderdialog.SelectedPath)) {
                         SelectedProfile.GameEnv.DefLauncherPath = Folderdialog.SelectedPath;
                         break;
-                    } else
-                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectLauncherDirError, LanguageEnv.Strings.Settings_LauncherPath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                } else
+                    } else {
+                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectLauncherDirError,
+                            LanguageEnv.Strings.Settings_LauncherPath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                } else {
                     break;
+                }
             }
         }
 
@@ -172,25 +186,30 @@ namespace AdvancedLauncher.Windows {
             get { return !Service.ApplicationLauncher.IsALSupported; }
         }
 
-        private void HLWhyAL_Click(object sender, RoutedEventArgs e) {
-            if (Service.ApplicationLauncher.IsALSupported)
+        private void OnAppLocaleHelpClick(object sender, RoutedEventArgs e) {
+            if (Service.ApplicationLauncher.IsALSupported) {
                 return;
+            }
             string message = LanguageEnv.Strings.AppLocale_FailReasons + System.Environment.NewLine;
-            if (!Service.ApplicationLauncher.IsALInstalled)
+            if (!Service.ApplicationLauncher.IsALInstalled) {
                 message += System.Environment.NewLine + LanguageEnv.Strings.AppLocale_NotInstalled;
+            }
 
-            if (!Service.ApplicationLauncher.IsKoreanSupported)
+            if (!Service.ApplicationLauncher.IsKoreanSupported) {
                 message += System.Environment.NewLine + LanguageEnv.Strings.AppLocale_EALNotInstalled;
+            }
             message += System.Environment.NewLine + System.Environment.NewLine + LanguageEnv.Strings.AppLocale_FixQuestion;
 
             if (MessageBoxResult.Yes == MessageBox.Show(message, LanguageEnv.Strings.AppLocale_Error, MessageBoxButton.YesNo, MessageBoxImage.Question)) {
-                if (!Service.ApplicationLauncher.IsALInstalled)
+                if (!Service.ApplicationLauncher.IsALInstalled) {
                     System.Diagnostics.Process.Start(LINK_MS_APPLOCALE);
+                }
                 if (!Service.ApplicationLauncher.IsKoreanSupported) {
-                    if (CultureInfo.CurrentCulture.Name == "ru-RU")
+                    if (CultureInfo.CurrentCulture.Name == "ru-RU") {
                         System.Diagnostics.Process.Start(LINK_EAL_INSTALLING_RUS);
-                    else
+                    } else {
                         System.Diagnostics.Process.Start(LINK_EAL_INSTALLING);
+                    }
                 }
             }
         }
@@ -200,35 +219,33 @@ namespace AdvancedLauncher.Windows {
         #region Global Actions Section
 
         public void Show(bool state) {
-            if (state)
-                ShowWindow.Begin();
-            else
-                HideWindow.Begin();
+            (state ? ShowWindow : HideWindow).Begin();
         }
 
-        private void BtnClose_Click(object sender, RoutedEventArgs e) {
-            ComboBoxLanguage.SelectedIndex = cLangInd;
+        private void OnCloseClick(object sender, RoutedEventArgs e) {
+            ComboBoxLanguage.SelectedIndex = currentLangIndex;
             Show(false);
         }
 
-        private void BtnApply_Click(object sender, RoutedEventArgs e) {
-            cLangInd = ComboBoxLanguage.SelectedIndex;
-            sContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
-            LauncherEnv.Settings.Merge(sContainer);
+        private void OnApplyClick(object sender, RoutedEventArgs e) {
+            currentLangIndex = ComboBoxLanguage.SelectedIndex;
+            settingsContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
+            LauncherEnv.Settings.Merge(settingsContainer);
             LauncherEnv.Save();
             Show(false);
         }
 
-        private void ComboBoxLanguage_SelectionChanged_1(object sender, SelectionChangedEventArgs e) {
-            if (this.IsLoaded)
+        private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (this.IsLoaded) {
                 LanguageEnv.Load(ComboBoxLanguage.SelectedValue.ToString());
+            }
         }
 
         #endregion
 
         #region Service
 
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e) {
+        private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {
             Utils.OpenSite(e.Uri.AbsoluteUri);
         }
 

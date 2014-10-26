@@ -33,7 +33,7 @@ namespace AdvancedLauncher.Service {
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 
-        public static bool AlreadyRunning(string mutex_name) {
+        public static bool AlreadyRunning(string mutexName) {
             long runningId = 50000;
             bool InstanceRunning = false;
 
@@ -43,7 +43,7 @@ namespace AdvancedLauncher.Service {
             foreach (Process p in runningProcesses) {
                 if (p.Id != proc.Id) {
                     bool Created = false;
-                    mutex = new Mutex(true, mutex_name + p.Id.ToString(), out Created);
+                    mutex = new Mutex(true, mutexName + p.Id.ToString(), out Created);
                     if (!Created) {
                         InstanceRunning = true;
                         runningId = p.Id;
@@ -54,7 +54,7 @@ namespace AdvancedLauncher.Service {
             }
 
             if (!InstanceRunning) {
-                mutex = new Mutex(true, mutex_name + proc.Id.ToString());
+                mutex = new Mutex(true, mutexName + proc.Id.ToString());
                 mutex.ReleaseMutex();
             } else {
                 IntPtr hWnd = Process.GetProcessById((int)runningId).MainWindowHandle;

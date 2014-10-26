@@ -23,8 +23,9 @@ using AdvancedLauncher.Environment;
 namespace AdvancedLauncher.Validators {
     class ProfileNameValidationRule : ValidationRule {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (string.IsNullOrEmpty(value.ToString().Trim()))
+            if (string.IsNullOrEmpty(value.ToString().Trim())) {
                 return new ValidationResult(false, null);
+            }
             int code = 0;
 
             if (value.ToString().IndexOfAny("*^%@&^@#><>!.,$|`~?:\":\\/';=-+".ToCharArray()) != -1)
@@ -32,8 +33,9 @@ namespace AdvancedLauncher.Validators {
 
             foreach (char chr in value.ToString()) {
                 code = Convert.ToInt32(chr);
-                if (Char.IsControl(chr))
+                if (Char.IsControl(chr)) {
                     return new ValidationResult(false, null);
+                }
             }
             return new ValidationResult(true, null);
         }

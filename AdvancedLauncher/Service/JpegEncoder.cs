@@ -23,26 +23,26 @@ using System.Drawing.Imaging;
 
 namespace AdvancedLauncher.Service {
     class JpegEncoder {
-        public Image ResizeScreenShot(string orig_file, string dest_file) {
-            Image OriginalImage, ResizedImage;
+        public Image ResizeScreenShot(string source, string destination) {
+            Image originalImage, resizedImage;
 
-            System.IO.FileStream fs = new System.IO.FileStream(orig_file, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-            OriginalImage = System.Drawing.Image.FromStream(fs);
+            System.IO.FileStream fs = new System.IO.FileStream(source, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            originalImage = System.Drawing.Image.FromStream(fs);
             fs.Close();
 
             Size size = new Size();
             size.Height = 100;
             size.Width = -1;
-            ResizedImage = resizeImage(OriginalImage, size);
+            resizedImage = resizeImage(originalImage, size);
 
-            if (ResizedImage != null) {
-                saveJpeg(dest_file, (Bitmap)ResizedImage, 100L);
-                return ResizedImage;
+            if (resizedImage != null) {
+                saveJpeg(destination, (Bitmap)resizedImage, 100L);
+                return resizedImage;
             }
             return null;
         }
 
-        private void saveJpeg(string path, Bitmap img, long quality) {
+        private void saveJpeg(string path, Bitmap image, long quality) {
             EncoderParameter qualityParam = new EncoderParameter(Encoder.Quality, quality);
             ImageCodecInfo jpegCodec = getEncoderInfo("image/jpeg");
 
@@ -52,7 +52,7 @@ namespace AdvancedLauncher.Service {
             EncoderParameters encoderParams = new EncoderParameters(1);
             encoderParams.Param[0] = qualityParam;
 
-            img.Save(path, jpegCodec, encoderParams);
+            image.Save(path, jpegCodec, encoderParams);
         }
 
         private static ImageCodecInfo getEncoderInfo(string mimeType) {

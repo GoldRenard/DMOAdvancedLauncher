@@ -25,33 +25,33 @@ using AdvancedLauncher.Environment;
 namespace AdvancedLauncher.Service {
     public static class UpdateChecker {
         public static void Check() {
-            BackgroundWorker bw_checkupdates = new BackgroundWorker();
-            bw_checkupdates.DoWork += (s1, e2) => {
-                string[] res_arr = null;
+            BackgroundWorker updateWorker = new BackgroundWorker();
+            updateWorker.DoWork += (s1, e2) => {
+                string[] resArr = null;
 
                 WebClient client = new WebClient();
                 client.Proxy = (IWebProxy)null;
 
                 try {
                     string result = client.DownloadString(new Uri(LauncherEnv.REMOTE_PATH + "check_updates.php"));
-                    res_arr = result.Split('|');
+                    resArr = result.Split('|');
                 } catch {
                     return;
                 }
 
-                if (res_arr != null)
-                    if (res_arr.Length == 3) {
-                        Version current_version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                        Version remote_version = new Version(res_arr[0]);
-                        if (remote_version.CompareTo(current_version) > 0) {
-                            if (MessageBoxResult.Yes == MessageBox.Show(string.Format(LanguageEnv.Strings.UpdateAvailableText, res_arr[0]) + System.Environment.NewLine + res_arr[2] +
-                                System.Environment.NewLine + LanguageEnv.Strings.UpdateDownloadQuestion, string.Format(LanguageEnv.Strings.UpdateAvailableCaption, res_arr[0]), MessageBoxButton.YesNo, MessageBoxImage.Question))
-                                Utils.OpenSite(res_arr[1]);
+                if (resArr != null)
+                    if (resArr.Length == 3) {
+                        Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                        Version remoteVersion = new Version(resArr[0]);
+                        if (remoteVersion.CompareTo(currentVersion) > 0) {
+                            if (MessageBoxResult.Yes == MessageBox.Show(string.Format(LanguageEnv.Strings.UpdateAvailableText, resArr[0]) + System.Environment.NewLine + resArr[2] +
+                                System.Environment.NewLine + LanguageEnv.Strings.UpdateDownloadQuestion, string.Format(LanguageEnv.Strings.UpdateAvailableCaption, resArr[0]), MessageBoxButton.YesNo, MessageBoxImage.Question))
+                                Utils.OpenSite(resArr[1]);
                         }
                     }
             };
 
-            bw_checkupdates.RunWorkerAsync();
+            updateWorker.RunWorkerAsync();
         }
     }
 }

@@ -65,16 +65,16 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="{Binding About_Developer}" HorizontalAlignment="Left"/>
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left">
-                                <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" RequestNavigate="Hyperlink_RequestNavigate">GoldRenard (Erogov Ilya)</Hyperlink>
+                                <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" RequestNavigate="OnRequestNavigate">GoldRenard (Erogov Ilya)</Hyperlink>
                     </TextBlock>
 
                     <TextBlock Grid.Row="1" Text="{Binding About_DesignHelp}" HorizontalAlignment="Left" />
                     <TextBlock  Grid.Row="1"  Grid.Column="1" HorizontalAlignment="Left">
-                                <Hyperlink NavigateUri="mailto:dragon_vs@live.ru" RequestNavigate="Hyperlink_RequestNavigate">DragonVs (Savinskiy Vladislav)</Hyperlink>
+                                <Hyperlink NavigateUri="mailto:dragon_vs@live.ru" RequestNavigate="OnRequestNavigate">DragonVs (Savinskiy Vladislav)</Hyperlink>
                     </TextBlock>
                 </Grid>
                 <TextBlock Margin="25,0,0,0" HorizontalAlignment="Left">
-                                <Hyperlink NavigateUri="http://digimonrpgonline.net/forum/showthread.php?32023" RequestNavigate="Hyperlink_RequestNavigate">DMO AdvancedLauncher at http://digimonrpgonline.net/</Hyperlink>
+                                <Hyperlink NavigateUri="http://digimonrpgonline.net/forum/showthread.php?32023" RequestNavigate="OnRequestNavigate">DMO AdvancedLauncher at http://digimonrpgonline.net/</Hyperlink>
                 </TextBlock>
                 <StackPanel Margin="25,10,0,0">
                     <TextBlock Text="{Binding About_Acknowledgments}"/>
@@ -103,7 +103,7 @@
                      VerticalAlignment="Top"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
             </Grid>
-            <Button x:Name="BtnClose" Margin="20,10,0,10" Height="30" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="BtnClose_Click" />
+            <Button x:Name="BtnClose" Margin="20,10,0,10" Height="30" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="OnCloseClick" />
         </Grid>
     </Grid>
 </UserControl>

@@ -26,7 +26,7 @@ using System.Security.Principal;
 namespace AdvancedLauncher {
     public partial class App : Application {
         public static SplashScreen splash = new SplashScreen("Resources/SplashScreen.png");
-        public static char SubVersion = 'a';
+        public static char subVersion = 'a';
         Window WpfBugWindow = new Window() {
             AllowsTransparency = true,
             Background = System.Windows.Media.Brushes.Transparent,
@@ -58,8 +58,9 @@ namespace AdvancedLauncher {
                     MainWindow mw = new MainWindow();
                     mw.Show();
                     WpfBugWindow.Close();
-                } else
+                } else {
                     Application.Current.Shutdown();
+                }
             } else
                 MessageBox.Show("Administrator Privileges are required to run DMO AdvancedLauncher. Please run application as Administrator.", "Please run application as Administrator", MessageBoxButton.OK, MessageBoxImage.Warning);
         }

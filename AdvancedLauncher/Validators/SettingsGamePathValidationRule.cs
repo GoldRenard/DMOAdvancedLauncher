@@ -23,10 +23,12 @@ using AdvancedLauncher.Environment;
 namespace AdvancedLauncher.Validators {
     class SettingsGamePathValidationRule : ValidationRule {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.Windows.Settings.SelectedProfile == null)
+            if (AdvancedLauncher.Windows.Settings.SelectedProfile == null) {
                 return new ValidationResult(false, null);
-            if (AdvancedLauncher.Windows.Settings.SelectedProfile.GameEnv.CheckGame())
+            }
+            if (AdvancedLauncher.Windows.Settings.SelectedProfile.GameEnv.CheckGame()) {
                 return new ValidationResult(true, null);
+            }
             return new ValidationResult(false, null);
         }
     }

@@ -25,6 +25,7 @@ using HtmlAgilityPack;
 namespace DMOLibrary.Profiles.Joymax {
 
     public class JMWebInfo : DMOWebProfile {
+        public static readonly new log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(JMWebInfo));  
         private static string STR_RANKING_NODE = "//div[@class='list bbs-ranking']";
         private static string STR_GUILD_ID_REGEX = "(\\/Ranking\\/GuildRankingDetail\\.aspx\\?gid=)(\\d+)(&srvn=)";
         private static string STR_TAMER_ID_REGEX = "(\\/Ranking\\/MainPop\\.aspx\\?tid=)(\\d+)(&srvn=)";
@@ -129,7 +130,7 @@ namespace DMOLibrary.Profiles.Joymax {
         protected override bool GetGuildInfo(ref Guild guild, bool isDetailed) {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlDocument doc = new HtmlDocument();
-
+            LOGGER.Info(String.Format("Obtaining info of {0}", guild.Name));
             string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_PAGE, guild.Id.ToString(), "srv" + guild.ServId));
             if (html == string.Empty) {
                 return false;
@@ -163,6 +164,7 @@ namespace DMOLibrary.Profiles.Joymax {
                         return false;
                     }*/
                     tamerList.Add(tamerInfo);
+                    LOGGER.Info(String.Format("Found tamer \"{0}\"", tamerInfo.Name));
                     if (tamerInfo.Name == guild.MasterName) {
                         guild.MasterId = tamerInfo.Id;
                     }

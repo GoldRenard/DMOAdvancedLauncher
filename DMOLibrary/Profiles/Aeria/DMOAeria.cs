@@ -30,6 +30,7 @@ using DMOLibrary.Profiles.Joymax;
 
 namespace DMOLibrary.Profiles.Aeria {
     public class DMOAeria : DMOProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOAeria));
         private void InitVars() {
             typeName = "Aeria";
             _IsLoginRequired = true;
@@ -49,6 +50,7 @@ namespace DMOLibrary.Profiles.Aeria {
 
         #region Getting user login commandline
         private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+            LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             switch (e.Url.AbsolutePath) {
                 //loginning
                 case "/dialog/oauth": {

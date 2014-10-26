@@ -32,6 +32,7 @@ using System.Windows.Threading;
 
 namespace DMOLibrary.Profiles {
     public abstract class DMOProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOProfile));
         protected Dispatcher OwnerDispatcher = null;
 
         protected string typeName;
@@ -62,6 +63,7 @@ namespace DMOLibrary.Profiles {
         public event LoginStateHandler LoginStateChanged;
 
         protected virtual void OnCompleted(LoginCode code, string result) {
+            LOGGER.InfoFormat("Logging in completed: code={0}, result=\"{1}\"", code, result);
             if (LoginCompleted != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
                     OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteHandler((sender, code_, result_) => {
@@ -73,6 +75,7 @@ namespace DMOLibrary.Profiles {
         }
 
         protected virtual void OnChanged(LoginState state) {
+            LOGGER.InfoFormat("Logging state changed: state={0}", state);
             if (LoginStateChanged != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
                     OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginStateHandler((sender_, state_, try_num_, last_error_) => {

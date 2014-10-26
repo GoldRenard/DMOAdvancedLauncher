@@ -25,12 +25,17 @@ using System.Windows.Threading;
 
 namespace DMOLibrary.DMOFileSystem {
     public class DMOFileSystem {
-
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOFileSystem));
         public class DMOFileEntry {
             public uint Id;
             public long Offset;
             public uint SizeCurrent;
             public uint SizeAvailable;
+
+            public override string ToString() {
+                return String.Format("DMOFileEntry - [Id={0}, Offset={1}, SizeCurrent={2}, SizeAvailable={3}",
+                    Id, Offset, SizeCurrent, SizeAvailable);
+            }
         }
 
         private int ArchiveHeader = 0;
@@ -49,6 +54,7 @@ namespace DMOLibrary.DMOFileSystem {
         public delegate void WriteDirectoryStatusChange(object sender, int fileNum, int fileCount);
         public event WriteDirectoryStatusChange WriteStatusChanged;
         protected virtual void OnFileWrited(int fileNum, int fileCount) {
+            LOGGER.DebugFormat("OnFileWrited: fileNum={0}, fileCount={1}", fileNum, fileCount);
             if (WriteStatusChanged != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
                     OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new WriteDirectoryStatusChange((sender, num, cnt) => {
@@ -63,34 +69,44 @@ namespace DMOLibrary.DMOFileSystem {
         private static string ERROR_CANT_WRITE_FILEMAP = "Can't write filemap. \"{0}\".";
         private static string ERROR_CANT_WRITE_FILE = "Can't write file. \"{0}\".";
 
-        public DMOFileSystem() { }
+        public DMOFileSystem() {
+        }
 
         public DMOFileSystem(Dispatcher OwnerDispatcher) {
             this.OwnerDispatcher = OwnerDispatcher;
         }
 
-        public bool Open(FileAccess Access, int ArchiveHeader, string headerFile, string packageFile) {
+        public bool Open(FileAccess access, int archiveHeader, string headerFile, string packageFile) {
+            LOGGER.DebugFormat("Opening FileSystem: access={0}, archiveHeader={1}, headerFile={2}, packageFile={3}",
+                access, archiveHeader, headerFile, packageFile);
             if (IsOpened) {
                 return false;
             }
 
             if (!File.Exists(headerFile) || !File.Exists(packageFile)) {
+                LOGGER.Error("FileSystem open failed (FileNotFoundException)");
                 throw new FileNotFoundException();
             }
             if (IsFileLocked(headerFile) || IsFileLocked(packageFile)) {
+                LOGGER.Error("FileSystem open failed (UnauthorizedAccessException)");
                 throw new UnauthorizedAccessException();
             }
 
-            this.Access = Access;
-            this.ArchiveHeader = ArchiveHeader;
+            this.Access = access;
+            this.ArchiveHeader = archiveHeader;
             this.HeaderFile = headerFile;
             this.PackageFile = packageFile;
             this.ArchiveEntries.Clear();
 
             BinaryReader binr = null;
-            try { binr = new BinaryReader(File.OpenRead(headerFile), Encoding.Default); } catch { if (binr != null) binr.Close(); throw; }
+            try {
+                binr = new BinaryReader(File.OpenRead(headerFile), Encoding.Default);
+            } catch {
+                if (binr != null) binr.Close(); throw;
+            }
 
-            if (binr.ReadUInt32() != ArchiveHeader) {
+            if (binr.ReadUInt32() != archiveHeader) {
+                LOGGER.Error("FileSystem open failed (FileFormatException)");
                 throw new FileFormatException();
             }
 
@@ -99,8 +115,10 @@ namespace DMOLibrary.DMOFileSystem {
 
             for (uint e = 0; e < entryCount; e++) {
                 entry = new DMOFileEntry();
-                if (binr.ReadUInt32() != 1)
+                if (binr.ReadUInt32() != 1) {
+                    LOGGER.Error("FileSystem open failed (FileFormatException)");
                     throw new FileFormatException();
+                }
 
                 entry.SizeCurrent = binr.ReadUInt32();
                 entry.SizeAvailable = binr.ReadUInt32();
@@ -112,11 +130,13 @@ namespace DMOLibrary.DMOFileSystem {
             binr.Close();
             binr.Dispose();
 
-            if (Access == FileAccess.ReadWrite || Access == FileAccess.Write) {
+            if (access == FileAccess.ReadWrite || access == FileAccess.Write) {
                 try {
-                    MapWriter = new BinaryWriter(File.Open(HeaderFile, FileMode.OpenOrCreate, Access, FileShare.None));
-                    ArchiveStream = File.Open(PackageFile, FileMode.OpenOrCreate, Access, FileShare.None);
-                } catch { throw; }
+                    MapWriter = new BinaryWriter(File.Open(HeaderFile, FileMode.OpenOrCreate, access, FileShare.None));
+                    ArchiveStream = File.Open(PackageFile, FileMode.OpenOrCreate, access, FileShare.None);
+                } catch {
+                    throw;
+                }
             }
 
             IsOpened = true;
@@ -141,33 +161,50 @@ namespace DMOLibrary.DMOFileSystem {
 
         #region Read Section
 
-        public Stream ReadFile(string file) {
-            return ReadFile(GetEntryIndex(FileHash(file)));
+        public Stream ReadFile(string name) {
+            LOGGER.DebugFormat("Reading file: name=\"{0}\"", name);
+            return ReadFile(GetEntryIndex(FileHash(name)));
         }
 
-        public Stream ReadFile(uint ID) {
-            return ReadFile(GetEntryIndex(ID));
+        public Stream ReadFile(uint id) {
+            LOGGER.DebugFormat("Reading file: id={0}", id);
+            return ReadFile(GetEntryIndex(id));
         }
 
         public Stream ReadFile(int entryIndex) {
+            LOGGER.DebugFormat("Reading file: entryIndex={0}", entryIndex);
             if (!IsOpened && !(Access == FileAccess.Read || Access == FileAccess.ReadWrite)) {
+                LOGGER.Error("Reading file failed: Archieve not opened or no read access");
                 return null;
             }
 
             if (entryIndex < 0) {
+                LOGGER.ErrorFormat("Reading file failed: Wrong entryIndex={0}", entryIndex);
                 return null;
             }
 
             string mapName = Path.GetFileNameWithoutExtension(PackageFile);
             MemoryMappedFile mmf;
 
-            try { mmf = MemoryMappedFile.OpenExisting(mapName); } //check if exists
+            try {
+                mmf = MemoryMappedFile.OpenExisting(mapName);
+            } //check if exists
             catch {
-                try { mmf = MemoryMappedFile.CreateFromFile(PackageFile, FileMode.Open, mapName, 0, MemoryMappedFileAccess.Read); } catch { return null; }
+                try {
+                    mmf = MemoryMappedFile.CreateFromFile(PackageFile, FileMode.Open, mapName, 0, MemoryMappedFileAccess.Read);
+                } catch {
+                    LOGGER.Error("Reading file failed: Unable to create MemoryMappedFile");
+                    return null;
+                }
             } // or not - open*/
 
             MemoryMappedViewStream outStream;
-            try { outStream = mmf.CreateViewStream(ArchiveEntries[entryIndex].Offset, ArchiveEntries[entryIndex].SizeCurrent, MemoryMappedFileAccess.Read); } catch { return null; }
+            try {
+                outStream = mmf.CreateViewStream(ArchiveEntries[entryIndex].Offset, ArchiveEntries[entryIndex].SizeCurrent, MemoryMappedFileAccess.Read);
+            } catch {
+                LOGGER.Error("Reading file failed: Unable to create MemoryMappedViewStream");
+                return null;
+            }
 
             return outStream;
         }
@@ -175,7 +212,9 @@ namespace DMOLibrary.DMOFileSystem {
 
         #region Write Section
         public bool WriteMapFile() {
+            LOGGER.Debug("Writing map file...");
             if (!IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
+                LOGGER.Error("Writing map file failed: Archieve not opened or no write access");
                 return false;
             }
 
@@ -196,13 +235,16 @@ namespace DMOLibrary.DMOFileSystem {
                 }
             } catch (Exception ex) {
                 System.Windows.MessageBox.Show(string.Format(ERROR_CANT_WRITE_FILEMAP, ex.Message), "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                LOGGER.Error("Writing map file failed.", ex);
                 return false;
             }
             return true;
         }
 
         public bool WriteFile(string sourceFile, string destination) {
+            LOGGER.DebugFormat("Writing file: sourceFile=\"{0}\", destination=\"{1}\"", sourceFile, destination);
             if (!File.Exists(sourceFile)) {
+                LOGGER.ErrorFormat("Writing file failed: sourceFile=\"{0}\" not found", sourceFile);
                 return false;
             }
             FileStream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read);
@@ -210,10 +252,12 @@ namespace DMOLibrary.DMOFileSystem {
         }
 
         public bool WriteStream(Stream sourceStream, string destination) {
+            LOGGER.DebugFormat("Writing stream: destination=\"{0}\"", destination);
             return WriteStream(sourceStream, FileHash(destination));
         }
 
         public bool WriteStream(Stream sourceStream, uint entryId) {
+
             if (!_WriteStream(sourceStream, entryId)) {
                 return false;
             }
@@ -224,7 +268,9 @@ namespace DMOLibrary.DMOFileSystem {
         }
 
         private bool _WriteStream(Stream SourceStream, uint entryId) {
+            LOGGER.DebugFormat("Writing stream: entryId=\"{0}\"", entryId);
             if (!IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
+                LOGGER.Error("Writing stream failed: Archieve not opened or no write access");
                 return false;
             }
 
@@ -251,12 +297,14 @@ namespace DMOLibrary.DMOFileSystem {
                 SourceStream.CopyTo(ArchiveStream);
             } catch (Exception ex) {
                 System.Windows.MessageBox.Show(string.Format(ERROR_CANT_WRITE_FILE, ex.Message), "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                LOGGER.Error("Writing stream failed!", ex);
                 return false;
             }
             return true;
         }
 
-        public bool WriteDirectory(string path, bool DeleteOnComplete) {
+        public bool WriteDirectory(string path, bool deleteOnComplete) {
+            LOGGER.DebugFormat("Writing directory: path=\"{0}\", DeleteOnComplete={1}", path, deleteOnComplete);
             if (!IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
                 return false;
             }
@@ -288,8 +336,11 @@ namespace DMOLibrary.DMOFileSystem {
                 return false;
             }
 
-            if (DeleteOnComplete) {
-                try { Directory.Delete(path, true); } catch { }
+            if (deleteOnComplete) {
+                try {
+                    Directory.Delete(path, true);
+                } catch {
+                }
             }
             return true;
         }
@@ -326,7 +377,11 @@ namespace DMOLibrary.DMOFileSystem {
         public static bool IsFileLocked(string file) {
             FileStream stream = null;
 
-            try { stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None); } catch (IOException) { return true; } finally {
+            try {
+                stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            } catch (IOException) {
+                return true;
+            } finally {
                 if (stream != null) {
                     stream.Close();
                 }
@@ -343,7 +398,9 @@ namespace DMOLibrary.DMOFileSystem {
 
         private int GetEntryIndex(uint fileId) {
             int entryIndex = -1;
-            entryIndex = ArchiveEntries.FindIndex(delegate(DMOFileEntry bk) { return bk.Id == fileId; });
+            entryIndex = ArchiveEntries.FindIndex(delegate(DMOFileEntry bk) {
+                return bk.Id == fileId;
+            });
             return entryIndex;
         }
         #endregion

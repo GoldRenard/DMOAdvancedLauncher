@@ -24,7 +24,7 @@ using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Joymax {
     class JMNews : DMONewsProfile {
-        public static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(JMNews));  
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(JMNews));
         private static string STR_URL_NEW_PAGE = "http://www.joymax.com/dmo/Property_Front.aspx?workurl=http://dmocp.joymax.com{0}";
         private static string STR_DATE_FORMAT_REGEX = "(\\d\\d)(-)(\\d\\d)(-)(\\d\\d)";
 

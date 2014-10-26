@@ -54,7 +54,7 @@ namespace AdvancedLauncher.Windows {
         public static bool IsInstanceInitialized {
             get {
                 return _Instance != null;
-            } 
+            }
         }
 
         private static ObservableCollection<LoggingEvent> _LogEntries = new ObservableCollection<LoggingEvent>();
@@ -66,7 +66,9 @@ namespace AdvancedLauncher.Windows {
 
         private Logger() {
             InitializeComponent();
-            LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+            LanguageEnv.Languagechanged += delegate() {
+                this.DataContext = LanguageEnv.Strings;
+            };
             ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
             HideWindow = ((Storyboard)this.FindResource("HideWindow"));
             this.Items.ItemsSource = LogEntries;
@@ -79,8 +81,8 @@ namespace AdvancedLauncher.Windows {
                 Dispatcher.BeginInvoke(
                     DispatcherPriority.ContextIdle,
                     new Action(delegate() {
-                        ConsoleInput.Focus();
-                    }));
+                    ConsoleInput.Focus();
+                }));
             } else {
                 HideWindow.Begin();
             }

@@ -29,6 +29,7 @@ using System.Runtime.InteropServices;
 
 namespace DMOLibrary.Profiles.Korea {
     public class DMOKoreaIMBC : DMOProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOKoreaIMBC));
         private void InitVars() {
             typeName = "KoreaIMBC";
             databaseName = "Korea";
@@ -61,6 +62,7 @@ namespace DMOLibrary.Profiles.Korea {
         #region Getting user login commandline
 
         private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+            LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             switch (e.Url.AbsolutePath) {
                 //loginning
                 case "/RealMedia/ads/adstream_sx.ads/www.imbc.com/Login@Middle": {

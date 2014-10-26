@@ -27,6 +27,7 @@ using System.Windows.Threading;
 
 namespace DMOLibrary {
     public class DMODatabase {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMODatabase));
         private static string DatabaseFile;
         private SQLiteConnection connection;
         private SQLiteTransaction transaction;
@@ -121,6 +122,7 @@ SELECT * FROM (
                 return true;
             } catch (SQLiteException ex) {
                 MSG_ERROR(SQL_CANT_CONNECT + ex.Message);
+                LOGGER.Error(ex);
                 return false;
             }
         }
@@ -130,7 +132,9 @@ SELECT * FROM (
                 connection.Close();
                 isConnected = false;
                 return true;
-            } catch { return false; }
+            } catch {
+                return false;
+            }
         }
         #endregion
 
@@ -280,7 +284,13 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
 ";
         private bool RecreateDB(string cInitQuery) {
             if (File.Exists(DatabaseFile)) {
-                try { File.Delete(DatabaseFile); } catch (Exception ex) { MSG_ERROR(SQL_CANT_DELETE_DB + ex.Message); return false; }
+                try {
+                    File.Delete(DatabaseFile);
+                } catch (Exception ex) {
+                    MSG_ERROR(SQL_CANT_DELETE_DB + ex.Message);
+                    LOGGER.Error(ex);
+                    return false;
+                }
             }
             SQLiteConnection.CreateFile(DatabaseFile);
             connection = new SQLiteConnection("Data Source = " + DatabaseFile);
@@ -309,6 +319,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 sqlComm.Dispose();
             } catch (SQLiteException ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return false;
             }
             return true;
@@ -321,6 +332,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 result = Convert.ToInt32(cmd.ExecuteScalar());
             } catch (SQLiteException ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return 0;
             }
             return result;
@@ -358,6 +370,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return null;
             }
 
@@ -386,6 +399,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return null;
             }
             if (types.Count > 0) {
@@ -413,12 +427,14 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return null;
             }
 
             if (types.Count > 0) {
                 return types;
             }
+            LOGGER.WarnFormat("Unknown digimon: name=\"{0}\"", name);
             return null;
         }
 
@@ -442,9 +458,13 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return type;
             }
 
+            if (type.Id == -1) {
+                LOGGER.WarnFormat("Unknown digimon: id={0}", id);
+            }
             return type;
         }
 
@@ -463,9 +483,12 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return type;
             }
-
+            if (type.Id == -1) {
+                LOGGER.WarnFormat("Unknown tamer: id={0}", id);
+            }
             return type;
         }
 
@@ -484,6 +507,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return null;
             }
             return servers;
@@ -511,6 +535,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 g.Id = -1;
                 return g;
             }

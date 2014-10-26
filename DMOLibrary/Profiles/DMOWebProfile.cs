@@ -24,7 +24,7 @@ using System.Text;
 
 namespace DMOLibrary.Profiles {
     public abstract class DMOWebProfile {
-        public static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOWebProfile));  
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOWebProfile));  
         protected static int[] STARTER_IDS = { 31003, 31002, 31004, 31001 };
         protected DMODatabase Database = null;
         protected DownloadStatus downloadStatus = new DownloadStatus();

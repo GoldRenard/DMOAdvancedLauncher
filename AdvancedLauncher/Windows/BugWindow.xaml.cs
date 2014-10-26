@@ -30,7 +30,7 @@ using System.Management;
 
 namespace AdvancedLauncher.Windows {
     public partial class BugWindow : Window {
-        Exception _Exception;
+        private Exception _Exception;
 
         public BugWindow(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
             InitializeComponent();
@@ -58,12 +58,15 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private void ButtonClose_Click(object sender, RoutedEventArgs e) {
+        private void OnCloseClick(object sender, RoutedEventArgs e) {
             this.Close();
         }
 
-        private void ButtonSubmit_Click(object sender, RoutedEventArgs e) {
-            try { Process.Start("mailto:goldrenard@gmail.com?subject=DMO%20Advanced%20Launcher%20has%20crashed&body=" + GenerateReport(_Exception)); } catch { }
+        private void OnSubmitClick(object sender, RoutedEventArgs e) {
+            try {
+                Process.Start("mailto:goldrenard@gmail.com?subject=DMO%20Advanced%20Launcher%20has%20crashed&body=" + GenerateReport(_Exception));
+            } catch {
+            }
             this.Close();
         }
 
@@ -82,8 +85,9 @@ namespace AdvancedLauncher.Windows {
         private string OSVersion() {
             var name = (from x in new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem").Get().OfType<ManagementObject>()
                         select x.GetPropertyValue("Caption")).First();
-            if (name != null)
+            if (name != null) {
                 return name.ToString() + (System.Environment.Is64BitOperatingSystem ? " 64-Bit" : " 32-Bit");
+            }
             return "Unknown";
         }
     }

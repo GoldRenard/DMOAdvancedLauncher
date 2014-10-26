@@ -25,8 +25,9 @@ namespace AdvancedLauncher.Validators {
     class URLValidationRule : ValidationRule {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             Regex r = new Regex(@"^(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*$");
-            while (r.Match(value.ToString()).Success)
+            while (r.Match(value.ToString()).Success) {
                 return new ValidationResult(true, null);
+            }
             return new ValidationResult(false, null);
         }
     }

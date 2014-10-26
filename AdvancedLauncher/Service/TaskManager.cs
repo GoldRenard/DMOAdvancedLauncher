@@ -34,28 +34,40 @@ namespace AdvancedLauncher.Service {
         private static List<Task> _Tasks = new List<Task>();
 
         /// <summary> Предоставляет ссылку на список задач </summary>
-        public static List<Task> Tasks { get { return _Tasks; } }
+        public static List<Task> Tasks {
+            get {
+                return _Tasks;
+            }
+        }
 
         /// <summary> Проверка занятости приложения </summary>
         /// <returns> <see langword="true"/> если приложение занято какой-либо задачей, 
         /// <see langword="false"/> если свободно и может быть закрыто. </returns>
-        public static bool IsBusy { get { return _Tasks.Count != 0; } }
+        public static bool IsBusy {
+            get {
+                return _Tasks.Count != 0;
+            }
+        }
 
         /// <summary> Метод закрытия приложения. Приложение будет закрыто тогда,
         /// когда не останется ни одной задачи </summary>
         public static void CloseApp() {
-            BackgroundWorker queue_worker = new BackgroundWorker();
-            queue_worker.DoWork += (s, e) => {
-                while (IsBusy)
+            BackgroundWorker queueWorker = new BackgroundWorker();
+            queueWorker.DoWork += (s, e) => {
+                while (IsBusy) {
                     System.Threading.Thread.Sleep(100);
+                }
             };
-            queue_worker.RunWorkerCompleted += (s, e) => {
-                if (!Application.Current.Dispatcher.CheckAccess())
-                    Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() { Application.Current.Shutdown(); }));
-                else
+            queueWorker.RunWorkerCompleted += (s, e) => {
+                if (!Application.Current.Dispatcher.CheckAccess()) {
+                    Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+                        Application.Current.Shutdown();
+                    }));
+                } else {
                     Application.Current.Shutdown();
+                }
             };
-            queue_worker.RunWorkerAsync();
+            queueWorker.RunWorkerAsync();
         }
     }
 }

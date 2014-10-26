@@ -34,7 +34,9 @@ namespace AdvancedLauncher.Service {
         /// <summary> Opens URL with default browser </summary>
         /// <param name="url">URL to web</param>
         public static void OpenSite(string url) {
-            try { System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url)); } catch (Exception ex) {
+            try {
+                System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url));
+            } catch (Exception ex) {
                 MSG_ERROR(LanguageEnv.Strings.CantOpenLink + ex.Message);
             }
         }
@@ -42,7 +44,9 @@ namespace AdvancedLauncher.Service {
         /// <summary> Opens URL with default browser (without URL decode) </summary>
         /// <param name="url">URL to web</param>
         public static void OpenSiteNoDecode(string url) {
-            try { System.Diagnostics.Process.Start(url); } catch (Exception ex) {
+            try {
+                System.Diagnostics.Process.Start(url);
+            } catch (Exception ex) {
                 MSG_ERROR(LanguageEnv.Strings.CantOpenLink + ex.Message);
             }
         }
@@ -53,7 +57,11 @@ namespace AdvancedLauncher.Service {
         public static bool IsFileLocked(string file) {
             FileStream stream = null;
 
-            try { stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None); } catch (IOException) { return true; } finally {
+            try {
+                stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            } catch (IOException) {
+                return true;
+            } finally {
                 if (stream != null)
                     stream.Close();
             }

@@ -35,46 +35,49 @@ namespace AdvancedLauncher.Windows {
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
         [DllImport("user32.dll")]
         private static extern int EnableMenuItem(IntPtr hMenu, int wIDEnableItem, int wEnable);
-        IntPtr hWnd = IntPtr.Zero;
+        private IntPtr hWnd = IntPtr.Zero;
 
-        bool IsCloseLocked = true;
+        private bool IsCloseLocked = true;
 
-        Gallery Gallery_tab = null;
-        Personalization Personalization_tab = null;
-        Community Community_tab = null;
+        private Settings SettingsWindow = null;
+        private About AboutWindow = null;
+        private Gallery GalleryTab = null;
+        private Personalization PersonalizationTab = null;
+        private Community CommunityTab = null;
+        private int currentTab = 0;
 
         public MainWindow() {
             InitializeComponent();
             AdvancedLauncher.Service.UpdateChecker.Check();
             LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
             LauncherEnv.Settings.ProfileChanged += ReloadTabs;
-            LauncherEnv.Settings.ProfileLocked += Settings_ProfileLocked;
-            LauncherEnv.Settings.ClosingLocked += Settings_ClosingLocked;
-            LauncherEnv.Settings.FileSystemLocked += Settings_FileSystemLocked;
+            LauncherEnv.Settings.ProfileLocked += OnProfileLocked;
+            LauncherEnv.Settings.ClosingLocked += OnClosingLocked;
+            LauncherEnv.Settings.FileSystemLocked += OnFileSystemLocked;
             this.Closing += (s, e) => { e.Cancel = IsCloseLocked; };
-            MainMenu.AboutClick += MainMenu_AboutClick;
-            MainMenu.SettingsClick += MainMenu_SettingsClick;
+            MainMenu.AboutClick += OnAboutClick;
+            MainMenu.SettingsClick += OnSettingsClick;
             ReloadTabs();
             try { App.splash.Close(TimeSpan.FromSeconds(1)); } catch { }
-
 #if DEBUG
             this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
         }
 
-        void Settings_FileSystemLocked(bool IsLocked) {
+        private void OnFileSystemLocked(bool IsLocked) {
             if (IsLocked) {
                 //Выбираем первую вкладку и отключаем персонализацию (на всякий случай)
                 NavControl.SelectedIndex = 0;
                 NavPersonalization.IsEnabled = false;
             } else {
                 //Включаем персонализации обратно если игра определена
-                if (LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame())
+                if (LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame()) {
                     NavPersonalization.IsEnabled = true;
+                }
             }
         }
 
-        void Settings_ClosingLocked(bool IsLocked) {
+        private void OnClosingLocked(bool IsLocked) {
             if (hWnd == IntPtr.Zero)
                 hWnd = new System.Windows.Interop.WindowInteropHelper(Application.Current.MainWindow).Handle;
             //Заблокировать закрытие окна
@@ -83,7 +86,7 @@ namespace AdvancedLauncher.Windows {
             EnableMenuItem(GetSystemMenu(hWnd, false), SC_CLOSE, IsLocked ? MF_DISABLED | MF_GRAYED : MF_ENABLED);
         }
 
-        void Settings_ProfileLocked(bool IsLocked) {
+        private void OnProfileLocked(bool IsLocked) {
             MainMenu.IsEnabled = !IsLocked;
         }
 
@@ -95,8 +98,9 @@ namespace AdvancedLauncher.Windows {
             NavPersonalization.IsEnabled = false;
 
             //Если доступен веб-профиль, включаем вкладку сообщества
-            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsWebAvailable)
+            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsWebAvailable) {
                 NavCommunity.IsEnabled = true;
+            }
 
             //Если путь до игры верен, включаем вкладку галереи и персонализации
             if (LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame()) {
@@ -105,11 +109,11 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        int cTabIndex = 0;
-        private void NavControl_SelectionChanged_1(object sender, SelectionChangedEventArgs e) {
+        private void OnTabChanged(object sender, SelectionChangedEventArgs e) {
             //Prevent handling over changing inside tab item
-            if (cTabIndex == NavControl.SelectedIndex)
+            if (currentTab == NavControl.SelectedIndex) {
                 return;
+            }
 
             switch (NavControl.SelectedIndex) {
                 case 0: {
@@ -117,37 +121,36 @@ namespace AdvancedLauncher.Windows {
                         break;
                     }
                 case 1: {
-                        if (Gallery_tab == null) {
-                            Gallery_tab = new Gallery();
-                            NavGallery.Content = Gallery_tab;
+                        if (GalleryTab == null) {
+                            GalleryTab = new Gallery();
+                            NavGallery.Content = GalleryTab;
                         }
-                        Gallery_tab.Activate();
+                        GalleryTab.Activate();
                         break;
                     }
                 case 2: {
-                        if (Community_tab == null) {
-                            Community_tab = new Community();
-                            NavCommunity.Content = Community_tab;
+                        if (CommunityTab == null) {
+                            CommunityTab = new Community();
+                            NavCommunity.Content = CommunityTab;
                         }
-                        Community_tab.Activate();
+                        CommunityTab.Activate();
                         break;
                     }
                 case 3: {
-                        if (Personalization_tab == null) {
-                            Personalization_tab = new Personalization();
-                            NavPersonalization.Content = Personalization_tab;
+                        if (PersonalizationTab == null) {
+                            PersonalizationTab = new Personalization();
+                            NavPersonalization.Content = PersonalizationTab;
                         }
-                        Personalization_tab.Activate();
+                        PersonalizationTab.Activate();
                         break;
                     }
             }
 
-            cTabIndex = NavControl.SelectedIndex;
-            ((TabItem)NavControl.Items[cTabIndex]).Focus();
+            currentTab = NavControl.SelectedIndex;
+            ((TabItem)NavControl.Items[currentTab]).Focus();
         }
 
-        private Settings SettingsWindow = null;
-        void MainMenu_SettingsClick(object sender, RoutedEventArgs e) {
+        private void OnSettingsClick(object sender, RoutedEventArgs e) {
             if (SettingsWindow == null) {
                 SettingsWindow = new Settings();
                 LayoutRoot.Children.Add(SettingsWindow);
@@ -155,8 +158,7 @@ namespace AdvancedLauncher.Windows {
             SettingsWindow.Show(true);
         }
 
-        private About AboutWindow = null;
-        void MainMenu_AboutClick(object sender, RoutedEventArgs e) {
+        private void OnAboutClick(object sender, RoutedEventArgs e) {
             if (AboutWindow == null) {
                 AboutWindow = new About();
                 LayoutRoot.Children.Add(AboutWindow);

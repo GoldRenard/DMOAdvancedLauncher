@@ -31,8 +31,8 @@
             </GroupBox>
         </Grid>
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Height="20" VerticalAlignment="Bottom"  Margin="0,0,0,5" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Width="70" Content="Submit" Margin="4,0" Click="ButtonSubmit_Click" />
-            <Button Width="70" Content="Close" Margin="4,0" Click="ButtonClose_Click" />
+            <Button Width="70" Content="Submit" Margin="4,0" Click="OnSubmitClick" />
+            <Button Width="70" Content="Close" Margin="4,0" Click="OnCloseClick" />
         </StackPanel>
     </Grid>
 </Window>

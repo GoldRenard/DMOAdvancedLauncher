@@ -45,20 +45,22 @@ namespace AdvancedLauncher.Service {
         ///           or execute it directly </summary>
         /// <param name="program">Path to program</param>
         /// <param name="args">Arguments</param>
-        /// <param name="UseAL">Use AppLocale</param>
+        /// <param name="useAL">Use AppLocale</param>
         /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
         /// -------------------------------------------------------------------------------------------------
-        public static bool Execute(string program, string args, bool UseAL) {
+        public static bool Execute(string program, string args, bool useAL) {
             if (File.Exists(program)) {
-                if (UseAL && !ParentProcessUtilities.GetParentProcess().ProcessName.ToLower().Equals("steam")) {
-                    if (!executeApplocale(program, args)) {
-                        if (StartProc(program, args))
+                if (useAL && !ParentProcessUtilities.GetParentProcess().ProcessName.ToLower().Equals("steam")) {
+                    if (!executeAppLocale(program, args)) {
+                        if (StartProcess(program, args))
                             return true;
-                    } else
+                    } else {
                         return true;
+                    }
                 } else {
-                    if (StartProc(program, args))
+                    if (StartProcess(program, args)) {
                         return true;
+                    }
                 }
             }
             return false;
@@ -70,14 +72,16 @@ namespace AdvancedLauncher.Service {
         /// <param name="commandline">Command line</param>
         /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
         /// -------------------------------------------------------------------------------------------------
-        public static bool StartProc(string program, string commandline) {
+        public static bool StartProcess(string program, string commandline) {
             try {
                 Process proc = new Process();
                 proc.StartInfo.FileName = program;
                 proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(program);
                 proc.StartInfo.Arguments = commandline;
                 proc.Start();
-            } catch { return false; }
+            } catch {
+                return false;
+            }
             return true;
         }
 
@@ -87,36 +91,40 @@ namespace AdvancedLauncher.Service {
         /// <param name="args">Command line</param>
         /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
         /// -------------------------------------------------------------------------------------------------
-        static bool executeApplocale(string program, string args) {
-            string apploc_dir = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
+        static bool executeAppLocale(string program, string args) {
+            string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
 
-            if (!IsALSupported)
+            if (!IsALSupported) {
                 return false;
+            }
 
             if (!string.IsNullOrEmpty(args))
-                StartProc(apploc_dir, "\"" + program + "\" \"" + args + "\" \"/L0412\"");
+                StartProcess(appLocalePath, "\"" + program + "\" \"" + args + "\" \"/L0412\"");
             else
-                StartProc(apploc_dir, "\"" + program + "\" \"/L0412\"");
+                StartProcess(appLocalePath, "\"" + program + "\" \"/L0412\"");
             return true;
         }
 
-        public static bool IsALInstalled { set; get; }
-        public static bool IsKoreanSupported { set; get; }
+        public static bool IsALInstalled {
+            set;
+            get;
+        }
+        public static bool IsKoreanSupported {
+            set;
+            get;
+        }
         public static bool IsALSupported {
             get {
-                string apploc_dir = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
-                IsALInstalled = File.Exists(apploc_dir);
+                string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
+                IsALInstalled = File.Exists(appLocalePath);
 
                 IsKoreanSupported = false;
-                CultureInfo[] cis = CultureInfo.GetCultures(CultureTypes.InstalledWin32Cultures);
-                foreach (CultureInfo ci in cis)
+                foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.InstalledWin32Cultures))
                     if (ci.TwoLetterISOLanguageName == "ko") {
                         IsKoreanSupported = true;
                         break;
                     }
-                if (!IsALInstalled || !IsKoreanSupported)
-                    return false;
-                return true;
+                return IsALInstalled && IsKoreanSupported;
             }
         }
     }

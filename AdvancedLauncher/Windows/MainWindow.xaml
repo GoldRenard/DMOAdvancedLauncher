@@ -113,7 +113,7 @@
                     Viewport="0,0,333,800"
                     ViewportUnits="Absolute" />
             </Grid.Background>
-            <TabControl x:Name="NavControl" SelectionChanged="NavControl_SelectionChanged_1">
+            <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged">
                 <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
                     <Page:MainPage x:Name="MainPage" />
                 </TabItem>

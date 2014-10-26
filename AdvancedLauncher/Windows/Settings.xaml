@@ -61,7 +61,7 @@
                          SelectedIndex="0" 
                          x:Name="ProfileList" 
                          VerticalAlignment="Top"
-                         SelectionChanged="ProfileList_SelectionChanged" 
+                         SelectionChanged="OnProfileSelectionChanged" 
                          ItemsSource="{Binding Path=DataContext.Profiles, RelativeSource={RelativeSource Self}, Mode=OneWay}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -84,8 +84,8 @@
                 </ListBox>
             </Grid>
 
-            <Button x:Name="BtnAdd" Margin="10" Height="30" Width="85" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding CreateButton}" Click="BtnAdd_Click" />
-            <Button x:Name="BtnDel" Margin="10" Height="30" Width="85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{Binding DeleteButton}" Click="BtnDel_Click" />
+            <Button x:Name="BtnAdd" Margin="10" Height="30" Width="85" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding CreateButton}" Click="OnAddClick" />
+            <Button x:Name="BtnDel" Margin="10" Height="30" Width="85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{Binding DeleteButton}" Click="OnRemoveClick" />
 
             <Grid Grid.Column="1">
                 <StackPanel HorizontalAlignment="Left" Margin="0,10,0,0" Width="300">
@@ -105,11 +105,11 @@
                                         </Binding>
                                     </controls:HintTextBox.Text>
                                 </controls:HintTextBox>
-                                <Button x:Name="BtnSetDef" Content="{Binding Settings_SetAsDefaultButton}" Click="BtnSetDef_Click" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsSelectedNotDefault, Mode=TwoWay}"/>
+                                <Button x:Name="BtnSetDef" Content="{Binding Settings_SetAsDefaultButton}" Click="OnSetDefaultClick" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsSelectedNotDefault, Mode=TwoWay}"/>
                             </StackPanel>
                             <Grid Grid.Column="2" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                                 <Border Grid.RowSpan="2" Margin="5" CornerRadius="3" Background="White" />
-                                <Border Grid.RowSpan="2" Margin="5" CornerRadius="3" BorderBrush="White" BorderThickness="2" Cursor="Hand" MouseDown="ImageBorder_MouseDown">
+                                <Border Grid.RowSpan="2" Margin="5" CornerRadius="3" BorderBrush="White" BorderThickness="2" Cursor="Hand" MouseDown="OnImageSelect">
                                     <Border.Background>
                                         <ImageBrush ImageSource="{Binding ElementName=ProfileList, Path=SelectedValue.Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
                                     </Border.Background>
@@ -208,7 +208,7 @@
                 <StackPanel>
                     <StackPanel Height="30" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
                         <TextBlock Text="{Binding Settings_Language}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" />
-                        <ComboBox x:Name="ComboBoxLanguage" Height="30" Width="150" SelectedIndex="0" SelectionChanged="ComboBoxLanguage_SelectionChanged_1"  IsSynchronizedWithCurrentItem="True"/>
+                        <ComboBox x:Name="ComboBoxLanguage" Height="30" Width="150" SelectedIndex="0" SelectionChanged="OnLanguageSelectionChanged"  IsSynchronizedWithCurrentItem="True"/>
                     </StackPanel>
                     <GroupBox Header="{Binding Settings_GameGroup}">
                         <StackPanel Margin="3,0,3,3">
@@ -218,7 +218,7 @@
                                     <ColumnDefinition Width="200" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Settings_ClientType}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0" />
-                                <ComboBox SelectionChanged="ComboBoxType_SelectionChanged" Grid.Column="1" Width="200" HorizontalAlignment="Right" SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.GameTypeNum, Mode=TwoWay}">
+                                <ComboBox SelectionChanged="OnTypeSelectionChanged" Grid.Column="1" Width="200" HorizontalAlignment="Right" SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.GameTypeNum, Mode=TwoWay}">
                                     <ComboBoxItem Content="ADMO (Aeria Games)" />
                                     <ComboBoxItem Content="GDMO (Joymax.com)" />
                                     <ComboBoxItem Content="KDMO (IMBC.com)" />
@@ -240,7 +240,7 @@
                                         </Binding>
                                     </TextBox.Text>
                                 </TextBox>
-                                <Button Grid.Column="1" x:Name="BtnGameBrowse" Width="100" Content="{Binding BrowseButton}" Click="BtnGameBrowse_Click_1" />
+                                <Button Grid.Column="1" x:Name="BtnGameBrowse" Width="100" Content="{Binding BrowseButton}" Click="OnGameBrowse" />
                             </Grid>
                             <TextBlock Text="{Binding Settings_LauncherPath}" Margin="0,3" HorizontalAlignment="Left" />
                             <Grid Height="30">
@@ -257,7 +257,7 @@
                                         </Binding>
                                     </TextBox.Text>
                                 </TextBox>
-                                <Button Grid.Column="1" x:Name="BtnLauncherBrowse" Width="100" Content="{Binding BrowseButton}" Click="BtnLauncherBrowse_Click_1" />
+                                <Button Grid.Column="1" x:Name="BtnLauncherBrowse" Width="100" Content="{Binding BrowseButton}" Click="OnLauncherBrowse" />
                             </Grid>
                             <controls:Trigger 
                                 Margin="3"
@@ -272,7 +272,7 @@
                                     IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsALSupported, Mode=TwoWay}"/>
                                 <TextBlock x:Name="AL_Helper" Margin="5,1,0,0" VerticalAlignment="Center" 
                                            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsALNotSupported, Mode=TwoWay, Converter={StaticResource BoolToHiddenConverter}}">
-                                    <Hyperlink Click="HLWhyAL_Click">
+                                    <Hyperlink Click="OnAppLocaleHelpClick">
                                         <Run Text="{Binding Settings_AppLocale_Help}" />
                                     </Hyperlink>
                                 </TextBlock>
@@ -308,8 +308,8 @@
                     </GroupBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"  VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <Button x:Name="BtnApply" Margin="0,0,10,0" Width="85" Content="{Binding ApplyButton}" Click="BtnApply_Click" />
-                    <Button x:Name="BtnClose" Width="85" Content="{Binding CancelButton}" Click="BtnClose_Click" />
+                    <Button x:Name="BtnApply" Margin="0,0,10,0" Width="85" Content="{Binding ApplyButton}" Click="OnApplyClick" />
+                    <Button x:Name="BtnClose" Width="85" Content="{Binding CancelButton}" Click="OnCloseClick" />
                 </StackPanel>
             </Grid>
         </Grid>

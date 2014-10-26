@@ -28,8 +28,8 @@ using System.IO;
 
 namespace AdvancedLauncher.Windows {
     public partial class About : UserControl {
-        Storyboard ShowWindow, HideWindow;
-        string lFile = "Docs\\LICENSE.txt";
+        private Storyboard ShowWindow, HideWindow;
+        private const string LICENSE_FILE = "Docs\\LICENSE.txt";
         public About() {
             InitializeComponent();
             LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
@@ -39,24 +39,26 @@ namespace AdvancedLauncher.Windows {
         }
 
         public void LoadLicence() {
-            if (File.Exists(lFile))
-                Licence.Text = File.ReadAllText(lFile);
-            else
-                Licence.Text = string.Format(AdvancedLauncher.Environment.LanguageEnv.Strings.About_Licence404, lFile);
+            if (File.Exists(LICENSE_FILE)) {
+                Licence.Text = File.ReadAllText(LICENSE_FILE);
+            } else {
+                Licence.Text = string.Format(AdvancedLauncher.Environment.LanguageEnv.Strings.About_Licence404, LICENSE_FILE);
+            }
         }
 
         public void Show(bool state) {
-            if (state)
+            if (state) {
                 ShowWindow.Begin();
-            else
+            } else {
                 HideWindow.Begin();
+            }
         }
 
-        private void BtnClose_Click(object sender, RoutedEventArgs e) {
+        private void OnCloseClick(object sender, RoutedEventArgs e) {
             Show(false);
         }
 
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e) {
+        private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {
             Utils.OpenSite(e.Uri.AbsoluteUri);
         }
     }

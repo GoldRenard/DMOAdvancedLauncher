@@ -128,20 +128,20 @@ namespace AdvancedLauncher.Controls {
                         BlockPanel2.Visibility = Visibility.Visible;
 
                         //Получаем информацию, необходимую для ротации
-                        rGuild = LauncherEnv.Settings.pCurrent.Rotation.Guild;
-                        rTamer = LauncherEnv.Settings.pCurrent.Rotation.Tamer;
+                        rGuild = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
+                        rTamer = LauncherEnv.Settings.CurrentProfile.Rotation.Tamer;
                     }));
 
                     //Проверяем, доступен ли веб-профиль и необходимая информация
-                    if (LauncherEnv.Settings.pCurrent.DMOProfile.WebProfile != null && !string.IsNullOrEmpty(rGuild)) {
-                        rServ = LauncherEnv.Settings.pCurrent.DMOProfile.GetServerById(LauncherEnv.Settings.pCurrent.Rotation.ServerId + 1);
+                    if (LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile != null && !string.IsNullOrEmpty(rGuild)) {
+                        rServ = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetServerById(LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1);
                         //Устанавливаем новый профиль
-                        WebProfile = LauncherEnv.Settings.pCurrent.DMOProfile.WebProfile;
+                        WebProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile;
                         //Регистрируем ивенты загрузки
                         WebProfile.StatusChanged += OnStatusChange;
                         WebProfile.DownloadCompleted += OnDownloadComplete;
                         //Получаем информацию о списках гильдии
-                        WebProfile.GetGuild(rGuild, rServ, false, LauncherEnv.Settings.pCurrent.Rotation.URate + 1);
+                        WebProfile.GetGuild(rGuild, rServ, false, LauncherEnv.Settings.CurrentProfile.Rotation.UpdateInterval + 1);
                         //Убираем обработку ивентов
                         WebProfile.DownloadCompleted -= OnDownloadComplete;
                         WebProfile.StatusChanged -= OnStatusChange;
@@ -289,7 +289,7 @@ namespace AdvancedLauncher.Controls {
             //If we don't have image, try to download it
             if (!File.Exists(ImageFile)) {
                 try {
-                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile);
+                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.REMOTE_PATH, digi_id), ImageFile);
                 } catch {
                 }
             }

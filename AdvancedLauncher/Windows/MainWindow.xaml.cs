@@ -69,7 +69,7 @@ namespace AdvancedLauncher.Windows {
                 NavPersonalization.IsEnabled = false;
             } else {
                 //Включаем персонализации обратно если игра определена
-                if (LauncherEnv.Settings.pCurrent.GameEnv.CheckGame())
+                if (LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame())
                     NavPersonalization.IsEnabled = true;
             }
         }
@@ -84,8 +84,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         void Settings_ProfileLocked(bool IsLocked) {
-            MainMenu.IdEnabled = !IsLocked;
-
+            MainMenu.IsEnabled = !IsLocked;
         }
 
         public void ReloadTabs() {
@@ -96,11 +95,11 @@ namespace AdvancedLauncher.Windows {
             NavPersonalization.IsEnabled = false;
 
             //Если доступен веб-профиль, включаем вкладку сообщества
-            if (LauncherEnv.Settings.pCurrent.DMOProfile.IsWebAvailable)
+            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsWebAvailable)
                 NavCommunity.IsEnabled = true;
 
             //Если путь до игры верен, включаем вкладку галереи и персонализации
-            if (LauncherEnv.Settings.pCurrent.GameEnv.CheckGame()) {
+            if (LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame()) {
                 NavGallery.IsEnabled = true;
                 NavPersonalization.IsEnabled = true;
             }

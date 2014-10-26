@@ -56,18 +56,19 @@ namespace AdvancedLauncher.Windows {
                 //Copying settings object and set it as DataContext
                 ProfileList.DataContext = sContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings);
                 //Search and set current profile
-                foreach (Profile p in ((AdvancedLauncher.Environment.Containers.Settings)ProfileList.DataContext).pCollection)
-                    if (p.pId == LauncherEnv.Settings.pCurrent.pId) {
+                foreach (Profile p in ((AdvancedLauncher.Environment.Containers.Settings)ProfileList.DataContext).Profiles) {
+                    if (p.Id == LauncherEnv.Settings.CurrentProfile.Id) {
                         ProfileList.SelectedItem = p;
                         break;
                     }
+                }
 
                 //Load language list
                 ComboBoxLanguage.Items.Add(LanguageEnv.DefaultName);
                 foreach (string lang in LanguageEnv.GetTranslations())
                     ComboBoxLanguage.Items.Add(Path.GetFileNameWithoutExtension(lang));
                 for (int i = 0; i < ComboBoxLanguage.Items.Count; i++) {
-                    if (ComboBoxLanguage.Items[i].ToString() == LauncherEnv.Settings.LangFile) {
+                    if (ComboBoxLanguage.Items[i].ToString() == LauncherEnv.Settings.LanguageFile) {
                         ComboBoxLanguage.SelectedIndex = cLangInd = i;
                         break;
                     }
@@ -89,19 +90,19 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void BtnSetDef_Click(object sender, RoutedEventArgs e) {
-            sContainer.pDefault = SelectedProfile.pId;
+            sContainer.DefaultProfile = SelectedProfile.Id;
             NotifyPropertyChanged("IsSelectedNotDefault");
         }
 
         public bool IsSelectedNotDefault {
             set { }
             get {
-                return SelectedProfile.pId != sContainer.pDefault;
+                return SelectedProfile.Id != sContainer.DefaultProfile;
             }
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e) {
-            sContainer.AddNewProfile();
+            sContainer.AddProfile();
         }
 
         private void BtnDel_Click(object sender, RoutedEventArgs e) {
@@ -116,7 +117,7 @@ namespace AdvancedLauncher.Windows {
             else
                 ProfileList.SelectedIndex--;
 
-            sContainer.DeleteProfile(pToDel);
+            sContainer.RemoveProfile(pToDel);
         }
 
         private void ImageBorder_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -212,7 +213,7 @@ namespace AdvancedLauncher.Windows {
 
         private void BtnApply_Click(object sender, RoutedEventArgs e) {
             cLangInd = ComboBoxLanguage.SelectedIndex;
-            sContainer.LangFile = ComboBoxLanguage.SelectedValue.ToString();
+            sContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
             LauncherEnv.Settings.Merge(sContainer);
             LauncherEnv.Save();
             Show(false);

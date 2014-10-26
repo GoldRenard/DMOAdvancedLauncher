@@ -28,43 +28,50 @@ using AdvancedLauncher.Environment.Containers;
 namespace AdvancedLauncher.Environment {
     public static class LauncherEnv {
         private static string _AppPath = null;
-        public static string AppPath { get { return _AppPath; } }
-        const string sFile = "Settings.xml";
-        const string CONF_DIR = "Configs";
-        const string LANGS_DIR = "Languages";
-        const string RES_DIR = "Resources";
-        public const string RemotePath = "http://renamon.ru/launcher/";
+        private const string SETTINGS_FILE = "Settings.xml";
+        private const string CONFIG_DIR = "Configs";
+        private const string LOCALE_DIR = "Languages";
+        private const string RESOURCE_DIR = "Resources";
+        public const string REMOTE_PATH = "http://renamon.ru/launcher/";
         public static Settings Settings;
         public static System.Net.WebClient WebClient = new System.Net.WebClient();
+        public static string AppPath {
+            get {
+                return _AppPath;
+            }
+        }
 
         public static void Load() {
             _AppPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-            if (File.Exists(GetSettingsFile()))
+            if (File.Exists(GetSettingsFile())) {
                 Settings = DeSerialize(GetSettingsFile());
-            if (Settings == null)
+            }
+            if (Settings == null) {
                 Settings = new Settings();
+            }
 
-            if (string.IsNullOrEmpty(Settings.LangFile)) {
-                if (LanguageEnv.Load(CultureInfo.CurrentCulture.EnglishName))
-                    LauncherEnv.Settings.LangFile = CultureInfo.CurrentCulture.EnglishName;
-                else {
+            if (string.IsNullOrEmpty(Settings.LanguageFile)) {
+                if (LanguageEnv.Load(CultureInfo.CurrentCulture.EnglishName)) {
+                    LauncherEnv.Settings.LanguageFile = CultureInfo.CurrentCulture.EnglishName;
+                } else {
                     LanguageEnv.Load(LanguageEnv.DefaultName);
-                    LauncherEnv.Settings.LangFile = LanguageEnv.DefaultName;
+                    LauncherEnv.Settings.LanguageFile = LanguageEnv.DefaultName;
                 }
             } else {
-                if (!LanguageEnv.Load(Settings.LangFile)) {
+                if (!LanguageEnv.Load(Settings.LanguageFile)) {
                     LanguageEnv.Load(LanguageEnv.DefaultName);
-                    LauncherEnv.Settings.LangFile = LanguageEnv.DefaultName;
+                    LauncherEnv.Settings.LanguageFile = LanguageEnv.DefaultName;
                 }
             }
 
-            if (Settings.pCollection == null || Settings.pCollection.Count == 0) {
-                Settings.pCollection = new ObservableCollection<Profile>();
-                Settings.pCollection.Add(new Profile());
+            if (Settings.Profiles == null || Settings.Profiles.Count == 0) {
+                Settings.Profiles = new ObservableCollection<Profile>();
+                Settings.Profiles.Add(new Profile());
             }
 
-            if (!File.Exists(GetSettingsFile()))
+            if (!File.Exists(GetSettingsFile())) {
                 Save();
+            }
         }
 
         public static Settings DeSerialize(string filepath) {
@@ -77,12 +84,14 @@ namespace AdvancedLauncher.Environment {
                     db = (Settings)reader.Deserialize(file);
                     file.Close();
                 } catch {
-                    if (file != null)
+                    if (file != null) {
                         file.Close();
+                    }
                     return db;
                 } finally {
-                    if (file != null)
+                    if (file != null) {
                         file.Close();
+                    }
                 }
             }
             return db;
@@ -96,27 +105,26 @@ namespace AdvancedLauncher.Environment {
         }
 
         public static string GetSettingsFile() {
-            return Path.Combine(GetConfigsPath(), sFile);
+            return Path.Combine(GetConfigsPath(), SETTINGS_FILE);
         }
 
         public static string GetConfigsPath() {
-            string dir = Path.Combine(AppPath, CONF_DIR);
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-            return dir;
+            return InitDir(CONFIG_DIR);
         }
 
         public static string GetLangsPath() {
-            string dir = Path.Combine(AppPath, LANGS_DIR);
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-            return dir;
+            return InitDir(LOCALE_DIR);
         }
 
         public static string GetResourcesPath() {
-            string dir = Path.Combine(AppPath, RES_DIR);
-            if (!Directory.Exists(dir))
+            return InitDir(RESOURCE_DIR);
+        }
+
+        private static string InitDir(string source) {
+            string dir = Path.Combine(AppPath, source);
+            if (!Directory.Exists(dir)) {
                 Directory.CreateDirectory(dir);
+            }
             return dir;
         }
     }

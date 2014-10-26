@@ -46,9 +46,9 @@ namespace AdvancedLauncher.Pages {
         }
 
         void ProfileChanged() {
-            if (LauncherEnv.Settings.pCurrent.DMOProfile.IsNewsAvailable) {
+            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsNewsAvailable) {
                 Joymax.Visibility = Visibility.Visible;
-                NewsTabChanged(this, LauncherEnv.Settings.pCurrent.News.FirstTab);
+                NewsTabChanged(this, LauncherEnv.Settings.CurrentProfile.News.FirstTab);
             } else {
                 Joymax.Visibility = Visibility.Collapsed;
                 NewsTabChanged(this, 0);
@@ -56,7 +56,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         private void NewsTabChanged(object sender, byte tab) {
-            LauncherEnv.Settings.pCurrent.News.FirstTab = tab;
+            LauncherEnv.Settings.CurrentProfile.News.FirstTab = tab;
             if (tab == 0) {
                 Twitter.IsEnabled = false;
                 Joymax.IsEnabled = true;

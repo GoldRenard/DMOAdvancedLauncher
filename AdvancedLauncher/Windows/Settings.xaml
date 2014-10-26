@@ -62,7 +62,7 @@
                          x:Name="ProfileList" 
                          VerticalAlignment="Top"
                          SelectionChanged="ProfileList_SelectionChanged" 
-                         ItemsSource="{Binding Path=DataContext.pCollection, RelativeSource={RelativeSource Self}, Mode=OneWay}">
+                         ItemsSource="{Binding Path=DataContext.Profiles, RelativeSource={RelativeSource Self}, Mode=OneWay}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Height="33" Orientation="Horizontal">
@@ -75,7 +75,7 @@
                                     </Border>
                                 </Grid>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding pName}" Style="{StaticResource MagicoTextBlock}" />
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource MagicoTextBlock}" />
                                     <TextBlock Text="{Binding GameType}" FontSize="9" Style="{StaticResource MagicoTextBlock}" />
                                 </StackPanel>
                             </StackPanel>
@@ -98,7 +98,7 @@
                             <StackPanel>
                                 <controls:HintTextBox x:Name="pName" Margin="0,3,0,8" HintText="{Binding Settings_ProfileNameHint}">
                                     <controls:HintTextBox.Text>
-                                        <Binding ElementName="ProfileList" Path="SelectedValue.pName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                        <Binding ElementName="ProfileList" Path="SelectedValue.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                             <Binding.ValidationRules>
                                                 <validators:ProfileNameValidationRule />
                                             </Binding.ValidationRules>
@@ -154,7 +154,7 @@
                                     <ColumnDefinition Width="50" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Settings_RotationUpdateFREQ}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0" />
-                                <ComboBox Grid.Column="1" x:Name="ComboBoxURate" Width="50" HorizontalAlignment="Right" SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.Rotation.URate, Mode=TwoWay}">
+                                <ComboBox Grid.Column="1" x:Name="ComboBoxURate" Width="50" HorizontalAlignment="Right" SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.Rotation.UpdateInterval, Mode=TwoWay}">
                                     <ComboBoxItem Content="1" />
                                     <ComboBoxItem Content="2" />
                                     <ComboBoxItem Content="3" />
@@ -263,12 +263,12 @@
                                 Margin="3"
                                 x:Name="Chk_UseUpdateEngine"
                                 Content="{Binding Settings_UpdateEngine}"
-                                IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.UpdateEngine, Mode=TwoWay}"/>
+                                IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.UpdateEngineEnabled, Mode=TwoWay}"/>
                             <StackPanel Orientation="Horizontal" Margin="3">
                                 <controls:Trigger 
                                     x:Name="Chk_UseAppLoc" 
                                     Content="{Binding Settings_AppLocale}" 
-                                    IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.AppLocale, Mode=TwoWay}"
+                                    IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.AppLocaleEnabled, Mode=TwoWay}"
                                     IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsALSupported, Mode=TwoWay}"/>
                                 <TextBlock x:Name="AL_Helper" Margin="5,1,0,0" VerticalAlignment="Center" 
                                            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsALNotSupported, Mode=TwoWay, Converter={StaticResource BoolToHiddenConverter}}">

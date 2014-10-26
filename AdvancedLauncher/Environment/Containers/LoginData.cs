@@ -24,7 +24,10 @@ using System.Security;
 namespace AdvancedLauncher.Environment.Containers {
     public class LoginData {
         [XmlIgnore]
-        public SecureString SecurePassword { set; get; }
+        public SecureString SecurePassword {
+            set;
+            get;
+        }
 
         [XmlAttribute("Password")]
         public string Password {
@@ -46,22 +49,30 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         [XmlAttribute("User")]
-        public string User { set; get; }
-        [XmlAttribute("LastSessionArgs")]
-        public string pLastSessionArgs { set; get; }
-
-        public LoginData(LoginData ld) {
-            User = ld.User;
-            Password = ld.Password;
-            pLastSessionArgs = ld.pLastSessionArgs;
+        public string User {
+            set;
+            get;
         }
-        public LoginData() { }
+        [XmlAttribute("LastSessionArgs")]
+        public string LastSessionArgs {
+            set;
+            get;
+        }
+
+        public LoginData(LoginData source) {
+            User = source.User;
+            Password = source.Password;
+            LastSessionArgs = source.LastSessionArgs;
+        }
+        public LoginData() {
+        }
 
         [XmlIgnore]
         public bool IsCorrect {
             get {
-                if (SecurePassword == null)
+                if (SecurePassword == null) {
                     return false;
+                }
                 return SecurePassword.Length > 0 && !string.IsNullOrEmpty(User);
             }
         }

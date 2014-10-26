@@ -94,7 +94,7 @@
                                     </Grid.OpacityMask>
                                     <TextBlock 
                                            Margin="0" 
-                                           Text="{Binding pName}" 
+                                           Text="{Binding Name}" 
                                            Style="{StaticResource SubNavText}" 
                                            VerticalAlignment="Bottom" 
                                            TextAlignment="Left" />
@@ -300,8 +300,8 @@
                              x:Name="ProfileList" 
                              SelectionChanged="OnProfileSelectionChanged" 
                              ItemsSource="{Binding pCollection}"
-                             Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=isEnabled, Converter={StaticResource BoolToHiddenConverter}}"
-                             IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=isEnabled}">
+                             Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=IsChangeEnabled, Converter={StaticResource BoolToHiddenConverter}}"
+                             IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=IsChangeEnabled}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Height="33" Orientation="Horizontal">
@@ -314,15 +314,15 @@
                                             </Border>
                                         </Grid>
                                         <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding pName}" Style="{StaticResource ListItemTextBlock}" />
+                                            <TextBlock Text="{Binding Name}" Style="{StaticResource ListItemTextBlock}" />
                                             <TextBlock Text="{Binding GameType}" FontSize="9" Style="{StaticResource ListItemTextBlock}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                    <Grid Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=isEnabled, Converter={StaticResource BoolToHiddenConverter}}"
-                          IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=isEnabled}">
+                    <Grid Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=IsChangeEnabled, Converter={StaticResource BoolToHiddenConverter}}"
+                          IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=IsChangeEnabled}">
                         <Button x:Name="Settings" Content="{Binding Settings}" Click="Settings_Click"/>
                         <Image IsHitTestVisible="False" Margin="3,0,0,0" Width="25" Height="25" HorizontalAlignment="Left" Source="/AdvancedLauncher;component/Resources/Icons/Configuration.png" Stretch="UniformToFill" />
                     </Grid>
@@ -331,7 +331,7 @@
                                    Text="{Binding WaitForComplete}"
                                    Style="{StaticResource ListItemTextBlock}"
                                    TextWrapping="Wrap"
-                                   Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=isDisabled, Converter={StaticResource BoolToHiddenConverter}}"/>
+                                   Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=IsChangeDisabled, Converter={StaticResource BoolToHiddenConverter}}"/>
                     <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrushLow}" />
                     <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrush}" />
                     <Grid>

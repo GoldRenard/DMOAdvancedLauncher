@@ -70,20 +70,20 @@ namespace AdvancedLauncher.Controls {
 
         private void ReloadProfiles() {
             IsPreventChange = true;
-            ProfileList.ItemsSource = LauncherEnv.Settings.pCollection;
-            ProfileList.SelectedItem = LauncherEnv.Settings.pCurrent;
+            ProfileList.ItemsSource = LauncherEnv.Settings.Profiles;
+            ProfileList.SelectedItem = LauncherEnv.Settings.CurrentProfile;
             IsPreventChange = false;
         }
 
         private void ReloadCurrentProfile() {
             IsPreventChange = true;
-            ProfileList.SelectedItem = LauncherEnv.Settings.pCurrent;
+            ProfileList.SelectedItem = LauncherEnv.Settings.CurrentProfile;
             IsPreventChange = false;
         }
 
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!IsPreventChange) {
-                LauncherEnv.Settings.pCurrent = (Profile)ProfileList.SelectedItem;
+                LauncherEnv.Settings.CurrentProfile = (Profile)ProfileList.SelectedItem;
             }
         }
 
@@ -105,18 +105,18 @@ namespace AdvancedLauncher.Controls {
         }
 
         private bool _isEnabled = true;
-        public bool IdEnabled {
+        public bool IsChangeEnabled {
             set {
                 _isEnabled = value;
-                NotifyPropertyChanged("isEnabled");
-                NotifyPropertyChanged("isDisabled");
+                NotifyPropertyChanged("IsChangeEnabled");
+                NotifyPropertyChanged("IsChangeDisabled");
             }
             get {
                 return _isEnabled;
             }
         }
 
-        public bool IsDisabled {
+        public bool IsChangeDisabled {
             set {
             }
             get {

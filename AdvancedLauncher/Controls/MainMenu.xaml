@@ -262,7 +262,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <ToggleButton VerticalAlignment="Top" Name="ToggleButton" DataContext="{Binding ElementName=ProfileList, Path=SelectedValue}" ClickMode="Press" LostFocus="ToggleButton_LostFocus"
+        <ToggleButton VerticalAlignment="Top" Name="ToggleButton" DataContext="{Binding ElementName=ProfileList, Path=SelectedValue}" ClickMode="Press" LostFocus="OnLostFocus"
             IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=IsOpened, Mode=TwoWay}">
             <ToggleButton.Triggers>
                 <EventTrigger RoutedEvent="ToggleButton.Checked">
@@ -298,7 +298,7 @@
                     <ListBox MaxHeight="282" 
                              SelectedIndex="0" 
                              x:Name="ProfileList" 
-                             SelectionChanged="ProfileList_SelectionChanged" 
+                             SelectionChanged="OnProfileSelectionChanged" 
                              ItemsSource="{Binding pCollection}"
                              Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=isEnabled, Converter={StaticResource BoolToHiddenConverter}}"
                              IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu:MainMenu}}, Path=isEnabled}">

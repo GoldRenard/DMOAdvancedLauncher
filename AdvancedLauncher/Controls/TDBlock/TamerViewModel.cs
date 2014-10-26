@@ -35,7 +35,10 @@ namespace AdvancedLauncher.Controls {
             this.Items = new ObservableCollection<TamerItemViewModel>();
         }
 
-        public ObservableCollection<TamerItemViewModel> Items { get; private set; }
+        public ObservableCollection<TamerItemViewModel> Items {
+            get;
+            private set;
+        }
 
         public bool IsDataLoaded {
             get;
@@ -46,11 +49,29 @@ namespace AdvancedLauncher.Controls {
             this.IsDataLoaded = true;
             if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
                 foreach (Tamer item in List)
-                    this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = Profile.GetJoymaxProfile().Database.GetTamerTypeById(item.TypeId).Name, Level = item.Lvl, PName = item.PartnerName, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.TypeId) });
+                    this.Items.Add(new TamerItemViewModel {
+                        TName = item.Name,
+                        TType = Profile.GetJoymaxProfile().Database.GetTamerTypeById(item.TypeId).Name,
+                        Level = item.Lvl,
+                        PName = item.PartnerName,
+                        Rank = item.Rank,
+                        DCnt = item.Digimons.Count,
+                        Tamer = item,
+                        Image = GetImage(item.TypeId)
+                    });
                 Profile.GetJoymaxProfile().Database.CloseConnection();
             } else
                 foreach (Tamer item in List)
-                    this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = "Unknown", Level = item.Lvl, PName = item.PartnerName, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.TypeId) });
+                    this.Items.Add(new TamerItemViewModel {
+                        TName = item.Name,
+                        TType = "Unknown",
+                        Level = item.Lvl,
+                        PName = item.PartnerName,
+                        Rank = item.Rank,
+                        DCnt = item.Digimons.Count,
+                        Tamer = item,
+                        Image = GetImage(item.TypeId)
+                    });
         }
 
         public void UnLoadData() {
@@ -100,7 +121,10 @@ namespace AdvancedLauncher.Controls {
 
             //If we don't have image, try to download it
             if (!File.Exists(ImageFile)) {
-                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); } catch { }
+                try {
+                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile);
+                } catch {
+                }
             }
 
             if (File.Exists(ImageFile)) {
@@ -115,7 +139,10 @@ namespace AdvancedLauncher.Controls {
                 bitmap.StreamSource = img_stream;
                 bitmap.EndInit();
                 bitmap.Freeze();
-                ImagesCollection.Add(new DigiImage() { Image = bitmap, Id = digi_id });
+                ImagesCollection.Add(new DigiImage() {
+                    Image = bitmap,
+                    Id = digi_id
+                });
                 return bitmap;
             }
             return null;

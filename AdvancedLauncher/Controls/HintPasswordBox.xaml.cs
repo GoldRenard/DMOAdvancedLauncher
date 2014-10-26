@@ -34,8 +34,9 @@ namespace AdvancedLauncher.Controls {
         }
 
         void pBox_PasswordChanged(object sender, RoutedEventArgs e) {
-            if (IsPreventUpdate)
+            if (IsPreventUpdate) {
                 return;
+            }
 
             IsEmpty = pBox.Password.Length == 0;
             Password = pBox.SecurePassword;

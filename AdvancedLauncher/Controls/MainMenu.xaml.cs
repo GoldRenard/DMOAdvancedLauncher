@@ -31,7 +31,9 @@ namespace AdvancedLauncher.Controls {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-                LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+                LanguageEnv.Languagechanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
                 LauncherEnv.Settings.ProfileChanged += ReloadCurrentProfile;
                 LauncherEnv.Settings.CollectionChanged += ReloadProfiles;
                 ReloadProfiles();
@@ -66,22 +68,23 @@ namespace AdvancedLauncher.Controls {
          * ProfileList.ItemsSource or ProfileList.SelectedItem by outside profiles reloading */
         private bool IsPreventChange = false;
 
-        void ReloadProfiles() {
+        private void ReloadProfiles() {
             IsPreventChange = true;
             ProfileList.ItemsSource = LauncherEnv.Settings.pCollection;
             ProfileList.SelectedItem = LauncherEnv.Settings.pCurrent;
             IsPreventChange = false;
         }
 
-        void ReloadCurrentProfile() {
+        private void ReloadCurrentProfile() {
             IsPreventChange = true;
             ProfileList.SelectedItem = LauncherEnv.Settings.pCurrent;
             IsPreventChange = false;
         }
 
-        private void ProfileList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (!IsPreventChange)
+        private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (!IsPreventChange) {
                 LauncherEnv.Settings.pCurrent = (Profile)ProfileList.SelectedItem;
+            }
         }
 
         #endregion
@@ -102,7 +105,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private bool _isEnabled = true;
-        public bool isEnabled {
+        public bool IdEnabled {
             set {
                 _isEnabled = value;
                 NotifyPropertyChanged("isEnabled");
@@ -113,14 +116,15 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        public bool isDisabled {
-            set { }
+        public bool IsDisabled {
+            set {
+            }
             get {
                 return !_isEnabled;
             }
         }
 
-        private void ToggleButton_LostFocus(object sender, RoutedEventArgs e) {
+        private void OnLostFocus(object sender, RoutedEventArgs e) {
             IsOpened = false;
         }
 

@@ -31,12 +31,15 @@ using AdvancedLauncher.Environment.Containers;
 
 namespace AdvancedLauncher.Controls {
     public class DigimonViewModel : INotifyPropertyChanged {
-        static string SIZE_FORMAT = "{0}cm ({1}%)";
+        private static string SIZE_FORMAT = "{0}cm ({1}%)";
         public DigimonViewModel() {
             this.Items = new ObservableCollection<DigimonItemViewModel>();
         }
 
-        public ObservableCollection<DigimonItemViewModel> Items { get; private set; }
+        public ObservableCollection<DigimonItemViewModel> Items {
+            get;
+            private set;
+        }
 
         public bool IsDataLoaded {
             get;
@@ -45,41 +48,81 @@ namespace AdvancedLauncher.Controls {
 
         public void LoadData(Tamer tamer) {
             this.IsDataLoaded = true;
-            string TYPE_NAME;
+            string typeName;
             DigimonType dtype;
             if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
                 foreach (Digimon item in tamer.Digimons) {
                     dtype = Profile.GetJoymaxProfile().Database.GetDigimonTypeById(item.TypeId);
-                    TYPE_NAME = dtype.Name;
-                    if (dtype.NameAlt != null)
-                        TYPE_NAME += " (" + dtype.NameAlt + ")";
-                    this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.TypeId), TName = tamer.Name, Level = item.Lvl, SizePC = item.SizePc, Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc), Rank = item.Rank });
+                    typeName = dtype.Name;
+                    if (dtype.NameAlt != null) {
+                        typeName += " (" + dtype.NameAlt + ")";
+                    }
+                    this.Items.Add(new DigimonItemViewModel {
+                        DName = item.Name,
+                        DType = typeName,
+                        Image = GetImage(item.TypeId),
+                        TName = tamer.Name,
+                        Level = item.Lvl,
+                        SizePC = item.SizePc,
+                        Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
+                        Rank = item.Rank
+                    });
                 }
                 Profile.GetJoymaxProfile().Database.CloseConnection();
             } else
-                foreach (Digimon item in tamer.Digimons)
-                    this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = "Unknown", Image = GetImage(item.TypeId), TName = tamer.Name, Level = item.Lvl, SizePC = item.SizePc, Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc), Rank = item.Rank });
+                foreach (Digimon item in tamer.Digimons) {
+                    this.Items.Add(new DigimonItemViewModel {
+                        DName = item.Name,
+                        DType = "Unknown",
+                        Image = GetImage(item.TypeId),
+                        TName = tamer.Name,
+                        Level = item.Lvl,
+                        SizePC = item.SizePc,
+                        Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
+                        Rank = item.Rank
+                    });
+                }
         }
 
         public void LoadData(List<Tamer> tamers) {
             this.IsDataLoaded = true;
-            string TYPE_NAME;
+            string typeName;
             DigimonType dtype;
             if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
                 foreach (Tamer t in tamers) {
                     foreach (Digimon item in t.Digimons) {
                         dtype = Profile.GetJoymaxProfile().Database.GetDigimonTypeById(item.TypeId);
-                        TYPE_NAME = dtype.Name;
+                        typeName = dtype.Name;
                         if (dtype.NameAlt != null)
-                            TYPE_NAME += " (" + dtype.NameAlt + ")";
-                        this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.TypeId), TName = t.Name, Level = item.Lvl, SizePC = item.SizePc, Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc), Rank = item.Rank });
+                            typeName += " (" + dtype.NameAlt + ")";
+                        this.Items.Add(new DigimonItemViewModel {
+                            DName = item.Name,
+                            DType = typeName,
+                            Image = GetImage(item.TypeId),
+                            TName = t.Name,
+                            Level = item.Lvl,
+                            SizePC = item.SizePc,
+                            Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
+                            Rank = item.Rank
+                        });
                     }
                 }
                 Profile.GetJoymaxProfile().Database.CloseConnection();
             } else
-                foreach (Tamer t in tamers)
-                    foreach (Digimon item in t.Digimons)
-                        this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = "Unknown", Image = GetImage(item.TypeId), TName = t.Name, Level = item.Lvl, SizePC = item.SizePc, Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc), Rank = item.Rank });
+                foreach (Tamer t in tamers) {
+                    foreach (Digimon item in t.Digimons) {
+                        this.Items.Add(new DigimonItemViewModel {
+                            DName = item.Name,
+                            DType = "Unknown",
+                            Image = GetImage(item.TypeId),
+                            TName = t.Name,
+                            Level = item.Lvl,
+                            SizePC = item.SizePc,
+                            Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
+                            Rank = item.Rank
+                        });
+                    }
+                }
         }
 
         public void RemoveAt(int index) {
@@ -97,20 +140,23 @@ namespace AdvancedLauncher.Controls {
         private Type last_type;
         public void Sort<TType>(Func<DigimonItemViewModel, TType> keySelector) {
             List<DigimonItemViewModel> sortedList;
-            if (last_type != typeof(TType))
+            if (last_type != typeof(TType)) {
                 _sortASC = true;
+            }
 
-            if (_sortASC)
+            if (_sortASC) {
                 sortedList = Items.OrderBy(keySelector).ToList();
-            else
+            } else {
                 sortedList = Items.OrderByDescending(keySelector).ToList();
+            }
 
             last_type = typeof(TType);
             _sortASC = !_sortASC;
 
             this.Items.Clear();
-            foreach (var sortedItem in sortedList)
+            foreach (var sortedItem in sortedList) {
                 this.Items.Add(sortedItem);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -128,20 +174,25 @@ namespace AdvancedLauncher.Controls {
         private static List<DigiImage> ImagesCollection = new List<DigiImage>();
         public static BitmapImage GetImage(int digi_id) {
             DigiImage Image = ImagesCollection.Find(i => i.Id == digi_id);
-            if (Image.Image != null)
+            if (Image.Image != null) {
                 return Image.Image;
+            }
 
             string ImageFile = string.Format("{0}\\Community\\{1}.png", LauncherEnv.GetResourcesPath(), digi_id);
 
             //If we don't have image, try to download it
             if (!File.Exists(ImageFile)) {
-                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); } catch { }
+                try {
+                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile);
+                } catch {
+                }
             }
 
             if (File.Exists(ImageFile)) {
                 Stream str = File.OpenRead(ImageFile);
-                if (str == null)
+                if (str == null) {
                     return null;
+                }
                 MemoryStream img_stream = new MemoryStream();
                 str.CopyTo(img_stream);
                 str.Close();
@@ -150,7 +201,10 @@ namespace AdvancedLauncher.Controls {
                 bitmap.StreamSource = img_stream;
                 bitmap.EndInit();
                 bitmap.Freeze();
-                ImagesCollection.Add(new DigiImage() { Image = bitmap, Id = digi_id });
+                ImagesCollection.Add(new DigiImage() {
+                    Image = bitmap,
+                    Id = digi_id
+                });
                 return bitmap;
             }
             return null;

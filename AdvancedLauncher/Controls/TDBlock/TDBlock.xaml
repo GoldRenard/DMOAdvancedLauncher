@@ -69,7 +69,7 @@
                                      Background="Transparent" ItemsSource="{Binding Items}"
                                      IsSynchronizedWithCurrentItem="True"
                                      SelectionMode="Single"
-                                     MouseLeftButtonUp="Tamers_MouseLeftButtonDown_1">
+                                     MouseLeftButtonUp="OnTamersShow">
                             <ListBox.Template>
                                 <ControlTemplate>
                                     <StackPanel>
@@ -82,12 +82,12 @@
                                                 <ColumnDefinition Width="0.8*" />
                                                 <ColumnDefinition Width="70" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding DataContext.CommHeader_Type, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="TamerHeader_Loaded_1" />
-                                            <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="TamerHeader_Loaded_1"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="TamerHeader_Loaded_1"/>
-                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="TamerHeader_Loaded_1"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Partner, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="TamerHeader_Loaded_1"/>
-                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Mercenary, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="TamerHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="0" Text="{Binding DataContext.CommHeader_Type, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
+                                            <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnTamerHeaderLoaded"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Partner, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnTamerHeaderLoaded"/>
+                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Mercenary, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded"/>
                                         </Grid>
                                         <ItemsPresenter/>
                                     </StackPanel>
@@ -133,12 +133,12 @@
                                                 <ColumnDefinition Width="0.8*" />
                                                 <ColumnDefinition Width="0.68*" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding DataContext.CommHeader_Type, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="DigimonHeader_Loaded_1" />
-                                            <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="DigimonHeader_Loaded_1" />
-                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="DigimonHeader_Loaded_1"/>
-                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="DigimonHeader_Loaded_1"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Tamer, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="DigimonHeader_Loaded_1"/>
-                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Size, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="DigimonHeader_Loaded_1"/>
+                                            <TextBlock Grid.Column="0" Text="{Binding DataContext.CommHeader_Type, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
+                                            <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnDigimonHeaderLoaded" />
+                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Tamer, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnDigimonHeaderLoaded"/>
+                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Size, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded"/>
                                         </Grid>
                                         <ItemsPresenter/>
                                     </StackPanel>

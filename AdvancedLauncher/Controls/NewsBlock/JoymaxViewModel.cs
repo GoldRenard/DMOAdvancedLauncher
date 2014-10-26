@@ -28,7 +28,10 @@ namespace AdvancedLauncher.Controls {
             this.Items = new ObservableCollection<JoymaxItemViewModel>();
         }
 
-        public ObservableCollection<JoymaxItemViewModel> Items { get; private set; }
+        public ObservableCollection<JoymaxItemViewModel> Items {
+            get;
+            private set;
+        }
 
         public bool IsDataLoaded {
             get;
@@ -38,7 +41,14 @@ namespace AdvancedLauncher.Controls {
         public void LoadData(List<JoymaxItemViewModel> List) {
             this.IsDataLoaded = true;
             foreach (JoymaxItemViewModel item in List) {
-                this.Items.Add(new JoymaxItemViewModel { Title = item.Title, Content = item.Content, Link = item.Link, Type = item.Type, Date = item.Date, ImgVB = item.ImgVB });
+                this.Items.Add(new JoymaxItemViewModel {
+                    Title = item.Title,
+                    Content = item.Content,
+                    Link = item.Link,
+                    Type = item.Type,
+                    Date = item.Date,
+                    ImgVB = item.ImgVB
+                });
             }
         }
 

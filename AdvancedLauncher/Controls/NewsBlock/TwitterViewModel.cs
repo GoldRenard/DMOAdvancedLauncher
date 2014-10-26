@@ -28,7 +28,10 @@ namespace AdvancedLauncher.Controls {
             this.Items = new ObservableCollection<TwitterItemViewModel>();
         }
 
-        public ObservableCollection<TwitterItemViewModel> Items { get; private set; }
+        public ObservableCollection<TwitterItemViewModel> Items {
+            get;
+            private set;
+        }
 
         public bool IsDataLoaded {
             get;
@@ -38,7 +41,11 @@ namespace AdvancedLauncher.Controls {
         public void LoadData(List<TwitterItemViewModel> List) {
             this.IsDataLoaded = true;
             foreach (TwitterItemViewModel item in List) {
-                this.Items.Add(new TwitterItemViewModel { Title = item.Title, Date = item.Date, Image = item.Image });
+                this.Items.Add(new TwitterItemViewModel {
+                    Title = item.Title,
+                    Date = item.Date,
+                    Image = item.Image
+                });
             }
         }
 

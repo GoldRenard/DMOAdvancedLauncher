@@ -19,9 +19,7 @@
 using System;
 using System.Windows.Controls;
 
-namespace AdvancedLauncher.Controls
-{
-    public class Trigger : CheckBox
-    {
+namespace AdvancedLauncher.Controls {
+    public class Trigger : CheckBox {
     }
 }

@@ -52,7 +52,7 @@ namespace DMOLibrary {
 
         private static string Q_T_SET_INACTIVE = "UPDATE Tamers SET [isActive] = 0 WHERE [serv_id] = {0} AND [guild_id] = {1};";
         private static string Q_T_COUNT = "SELECT count([key]) FROM Tamers WHERE [id] = {0} AND [serv_id] = {1};";
-        private static string Q_T_SELECT = "SELECT tamer.*, Digimons.name as 'partner_name' FROM (SELECT * FROM Tamers WHERE [serv_id] = {0} AND [guild_id] = {1} AND [isActive] = 1) as tamer JOIN Digimons ON tamer.partner_key = Digimons.key;";
+        private static string Q_T_SELECT = "SELECT * FROM Tamers WHERE [serv_id] = {0} AND [guild_id] = {1} AND [isActive] = 1;";
         private static string Q_T_INSERT = "INSERT INTO Tamers ([id], [serv_id], [type_id], [guild_id], [partner_key], [isActive], [name], [rank], [lvl]) VALUES ({0}, {1}, {2}, {3}, {4}, 1, '{5}', {6}, {7});";
         private static string Q_T_UPDATE = "UPDATE Tamers SET [type_id] = {2}, [guild_id] = {3}, [partner_key] = {4}, [isActive] = 1, [name] = '{5}', [rank] = {6}, [lvl] = {7} WHERE [id] = {0} AND [serv_id] = {1};";
         private static string Q_T_GET_PKEY = "SELECT key FROM Digimons WHERE [serv_id] = {0} AND [tamer_id] = {1} AND [type_id] >= 31001 AND [type_id] <= 31004;";
@@ -531,11 +531,17 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     t.TypeId = Convert.ToInt32(dataReader["type_id"]);
                     t.GuildId = Convert.ToInt32(dataReader["guild_id"]);
                     t.PartnerKey = Convert.ToInt32(dataReader["partner_key"]);
-                    t.PartnerName = (string)dataReader["partner_name"];
                     t.Name = (string)dataReader["name"];
                     t.Rank = Convert.ToInt32(dataReader["rank"]);
                     t.Lvl = Convert.ToInt32(dataReader["lvl"]);
                     t.Digimons = ReadDigimons(t);
+                    t.PartnerName = "-";
+                    foreach (Digimon digimon in t.Digimons) {
+                        if (digimon.Key == t.PartnerKey) {
+                            t.PartnerName = digimon.Name;
+                            break;
+                        }
+                    }
                     tamers.Add(t);
                 }
                 dataReader.Close();
@@ -564,6 +570,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     d.SizeCm = Convert.ToDouble(dataReader["size_cm"]);
                     d.SizePc = Convert.ToInt32(dataReader["size_pc"]);
                     d.SizeRank = Convert.ToInt32(dataReader["size_rank"]);
+                    d.Key = Convert.ToInt32(dataReader["key"]);
                     digimons.Add(d);
                 }
                 dataReader.Close();

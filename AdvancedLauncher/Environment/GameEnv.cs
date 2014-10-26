@@ -34,7 +34,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         [XmlAttribute("Type")]
-        private GameType Type;
+        public GameType Type;
         [XmlElement("GamePath")]
         public string pGamePath;
         [XmlElement("DefLauncherPath")]
@@ -83,7 +83,7 @@ namespace AdvancedLauncher.Environment {
         public GameEnv() {
         }
         public GameEnv(GameEnv gameEnv) {
-            this.Type = gameEnv.GetGameType();
+            this.Type = gameEnv.Type;
             this.pGamePath = gameEnv.pGamePath;
             this.pDefLauncherPath = gameEnv.pDefLauncherPath;
         }
@@ -294,14 +294,6 @@ namespace AdvancedLauncher.Environment {
             if (!IsInitialized)
                 Initialize();
             return pLastSessionAvailable;
-        }
-
-        public GameType GetGameType() {
-            return Type;
-        }
-
-        public void SetGameType(GameType type) {
-            this.Type = type;
         }
 
         #endregion

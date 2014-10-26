@@ -89,7 +89,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot">
-        <ListBox Margin="0,45,0,0" x:Name="Templates" Style="{StaticResource ListBoxGallery}" ListBoxItem.MouseDoubleClick="lbi_MouseDoubleClick">
+        <ListBox Margin="0,45,0,0" x:Name="Templates" Style="{StaticResource ListBoxGallery}" ListBoxItem.MouseDoubleClick="OnShowScreenshot">
             <ListBox.Template>
                 <ControlTemplate TargetType="ListBox">
                     <ScrollViewer Style="{StaticResource RoundedSV}" x:Name="ScrollViewer" HorizontalScrollBarVisibility="Disabled">

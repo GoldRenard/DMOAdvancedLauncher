@@ -25,7 +25,7 @@ using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Pages {
     public partial class MainPage : UserControl {
-        Storyboard ShowWindow;
+        private Storyboard ShowWindow;
         private delegate void DoChangeTextNBool(string text, bool bool_);
 
         public MainPage() {
@@ -35,7 +35,9 @@ namespace AdvancedLauncher.Pages {
                 NewsBlock_.TabChanged += NewsTabChanged;
                 Twitter.Click += NewsBlock_.OnShowTwitter;
                 Joymax.Click += NewsBlock_.OnShowJoymax;
-                LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+                LanguageEnv.Languagechanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
                 LauncherEnv.Settings.ProfileChanged += ProfileChanged;
                 ProfileChanged();
             }
@@ -45,7 +47,7 @@ namespace AdvancedLauncher.Pages {
             ShowWindow.Begin();
         }
 
-        void ProfileChanged() {
+        private void ProfileChanged() {
             if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsNewsAvailable) {
                 Joymax.Visibility = Visibility.Visible;
                 NewsTabChanged(this, LauncherEnv.Settings.CurrentProfile.News.FirstTab);

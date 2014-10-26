@@ -35,81 +35,100 @@ using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Pages {
     public partial class Gallery : UserControl {
-        bool IsGalleryInitialized = false;
-        Storyboard ShowWindow;
+        private bool IsGalleryInitialized = false;
+        private Storyboard ShowWindow;
         private delegate void DoAddThumb(BitmapImage bitmap, string path);
-        private GalleryViewModel GalleryVM = new GalleryViewModel();
+        private GalleryViewModel GalleryModel = new GalleryViewModel();
 
-        Binding GalleryHint = new Binding("GalleryHint");
-        Binding GalleryNoScreenshots = new Binding("GalleryNoScreenshots");
-        Binding GalleryCantOpenImage = new Binding("GalleryCantOpenImage");
+        private Binding GalleryHint = new Binding("GalleryHint");
+        private Binding GalleryNoScreenshots = new Binding("GalleryNoScreenshots");
+        private Binding GalleryCantOpenImage = new Binding("GalleryCantOpenImage");
 
-        string game_path = string.Empty;
-        string screenshot_path = "\\ScreenShot";
-        string thumbnails_path = "\\ScreenShot\\thumbnails";
-        static string thumb_path;
-        JpegEncoder ImageEncoder = new JpegEncoder();
+        private string gamePath = string.Empty;
+        private string screenshotPath = "\\ScreenShot";
+        private string thumbsPath = "\\ScreenShot\\thumbnails";
+        private static string thumbPath;
+        private JpegEncoder ImageEncoder = new JpegEncoder();
+
+        private Storyboard AnimShow = new Storyboard();
+        private Storyboard AnimHide = new Storyboard();
+        private bool IsAnimInitialized = false;
 
         public Gallery() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                Templates.DataContext = GalleryVM;
+                Templates.DataContext = GalleryModel;
                 ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-                LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+                LanguageEnv.Languagechanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
                 LauncherEnv.Settings.ProfileChanged += ProfileChanged;
             }
         }
 
-        void ProfileChanged() {
-            GalleryVM.UnLoadData();
+        private void ProfileChanged() {
+            GalleryModel.UnLoadData();
             IsGalleryInitialized = false;
         }
 
         public void Activate() {
-            game_path = LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath;
+            gamePath = LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath;
             try {
                 ShowWindow.Begin();
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
-            if (Directory.Exists(game_path + screenshot_path)) {
-                if (Directory.GetFiles(game_path + screenshot_path, "*.jpg").Length == 0) {
+            if (Directory.Exists(gamePath + screenshotPath)) {
+                if (Directory.GetFiles(gamePath + screenshotPath, "*.jpg").Length == 0) {
                     Info.SetBinding(TextBlock.TextProperty, GalleryNoScreenshots);
                     return;
-                } else
+                } else {
                     Info.SetBinding(TextBlock.TextProperty, GalleryHint);
+                }
             } else {
                 Info.SetBinding(TextBlock.TextProperty, GalleryNoScreenshots);
                 return;
             }
 
-            if (!IsGalleryInitialized || GalleryVM.Count() != Directory.GetFiles(game_path + screenshot_path, "*.jpg").Length)
+            if (!IsGalleryInitialized || GalleryModel.Count() != Directory.GetFiles(gamePath + screenshotPath, "*.jpg").Length) {
                 UpdateThumbs();
+            }
         }
 
         private void UpdateThumbs() {
             BackgroundWorker bw = new BackgroundWorker();
-            GalleryVM.UnLoadData();
+            GalleryModel.UnLoadData();
             IsLoading(true);
 
             bw.DoWork += (s, e) => {
-                string[] file_list = Directory.GetFiles(game_path + screenshot_path, "*.jpg");
-                if (!Directory.Exists(game_path + thumbnails_path)) {
-                    try { Directory.CreateDirectory(game_path + thumbnails_path); } catch { return; }
+                string[] fileList = Directory.GetFiles(gamePath + screenshotPath, "*.jpg");
+                if (!Directory.Exists(gamePath + thumbsPath)) {
+                    try {
+                        Directory.CreateDirectory(gamePath + thumbsPath);
+                    } catch {
+                        return;
+                    }
                 }
 
-                for (int i = 0; i < file_list.Length; i++) {
+                for (int i = 0; i < fileList.Length; i++) {
                     BitmapImage bitmap;
-                    thumb_path = game_path + thumbnails_path + "\\" + Path.GetFileName(file_list[i]);
-                    if (!File.Exists(thumb_path))
-                        ImageEncoder.ResizeScreenShot(file_list[i], thumb_path);
+                    thumbPath = gamePath + thumbsPath + "\\" + Path.GetFileName(fileList[i]);
+                    if (!File.Exists(thumbPath)) {
+                        ImageEncoder.ResizeScreenShot(fileList[i], thumbPath);
+                    }
 
-                    if (File.Exists(thumb_path))
-                        bitmap = ReadBitmapFromFile(thumb_path);
-                    else
-                        bitmap = ReadBitmapFromFile(file_list[i]);
+                    if (File.Exists(thumbPath)) {
+                        bitmap = ReadBitmapFromFile(thumbPath);
+                    } else {
+                        bitmap = ReadBitmapFromFile(fileList[i]);
+                    }
 
-                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddThumb((bitmap_, path_) => { GalleryVM.Add(new GalleryItemViewModel() { Thumb = bitmap_, full_path = path_ }); }), bitmap, file_list[i]);
+                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddThumb((bitmap_, path_) => {
+                        GalleryModel.Add(new GalleryItemViewModel() {
+                            Thumb = bitmap_,
+                            FullPath = path_
+                        });
+                    }), bitmap, fileList[i]);
                 }
             };
             bw.RunWorkerCompleted += (s, e) => {
@@ -119,40 +138,43 @@ namespace AdvancedLauncher.Pages {
             bw.RunWorkerAsync();
         }
 
-        void lbi_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            string file = ((GalleryItemViewModel)Templates.SelectedItem).full_path;
+        private void OnShowScreenshot(object sender, MouseButtonEventArgs e) {
+            string file = ((GalleryItemViewModel)Templates.SelectedItem).FullPath;
             if (!File.Exists(file)) {
-                GalleryVM.RemoveAt(Templates.SelectedIndex);
+                GalleryModel.RemoveAt(Templates.SelectedIndex);
                 return;
             }
-            try { Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + file); } catch (Exception ex) { Utils.MSG_ERROR(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message); }
+            try {
+                Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + file);
+            } catch (Exception ex) {
+                Utils.MSG_ERROR(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message);
+            }
         }
 
-        Storyboard sbAnimShow = new Storyboard();
-        Storyboard sbAnimHide = new Storyboard();
-        private bool IsAnimInitialized = false;
-
         private void InitializeAnim() {
-            if (IsAnimInitialized)
+            if (IsAnimInitialized) {
                 return;
+            }
 
-            DoubleAnimation dbl_anim_show = new DoubleAnimation();
-            dbl_anim_show.To = 1;
-            dbl_anim_show.Duration = new Duration(TimeSpan.FromMilliseconds(300));
+            DoubleAnimation dblAnimShow = new DoubleAnimation();
+            dblAnimShow.To = 1;
+            dblAnimShow.Duration = new Duration(TimeSpan.FromMilliseconds(300));
 
-            DoubleAnimation dbl_anim_hide = new DoubleAnimation();
-            dbl_anim_hide.To = 0;
-            dbl_anim_hide.Duration = new Duration(TimeSpan.FromMilliseconds(300));
+            DoubleAnimation dblAnimHide = new DoubleAnimation();
+            dblAnimHide.To = 0;
+            dblAnimHide.Duration = new Duration(TimeSpan.FromMilliseconds(300));
 
-            Storyboard.SetTarget(dbl_anim_show, LoaderIcon);
-            Storyboard.SetTarget(dbl_anim_hide, LoaderIcon);
-            Storyboard.SetTargetProperty(dbl_anim_show, new PropertyPath(OpacityProperty));
-            Storyboard.SetTargetProperty(dbl_anim_hide, new PropertyPath(OpacityProperty));
+            Storyboard.SetTarget(dblAnimShow, LoaderIcon);
+            Storyboard.SetTarget(dblAnimHide, LoaderIcon);
+            Storyboard.SetTargetProperty(dblAnimShow, new PropertyPath(OpacityProperty));
+            Storyboard.SetTargetProperty(dblAnimHide, new PropertyPath(OpacityProperty));
 
-            sbAnimShow.Children.Add(dbl_anim_show);
-            sbAnimHide.Children.Add(dbl_anim_hide);
+            AnimShow.Children.Add(dblAnimShow);
+            AnimHide.Children.Add(dblAnimHide);
 
-            sbAnimHide.Completed += (s, e) => { LoaderIcon.Visibility = Visibility.Collapsed; LoaderIcon.IsEnabled = false; };
+            AnimHide.Completed += (s, e) => {
+                LoaderIcon.Visibility = Visibility.Collapsed; LoaderIcon.IsEnabled = false;
+            };
         }
 
         private void IsLoading(bool _IsLoading) {
@@ -161,9 +183,10 @@ namespace AdvancedLauncher.Pages {
                 if (_IsLoading) {
                     LoaderIcon.IsEnabled = true;
                     LoaderIcon.Visibility = Visibility.Visible;
-                    sbAnimShow.Begin();
-                } else
-                    sbAnimHide.Begin();
+                    AnimShow.Begin();
+                } else {
+                    AnimHide.Begin();
+                }
             }));
         }
 
@@ -198,15 +221,15 @@ namespace AdvancedLauncher.Pages {
             }
         }
 
-        private string _full_path;
-        public string full_path {
+        private string _FullPath;
+        public string FullPath {
             get {
-                return _full_path;
+                return _FullPath;
             }
             set {
-                if (value != _full_path) {
-                    _full_path = value;
-                    NotifyPropertyChanged("full_path");
+                if (value != _FullPath) {
+                    _FullPath = value;
+                    NotifyPropertyChanged("FullPath");
                 }
             }
         }
@@ -225,7 +248,10 @@ namespace AdvancedLauncher.Pages {
             this.Items = new ObservableCollection<GalleryItemViewModel>();
         }
 
-        public ObservableCollection<GalleryItemViewModel> Items { get; private set; }
+        public ObservableCollection<GalleryItemViewModel> Items {
+            get;
+            private set;
+        }
 
         public bool IsDataLoaded {
             get;

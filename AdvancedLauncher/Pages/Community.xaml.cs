@@ -31,18 +31,22 @@ using AdvancedLauncher.Validators;
 
 namespace AdvancedLauncher.Pages {
     public partial class Community : UserControl {
-        Storyboard ShowWindow;
+        private Storyboard ShowWindow;
         private delegate void DoOneText(string text);
-        DMOWebProfile dmo_web;
-        Guild CURRENT_GUILD = new Guild() { Id = -1 };
+        private DMOWebProfile webProfile;
+        private Guild CURRENT_GUILD = new Guild() {
+            Id = -1
+        };
 
         public Community() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-                LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+                LanguageEnv.Languagechanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
                 LauncherEnv.Settings.ProfileChanged += ProfileChanged;
-                TDBlock_.TabChanged += TDBlock_TabChanged;
+                TDBlock_.TabChanged += OnTabChanged;
                 ProfileChanged();
             }
         }
@@ -51,7 +55,7 @@ namespace AdvancedLauncher.Pages {
             ShowWindow.Begin();
         }
 
-        void ProfileChanged() {
+        private void ProfileChanged() {
             //Очищаем все поля и списки
             GMaster.Text = GRank.Text = GRep.Text = GTop.Text = GDCnt.Text = GTCnt.Text = "-";
             TDBlock_.ClearAll();
@@ -61,7 +65,7 @@ namespace AdvancedLauncher.Pages {
             ComboBoxServer.ItemsSource = LauncherEnv.Settings.CurrentProfile.DMOProfile.ServerList;
 
             //Активируем новый профиль
-            dmo_web = LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile;
+            webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile;
 
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Rotation.Guild)) {
@@ -72,35 +76,38 @@ namespace AdvancedLauncher.Pages {
                         break;
                     }
                 }
-                textBox_g_name.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
+                GuildNameTextBox.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
             } else {
-                textBox_g_name.Text = LanguageEnv.Strings.CommGuildName;
-                if (ComboBoxServer.Items.Count > 0)
+                GuildNameTextBox.Text = LanguageEnv.Strings.CommGuildName;
+                if (ComboBoxServer.Items.Count > 0) {
                     ComboBoxServer.SelectedIndex = 0;
+                }
             }
         }
 
-        void TDBlock_TabChanged(object sender, int tab_num) {
-            if (tab_num == 1) {
-                btn_ttab.IsEnabled = false;
-                btn_dtab.IsEnabled = true;
+        private void OnTabChanged(object sender, int tabNum) {
+            if (tabNum == 1) {
+                TamerTab.IsEnabled = false;
+                DigimonTab.IsEnabled = true;
             } else {
-                btn_ttab.IsEnabled = true;
-                btn_dtab.IsEnabled = false;
+                TamerTab.IsEnabled = true;
+                DigimonTab.IsEnabled = false;
             }
         }
 
-        private void btn_ttab_Click(object sender, RoutedEventArgs e) {
-            if (CURRENT_GUILD.Id != -1)
+        private void OnTamerTabClick(object sender, RoutedEventArgs e) {
+            if (CURRENT_GUILD.Id != -1) {
                 TDBlock_.ShowTamers();
+            }
         }
 
-        private void btn_dtab_Click(object sender, RoutedEventArgs e) {
-            if (CURRENT_GUILD.Id != -1)
+        private void OnDigimonTabClick(object sender, RoutedEventArgs e) {
+            if (CURRENT_GUILD.Id != -1) {
                 TDBlock_.ShowDigimons(CURRENT_GUILD.Members);
+            }
         }
 
-        void dmo_web_StatusChanged(object sender, DownloadStatus status) {
+        private void OnStatusChanged(object sender, DownloadStatus status) {
             switch (status.Code) {
                 case DMODownloadStatusCode.GETTING_GUILD: {
                         LoadProgressStatus.Text = LanguageEnv.Strings.CommSearchingGuild;
@@ -115,12 +122,12 @@ namespace AdvancedLauncher.Pages {
             LoadProgressBar.Value = status.Progress;
         }
 
-        void dmo_web_DownloadCompleted(object sender, DMODownloadResultCode code, Guild result) {
+        private void OnDownloadCompleted(object sender, DMODownloadResultCode code, Guild result) {
             BlockControls(false);
 
-            dmo_web.DownloadStarted -= dmo_web_DownloadStarted;
-            dmo_web.DownloadCompleted -= dmo_web_DownloadCompleted;
-            dmo_web.StatusChanged -= dmo_web_StatusChanged;
+            webProfile.DownloadStarted -= OnDownloadStarted;
+            webProfile.DownloadCompleted -= OnDownloadCompleted;
+            webProfile.StatusChanged -= OnStatusChanged;
 
             ProgressBlock.Opacity = 0;
             switch (code) {
@@ -149,7 +156,7 @@ namespace AdvancedLauncher.Pages {
             }
         }
 
-        void dmo_web_DownloadStarted(object sender) {
+        private void OnDownloadStarted(object sender) {
             BlockControls(true);
             LoadProgressBar.Value = 0;
             LoadProgressBar.Maximum = 100;
@@ -157,18 +164,18 @@ namespace AdvancedLauncher.Pages {
             ProgressBlock.Opacity = 1;
         }
 
-        private void GetInfo_Click(object sender, RoutedEventArgs e) {
-            if (isValidName(textBox_g_name.Text)) {
-                dmo_web.DownloadStarted += dmo_web_DownloadStarted;
-                dmo_web.DownloadCompleted += dmo_web_DownloadCompleted;
-                dmo_web.StatusChanged += dmo_web_StatusChanged;
-                dmo_web.GetGuildAsync(this.Dispatcher, textBox_g_name.Text, (Server)ComboBoxServer.SelectedValue, (bool)chkbox_IsDetailed.IsChecked, 1);
+        private void OnGetInfoClick(object sender, RoutedEventArgs e) {
+            if (IsValidName(GuildNameTextBox.Text)) {
+                webProfile.DownloadStarted += OnDownloadStarted;
+                webProfile.DownloadCompleted += OnDownloadCompleted;
+                webProfile.StatusChanged += OnStatusChanged;
+                webProfile.GetGuildAsync(this.Dispatcher, GuildNameTextBox.Text, (Server)ComboBoxServer.SelectedValue, (bool)chkbox_IsDetailed.IsChecked, 1);
             }
         }
 
         public void BlockControls(bool block) {
             LauncherEnv.Settings.OnProfileLocked(block);
-            textBox_g_name.IsEnabled = !block;
+            GuildNameTextBox.IsEnabled = !block;
             ComboBoxServer.IsEnabled = !block;
             button_getinfo.IsEnabled = !block;
             chkbox_IsDetailed.IsEnabled = !block;
@@ -189,38 +196,40 @@ namespace AdvancedLauncher.Pages {
             }
             GTop.Text = g.Members[index].Name;
             //calc total digimons
-            int digi_count = 0;
-            foreach (Tamer t in g.Members)
-                digi_count += t.Digimons.Count;
-            GDCnt.Text = digi_count.ToString();
+            int count = 0;
+            foreach (Tamer t in g.Members) {
+                count += t.Digimons.Count;
+            }
+            GDCnt.Text = count.ToString();
             GTCnt.Text = g.Members.Count.ToString();
         }
 
         #region Обработка поля ввода имени гильдии
-        private void GuildName_GotFocus(object sender, RoutedEventArgs e) {
-            if (textBox_g_name.Text == LanguageEnv.Strings.CommGuildName) {
-                textBox_g_name.Foreground = Brushes.Black;
-                textBox_g_name.Text = string.Empty;
+        private void OnNameGotFocus(object sender, RoutedEventArgs e) {
+            if (GuildNameTextBox.Text == LanguageEnv.Strings.CommGuildName) {
+                GuildNameTextBox.Foreground = Brushes.Black;
+                GuildNameTextBox.Text = string.Empty;
             }
         }
 
-        private void GuildName_LostFocus(object sender, RoutedEventArgs e) {
-            if (string.IsNullOrEmpty(textBox_g_name.Text)) {
-                textBox_g_name.Foreground = Brushes.Gray;
-                textBox_g_name.Text = LanguageEnv.Strings.CommGuildName;
+        private void OnNameLostFocus(object sender, RoutedEventArgs e) {
+            if (string.IsNullOrEmpty(GuildNameTextBox.Text)) {
+                GuildNameTextBox.Foreground = Brushes.Gray;
+                GuildNameTextBox.Text = LanguageEnv.Strings.CommGuildName;
             }
         }
 
-        public static bool isValidName(string str) {
-            if (str == LanguageEnv.Strings.CommGuildName) {
+        public static bool IsValidName(string name) {
+            if (name == LanguageEnv.Strings.CommGuildName) {
                 Utils.MSG_ERROR(LanguageEnv.Strings.CommGuildNameEmpty);
                 return false;
             }
-            GuildNameValidationRule gvr = new GuildNameValidationRule();
-            ValidationResult vr = gvr.Validate(str, new System.Globalization.CultureInfo(1, false));
-            if (!vr.IsValid)
-                Utils.MSG_ERROR(vr.ErrorContent.ToString());
-            return vr.IsValid;
+            GuildNameValidationRule validationRule = new GuildNameValidationRule();
+            ValidationResult result = validationRule.Validate(name, new System.Globalization.CultureInfo(1, false));
+            if (!result.IsValid) {
+                Utils.MSG_ERROR(result.ErrorContent.ToString());
+            }
+            return result.IsValid;
         }
         #endregion
     }

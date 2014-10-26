@@ -167,7 +167,7 @@
             <Border Grid.Column="0" Background="{StaticResource MainFrameBrush}" Margin="10" CornerRadius="15">
                 <Grid>
                     <TextBlock Text="{Binding PersonalizationSelectTitle}" Height="20" FontFamily="Arial" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,7,0,0" />
-                    <Button x:Name="SelectBtn" Style="{StaticResource SelectButton}" Margin="10,30,10,10" Click="Select_Picture_Click">
+                    <Button x:Name="SelectBtn" Style="{StaticResource SelectButton}" Margin="10,30,10,10" Click="OnSelectPicture">
                         <Grid>
                             <TextBlock x:Name="SelecterHelp" Text="{Binding PersonalizationSelectMessage}" Width="{Binding ElementName=SelectBtn, Path=ActualWidth}" Foreground="#A0000000" FontFamily="Tahoma" FontSize="24" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
                             <Image x:Name="Selected_Image" />
@@ -178,7 +178,7 @@
             <Border Grid.Column="1" Background="{StaticResource MainFrameBrush}" Margin="10" CornerRadius="15">
                 <Grid>
                     <TextBlock Text="{Binding PersonalizationCurrentTitle}" Height="20" FontFamily="Arial" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,7,0,0" />
-                    <Button x:Name="SaveBtn" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,4,10,0" Height="24" Width="24" ToolTip="{Binding PersonalizationSaveButton}" Style="{StaticResource SelectButton}" Click="SaveBtn_Click">
+                    <Button x:Name="SaveBtn" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,4,10,0" Height="24" Width="24" ToolTip="{Binding PersonalizationSaveButton}" Style="{StaticResource SelectButton}" Click="OnSaveClick">
                         <Image Source="/AdvancedLauncher;component/Resources/Icons/save.png" Stretch="None"/>
                     </Button>
                     <Grid Margin="10,30,10,10">
@@ -189,9 +189,9 @@
             </Border>
         </Grid>
 
-        <Button x:Name="BtnApply" Style="{StaticResource BlueButton}" Height="30" Width="120" VerticalAlignment="Bottom" IsEnabled="False" Margin="10" Content="{Binding ApplyButton}" Click="BtnApply_Click" />
+        <Button x:Name="BtnApply" Style="{StaticResource BlueButton}" Height="30" Width="120" VerticalAlignment="Bottom" IsEnabled="False" Margin="10" Content="{Binding ApplyButton}" Click="OnApplyClick" />
         <StackPanel Margin="160,0,0,0" Orientation="Horizontal">
-            <ComboBox x:Name="ItemsComboBox" Width="300" Height="20" SelectedIndex="0" Style="{StaticResource NavMenuComboBox}" ItemsSource="{Binding Items}" DisplayMemberPath="RName" SelectedValuePath="Item" SelectionChanged="ItemsComboBox_SelectionChanged_1"/>
+            <ComboBox x:Name="ItemsComboBox" Width="300" Height="20" SelectedIndex="0" Style="{StaticResource NavMenuComboBox}" ItemsSource="{Binding Items}" DisplayMemberPath="RName" SelectedValuePath="Item" SelectionChanged="OnSelectionChanged"/>
         </StackPanel>
     </Grid>
 </UserControl>

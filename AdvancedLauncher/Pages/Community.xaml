@@ -192,7 +192,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="90" />
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Style="{StaticResource SearchTextBox}" x:Name="textBox_g_name" Height="20" Foreground="Gray" GotFocus="GuildName_GotFocus" LostFocus="GuildName_LostFocus" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}">
+                        <TextBox Grid.Column="0" Style="{StaticResource SearchTextBox}" x:Name="GuildNameTextBox" Height="20" Foreground="Gray" GotFocus="OnNameGotFocus" LostFocus="OnNameLostFocus" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}">
                             <TextBox.Text>
                                 <Binding RelativeSource="{RelativeSource Self}" Path="Tag" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
@@ -204,7 +204,7 @@
                         <ComboBox Grid.Column="1" x:Name="ComboBoxServer" Style="{StaticResource BlueComboBox}" DisplayMemberPath="Name" Height="20" SelectedIndex="0" />
                     </Grid>
                     <CheckBox Style="{StaticResource BlueCheckBox}" Foreground="Black" x:Name="chkbox_IsDetailed" Content="{Binding CommCheckBox_Detailed}" Margin="10,4,10,0" IsChecked="False" />
-                    <Button x:Name="button_getinfo" Style="{StaticResource BlueButton}" FontSize="14" Content="{Binding CommButton_Search}" Margin="10,8,10,0" Click="GetInfo_Click" />
+                    <Button x:Name="button_getinfo" Style="{StaticResource BlueButton}" FontSize="14" Content="{Binding CommButton_Search}" Margin="10,8,10,0" Click="OnGetInfoClick" />
                     <Grid x:Name="ProgressBlock" Opacity="0" Margin="10,10,10,0" VerticalAlignment="Bottom">
                         <ProgressBar x:Name="LoadProgressBar" Style="{StaticResource LoadingPB}" Height="20" Value="0"/>
                         <TextBlock x:Name="LoadProgressStatus" Margin="0,0,0,2" VerticalAlignment="Center" TextAlignment="Center" FontSize="11" FontFamily="Tahoma" FontStyle="Normal" FontWeight="Normal" HorizontalAlignment="Center"/>
@@ -264,8 +264,8 @@
         </Grid>
         <StackPanel Margin="160,0,0,0" Orientation="Horizontal">
             <TextBlock Text="{Binding CommShowTab}" Style="{StaticResource SubNavText}"/>
-            <Button x:Name="btn_ttab" Content="{Binding CommTamersTab}" Style="{StaticResource SubNavButton}" Click="btn_ttab_Click" />
-            <Button x:Name="btn_dtab" Content="{Binding CommDigimonsTab}" Style="{StaticResource SubNavButton}" Click="btn_dtab_Click" />
+            <Button x:Name="TamerTab" Content="{Binding CommTamersTab}" Style="{StaticResource SubNavButton}" Click="OnTamerTabClick" />
+            <Button x:Name="DigimonTab" Content="{Binding CommDigimonsTab}" Style="{StaticResource SubNavButton}" Click="OnDigimonTabClick" />
         </StackPanel>
     </Grid>
 </UserControl>

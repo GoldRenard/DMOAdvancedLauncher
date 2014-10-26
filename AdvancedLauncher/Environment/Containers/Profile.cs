@@ -184,7 +184,7 @@ namespace AdvancedLauncher.Environment.Containers {
             set {
             }
             get {
-                switch (GameEnv.GetGameType()) {
+                switch (GameEnv.Type) {
                     case Environment.GameEnv.GameType.ADMO: {
                             return "Aeria Games";
                         }
@@ -206,8 +206,8 @@ namespace AdvancedLauncher.Environment.Containers {
         [XmlIgnore]
         public byte GameTypeNum {
             set {
-                GameEnv.SetGameType((GameEnv.GameType)value);
-                GameEnv.LoadType(GameEnv.GetGameType());
+                GameEnv.Type = (GameEnv.GameType)value;
+                GameEnv.LoadType(GameEnv.Type);
                 NotifyPropertyChanged("GameEnv");       //We've changed env, so we must update all bindings
                 NotifyPropertyChanged("GameType");
                 NotifyPropertyChanged("DMOProfile");
@@ -215,7 +215,7 @@ namespace AdvancedLauncher.Environment.Containers {
                 NotifyPropertyChanged("News");
             }
             get {
-                return (byte)GameEnv.GetGameType();
+                return (byte)GameEnv.Type;
             }
         }
 
@@ -230,10 +230,10 @@ namespace AdvancedLauncher.Environment.Containers {
             }
             get {
                 DMOProfile profile;
-                if (profileCollection.ContainsKey(GameEnv.GetGameType())) {
-                    profileCollection.TryGetValue(GameEnv.GetGameType(), out profile);
+                if (profileCollection.ContainsKey(GameEnv.Type)) {
+                    profileCollection.TryGetValue(GameEnv.Type, out profile);
                 } else {
-                    switch (GameEnv.GetGameType()) {
+                    switch (GameEnv.Type) {
                         case Environment.GameEnv.GameType.ADMO:
                             profile = new DMOLibrary.Profiles.Aeria.DMOAeria();
                             break;
@@ -249,7 +249,7 @@ namespace AdvancedLauncher.Environment.Containers {
                         default:
                             throw new NotImplementedException();
                     }
-                    profileCollection.Add(GameEnv.GetGameType(), profile);
+                    profileCollection.Add(GameEnv.Type, profile);
                 }
                 return profile;
             }

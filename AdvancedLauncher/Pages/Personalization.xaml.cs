@@ -34,15 +34,19 @@ using DMOLibrary.DMOFileSystem;
 
 namespace AdvancedLauncher.Pages {
     public partial class Personalization : UserControl {
-        byte[] current_image_bytes, selected_image_bytes;
-        BitmapSource selected_image;
-        Storyboard ShowWindow;
-        ResourceViewModel Resource_DC = new ResourceViewModel();
-        TargaImage ti = new TargaImage();
+        private byte[] CurrentImageBytes, SelectedImageBytes;
+        private BitmapSource SelectedImage;
+        private Storyboard ShowWindow;
+        private ResourceViewModel ResourceModel = new ResourceViewModel();
+        private TargaImage TarImage = new TargaImage();
 
         //Microsoft.Win32.OpenFileDialog oFileDialog = new Microsoft.Win32.OpenFileDialog() { Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png" };
-        OpenFileDialog oFileDialog = new OpenFileDialog() { Filter = "Targa Image (*.tga) | *.tga" };
-        SaveFileDialog sFileDialog = new SaveFileDialog() { Filter = "Targa Image (*.tga) | *.tga" };
+        OpenFileDialog oFileDialog = new OpenFileDialog() {
+            Filter = "Targa Image (*.tga) | *.tga"
+        };
+        SaveFileDialog sFileDialog = new SaveFileDialog() {
+            Filter = "Targa Image (*.tga) | *.tga"
+        };
 
         const string RES_LIST_FILE = "\\ResourceList_{0}.cfg";
         bool isGameImageLoaded = false;
@@ -53,10 +57,12 @@ namespace AdvancedLauncher.Pages {
 
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-                LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+                LanguageEnv.Languagechanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
                 LauncherEnv.Settings.ProfileChanged += ProfileChanged;
-                ItemsComboBox.ItemsSource = Resource_DC.Items;
-                this.Loaded += Personalization_Loaded;
+                ItemsComboBox.ItemsSource = ResourceModel.Items;
+                this.Loaded += OnLoaded;
                 ProfileChanged();
             }
         }
@@ -68,15 +74,16 @@ namespace AdvancedLauncher.Pages {
         /// </summary>
         /// <param name="sender">Объект-отправитель</param>
         /// <param name="e">Параметры события</param>
-        void Personalization_Loaded(object sender, RoutedEventArgs e) {
-            if (ItemsComboBox.Items.Count > 0)
-                ItemsComboBox_SelectionChanged_1(ItemsComboBox, null);
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            if (ItemsComboBox.Items.Count > 0) {
+                OnSelectionChanged(ItemsComboBox, null);
+            }
         }
 
         /// <summary>
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
-        void ProfileChanged() {
+        private void ProfileChanged() {
             LoadResourceList();
             ResetCurrent();
             ResetSelect();
@@ -88,10 +95,11 @@ namespace AdvancedLauncher.Pages {
         /// </summary>
         public void Activate() {
             if (!isGameImageLoaded && ItemsComboBox.Items.Count > 0) {
-                if (ItemsComboBox.SelectedIndex == 0)
-                    ItemsComboBox_SelectionChanged_1(ItemsComboBox, null);
-                else
+                if (ItemsComboBox.SelectedIndex == 0) {
+                    OnSelectionChanged(ItemsComboBox, null);
+                } else {
                     ItemsComboBox.SelectedIndex = 0;
+                }
             }
             ShowWindow.Begin();
         }
@@ -102,18 +110,20 @@ namespace AdvancedLauncher.Pages {
         /// 2) DESCRIPTION;ID
         /// </summary>
         private void LoadResourceList() {
-            Resource_DC.UnLoadData();
+            ResourceModel.UnLoadData();
             string[] rlines = null;
             string rFile = (LauncherEnv.GetResourcesPath() + string.Format(RES_LIST_FILE, LauncherEnv.Settings.CurrentProfile.DMOProfile.GetTypeName()));
             if (File.Exists(rFile)) {
                 rlines = System.IO.File.ReadAllLines(rFile);
 
                 for (int i = 0; i < rlines.Length; i++) {
-                    if (rlines[i].Length == 0)
+                    if (rlines[i].Length == 0) {
                         continue;
+                    }
                     rlines[i] = rlines[i].Trim();
-                    if (rlines[i][0] == '#')
+                    if (rlines[i][0] == '#') {
                         continue;
+                    }
                     string[] vars = rlines[i].Split(';');
                     if (vars.Length > 1) {
                         ResourceItemViewModel item = new ResourceItemViewModel();
@@ -124,7 +134,7 @@ namespace AdvancedLauncher.Pages {
                             item.RID = n;
                         else
                             item.RPath = vars[1];
-                        Resource_DC.AddData(item);
+                        ResourceModel.AddData(item);
                     }
                 }
             }
@@ -135,22 +145,25 @@ namespace AdvancedLauncher.Pages {
         /// </summary>
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры события</param>
-        private void Select_Picture_Click(object sender, RoutedEventArgs e) {
+        private void OnSelectPicture(object sender, RoutedEventArgs e) {
             var result = oFileDialog.ShowDialog(); //показываем диалог
             if (result == true) {  //Если результат положителен
                 ResetSelect();
                 bool isSuccess = true;
                 try {
-                    selected_image_bytes = File.ReadAllBytes(oFileDialog.FileName); //считываем данные
-                    selected_image = LoadTGA(selected_image_bytes);                 //и пытаемся открыть их как гта
-                } catch { isSuccess = false; }
+                    SelectedImageBytes = File.ReadAllBytes(oFileDialog.FileName); //считываем данные
+                    SelectedImage = LoadTGA(SelectedImageBytes);                 //и пытаемся открыть их как гта
+                } catch {
+                    isSuccess = false;
+                }
 
                 if (isSuccess) {                                                       //Если успешно открыли, скрываем строку помощи и показываем картинку
                     SelecterHelp.Visibility = Visibility.Collapsed;
-                    Selected_Image.Source = selected_image;
+                    Selected_Image.Source = SelectedImage;
 
-                    if (isGameImageLoaded)                                          //Если картинка из игры была загружена (что подтверждает доступность ресурсов игры)
-                        BtnApply.IsEnabled = true;                                  //Разрешаем запись этой картинки в игру
+                    if (isGameImageLoaded) {                  //Если картинка из игры была загружена (что подтверждает доступность ресурсов игры)
+                        BtnApply.IsEnabled = true;            //Разрешаем запись этой картинки в игру
+                    }                                 
 
                     return;
                 }
@@ -163,17 +176,20 @@ namespace AdvancedLauncher.Pages {
         /// </summary>
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры события</param>
-        private void SaveBtn_Click(object sender, RoutedEventArgs e) {
+        private void OnSaveClick(object sender, RoutedEventArgs e) {
             if (isGameImageLoaded) {   //Сохраняем только если картинка загружена
                 ResourceItemViewModel item = (ResourceItemViewModel)ItemsComboBox.SelectedValue;
-                if (item.RID == 0)                                           //Если ID = 0, считаем, то у нас есть путь ресурса, откуда берем имя файла
+                if (item.RID == 0) {                                         //Если ID = 0, считаем, то у нас есть путь ресурса, откуда берем имя файла
                     sFileDialog.FileName = Path.GetFileName(item.RPath);
-                else
+                } else {
                     sFileDialog.FileName = item.RID.ToString() + ".tga";    //Иначе сохраняем именем ID
+                } 
 
                 var result = sFileDialog.ShowDialog();
                 if (result == true) {
-                    try { File.WriteAllBytes(sFileDialog.FileName, current_image_bytes); } catch (Exception ex) {
+                    try {
+                        File.WriteAllBytes(sFileDialog.FileName, CurrentImageBytes);
+                    } catch (Exception ex) {
                         Utils.MSG_ERROR(LanguageEnv.Strings.PersonalizationCantSave + " " + ex.Message);
                     }
                 }
@@ -185,7 +201,7 @@ namespace AdvancedLauncher.Pages {
         /// </summary>
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры события</param>
-        private void ItemsComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e) {
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (this.IsLoaded) {
                 ResetCurrent();
                 ResetSelect();
@@ -199,34 +215,41 @@ namespace AdvancedLauncher.Pages {
         /// <param name="item">VM-объект с данными</param>
         /// <returns></returns>
         private bool LoadGameImage(ResourceItemViewModel item) {
-            if (item == null)
+            if (item == null) {
                 return false;
+            }
 
             DMOFileSystem dmoFS = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
 
             //Открываем файловую систему игры
             bool IsOpened = false;
-            try { IsOpened = dmoFS.Open(FileAccess.Read, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath()); } catch { IsOpened = false; }
+            try {
+                IsOpened = dmoFS.Open(FileAccess.Read, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
+            } catch {
+                IsOpened = false;
+            }
 
             if (IsOpened) {
                 Stream file = null;
-                if (item.RID != 0)                      //Если есть ИД, считываем по нему
+                if (item.RID != 0) {                     //Если есть ИД, считываем по нему
                     file = dmoFS.ReadFile(item.RID);
-                else
-                    file = dmoFS.ReadFile(item.RPath);  //Иначе считываем по пути ресурса
+                } else {
+                    file = dmoFS.ReadFile(item.RPath);   //Иначе считываем по пути ресурса
+                }
                 if (file != null) {
                     isGameImageLoaded = true;
                     MemoryStream ms = new MemoryStream();
                     file.CopyTo(ms);
-                    current_image_bytes = ms.ToArray();
-                    Current_Image.Source = LoadTGA(current_image_bytes);
+                    CurrentImageBytes = ms.ToArray();
+                    Current_Image.Source = LoadTGA(CurrentImageBytes);
                     SaveBtn.Visibility = Visibility.Visible;
                     dmoFS.Close();
                     return true;
                 }
                 dmoFS.Close();
-            } else
+            } else {
                 MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            }
             return false;
         }
 
@@ -236,26 +259,32 @@ namespace AdvancedLauncher.Pages {
         /// </summary>
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры события</param>
-        private void BtnApply_Click(object sender, RoutedEventArgs e) {
+        private void OnApplyClick(object sender, RoutedEventArgs e) {
 
             //Открываем файловую систему игры
             DMOFileSystem dmoFS = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
             bool IsOpened = false;
-            try { IsOpened = dmoFS.Open(FileAccess.Write, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath()); } catch { IsOpened = false; }
+            try {
+                IsOpened = dmoFS.Open(FileAccess.Write, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
+            } catch {
+                IsOpened = false;
+            }
 
             if (IsOpened) {
-                ResourceItemViewModel r_selected = (ResourceItemViewModel)ItemsComboBox.SelectedValue;
-                bool wr_result = false;
-                if (r_selected.IsRID)
-                    wr_result = dmoFS.WriteStream(new MemoryStream(selected_image_bytes), r_selected.RID);
-                else
-                    wr_result = dmoFS.WriteStream(new MemoryStream(selected_image_bytes), r_selected.RPath);
+                ResourceItemViewModel selectedResource = (ResourceItemViewModel)ItemsComboBox.SelectedValue;
+                bool writeResult = false;
+                if (selectedResource.IsRID) {
+                    writeResult = dmoFS.WriteStream(new MemoryStream(SelectedImageBytes), selectedResource.RID);
+                } else {
+                    writeResult = dmoFS.WriteStream(new MemoryStream(SelectedImageBytes), selectedResource.RPath);
+                }
                 dmoFS.Close();
 
-                if (!wr_result)
+                if (!writeResult) {
                     Utils.MSG_ERROR(LanguageEnv.Strings.PersonalizationCantWrite);
-                else
-                    isGameImageLoaded = LoadGameImage(r_selected);
+                } else {
+                    isGameImageLoaded = LoadGameImage(selectedResource);
+                }
             }
 
         }
@@ -276,14 +305,16 @@ namespace AdvancedLauncher.Pages {
 
         private BitmapSource LoadTGA(string file) {
             System.Drawing.Bitmap bmp = TargaImage.LoadTargaImage(file);
-            BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
+            BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), 
+                IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
             bs.Freeze();
             return bs;
         }
 
         private BitmapSource LoadTGA(byte[] bytes) {
             System.Drawing.Bitmap bmp = TargaImage.LoadTargaImage(bytes);
-            BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
+            BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(),
+                IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
             bs.Freeze();
             return bs;
         }
@@ -336,7 +367,8 @@ namespace AdvancedLauncher.Pages {
             get {
                 return this;
             }
-            set { }
+            set {
+            }
         }
 
         private string _RPath;
@@ -364,7 +396,10 @@ namespace AdvancedLauncher.Pages {
             this.Items = new ObservableCollection<ResourceItemViewModel>();
         }
 
-        public ObservableCollection<ResourceItemViewModel> Items { get; private set; }
+        public ObservableCollection<ResourceItemViewModel> Items {
+            get;
+            private set;
+        }
 
         public bool IsDataLoaded {
             get;

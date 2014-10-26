@@ -34,7 +34,7 @@ namespace AdvancedLauncher.Pages {
         Storyboard ShowWindow;
         private delegate void DoOneText(string text);
         DMOWebProfile dmo_web;
-        guild CURRENT_GUILD = new guild() { Id = -1 };
+        Guild CURRENT_GUILD = new Guild() { Id = -1 };
 
         public Community() {
             InitializeComponent();
@@ -65,7 +65,7 @@ namespace AdvancedLauncher.Pages {
 
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(LauncherEnv.Settings.pCurrent.Rotation.Guild)) {
-                foreach (server serv in ComboBoxServer.Items) {
+                foreach (Server serv in ComboBoxServer.Items) {
                     //Ищем сервер с нужным идентификатором и выбираем его
                     if (serv.Id == LauncherEnv.Settings.pCurrent.Rotation.ServerId + 1) {
                         ComboBoxServer.SelectedValue = serv;
@@ -101,21 +101,21 @@ namespace AdvancedLauncher.Pages {
         }
 
         void dmo_web_StatusChanged(object sender, DownloadStatus status) {
-            switch (status.code) {
+            switch (status.Code) {
                 case DMODownloadStatusCode.GETTING_GUILD: {
                         LoadProgressStatus.Text = LanguageEnv.Strings.CommSearchingGuild;
                         break;
                     }
                 case DMODownloadStatusCode.GETTING_TAMER: {
-                        LoadProgressStatus.Text = string.Format(LanguageEnv.Strings.CommGettingTamer, status.info);
+                        LoadProgressStatus.Text = string.Format(LanguageEnv.Strings.CommGettingTamer, status.Info);
                         break;
                     }
             }
-            LoadProgressBar.Maximum = status.max_progress;
-            LoadProgressBar.Value = status.progress;
+            LoadProgressBar.Maximum = status.MaxProgress;
+            LoadProgressBar.Value = status.Progress;
         }
 
-        void dmo_web_DownloadCompleted(object sender, DMODownloadResultCode code, guild result) {
+        void dmo_web_DownloadCompleted(object sender, DMODownloadResultCode code, Guild result) {
             BlockControls(false);
 
             dmo_web.DownloadStarted -= dmo_web_DownloadStarted;
@@ -162,7 +162,7 @@ namespace AdvancedLauncher.Pages {
                 dmo_web.DownloadStarted += dmo_web_DownloadStarted;
                 dmo_web.DownloadCompleted += dmo_web_DownloadCompleted;
                 dmo_web.StatusChanged += dmo_web_StatusChanged;
-                dmo_web.GetGuildAsync(this.Dispatcher, textBox_g_name.Text, (server)ComboBoxServer.SelectedValue, (bool)chkbox_IsDetailed.IsChecked, 1);
+                dmo_web.GetGuildAsync(this.Dispatcher, textBox_g_name.Text, (Server)ComboBoxServer.SelectedValue, (bool)chkbox_IsDetailed.IsChecked, 1);
             }
         }
 
@@ -174,8 +174,8 @@ namespace AdvancedLauncher.Pages {
             chkbox_IsDetailed.IsEnabled = !block;
         }
 
-        public void UpdateInfo(guild g) {
-            GMaster.Text = g.Master_name;
+        public void UpdateInfo(Guild g) {
+            GMaster.Text = g.MasterName;
             GRank.Text = g.Rank.ToString();
             GRep.Text = g.Rep.ToString();
             //calculating top tamer in guild
@@ -190,7 +190,7 @@ namespace AdvancedLauncher.Pages {
             GTop.Text = g.Members[index].Name;
             //calc total digimons
             int digi_count = 0;
-            foreach (tamer t in g.Members)
+            foreach (Tamer t in g.Members)
                 digi_count += t.Digimons.Count;
             GDCnt.Text = digi_count.ToString();
             GTCnt.Text = g.Members.Count.ToString();

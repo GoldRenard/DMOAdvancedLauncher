@@ -38,7 +38,7 @@ namespace AdvancedLauncher.Controls {
 
         string rGuild;
         string rTamer;
-        server rServ;
+        Server rServ;
 
         private bool IsSourceLoaded = false;
         private bool IsErrorOccured = false;
@@ -181,12 +181,12 @@ namespace AdvancedLauncher.Controls {
 
         void WebProfile_StatusChanged(object sender, DownloadStatus status) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
-                LoadingPB.Maximum = status.max_progress;
-                LoadingPB.Value = status.progress;
+                LoadingPB.Maximum = status.MaxProgress;
+                LoadingPB.Value = status.Progress;
             }));
         }
 
-        void WebProfile_DownloadCompleted(object sender, DMODownloadResultCode code, guild result) {
+        void WebProfile_DownloadCompleted(object sender, DMODownloadResultCode code, Guild result) {
             if (code != DMODownloadResultCode.OK) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
                     ErrorMessage1.Text = LanguageEnv.Strings.ErrorOccured + " [" + code + "]";
@@ -220,7 +220,7 @@ namespace AdvancedLauncher.Controls {
             if (!IsStatic) {
                 //Если не статическое, получаем рандомного дигимона из базы данных
                 BitmapImage Medal = null;
-                digimon d = null;
+                Digimon d = null;
 
                 if (!string.IsNullOrEmpty(rTamer.Trim()))
                     d = WebProfile.GetRandomDigimon(rServ, rGuild, rTamer.Trim(), 70);
@@ -242,10 +242,10 @@ namespace AdvancedLauncher.Controls {
                     vmodel.TLevel = TLevel_;
                     vmodel.Image = Image_;
                     vmodel.Medal = Medal_;
-                }), d.Name, d.Lvl, d.Custom_Tamer_Name, d.Custom_Tamer_lvl, GetDigimonImage(d.Type_id), Medal);
+                }), d.Name, d.Lvl, d.CustomTamerName, d.CustomTamerlvl, GetDigimonImage(d.TypeId), Medal);
             } else {
                 //Если статика - получаем рандомный тип и показываем
-                digimon_type dt = WebProfile.GetRandomDigimonType();
+                DigimonType dt = WebProfile.GetRandomDigimonType();
                 block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
                     vmodel.DType = DType_;
                     vmodel.Level = Level_;

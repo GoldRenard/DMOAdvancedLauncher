@@ -90,8 +90,8 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private tamer _Tamer;
-        public tamer Tamer {
+        private Tamer _Tamer;
+        public Tamer Tamer {
             get {
                 return _Tamer;
             }

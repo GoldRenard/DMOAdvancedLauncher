@@ -25,7 +25,7 @@ using System.Diagnostics;
 namespace DMOLibrary.Profiles.Joymax {
     public class DMOJoymax : DMOProfile {
         private void InitVars() {
-            TYPE_NAME = "Joymax";
+            typeName = "Joymax";
 
             Database = new DMODatabase(GetDatabasePath(), @"
             INSERT INTO Servers([name]) VALUES ('Leviamon');
@@ -46,8 +46,8 @@ namespace DMOLibrary.Profiles.Joymax {
             InitVars();
         }
 
-        public DMOJoymax(System.Windows.Threading.Dispatcher owner_dispatcher) {
-            this.owner_dispatcher = owner_dispatcher;
+        public DMOJoymax(System.Windows.Threading.Dispatcher ownerDispatcher) {
+            this.OwnerDispatcher = ownerDispatcher;
             InitVars();
         }
 
@@ -63,7 +63,6 @@ namespace DMOLibrary.Profiles.Joymax {
         public override string GetGameStartArgs(string args) {
             return "true";
         }
-
 
         public override string GetLauncherStartArgs(string args) {
             return string.Empty;

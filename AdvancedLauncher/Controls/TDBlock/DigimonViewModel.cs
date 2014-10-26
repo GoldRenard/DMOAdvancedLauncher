@@ -43,43 +43,43 @@ namespace AdvancedLauncher.Controls {
             private set;
         }
 
-        public void LoadData(tamer tamer) {
+        public void LoadData(Tamer tamer) {
             this.IsDataLoaded = true;
             string TYPE_NAME;
-            digimon_type dtype;
+            DigimonType dtype;
             if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
-                foreach (digimon item in tamer.Digimons) {
-                    dtype = Profile.GetJoymaxProfile().Database.Digimon_GetTypeById(item.Type_id);
+                foreach (Digimon item in tamer.Digimons) {
+                    dtype = Profile.GetJoymaxProfile().Database.GetDigimonTypeById(item.TypeId);
                     TYPE_NAME = dtype.Name;
-                    if (dtype.Name_alt != null)
-                        TYPE_NAME += " (" + dtype.Name_alt + ")";
-                    this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.Type_id), TName = tamer.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
+                    if (dtype.NameAlt != null)
+                        TYPE_NAME += " (" + dtype.NameAlt + ")";
+                    this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.TypeId), TName = tamer.Name, Level = item.Lvl, SizePC = item.SizePc, Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc), Rank = item.Rank });
                 }
                 Profile.GetJoymaxProfile().Database.CloseConnection();
             } else
-                foreach (digimon item in tamer.Digimons)
-                    this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = "Unknown", Image = GetImage(item.Type_id), TName = tamer.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
+                foreach (Digimon item in tamer.Digimons)
+                    this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = "Unknown", Image = GetImage(item.TypeId), TName = tamer.Name, Level = item.Lvl, SizePC = item.SizePc, Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc), Rank = item.Rank });
         }
 
-        public void LoadData(List<tamer> tamers) {
+        public void LoadData(List<Tamer> tamers) {
             this.IsDataLoaded = true;
             string TYPE_NAME;
-            digimon_type dtype;
+            DigimonType dtype;
             if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
-                foreach (tamer t in tamers) {
-                    foreach (digimon item in t.Digimons) {
-                        dtype = Profile.GetJoymaxProfile().Database.Digimon_GetTypeById(item.Type_id);
+                foreach (Tamer t in tamers) {
+                    foreach (Digimon item in t.Digimons) {
+                        dtype = Profile.GetJoymaxProfile().Database.GetDigimonTypeById(item.TypeId);
                         TYPE_NAME = dtype.Name;
-                        if (dtype.Name_alt != null)
-                            TYPE_NAME += " (" + dtype.Name_alt + ")";
-                        this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.Type_id), TName = t.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
+                        if (dtype.NameAlt != null)
+                            TYPE_NAME += " (" + dtype.NameAlt + ")";
+                        this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.TypeId), TName = t.Name, Level = item.Lvl, SizePC = item.SizePc, Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc), Rank = item.Rank });
                     }
                 }
                 Profile.GetJoymaxProfile().Database.CloseConnection();
             } else
-                foreach (tamer t in tamers)
-                    foreach (digimon item in t.Digimons)
-                        this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = "Unknown", Image = GetImage(item.Type_id), TName = t.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
+                foreach (Tamer t in tamers)
+                    foreach (Digimon item in t.Digimons)
+                        this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = "Unknown", Image = GetImage(item.TypeId), TName = t.Name, Level = item.Lvl, SizePC = item.SizePc, Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc), Rank = item.Rank });
         }
 
         public void RemoveAt(int index) {

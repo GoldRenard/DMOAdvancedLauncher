@@ -24,8 +24,10 @@ using System.Text;
 
 namespace DMOLibrary.Profiles {
     public abstract class DMOWebProfile {
+        protected static int[] STARTER_IDS = { 31003, 31002, 31004, 31001 };
         protected DMODatabase Database = null;
-        protected DownloadStatus download_status = new DownloadStatus();
+        protected DownloadStatus downloadStatus = new DownloadStatus();
+        protected bool IsBusy = false;
 
         #region EVENTS
         /* Complete results:
@@ -37,10 +39,10 @@ namespace DMOLibrary.Profiles {
          * 4 - web page is not supported or guild not found
          * */
 
-        protected System.Windows.Threading.Dispatcher owner_dispatcher;
+        protected System.Windows.Threading.Dispatcher OwnerDispatcher;
 
         public delegate void DownloadHandler(object sender);
-        public delegate void DownloadCompleteHandler(object sender, DMODownloadResultCode code, guild result);
+        public delegate void DownloadCompleteHandler(object sender, DMODownloadResultCode code, Guild result);
         public delegate void DownloadStatusChangedHandler(object sender, DownloadStatus status);
         public event DownloadHandler DownloadStarted;
         public event DownloadCompleteHandler DownloadCompleted;
@@ -48,18 +50,18 @@ namespace DMOLibrary.Profiles {
         protected virtual void OnStarted() {
             IsBusy = true;
             if (DownloadStarted != null) {
-                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess()) {
-                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadHandler((sender) => {
+                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadHandler((sender) => {
                         DownloadStarted(sender);
                     }), this);
                 } else
                     DownloadStarted(this);
             }
         }
-        protected virtual void OnCompleted(DMODownloadResultCode code, guild result) {
+        protected virtual void OnCompleted(DMODownloadResultCode code, Guild result) {
             if (DownloadCompleted != null) {
-                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess()) {
-                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteHandler((sender, code_, result_) => {
+                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteHandler((sender, code_, result_) => {
                         DownloadCompleted(sender, code_, result_);
                     }), this, code, result);
                 } else
@@ -68,50 +70,48 @@ namespace DMOLibrary.Profiles {
             IsBusy = false;
         }
         protected virtual void OnStatusChanged(DMODownloadStatusCode code, string info, int p, int pm) {
-            download_status.code = code;
-            download_status.info = info;
-            download_status.progress = p;
-            download_status.max_progress = pm;
+            downloadStatus.Code = code;
+            downloadStatus.Info = info;
+            downloadStatus.Progress = p;
+            downloadStatus.MaxProgress = pm;
 
             if (StatusChanged != null) {
-                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess()) {
-                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedHandler((sender, status_) => {
+                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedHandler((sender, status_) => {
                         StatusChanged(sender, status_);
-                    }), this, download_status);
+                    }), this, downloadStatus);
                 } else
-                    StatusChanged(this, download_status);
+                    StatusChanged(this, downloadStatus);
             }
         }
         #endregion
 
-        protected bool IsBusy = false;
-
-        public void GetGuildAsync(System.Windows.Threading.Dispatcher owner_dispatcher, string g_name, server serv, bool isDetailed, int ActualDays) {
-            this.owner_dispatcher = owner_dispatcher;
+        public void GetGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, string guildName, Server serv, bool isDetailed, int actualDays) {
+            this.OwnerDispatcher = ownerDispatcher;
             BackgroundWorker bw = new BackgroundWorker();
-            bw.DoWork += (s1, e2) => { GetGuild(g_name, serv, isDetailed, ActualDays); };
+            bw.DoWork += (s1, e2) => { GetGuild(guildName, serv, isDetailed, actualDays); };
             bw.RunWorkerAsync();
         }
-        public digimon GetRandomDigimon(server serv, string g_name, int minlvl) {
-            digimon d = new digimon();
+        public Digimon GetRandomDigimon(Server serv, string guildName, int minlvl) {
+            Digimon d = new Digimon();
             if (Database.OpenConnection()) {
-                d = Database.RandomDigimon(serv, g_name, minlvl);
+                d = Database.RandomDigimon(serv, guildName, minlvl);
                 Database.CloseConnection();
             }
             return d;
         }
 
-        public digimon GetRandomDigimon(server serv, string g_name, string t_name, int minlvl) {
-            digimon d = new digimon();
+        public Digimon GetRandomDigimon(Server serv, string guildName, string tamerName, int minlvl) {
+            Digimon d = new Digimon();
             if (Database.OpenConnection()) {
-                d = Database.RandomDigimon(serv, g_name, t_name, minlvl);
+                d = Database.RandomDigimon(serv, guildName, tamerName, minlvl);
                 Database.CloseConnection();
             }
             return d;
         }
 
-        public digimon_type GetRandomDigimonType() {
-            digimon_type d = new digimon_type();
+        public DigimonType GetRandomDigimonType() {
+            DigimonType d = new DigimonType();
             if (Database.OpenConnection()) {
                 d = Database.RandomDigimonType();
                 Database.CloseConnection();
@@ -119,10 +119,10 @@ namespace DMOLibrary.Profiles {
             return d;
         }
 
-        public abstract guild GetGuild(string g_name, server serv, bool isDetailed, int ActualDays);
-        protected abstract bool GetGuildInfo(ref guild g, bool isDetailed);
-        protected abstract List<digimon> GetDigimons(tamer tamer, bool isDetailed);
-        protected abstract bool StarterInfo(ref digimon digimon, string tamer_name);
-        protected abstract bool DigimonInfo(ref digimon digimon, string tamer_name);
+        public abstract Guild GetGuild(string guildName, Server serv, bool isDetailed, int actualDays);
+        protected abstract bool GetGuildInfo(ref Guild g, bool isDetailed);
+        protected abstract List<Digimon> GetDigimons(Tamer tamer, bool isDetailed);
+        protected abstract bool StarterInfo(ref Digimon digimon, string tamerName);
+        protected abstract bool DigimonInfo(ref Digimon digimon, string tamerName);
     }
 }

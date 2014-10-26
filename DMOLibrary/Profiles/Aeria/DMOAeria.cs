@@ -26,13 +26,14 @@ using System.Net;
 using System.Web;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using DMOLibrary.Profiles.Joymax;
 
 namespace DMOLibrary.Profiles.Aeria {
     public class DMOAeria : DMOProfile {
         private void InitVars() {
-            TYPE_NAME = "Aeria";
+            typeName = "Aeria";
             _IsLoginRequired = true;
-            _NewsProfile = new DMOLibrary.Profiles.Joymax.JMNews();
+            _NewsProfile = new JMNews();
         }
 
         #region Constructors
@@ -40,8 +41,8 @@ namespace DMOLibrary.Profiles.Aeria {
             InitVars();
         }
 
-        public DMOAeria(System.Windows.Threading.Dispatcher owner_dispatcher) {
-            this.owner_dispatcher = owner_dispatcher;
+        public DMOAeria(System.Windows.Threading.Dispatcher ownerDispatcher) {
+            this.OwnerDispatcher = ownerDispatcher;
             InitVars();
         }
         #endregion
@@ -51,11 +52,11 @@ namespace DMOLibrary.Profiles.Aeria {
             switch (e.Url.AbsolutePath) {
                 //loginning
                 case "/dialog/oauth": {
-                        if (login_try >= 1) {
+                        if (loginTryNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
                         }
-                        login_try++;
+                        loginTryNum++;
 
                         bool isFound = true;
                         try {
@@ -65,8 +66,9 @@ namespace DMOLibrary.Profiles.Aeria {
 
                         if (isFound) {
                             System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("account_login");
-                            if (form != null)
+                            if (form != null) {
                                 form.InvokeMember("submit");
+                            }
                         } else {
                             OnCompleted(LoginCode.WRONG_PAGE, string.Empty);
                             return;
@@ -79,8 +81,9 @@ namespace DMOLibrary.Profiles.Aeria {
                         break;
                     }
                 default: {
-                        if (!e.Url.Host.Contains("facebook"))
+                        if (!e.Url.Host.Contains("facebook")) {
                             OnCompleted(LoginCode.UNKNOWN_URL, string.Empty);
+                        }
                         break;
                     }
             }
@@ -94,7 +97,7 @@ namespace DMOLibrary.Profiles.Aeria {
                 return;
             }
 
-            login_try = 0;
+            loginTryNum = 0;
             wb.DocumentCompleted += LoginDocumentCompleted;
             wb.Navigate("http://www.aeriagames.com/dialog/oauth?response_type=code&client_id=f24233f2506681f0ba2022418e6a5b44050b5216f&https://agoa-dmo.joymax.com/code2token.html&&state=xyz");
             OnChanged(LoginState.LOGINNING);
@@ -105,7 +108,6 @@ namespace DMOLibrary.Profiles.Aeria {
         public override string GetGameStartArgs(string args) {
             return args;
         }
-
 
         public override string GetLauncherStartArgs(string args) {
             return string.Empty;

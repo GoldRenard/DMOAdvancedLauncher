@@ -42,15 +42,15 @@ namespace AdvancedLauncher.Controls {
             private set;
         }
 
-        public void LoadData(List<tamer> List) {
+        public void LoadData(List<Tamer> List) {
             this.IsDataLoaded = true;
             if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
-                foreach (tamer item in List)
-                    this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = Profile.GetJoymaxProfile().Database.Tamer_GetTypeById(item.Type_id).Name, Level = item.Lvl, PName = item.Partner_name, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.Type_id) });
+                foreach (Tamer item in List)
+                    this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = Profile.GetJoymaxProfile().Database.GetTamerTypeById(item.TypeId).Name, Level = item.Lvl, PName = item.PartnerName, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.TypeId) });
                 Profile.GetJoymaxProfile().Database.CloseConnection();
             } else
-                foreach (tamer item in List)
-                    this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = "Unknown", Level = item.Lvl, PName = item.Partner_name, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.Type_id) });
+                foreach (Tamer item in List)
+                    this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = "Unknown", Level = item.Lvl, PName = item.PartnerName, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.TypeId) });
         }
 
         public void UnLoadData() {

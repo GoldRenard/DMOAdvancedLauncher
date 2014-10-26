@@ -53,8 +53,9 @@ namespace DMOLibrary {
                 wd.Proxy = (IWebProxy)null;
                 wd.Timeout = 3000;
                 try { html = wd.DownloadString(url); } catch { };
-                if (html != string.Empty && html != null)
+                if (html != string.Empty && html != null) {
                     return html;
+                }
             }
             return string.Empty;
         }

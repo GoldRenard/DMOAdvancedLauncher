@@ -21,78 +21,78 @@ using System.Collections.Generic;
 
 namespace DMOLibrary {
     #region Structs
-    public class server {
+    public class Server {
         public int Id { set; get; }
         public string Name { set; get; }
     }
 
-    public struct guild {
+    public struct Guild {
         public int Key;
         public int Id;
-        public int Serv_id;
+        public int ServId;
         public string Name;
         public long Rep;
-        public long Master_id;
-        public string Master_name;
+        public long MasterId;
+        public string MasterName;
         public long Rank;
-        public DateTime Update_time;
-        public bool isDetailed;
-        public List<tamer> Members;
+        public DateTime UpdateTime;
+        public bool IsDetailed;
+        public List<Tamer> Members;
     }
 
-    public struct digimon_type {
+    public struct DigimonType {
         public int Id;
         public string Name;
-        public string Name_alt;
+        public string NameAlt;
     }
 
-    public class digimon {
+    public class Digimon {
         public int Key;
-        public int Type_id;
-        public int Serv_id;
-        public int Tamer_id;
-        public string Custom_Tamer_Name;
-        public int Custom_Tamer_lvl;
+        public int TypeId;
+        public int ServId;
+        public int TamerId;
+        public string CustomTamerName;
+        public int CustomTamerlvl;
         public string Name;
         public long Rank;
         public int Lvl;
-        public double Size_cm;
-        public int Size_pc;
-        public int Size_rank;
+        public double SizeCm;
+        public int SizePc;
+        public int SizeRank;
     }
 
-    public struct tamer_type {
+    public struct TamerType {
         public int Id;
         public string Name;
     }
 
-    public struct tamer {
+    public struct Tamer {
         public int Key;
         public int Id;
-        public int Type_id;
-        public int Serv_id;
-        public int Guild_id;
-        public int Partner_key;
-        public string Partner_name;
+        public int TypeId;
+        public int ServId;
+        public int GuildId;
+        public int PartnerKey;
+        public string PartnerName;
         public string Name;
         public long Rank;
         public int Lvl;
-        public List<digimon> Digimons;
+        public List<Digimon> Digimons;
     }
 
     public struct NewsItem {
-        public string mode;
-        public string subj;
-        public string date;
-        public string content;
-        public string url;
+        public string Mode;
+        public string Subject;
+        public string Date;
+        public string Content;
+        public string Url;
     }
 
     public struct DownloadStatus {
-        public DMODownloadStatusCode code;
-        public string info;
-        public int progress;
-        public int max_progress;
+        public DMODownloadStatusCode Code;
+        public string Info;
+        public int Progress;
+        public int MaxProgress;
     }
 
     public enum DMODownloadStatusCode {

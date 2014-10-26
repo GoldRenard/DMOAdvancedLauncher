@@ -175,7 +175,7 @@ namespace AdvancedLauncher.Controls {
                         }
                         GameFS.Close();
                         return IsSuccess;
-                    } else   //Файл не открылся, false {
+                    } else {    //Файл не открылся, false
                         MessageBoxResult mRes = MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OK, MessageBoxImage.Asterisk);
                         StartButton_SetUpdate(false);
                         return false;
@@ -366,7 +366,7 @@ namespace AdvancedLauncher.Controls {
                 LauncherEnv.Settings.pCurrent.AppLocale)) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
                 TaskManager.CloseApp(); //Если удалось, закрываем приложение.
-            } else                        //Если не удалось, разрешаем повторный запуск и смену профиля. {
+            } else {                         //Если не удалось, разрешаем повторный запуск и смену профиля.
                 LauncherEnv.Settings.OnProfileLocked(false);
                 LauncherEnv.Settings.OnFileSystemLocked(false);
                 StartButton.IsEnabled = true;
@@ -406,14 +406,14 @@ namespace AdvancedLauncher.Controls {
 
             //Получаем результат логина
             switch (code) {
-                case DMOLibrary.LoginCode.SUCCESS:      //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру {
+                case DMOLibrary.LoginCode.SUCCESS: {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
                         LauncherEnv.Settings.pCurrent.Login.pLastSessionArgs = result;
                         LauncherEnv.Save();
                         InitLoginBlock();
                         StartGame(result);
                         break;
                     }
-                case DMOLibrary.LoginCode.WRONG_USER:   //Если получен результат неправильного пользователя, отображаем сообщение и форму ввода {
+                case DMOLibrary.LoginCode.WRONG_USER: {    //Если получен результат неправильного пользователя, отображаем сообщение и форму ввода
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             //Показываем сообщение только, когда блок открыт
                             if (LoginBlock.Height != 0)
@@ -423,7 +423,7 @@ namespace AdvancedLauncher.Controls {
                         break;
                     }
                 case DMOLibrary.LoginCode.WRONG_PAGE:     //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
-                case DMOLibrary.LoginCode.UNKNOWN_URL:    //И возвращаем в форму ввода {
+                case DMOLibrary.LoginCode.UNKNOWN_URL: {     //И возвращаем в форму ввода
                         ShowLoginFunc();
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             MessageBox.Show(LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", code), LanguageEnv.Strings.LoginLogIn, MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -565,15 +565,15 @@ namespace AdvancedLauncher.Controls {
         private void UpdateInfoText(int code, object arg1, object arg2, object arg3, object arg4) {
             string text = string.Empty;
             switch (code) {
-                case 0: //downloading {
+                case 0: {  //downloading
                         text = string.Format(LanguageEnv.Strings.UpdateDownloading, arg1, arg2, arg3, arg4);
                         break;
                     }
-                case 1: //extracting {
+                case 1: {  //extracting
                         text = string.Format(LanguageEnv.Strings.UpdateExtracting, arg1, arg2, arg3, arg4);
                         break;
                     }
-                case 2: //installing {
+                case 2: {  //installing
                         text = string.Format(LanguageEnv.Strings.UpdateInstalling, arg1, arg2);
                         break;
                     }

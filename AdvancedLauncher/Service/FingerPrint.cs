@@ -131,11 +131,11 @@ namespace AdvancedLauncher.Service {
             //Uses first CPU identifier available in order of preference
             //Don't get all identifiers, as it is very time consuming
             string retVal = identifier("Win32_Processor", "UniqueId");
-            if (retVal == "") //If no UniqueID, use ProcessorID {
+            if (String.Empty.Equals(retVal)) {
                 retVal = identifier("Win32_Processor", "ProcessorId");
-                if (retVal == "") //If no ProcessorId, use Name {
+                if (String.Empty.Equals(retVal)) {
                     retVal = identifier("Win32_Processor", "Name");
-                    if (retVal == "") //If no Name, use Manufacturer {
+                    if (String.Empty.Equals(retVal)) { //If no Name, use Manufacturer
                         retVal = identifier("Win32_Processor", "Manufacturer");
                     }
                     //Add clock speed for extra security

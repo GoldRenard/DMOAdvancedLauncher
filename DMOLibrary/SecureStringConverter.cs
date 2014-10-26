@@ -23,8 +23,9 @@ using System.Runtime.InteropServices;
 namespace DMOLibrary {
     public static class SecureStringConverter {
         public static string ConvertToUnsecureString(this SecureString securePassword) {
-            if (securePassword == null)
+            if (securePassword == null) {
                 return null;
+            }
 
             IntPtr unmanagedString = IntPtr.Zero;
             try {

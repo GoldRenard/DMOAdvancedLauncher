@@ -28,13 +28,14 @@ using Ookii.Dialogs.Wpf;
 using Microsoft.Win32;
 using HtmlAgilityPack;
 using System.Runtime.InteropServices;
+using System.Windows.Threading;
 
 namespace DMOLibrary.Profiles {
     public abstract class DMOProfile {
-        protected System.Windows.Threading.Dispatcher owner_dispatcher = null;
+        protected Dispatcher OwnerDispatcher = null;
 
-        protected string TYPE_NAME;
-        protected string DATABASE_NAME = string.Empty;
+        protected string typeName;
+        protected string databaseName = string.Empty;
         private string DATABASES_FOLDER = "{0}\\Databases";
         protected bool _IsLoginRequired = false;
 
@@ -45,12 +46,12 @@ namespace DMOLibrary.Profiles {
             }
         }
 
-        public string GetTypeName() { return TYPE_NAME; }
+        public string GetTypeName() { return typeName; }
 
         #region Game start
         protected string UserId;
         protected SecureString Password;
-        protected int login_try, start_try = 0, last_error = -1;
+        protected int loginTryNum, start_try = 0, last_error = -1;
         protected System.Windows.Forms.WebBrowser wb = new System.Windows.Forms.WebBrowser() { ScriptErrorsSuppressed = true };
 
         public abstract void TryLogin(string UserId, SecureString Password);
@@ -62,8 +63,8 @@ namespace DMOLibrary.Profiles {
 
         protected virtual void OnCompleted(LoginCode code, string result) {
             if (LoginCompleted != null) {
-                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess()) {
-                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteHandler((sender, code_, result_) => {
+                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteHandler((sender, code_, result_) => {
                         LoginCompleted(sender, code_, result_);
                     }), this, code, result);
                 } else
@@ -73,8 +74,8 @@ namespace DMOLibrary.Profiles {
 
         protected virtual void OnChanged(LoginState state) {
             if (LoginStateChanged != null) {
-                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess()) {
-                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginStateHandler((sender_, state_, try_num_, last_error_) => {
+                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginStateHandler((sender_, state_, try_num_, last_error_) => {
                         LoginStateChanged(sender_, state_, try_num_, last_error_);
                     }), this, state, start_try + 1, last_error);
                 } else
@@ -111,14 +112,14 @@ namespace DMOLibrary.Profiles {
 
         #region Database Section
         public string GetDatabasePath() {
-            if (DATABASE_NAME != string.Empty)
-                return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), DATABASE_NAME);
-            return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), TYPE_NAME);
+            if (databaseName != string.Empty)
+                return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), databaseName);
+            return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), typeName);
         }
 
-        public server GetServerById(int sId) {
-            foreach (server s in _ServerList)
-                if (s.Id == sId)
+        public Server GetServerById(int serverId) {
+            foreach (Server s in _ServerList)
+                if (s.Id == serverId)
                     return s;
             return null;
         }
@@ -129,8 +130,8 @@ namespace DMOLibrary.Profiles {
         public DMONewsProfile NewsProfile { set { } get { return _NewsProfile; } }
 
         public DMODatabase Database;
-        protected ObservableCollection<server> _ServerList;
-        public ObservableCollection<server> ServerList {
+        protected ObservableCollection<Server> _ServerList;
+        public ObservableCollection<Server> ServerList {
             set { }
             get { return _ServerList; }
         }

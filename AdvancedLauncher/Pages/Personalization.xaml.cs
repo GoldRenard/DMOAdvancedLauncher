@@ -137,7 +137,7 @@ namespace AdvancedLauncher.Pages {
         /// <param name="e">Параметры события</param>
         private void Select_Picture_Click(object sender, RoutedEventArgs e) {
             var result = oFileDialog.ShowDialog(); //показываем диалог
-            if (result == true) //Если результат положителен {
+            if (result == true) {  //Если результат положителен
                 ResetSelect();
                 bool isSuccess = true;
                 try {
@@ -145,7 +145,7 @@ namespace AdvancedLauncher.Pages {
                     selected_image = LoadTGA(selected_image_bytes);                 //и пытаемся открыть их как гта
                 } catch { isSuccess = false; }
 
-                if (isSuccess)                                                      //Если успешно открыли, скрываем строку помощи и показываем картинку {
+                if (isSuccess) {                                                       //Если успешно открыли, скрываем строку помощи и показываем картинку
                     SelecterHelp.Visibility = Visibility.Collapsed;
                     Selected_Image.Source = selected_image;
 
@@ -164,7 +164,7 @@ namespace AdvancedLauncher.Pages {
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры события</param>
         private void SaveBtn_Click(object sender, RoutedEventArgs e) {
-            if (isGameImageLoaded)  //Сохраняем только если картинка загружена {
+            if (isGameImageLoaded) {   //Сохраняем только если картинка загружена
                 ResourceItemViewModel item = (ResourceItemViewModel)ItemsComboBox.SelectedValue;
                 if (item.RID == 0)                                           //Если ID = 0, считаем, то у нас есть путь ресурса, откуда берем имя файла
                     sFileDialog.FileName = Path.GetFileName(item.RPath);

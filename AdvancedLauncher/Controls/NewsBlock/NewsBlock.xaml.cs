@@ -432,7 +432,7 @@ namespace AdvancedLauncher.Controls {
                 Rect viewbox;
                 string mode;
                 foreach (NewsItem n in news) {
-                    mode = n.mode;
+                    mode = n.Mode;
                     if (mode == "NOTICE") {
                         viewbox = new Rect(215, 54, 90, 18);
                         mode = LanguageEnv.Strings.NewsType_Notice;
@@ -444,7 +444,7 @@ namespace AdvancedLauncher.Controls {
                         mode = LanguageEnv.Strings.NewsType_Patch;
                     } else
                         viewbox = new Rect(215, 0, 90, 18);
-                    joymax_news.Add(new JoymaxItemViewModel { Title = n.subj, Content = n.content, Date = n.date, Type = mode, Link = n.url, ImgVB = viewbox });
+                    joymax_news.Add(new JoymaxItemViewModel { Title = n.Subject, Content = n.Content, Date = n.Date, Type = mode, Link = n.Url, ImgVB = viewbox });
                 }
             }), news);
         }

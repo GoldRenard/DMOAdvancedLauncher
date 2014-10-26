@@ -30,8 +30,8 @@ using System.Runtime.InteropServices;
 namespace DMOLibrary.Profiles.Korea {
     public class DMOKoreaIMBC : DMOProfile {
         private void InitVars() {
-            TYPE_NAME = "KoreaIMBC";
-            DATABASE_NAME = "Korea";
+            typeName = "KoreaIMBC";
+            databaseName = "Korea";
             _IsLoginRequired = true;
 
             Database = new DMODatabase(GetDatabasePath(), @"
@@ -51,8 +51,8 @@ namespace DMOLibrary.Profiles.Korea {
             InitVars();
         }
 
-        public DMOKoreaIMBC(System.Windows.Threading.Dispatcher owner_dispatcher) {
-            this.owner_dispatcher = owner_dispatcher;
+        public DMOKoreaIMBC(System.Windows.Threading.Dispatcher ownerDispatcher) {
+            this.OwnerDispatcher = ownerDispatcher;
             InitVars();
         }
 
@@ -64,11 +64,11 @@ namespace DMOLibrary.Profiles.Korea {
             switch (e.Url.AbsolutePath) {
                 //loginning
                 case "/RealMedia/ads/adstream_sx.ads/www.imbc.com/Login@Middle": {
-                        if (login_try >= 1) {
+                        if (loginTryNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
                         }
-                        login_try++;
+                        loginTryNum++;
 
                         bool isFound = true;
                         try {
@@ -78,8 +78,9 @@ namespace DMOLibrary.Profiles.Korea {
 
                         if (isFound) {
                             System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("frmLogin");
-                            if (form != null)
+                            if (form != null) {
                                 form.InvokeMember("submit");
+                            }
                         } else {
                             OnCompleted(LoginCode.WRONG_PAGE, string.Empty);
                             return;
@@ -111,7 +112,7 @@ namespace DMOLibrary.Profiles.Korea {
                 return;
             }
 
-            login_try = 0;
+            loginTryNum = 0;
             if (wb != null)
                 wb.Dispose();
             wb = new System.Windows.Forms.WebBrowser() { ScriptErrorsSuppressed = true };
@@ -125,7 +126,6 @@ namespace DMOLibrary.Profiles.Korea {
         public override string GetGameStartArgs(string args) {
             return args.Replace(" 1 ", " ");
         }
-
 
         public override string GetLauncherStartArgs(string args) {
             return args;

@@ -94,7 +94,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowTamers(List<tamer> tamers) {
+        public void ShowTamers(List<Tamer> tamers) {
             OnChanged(1);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -118,7 +118,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowDigimons(tamer tamer) {
+        public void ShowDigimons(Tamer tamer) {
             OnChanged(2);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -145,7 +145,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowDigimons(List<tamer> tamers) {
+        public void ShowDigimons(List<Tamer> tamers) {
             OnChanged(2);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -188,7 +188,7 @@ namespace AdvancedLauncher.Controls {
         private void TamerHeader_Click_1(object sender, RoutedEventArgs e) {
             if (sender != null) {
                 if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type)
-                    Tamer_DC.Sort(i => i.Tamer.Type_id);
+                    Tamer_DC.Sort(i => i.Tamer.TypeId);
                 else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name)
                     Tamer_DC.Sort(i => i.TName);
                 else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Level)

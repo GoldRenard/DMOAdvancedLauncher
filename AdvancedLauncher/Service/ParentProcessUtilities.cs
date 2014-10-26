@@ -21,14 +21,12 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 
-namespace AdvancedLauncher.Service
-{
+namespace AdvancedLauncher.Service {
     /// <summary>
     /// A utility class to determine a process parent.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct ParentProcessUtilities
-    {
+    public struct ParentProcessUtilities {
         // These members must match PROCESS_BASIC_INFORMATION
         internal IntPtr Reserved1;
         internal IntPtr PebBaseAddress;
@@ -44,8 +42,7 @@ namespace AdvancedLauncher.Service
         /// Gets the parent process of the current process.
         /// </summary>
         /// <returns>An instance of the Process class.</returns>
-        public static Process GetParentProcess()
-        {
+        public static Process GetParentProcess() {
             return GetParentProcess(Process.GetCurrentProcess().Handle);
         }
 
@@ -54,8 +51,7 @@ namespace AdvancedLauncher.Service
         /// </summary>
         /// <param name="id">The process id.</param>
         /// <returns>An instance of the Process class.</returns>
-        public static Process GetParentProcess(int id)
-        {
+        public static Process GetParentProcess(int id) {
             Process process = Process.GetProcessById(id);
             return GetParentProcess(process.Handle);
         }
@@ -65,20 +61,16 @@ namespace AdvancedLauncher.Service
         /// </summary>
         /// <param name="handle">The process handle.</param>
         /// <returns>An instance of the Process class.</returns>
-        public static Process GetParentProcess(IntPtr handle)
-        {
+        public static Process GetParentProcess(IntPtr handle) {
             ParentProcessUtilities pbi = new ParentProcessUtilities();
             int returnLength;
             int status = NtQueryInformationProcess(handle, 0, ref pbi, Marshal.SizeOf(pbi), out returnLength);
             if (status != 0)
                 throw new Win32Exception(status);
 
-            try
-            {
+            try {
                 return Process.GetProcessById(pbi.InheritedFromUniqueProcessId.ToInt32());
-            }
-            catch (ArgumentException)
-            {
+            } catch (ArgumentException) {
                 // not found
                 return null;
             }

@@ -20,12 +20,9 @@ using System;
 using System.Windows.Controls;
 using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher.Validators
-{
-    class SettingsLauncherPathValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
-        {
+namespace AdvancedLauncher.Validators {
+    class SettingsLauncherPathValidationRule : ValidationRule {
+        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (AdvancedLauncher.Windows.Settings.SelectedProfile == null)
                 return new ValidationResult(false, null);
             if (AdvancedLauncher.Windows.Settings.SelectedProfile.GameEnv.CheckDefLauncher())

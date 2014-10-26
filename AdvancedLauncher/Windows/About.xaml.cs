@@ -26,14 +26,11 @@ using AdvancedLauncher.Service;
 using AdvancedLauncher.Environment;
 using System.IO;
 
-namespace AdvancedLauncher.Windows
-{
-    public partial class About : UserControl
-    {
+namespace AdvancedLauncher.Windows {
+    public partial class About : UserControl {
         Storyboard ShowWindow, HideWindow;
         string lFile = "Docs\\LICENSE.txt";
-        public About()
-        {
+        public About() {
             InitializeComponent();
             LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
             ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
@@ -41,29 +38,25 @@ namespace AdvancedLauncher.Windows
             LoadLicence();
         }
 
-        public void LoadLicence()
-        {
+        public void LoadLicence() {
             if (File.Exists(lFile))
                 Licence.Text = File.ReadAllText(lFile);
             else
                 Licence.Text = string.Format(AdvancedLauncher.Environment.LanguageEnv.Strings.About_Licence404, lFile);
         }
 
-        public void Show(bool state)
-        {
+        public void Show(bool state) {
             if (state)
                 ShowWindow.Begin();
             else
                 HideWindow.Begin();
         }
 
-        private void BtnClose_Click(object sender, RoutedEventArgs e)
-        {
+        private void BtnClose_Click(object sender, RoutedEventArgs e) {
             Show(false);
         }
 
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e) {
             Utils.OpenSite(e.Uri.AbsoluteUri);
         }
     }

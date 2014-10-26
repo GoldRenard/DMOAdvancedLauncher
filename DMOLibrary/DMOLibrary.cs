@@ -19,17 +19,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace DMOLibrary
-{
+namespace DMOLibrary {
     #region Structs
-    public class server
-    {
+    public class server {
         public int Id { set; get; }
         public string Name { set; get; }
     }
 
-    public struct guild
-    {
+    public struct guild {
         public int Key;
         public int Id;
         public int Serv_id;
@@ -43,15 +40,13 @@ namespace DMOLibrary
         public List<tamer> Members;
     }
 
-    public struct digimon_type
-    {
+    public struct digimon_type {
         public int Id;
         public string Name;
         public string Name_alt;
     }
 
-    public class digimon
-    {
+    public class digimon {
         public int Key;
         public int Type_id;
         public int Serv_id;
@@ -66,14 +61,12 @@ namespace DMOLibrary
         public int Size_rank;
     }
 
-    public struct tamer_type
-    {
+    public struct tamer_type {
         public int Id;
         public string Name;
     }
 
-    public struct tamer
-    {
+    public struct tamer {
         public int Key;
         public int Id;
         public int Type_id;
@@ -87,8 +80,7 @@ namespace DMOLibrary
         public List<digimon> Digimons;
     }
 
-    public struct NewsItem
-    {
+    public struct NewsItem {
         public string mode;
         public string subj;
         public string date;
@@ -96,22 +88,19 @@ namespace DMOLibrary
         public string url;
     }
 
-    public struct DownloadStatus
-    {
+    public struct DownloadStatus {
         public DMODownloadStatusCode code;
         public string info;
         public int progress;
         public int max_progress;
     }
 
-    public enum DMODownloadStatusCode
-    {
+    public enum DMODownloadStatusCode {
         GETTING_GUILD = 0,
         GETTING_TAMER = 1
     }
 
-    public enum DMODownloadResultCode
-    {
+    public enum DMODownloadResultCode {
         OK = 0,
         DB_CONNECT_ERROR = 1,
         WEB_ACCESS_ERROR = 2,
@@ -119,8 +108,7 @@ namespace DMOLibrary
         CANT_GET = 3
     }
 
-    public enum LoginCode
-    {
+    public enum LoginCode {
         SUCCESS = 0,
         WRONG_USER = 1,
         WRONG_PAGE = 2,
@@ -128,8 +116,7 @@ namespace DMOLibrary
         EXECUTE_ERROR = 4
     }
 
-    public enum LoginState
-    {
+    public enum LoginState {
         LOGINNING = 0,
         GETTING_DATA = 1,
         WAS_ERROR = 2

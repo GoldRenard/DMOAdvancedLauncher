@@ -24,12 +24,9 @@ using System.Xml.Serialization;
 using AdvancedLauncher.Service;
 using DMOLibrary.DMOFileSystem;
 
-namespace AdvancedLauncher.Environment
-{
-    public class GameEnv : INotifyPropertyChanged
-    {
-        public enum GameType
-        {
+namespace AdvancedLauncher.Environment {
+    public class GameEnv : INotifyPropertyChanged {
+        public enum GameType {
             ADMO = 0,
             GDMO = 1,
             KDMO_IMBC = 2,
@@ -44,15 +41,13 @@ namespace AdvancedLauncher.Environment
         public string pDefLauncherPath;
 
         [XmlIgnore]
-        public string GamePath
-        {
+        public string GamePath {
             set { pGamePath = value; Initialize(); NotifyPropertyChanged("GamePath"); }
             get { return pGamePath; }
         }
 
         [XmlIgnore]
-        public string DefLauncherPath
-        {
+        public string DefLauncherPath {
             set { pDefLauncherPath = value; Initialize(); NotifyPropertyChanged("DefLauncherPath"); }
             get { return pDefLauncherPath; }
         }
@@ -78,15 +73,13 @@ namespace AdvancedLauncher.Environment
         #region Load Section
 
         public GameEnv() { }
-        public GameEnv(GameEnv g)
-        {
+        public GameEnv(GameEnv g) {
             this.pType = g.pType;
             this.pGamePath = g.pGamePath;
             this.pDefLauncherPath = g.pDefLauncherPath;
         }
 
-        public void Initialize()
-        {
+        public void Initialize() {
             IsInitialized = true;
             LoadType(pType);
 
@@ -96,18 +89,15 @@ namespace AdvancedLauncher.Environment
                 pDefLauncherPath = GetDefLauncherPathFromRegistry();
         }
 
-        public void LoadType(GameType pType)
-        {
+        public void LoadType(GameType pType) {
             this.pType = pType;
             puPF = @"Data\Pack01.pf";
             puHF = @"Data\Pack01.hf";
             puImportDir = @"Pack01";
             pLastSessionAvailable = false;
 
-            switch (pType)
-            {
-                case GameType.ADMO:
-                    {
+            switch (pType) {
+                case GameType.ADMO: {
                         pGamePathRegKey = pDefLauncherPathRegKey = "Software\\Aeria Games\\DMO";
                         pGamePathRegVal = pDefLauncherPathRegVal = "Path";
                         pGameEXE = "GDMO.exe";
@@ -117,8 +107,7 @@ namespace AdvancedLauncher.Environment
                         puLocalVer = @"LauncherLib\vGDMO.ini";
                         break;
                     }
-                case GameType.GDMO:
-                    {
+                case GameType.GDMO: {
                         pGamePathRegKey = pDefLauncherPathRegKey = "Software\\Joymax\\DMO";
                         pGamePathRegVal = pDefLauncherPathRegVal = "Path";
                         pGameEXE = "GDMO.exe";
@@ -129,8 +118,7 @@ namespace AdvancedLauncher.Environment
                         break;
                     }
                 case GameType.KDMO_DM:
-                case GameType.KDMO_IMBC:
-                    {
+                case GameType.KDMO_IMBC: {
                         pGamePathRegKey = "Software\\Digitalic\\DigimonMasters";
                         pGamePathRegVal = "Path";
                         pDefLauncherPathRegKey = "Software\\Digitalic\\Launcher";
@@ -150,8 +138,7 @@ namespace AdvancedLauncher.Environment
 
         #region Check Section
 
-        public bool CheckGame()
-        {
+        public bool CheckGame() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pGamePath))
@@ -163,8 +150,7 @@ namespace AdvancedLauncher.Environment
             return true;
         }
 
-        public bool CheckGame(string pGamePath)
-        {
+        public bool CheckGame(string pGamePath) {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pGamePath))
@@ -176,8 +162,7 @@ namespace AdvancedLauncher.Environment
             return true;
         }
 
-        public bool CheckDefLauncher()
-        {
+        public bool CheckDefLauncher() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pDefLauncherPath))
@@ -187,8 +172,7 @@ namespace AdvancedLauncher.Environment
             return true;
         }
 
-        public bool CheckDefLauncher(string pDefLauncherPath)
-        {
+        public bool CheckDefLauncher(string pDefLauncherPath) {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pDefLauncherPath))
@@ -198,23 +182,20 @@ namespace AdvancedLauncher.Environment
             return true;
         }
 
-        public bool CheckUpdateAccess()
-        {
+        public bool CheckUpdateAccess() {
             if (Utils.IsFileLocked(GetGameEXE()) || Utils.IsFileLocked(GetPFPath()) || Utils.IsFileLocked(GetHFPath()))
                 return false;
             return true;
         }
 
         private DMOFileSystem _GameFS = null;
-        public DMOFileSystem GetFS()
-        {
+        public DMOFileSystem GetFS() {
             if (_GameFS == null)
                 _GameFS = new DMOFileSystem();
             return _GameFS;
         }
 
-        public bool OpenFS(FileAccess fAccess)
-        {
+        public bool OpenFS(FileAccess fAccess) {
             return GetFS().Open(fAccess, 16, GetHFPath(), GetPFPath());
         }
 
@@ -222,8 +203,7 @@ namespace AdvancedLauncher.Environment
 
         #region Get Section
 
-        public string GetGameEXE()
-        {
+        public string GetGameEXE() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pGamePath))
@@ -233,8 +213,7 @@ namespace AdvancedLauncher.Environment
             return Path.Combine(pGamePath, pGameEXE);
         }
 
-        public string GetDefLauncherEXE()
-        {
+        public string GetDefLauncherEXE() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(DefLauncherPath))
@@ -244,8 +223,7 @@ namespace AdvancedLauncher.Environment
             return Path.Combine(DefLauncherPath, pDefLauncherEXE);
         }
 
-        public string GetPFPath()
-        {
+        public string GetPFPath() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pGamePath))
@@ -253,16 +231,14 @@ namespace AdvancedLauncher.Environment
             return Path.Combine(pGamePath, puPF);
         }
 
-        public string GetHFPath()
-        {
+        public string GetHFPath() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pGamePath))
                 return null;
             return Path.Combine(pGamePath, puHF);
         }
-        public string GetImportPath()
-        {
+        public string GetImportPath() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pGamePath))
@@ -270,32 +246,28 @@ namespace AdvancedLauncher.Environment
             return Path.Combine(pGamePath, puImportDir);
         }
 
-        public string GetLocalVerFile()
-        {
+        public string GetLocalVerFile() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(pGamePath))
                 return null;
             return Path.Combine(pGamePath, puLocalVer);
         }
-        public string GetRemoteVerURL()
-        {
+        public string GetRemoteVerURL() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(puRemoteVer))
                 return null;
             return puRemoteVer;
         }
-        public string GetPatchURL()
-        {
+        public string GetPatchURL() {
             if (!IsInitialized)
                 Initialize();
             if (string.IsNullOrEmpty(puRemotePatch))
                 return null;
             return puRemotePatch;
         }
-        public bool IsLastSessionAvailable()
-        {
+        public bool IsLastSessionAvailable() {
             if (!IsInitialized)
                 Initialize();
             return pLastSessionAvailable;
@@ -305,11 +277,9 @@ namespace AdvancedLauncher.Environment
 
         #region Property change handler
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
@@ -317,33 +287,28 @@ namespace AdvancedLauncher.Environment
 
         #region Registry
 
-        public string GetGamePathFromRegistry()
-        {
+        public string GetGamePathFromRegistry() {
             RegistryKey reg = Registry.CurrentUser.CreateSubKey(pGamePathRegKey);
             string path = (string)reg.GetValue(pGamePathRegVal);
             reg.Close();
             return path;
         }
 
-        public string GetDefLauncherPathFromRegistry()
-        {
+        public string GetDefLauncherPathFromRegistry() {
             RegistryKey reg = Registry.CurrentUser.CreateSubKey(pDefLauncherPathRegKey);
             string path = (string)reg.GetValue(pDefLauncherPathRegVal);
             reg.Close();
             return path;
         }
 
-        public void SetRegistryPaths()
-        {
-            if (!string.IsNullOrEmpty(pGamePath))
-            {
+        public void SetRegistryPaths() {
+            if (!string.IsNullOrEmpty(pGamePath)) {
                 RegistryKey reg = Registry.CurrentUser.CreateSubKey(pGamePathRegKey);
                 reg.SetValue(pGamePathRegVal, pGamePath);
                 reg.Close();
             }
 
-            if (!string.IsNullOrEmpty(pDefLauncherPath))
-            {
+            if (!string.IsNullOrEmpty(pDefLauncherPath)) {
                 RegistryKey reg = Registry.CurrentUser.CreateSubKey(pDefLauncherPathRegKey);
                 reg.SetValue(pDefLauncherPathRegVal, pDefLauncherPath);
                 reg.Close();

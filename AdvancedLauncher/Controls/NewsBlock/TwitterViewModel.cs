@@ -22,44 +22,35 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Collections.ObjectModel;
 
-namespace AdvancedLauncher.Controls
-{
-    public class TwitterViewModel : INotifyPropertyChanged
-    {
-        public TwitterViewModel()
-        {
+namespace AdvancedLauncher.Controls {
+    public class TwitterViewModel : INotifyPropertyChanged {
+        public TwitterViewModel() {
             this.Items = new ObservableCollection<TwitterItemViewModel>();
         }
 
         public ObservableCollection<TwitterItemViewModel> Items { get; private set; }
 
-        public bool IsDataLoaded
-        {
+        public bool IsDataLoaded {
             get;
             private set;
         }
 
-        public void LoadData(List<TwitterItemViewModel> List)
-        {
+        public void LoadData(List<TwitterItemViewModel> List) {
             this.IsDataLoaded = true;
-            foreach (TwitterItemViewModel item in List)
-            {
+            foreach (TwitterItemViewModel item in List) {
                 this.Items.Add(new TwitterItemViewModel { Title = item.Title, Date = item.Date, Image = item.Image });
             }
         }
 
-        public void UnLoadData()
-        {
+        public void UnLoadData() {
             this.Items.Clear();
             this.IsDataLoaded = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

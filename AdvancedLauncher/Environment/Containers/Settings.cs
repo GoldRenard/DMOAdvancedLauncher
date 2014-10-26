@@ -23,11 +23,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
-namespace AdvancedLauncher.Environment.Containers
-{
+namespace AdvancedLauncher.Environment.Containers {
     [XmlType(TypeName = "Settings")]
-    public class Settings : INotifyPropertyChanged
-    {
+    public class Settings : INotifyPropertyChanged {
         [XmlElement("Language")]
         public string LangFile;
         [XmlElement("DefaultProfile")]
@@ -38,13 +36,11 @@ namespace AdvancedLauncher.Environment.Containers
 
         #region Constructors
 
-        public Settings()
-        {
+        public Settings() {
             this.pCollection = new ObservableCollection<Profile>();
         }
 
-        public Settings(Settings s)
-        {
+        public Settings(Settings s) {
             this.LangFile = s.LangFile;
             this.pDefault = s.pDefault;
             this.pCollection = new ObservableCollection<Profile>();
@@ -52,8 +48,7 @@ namespace AdvancedLauncher.Environment.Containers
                 pCollection.Add(new Profile(p));
         }
 
-        public void Merge(Settings sNew)
-        {
+        public void Merge(Settings sNew) {
             this.LangFile = sNew.LangFile;
             this.pDefault = sNew.pDefault;
             this.pCollection = new ObservableCollection<Profile>();
@@ -75,8 +70,7 @@ namespace AdvancedLauncher.Environment.Containers
 
         #region Collection Manipulating Section
 
-        public void AddNewProfile()
-        {
+        public void AddNewProfile() {
             Profile pNew = new Profile() { pName = "NewProfile" };
             foreach (Profile p in pCollection)
                 if (p.pId > pNew.pId)
@@ -86,10 +80,8 @@ namespace AdvancedLauncher.Environment.Containers
             OnCollectionChanged();
         }
 
-        public void DeleteProfile(Profile pDel)
-        {
-            if (pCollection.Count > 1)
-            {
+        public void DeleteProfile(Profile pDel) {
+            if (pCollection.Count > 1) {
                 bool IsCurrent = pDel.pId == pCurrent.pId;
                 bool IsDefault = pDel.pId == pDefault;
                 pCollection.Remove(pDel);
@@ -103,12 +95,9 @@ namespace AdvancedLauncher.Environment.Containers
 
         private Profile _pCurrent = null;
         [XmlIgnore]
-        public Profile pCurrent
-        {
-            get
-            {
-                if (_pCurrent == null)
-                {
+        public Profile pCurrent {
+            get {
+                if (_pCurrent == null) {
                     Profile prof = pCollection.FirstOrDefault(i => i.pId == pDefault);
                     if (prof == null)
                         _pCurrent = pCollection[0];
@@ -118,8 +107,7 @@ namespace AdvancedLauncher.Environment.Containers
                 }
                 return _pCurrent;
             }
-            set
-            {
+            set {
                 _pCurrent = value;
                 OnCurrentChanged();
             }
@@ -131,49 +119,42 @@ namespace AdvancedLauncher.Environment.Containers
 
         public delegate void ProfileLockedChangedHandler(bool IsLocked);
         public event ProfileLockedChangedHandler ProfileLocked;
-        public void OnProfileLocked(bool IsLocked)
-        {
+        public void OnProfileLocked(bool IsLocked) {
             if (ProfileLocked != null)
                 ProfileLocked(IsLocked);
         }
 
         public delegate void FileSystemLockedChangedHandler(bool IsLocked);
         public event FileSystemLockedChangedHandler FileSystemLocked;
-        public void OnFileSystemLocked(bool IsLocked)
-        {
+        public void OnFileSystemLocked(bool IsLocked) {
             if (FileSystemLocked != null)
                 FileSystemLocked(IsLocked);
         }
 
         public delegate void ClosingLockedChangedHandler(bool IsLocked);
         public event ClosingLockedChangedHandler ClosingLocked;
-        public void OnClosingLocked(bool IsLocked)
-        {
+        public void OnClosingLocked(bool IsLocked) {
             if (ClosingLocked != null)
                 ClosingLocked(IsLocked);
         }
 
         public delegate void ProfileChangedHandler();
         public event ProfileChangedHandler ProfileChanged;
-        protected void OnCurrentChanged()
-        {
+        protected void OnCurrentChanged() {
             if (ProfileChanged != null)
                 ProfileChanged();
         }
 
         public event ProfileChangedHandler CollectionChanged;
-        protected void OnCollectionChanged()
-        {
+        protected void OnCollectionChanged() {
             if (CollectionChanged != null)
                 CollectionChanged();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

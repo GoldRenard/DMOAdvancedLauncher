@@ -21,11 +21,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
-namespace DMOLibrary.Profiles.Joymax
-{
+namespace DMOLibrary.Profiles.Joymax {
 
-    public class JMWebInfo : DMOWebProfile
-    {
+    public class JMWebInfo : DMOWebProfile {
         static string STR_RANKING_NODE = "//div[@class='list bbs-ranking']";
         static string STR_GUILD_ID_REGEX = "(\\/Ranking\\/GuildRankingDetail\\.aspx\\?gid=)(\\d+)(&srvn=)";
         static string STR_TAMER_ID_REGEX = "(\\/Ranking\\/MainPop\\.aspx\\?tid=)(\\d+)(&srvn=)";
@@ -36,23 +34,18 @@ namespace DMOLibrary.Profiles.Joymax
         static string STR_URL_MERC_SIZE_RANK = "http://dmocp.joymax.com/Ranking/SizeRankingList.aspx?sw={0}&srvn={1}&dtype={2}";
         static string STR_URL_STARTER_RANK = "http://dmocp.joymax.com/Ranking/PartnerRankingList.aspx?sw={0}&srvn={1}";
 
-        public JMWebInfo(DMODatabase Database)
-        {
+        public JMWebInfo(DMODatabase Database) {
             this.Database = Database;
         }
 
-        public override guild GetGuild(string g_name, server serv, bool isDetailed, int ActualDays)
-        {
+        public override guild GetGuild(string g_name, server serv, bool isDetailed, int ActualDays) {
             if (IsBusy) DispatcherHelper.DoEvents();
             OnStarted();
-            if (Database.OpenConnection())
-            {
+            if (Database.OpenConnection()) {
                 //Check actual guild in database
                 guild g_db = Database.ReadGuild(g_name, serv, ActualDays);
-                if (g_db.Id != -1)
-                {
-                    if (!(isDetailed && !g_db.isDetailed))
-                    {
+                if (g_db.Id != -1) {
+                    if (!(isDetailed && !g_db.isDetailed)) {
                         //and return it
                         Database.CloseConnection();
                         OnCompleted(DMODownloadResultCode.OK, g_db);
@@ -68,8 +61,7 @@ namespace DMOLibrary.Profiles.Joymax
                 OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, g_name, 0, 50);
 
                 string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, g_name, "srv" + serv.Id));
-                if (html == string.Empty)
-                {
+                if (html == string.Empty) {
                     OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, g_info);
                     return g_info;
                 }
@@ -78,20 +70,15 @@ namespace DMOLibrary.Profiles.Joymax
                 HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
                 HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='guild']");
                 bool isFound = false;
-                if (tlist != null)
-                {
+                if (tlist != null) {
                     HtmlNode e = null;
-                    for (int i = 0; i <= tlist.Count - 2; i++)
-                    {
-                        try { e = ranking.SelectNodes("//td[@class='guild']")[i]; }
-                        catch { };
+                    for (int i = 0; i <= tlist.Count - 2; i++) {
+                        try { e = ranking.SelectNodes("//td[@class='guild']")[i]; } catch { };
                         if (e != null)
-                            if (ClearStr(e.InnerText) == g_name)
-                            {
+                            if (ClearStr(e.InnerText) == g_name) {
                                 Regex r = new Regex(STR_GUILD_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                                 Match m = r.Match(ranking.SelectNodes("//td[@class='detail']")[i].InnerHtml);
-                                if (m.Success)
-                                {
+                                if (m.Success) {
                                     g_info.Id = Convert.ToInt32(m.Groups[2].ToString());
                                     string master = ranking.SelectNodes("//td[@class='master']")[i].InnerText;
                                     master = master.Substring(0, master.IndexOf(' '));
@@ -104,33 +91,26 @@ namespace DMOLibrary.Profiles.Joymax
                                 }
                             }
                     }
-                    if (!isFound)
-                    {
+                    if (!isFound) {
                         OnCompleted(DMODownloadResultCode.NOT_FOUND, g_info); // guild not found
                         return g_info;
                     }
 
-                    if (GetGuildInfo(ref g_info, isDetailed))
-                    {
+                    if (GetGuildInfo(ref g_info, isDetailed)) {
                         //write new guild into database and read back with detailed data (if not)
                         g_info.Update_time = DateTime.Now;
-                        if (Database.OpenConnection())
-                        {
+                        if (Database.OpenConnection()) {
                             Database.WriteGuild(g_info, isDetailed);
                             g_db = Database.ReadGuild(g_name, serv, ActualDays);
                             Database.CloseConnection();
                         }
                         OnCompleted(DMODownloadResultCode.OK, g_db);
                         return g_db;
-                    }
-                    else
-                    {
+                    } else {
                         OnCompleted(DMODownloadResultCode.CANT_GET, g_info); // can't get guild info
                         return g_info;
                     }
-                }
-                else
-                {
+                } else {
                     OnCompleted(DMODownloadResultCode.NOT_FOUND, g_info);//wrong web page
                     return g_info;
                 }
@@ -140,8 +120,7 @@ namespace DMOLibrary.Profiles.Joymax
             return empty;
         }
 
-        protected override bool GetGuildInfo(ref guild g, bool isDetailed)
-        {
+        protected override bool GetGuildInfo(ref guild g, bool isDetailed) {
             List<tamer> tamer_list = new List<tamer>();
             HtmlDocument doc = new HtmlDocument();
 
@@ -152,8 +131,7 @@ namespace DMOLibrary.Profiles.Joymax
 
             HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
-            for (int i = 0; i <= tlist.Count - 1; i++)
-            {
+            for (int i = 0; i <= tlist.Count - 1; i++) {
                 tamer t_info = new tamer();
                 t_info.Name = ClearStr(ranking.SelectNodes("//td[@class='guild']")[i].InnerText);
                 OnStatusChanged(DMODownloadStatusCode.GETTING_TAMER, t_info.Name, i, tlist.Count - 1);
@@ -170,8 +148,7 @@ namespace DMOLibrary.Profiles.Joymax
                 Regex r = new Regex(STR_TAMER_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                 Match m = r.Match(ranking.SelectNodes("//td[@class='detail']")[i].InnerHtml);
 
-                if (m.Success)
-                {
+                if (m.Success) {
                     t_info.Id = Convert.ToInt32(m.Groups[2].ToString());
                     t_info.Digimons = GetDigimons(t_info, isDetailed);
                     if (t_info.Digimons.Count == 0)
@@ -187,8 +164,7 @@ namespace DMOLibrary.Profiles.Joymax
             return true;
         }
 
-        protected override List<digimon> GetDigimons(tamer tamer, bool isDetailed)
-        {
+        protected override List<digimon> GetDigimons(tamer tamer, bool isDetailed) {
             List<digimon> digi_list = new List<digimon>();
             HtmlDocument doc = new HtmlDocument();
 
@@ -210,17 +186,14 @@ namespace DMOLibrary.Profiles.Joymax
             HtmlNode merc_list = doc.DocumentNode.SelectNodes("//div[@id='rankingscroll']")[0];
             HtmlNodeCollection dlist = merc_list.SelectNodes("//li/em[@class='partner']");
 
-            if (dlist != null)
-            {
-                for (int i = 0; i <= dlist.Count - 1; i++)
-                {
+            if (dlist != null) {
+                for (int i = 0; i <= dlist.Count - 1; i++) {
                     digimon d_info = new digimon();
                     d_info.Tamer_id = tamer.Id;
                     d_info.Serv_id = tamer.Serv_id;
                     d_info.Name = ClearStr(merc_list.SelectNodes("//em[@class='partner']")[i].InnerText);
                     List<digimon_type> types = null;
-                    if (Database.OpenConnection())
-                    {
+                    if (Database.OpenConnection()) {
                         types = Database.Digimon_GetTypesByName(d_info.Name);
                         Database.CloseConnection();
                     }
@@ -237,8 +210,7 @@ namespace DMOLibrary.Profiles.Joymax
             return digi_list;
         }
 
-        protected override bool StarterInfo(ref digimon digimon, string tamer_name)
-        {
+        protected override bool StarterInfo(ref digimon digimon, string tamer_name) {
             HtmlDocument doc = new HtmlDocument();
 
             digimon.Size_pc = 100;
@@ -260,12 +232,9 @@ namespace DMOLibrary.Profiles.Joymax
             HtmlNodeCollection dlist = ranking.SelectNodes("//tr/td[@class='tamer2']");
 
             if (dlist != null)
-                for (int i = 0; i <= dlist.Count - 1; i++)
-                {
-                    if (ClearStr(ranking.SelectNodes("//td[@class='tamer2']")[i].InnerText) == tamer_name)
-                    {
-                        if (Database.OpenConnection())
-                        {
+                for (int i = 0; i <= dlist.Count - 1; i++) {
+                    if (ClearStr(ranking.SelectNodes("//td[@class='tamer2']")[i].InnerText) == tamer_name) {
+                        if (Database.OpenConnection()) {
                             digimon.Type_id = Database.Digimon_GetTypesByName(digimon.Name)[0].Id;
                             Database.CloseConnection();
                         }
@@ -279,18 +248,15 @@ namespace DMOLibrary.Profiles.Joymax
             return false;
         }
 
-        protected override bool DigimonInfo(ref digimon digimon, string tamer_name)
-        {
+        protected override bool DigimonInfo(ref digimon digimon, string tamer_name) {
             //we don't need starters info
             if (digimon.Type_id == 31003 || digimon.Type_id == 31002 || digimon.Type_id == 31004 || digimon.Type_id == 31001)
                 return false;
 
             HtmlDocument doc = new HtmlDocument();
             List<digimon_type> d_types = new List<digimon_type>();
-            if (Database.OpenConnection())
-            {
-                if (Database.Digimon_GetTypeById(digimon.Type_id).Id == -1)
-                {
+            if (Database.OpenConnection()) {
+                if (Database.Digimon_GetTypeById(digimon.Type_id).Id == -1) {
                     Database.CloseConnection();
                     return false;
                 }
@@ -298,8 +264,7 @@ namespace DMOLibrary.Profiles.Joymax
                 Database.CloseConnection();
             }
 
-            foreach (digimon_type d_type in d_types)
-            {
+            foreach (digimon_type d_type in d_types) {
                 string html = WebDownload.GetHTML(string.Format(STR_URL_MERC_SIZE_RANK, tamer_name, "srv" + digimon.Serv_id.ToString(), d_type.Id.ToString()));
                 if (html == string.Empty)
                     continue;
@@ -310,10 +275,8 @@ namespace DMOLibrary.Profiles.Joymax
                 string size;
 
                 if (dlist != null)
-                    for (int i = 0; i <= dlist.Count - 1; i++)
-                    {
-                        if (ClearStr(ranking.SelectNodes("//td[@class='tamer2']")[i].InnerText) == tamer_name)
-                        {
+                    for (int i = 0; i <= dlist.Count - 1; i++) {
+                        if (ClearStr(ranking.SelectNodes("//td[@class='tamer2']")[i].InnerText) == tamer_name) {
                             digimon.Type_id = d_type.Id;
                             size = ranking.SelectNodes("//td[@class='size']")[i + 3].InnerText.Replace("cm", "");
                             string size_cm = size.Substring(0, size.IndexOf(' '));
@@ -328,8 +291,7 @@ namespace DMOLibrary.Profiles.Joymax
             return false;
         }
 
-        static string ClearStr(string str)
-        {
+        static string ClearStr(string str) {
             return str.Replace(",", string.Empty).Replace(" ", string.Empty);
         }
     }

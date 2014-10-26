@@ -21,15 +21,12 @@ using System.Windows;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace AdvancedLauncher.Service
-{
+namespace AdvancedLauncher.Service {
     /// <summary> Данный класс реализует своеобразный менеджер задач, 
     /// цель которого - не дать приложению закрыться, пока есть хоть одна задача </summary>
-    public static class TaskManager
-    {
+    public static class TaskManager {
         /// <summary> Структура задачи </summary>
-        public struct Task
-        {
+        public struct Task {
             public object Owner;
         }
 
@@ -46,15 +43,13 @@ namespace AdvancedLauncher.Service
 
         /// <summary> Метод закрытия приложения. Приложение будет закрыто тогда,
         /// когда не останется ни одной задачи </summary>
-        public static void CloseApp()
-        {
+        public static void CloseApp() {
             BackgroundWorker queue_worker = new BackgroundWorker();
             queue_worker.DoWork += (s, e) => {
-                while (IsBusy) 
+                while (IsBusy)
                     System.Threading.Thread.Sleep(100);
             };
-            queue_worker.RunWorkerCompleted += (s, e) =>
-            {
+            queue_worker.RunWorkerCompleted += (s, e) => {
                 if (!Application.Current.Dispatcher.CheckAccess())
                     Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() { Application.Current.Shutdown(); }));
                 else

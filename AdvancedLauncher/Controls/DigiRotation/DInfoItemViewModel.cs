@@ -22,21 +22,15 @@ using System.Windows;
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher.Controls
-{
-    public class DInfoItemViewModel : INotifyPropertyChanged
-    {
+namespace AdvancedLauncher.Controls {
+    public class DInfoItemViewModel : INotifyPropertyChanged {
         private string _DType;
-        public string DType
-        {
-            get
-            {
+        public string DType {
+            get {
                 return _DType;
             }
-            set
-            {
-                if (value != _DType)
-                {
+            set {
+                if (value != _DType) {
                     _DType = value;
                     NotifyPropertyChanged("DType");
                 }
@@ -44,45 +38,34 @@ namespace AdvancedLauncher.Controls
         }
 
         private int _Level;
-        public int Level
-        {
-            get
-            {
+        public int Level {
+            get {
                 return _Level;
             }
-            set
-            {
-                if (value != _Level)
-                {
+            set {
+                if (value != _Level) {
                     _Level = value;
                     NotifyPropertyChanged("Level");
                 }
             }
         }
 
-        public string LevelText
-        {
-            get
-            {
+        public string LevelText {
+            get {
                 return LanguageEnv.Strings.RotationLevelText;
             }
-            set
-            {
+            set {
 
             }
         }
 
         private string _TName;
-        public string TName
-        {
-            get
-            {
+        public string TName {
+            get {
                 return _TName;
             }
-            set
-            {
-                if (value != _TName)
-                {
+            set {
+                if (value != _TName) {
                     _TName = value;
                     NotifyPropertyChanged("TName");
                 }
@@ -90,16 +73,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private int _TLevel;
-        public int TLevel
-        {
-            get
-            {
+        public int TLevel {
+            get {
                 return _TLevel;
             }
-            set
-            {
-                if (value != _TLevel)
-                {
+            set {
+                if (value != _TLevel) {
                     _TLevel = value;
                     NotifyPropertyChanged("TLevel");
                 }
@@ -107,16 +86,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private ImageSource _Image;
-        public ImageSource Image
-        {
-            get
-            {
+        public ImageSource Image {
+            get {
                 return _Image;
             }
-            set
-            {
-                if (value != _Image)
-                {
+            set {
+                if (value != _Image) {
                     _Image = value;
                     NotifyPropertyChanged("Image");
                 }
@@ -124,16 +99,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private ImageSource _Medal;
-        public ImageSource Medal
-        {
-            get
-            {
+        public ImageSource Medal {
+            get {
                 return _Medal;
             }
-            set
-            {
-                if (value != _Medal)
-                {
+            set {
+                if (value != _Medal) {
                     _Medal = value;
                     NotifyPropertyChanged("Medal");
                 }
@@ -141,11 +112,9 @@ namespace AdvancedLauncher.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

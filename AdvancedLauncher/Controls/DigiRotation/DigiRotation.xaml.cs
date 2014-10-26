@@ -31,10 +31,8 @@ using DMOLibrary.Profiles;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 
-namespace AdvancedLauncher.Controls
-{
-    public partial class DigiRotation : UserControl
-    {
+namespace AdvancedLauncher.Controls {
+    public partial class DigiRotation : UserControl {
         TaskManager.Task LoadingTask;
         const string TNameFormat = "{0}: {1} (Lv. {2})";
 
@@ -67,12 +65,10 @@ namespace AdvancedLauncher.Controls
         DMOWebProfile WebProfile = null;
         DMOProfile StaticProfile = null;
 
-        public DigiRotation()
-        {
+        public DigiRotation() {
             InitializeComponent();
             LoadingTask = new TaskManager.Task() { Owner = this };
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 StaticProfile = Environment.Containers.Profile.GetJoymaxProfile();
                 LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
                 LauncherEnv.Settings.ProfileChanged += delegate() { IsSourceLoaded = false; };
@@ -89,21 +85,17 @@ namespace AdvancedLauncher.Controls
             }
         }
 
-        void MainWorkerFunc(object sender, DoWorkEventArgs e)
-        {
+        void MainWorkerFunc(object sender, DoWorkEventArgs e) {
             //Ротация в цикле
-            while (true)
-            {
+            while (true) {
                 //Если источник не загружен
-                if (!IsSourceLoaded)
-                {
+                if (!IsSourceLoaded) {
                     //Добавляем задачу загрузки
                     TaskManager.Tasks.Add(LoadingTask);
                     //Показываем анимацию загрузки
                     IsLoadingAnim(true);
 
-                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate()
-                    {
+                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                         //Останавливаем все сторибоарды
                         sbb1First.Stop();
                         sbb1.Stop();
@@ -124,8 +116,7 @@ namespace AdvancedLauncher.Controls
                     }));
 
                     //Проверяем, доступен ли веб-профиль и необходимая информация
-                    if (LauncherEnv.Settings.pCurrent.DMOProfile.WebProfile != null && !string.IsNullOrEmpty(rGuild))
-                    {
+                    if (LauncherEnv.Settings.pCurrent.DMOProfile.WebProfile != null && !string.IsNullOrEmpty(rGuild)) {
                         rServ = LauncherEnv.Settings.pCurrent.DMOProfile.GetServerById(LauncherEnv.Settings.pCurrent.Rotation.ServerId + 1);
                         //Устанавливаем новый профиль
                         WebProfile = LauncherEnv.Settings.pCurrent.DMOProfile.WebProfile;
@@ -137,14 +128,11 @@ namespace AdvancedLauncher.Controls
                         //Убираем обработку ивентов
                         WebProfile.DownloadCompleted -= WebProfile_DownloadCompleted;
                         WebProfile.StatusChanged -= WebProfile_StatusChanged;
-                    }
-                    else
-                    {
+                    } else {
                         //Иначе запускаем статическую ротацию просто со слайдшоу дигимонов
                         WebProfile = StaticProfile.WebProfile;
                         //Блоки с инфой нам не нужны, скрываем
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate()
-                        {
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             BlockPanel1.Visibility = Visibility.Collapsed;
                             BlockPanel2.Visibility = Visibility.Collapsed;
                         }));
@@ -152,90 +140,70 @@ namespace AdvancedLauncher.Controls
                         IsStatic = true;
                     }
                     //Проверяем не произошла ли ошибка
-                    if (!IsErrorOccured)
-                    {
+                    if (!IsErrorOccured) {
                         //Закрываем анимацию, устанавливаем флаг загрузки
                         IsLoadingAnim(false);
                         IsSourceLoaded = true;
 
                         //Получаем информацию и дигимоне и показываем его в блоке
                         UpdateDigiInfo(ref Block1, Block1_VM);
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate()
-                        {
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             sbb1First.Begin();
                         }));
                         TaskManager.Tasks.Remove(LoadingTask);
                         System.Threading.Thread.Sleep(5000);
-                    }
-                    else
-                    {
+                    } else {
                         _IsLoading = false;
                         TaskManager.Tasks.Remove(LoadingTask);
                     }
                     //Убираем задачу загрузки
                 }
 
-                if (!IsErrorOccured)
-                {
-                    if (IsSourceLoaded)
-                    {
+                if (!IsErrorOccured) {
+                    if (IsSourceLoaded) {
                         UpdateDigiInfo(ref Block2, Block2_VM);
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate()
-                        {
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             sbb2.Begin();
                         }));
                         System.Threading.Thread.Sleep(5000);
                     }
-                    if (IsSourceLoaded)
-                    {
+                    if (IsSourceLoaded) {
                         UpdateDigiInfo(ref Block1, Block1_VM);
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate()
-                        {
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             sbb1.Begin();
                         }));
                         System.Threading.Thread.Sleep(5000);
                     }
-                }
-                else
+                } else
                     System.Threading.Thread.Sleep(5000);
             }
         }
 
-        void WebProfile_StatusChanged(object sender, DownloadStatus status)
-        {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() =>
-            {
+        void WebProfile_StatusChanged(object sender, DownloadStatus status) {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
                 LoadingPB.Maximum = status.max_progress;
                 LoadingPB.Value = status.progress;
             }));
         }
 
-        void WebProfile_DownloadCompleted(object sender, DMODownloadResultCode code, guild result)
-        {
-            if (code != DMODownloadResultCode.OK)
-            {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() =>
-                {
+        void WebProfile_DownloadCompleted(object sender, DMODownloadResultCode code, guild result) {
+            if (code != DMODownloadResultCode.OK) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
                     ErrorMessage1.Text = LanguageEnv.Strings.ErrorOccured + " [" + code + "]";
-                    switch (code)
-                    {
-                        case DMODownloadResultCode.CANT_GET:
-                            {
+                    switch (code) {
+                        case DMODownloadResultCode.CANT_GET: {
                                 ErrorMessage2.Text = LanguageEnv.Strings.CantGetError;
                                 break;
                             }
-                        case DMODownloadResultCode.DB_CONNECT_ERROR:
-                            {
+                        case DMODownloadResultCode.DB_CONNECT_ERROR: {
                                 ErrorMessage2.Text = LanguageEnv.Strings.DBConnectionError;
                                 break;
                             }
-                        case DMODownloadResultCode.NOT_FOUND:
-                            {
+                        case DMODownloadResultCode.NOT_FOUND: {
                                 ErrorMessage2.Text = LanguageEnv.Strings.GuildNotFoundError;
                                 break;
                             }
-                        case DMODownloadResultCode.WEB_ACCESS_ERROR:
-                            {
+                        case DMODownloadResultCode.WEB_ACCESS_ERROR: {
                                 ErrorMessage2.Text = LanguageEnv.Strings.ConnectionError;
                                 break;
                             }
@@ -248,10 +216,8 @@ namespace AdvancedLauncher.Controls
         }
 
         #region Utils
-        public void UpdateDigiInfo(ref Grid block, DInfoItemViewModel vmodel)
-        {
-            if (!IsStatic)
-            {
+        public void UpdateDigiInfo(ref Grid block, DInfoItemViewModel vmodel) {
+            if (!IsStatic) {
                 //Если не статическое, получаем рандомного дигимона из базы данных
                 BitmapImage Medal = null;
                 digimon d = null;
@@ -269,8 +235,7 @@ namespace AdvancedLauncher.Controls
                 else if (d.Lvl >= 80)
                     Medal = medal_gold;
 
-                block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) =>
-                {
+                block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
                     vmodel.DType = DType_;
                     vmodel.Level = Level_;
                     vmodel.TName = string.Format(TNameFormat, LanguageEnv.Strings.RotationTamer, TName_, TLevel_);
@@ -278,13 +243,10 @@ namespace AdvancedLauncher.Controls
                     vmodel.Image = Image_;
                     vmodel.Medal = Medal_;
                 }), d.Name, d.Lvl, d.Custom_Tamer_Name, d.Custom_Tamer_lvl, GetDigimonImage(d.Type_id), Medal);
-            }
-            else
-            {
+            } else {
                 //Если статика - получаем рандомный тип и показываем
                 digimon_type dt = WebProfile.GetRandomDigimonType();
-                block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) =>
-                {
+                block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
                     vmodel.DType = DType_;
                     vmodel.Level = Level_;
                     vmodel.TName = string.Format(TNameFormat, LanguageEnv.Strings.RotationTamer, TName_, TLevel_);
@@ -296,14 +258,12 @@ namespace AdvancedLauncher.Controls
         }
 
         //Данная структура и список используются для хранения и использования уже загруженных изображений и предотвращения их повторной загрузки
-        private struct DigiImage
-        {
+        private struct DigiImage {
             public int Id;
             public BitmapImage Image;
         }
         private List<DigiImage> ImagesCollection = new List<DigiImage>();
-        public BitmapImage GetDigimonImage(int digi_id)
-        {
+        public BitmapImage GetDigimonImage(int digi_id) {
             DigiImage Image = ImagesCollection.Find(i => i.Id == digi_id);
             if (Image.Image != null)
                 return Image.Image;
@@ -311,14 +271,11 @@ namespace AdvancedLauncher.Controls
             string ImageFile = string.Format("{0}\\DigiRotation\\{1}.png", LauncherEnv.GetResourcesPath(), digi_id);
 
             //If we don't have image, try to download it
-            if (!File.Exists(ImageFile))
-            {
-                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); }
-                catch { }
+            if (!File.Exists(ImageFile)) {
+                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); } catch { }
             }
 
-            if (File.Exists(ImageFile))
-            {
+            if (File.Exists(ImageFile)) {
                 Stream str = File.OpenRead(ImageFile);
                 if (str == null)
                     return unk_digi;
@@ -340,8 +297,7 @@ namespace AdvancedLauncher.Controls
         Storyboard sbAnimShow = new Storyboard();
         Storyboard sbAnimHide = new Storyboard();
         private bool IsAnimInitialized = false;
-        private void InitializeAnim()
-        {
+        private void InitializeAnim() {
             if (IsAnimInitialized)
                 return;
 
@@ -366,22 +322,18 @@ namespace AdvancedLauncher.Controls
             IsAnimInitialized = true;
         }
 
-        private void IsLoadingAnim(bool state)
-        {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate()
-            {
+        private void IsLoadingAnim(bool state) {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 _IsLoading = state;
                 HaguruGear1.IsEnabled = state;
                 HaguruGear2.IsEnabled = state;
                 InitializeAnim();
                 LoadingFrame.Visibility = Visibility.Visible;
-                if (_IsLoading)
-                {
+                if (_IsLoading) {
                     LoadingBlock.Visibility = Visibility.Visible;
                     ErrorBlock.Visibility = Visibility.Collapsed;
                     sbAnimShow.Begin();
-                }
-                else
+                } else
                     sbAnimHide.Begin();
             }));
         }

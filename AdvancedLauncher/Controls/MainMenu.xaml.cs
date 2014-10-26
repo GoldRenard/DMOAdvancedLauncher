@@ -25,15 +25,11 @@ using System.Windows.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
 
-namespace AdvancedLauncher.Controls
-{
-    public partial class MainMenu : UserControl, INotifyPropertyChanged
-    {
-        public MainMenu()
-        {
+namespace AdvancedLauncher.Controls {
+    public partial class MainMenu : UserControl, INotifyPropertyChanged {
+        public MainMenu() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
                 LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
                 LauncherEnv.Settings.ProfileChanged += ReloadCurrentProfile;
@@ -44,26 +40,22 @@ namespace AdvancedLauncher.Controls
 
         #region Buttons Handler
         public event RoutedEventHandler SettingsClick;
-        private void NotifySettingsClick(object sender, RoutedEventArgs e)
-        {
+        private void NotifySettingsClick(object sender, RoutedEventArgs e) {
             if (SettingsClick != null)
                 SettingsClick(sender, e);
         }
 
         public event RoutedEventHandler AboutClick;
-        private void NotifyAboutClick(object sender, RoutedEventArgs e)
-        {
+        private void NotifyAboutClick(object sender, RoutedEventArgs e) {
             if (AboutClick != null)
                 AboutClick(sender, e);
         }
 
-        private void Settings_Click(object sender, RoutedEventArgs e)
-        {
+        private void Settings_Click(object sender, RoutedEventArgs e) {
             NotifySettingsClick(sender, e);
         }
 
-        private void About_Click(object sender, RoutedEventArgs e)
-        {
+        private void About_Click(object sender, RoutedEventArgs e) {
             NotifyAboutClick(sender, e);
         }
         #endregion
@@ -74,23 +66,20 @@ namespace AdvancedLauncher.Controls
          * ProfileList.ItemsSource or ProfileList.SelectedItem by outside profiles reloading */
         private bool IsPreventChange = false;
 
-        void ReloadProfiles()
-        {
+        void ReloadProfiles() {
             IsPreventChange = true;
             ProfileList.ItemsSource = LauncherEnv.Settings.pCollection;
             ProfileList.SelectedItem = LauncherEnv.Settings.pCurrent;
             IsPreventChange = false;
         }
 
-        void ReloadCurrentProfile()
-        {
+        void ReloadCurrentProfile() {
             IsPreventChange = true;
             ProfileList.SelectedItem = LauncherEnv.Settings.pCurrent;
             IsPreventChange = false;
         }
 
-        private void ProfileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void ProfileList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!IsPreventChange)
                 LauncherEnv.Settings.pCurrent = (Profile)ProfileList.SelectedItem;
         }
@@ -100,56 +89,45 @@ namespace AdvancedLauncher.Controls
         #region Service
 
         private bool _IsOpened = false;
-        public bool IsOpened
-        {
-            set
-            {
+        public bool IsOpened {
+            set {
                 _IsOpened = value;
                 if (value == true)
                     this.Focus();
                 NotifyPropertyChanged("IsOpened");
             }
-            get
-            {
+            get {
                 return _IsOpened;
             }
         }
 
         private bool _isEnabled = true;
-        public bool isEnabled
-        {
-            set
-            {
+        public bool isEnabled {
+            set {
                 _isEnabled = value;
                 NotifyPropertyChanged("isEnabled");
                 NotifyPropertyChanged("isDisabled");
             }
-            get
-            {
+            get {
                 return _isEnabled;
             }
         }
 
-        public bool isDisabled
-        {
+        public bool isDisabled {
             set { }
-            get
-            {
+            get {
                 return !_isEnabled;
             }
         }
 
-        private void ToggleButton_LostFocus(object sender, RoutedEventArgs e)
-        {
+        private void ToggleButton_LostFocus(object sender, RoutedEventArgs e) {
             IsOpened = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

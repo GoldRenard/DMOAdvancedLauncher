@@ -20,17 +20,13 @@ using System;
 using System.Windows.Controls;
 using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher.Validators
-{
-    class NameValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
-        {
+namespace AdvancedLauncher.Validators {
+    class NameValidationRule : ValidationRule {
+        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1)
                 return new ValidationResult(false, null);
 
-            foreach (char chr in value.ToString())
-            {
+            foreach (char chr in value.ToString()) {
                 //if (!((code > 96 && code < 123) || (code > 64 && code < 91) || Char.IsDigit(chr)))
                 if (Char.IsWhiteSpace(chr) || Char.IsControl(chr))
                     return new ValidationResult(false, null);

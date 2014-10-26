@@ -23,35 +23,26 @@ using System.IO;
 using System.Text.RegularExpressions;
 using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher.Service
-{
-    public static class Utils
-    {
+namespace AdvancedLauncher.Service {
+    public static class Utils {
         /// <summary> Error MessageBox </summary>
         /// <param name="text">Content of error</param>
-        public static void MSG_ERROR(string text)
-        {
+        public static void MSG_ERROR(string text) {
             MessageBox.Show(text, LanguageEnv.Strings.Error, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         /// <summary> Opens URL with default browser </summary>
         /// <param name="url">URL to web</param>
-        public static void OpenSite(string url)
-        {
-            try { System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url)); }
-            catch (Exception ex)
-            {
+        public static void OpenSite(string url) {
+            try { System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url)); } catch (Exception ex) {
                 MSG_ERROR(LanguageEnv.Strings.CantOpenLink + ex.Message);
             }
         }
 
         /// <summary> Opens URL with default browser (without URL decode) </summary>
         /// <param name="url">URL to web</param>
-        public static void OpenSiteNoDecode(string url)
-        {
-            try { System.Diagnostics.Process.Start(url); }
-            catch (Exception ex)
-            {
+        public static void OpenSiteNoDecode(string url) {
+            try { System.Diagnostics.Process.Start(url); } catch (Exception ex) {
                 MSG_ERROR(LanguageEnv.Strings.CantOpenLink + ex.Message);
             }
         }
@@ -59,14 +50,10 @@ namespace AdvancedLauncher.Service
         /// <summary> Checks access to file </summary>
         /// <param name="file">Full path to file</param>
         /// <returns> <see langword="True"/> if file is locked </returns>
-        public static bool IsFileLocked(string file)
-        {
+        public static bool IsFileLocked(string file) {
             FileStream stream = null;
 
-            try { stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None); }
-            catch (IOException) { return true; }
-            finally
-            {
+            try { stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None); } catch (IOException) { return true; } finally {
                 if (stream != null)
                     stream.Close();
             }

@@ -21,21 +21,15 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
-namespace AdvancedLauncher.Controls
-{
-    public class TwitterItemViewModel : INotifyPropertyChanged
-    {
+namespace AdvancedLauncher.Controls {
+    public class TwitterItemViewModel : INotifyPropertyChanged {
         private string _Title;
-        public string Title
-        {
-            get
-            {
+        public string Title {
+            get {
                 return _Title;
             }
-            set
-            {
-                if (value != _Title)
-                {
+            set {
+                if (value != _Title) {
                     _Title = value;
                     NotifyPropertyChanged("Title");
                 }
@@ -43,16 +37,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private string _Date;
-        public string Date
-        {
-            get
-            {
+        public string Date {
+            get {
                 return _Date;
             }
-            set
-            {
-                if (value != _Date)
-                {
+            set {
+                if (value != _Date) {
                     _Date = value;
                     NotifyPropertyChanged("Date");
                 }
@@ -60,16 +50,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private ImageSource _Image;
-        public ImageSource Image
-        {
-            get
-            {
+        public ImageSource Image {
+            get {
                 return _Image;
             }
-            set
-            {
-                if (value != _Image)
-                {
+            set {
+                if (value != _Image) {
                     _Image = value;
                     NotifyPropertyChanged("Image");
                 }
@@ -77,11 +63,9 @@ namespace AdvancedLauncher.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

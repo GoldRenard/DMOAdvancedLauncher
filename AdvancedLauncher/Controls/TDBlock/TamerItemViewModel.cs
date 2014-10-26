@@ -22,119 +22,92 @@ using System.Windows;
 using System.Windows.Media;
 using DMOLibrary;
 
-namespace AdvancedLauncher.Controls
-{
-    public class TamerItemViewModel : INotifyPropertyChanged
-    {
+namespace AdvancedLauncher.Controls {
+    public class TamerItemViewModel : INotifyPropertyChanged {
         private string _TName;
-        public string TName
-        {
-            get
-            {
+        public string TName {
+            get {
                 return _TName;
             }
-            set
-            {
+            set {
                 _TName = value;
                 NotifyPropertyChanged("TName");
             }
         }
 
         private int _Level;
-        public int Level
-        {
-            get
-            {
+        public int Level {
+            get {
                 return _Level;
             }
-            set
-            {
+            set {
                 _Level = value;
                 NotifyPropertyChanged("Level");
             }
         }
 
         private long _Rank;
-        public long Rank
-        {
-            get
-            {
+        public long Rank {
+            get {
                 return _Rank;
             }
-            set
-            {
+            set {
                 _Rank = value;
                 NotifyPropertyChanged("Rank");
             }
         }
 
         private string _PName;
-        public string PName
-        {
-            get
-            {
+        public string PName {
+            get {
                 return _PName;
             }
-            set
-            {
+            set {
                 _PName = value;
                 NotifyPropertyChanged("PName");
             }
         }
 
         private int _DCnt;
-        public int DCnt
-        {
-            get
-            {
+        public int DCnt {
+            get {
                 return _DCnt;
             }
-            set
-            {
+            set {
                 _DCnt = value;
                 NotifyPropertyChanged("DCnt");
             }
         }
 
         private string _TType;
-        public string TType
-        {
-            get
-            {
+        public string TType {
+            get {
                 return _TType;
             }
-            set
-            {
+            set {
                 _TType = value;
                 NotifyPropertyChanged("TType");
             }
         }
 
         private tamer _Tamer;
-        public tamer Tamer
-        {
-            get
-            {
+        public tamer Tamer {
+            get {
                 return _Tamer;
             }
-            set
-            {
+            set {
                 _Tamer = value;
                 NotifyPropertyChanged("Tamer");
             }
         }
 
         private ImageSource _Image;
-        public ImageSource Image
-        {
-            get
-            {
+        public ImageSource Image {
+            get {
                 return _Image;
             }
-            set
-            {
-                if (value != _Image)
-                {
+            set {
+                if (value != _Image) {
                     _Image = value;
                     NotifyPropertyChanged("Image");
                 }
@@ -142,11 +115,9 @@ namespace AdvancedLauncher.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

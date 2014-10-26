@@ -27,12 +27,9 @@ using System.Web;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace DMOLibrary.Profiles.Korea
-{
-    public class DMOKorea : DMOProfile
-    {
-        private void InitVars()
-        {
+namespace DMOLibrary.Profiles.Korea {
+    public class DMOKorea : DMOProfile {
+        private void InitVars() {
             TYPE_NAME = "Korea";
             _IsLoginRequired = true;
 
@@ -41,8 +38,7 @@ namespace DMOLibrary.Profiles.Korea
             INSERT INTO Servers([name]) VALUES ('Leviamon');
             INSERT INTO Servers([name]) VALUES ('Lilithmon');
             INSERT INTO Servers([name]) VALUES ('Barbamon');");
-            if (Database.OpenConnection())
-            {
+            if (Database.OpenConnection()) {
                 _ServerList = Database.GetServers();
                 Database.CloseConnection();
             }
@@ -50,13 +46,11 @@ namespace DMOLibrary.Profiles.Korea
         }
 
         #region Constructors
-        public DMOKorea()
-        {
+        public DMOKorea() {
             InitVars();
         }
 
-        public DMOKorea(System.Windows.Threading.Dispatcher owner_dispatcher)
-        {
+        public DMOKorea(System.Windows.Threading.Dispatcher owner_dispatcher) {
             this.owner_dispatcher = owner_dispatcher;
             InitVars();
         }
@@ -65,51 +59,40 @@ namespace DMOLibrary.Profiles.Korea
 
         #region Getting user login commandline
 
-        public virtual void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
-        {
-            switch (e.Url.AbsolutePath)
-            {
+        public virtual void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+            switch (e.Url.AbsolutePath) {
                 //loginning
-                case "/help/Login/MemberLogin.aspx":
-                    {
-                        if (login_try >= 1)
-                        {
+                case "/help/Login/MemberLogin.aspx": {
+                        if (login_try >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
                         }
                         login_try++;
 
                         bool isFound = true;
-                        try
-                        {
+                        try {
                             wb.Document.GetElementById("security_name").SetAttribute("value", UserId);
                             wb.Document.GetElementById("security_code").SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
-                        }
-                        catch { isFound = false; }
+                        } catch { isFound = false; }
 
-                        if (isFound)
-                        {
+                        if (isFound) {
                             System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("login");
                             if (form != null)
                                 form.InvokeMember("Click");
-                        }
-                        else
-                        {
+                        } else {
                             OnCompleted(LoginCode.WRONG_PAGE, string.Empty);
                             return;
                         }
                         break;
                     }
                 //logged
-                case "/index.aspx":
-                    {
+                case "/index.aspx": {
                         OnChanged(LoginState.GETTING_DATA);
                         wb.Navigate("http://www.digimonmasters.com/inc/xml/launcher.aspx");
                         break;
                     }
                 //getting data
-                case "/inc/xml/launcher.aspx":
-                    {
+                case "/inc/xml/launcher.aspx": {
                         TryParseInfo(wb.DocumentText);
                         break;
                     }
@@ -118,12 +101,10 @@ namespace DMOLibrary.Profiles.Korea
             }
         }
 
-        public override void TryLogin(string UserId, SecureString Password)
-        {
+        public override void TryLogin(string UserId, SecureString Password) {
             this.UserId = UserId;
             this.Password = Password;
-            if (UserId.Length == 0 || Password.Length == 0)
-            {
+            if (UserId.Length == 0 || Password.Length == 0) {
                 OnCompleted(LoginCode.WRONG_USER, string.Empty);
                 return;
             }
@@ -138,14 +119,12 @@ namespace DMOLibrary.Profiles.Korea
         }
         #endregion
 
-        public override string GetGameStartArgs(string args)
-        {
+        public override string GetGameStartArgs(string args) {
             return args.Replace(" 1 ", " ");
         }
 
 
-        public override string GetLauncherStartArgs(string args)
-        {
+        public override string GetLauncherStartArgs(string args) {
             return args;
         }
     }

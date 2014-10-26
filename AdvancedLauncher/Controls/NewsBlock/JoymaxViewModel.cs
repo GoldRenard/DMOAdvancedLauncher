@@ -22,44 +22,35 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Collections.ObjectModel;
 
-namespace AdvancedLauncher.Controls
-{
-    public class JoymaxViewModel : INotifyPropertyChanged
-    {
-        public JoymaxViewModel()
-        {
+namespace AdvancedLauncher.Controls {
+    public class JoymaxViewModel : INotifyPropertyChanged {
+        public JoymaxViewModel() {
             this.Items = new ObservableCollection<JoymaxItemViewModel>();
         }
 
         public ObservableCollection<JoymaxItemViewModel> Items { get; private set; }
 
-        public bool IsDataLoaded
-        {
+        public bool IsDataLoaded {
             get;
             private set;
         }
 
-        public void LoadData(List<JoymaxItemViewModel> List)
-        {
+        public void LoadData(List<JoymaxItemViewModel> List) {
             this.IsDataLoaded = true;
-            foreach (JoymaxItemViewModel item in List)
-            {
+            foreach (JoymaxItemViewModel item in List) {
                 this.Items.Add(new JoymaxItemViewModel { Title = item.Title, Content = item.Content, Link = item.Link, Type = item.Type, Date = item.Date, ImgVB = item.ImgVB });
             }
         }
 
-        public void UnLoadData()
-        {
+        public void UnLoadData() {
             this.IsDataLoaded = false;
             this.Items.Clear();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

@@ -29,47 +29,38 @@ using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Environment;
 using DMOLibrary;
 
-namespace AdvancedLauncher.Controls
-{
-    public class TamerViewModel : INotifyPropertyChanged
-    {
-        public TamerViewModel()
-        {
+namespace AdvancedLauncher.Controls {
+    public class TamerViewModel : INotifyPropertyChanged {
+        public TamerViewModel() {
             this.Items = new ObservableCollection<TamerItemViewModel>();
         }
 
         public ObservableCollection<TamerItemViewModel> Items { get; private set; }
 
-        public bool IsDataLoaded
-        {
+        public bool IsDataLoaded {
             get;
             private set;
         }
 
-        public void LoadData(List<tamer> List)
-        {
+        public void LoadData(List<tamer> List) {
             this.IsDataLoaded = true;
-            if (Profile.GetJoymaxProfile().Database.OpenConnection())
-            {
+            if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
                 foreach (tamer item in List)
                     this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = Profile.GetJoymaxProfile().Database.Tamer_GetTypeById(item.Type_id).Name, Level = item.Lvl, PName = item.Partner_name, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.Type_id) });
                 Profile.GetJoymaxProfile().Database.CloseConnection();
-            }
-            else
+            } else
                 foreach (tamer item in List)
                     this.Items.Add(new TamerItemViewModel { TName = item.Name, TType = "Unknown", Level = item.Lvl, PName = item.Partner_name, Rank = item.Rank, DCnt = item.Digimons.Count, Tamer = item, Image = GetImage(item.Type_id) });
         }
 
-        public void UnLoadData()
-        {
+        public void UnLoadData() {
             this.IsDataLoaded = false;
             this.Items.Clear();
         }
 
         private bool _sortASC;
         private Type last_type;
-        public void Sort<TType>(Func<TamerItemViewModel, TType> keySelector)
-        {
+        public void Sort<TType>(Func<TamerItemViewModel, TType> keySelector) {
             List<TamerItemViewModel> sortedList;
             if (last_type != typeof(TType))
                 _sortASC = true;
@@ -88,23 +79,19 @@ namespace AdvancedLauncher.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        private struct DigiImage
-        {
+        private struct DigiImage {
             public int Id;
             public BitmapImage Image;
         }
         private static List<DigiImage> ImagesCollection = new List<DigiImage>();
-        public static BitmapImage GetImage(int digi_id)
-        {
+        public static BitmapImage GetImage(int digi_id) {
             DigiImage Image = ImagesCollection.Find(i => i.Id == digi_id);
             if (Image.Image != null)
                 return Image.Image;
@@ -112,14 +99,11 @@ namespace AdvancedLauncher.Controls
             string ImageFile = string.Format("{0}\\Community\\{1}.png", LauncherEnv.GetResourcesPath(), digi_id);
 
             //If we don't have image, try to download it
-            if (!File.Exists(ImageFile))
-            {
-                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); }
-                catch { }
+            if (!File.Exists(ImageFile)) {
+                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); } catch { }
             }
 
-            if (File.Exists(ImageFile))
-            {
+            if (File.Exists(ImageFile)) {
                 Stream str = File.OpenRead(ImageFile);
                 if (str == null)
                     return null;

@@ -23,10 +23,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace AdvancedLauncher.Service
-{
-    class InstanceChecker
-    {
+namespace AdvancedLauncher.Service {
+    class InstanceChecker {
         static Mutex mutex;
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -35,38 +33,30 @@ namespace AdvancedLauncher.Service
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 
-        public static bool AlreadyRunning(string mutex_name)
-        {
+        public static bool AlreadyRunning(string mutex_name) {
             long runningId = 50000;
             bool InstanceRunning = false;
 
             Process proc = Process.GetCurrentProcess();
             Process[] runningProcesses = Process.GetProcesses();
 
-            foreach (Process p in runningProcesses)
-            {
-                if (p.Id != proc.Id)
-                {
+            foreach (Process p in runningProcesses) {
+                if (p.Id != proc.Id) {
                     bool Created = false;
                     mutex = new Mutex(true, mutex_name + p.Id.ToString(), out Created);
-                    if (!Created)
-                    {
+                    if (!Created) {
                         InstanceRunning = true;
                         runningId = p.Id;
                         break;
-                    }
-                    else
+                    } else
                         mutex.ReleaseMutex();
                 }
             }
 
-            if (!InstanceRunning)
-            {
+            if (!InstanceRunning) {
                 mutex = new Mutex(true, mutex_name + proc.Id.ToString());
                 mutex.ReleaseMutex();
-            }
-            else
-            {
+            } else {
                 IntPtr hWnd = Process.GetProcessById((int)runningId).MainWindowHandle;
                 if (IsIconic(hWnd))
                     ShowWindowAsync(hWnd, 9);

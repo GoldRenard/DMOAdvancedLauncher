@@ -19,49 +19,40 @@
 using System;
 using System.Net;
 
-namespace DMOLibrary
-{
-    public class WebDownload : WebClient
-    {
+namespace DMOLibrary {
+    public class WebDownload : WebClient {
         private int _timeout;
         /// <summary>
         /// Time in milliseconds
         /// </summary>
-        public int Timeout
-        {
+        public int Timeout {
             get { return _timeout; }
             set { _timeout = value; }
         }
 
-        public WebDownload()
-        {
+        public WebDownload() {
             this._timeout = 60000;
         }
 
-        public WebDownload(int timeout)
-        {
+        public WebDownload(int timeout) {
             this._timeout = timeout;
         }
 
-        protected override WebRequest GetWebRequest(Uri address)
-        {
+        protected override WebRequest GetWebRequest(Uri address) {
             var result = base.GetWebRequest(address);
             result.Timeout = this._timeout;
             return result;
         }
 
-        public static string GetHTML(string url)
-        {
+        public static string GetHTML(string url) {
             string html = string.Empty;
-            for (int i = 1; i < 100; i++)
-            {
+            for (int i = 1; i < 100; i++) {
                 html = string.Empty;
                 WebDownload wd = new WebDownload();
                 wd.Encoding = System.Text.Encoding.UTF8;
                 wd.Proxy = (IWebProxy)null;
                 wd.Timeout = 3000;
-                try { html = wd.DownloadString(url); }
-                catch { };
+                try { html = wd.DownloadString(url); } catch { };
                 if (html != string.Empty && html != null)
                     return html;
             }

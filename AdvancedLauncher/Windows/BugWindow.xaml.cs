@@ -28,14 +28,11 @@ using System.Windows.Resources;
 using System.Diagnostics;
 using System.Management;
 
-namespace AdvancedLauncher.Windows
-{
-    public partial class BugWindow : Window
-    {
+namespace AdvancedLauncher.Windows {
+    public partial class BugWindow : Window {
         Exception _Exception;
 
-        public BugWindow(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-        {
+        public BugWindow(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
             InitializeComponent();
             LoadIcon();
             _Exception = e.Exception;
@@ -43,18 +40,13 @@ namespace AdvancedLauncher.Windows
             StackTrace.Text = _Exception.ToString();
         }
 
-        private void LoadIcon()
-        {
+        private void LoadIcon() {
             StreamResourceInfo sri = Application.GetResourceStream(new Uri("pack://application:,,,/app_icon.ico"));
-            if (sri != null)
-            {
+            if (sri != null) {
 
-                using (Stream iconStream = sri.Stream)
-                {
-                    using (System.Drawing.Icon icon = new System.Drawing.Icon(iconStream, 64, 64))
-                    {
-                        using (System.Drawing.Bitmap bitmap = icon.ToBitmap())
-                        {
+                using (Stream iconStream = sri.Stream) {
+                    using (System.Drawing.Icon icon = new System.Drawing.Icon(iconStream, 64, 64)) {
+                        using (System.Drawing.Bitmap bitmap = icon.ToBitmap()) {
                             MemoryStream memoryStream = new MemoryStream();
                             bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
                             memoryStream.Seek(0, SeekOrigin.Begin);
@@ -66,20 +58,16 @@ namespace AdvancedLauncher.Windows
             }
         }
 
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
+        private void ButtonClose_Click(object sender, RoutedEventArgs e) {
             this.Close();
         }
 
-        private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
-        {
-            try { Process.Start("mailto:goldrenard@gmail.com?subject=DMO%20Advanced%20Launcher%20has%20crashed&body=" + GenerateReport(_Exception)); }
-            catch { }
+        private void ButtonSubmit_Click(object sender, RoutedEventArgs e) {
+            try { Process.Start("mailto:goldrenard@gmail.com?subject=DMO%20Advanced%20Launcher%20has%20crashed&body=" + GenerateReport(_Exception)); } catch { }
             this.Close();
         }
 
-        private string GenerateReport(Exception ex)
-        {
+        private string GenerateReport(Exception ex) {
             StringBuilder strB = new StringBuilder();
             strB.Append("Hello! I've just got crash of AdvancedLauncher and provide next info about this crash:%0D%0A");
             strB.Append("=====================================================================%0D%0A");
@@ -91,8 +79,7 @@ namespace AdvancedLauncher.Windows
             return strB.ToString();
         }
 
-        private string OSVersion()
-        {
+        private string OSVersion() {
             var name = (from x in new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem").Get().OfType<ManagementObject>()
                         select x.GetPropertyValue("Caption")).First();
             if (name != null)

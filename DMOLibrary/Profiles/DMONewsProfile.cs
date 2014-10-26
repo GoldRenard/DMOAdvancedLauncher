@@ -21,10 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DMOLibrary.Profiles
-{
-    public abstract class DMONewsProfile
-    {
+namespace DMOLibrary.Profiles {
+    public abstract class DMONewsProfile {
         public abstract List<NewsItem> GetNews();
     }
 }

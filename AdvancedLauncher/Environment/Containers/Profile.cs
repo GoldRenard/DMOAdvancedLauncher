@@ -25,43 +25,37 @@ using System.Xml.Serialization;
 using DMOLibrary.Profiles;
 
 
-namespace AdvancedLauncher.Environment.Containers
-{
+namespace AdvancedLauncher.Environment.Containers {
     [XmlType(TypeName = "Profile")]
-    public class Profile : INotifyPropertyChanged
-    {
+    public class Profile : INotifyPropertyChanged {
         private int _pId = 0;
         [XmlAttribute("Id")]
-        public int pId
-        {
+        public int pId {
             set { _pId = value; NotifyPropertyChanged("Id"); }
             get { return _pId; }
         }
 
         private string _pName = "Default";
         [XmlAttribute("Name")]
-        public string pName
-        {
+        public string pName {
             set { _pName = value; NotifyPropertyChanged("pName"); }
             get { return _pName; }
         }
 
         private bool pAppLocale = true;
         [XmlAttribute]
-        public bool AppLocale
-        {
+        public bool AppLocale {
             set { pAppLocale = value; NotifyPropertyChanged("AppLocale"); }
             get {
                 if (!Service.ApplicationLauncher.IsALSupported)
                     return false;
-                return pAppLocale; 
+                return pAppLocale;
             }
         }
 
         private bool pUpdateEngine = false;
         [XmlAttribute]
-        public bool UpdateEngine
-        {
+        public bool UpdateEngine {
             set { pUpdateEngine = value; NotifyPropertyChanged("UpdateEngine"); }
             get { return pUpdateEngine; }
         }
@@ -69,12 +63,10 @@ namespace AdvancedLauncher.Environment.Containers
         #region Subcontainers
 
         private LoginData pLogin = new LoginData();
-        public LoginData Login
-        {
+        public LoginData Login {
             set { pLogin = value; NotifyPropertyChanged("Login"); }
             get {
-                if (!DMOProfile.IsLoginRequired)
-                {
+                if (!DMOProfile.IsLoginRequired) {
                     pLogin.Password = string.Empty;
                     pLogin.pLastSessionArgs = string.Empty;
                     pLogin.User = string.Empty;
@@ -84,12 +76,10 @@ namespace AdvancedLauncher.Environment.Containers
         }
 
         private RotationData pRotation = new RotationData() { URate = 2 };
-        public RotationData Rotation
-        {
+        public RotationData Rotation {
             set { pRotation = value; NotifyPropertyChanged("Rotation"); }
             get {
-                if (!DMOProfile.IsWebAvailable)
-                {
+                if (!DMOProfile.IsWebAvailable) {
                     pRotation.Guild = string.Empty;
                     pRotation.ServerId = 0;
                     pRotation.Tamer = string.Empty;
@@ -100,8 +90,7 @@ namespace AdvancedLauncher.Environment.Containers
         }
 
         private NewsData pNews = new NewsData() { FirstTab = 0, TwitterUrl = "http://renamon.ru/launcher/dmor_timeline.php" };
-        public NewsData News
-        {
+        public NewsData News {
             set { pNews = value; NotifyPropertyChanged("News"); }
             get {
                 if (!DMOProfile.IsNewsAvailable)
@@ -114,8 +103,7 @@ namespace AdvancedLauncher.Environment.Containers
 
         #region Image
         private string pImagePath;
-        public string ImagePath
-        {
+        public string ImagePath {
             set { pImagePath = value; NotifyPropertyChanged("ImagePath"); NotifyPropertyChanged("Image"); }
             get { return pImagePath; }
         }
@@ -123,24 +111,17 @@ namespace AdvancedLauncher.Environment.Containers
         private string pImagePathLoaded;
         private ImageSource pImage = new BitmapImage(new Uri("pack://application:,,,/Resources/Icons/NoAvatar.png"));
         [XmlIgnore]
-        public ImageSource Image
-        {
-            set
-            {
-                if (pImage != value)
-                {
+        public ImageSource Image {
+            set {
+                if (pImage != value) {
                     pImage = value;
                     NotifyPropertyChanged("Image");
                 }
             }
-            get
-            {
-                if (pImagePath != null)
-                {
-                    if (pImagePath != pImagePathLoaded)
-                    {
-                        if (File.Exists(pImagePath))
-                        {
+            get {
+                if (pImagePath != null) {
+                    if (pImagePath != pImagePathLoaded) {
+                        if (File.Exists(pImagePath)) {
                             pImage = new BitmapImage(new Uri(pImagePath));
                             pImagePathLoaded = pImagePath;
                         }
@@ -153,24 +134,20 @@ namespace AdvancedLauncher.Environment.Containers
 
         #region Game Environment
         private GameEnv pGameEnv = new GameEnv();
-        public GameEnv GameEnv
-        {
+        public GameEnv GameEnv {
             set { pGameEnv = value; NotifyPropertyChanged("GameEnv"); }
             get {
                 if (!pGameEnv.IsInitialized)
                     pGameEnv.Initialize();
-                return pGameEnv; 
+                return pGameEnv;
             }
         }
 
         [XmlIgnore]
-        public string GameType
-        {
+        public string GameType {
             set { }
-            get
-            {
-                switch (GameEnv.pType)
-                {
+            get {
+                switch (GameEnv.pType) {
                     case Environment.GameEnv.GameType.ADMO: { return "Aeria Games"; }
                     case Environment.GameEnv.GameType.GDMO: { return "Joymax"; }
                     case Environment.GameEnv.GameType.KDMO_DM: { return "Korea DM"; }
@@ -181,10 +158,8 @@ namespace AdvancedLauncher.Environment.Containers
         }
 
         [XmlIgnore]
-        public byte GameTypeNum
-        {
-            set
-            {
+        public byte GameTypeNum {
+            set {
                 GameEnv.pType = (GameEnv.GameType)value;
                 GameEnv.LoadType(GameEnv.pType);
                 NotifyPropertyChanged("GameEnv");       //We've changed env, so we must update all bindings
@@ -204,33 +179,26 @@ namespace AdvancedLauncher.Environment.Containers
         private static DMOProfile _DMOKorea = null;
         private static DMOProfile _DMOKoreaIMBC = null;
         [XmlIgnore]
-        public DMOProfile DMOProfile
-        {
+        public DMOProfile DMOProfile {
             set { }
-            get
-            {
-                switch (GameEnv.pType)
-                {
-                    case Environment.GameEnv.GameType.ADMO:
-                        {
+            get {
+                switch (GameEnv.pType) {
+                    case Environment.GameEnv.GameType.ADMO: {
                             if (_DMOAeria == null)
                                 _DMOAeria = new DMOLibrary.Profiles.Aeria.DMOAeria();
                             return _DMOAeria;
                         }
-                    case Environment.GameEnv.GameType.GDMO:
-                        {
+                    case Environment.GameEnv.GameType.GDMO: {
                             if (_DMOJoymax == null)
                                 _DMOJoymax = new DMOLibrary.Profiles.Joymax.DMOJoymax();
                             return _DMOJoymax;
                         }
-                    case Environment.GameEnv.GameType.KDMO_DM:
-                        {
+                    case Environment.GameEnv.GameType.KDMO_DM: {
                             if (_DMOKorea == null)
                                 _DMOKorea = new DMOLibrary.Profiles.Korea.DMOKorea();
                             return _DMOKorea;
                         }
-                    case Environment.GameEnv.GameType.KDMO_IMBC:
-                        {
+                    case Environment.GameEnv.GameType.KDMO_IMBC: {
                             if (_DMOKoreaIMBC == null)
                                 _DMOKoreaIMBC = new DMOLibrary.Profiles.Korea.DMOKoreaIMBC();
                             return _DMOKoreaIMBC;
@@ -241,8 +209,7 @@ namespace AdvancedLauncher.Environment.Containers
             }
         }
 
-        public static DMOProfile GetJoymaxProfile()
-        {
+        public static DMOProfile GetJoymaxProfile() {
             if (_DMOJoymax == null)
                 _DMOJoymax = new DMOLibrary.Profiles.Joymax.DMOJoymax();
             return _DMOJoymax;
@@ -253,8 +220,7 @@ namespace AdvancedLauncher.Environment.Containers
 
         public Profile() { }
 
-        public Profile(Profile p)
-        {
+        public Profile(Profile p) {
             this.pId = p.pId;
             this.pName = p.pName;
             this.ImagePath = p.ImagePath;
@@ -270,11 +236,9 @@ namespace AdvancedLauncher.Environment.Containers
 
         #region Property Change Handler
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

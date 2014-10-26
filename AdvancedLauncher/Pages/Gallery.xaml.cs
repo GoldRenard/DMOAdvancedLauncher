@@ -33,10 +33,8 @@ using System.Diagnostics;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 
-namespace AdvancedLauncher.Pages
-{
-    public partial class Gallery : UserControl
-    {
+namespace AdvancedLauncher.Pages {
+    public partial class Gallery : UserControl {
         bool IsGalleryInitialized = false;
         Storyboard ShowWindow;
         private delegate void DoAddThumb(BitmapImage bitmap, string path);
@@ -52,11 +50,9 @@ namespace AdvancedLauncher.Pages
         static string thumb_path;
         JpegEncoder ImageEncoder = new JpegEncoder();
 
-        public Gallery()
-        {
+        public Gallery() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 Templates.DataContext = GalleryVM;
                 ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
                 LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
@@ -64,35 +60,25 @@ namespace AdvancedLauncher.Pages
             }
         }
 
-        void ProfileChanged()
-        {
+        void ProfileChanged() {
             GalleryVM.UnLoadData();
             IsGalleryInitialized = false;
         }
 
-        public void Activate()
-        {
+        public void Activate() {
             game_path = LauncherEnv.Settings.pCurrent.GameEnv.GamePath;
-            try
-            {
+            try {
                 ShowWindow.Begin();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
-            if (Directory.Exists(game_path + screenshot_path))
-            {
-                if (Directory.GetFiles(game_path + screenshot_path, "*.jpg").Length == 0)
-                {
+            if (Directory.Exists(game_path + screenshot_path)) {
+                if (Directory.GetFiles(game_path + screenshot_path, "*.jpg").Length == 0) {
                     Info.SetBinding(TextBlock.TextProperty, GalleryNoScreenshots);
                     return;
-                }
-                else
+                } else
                     Info.SetBinding(TextBlock.TextProperty, GalleryHint);
-            }
-            else
-            {
+            } else {
                 Info.SetBinding(TextBlock.TextProperty, GalleryNoScreenshots);
                 return;
             }
@@ -101,23 +87,18 @@ namespace AdvancedLauncher.Pages
                 UpdateThumbs();
         }
 
-        private void UpdateThumbs()
-        {
+        private void UpdateThumbs() {
             BackgroundWorker bw = new BackgroundWorker();
             GalleryVM.UnLoadData();
             IsLoading(true);
 
-            bw.DoWork += (s, e) =>
-            {
+            bw.DoWork += (s, e) => {
                 string[] file_list = Directory.GetFiles(game_path + screenshot_path, "*.jpg");
-                if (!Directory.Exists(game_path + thumbnails_path))
-                {
-                    try { Directory.CreateDirectory(game_path + thumbnails_path); }
-                    catch { return; }
+                if (!Directory.Exists(game_path + thumbnails_path)) {
+                    try { Directory.CreateDirectory(game_path + thumbnails_path); } catch { return; }
                 }
 
-                for (int i = 0; i < file_list.Length; i++)
-                {
+                for (int i = 0; i < file_list.Length; i++) {
                     BitmapImage bitmap;
                     thumb_path = game_path + thumbnails_path + "\\" + Path.GetFileName(file_list[i]);
                     if (!File.Exists(thumb_path))
@@ -131,32 +112,27 @@ namespace AdvancedLauncher.Pages
                     this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddThumb((bitmap_, path_) => { GalleryVM.Add(new GalleryItemViewModel() { Thumb = bitmap_, full_path = path_ }); }), bitmap, file_list[i]);
                 }
             };
-            bw.RunWorkerCompleted += (s, e) =>
-            {
+            bw.RunWorkerCompleted += (s, e) => {
                 IsGalleryInitialized = true;
                 IsLoading(false);
             };
             bw.RunWorkerAsync();
         }
 
-        void lbi_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
+        void lbi_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             string file = ((GalleryItemViewModel)Templates.SelectedItem).full_path;
-            if (!File.Exists(file))
-            {
+            if (!File.Exists(file)) {
                 GalleryVM.RemoveAt(Templates.SelectedIndex);
                 return;
             }
-            try { Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + file); }
-            catch (Exception ex) { Utils.MSG_ERROR(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message); }
+            try { Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + file); } catch (Exception ex) { Utils.MSG_ERROR(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message); }
         }
 
         Storyboard sbAnimShow = new Storyboard();
         Storyboard sbAnimHide = new Storyboard();
         private bool IsAnimInitialized = false;
 
-        private void InitializeAnim()
-        {
+        private void InitializeAnim() {
             if (IsAnimInitialized)
                 return;
 
@@ -179,24 +155,19 @@ namespace AdvancedLauncher.Pages
             sbAnimHide.Completed += (s, e) => { LoaderIcon.Visibility = Visibility.Collapsed; LoaderIcon.IsEnabled = false; };
         }
 
-        private void IsLoading(bool _IsLoading)
-        {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate()
-            {
+        private void IsLoading(bool _IsLoading) {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 InitializeAnim();
-                if (_IsLoading)
-                {
+                if (_IsLoading) {
                     LoaderIcon.IsEnabled = true;
                     LoaderIcon.Visibility = Visibility.Visible;
                     sbAnimShow.Begin();
-                }
-                else
+                } else
                     sbAnimHide.Begin();
             }));
         }
 
-        public BitmapImage ReadBitmapFromFile(string path)
-        {
+        public BitmapImage ReadBitmapFromFile(string path) {
             byte[] img_bytes = File.ReadAllBytes(path);
 
             MemoryStream ms = new MemoryStream(img_bytes, 0, img_bytes.Length);
@@ -213,19 +184,14 @@ namespace AdvancedLauncher.Pages
 
     }
 
-    public class GalleryItemViewModel : INotifyPropertyChanged
-    {
+    public class GalleryItemViewModel : INotifyPropertyChanged {
         private ImageSource _Thumb;
-        public ImageSource Thumb
-        {
-            get
-            {
+        public ImageSource Thumb {
+            get {
                 return _Thumb;
             }
-            set
-            {
-                if (value != _Thumb)
-                {
+            set {
+                if (value != _Thumb) {
                     _Thumb = value;
                     NotifyPropertyChanged("Thumb");
                 }
@@ -233,16 +199,12 @@ namespace AdvancedLauncher.Pages
         }
 
         private string _full_path;
-        public string full_path
-        {
-            get
-            {
+        public string full_path {
+            get {
                 return _full_path;
             }
-            set
-            {
-                if (value != _full_path)
-                {
+            set {
+                if (value != _full_path) {
                     _full_path = value;
                     NotifyPropertyChanged("full_path");
                 }
@@ -250,67 +212,55 @@ namespace AdvancedLauncher.Pages
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
 
-    public class GalleryViewModel : INotifyPropertyChanged
-    {
-        public GalleryViewModel()
-        {
+    public class GalleryViewModel : INotifyPropertyChanged {
+        public GalleryViewModel() {
             this.Items = new ObservableCollection<GalleryItemViewModel>();
         }
 
         public ObservableCollection<GalleryItemViewModel> Items { get; private set; }
 
-        public bool IsDataLoaded
-        {
+        public bool IsDataLoaded {
             get;
             private set;
         }
 
-        public void Add(GalleryItemViewModel item)
-        {
+        public void Add(GalleryItemViewModel item) {
             this.IsDataLoaded = true;
             this.Items.Add(item);
         }
 
-        public void LoadData(List<GalleryItemViewModel> List)
-        {
+        public void LoadData(List<GalleryItemViewModel> List) {
             this.IsDataLoaded = true;
             foreach (GalleryItemViewModel item in List)
                 this.Items.Add(item);
         }
 
-        public void RemoveAt(int index)
-        {
+        public void RemoveAt(int index) {
             if (this.IsDataLoaded && index < this.Items.Count)
                 this.Items.RemoveAt(index);
         }
 
-        public void UnLoadData()
-        {
+        public void UnLoadData() {
             this.IsDataLoaded = false;
             this.Items.Clear();
         }
 
-        public int Count()
-        {
+        public int Count() {
             return this.Items.Count;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

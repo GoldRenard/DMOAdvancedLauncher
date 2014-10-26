@@ -25,10 +25,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 
-namespace DMOLibrary
-{
-    public class DMODatabase
-    {
+namespace DMOLibrary {
+    public class DMODatabase {
         static string DB_FILE;
         SQLiteConnection connection;
         SQLiteTransaction transaction;
@@ -51,7 +49,7 @@ namespace DMOLibrary
         static string Q_G_INSERT = "INSERT INTO Guilds ([id], [serv_id], [name], [rep], [master_id], [master_name], [rank], [update_date], [isDetailed]) VALUES ({0}, {1}, '{2}', {3}, {4}, '{5}', {6}, '{7}', {8});";
         static string Q_G_UPDATE = "UPDATE Guilds SET [name] = '{2}', [rep] = {3}, [master_id] = {4}, [master_name] = '{5}', [rank] = {6}, [update_date] = '{7}' WHERE [id] = {0} AND [serv_id] = {1};";
         static string Q_G_UPDATE_WD = "UPDATE Guilds SET [name] = '{2}', [rep] = {3}, [master_id] = {4}, [master_name] = '{5}', [rank] = {6}, [update_date] = '{7}', [isDetailed] = {8} WHERE [id] = {0} AND [serv_id] = {1};";
-        
+
         static string Q_T_SET_INACTIVE = "UPDATE Tamers SET [isActive] = 0 WHERE [serv_id] = {0} AND [guild_id] = {1};";
         static string Q_T_COUNT = "SELECT count([key]) FROM Tamers WHERE [id] = {0} AND [serv_id] = {1};";
         static string Q_T_SELECT = "SELECT tamer.*, Digimons.name as 'partner_name' FROM (SELECT * FROM Tamers WHERE [serv_id] = {0} AND [guild_id] = {1} AND [isActive] = 1) as tamer JOIN Digimons ON tamer.partner_key = Digimons.key;";
@@ -101,46 +99,36 @@ SELECT * FROM (
         #endregion
 
         #region Connection creating, opening, closing
-        public DMODatabase(string DB_FILE_, string cInitQuery)
-        {
+        public DMODatabase(string DB_FILE_, string cInitQuery) {
             DB_FILE = DB_FILE_;
-            if (!File.Exists(DB_FILE))
-            {
+            if (!File.Exists(DB_FILE)) {
                 if (!RecreateDB(cInitQuery))
                     System.Windows.Application.Current.Shutdown();
                 else
                     return;
-            }
-            else
+            } else
                 connection = new SQLiteConnection("Data Source = " + DB_FILE);
         }
 
-        public bool OpenConnection()
-        {
+        public bool OpenConnection() {
             while (isConnected) DispatcherHelper.DoEvents();
-            try
-            {
+            try {
                 connection.Open();
                 transaction = connection.BeginTransaction();
                 isConnected = true;
                 return true;
-            }
-            catch (SQLiteException ex)
-            {
+            } catch (SQLiteException ex) {
                 MSG_ERROR(SQL_CANT_CONNECT + ex.Message);
                 return false;
             }
         }
-        public bool CloseConnection()
-        {
-            try
-            {
+        public bool CloseConnection() {
+            try {
                 transaction.Commit();
                 connection.Close();
                 isConnected = false;
                 return true;
-            }
-            catch { return false; }
+            } catch { return false; }
         }
         #endregion
 
@@ -288,23 +276,18 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80006, 'Tachikawa Mimi');
 INSERT INTO Tamer_types([id], [name]) VALUES (80007, 'Ishida Yamato');
 INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
 ";
-        private bool RecreateDB(string cInitQuery)
-        {
-            if (File.Exists(DB_FILE))
-            {
-                try { File.Delete(DB_FILE); }
-                catch (Exception ex) { MSG_ERROR(SQL_CANT_DELETE_DB + ex.Message); return false; }
+        private bool RecreateDB(string cInitQuery) {
+            if (File.Exists(DB_FILE)) {
+                try { File.Delete(DB_FILE); } catch (Exception ex) { MSG_ERROR(SQL_CANT_DELETE_DB + ex.Message); return false; }
             }
             SQLiteConnection.CreateFile(DB_FILE);
             connection = new SQLiteConnection("Data Source = " + DB_FILE);
             OpenConnection();
-            if (!Query(CREATE_DATABASE_QUERY))
-            {
+            if (!Query(CREATE_DATABASE_QUERY)) {
                 CloseConnection();
                 return false;
             }
-            if (!Query(cInitQuery))
-            {
+            if (!Query(cInitQuery)) {
                 CloseConnection();
                 return false;
             }
@@ -315,67 +298,53 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
         #endregion
 
         #region Simple queries and utils
-        private bool Query(string query)
-        {
-            try
-            {
+        private bool Query(string query) {
+            try {
                 SQLiteTransaction transaction = connection.BeginTransaction();
                 SQLiteCommand sqlComm = new SQLiteCommand(query, connection);
                 sqlComm.ExecuteNonQuery();
                 transaction.Commit();
                 sqlComm.Dispose();
-            }
-            catch (SQLiteException ex)
-            {
+            } catch (SQLiteException ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return false;
             }
             return true;
         }
 
-        private int QueryIntRes(string query)
-        {
+        private int QueryIntRes(string query) {
             int result = 0;
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 result = Convert.ToInt32(cmd.ExecuteScalar());
-            }
-            catch (SQLiteException ex)
-            {
+            } catch (SQLiteException ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return 0;
             }
             return result;
         }
 
-        private string DateTime2String(DateTime datetime)
-        {
+        private string DateTime2String(DateTime datetime) {
             return datetime.ToString("yyyy-MM-dd HH:mm:ss.FFFFFFF");
         }
-        private DateTime String2DateTime(string datetime)
-        {
+        private DateTime String2DateTime(string datetime) {
             return DateTime.ParseExact(datetime, "yyyy-MM-dd HH:mm:ss.FFFFFFF", System.Globalization.CultureInfo.CurrentCulture);
         }
 
-        public static void MSG_ERROR(string text)
-        {
+        public static void MSG_ERROR(string text) {
             System.Windows.MessageBox.Show(text, "SQLite error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
         }
         #endregion
 
         #region Read section
-        public List<digimon_type> Digimon_GetTypes()
-        {
+        public List<digimon_type> Digimon_GetTypes() {
             List<digimon_type> types = new List<digimon_type>();
 
             string query = Q_DTYPE_ALL;
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     digimon_type type = new digimon_type();
                     if (dataReader["name_alt"] != DBNull.Value)
                         type.Name_alt = (string)dataReader["name_alt"];
@@ -384,9 +353,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     types.Add(type);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return null;
             }
@@ -396,17 +363,14 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return null;
         }
 
-        public List<digimon_type> Digimon_GetTypesByName(string name)
-        {
+        public List<digimon_type> Digimon_GetTypesByName(string name) {
             List<digimon_type> types = new List<digimon_type>();
 
             string query = string.Format(Q_DTYPE_BY_NAME, name);
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     digimon_type type = new digimon_type();
                     if (dataReader["name_alt"] != DBNull.Value)
                         type.Name_alt = (string)dataReader["name_alt"];
@@ -415,9 +379,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     types.Add(type);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return null;
             }
@@ -427,17 +389,14 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return null;
         }
 
-        public List<digimon_type> Digimon_GetTypesByKoreanName(string name)
-        {
+        public List<digimon_type> Digimon_GetTypesByKoreanName(string name) {
             List<digimon_type> types = new List<digimon_type>();
 
             string query = string.Format(Q_DTYPE_BY_KNAME, name);
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     digimon_type type = new digimon_type();
                     if (dataReader["name_alt"] != DBNull.Value)
                         type.Name_alt = (string)dataReader["name_alt"];
@@ -446,9 +405,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     types.Add(type);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return null;
             }
@@ -458,18 +415,15 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return null;
         }
 
-        public digimon_type Digimon_GetTypeById(int id)
-        {
+        public digimon_type Digimon_GetTypeById(int id) {
             digimon_type type = new digimon_type();
             type.Id = -1;
 
             string query = string.Format(Q_DTYPE_BY_ID, id.ToString());
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     if (dataReader["name_alt"] != DBNull.Value)
                         type.Name_alt = (string)dataReader["name_alt"];
                     else
@@ -478,9 +432,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     type.Id = Convert.ToInt32(dataReader["id"]);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return type;
             }
@@ -488,25 +440,20 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return type;
         }
 
-        public tamer_type Tamer_GetTypeById(int id)
-        {
+        public tamer_type Tamer_GetTypeById(int id) {
             tamer_type type = new tamer_type();
             type.Id = -1;
 
             string query = string.Format(Q_TTYPE_BY_ID, id.ToString());
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     type.Name = (string)dataReader["name"];
                     type.Id = Convert.ToInt32(dataReader["id"]);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return type;
             }
@@ -514,43 +461,35 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return type;
         }
 
-        public ObservableCollection<server> GetServers()
-        {
+        public ObservableCollection<server> GetServers() {
             ObservableCollection<server> servers = new ObservableCollection<server>();
             string query = Q_S_BY_NAME;
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     server serv = new server();
                     serv.Name = (string)dataReader["name"];
                     serv.Id = Convert.ToInt32(dataReader["id"]);
                     servers.Add(serv);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return null;
             }
             return servers;
         }
 
-        public guild ReadOnlyGuild(string g_name, server serv, int ActualDays)
-        {
+        public guild ReadOnlyGuild(string g_name, server serv, int ActualDays) {
             guild g = new guild();
             g.Id = -1;
 
             string query = string.Format(Q_G_SELECT_BY_NAME, g_name, serv.Id);
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     g.Id = Convert.ToInt32(dataReader["id"]);
                     g.Serv_id = Convert.ToInt32(dataReader["serv_id"]);
                     g.Name = (string)dataReader["name"];
@@ -562,9 +501,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     g.Update_time = String2DateTime((string)dataReader["update_date"]);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 g.Id = -1;
                 return g;
@@ -573,16 +510,13 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return g;
         }
 
-        public List<tamer> ReadTamers(guild g)
-        {
+        public List<tamer> ReadTamers(guild g) {
             List<tamer> tamers = new List<tamer>();
             string query = string.Format(Q_T_SELECT, g.Serv_id, g.Id);
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     tamer t = new tamer();
                     t.Id = Convert.ToInt32(dataReader["id"]);
                     t.Serv_id = Convert.ToInt32(dataReader["serv_id"]);
@@ -597,9 +531,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     tamers.Add(t);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 tamers.Clear();
                 return tamers;
@@ -607,16 +539,13 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return tamers;
         }
 
-        public List<digimon> ReadDigimons(tamer t)
-        {
+        public List<digimon> ReadDigimons(tamer t) {
             List<digimon> digimons = new List<digimon>();
             string query = string.Format(Q_D_SELECT, t.Serv_id, t.Id);
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     digimon d = new digimon();
                     d.Serv_id = Convert.ToInt32(dataReader["serv_id"]);
                     d.Tamer_id = Convert.ToInt32(dataReader["tamer_id"]);
@@ -630,9 +559,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     digimons.Add(d);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 digimons.Clear();
                 return digimons;
@@ -640,14 +567,12 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return digimons;
         }
 
-        public guild ReadGuild(string g_name, server serv, int ActualDays)
-        {
+        public guild ReadGuild(string g_name, server serv, int ActualDays) {
             guild g = ReadOnlyGuild(g_name, serv, ActualDays);
             if (g.Id == -1)
                 return g;
             TimeSpan time_diff = DateTime.Now - g.Update_time;
-            if (time_diff.Days >= ActualDays)
-            {
+            if (time_diff.Days >= ActualDays) {
                 g.Id = -1;
                 return g;
             }
@@ -659,26 +584,21 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
         #endregion
 
         #region Write Section
-        public bool WriteGuildInfo(guild g, bool isDetailed)
-        {
-            if (QueryIntRes(string.Format(Q_G_COUNT, g.Id, g.Serv_id)) > 0)
-            {
+        public bool WriteGuildInfo(guild g, bool isDetailed) {
+            if (QueryIntRes(string.Format(Q_G_COUNT, g.Id, g.Serv_id)) > 0) {
                 if (isDetailed)
                     return Query(string.Format(Q_G_UPDATE_WD, g.Id, g.Serv_id, g.Name, g.Rep, g.Master_id, g.Master_name, g.Rank, DateTime2String(g.Update_time), 1));
                 else
                     return Query(string.Format(Q_G_UPDATE, g.Id, g.Serv_id, g.Name, g.Rep, g.Master_id, g.Master_name, g.Rank, DateTime2String(g.Update_time)));
-            }
-            else
+            } else
                 return Query(string.Format(Q_G_INSERT, g.Id, g.Serv_id, g.Name, g.Rep, g.Master_id, g.Master_name, g.Rank, DateTime2String(g.Update_time), isDetailed ? 1 : 0));
         }
 
-        public bool WriteTamer(tamer t)
-        {
+        public bool WriteTamer(tamer t) {
             return Query(WriteTamer_GetQuery(t));
         }
 
-        private string WriteTamer_GetQuery(tamer t)
-        {
+        private string WriteTamer_GetQuery(tamer t) {
             int partner_key = QueryIntRes(string.Format(Q_T_GET_PKEY, t.Serv_id, t.Id));
             if (QueryIntRes(string.Format(Q_T_COUNT, t.Id, t.Serv_id)) > 0)
                 return string.Format(Q_T_UPDATE, t.Id, t.Serv_id, t.Type_id, t.Guild_id, partner_key, t.Name, t.Rank, t.Lvl);
@@ -686,31 +606,25 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 return string.Format(Q_T_INSERT, t.Id, t.Serv_id, t.Type_id, t.Guild_id, partner_key, t.Name, t.Rank, t.Lvl);
         }
 
-        public bool WriteDigimon(digimon d, bool isDetailed)
-        {
+        public bool WriteDigimon(digimon d, bool isDetailed) {
             return Query(WriteDigimon_GetQuery(d, isDetailed));
         }
 
-        private string WriteDigimon_GetQuery(digimon d, bool isDetailed)
-        {
-            if (QueryIntRes(string.Format(Q_D_COUNT, d.Serv_id, d.Tamer_id, d.Type_id)) > 0)
-            {
+        private string WriteDigimon_GetQuery(digimon d, bool isDetailed) {
+            if (QueryIntRes(string.Format(Q_D_COUNT, d.Serv_id, d.Tamer_id, d.Type_id)) > 0) {
                 if (isDetailed)
                     return string.Format(Q_D_UPDATE_FULL, d.Serv_id, d.Tamer_id, d.Type_id, d.Name, d.Rank, d.Lvl, d.Size_cm, d.Size_pc, d.Size_rank);
                 else
                     return string.Format(Q_D_UPDATE_PART, d.Serv_id, d.Tamer_id, d.Type_id, d.Rank, d.Lvl);
-            }
-            else
+            } else
                 return string.Format(Q_D_INSERT, d.Serv_id, d.Tamer_id, d.Type_id, d.Name, d.Rank, d.Lvl, d.Size_cm, d.Size_pc, d.Size_rank);
         }
 
-        public bool WriteGuild(guild g, bool isDetailed)
-        {
+        public bool WriteGuild(guild g, bool isDetailed) {
             //set all current tamers of guild to inactive (maybe they aren't in that guild)
             if (!Query(string.Format(Q_T_SET_INACTIVE, g.Serv_id, g.Id)))
                 return false;
-            foreach (tamer t in g.Members)
-            {
+            foreach (tamer t in g.Members) {
                 if (!Query(string.Format(Q_D_SET_INACTIVE, t.Serv_id, t.Id)))
                     return false;
                 foreach (digimon d in t.Digimons)
@@ -726,16 +640,13 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
         #endregion
 
         #region Additional Section
-        public digimon RandomDigimon(server serv, string g_name, int minlvl)
-        {
+        public digimon RandomDigimon(server serv, string g_name, int minlvl) {
             digimon d = new digimon();
             string query = string.Format(Q_D_SELECT_RANDOM, serv.Id, g_name, minlvl);
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     d.Serv_id = Convert.ToInt32(dataReader["serv_id"]);
                     d.Tamer_id = Convert.ToInt32(dataReader["tamer_id"]);
                     d.Type_id = Convert.ToInt32(dataReader["type_id"]);
@@ -749,26 +660,21 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     d.Size_rank = Convert.ToInt32(dataReader["size_rank"]);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return d;
             }
             return d;
         }
 
-        public digimon RandomDigimon(server serv, string g_name, string t_name, int minlvl)
-        {
+        public digimon RandomDigimon(server serv, string g_name, string t_name, int minlvl) {
             digimon d = new digimon();
             bool IsLoaded = false;
             string query = string.Format(Q_D_SELECT_RANDOM2, serv.Id, g_name, t_name, minlvl);
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     d.Serv_id = Convert.ToInt32(dataReader["serv_id"]);
                     d.Tamer_id = Convert.ToInt32(dataReader["tamer_id"]);
                     d.Type_id = Convert.ToInt32(dataReader["type_id"]);
@@ -783,9 +689,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                     IsLoaded = true;
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
                 return d;
             }
@@ -794,21 +698,16 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return d;
         }
 
-        public digimon_type RandomDigimonType()
-        {
+        public digimon_type RandomDigimonType() {
             digimon_type d = new digimon_type();
-            try
-            {
+            try {
                 SQLiteCommand cmd = new SQLiteCommand(Q_D_SELECT_RANDOM_TYPE, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
+                while (dataReader.Read()) {
                     d.Id = Convert.ToInt32(dataReader["Id"]);
                 }
                 dataReader.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, Q_D_SELECT_RANDOM_TYPE));
                 return d;
             }

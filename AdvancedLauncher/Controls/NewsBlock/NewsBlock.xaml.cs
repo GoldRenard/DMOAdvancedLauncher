@@ -38,10 +38,8 @@ using DMOLibrary;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace AdvancedLauncher.Controls
-{
-    public partial class NewsBlock : UserControl
-    {
+namespace AdvancedLauncher.Controls {
+    public partial class NewsBlock : UserControl {
         BackgroundWorker bwLoadTwitter = new BackgroundWorker();
         BackgroundWorker bwLoadJoymax = new BackgroundWorker();
         Storyboard sbShowTwitter = new Storyboard();
@@ -68,8 +66,7 @@ namespace AdvancedLauncher.Controls
 
         public delegate void ChangedEventHandler(object sender, byte tab_num);
         public event ChangedEventHandler TabChanged;
-        protected virtual void OnChanged(byte tab_num)
-        {
+        protected virtual void OnChanged(byte tab_num) {
             if (TabChanged != null)
                 TabChanged(this, tab_num);
         }
@@ -77,11 +74,9 @@ namespace AdvancedLauncher.Controls
         private string _json_url_loaded;
         private string _json_url;
 
-        public NewsBlock()
-        {
+        public NewsBlock() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 LauncherEnv.Settings.ProfileChanged += ReloadNews;
                 LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
                 Twitter_News.DataContext = TwitterVM;
@@ -103,8 +98,7 @@ namespace AdvancedLauncher.Controls
 
                 sbShowJoymax.Children.Add(dShowJoymax);
                 sbHideTwitter.Children.Add(dHideTwitter);
-                sbHideTwitter.Completed += (s, e) =>
-                {
+                sbHideTwitter.Completed += (s, e) => {
                     IsLoadingAnim(false);
                     Twitter_News.Visibility = Visibility.Collapsed;
                     Joymax_News.Visibility = Visibility.Visible;
@@ -113,8 +107,7 @@ namespace AdvancedLauncher.Controls
 
                 sbShowTwitter.Children.Add(dShowTwitter);
                 sbHideJoymax.Children.Add(dHideJoymax);
-                sbHideJoymax.Completed += (s, e) =>
-                {
+                sbHideJoymax.Completed += (s, e) => {
                     IsLoadingAnim(false);
                     Twitter_News.Visibility = Visibility.Visible;
                     Joymax_News.Visibility = Visibility.Collapsed;
@@ -137,14 +130,11 @@ namespace AdvancedLauncher.Controls
                 sbAnimHide.Completed += (s, e) => { LoaderIcon.Visibility = Visibility.Collapsed; LoaderIcon.IsEnabled = false; };
 
                 bwLoadTwitter.RunWorkerCompleted += (s, e) => { sbHideJoymax.Begin(); };
-                bwLoadTwitter.DoWork += (s1, e1) =>
-                {
-                    if (!TwitterVM.IsDataLoaded || _json_url_loaded != _json_url)
-                    {
+                bwLoadTwitter.DoWork += (s1, e1) => {
+                    if (!TwitterVM.IsDataLoaded || _json_url_loaded != _json_url) {
                         IsLoadingAnim(true);
                         GetTwitter_News_API11(_json_url);
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadTwitter((list) =>
-                        {
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadTwitter((list) => {
                             TwitterVM.UnLoadData();
                             TwitterVM.LoadData(list);
                         }), twitter_statuses);
@@ -153,14 +143,11 @@ namespace AdvancedLauncher.Controls
                 };
 
                 bwLoadJoymax.RunWorkerCompleted += (s, e) => { sbHideTwitter.Begin(); };
-                bwLoadJoymax.DoWork += (s1, e1) =>
-                {
-                    if (!JoymaxVM.IsDataLoaded)
-                    {
+                bwLoadJoymax.DoWork += (s1, e1) => {
+                    if (!JoymaxVM.IsDataLoaded) {
                         IsLoadingAnim(true);
                         GetJoymax_News();
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadJoymax((list) =>
-                        {
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadJoymax((list) => {
                             if (list != null)
                                 JoymaxVM.LoadData(list);
                         }), joymax_news);
@@ -172,8 +159,7 @@ namespace AdvancedLauncher.Controls
         }
 
 
-        void ReloadNews()
-        {
+        void ReloadNews() {
             if (_json_url != LauncherEnv.Settings.pCurrent.News.TwitterUrl)
                 _json_url = LauncherEnv.Settings.pCurrent.News.TwitterUrl;
             if (LauncherEnv.Settings.pCurrent.DMOProfile.IsNewsAvailable)
@@ -182,18 +168,15 @@ namespace AdvancedLauncher.Controls
                 ShowTab(0);
         }
 
-        public void ShowTwitter(object sender, RoutedEventArgs e)
-        {
+        public void ShowTwitter(object sender, RoutedEventArgs e) {
             ShowTab(0);
         }
 
-        public void ShowJoymax(object sender, RoutedEventArgs e)
-        {
+        public void ShowJoymax(object sender, RoutedEventArgs e) {
             ShowTab(1);
         }
 
-        public void ShowTab(byte tab)
-        {
+        public void ShowTab(byte tab) {
             if (IsLoading)
                 return;
             OnChanged(tab);
@@ -210,8 +193,7 @@ namespace AdvancedLauncher.Controls
         private Regex TUserRegex = new Regex(@"(\B@\w*[a-zA-Z]+\w*)", RegexOptions.Compiled);
         private static string LINK_REPL = "%DMOAL:LINK%", HASHTAG_REPL = "%DMOAL:HASHTAG%", USER_REPL = "%DMOAL:TWUSER%";
 
-        public struct UserStatus
-        {
+        public struct UserStatus {
             public string UserName;
             public string UserScreenName;
             public string ProfileImageUrl;
@@ -222,50 +204,40 @@ namespace AdvancedLauncher.Controls
             public DateTime StatusDate;
         }
 
-        public struct ProfileImage
-        {
+        public struct ProfileImage {
             public string url;
             public BitmapImage bitmap;
         }
 
-        enum TwitterTextType
-        {
+        enum TwitterTextType {
             Text,
             Link,
             HashTag,
             UserName
         }
 
-        struct TwitterTextPart
-        {
+        struct TwitterTextPart {
             public TwitterTextType Type;
             public string Data;
         }
 
-        public void GetTwitter_News_API11(string url)
-        {
+        public void GetTwitter_News_API11(string url) {
             WebClient wc = new WebClient();
             wc.Proxy = (IWebProxy)null;
             Uri link = new Uri(url);
             twitter_statuses.Clear();
             string response;
-            try
-            {
+            try {
                 response = wc.DownloadString(link);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 twitter_statuses.Add(new TwitterItemViewModel { Title = LanguageEnv.Strings.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]" });
                 return;
             }
 
             JArray tList;
-            try
-            {
+            try {
                 tList = JArray.Parse(System.Web.HttpUtility.HtmlDecode(response));
-            }
-            catch
-            {
+            } catch {
                 twitter_statuses.Add(new TwitterItemViewModel { Title = LanguageEnv.Strings.NewsTwitterError + " [ERRCODE 1 - Parse Error]" });
                 return;
             }
@@ -274,16 +246,14 @@ namespace AdvancedLauncher.Controls
             List<ProfileImage> prof_images = new List<ProfileImage>();
             List<ProfileImage> cur_image;
             ProfileImage p_image;
-            for (int i = 0; i < tList.Count(); i++)
-            {
+            for (int i = 0; i < tList.Count(); i++) {
                 JObject tweet = JObject.Parse(tList[i].ToString());
                 UserStatus status = new UserStatus();
 
                 status.UserName = tweet["user"]["name"].ToString();
                 status.UserScreenName = tweet["user"]["screen_name"].ToString();
                 status.ProfileImageUrl = tweet["user"]["profile_image_url"].ToString();
-                try { status.RetweetImageUrl = tweet["retweeted_status"]["user"]["profile_image_url"].ToString(); }
-                catch { };
+                try { status.RetweetImageUrl = tweet["retweeted_status"]["user"]["profile_image_url"].ToString(); } catch { };
                 status.Status = tweet["text"].ToString();
                 status.StatusId = tweet["id"].ToString();
                 status.StatusDate = ParseDateTime(tweet["created_at"].ToString());
@@ -295,15 +265,13 @@ namespace AdvancedLauncher.Controls
                     profile_image = status.ProfileImageUrl;
 
                 cur_image = prof_images.FindAll(im => (im.url == profile_image));
-                if (cur_image.Count == 0)
-                {
+                if (cur_image.Count == 0) {
                     p_image = new ProfileImage();
                     p_image.url = profile_image;
                     p_image.bitmap = GetImage(profile_image);
                     if (p_image.bitmap != null)
                         prof_images.Add(p_image);
-                }
-                else
+                } else
                     p_image = cur_image[0];
 
                 status.ProfileImageBitmap = p_image.bitmap;
@@ -314,15 +282,13 @@ namespace AdvancedLauncher.Controls
                 twitter_statuses.Add(new TwitterItemViewModel { Title = status.Status, Date = status.StatusDate.ToLongDateString() + " " + status.StatusDate.ToShortTimeString(), Image = status.ProfileImageBitmap });
         }
 
-        public BitmapImage GetImage(string url)
-        {
+        public BitmapImage GetImage(string url) {
             WebClient wc = new WebClient();
             wc.Proxy = (IWebProxy)null;
 
             Uri uri = new Uri(url);
             byte[] image_bytes;
-            try { image_bytes = wc.DownloadData(uri); }
-            catch { return null; }
+            try { image_bytes = wc.DownloadData(uri); } catch { return null; }
 
             MemoryStream img_stream = new MemoryStream(image_bytes, 0, image_bytes.Length);
             BitmapImage bitmap = new BitmapImage();
@@ -335,8 +301,7 @@ namespace AdvancedLauncher.Controls
         }
 
         //парсинг строки времени
-        public static DateTime ParseDateTime(string date)
-        {
+        public static DateTime ParseDateTime(string date) {
             string dayOfWeek = date.Substring(0, 3).Trim();
             string month = date.Substring(4, 3).Trim();
             string dayInMonth = date.Substring(8, 2).Trim();
@@ -349,8 +314,7 @@ namespace AdvancedLauncher.Controls
         }
 
         //подмена всех ссылок контролом гипер-ссылки
-        private void TextBlock_Parse(object sender, RoutedEventArgs e)
-        {
+        private void TextBlock_Parse(object sender, RoutedEventArgs e) {
             TextBlock tb = ((TextBlock)sender);
 
             if (tb.Text.Contains(LINK_REPL) || tb.Text.Contains(HASHTAG_REPL))
@@ -381,44 +345,34 @@ namespace AdvancedLauncher.Controls
 
             //Creating list of splitted text (from older list) by hashtags
             List<TwitterTextPart> TempParts = new List<TwitterTextPart>();
-            foreach (TwitterTextPart part in Parts)
-            {
-                if (part.Type == TwitterTextType.Text)
-                {
+            foreach (TwitterTextPart part in Parts) {
+                if (part.Type == TwitterTextType.Text) {
                     List<TwitterTextPart> HashParts = GetTwitterParts(ref tags, ref HashCounter, part.Data, HASHTAG_REPL, TwitterTextType.HashTag, false);
                     TempParts.AddRange(HashParts);
-                }
-                else
+                } else
                     TempParts.Add(part);
             }
             Parts = TempParts;
 
             //Creating list of splitted text (from older list) by usernames
             TempParts = new List<TwitterTextPart>();
-            foreach (TwitterTextPart part in Parts)
-            {
-                if (part.Type == TwitterTextType.Text)
-                {
+            foreach (TwitterTextPart part in Parts) {
+                if (part.Type == TwitterTextType.Text) {
                     List<TwitterTextPart> HashParts = GetTwitterParts(ref users, ref UserCounter, part.Data, USER_REPL, TwitterTextType.UserName, false);
                     TempParts.AddRange(HashParts);
-                }
-                else
+                } else
                     TempParts.Add(part);
             }
             Parts = TempParts;
 
             tb.Inlines.Clear();
-            foreach (TwitterTextPart part in Parts)
-            {
-                switch (part.Type)
-                {
-                    case TwitterTextType.Text:
-                        {
+            foreach (TwitterTextPart part in Parts) {
+                switch (part.Type) {
+                    case TwitterTextType.Text: {
                             tb.Inlines.Add(part.Data);
                             break;
                         }
-                    case TwitterTextType.Link:
-                        {
+                    case TwitterTextType.Link: {
                             Hyperlink hyperLink = new Hyperlink() { NavigateUri = new Uri(part.Data) };
                             hyperLink.Inlines.Add(part.Data);
                             hyperLink.Style = (Style)FindResource("BlueHyperLink");
@@ -426,8 +380,7 @@ namespace AdvancedLauncher.Controls
                             tb.Inlines.Add(hyperLink);
                             break;
                         }
-                    case TwitterTextType.HashTag:
-                        {
+                    case TwitterTextType.HashTag: {
                             Hyperlink hyperLink = new Hyperlink() { NavigateUri = new Uri(string.Format("https://twitter.com/search?q=%23{0}&src=hash", part.Data.Substring(1))) };
                             hyperLink.Inlines.Add(part.Data);
                             hyperLink.Style = (Style)FindResource("BlueHyperLink");
@@ -435,8 +388,7 @@ namespace AdvancedLauncher.Controls
                             tb.Inlines.Add(hyperLink);
                             break;
                         }
-                    case TwitterTextType.UserName:
-                        {
+                    case TwitterTextType.UserName: {
                             Hyperlink hyperLink = new Hyperlink() { NavigateUri = new Uri(string.Format("https://twitter.com/{0}/", part.Data.Substring(1))) };
                             hyperLink.Inlines.Add(part.Data);
                             hyperLink.Style = (Style)FindResource("BlueHyperLink");
@@ -449,25 +401,20 @@ namespace AdvancedLauncher.Controls
 
         }
 
-        private List<TwitterTextPart> GetTwitterParts(ref List<string> DataArr, ref int DataCounter, string FormatString, string SplitText, TwitterTextType NonStringType, bool IsReturnNull)
-        {
+        private List<TwitterTextPart> GetTwitterParts(ref List<string> DataArr, ref int DataCounter, string FormatString, string SplitText, TwitterTextType NonStringType, bool IsReturnNull) {
             List<TwitterTextPart> parts = new List<TwitterTextPart>();
 
             string[] link_splited = FormatString.Split(new string[] { SplitText }, StringSplitOptions.None);
-            if (link_splited.Length > 1)
-            {
+            if (link_splited.Length > 1) {
                 bool IsFirstAdded = false;
-                foreach (string part in link_splited)
-                {
+                foreach (string part in link_splited) {
                     if (IsFirstAdded)
                         parts.Add(new TwitterTextPart { Type = NonStringType, Data = DataArr[DataCounter++] });
                     parts.Add(new TwitterTextPart { Type = TwitterTextType.Text, Data = part });
                     IsFirstAdded = true;
                 }
                 return parts;
-            }
-            else
-            {
+            } else {
                 if (IsReturnNull)
                     return null;
                 parts.Add(new TwitterTextPart { Data = FormatString, Type = TwitterTextType.Text });
@@ -479,32 +426,23 @@ namespace AdvancedLauncher.Controls
 
         #region Joymax news
 
-        private void GetJoymax_News()
-        {
+        private void GetJoymax_News() {
             List<NewsItem> news = Environment.Containers.Profile.GetJoymaxProfile().NewsProfile.GetNews();
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) =>
-            {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) => {
                 Rect viewbox;
                 string mode;
-                foreach (NewsItem n in news)
-                {
+                foreach (NewsItem n in news) {
                     mode = n.mode;
-                    if (mode == "NOTICE")
-                    {
+                    if (mode == "NOTICE") {
                         viewbox = new Rect(215, 54, 90, 18);
                         mode = LanguageEnv.Strings.NewsType_Notice;
-                    }
-                    else if (mode == "EVENT")
-                    {
+                    } else if (mode == "EVENT") {
                         viewbox = new Rect(215, 36, 90, 18);
                         mode = LanguageEnv.Strings.NewsType_Event;
-                    }
-                    else if (mode == "PATCH")
-                    {
+                    } else if (mode == "PATCH") {
                         viewbox = new Rect(215, 0, 90, 18);
                         mode = LanguageEnv.Strings.NewsType_Patch;
-                    }
-                    else
+                    } else
                         viewbox = new Rect(215, 0, 90, 18);
                     joymax_news.Add(new JoymaxItemViewModel { Title = n.subj, Content = n.content, Date = n.date, Type = mode, Link = n.url, ImgVB = viewbox });
                 }
@@ -515,37 +453,30 @@ namespace AdvancedLauncher.Controls
 
         #region Interface processing
 
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e) {
             Utils.OpenSiteNoDecode(e.Uri.ToString());
         }
 
-        private void IsLoadingAnim(bool state)
-        {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate()
-            {
+        private void IsLoadingAnim(bool state) {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 _IsLoading = state;
-                if (_IsLoading)
-                {
+                if (_IsLoading) {
                     LoaderIcon.IsEnabled = true;
                     LoaderIcon.Visibility = Visibility.Visible;
                     sbAnimShow.Begin();
-                }
-                else
+                } else
                     sbAnimHide.Begin();
             }));
         }
 
         //Добавляет хэндлер колеса мыши
-        private void NewsScroll_Loaded_1(object sender, RoutedEventArgs e)
-        {
+        private void NewsScroll_Loaded_1(object sender, RoutedEventArgs e) {
             Twitter_News.AddHandler(MouseWheelEvent, new RoutedEventHandler(MyMouseWheelH), true);
             Joymax_News.AddHandler(MouseWheelEvent, new RoutedEventHandler(MyMouseWheelH), true);
         }
 
         //Прокручивание контента по колесу мыши
-        private void MyMouseWheelH(object sender, RoutedEventArgs e)
-        {
+        private void MyMouseWheelH(object sender, RoutedEventArgs e) {
             MouseWheelEventArgs eargs = (MouseWheelEventArgs)e;
             double x = (double)eargs.Delta;
             double y = NewsScroll.VerticalOffset;

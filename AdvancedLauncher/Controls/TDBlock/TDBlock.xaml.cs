@@ -27,10 +27,8 @@ using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using DMOLibrary;
 
-namespace AdvancedLauncher.Controls
-{
-    public partial class TDBlock : UserControl
-    {
+namespace AdvancedLauncher.Controls {
+    public partial class TDBlock : UserControl {
         TamerViewModel Tamer_DC = new TamerViewModel();
         DigimonViewModel Digimon_DC = new DigimonViewModel();
         bool isFullDList = false;
@@ -38,25 +36,21 @@ namespace AdvancedLauncher.Controls
 
         public delegate void ChangedEventHandler(object sender, int tab_num);
         public event ChangedEventHandler TabChanged;
-        protected virtual void OnChanged(int tab_num)
-        {
+        protected virtual void OnChanged(int tab_num) {
             if (TabChanged != null)
                 TabChanged(this, tab_num);
         }
 
-        public TDBlock()
-        {
+        public TDBlock() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 Tamers.DataContext = Tamer_DC;
                 Digimons.DataContext = Digimon_DC;
                 LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
             }
         }
 
-        public void ClearAll()
-        {
+        public void ClearAll() {
             Tamer_DC.UnLoadData();
             Digimon_DC.UnLoadData();
 
@@ -70,18 +64,15 @@ namespace AdvancedLauncher.Controls
 
         #region Showing tabs
 
-        private void Tamers_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
-        {
-            if (Tamer_DC.IsDataLoaded && Tamers.SelectedIndex >= 0)
-            {
+        private void Tamers_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e) {
+            if (Tamer_DC.IsDataLoaded && Tamers.SelectedIndex >= 0) {
                 TamerItemViewModel selected_item = (TamerItemViewModel)Tamers.SelectedItem;
                 Tamers.SelectedIndex = -1;
                 ShowDigimons(selected_item.Tamer);
             }
         }
 
-        public void ShowTamers()
-        {
+        public void ShowTamers() {
             OnChanged(1);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -89,8 +80,7 @@ namespace AdvancedLauncher.Controls
             Storyboard.SetTarget(dbl_anim, (CurrentTab == 1) ? Tamers : Digimons);
             Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
             sb.Children.Add(dbl_anim);
-            sb.Completed += (s, e) =>
-            {
+            sb.Completed += (s, e) => {
                 Tamers.Visibility = Visibility.Visible;
                 Digimons.Visibility = Visibility.Collapsed;
                 CurrentTab = 1;
@@ -104,8 +94,7 @@ namespace AdvancedLauncher.Controls
             sb.Begin();
         }
 
-        public void ShowTamers(List<tamer> tamers)
-        {
+        public void ShowTamers(List<tamer> tamers) {
             OnChanged(1);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -113,8 +102,7 @@ namespace AdvancedLauncher.Controls
             Storyboard.SetTarget(dbl_anim, (CurrentTab == 1) ? Tamers : Digimons);
             Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
             sb.Children.Add(dbl_anim);
-            sb.Completed += (s, e) =>
-            {
+            sb.Completed += (s, e) => {
                 Tamers.Visibility = Visibility.Visible;
                 Digimons.Visibility = Visibility.Collapsed;
                 CurrentTab = 1;
@@ -130,8 +118,7 @@ namespace AdvancedLauncher.Controls
             sb.Begin();
         }
 
-        public void ShowDigimons(tamer tamer)
-        {
+        public void ShowDigimons(tamer tamer) {
             OnChanged(2);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -139,8 +126,7 @@ namespace AdvancedLauncher.Controls
             Storyboard.SetTarget(dbl_anim, (CurrentTab == 1) ? Tamers : Digimons);
             Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
             sb.Children.Add(dbl_anim);
-            sb.Completed += (s, e) =>
-            {
+            sb.Completed += (s, e) => {
                 Tamers.Visibility = Visibility.Collapsed;
                 Digimons.Visibility = Visibility.Visible;
 
@@ -159,8 +145,7 @@ namespace AdvancedLauncher.Controls
             sb.Begin();
         }
 
-        public void ShowDigimons(List<tamer> tamers)
-        {
+        public void ShowDigimons(List<tamer> tamers) {
             OnChanged(2);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -168,13 +153,11 @@ namespace AdvancedLauncher.Controls
             Storyboard.SetTarget(dbl_anim, (CurrentTab == 1) ? Tamers : Digimons);
             Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
             sb.Children.Add(dbl_anim);
-            sb.Completed += (s, e) =>
-            {
+            sb.Completed += (s, e) => {
                 Tamers.Visibility = Visibility.Collapsed;
                 Digimons.Visibility = Visibility.Visible;
 
-                if (!isFullDList)
-                {
+                if (!isFullDList) {
                     Digimon_DC.UnLoadData();
                     Digimon_DC.LoadData(tamers);
                     isFullDList = true;
@@ -194,20 +177,16 @@ namespace AdvancedLauncher.Controls
 
         #region List Header Processing and translation
 
-        private void TamerHeader_Loaded_1(object sender, RoutedEventArgs e)
-        {
+        private void TamerHeader_Loaded_1(object sender, RoutedEventArgs e) {
             ((TextBlock)sender).MouseLeftButtonUp += TamerHeader_Click_1;
         }
 
-        private void DigimonHeader_Loaded_1(object sender, RoutedEventArgs e)
-        {
+        private void DigimonHeader_Loaded_1(object sender, RoutedEventArgs e) {
             ((TextBlock)sender).MouseLeftButtonUp += DigimonHeader_Click_1;
         }
 
-        private void TamerHeader_Click_1(object sender, RoutedEventArgs e)
-        {
-            if (sender != null)
-            {
+        private void TamerHeader_Click_1(object sender, RoutedEventArgs e) {
+            if (sender != null) {
                 if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type)
                     Tamer_DC.Sort(i => i.Tamer.Type_id);
                 else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name)
@@ -223,10 +202,8 @@ namespace AdvancedLauncher.Controls
             }
         }
 
-        private void DigimonHeader_Click_1(object sender, RoutedEventArgs e)
-        {
-            if (sender != null)
-            {
+        private void DigimonHeader_Click_1(object sender, RoutedEventArgs e) {
+            if (sender != null) {
                 if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type)
                     Digimon_DC.Sort(i => i.DType);
                 else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name)

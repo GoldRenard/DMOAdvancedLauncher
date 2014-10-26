@@ -21,12 +21,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace AdvancedLauncher.Service
-{
-    class JpegEncoder
-    {
-        public Image ResizeScreenShot(string orig_file, string dest_file)
-        {
+namespace AdvancedLauncher.Service {
+    class JpegEncoder {
+        public Image ResizeScreenShot(string orig_file, string dest_file) {
             Image OriginalImage, ResizedImage;
 
             System.IO.FileStream fs = new System.IO.FileStream(orig_file, System.IO.FileMode.Open, System.IO.FileAccess.Read);
@@ -38,16 +35,14 @@ namespace AdvancedLauncher.Service
             size.Width = -1;
             ResizedImage = resizeImage(OriginalImage, size);
 
-            if (ResizedImage != null)
-            {
+            if (ResizedImage != null) {
                 saveJpeg(dest_file, (Bitmap)ResizedImage, 100L);
                 return ResizedImage;
             }
             return null;
         }
 
-        private void saveJpeg(string path, Bitmap img, long quality)
-        {
+        private void saveJpeg(string path, Bitmap img, long quality) {
             EncoderParameter qualityParam = new EncoderParameter(Encoder.Quality, quality);
             ImageCodecInfo jpegCodec = getEncoderInfo("image/jpeg");
 
@@ -60,8 +55,7 @@ namespace AdvancedLauncher.Service
             img.Save(path, jpegCodec, encoderParams);
         }
 
-        private static ImageCodecInfo getEncoderInfo(string mimeType)
-        {
+        private static ImageCodecInfo getEncoderInfo(string mimeType) {
             ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
             for (int i = 0; i < codecs.Length; i++)
                 if (codecs[i].MimeType == mimeType)
@@ -69,8 +63,7 @@ namespace AdvancedLauncher.Service
             return null;
         }
 
-        private static Image resizeImage(Image imgToResize, Size size)
-        {
+        private static Image resizeImage(Image imgToResize, Size size) {
             int sourceWidth = imgToResize.Width;
             int sourceHeight = imgToResize.Height;
 
@@ -83,8 +76,7 @@ namespace AdvancedLauncher.Service
                 nPercent = ((float)size.Height / (float)sourceHeight);
             else if (size.Height == -1)
                 nPercent = ((float)size.Width / (float)sourceWidth);
-            else
-            {
+            else {
                 nPercentW = ((float)size.Width / (float)sourceWidth);
                 nPercentH = ((float)size.Height / (float)sourceHeight);
 

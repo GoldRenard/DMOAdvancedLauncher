@@ -20,21 +20,18 @@ using System;
 using System.Threading;
 using System.Windows.Threading;
 
-namespace DMOLibrary
-{
+namespace DMOLibrary {
     /// <summary>
     /// Encapsulates a WPF dispatcher with added functionalities.
     /// </summary>
-    public class DispatcherHelper
-    {
+    public class DispatcherHelper {
         private static DispatcherOperationCallback exitFrameCallback = new
              DispatcherOperationCallback(ExitFrame);
 
         /// <summary>
         /// Processes all UI messages currently in the message queue.
         /// </summary>
-        public static void DoEvents()
-        {
+        public static void DoEvents() {
             // Create new nested message pump.
             DispatcherFrame nestedFrame = new DispatcherFrame();
 
@@ -49,14 +46,12 @@ namespace DMOLibrary
             Dispatcher.PushFrame(nestedFrame);
 
             // If the "exitFrame" callback is not finished, abort it.
-            if (exitOperation.Status != DispatcherOperationStatus.Completed)
-            {
+            if (exitOperation.Status != DispatcherOperationStatus.Completed) {
                 exitOperation.Abort();
             }
         }
 
-        private static Object ExitFrame(Object state)
-        {
+        private static Object ExitFrame(Object state) {
             DispatcherFrame frame = state as DispatcherFrame;
 
             // Exit the nested message loop.

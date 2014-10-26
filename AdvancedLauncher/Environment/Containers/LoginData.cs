@@ -21,18 +21,14 @@ using AdvancedLauncher.Service;
 using System.Xml.Serialization;
 using System.Security;
 
-namespace AdvancedLauncher.Environment.Containers
-{
-    public class LoginData
-    {
+namespace AdvancedLauncher.Environment.Containers {
+    public class LoginData {
         [XmlIgnore]
         public SecureString SecurePassword { set; get; }
 
         [XmlAttribute("Password")]
-        public string Password
-        {
-            set
-            {
+        public string Password {
+            set {
                 SecurePassword = PassEncrypt.ConvertToSecureString(
                     PassEncrypt.Decrypt(
                         value,
@@ -41,8 +37,7 @@ namespace AdvancedLauncher.Environment.Containers
                 );
                 return;
             }
-            get
-            {
+            get {
                 return PassEncrypt.Encrypt(
                     PassEncrypt.ConvertToUnsecureString(SecurePassword),
                     FingerPrint.Value(FingerPrint.FingerPart.UUID, false)
@@ -55,8 +50,7 @@ namespace AdvancedLauncher.Environment.Containers
         [XmlAttribute("LastSessionArgs")]
         public string pLastSessionArgs { set; get; }
 
-        public LoginData(LoginData ld)
-        {
+        public LoginData(LoginData ld) {
             User = ld.User;
             Password = ld.Password;
             pLastSessionArgs = ld.pLastSessionArgs;
@@ -64,10 +58,8 @@ namespace AdvancedLauncher.Environment.Containers
         public LoginData() { }
 
         [XmlIgnore]
-        public bool IsCorrect
-        {
-            get
-            {
+        public bool IsCorrect {
+            get {
                 if (SecurePassword == null)
                     return false;
                 return SecurePassword.Length > 0 && !string.IsNullOrEmpty(User);

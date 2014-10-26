@@ -22,12 +22,9 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace DMOLibrary.Profiles.Joymax
-{
-    public class DMOJoymax : DMOProfile
-    {
-        private void InitVars()
-        {
+namespace DMOLibrary.Profiles.Joymax {
+    public class DMOJoymax : DMOProfile {
+        private void InitVars() {
             TYPE_NAME = "Joymax";
 
             Database = new DMODatabase(GetDatabasePath(), @"
@@ -36,8 +33,7 @@ namespace DMOLibrary.Profiles.Joymax
             INSERT INTO Servers([name]) VALUES ('Lilithmon');
             INSERT INTO Servers([name]) VALUES ('Barbamon');
             INSERT INTO Servers([name]) VALUES ('Beelzemon');");
-            if (Database.OpenConnection())
-            {
+            if (Database.OpenConnection()) {
                 _ServerList = Database.GetServers();
                 Database.CloseConnection();
             }
@@ -46,13 +42,11 @@ namespace DMOLibrary.Profiles.Joymax
         }
 
         #region Constructors
-        public DMOJoymax()
-        {
+        public DMOJoymax() {
             InitVars();
         }
 
-        public DMOJoymax(System.Windows.Threading.Dispatcher owner_dispatcher)
-        {
+        public DMOJoymax(System.Windows.Threading.Dispatcher owner_dispatcher) {
             this.owner_dispatcher = owner_dispatcher;
             InitVars();
         }
@@ -60,21 +54,18 @@ namespace DMOLibrary.Profiles.Joymax
         #endregion
 
         #region Getting user login commandline
-        public override void TryLogin(string UserId, System.Security.SecureString Password)
-        {
+        public override void TryLogin(string UserId, System.Security.SecureString Password) {
             OnCompleted(LoginCode.SUCCESS, "true");
         }
 
         #endregion
 
-        public override string GetGameStartArgs(string args)
-        {
+        public override string GetGameStartArgs(string args) {
             return "true";
         }
 
 
-        public override string GetLauncherStartArgs(string args)
-        {
+        public override string GetLauncherStartArgs(string args) {
             return string.Empty;
         }
     }

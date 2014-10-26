@@ -27,74 +27,58 @@ using System.Web;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace DMOLibrary.Profiles.Aeria
-{
-    public class DMOAeria : DMOProfile
-    {
-        private void InitVars()
-        {
+namespace DMOLibrary.Profiles.Aeria {
+    public class DMOAeria : DMOProfile {
+        private void InitVars() {
             TYPE_NAME = "Aeria";
             _IsLoginRequired = true;
             _NewsProfile = new DMOLibrary.Profiles.Joymax.JMNews();
         }
 
         #region Constructors
-        public DMOAeria()
-        {
+        public DMOAeria() {
             InitVars();
         }
 
-        public DMOAeria(System.Windows.Threading.Dispatcher owner_dispatcher)
-        {
+        public DMOAeria(System.Windows.Threading.Dispatcher owner_dispatcher) {
             this.owner_dispatcher = owner_dispatcher;
             InitVars();
         }
         #endregion
 
         #region Getting user login commandline
-        private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
-        {
-            switch (e.Url.AbsolutePath)
-            {
+        private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+            switch (e.Url.AbsolutePath) {
                 //loginning
-                case "/dialog/oauth":
-                    {
-                        if (login_try >= 1)
-                        {
+                case "/dialog/oauth": {
+                        if (login_try >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
                         }
                         login_try++;
 
                         bool isFound = true;
-                        try
-                        {
+                        try {
                             wb.Document.GetElementById("edit-id").SetAttribute("value", UserId);
                             wb.Document.GetElementById("edit-pass").SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
-                        }
-                        catch { isFound = false; }
+                        } catch { isFound = false; }
 
-                        if (isFound)
-                        {
+                        if (isFound) {
                             System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("account_login");
                             if (form != null)
                                 form.InvokeMember("submit");
-                        }
-                        else
-                        {
+                        } else {
                             OnCompleted(LoginCode.WRONG_PAGE, string.Empty);
                             return;
                         }
                         break;
                     }
                 //logged
-                case "/code2token.html":
-                    {
+                case "/code2token.html": {
                         OnCompleted(LoginCode.SUCCESS, string.Format("{0} {1} {2}", "Aeria", HttpUtility.ParseQueryString(e.Url.Query).Get("code"), UserId));
                         break;
                     }
-                default:
-                    {
+                default: {
                         if (!e.Url.Host.Contains("facebook"))
                             OnCompleted(LoginCode.UNKNOWN_URL, string.Empty);
                         break;
@@ -102,12 +86,10 @@ namespace DMOLibrary.Profiles.Aeria
             }
         }
 
-        public override void TryLogin(string UserId, SecureString Password)
-        {
+        public override void TryLogin(string UserId, SecureString Password) {
             this.UserId = UserId;
             this.Password = Password;
-            if (UserId.Length == 0 || Password.Length == 0)
-            {
+            if (UserId.Length == 0 || Password.Length == 0) {
                 OnCompleted(LoginCode.WRONG_USER, string.Empty);
                 return;
             }
@@ -120,14 +102,12 @@ namespace DMOLibrary.Profiles.Aeria
 
         #endregion
 
-        public override string GetGameStartArgs(string args)
-        {
+        public override string GetGameStartArgs(string args) {
             return args;
         }
 
 
-        public override string GetLauncherStartArgs(string args)
-        {
+        public override string GetLauncherStartArgs(string args) {
             return string.Empty;
         }
     }

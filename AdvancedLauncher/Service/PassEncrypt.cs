@@ -24,10 +24,8 @@ using System.Security.Cryptography;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace AdvancedLauncher.Service
-{
-    public static class PassEncrypt
-    {
+namespace AdvancedLauncher.Service {
+    public static class PassEncrypt {
         // This constant string is used as a "salt" value for the PasswordDeriveBytes function calls.
         // This size of the IV (in bytes) must = (keysize / 8).  Default keysize is 256, so the IV must be
         // 32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
@@ -36,14 +34,12 @@ namespace AdvancedLauncher.Service
         // This constant is used to determine the keysize of the encryption algorithm.
         private const int keysize = 256;
 
-        public static string Encrypt(string plainText, string passPhrase)
-        {
+        public static string Encrypt(string plainText, string passPhrase) {
             if (string.IsNullOrEmpty(plainText))
                 return null;
             MemoryStream memoryStream = null;
             CryptoStream cryptoStream = null;
-            try
-            {
+            try {
                 byte[] initVectorBytes = Encoding.UTF8.GetBytes(initVector);
                 byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
                 PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
@@ -59,31 +55,24 @@ namespace AdvancedLauncher.Service
                 memoryStream.Close();
                 cryptoStream.Close();
                 return Convert.ToBase64String(cipherTextBytes);
-            }
-            catch { }
-            finally
-            {
-                try
-                {
+            } catch { } finally {
+                try {
                     if (memoryStream != null)
                         memoryStream.Close();
                     if (cryptoStream != null)
                         cryptoStream.Close();
-                }
-                catch { }
+                } catch { }
             }
             return null;
         }
 
-        public static string Decrypt(string cipherText, string passPhrase)
-        {
+        public static string Decrypt(string cipherText, string passPhrase) {
             if (string.IsNullOrEmpty(cipherText))
                 return null;
 
             MemoryStream memoryStream = null;
             CryptoStream cryptoStream = null;
-            try
-            {
+            try {
                 byte[] initVectorBytes = Encoding.ASCII.GetBytes(initVector);
                 byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
                 PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
@@ -98,48 +87,36 @@ namespace AdvancedLauncher.Service
                 memoryStream.Close();
                 cryptoStream.Close();
                 return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
-            }
-            catch { }
-            finally
-            {
-                try
-                {
+            } catch { } finally {
+                try {
                     if (memoryStream != null)
                         memoryStream.Close();
                     if (cryptoStream != null)
                         cryptoStream.Close();
-                }
-                catch { }
+                } catch { }
             }
             return null;
         }
 
-        public static string ConvertToUnsecureString(this SecureString securePassword)
-        {
+        public static string ConvertToUnsecureString(this SecureString securePassword) {
             if (securePassword == null)
                 return null;
 
             IntPtr unmanagedString = IntPtr.Zero;
-            try
-            {
+            try {
                 unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
                 return Marshal.PtrToStringUni(unmanagedString);
-            }
-            finally
-            {
+            } finally {
                 Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
             }
         }
 
-        public static SecureString ConvertToSecureString(this string password)
-        {
+        public static SecureString ConvertToSecureString(this string password) {
             if (string.IsNullOrEmpty(password))
                 return null;
 
-            unsafe
-            {
-                fixed (char* passwordChars = password)
-                {
+            unsafe {
+                fixed (char* passwordChars = password) {
                     var securePassword = new SecureString(passwordChars, password.Length);
                     securePassword.MakeReadOnly();
                     return securePassword;

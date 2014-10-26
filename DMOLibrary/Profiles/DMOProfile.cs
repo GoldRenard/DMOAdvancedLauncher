@@ -29,10 +29,8 @@ using Microsoft.Win32;
 using HtmlAgilityPack;
 using System.Runtime.InteropServices;
 
-namespace DMOLibrary.Profiles
-{
-    public abstract class DMOProfile
-    {
+namespace DMOLibrary.Profiles {
+    public abstract class DMOProfile {
         protected System.Windows.Threading.Dispatcher owner_dispatcher = null;
 
         protected string TYPE_NAME;
@@ -40,13 +38,10 @@ namespace DMOLibrary.Profiles
         private string DATABASES_FOLDER = "{0}\\Databases";
         protected bool _IsLoginRequired = false;
 
-        public DMOProfile()
-        {
+        public DMOProfile() {
             string dir = string.Format(DATABASES_FOLDER, System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory));
-            if (!Directory.Exists(dir))
-            {
-                try { Directory.CreateDirectory(dir); }
-                catch { }
+            if (!Directory.Exists(dir)) {
+                try { Directory.CreateDirectory(dir); } catch { }
             }
         }
 
@@ -65,40 +60,29 @@ namespace DMOLibrary.Profiles
         public delegate void LoginStateHandler(object sender, LoginState state, int try_num, int last_error);
         public event LoginStateHandler LoginStateChanged;
 
-        protected virtual void OnCompleted(LoginCode code, string result)
-        {
-            if (LoginCompleted != null)
-            {
-                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess())
-                {
-                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteHandler((sender, code_, result_) =>
-                    {
+        protected virtual void OnCompleted(LoginCode code, string result) {
+            if (LoginCompleted != null) {
+                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess()) {
+                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteHandler((sender, code_, result_) => {
                         LoginCompleted(sender, code_, result_);
                     }), this, code, result);
-                }
-                else
+                } else
                     LoginCompleted(this, code, result);
             }
         }
 
-        protected virtual void OnChanged(LoginState state)
-        {
-            if (LoginStateChanged != null)
-            {
-                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess())
-                {
-                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginStateHandler((sender_, state_, try_num_, last_error_) =>
-                    {
+        protected virtual void OnChanged(LoginState state) {
+            if (LoginStateChanged != null) {
+                if (owner_dispatcher != null && !owner_dispatcher.CheckAccess()) {
+                    owner_dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginStateHandler((sender_, state_, try_num_, last_error_) => {
                         LoginStateChanged(sender_, state_, try_num_, last_error_);
                     }), this, state, start_try + 1, last_error);
-                }
-                else
+                } else
                     LoginStateChanged(this, state, start_try + 1, last_error);
             }
         }
 
-        protected void TryParseInfo(string content)
-        {
+        protected void TryParseInfo(string content) {
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(content);
             string result_text = doc.DocumentNode.SelectSingleNode("//body").InnerText;
@@ -112,17 +96,12 @@ namespace DMOLibrary.Profiles
 
             int res_code = Convert.ToInt32(result.DocumentNode.SelectSingleNode("//result").Attributes["value"].Value);
             string Args = string.Empty;
-            if (res_code == 0)
-            {
-                foreach (HtmlNode node in result.DocumentNode.SelectNodes("//param"))
-                {
-                    try { Args += node.Attributes["value"].Value + " "; }
-                    catch { };
+            if (res_code == 0) {
+                foreach (HtmlNode node in result.DocumentNode.SelectNodes("//param")) {
+                    try { Args += node.Attributes["value"].Value + " "; } catch { };
                 }
                 OnCompleted(LoginCode.SUCCESS, Args);
-            }
-            else
-            {
+            } else {
                 last_error = res_code;
                 start_try++;
                 TryLogin(UserId, Password);
@@ -131,15 +110,13 @@ namespace DMOLibrary.Profiles
         #endregion Game start
 
         #region Database Section
-        public string GetDatabasePath()
-        {
+        public string GetDatabasePath() {
             if (DATABASE_NAME != string.Empty)
                 return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), DATABASE_NAME);
             return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), TYPE_NAME);
         }
 
-        public server GetServerById(int sId)
-        {
+        public server GetServerById(int sId) {
             foreach (server s in _ServerList)
                 if (s.Id == sId)
                     return s;
@@ -153,26 +130,22 @@ namespace DMOLibrary.Profiles
 
         public DMODatabase Database;
         protected ObservableCollection<server> _ServerList;
-        public ObservableCollection<server> ServerList
-        {
+        public ObservableCollection<server> ServerList {
             set { }
             get { return _ServerList; }
         }
 
-        public bool IsWebAvailable
-        {
+        public bool IsWebAvailable {
             set { }
             get { return _WebProfile != null; }
         }
 
-        public bool IsNewsAvailable
-        {
+        public bool IsNewsAvailable {
             set { }
             get { return _NewsProfile != null; }
         }
 
-        public bool IsLoginRequired
-        {
+        public bool IsLoginRequired {
             set { }
             get { return _IsLoginRequired; }
         }

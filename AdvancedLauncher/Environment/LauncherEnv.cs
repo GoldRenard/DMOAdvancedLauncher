@@ -25,10 +25,8 @@ using AdvancedLauncher.Service;
 using System.Xml.Serialization;
 using AdvancedLauncher.Environment.Containers;
 
-namespace AdvancedLauncher.Environment
-{
-    public static class LauncherEnv
-    {
+namespace AdvancedLauncher.Environment {
+    public static class LauncherEnv {
         private static string _AppPath = null;
         public static string AppPath { get { return _AppPath; } }
         const string sFile = "Settings.xml";
@@ -39,35 +37,28 @@ namespace AdvancedLauncher.Environment
         public static Settings Settings;
         public static System.Net.WebClient WebClient = new System.Net.WebClient();
 
-        public static void Load()
-        {
+        public static void Load() {
             _AppPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
             if (File.Exists(GetSettingsFile()))
                 Settings = DeSerialize(GetSettingsFile());
             if (Settings == null)
                 Settings = new Settings();
 
-            if (string.IsNullOrEmpty(Settings.LangFile))
-            {
+            if (string.IsNullOrEmpty(Settings.LangFile)) {
                 if (LanguageEnv.Load(CultureInfo.CurrentCulture.EnglishName))
                     LauncherEnv.Settings.LangFile = CultureInfo.CurrentCulture.EnglishName;
-                else
-                {
+                else {
                     LanguageEnv.Load(LanguageEnv.DefaultName);
                     LauncherEnv.Settings.LangFile = LanguageEnv.DefaultName;
                 }
-            }
-            else
-            {
-                if (!LanguageEnv.Load(Settings.LangFile))
-                {
+            } else {
+                if (!LanguageEnv.Load(Settings.LangFile)) {
                     LanguageEnv.Load(LanguageEnv.DefaultName);
                     LauncherEnv.Settings.LangFile = LanguageEnv.DefaultName;
                 }
             }
 
-            if (Settings.pCollection == null || Settings.pCollection.Count == 0)
-            {
+            if (Settings.pCollection == null || Settings.pCollection.Count == 0) {
                 Settings.pCollection = new ObservableCollection<Profile>();
                 Settings.pCollection.Add(new Profile());
             }
@@ -76,27 +67,20 @@ namespace AdvancedLauncher.Environment
                 Save();
         }
 
-        public static Settings DeSerialize(string filepath)
-        {
+        public static Settings DeSerialize(string filepath) {
             Settings db = new Settings();
-            if (File.Exists(filepath))
-            {
+            if (File.Exists(filepath)) {
                 StreamReader file = null;
-                try
-                {
+                try {
                     XmlSerializer reader = new XmlSerializer(typeof(Settings));
                     file = new StreamReader(filepath);
                     db = (Settings)reader.Deserialize(file);
                     file.Close();
-                }
-                catch
-                {
+                } catch {
                     if (file != null)
                         file.Close();
                     return db;
-                }
-                finally
-                {
+                } finally {
                     if (file != null)
                         file.Close();
                 }
@@ -104,37 +88,32 @@ namespace AdvancedLauncher.Environment
             return db;
         }
 
-        public static void Save()
-        {
+        public static void Save() {
             XmlSerializer writer = new XmlSerializer(typeof(Settings));
             StreamWriter file = new StreamWriter(GetSettingsFile());
             writer.Serialize(file, Settings);
             file.Close();
         }
 
-        public static string GetSettingsFile()
-        {
+        public static string GetSettingsFile() {
             return Path.Combine(GetConfigsPath(), sFile);
         }
 
-        public static string GetConfigsPath()
-        {
+        public static string GetConfigsPath() {
             string dir = Path.Combine(AppPath, CONF_DIR);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             return dir;
         }
 
-        public static string GetLangsPath()
-        {
+        public static string GetLangsPath() {
             string dir = Path.Combine(AppPath, LANGS_DIR);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             return dir;
         }
 
-        public static string GetResourcesPath()
-        {
+        public static string GetResourcesPath() {
             string dir = Path.Combine(AppPath, RES_DIR);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);

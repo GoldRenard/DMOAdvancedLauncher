@@ -22,15 +22,12 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
-namespace DMOLibrary.Profiles.Joymax
-{
-    class JMNews : DMONewsProfile
-    {
+namespace DMOLibrary.Profiles.Joymax {
+    class JMNews : DMONewsProfile {
         static string STR_URL_NEW_PAGE = "http://www.joymax.com/dmo/Property_Front.aspx?workurl=http://dmocp.joymax.com{0}";
         static string STR_DATE_FORMAT_REGEX = "(\\d\\d)(-)(\\d\\d)(-)(\\d\\d)";
 
-        public override List<NewsItem> GetNews()
-        {
+        public override List<NewsItem> GetNews() {
             HtmlDocument doc = new HtmlDocument();
             List<NewsItem> news = new List<NewsItem>();
 
@@ -43,10 +40,8 @@ namespace DMOLibrary.Profiles.Joymax
             HtmlNodeCollection news_list = doc.DocumentNode.SelectNodes("//div[@class='news-list']/ul/li");
             NewsItem ni;
 
-            if (news_list != null)
-            {
-                for (int i = 0; i <= news_list.Count - 1; i++)
-                {
+            if (news_list != null) {
+                for (int i = 0; i <= news_list.Count - 1; i++) {
                     ni = new NewsItem();
                     ni.mode = news_wrap.SelectNodes("//div[@class='lead']/span[contains(@class, 'mode')]")[i].InnerText;
                     ni.subj = System.Web.HttpUtility.HtmlDecode(news_wrap.SelectNodes("//div[@class='lead']/span[@class='subj']")[i].InnerText);
@@ -58,8 +53,7 @@ namespace DMOLibrary.Profiles.Joymax
                         ni.date = m.Groups[3].ToString() + "." + m.Groups[1].ToString() + "." + m.Groups[5].ToString();
 
                     foreach (HtmlAttribute atr in news_wrap.SelectNodes("//div[@class='view']/div[@class='btn-right']/span[@class='read-more']/a")[i].Attributes)
-                        if (atr.Name == "href")
-                        {
+                        if (atr.Name == "href") {
                             ni.url = string.Format(STR_URL_NEW_PAGE, atr.Value.Replace("&", "^"));
                             break;
                         }

@@ -23,18 +23,14 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher.Pages
-{
-    public partial class MainPage : UserControl
-    {
+namespace AdvancedLauncher.Pages {
+    public partial class MainPage : UserControl {
         Storyboard ShowWindow;
         private delegate void DoChangeTextNBool(string text, bool bool_);
 
-        public MainPage()
-        {
+        public MainPage() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
                 NewsBlock_.TabChanged += NewsTabChanged;
                 Twitter.Click += NewsBlock_.ShowTwitter;
@@ -45,35 +41,26 @@ namespace AdvancedLauncher.Pages
             }
         }
 
-        public void Activate()
-        {
+        public void Activate() {
             ShowWindow.Begin();
         }
 
-        void ProfileChanged()
-        {
-            if (LauncherEnv.Settings.pCurrent.DMOProfile.IsNewsAvailable)
-            {
+        void ProfileChanged() {
+            if (LauncherEnv.Settings.pCurrent.DMOProfile.IsNewsAvailable) {
                 Joymax.Visibility = Visibility.Visible;
                 NewsTabChanged(this, LauncherEnv.Settings.pCurrent.News.FirstTab);
-            }
-            else
-            {
+            } else {
                 Joymax.Visibility = Visibility.Collapsed;
                 NewsTabChanged(this, 0);
             }
         }
 
-        private void NewsTabChanged(object sender, byte tab)
-        {
+        private void NewsTabChanged(object sender, byte tab) {
             LauncherEnv.Settings.pCurrent.News.FirstTab = tab;
-            if (tab == 0)
-            {
+            if (tab == 0) {
                 Twitter.IsEnabled = false;
                 Joymax.IsEnabled = true;
-            }
-            else
-            {
+            } else {
                 Twitter.IsEnabled = true;
                 Joymax.IsEnabled = false;
             }

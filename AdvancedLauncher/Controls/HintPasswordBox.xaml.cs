@@ -23,21 +23,17 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Security;
 
-namespace AdvancedLauncher.Controls
-{
-    public sealed partial class HintPasswordBox : UserControl, INotifyPropertyChanged
-    {
+namespace AdvancedLauncher.Controls {
+    public sealed partial class HintPasswordBox : UserControl, INotifyPropertyChanged {
         private bool IsPreventUpdate = false;
         private const string FakePass = "empty_pass";
-        public HintPasswordBox()
-        {
+        public HintPasswordBox() {
             InitializeComponent();
             LayoutRoot.DataContext = this;
             pBox.PasswordChanged += pBox_PasswordChanged;
         }
 
-        void pBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
+        void pBox_PasswordChanged(object sender, RoutedEventArgs e) {
             if (IsPreventUpdate)
                 return;
 
@@ -48,8 +44,7 @@ namespace AdvancedLauncher.Controls
 
         #region TextProperty
 
-        public bool IsEmpty
-        {
+        public bool IsEmpty {
             get { return pBox.Password.Length == 0; }
             set { NotifyPropertyChanged("IsEmpty"); }
         }
@@ -57,81 +52,69 @@ namespace AdvancedLauncher.Controls
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(SecureString), typeof(HintPasswordBox), new PropertyMetadata(OnPasswordChanged));
         public static readonly DependencyProperty HindTextProperty = DependencyProperty.Register("HintText", typeof(string), typeof(HintPasswordBox));
 
-        static void OnPasswordChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
+        static void OnPasswordChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) {
             (obj as HintPasswordBox).OnPasswordChanged((HintPasswordBox)obj, args);
         }
 
-        void OnPasswordChanged(HintPasswordBox sender, DependencyPropertyChangedEventArgs args)
-        {
+        void OnPasswordChanged(HintPasswordBox sender, DependencyPropertyChangedEventArgs args) {
             if (sender.pBox.IsFocused)
                 return;
             IsPreventUpdate = true;
-            if (Password != null)
-            {
+            if (Password != null) {
                 if (Password.Length > 0)
                     pBox.Password = FakePass;
                 else
                     pBox.Password = string.Empty;
-            }
-            else
+            } else
                 pBox.Password = string.Empty;
             IsPreventUpdate = false;
             NotifyPropertyChanged("Password");
             NotifyPropertyChanged("IsEmpty");
         }
-        
-        public SecureString Password
-        {
+
+        public SecureString Password {
             set { SetValue(PasswordProperty, value); }
             get { return (SecureString)GetValue(PasswordProperty); }
         }
 
         Thickness _TextMargin;
-        public Thickness TextMargin
-        {
+        public Thickness TextMargin {
             get { return _TextMargin; }
             set { if (_TextMargin != value) { _TextMargin = value; NotifyPropertyChanged("TextMargin"); } }
         }
 
         string _HintText;
-        public string HintText
-        {
+        public string HintText {
             get { return _HintText; }
             set { if (_HintText != value) { _HintText = value; NotifyPropertyChanged("_HintText"); } }
         }
 
         double _HintFontSize;
-        public double HintFontSize
-        {
+        public double HintFontSize {
             get { return _HintFontSize; }
             set { if (_HintFontSize != value) { _HintFontSize = value; NotifyPropertyChanged("HintFontSize"); } }
         }
 
         FontFamily _HintFontFamily;
-        public FontFamily HintFontFamily
-        {
+        public FontFamily HintFontFamily {
             get { return _HintFontFamily; }
             set { if (_HintFontFamily != value) { _HintFontFamily = value; NotifyPropertyChanged("HintFontFamily"); } }
         }
 
         FontStretch _HintFontStretch;
-        public FontStretch HintFontStretch
-        {
+        public FontStretch HintFontStretch {
             get { return _HintFontStretch; }
             set { if (_HintFontStretch != value) { _HintFontStretch = value; NotifyPropertyChanged("HintFontStretch"); } }
         }
 
         FontStyle _HintFontStyle;
-        public FontStyle HintFontStyle
-        {
+        public FontStyle HintFontStyle {
             get { return _HintFontStyle; }
             set { if (_HintFontStyle != value) { _HintFontStyle = value; NotifyPropertyChanged("HintFontWeight"); } }
         }
 
         FontWeight _HintFontWeight;
-        public FontWeight HintFontWeight
-        {
+        public FontWeight HintFontWeight {
             get { return _HintFontWeight; }
             set { if (_HintFontWeight != value) { _HintFontWeight = value; NotifyPropertyChanged("HintFontWeight"); } }
         }
@@ -140,54 +123,46 @@ namespace AdvancedLauncher.Controls
 
         #region ImageProperty
         ImageSource _Image;
-        public ImageSource Image
-        {
+        public ImageSource Image {
             get { return _Image; }
             set { if (_Image != value) { _Image = value; NotifyPropertyChanged("Image"); } }
         }
 
         Thickness _ImageMargin;
-        public Thickness ImageMargin
-        {
+        public Thickness ImageMargin {
             get { return _ImageMargin; }
             set { if (_ImageMargin != value) { _ImageMargin = value; NotifyPropertyChanged("ImageMargin"); } }
         }
 
         double _ImageWidth;
-        public double ImageWidth
-        {
+        public double ImageWidth {
             get { return _ImageWidth; }
             set { if (_ImageWidth != value) { _ImageWidth = value; NotifyPropertyChanged("ImageWidth"); } }
         }
 
         double _ImageOpacity = 1.0;
-        public double ImageOpacity
-        {
+        public double ImageOpacity {
             get { return _ImageOpacity; }
             set { if (_ImageOpacity != value) { _ImageOpacity = value; NotifyPropertyChanged("ImageOpacity"); } }
         }
 
         double _ImageHeight;
-        public double ImageHeight
-        {
+        public double ImageHeight {
             get { return _ImageHeight; }
             set { if (_ImageHeight != value) { _ImageHeight = value; NotifyPropertyChanged("ImageHeight"); } }
         }
 
         Stretch _ImageStretch;
-        public Stretch ImageStretch
-        {
+        public Stretch ImageStretch {
             get { return _ImageStretch; }
             set { if (_ImageStretch != value) { _ImageStretch = value; NotifyPropertyChanged("ImageStretch"); } }
         }
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

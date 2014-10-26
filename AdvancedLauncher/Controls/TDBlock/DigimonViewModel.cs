@@ -29,33 +29,26 @@ using DMOLibrary;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
 
-namespace AdvancedLauncher.Controls
-{
-    public class DigimonViewModel : INotifyPropertyChanged
-    {
+namespace AdvancedLauncher.Controls {
+    public class DigimonViewModel : INotifyPropertyChanged {
         static string SIZE_FORMAT = "{0}cm ({1}%)";
-        public DigimonViewModel()
-        {
+        public DigimonViewModel() {
             this.Items = new ObservableCollection<DigimonItemViewModel>();
         }
 
         public ObservableCollection<DigimonItemViewModel> Items { get; private set; }
 
-        public bool IsDataLoaded
-        {
+        public bool IsDataLoaded {
             get;
             private set;
         }
 
-        public void LoadData(tamer tamer)
-        {
+        public void LoadData(tamer tamer) {
             this.IsDataLoaded = true;
             string TYPE_NAME;
             digimon_type dtype;
-            if (Profile.GetJoymaxProfile().Database.OpenConnection())
-            {
-                foreach (digimon item in tamer.Digimons)
-                {
+            if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
+                foreach (digimon item in tamer.Digimons) {
                     dtype = Profile.GetJoymaxProfile().Database.Digimon_GetTypeById(item.Type_id);
                     TYPE_NAME = dtype.Name;
                     if (dtype.Name_alt != null)
@@ -63,23 +56,18 @@ namespace AdvancedLauncher.Controls
                     this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = TYPE_NAME, Image = GetImage(item.Type_id), TName = tamer.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
                 }
                 Profile.GetJoymaxProfile().Database.CloseConnection();
-            }
-            else
+            } else
                 foreach (digimon item in tamer.Digimons)
                     this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = "Unknown", Image = GetImage(item.Type_id), TName = tamer.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
         }
 
-        public void LoadData(List<tamer> tamers)
-        {
+        public void LoadData(List<tamer> tamers) {
             this.IsDataLoaded = true;
             string TYPE_NAME;
             digimon_type dtype;
-            if (Profile.GetJoymaxProfile().Database.OpenConnection())
-            {
-                foreach (tamer t in tamers)
-                {
-                    foreach (digimon item in t.Digimons)
-                    {
+            if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
+                foreach (tamer t in tamers) {
+                    foreach (digimon item in t.Digimons) {
                         dtype = Profile.GetJoymaxProfile().Database.Digimon_GetTypeById(item.Type_id);
                         TYPE_NAME = dtype.Name;
                         if (dtype.Name_alt != null)
@@ -88,31 +76,26 @@ namespace AdvancedLauncher.Controls
                     }
                 }
                 Profile.GetJoymaxProfile().Database.CloseConnection();
-            }
-            else
+            } else
                 foreach (tamer t in tamers)
                     foreach (digimon item in t.Digimons)
                         this.Items.Add(new DigimonItemViewModel { DName = item.Name, DType = "Unknown", Image = GetImage(item.Type_id), TName = t.Name, Level = item.Lvl, SizePC = item.Size_pc, Size = string.Format(SIZE_FORMAT, item.Size_cm, item.Size_pc), Rank = item.Rank });
         }
 
-        public void RemoveAt(int index)
-        {
-            if (this.IsDataLoaded && index < this.Items.Count)
-            {
+        public void RemoveAt(int index) {
+            if (this.IsDataLoaded && index < this.Items.Count) {
                 this.Items.RemoveAt(index);
             }
         }
 
-        public void UnLoadData()
-        {
+        public void UnLoadData() {
             this.IsDataLoaded = false;
             this.Items.Clear();
         }
 
         private bool _sortASC;
         private Type last_type;
-        public void Sort<TType>(Func<DigimonItemViewModel, TType> keySelector)
-        {
+        public void Sort<TType>(Func<DigimonItemViewModel, TType> keySelector) {
             List<DigimonItemViewModel> sortedList;
             if (last_type != typeof(TType))
                 _sortASC = true;
@@ -131,23 +114,19 @@ namespace AdvancedLauncher.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        private struct DigiImage
-        {
+        private struct DigiImage {
             public int Id;
             public BitmapImage Image;
         }
         private static List<DigiImage> ImagesCollection = new List<DigiImage>();
-        public static BitmapImage GetImage(int digi_id)
-        {
+        public static BitmapImage GetImage(int digi_id) {
             DigiImage Image = ImagesCollection.Find(i => i.Id == digi_id);
             if (Image.Image != null)
                 return Image.Image;
@@ -155,14 +134,11 @@ namespace AdvancedLauncher.Controls
             string ImageFile = string.Format("{0}\\Community\\{1}.png", LauncherEnv.GetResourcesPath(), digi_id);
 
             //If we don't have image, try to download it
-            if (!File.Exists(ImageFile))
-            {
-                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); }
-                catch { }
+            if (!File.Exists(ImageFile)) {
+                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); } catch { }
             }
 
-            if (File.Exists(ImageFile))
-            {
+            if (File.Exists(ImageFile)) {
                 Stream str = File.OpenRead(ImageFile);
                 if (str == null)
                     return null;

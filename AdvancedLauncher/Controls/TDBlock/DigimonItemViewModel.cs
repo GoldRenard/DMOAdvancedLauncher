@@ -21,21 +21,15 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
-namespace AdvancedLauncher.Controls
-{
-    public class DigimonItemViewModel : INotifyPropertyChanged
-    {
+namespace AdvancedLauncher.Controls {
+    public class DigimonItemViewModel : INotifyPropertyChanged {
         private string _DName;
-        public string DName
-        {
-            get
-            {
+        public string DName {
+            get {
                 return _DName;
             }
-            set
-            {
-                if (value != _DName)
-                {
+            set {
+                if (value != _DName) {
                     _DName = value;
                     NotifyPropertyChanged("DName");
                 }
@@ -43,16 +37,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private string _TName;
-        public string TName
-        {
-            get
-            {
+        public string TName {
+            get {
                 return _TName;
             }
-            set
-            {
-                if (value != _TName)
-                {
+            set {
+                if (value != _TName) {
                     _TName = value;
                     NotifyPropertyChanged("TName");
                 }
@@ -60,16 +50,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private string _DType;
-        public string DType
-        {
-            get
-            {
+        public string DType {
+            get {
                 return _DType;
             }
-            set
-            {
-                if (value != _DType)
-                {
+            set {
+                if (value != _DType) {
                     _DType = value;
                     NotifyPropertyChanged("DType");
                 }
@@ -77,16 +63,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private int _Level;
-        public int Level
-        {
-            get
-            {
+        public int Level {
+            get {
                 return _Level;
             }
-            set
-            {
-                if (value != _Level)
-                {
+            set {
+                if (value != _Level) {
                     _Level = value;
                     NotifyPropertyChanged("Level");
                 }
@@ -94,16 +76,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private string _Size;
-        public string Size
-        {
-            get
-            {
+        public string Size {
+            get {
                 return _Size;
             }
-            set
-            {
-                if (value != _Size)
-                {
+            set {
+                if (value != _Size) {
                     _Size = value;
                     NotifyPropertyChanged("Size");
                 }
@@ -111,16 +89,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private int _SizePC;
-        public int SizePC
-        {
-            get
-            {
+        public int SizePC {
+            get {
                 return _SizePC;
             }
-            set
-            {
-                if (value != _SizePC)
-                {
+            set {
+                if (value != _SizePC) {
                     _SizePC = value;
                     NotifyPropertyChanged("SizePC");
                 }
@@ -128,16 +102,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private int _PSize;
-        public int PSize
-        {
-            get
-            {
+        public int PSize {
+            get {
                 return _PSize;
             }
-            set
-            {
-                if (value != _PSize)
-                {
+            set {
+                if (value != _PSize) {
                     _PSize = value;
                     NotifyPropertyChanged("PSize");
                 }
@@ -145,16 +115,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private long _Rank;
-        public long Rank
-        {
-            get
-            {
+        public long Rank {
+            get {
                 return _Rank;
             }
-            set
-            {
-                if (value != _Rank)
-                {
+            set {
+                if (value != _Rank) {
                     _Rank = value;
                     NotifyPropertyChanged("Rank");
                 }
@@ -162,16 +128,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private ImageSource _Image;
-        public ImageSource Image
-        {
-            get
-            {
+        public ImageSource Image {
+            get {
                 return _Image;
             }
-            set
-            {
-                if (value != _Image)
-                {
+            set {
+                if (value != _Image) {
                     _Image = value;
                     NotifyPropertyChanged("Image");
                 }
@@ -179,11 +141,9 @@ namespace AdvancedLauncher.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

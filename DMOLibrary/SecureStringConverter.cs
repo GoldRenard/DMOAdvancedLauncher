@@ -20,23 +20,17 @@ using System;
 using System.Security;
 using System.Runtime.InteropServices;
 
-namespace DMOLibrary
-{
-    public static class SecureStringConverter
-    {
-        public static string ConvertToUnsecureString(this SecureString securePassword)
-        {
+namespace DMOLibrary {
+    public static class SecureStringConverter {
+        public static string ConvertToUnsecureString(this SecureString securePassword) {
             if (securePassword == null)
                 return null;
 
             IntPtr unmanagedString = IntPtr.Zero;
-            try
-            {
+            try {
                 unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
                 return Marshal.PtrToStringUni(unmanagedString);
-            }
-            finally
-            {
+            } finally {
                 Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
             }
         }

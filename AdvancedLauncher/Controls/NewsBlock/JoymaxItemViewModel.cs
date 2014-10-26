@@ -20,21 +20,15 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 
-namespace AdvancedLauncher.Controls
-{
-    public class JoymaxItemViewModel : INotifyPropertyChanged
-    {
+namespace AdvancedLauncher.Controls {
+    public class JoymaxItemViewModel : INotifyPropertyChanged {
         private string _Title;
-        public string Title
-        {
-            get
-            {
+        public string Title {
+            get {
                 return _Title;
             }
-            set
-            {
-                if (value != _Title)
-                {
+            set {
+                if (value != _Title) {
                     _Title = value;
                     NotifyPropertyChanged("Title");
                 }
@@ -42,16 +36,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private string _Date;
-        public string Date
-        {
-            get
-            {
+        public string Date {
+            get {
                 return _Date;
             }
-            set
-            {
-                if (value != _Date)
-                {
+            set {
+                if (value != _Date) {
                     _Date = value;
                     NotifyPropertyChanged("Date");
                 }
@@ -59,16 +49,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private string _Content;
-        public string Content
-        {
-            get
-            {
+        public string Content {
+            get {
                 return _Content;
             }
-            set
-            {
-                if (value != _Content)
-                {
+            set {
+                if (value != _Content) {
                     _Content = value;
                     NotifyPropertyChanged("Content");
                 }
@@ -76,16 +62,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private string _Type;
-        public string Type
-        {
-            get
-            {
+        public string Type {
+            get {
                 return _Type;
             }
-            set
-            {
-                if (value != _Type)
-                {
+            set {
+                if (value != _Type) {
                     _Type = value;
                     NotifyPropertyChanged("Type");
                 }
@@ -93,16 +75,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private Rect _ImgVB;
-        public Rect ImgVB
-        {
-            get
-            {
+        public Rect ImgVB {
+            get {
                 return _ImgVB;
             }
-            set
-            {
-                if (value != _ImgVB)
-                {
+            set {
+                if (value != _ImgVB) {
                     _ImgVB = value;
                     NotifyPropertyChanged("ImgVB");
                 }
@@ -110,16 +88,12 @@ namespace AdvancedLauncher.Controls
         }
 
         private string _Link;
-        public string Link
-        {
-            get
-            {
+        public string Link {
+            get {
                 return _Link;
             }
-            set
-            {
-                if (value != _Link)
-                {
+            set {
+                if (value != _Link) {
                     _Link = value;
                     NotifyPropertyChanged("Link");
                 }
@@ -127,11 +101,9 @@ namespace AdvancedLauncher.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
+            if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

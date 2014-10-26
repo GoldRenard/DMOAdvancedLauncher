@@ -29,10 +29,10 @@ using DMOLibrary;
 
 namespace AdvancedLauncher.Controls {
     public partial class TDBlock : UserControl {
-        TamerViewModel Tamer_DC = new TamerViewModel();
-        DigimonViewModel Digimon_DC = new DigimonViewModel();
-        bool isFullDList = false;
-        byte CurrentTab = 1;
+        private TamerViewModel TamerModel = new TamerViewModel();
+        private DigimonViewModel DigimonModel = new DigimonViewModel();
+        private bool isFullDList = false;
+        private byte CurrentTab = 1;
 
         public delegate void ChangedEventHandler(object sender, int tab_num);
         public event ChangedEventHandler TabChanged;
@@ -44,15 +44,17 @@ namespace AdvancedLauncher.Controls {
         public TDBlock() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                Tamers.DataContext = Tamer_DC;
-                Digimons.DataContext = Digimon_DC;
-                LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+                Tamers.DataContext = TamerModel;
+                Digimons.DataContext = DigimonModel;
+                LanguageEnv.Languagechanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
             }
         }
 
         public void ClearAll() {
-            Tamer_DC.UnLoadData();
-            Digimon_DC.UnLoadData();
+            TamerModel.UnLoadData();
+            DigimonModel.UnLoadData();
 
             Tamers.Visibility = Visibility.Collapsed;
             Digimons.Visibility = Visibility.Collapsed;
@@ -64,8 +66,8 @@ namespace AdvancedLauncher.Controls {
 
         #region Showing tabs
 
-        private void Tamers_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e) {
-            if (Tamer_DC.IsDataLoaded && Tamers.SelectedIndex >= 0) {
+        private void OnTamersShow(object sender, MouseButtonEventArgs e) {
+            if (TamerModel.IsDataLoaded && Tamers.SelectedIndex >= 0) {
                 TamerItemViewModel selected_item = (TamerItemViewModel)Tamers.SelectedItem;
                 Tamers.SelectedIndex = -1;
                 ShowDigimons(selected_item.Tamer);
@@ -106,8 +108,8 @@ namespace AdvancedLauncher.Controls {
                 Tamers.Visibility = Visibility.Visible;
                 Digimons.Visibility = Visibility.Collapsed;
                 CurrentTab = 1;
-                Tamer_DC.UnLoadData();
-                Tamer_DC.LoadData(tamers);
+                TamerModel.UnLoadData();
+                TamerModel.LoadData(tamers);
                 sb = new Storyboard();
                 dbl_anim = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(150)));
                 Storyboard.SetTarget(dbl_anim, Tamers);
@@ -130,8 +132,8 @@ namespace AdvancedLauncher.Controls {
                 Tamers.Visibility = Visibility.Collapsed;
                 Digimons.Visibility = Visibility.Visible;
 
-                Digimon_DC.UnLoadData();
-                Digimon_DC.LoadData(tamer);
+                DigimonModel.UnLoadData();
+                DigimonModel.LoadData(tamer);
                 isFullDList = false;
 
                 CurrentTab = 2;
@@ -158,8 +160,8 @@ namespace AdvancedLauncher.Controls {
                 Digimons.Visibility = Visibility.Visible;
 
                 if (!isFullDList) {
-                    Digimon_DC.UnLoadData();
-                    Digimon_DC.LoadData(tamers);
+                    DigimonModel.UnLoadData();
+                    DigimonModel.LoadData(tamers);
                     isFullDList = true;
                 }
                 CurrentTab = 2;
@@ -177,45 +179,47 @@ namespace AdvancedLauncher.Controls {
 
         #region List Header Processing and translation
 
-        private void TamerHeader_Loaded_1(object sender, RoutedEventArgs e) {
-            ((TextBlock)sender).MouseLeftButtonUp += TamerHeader_Click_1;
+        private void OnTamerHeaderLoaded(object sender, RoutedEventArgs e) {
+            ((TextBlock)sender).MouseLeftButtonUp += OnTamerHeaderClick;
         }
 
-        private void DigimonHeader_Loaded_1(object sender, RoutedEventArgs e) {
-            ((TextBlock)sender).MouseLeftButtonUp += DigimonHeader_Click_1;
+        private void OnDigimonHeaderLoaded(object sender, RoutedEventArgs e) {
+            ((TextBlock)sender).MouseLeftButtonUp += OnDigimonHeaderClick;
         }
 
-        private void TamerHeader_Click_1(object sender, RoutedEventArgs e) {
+        private void OnTamerHeaderClick(object sender, RoutedEventArgs e) {
             if (sender != null) {
-                if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type)
-                    Tamer_DC.Sort(i => i.Tamer.TypeId);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name)
-                    Tamer_DC.Sort(i => i.TName);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Level)
-                    Tamer_DC.Sort(i => i.Level);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Ranking)
-                    Tamer_DC.Sort(i => i.Rank);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Partner)
-                    Tamer_DC.Sort(i => i.PName);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Mercenary)
-                    Tamer_DC.Sort(i => i.DCnt);
+                if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type) {
+                    TamerModel.Sort(i => i.Tamer.TypeId);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name) {
+                    TamerModel.Sort(i => i.TName);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Level) {
+                    TamerModel.Sort(i => i.Level);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Ranking) {
+                    TamerModel.Sort(i => i.Rank);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Partner) {
+                    TamerModel.Sort(i => i.PName);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Mercenary) {
+                    TamerModel.Sort(i => i.DCnt);
+                }
             }
         }
 
-        private void DigimonHeader_Click_1(object sender, RoutedEventArgs e) {
+        private void OnDigimonHeaderClick(object sender, RoutedEventArgs e) {
             if (sender != null) {
-                if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type)
-                    Digimon_DC.Sort(i => i.DType);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name)
-                    Digimon_DC.Sort(i => i.DName);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Level)
-                    Digimon_DC.Sort(i => i.Level);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Ranking)
-                    Digimon_DC.Sort(i => i.Rank);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Tamer)
-                    Digimon_DC.Sort(i => i.TName);
-                else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Size)
-                    Digimon_DC.Sort(i => i.SizePC);
+                if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type) {
+                    DigimonModel.Sort(i => i.DType);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name) {
+                    DigimonModel.Sort(i => i.DName);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Level) {
+                    DigimonModel.Sort(i => i.Level);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Ranking) {
+                    DigimonModel.Sort(i => i.Rank);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Tamer) {
+                    DigimonModel.Sort(i => i.TName);
+                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Size) {
+                    DigimonModel.Sort(i => i.SizePC);
+                }
             }
         }
 

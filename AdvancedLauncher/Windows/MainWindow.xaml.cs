@@ -84,7 +84,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         void Settings_ProfileLocked(bool IsLocked) {
-            MainMenu.isEnabled = !IsLocked;
+            MainMenu.IdEnabled = !IsLocked;
 
         }
 

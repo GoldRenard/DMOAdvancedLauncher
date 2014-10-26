@@ -334,7 +334,7 @@
                     </ObjectAnimationUsingKeyFrames>
                 </Storyboard>
             </Grid.Resources>
-            <StackPanel x:Name="LoginForm" Visibility="Collapsed" Opacity="0" KeyDown="LoginForm_KeyDown">
+            <StackPanel x:Name="LoginForm" Visibility="Collapsed" Opacity="0" KeyDown="OnLoginKeyDown">
                 <Grid Width="224">
                     <TextBox x:Name="Login" MaxLength="22" Style="{StaticResource LoginTBox}" />
                     <TextBlock IsHitTestVisible="False" Height="18" Style="{StaticResource LoginTBHint}" Text="{Binding Settings_Account_User}"
@@ -342,7 +342,7 @@
                 </Grid>
                 <Grid Width="224" Margin="0,5,0,0">
                     <PasswordBox x:Name="Password" PasswordChanged="PasswordChanged" PasswordChar="●" Style="{StaticResource LoginPWBox}" />
-                    <TextBlock x:Name="PW_Watermark" IsHitTestVisible="False" Height="18" Style="{StaticResource LoginTBHint}" Text="{Binding Settings_Account_Password}" />
+                    <TextBlock x:Name="PassWatermark" IsHitTestVisible="False" Height="18" Style="{StaticResource LoginTBHint}" Text="{Binding Settings_Account_Password}" />
                 </Grid>
             </StackPanel>
             <Grid Margin="50,-10,0,0" x:Name="WaitingBlock" Opacity="0" Visibility="Collapsed">
@@ -362,7 +362,7 @@
                 <Button x:Name="StartButton"
                 Height="30"
                 VerticalAlignment="Top"
-                Click="StartButton_Click"
+                Click="OnStartButtonClick"
                 Content="{Binding GameButton_Waiting}"
                 IsEnabled="False"
                 Style="{StaticResource BlueButton}"/>

@@ -45,7 +45,11 @@ namespace AdvancedLauncher.Controls {
         private bool IsErrorOccured = false;
 
         private bool _IsLoading = false;
-        public bool IsLoading { get { return _IsLoading; } }
+        public bool IsLoading {
+            get {
+                return _IsLoading;
+            }
+        }
         private bool IsStatic = false;       //Используется для указания ротации без информации о дигимоне и теймере (просто ротация картинок)
 
         private static BitmapImage unknownDigimon = new BitmapImage(new Uri(@"images/unknown.png", UriKind.Relative));
@@ -74,11 +78,17 @@ namespace AdvancedLauncher.Controls {
 
         public DigiRotation() {
             InitializeComponent();
-            LoadingTask = new TaskManager.Task() { Owner = this };
+            LoadingTask = new TaskManager.Task() {
+                Owner = this
+            };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 StaticProfile = Environment.Containers.Profile.GetJoymaxProfile();
-                LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
-                LauncherEnv.Settings.ProfileChanged += delegate() { IsSourceLoaded = false; };
+                LanguageEnv.Languagechanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
+                LauncherEnv.Settings.ProfileChanged += delegate() {
+                    IsSourceLoaded = false;
+                };
 
                 sbb1First = ((Storyboard)this.FindResource("ShowBlock1_1st"));
                 sbb1 = ((Storyboard)this.FindResource("ShowBlock1"));
@@ -278,7 +288,10 @@ namespace AdvancedLauncher.Controls {
 
             //If we don't have image, try to download it
             if (!File.Exists(ImageFile)) {
-                try { LauncherEnv.WebClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile); } catch { }
+                try {
+                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile);
+                } catch {
+                }
             }
 
             if (File.Exists(ImageFile)) {
@@ -294,7 +307,10 @@ namespace AdvancedLauncher.Controls {
                 bitmap.StreamSource = img_stream;
                 bitmap.EndInit();
                 bitmap.Freeze();
-                ImagesCollection.Add(new DigiImage() { Image = bitmap, Id = digi_id });
+                ImagesCollection.Add(new DigiImage() {
+                    Image = bitmap,
+                    Id = digi_id
+                });
                 return bitmap;
             }
             return unknownDigimon;
@@ -325,7 +341,9 @@ namespace AdvancedLauncher.Controls {
             sbAnimShow.Children.Add(dbl_anim_show);
             sbAnimHide.Children.Add(dbl_anim_hide);
 
-            sbAnimHide.Completed += (s, e) => { LoadingFrame.Visibility = Visibility.Collapsed; };
+            sbAnimHide.Completed += (s, e) => {
+                LoadingFrame.Visibility = Visibility.Collapsed;
+            };
 
             IsAnimInitialized = true;
         }

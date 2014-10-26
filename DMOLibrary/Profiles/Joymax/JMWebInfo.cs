@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Joymax {
@@ -73,7 +74,10 @@ namespace DMOLibrary.Profiles.Joymax {
                 if (tlist != null) {
                     HtmlNode e = null;
                     for (int i = 0; i <= tlist.Count - 2; i++) {
-                        try { e = ranking.SelectNodes("//td[@class='guild']")[i]; } catch { };
+                        try {
+                            e = ranking.SelectNodes("//td[@class='guild']")[i];
+                        } catch {
+                        };
                         if (e != null)
                             if (ClearStr(e.InnerText) == guildName) {
                                 Regex r = new Regex(STR_GUILD_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -115,7 +119,9 @@ namespace DMOLibrary.Profiles.Joymax {
                     return guildInfo;
                 }
             }
-            Guild empty = new Guild { Id = -1 };
+            Guild empty = new Guild {
+                Id = -1
+            };
             OnCompleted(DMODownloadResultCode.DB_CONNECT_ERROR, empty); //can't connect to database
             return empty;
         }
@@ -152,9 +158,10 @@ namespace DMOLibrary.Profiles.Joymax {
                 if (m.Success) {
                     tamerInfo.Id = Convert.ToInt32(m.Groups[2].ToString());
                     tamerInfo.Digimons = GetDigimons(tamerInfo, isDetailed);
-                    if (tamerInfo.Digimons.Count == 0) {
+                    // The FailMax website is soooo stupid, so sometimes it doesn't shows the digimon list of some tamers
+                    /*if (tamerInfo.Digimons.Count == 0) {
                         return false;
-                    }
+                    }*/
                     tamerList.Add(tamerInfo);
                     if (tamerInfo.Name == guild.MasterName) {
                         guild.MasterId = tamerInfo.Id;
@@ -184,10 +191,9 @@ namespace DMOLibrary.Profiles.Joymax {
             partnerInfo.TamerId = tamer.Id;
             partnerInfo.ServId = tamer.ServId;
             partnerInfo.Name = ClearStr(tamerInfo.SelectNodes("//ul/li[@class='partner']/span")[0].InnerText);
-            if (!StarterInfo(ref partnerInfo, tamer.Name)) {
-                return digimonList;
+            if (StarterInfo(ref partnerInfo, tamer.Name)) {
+                digimonList.Add(partnerInfo);
             }
-            digimonList.Add(partnerInfo);
 
             HtmlNode mercenaryList = doc.DocumentNode.SelectNodes("//div[@id='rankingscroll']")[0];
             HtmlNodeCollection dlist = mercenaryList.SelectNodes("//li/em[@class='partner']");
@@ -209,9 +215,13 @@ namespace DMOLibrary.Profiles.Joymax {
                     digimonInfo.TypeId = types[0].Id;
                     digimonInfo.Lvl = Convert.ToInt32(ClearStr(mercenaryList.SelectNodes("//span[@class='level']")[i].InnerText));
                     digimonInfo.Rank = Convert.ToInt32(ClearStr(mercenaryList.SelectNodes("//span[@class='ranking']")[i].InnerText));
-                    if (isDetailed)
-                        DigimonInfo(ref digimonInfo, tamer.Name);
-                    digimonList.Add(digimonInfo);
+
+                    if (digimonList.Count(d => d.TypeId.Equals(digimonInfo.TypeId)) == 0) {
+                        if (isDetailed) {
+                            DigimonInfo(ref digimonInfo, tamer.Name);
+                        }
+                        digimonList.Add(digimonInfo);
+                    }
                 }
             }
             return digimonList;

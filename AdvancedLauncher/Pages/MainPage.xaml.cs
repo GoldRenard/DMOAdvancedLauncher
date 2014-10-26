@@ -33,8 +33,8 @@ namespace AdvancedLauncher.Pages {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
                 NewsBlock_.TabChanged += NewsTabChanged;
-                Twitter.Click += NewsBlock_.ShowTwitter;
-                Joymax.Click += NewsBlock_.ShowJoymax;
+                Twitter.Click += NewsBlock_.OnShowTwitter;
+                Joymax.Click += NewsBlock_.OnShowJoymax;
                 LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
                 LauncherEnv.Settings.ProfileChanged += ProfileChanged;
                 ProfileChanged();

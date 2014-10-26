@@ -18,6 +18,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
@@ -28,207 +29,258 @@ using DMOLibrary.Profiles;
 namespace AdvancedLauncher.Environment.Containers {
     [XmlType(TypeName = "Profile")]
     public class Profile : INotifyPropertyChanged {
-        private int _pId = 0;
+        private static string DEFAULT_TWITTER_SOURCE = "http://renamon.ru/launcher/dmor_timeline.php";
+
+        private int _Id = 0;
         [XmlAttribute("Id")]
-        public int pId {
-            set { _pId = value; NotifyPropertyChanged("Id"); }
-            get { return _pId; }
-        }
-
-        private string _pName = "Default";
-        [XmlAttribute("Name")]
-        public string pName {
-            set { _pName = value; NotifyPropertyChanged("pName"); }
-            get { return _pName; }
-        }
-
-        private bool pAppLocale = true;
-        [XmlAttribute]
-        public bool AppLocale {
-            set { pAppLocale = value; NotifyPropertyChanged("AppLocale"); }
+        public int Id {
+            set {
+                _Id = value; NotifyPropertyChanged("Id");
+            }
             get {
-                if (!Service.ApplicationLauncher.IsALSupported)
-                    return false;
-                return pAppLocale;
+                return _Id;
             }
         }
 
-        private bool pUpdateEngine = false;
+        private string _Name = "Default";
+        [XmlAttribute("Name")]
+        public string Name {
+            set {
+                _Name = value; NotifyPropertyChanged("Name");
+            }
+            get {
+                return _Name;
+            }
+        }
+
+        private bool _AppLocaleEnabled = true;
         [XmlAttribute]
-        public bool UpdateEngine {
-            set { pUpdateEngine = value; NotifyPropertyChanged("UpdateEngine"); }
-            get { return pUpdateEngine; }
+        public bool AppLocaleEnabled {
+            set {
+                _AppLocaleEnabled = value; NotifyPropertyChanged("AppLocaleEnabled");
+            }
+            get {
+                if (!Service.ApplicationLauncher.IsALSupported) {
+                    return false;
+                }
+                return _AppLocaleEnabled;
+            }
+        }
+
+        private bool _UpdateEngineEnabled = false;
+        [XmlAttribute]
+        public bool UpdateEngineEnabled {
+            set {
+                _UpdateEngineEnabled = value; NotifyPropertyChanged("UpdateEngineEnabled");
+            }
+            get {
+                return _UpdateEngineEnabled;
+            }
         }
 
         #region Subcontainers
 
-        private LoginData pLogin = new LoginData();
+        private LoginData _Login = new LoginData();
         public LoginData Login {
-            set { pLogin = value; NotifyPropertyChanged("Login"); }
+            set {
+                _Login = value; NotifyPropertyChanged("Login");
+            }
             get {
                 if (!DMOProfile.IsLoginRequired) {
-                    pLogin.Password = string.Empty;
-                    pLogin.pLastSessionArgs = string.Empty;
-                    pLogin.User = string.Empty;
+                    _Login.Password = string.Empty;
+                    _Login.LastSessionArgs = string.Empty;
+                    _Login.User = string.Empty;
                 }
-                return pLogin;
+                return _Login;
             }
         }
 
-        private RotationData pRotation = new RotationData() { URate = 2 };
+        private RotationData _Rotation = new RotationData() {
+            UpdateInterval = 2
+        };
         public RotationData Rotation {
-            set { pRotation = value; NotifyPropertyChanged("Rotation"); }
+            set {
+                _Rotation = value; NotifyPropertyChanged("Rotation");
+            }
             get {
                 if (!DMOProfile.IsWebAvailable) {
-                    pRotation.Guild = string.Empty;
-                    pRotation.ServerId = 0;
-                    pRotation.Tamer = string.Empty;
-                    pRotation.URate = 0;
+                    _Rotation.Guild = string.Empty;
+                    _Rotation.ServerId = 0;
+                    _Rotation.Tamer = string.Empty;
+                    _Rotation.UpdateInterval = 0;
                 }
-                return pRotation;
+                return _Rotation;
             }
         }
 
-        private NewsData pNews = new NewsData() { FirstTab = 0, TwitterUrl = "http://renamon.ru/launcher/dmor_timeline.php" };
+        private NewsData _News = new NewsData() {
+            FirstTab = 0,
+            TwitterUrl = DEFAULT_TWITTER_SOURCE
+        };
         public NewsData News {
-            set { pNews = value; NotifyPropertyChanged("News"); }
+            set {
+                _News = value; NotifyPropertyChanged("News");
+            }
             get {
-                if (!DMOProfile.IsNewsAvailable)
-                    pNews.FirstTab = 0;
-                return pNews;
+                if (!DMOProfile.IsNewsAvailable) {
+                    _News.FirstTab = 0;
+                }
+                return _News;
             }
         }
 
         #endregion
 
         #region Image
-        private string pImagePath;
+        private string _ImagePath;
         public string ImagePath {
-            set { pImagePath = value; NotifyPropertyChanged("ImagePath"); NotifyPropertyChanged("Image"); }
-            get { return pImagePath; }
+            set {
+                _ImagePath = value; NotifyPropertyChanged("ImagePath"); NotifyPropertyChanged("Image");
+            }
+            get {
+                return _ImagePath;
+            }
         }
 
-        private string pImagePathLoaded;
-        private ImageSource pImage = new BitmapImage(new Uri("pack://application:,,,/Resources/Icons/NoAvatar.png"));
+        private string _ImagePathLoaded;
+        private ImageSource _Image = new BitmapImage(new Uri("pack://application:,,,/Resources/Icons/NoAvatar.png"));
         [XmlIgnore]
         public ImageSource Image {
             set {
-                if (pImage != value) {
-                    pImage = value;
+                if (_Image != value) {
+                    _Image = value;
                     NotifyPropertyChanged("Image");
                 }
             }
             get {
-                if (pImagePath != null) {
-                    if (pImagePath != pImagePathLoaded) {
-                        if (File.Exists(pImagePath)) {
-                            pImage = new BitmapImage(new Uri(pImagePath));
-                            pImagePathLoaded = pImagePath;
+                if (_ImagePath != null) {
+                    if (_ImagePath != _ImagePathLoaded) {
+                        if (File.Exists(_ImagePath)) {
+                            _Image = new BitmapImage(new Uri(_ImagePath));
+                            _ImagePathLoaded = _ImagePath;
                         }
                     }
                 }
-                return pImage;
+                return _Image;
             }
         }
         #endregion
 
         #region Game Environment
-        private GameEnv pGameEnv = new GameEnv();
+        private GameEnv _GameEnv = new GameEnv();
         public GameEnv GameEnv {
-            set { pGameEnv = value; NotifyPropertyChanged("GameEnv"); }
+            set {
+                _GameEnv = value; NotifyPropertyChanged("GameEnv");
+            }
             get {
-                if (!pGameEnv.IsInitialized)
-                    pGameEnv.Initialize();
-                return pGameEnv;
+                if (!_GameEnv.IsInitialized)
+                    _GameEnv.Initialize();
+                return _GameEnv;
             }
         }
 
         [XmlIgnore]
         public string GameType {
-            set { }
+            set {
+            }
             get {
-                switch (GameEnv.pType) {
-                    case Environment.GameEnv.GameType.ADMO: { return "Aeria Games"; }
-                    case Environment.GameEnv.GameType.GDMO: { return "Joymax"; }
-                    case Environment.GameEnv.GameType.KDMO_DM: { return "Korea DM"; }
-                    case Environment.GameEnv.GameType.KDMO_IMBC: { return "Korea IMBC"; }
+                switch (GameEnv.GetGameType()) {
+                    case Environment.GameEnv.GameType.ADMO: {
+                            return "Aeria Games";
+                        }
+                    case Environment.GameEnv.GameType.GDMO: {
+                            return "Joymax";
+                        }
+                    case Environment.GameEnv.GameType.KDMO_DM: {
+                            return "Korea DM";
+                        }
+                    case Environment.GameEnv.GameType.KDMO_IMBC: {
+                            return "Korea IMBC";
+                        }
+                    default:
+                        throw new NotImplementedException();
                 }
-                return string.Empty;
             }
         }
 
         [XmlIgnore]
         public byte GameTypeNum {
             set {
-                GameEnv.pType = (GameEnv.GameType)value;
-                GameEnv.LoadType(GameEnv.pType);
+                GameEnv.SetGameType((GameEnv.GameType)value);
+                GameEnv.LoadType(GameEnv.GetGameType());
                 NotifyPropertyChanged("GameEnv");       //We've changed env, so we must update all bindings
                 NotifyPropertyChanged("GameType");
                 NotifyPropertyChanged("DMOProfile");
                 NotifyPropertyChanged("Rotation");      //cuz dmoprofile changed, we must update rotation and news support
                 NotifyPropertyChanged("News");
             }
-            get { return (byte)GameEnv.pType; }
+            get {
+                return (byte)GameEnv.GetGameType();
+            }
         }
 
         #endregion
 
         #region DMOLibrary.DMOProfile
-        private static DMOProfile _DMOAeria = null;
-        private static DMOProfile _DMOJoymax = null;
-        private static DMOProfile _DMOKorea = null;
-        private static DMOProfile _DMOKoreaIMBC = null;
+        private static Dictionary<Environment.GameEnv.GameType, DMOProfile> profileCollection = new Dictionary<Environment.GameEnv.GameType, DMOProfile>();
+
         [XmlIgnore]
         public DMOProfile DMOProfile {
-            set { }
+            set {
+            }
             get {
-                switch (GameEnv.pType) {
-                    case Environment.GameEnv.GameType.ADMO: {
-                            if (_DMOAeria == null)
-                                _DMOAeria = new DMOLibrary.Profiles.Aeria.DMOAeria();
-                            return _DMOAeria;
-                        }
-                    case Environment.GameEnv.GameType.GDMO: {
-                            if (_DMOJoymax == null)
-                                _DMOJoymax = new DMOLibrary.Profiles.Joymax.DMOJoymax();
-                            return _DMOJoymax;
-                        }
-                    case Environment.GameEnv.GameType.KDMO_DM: {
-                            if (_DMOKorea == null)
-                                _DMOKorea = new DMOLibrary.Profiles.Korea.DMOKorea();
-                            return _DMOKorea;
-                        }
-                    case Environment.GameEnv.GameType.KDMO_IMBC: {
-                            if (_DMOKoreaIMBC == null)
-                                _DMOKoreaIMBC = new DMOLibrary.Profiles.Korea.DMOKoreaIMBC();
-                            return _DMOKoreaIMBC;
-                        }
-                    default:
-                        return null;
+                DMOProfile profile;
+                if (profileCollection.ContainsKey(GameEnv.GetGameType())) {
+                    profileCollection.TryGetValue(GameEnv.GetGameType(), out profile);
+                } else {
+                    switch (GameEnv.GetGameType()) {
+                        case Environment.GameEnv.GameType.ADMO:
+                            profile = new DMOLibrary.Profiles.Aeria.DMOAeria();
+                            break;
+                        case Environment.GameEnv.GameType.GDMO:
+                            profile = new DMOLibrary.Profiles.Joymax.DMOJoymax();
+                            break;
+                        case Environment.GameEnv.GameType.KDMO_DM:
+                            profile = new DMOLibrary.Profiles.Korea.DMOKorea();
+                            break;
+                        case Environment.GameEnv.GameType.KDMO_IMBC:
+                            profile = new DMOLibrary.Profiles.Korea.DMOKoreaIMBC();
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                    profileCollection.Add(GameEnv.GetGameType(), profile);
                 }
+                return profile;
             }
         }
 
         public static DMOProfile GetJoymaxProfile() {
-            if (_DMOJoymax == null)
-                _DMOJoymax = new DMOLibrary.Profiles.Joymax.DMOJoymax();
-            return _DMOJoymax;
+            DMOProfile profile;
+            if (profileCollection.ContainsKey(Environment.GameEnv.GameType.GDMO)) {
+                profileCollection.TryGetValue(Environment.GameEnv.GameType.GDMO, out profile);
+            } else {
+                profile = new DMOLibrary.Profiles.Joymax.DMOJoymax();
+                profileCollection.Add(Environment.GameEnv.GameType.GDMO, profile);
+            }
+            return profile;
         }
         #endregion
 
         #region Constructors
 
-        public Profile() { }
+        public Profile() {
+        }
 
         public Profile(Profile p) {
-            this.pId = p.pId;
-            this.pName = p.pName;
+            this.Id = p.Id;
+            this.Name = p.Name;
             this.ImagePath = p.ImagePath;
-            this.AppLocale = p.AppLocale;
-            this.UpdateEngine = p.UpdateEngine;
-            this.pLogin = new LoginData(p.pLogin);
-            this.pRotation = new RotationData(p.pRotation);
-            this.pNews = new NewsData(p.pNews);
+            this.AppLocaleEnabled = p.AppLocaleEnabled;
+            this.UpdateEngineEnabled = p.UpdateEngineEnabled;
+            this._Login = new LoginData(p._Login);
+            this._Rotation = new RotationData(p._Rotation);
+            this._News = new NewsData(p._News);
             this.GameEnv = new GameEnv(p.GameEnv);
         }
 

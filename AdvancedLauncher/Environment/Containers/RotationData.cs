@@ -22,20 +22,33 @@ using System.Xml.Serialization;
 namespace AdvancedLauncher.Environment.Containers {
     public class RotationData {
         [XmlAttribute("Guild")]
-        public string Guild { set; get; }
+        public string Guild {
+            set;
+            get;
+        }
         [XmlAttribute("Tamer")]
-        public string Tamer { set; get; }
+        public string Tamer {
+            set;
+            get;
+        }
         [XmlAttribute("ServerId")]
-        public byte ServerId { set; get; }
+        public byte ServerId {
+            set;
+            get;
+        }
         [XmlAttribute("UpdateInterval")]
-        public int URate { set; get; }
+        public int UpdateInterval {
+            set;
+            get;
+        }
 
         public RotationData(RotationData rd) {
             Guild = rd.Guild;
             Tamer = rd.Tamer;
             ServerId = rd.ServerId;
-            URate = rd.URate;
+            UpdateInterval = rd.UpdateInterval;
         }
-        public RotationData() { }
+        public RotationData() {
+        }
     }
 }

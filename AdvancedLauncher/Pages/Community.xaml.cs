@@ -58,21 +58,21 @@ namespace AdvancedLauncher.Pages {
             chkbox_IsDetailed.IsChecked = false;
 
             //Загружаем новый список серверов
-            ComboBoxServer.ItemsSource = LauncherEnv.Settings.pCurrent.DMOProfile.ServerList;
+            ComboBoxServer.ItemsSource = LauncherEnv.Settings.CurrentProfile.DMOProfile.ServerList;
 
             //Активируем новый профиль
-            dmo_web = LauncherEnv.Settings.pCurrent.DMOProfile.WebProfile;
+            dmo_web = LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile;
 
             //Если есть название гильдии в ротации, вводим его и сервер
-            if (!string.IsNullOrEmpty(LauncherEnv.Settings.pCurrent.Rotation.Guild)) {
+            if (!string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {
                     //Ищем сервер с нужным идентификатором и выбираем его
-                    if (serv.Id == LauncherEnv.Settings.pCurrent.Rotation.ServerId + 1) {
+                    if (serv.Id == LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1) {
                         ComboBoxServer.SelectedValue = serv;
                         break;
                     }
                 }
-                textBox_g_name.Text = LauncherEnv.Settings.pCurrent.Rotation.Guild;
+                textBox_g_name.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
             } else {
                 textBox_g_name.Text = LanguageEnv.Strings.CommGuildName;
                 if (ComboBoxServer.Items.Count > 0)

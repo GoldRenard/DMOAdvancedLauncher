@@ -34,7 +34,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         [XmlAttribute("Type")]
-        public GameType pType;
+        private GameType Type;
         [XmlElement("GamePath")]
         public string pGamePath;
         [XmlElement("DefLauncherPath")]
@@ -42,14 +42,22 @@ namespace AdvancedLauncher.Environment {
 
         [XmlIgnore]
         public string GamePath {
-            set { pGamePath = value; Initialize(); NotifyPropertyChanged("GamePath"); }
-            get { return pGamePath; }
+            set {
+                pGamePath = value; Initialize(); NotifyPropertyChanged("GamePath");
+            }
+            get {
+                return pGamePath;
+            }
         }
 
         [XmlIgnore]
         public string DefLauncherPath {
-            set { pDefLauncherPath = value; Initialize(); NotifyPropertyChanged("DefLauncherPath"); }
-            get { return pDefLauncherPath; }
+            set {
+                pDefLauncherPath = value; Initialize(); NotifyPropertyChanged("DefLauncherPath");
+            }
+            get {
+                return pDefLauncherPath;
+            }
         }
 
         private bool pLastSessionAvailable;
@@ -72,31 +80,33 @@ namespace AdvancedLauncher.Environment {
 
         #region Load Section
 
-        public GameEnv() { }
-        public GameEnv(GameEnv g) {
-            this.pType = g.pType;
-            this.pGamePath = g.pGamePath;
-            this.pDefLauncherPath = g.pDefLauncherPath;
+        public GameEnv() {
+        }
+        public GameEnv(GameEnv gameEnv) {
+            this.Type = gameEnv.GetGameType();
+            this.pGamePath = gameEnv.pGamePath;
+            this.pDefLauncherPath = gameEnv.pDefLauncherPath;
         }
 
         public void Initialize() {
             IsInitialized = true;
-            LoadType(pType);
-
-            if (string.IsNullOrEmpty(pGamePath))
+            LoadType(Type);
+            if (string.IsNullOrEmpty(pGamePath)) {
                 pGamePath = GetGamePathFromRegistry();
-            if (string.IsNullOrEmpty(pDefLauncherPath))
+            }
+            if (string.IsNullOrEmpty(pDefLauncherPath)) {
                 pDefLauncherPath = GetDefLauncherPathFromRegistry();
+            }
         }
 
-        public void LoadType(GameType pType) {
-            this.pType = pType;
+        public void LoadType(GameType type) {
+            this.Type = type;
             puPF = @"Data\Pack01.pf";
             puHF = @"Data\Pack01.hf";
             puImportDir = @"Pack01";
             pLastSessionAvailable = false;
 
-            switch (pType) {
+            switch (type) {
                 case GameType.ADMO: {
                         pGamePathRegKey = pDefLauncherPathRegKey = "Software\\Aeria Games\\DMO";
                         pGamePathRegVal = pDefLauncherPathRegVal = "Path";
@@ -139,59 +149,72 @@ namespace AdvancedLauncher.Environment {
         #region Check Section
 
         public bool CheckGame() {
-            if (!IsInitialized)
+            if (!IsInitialized) {
                 Initialize();
-            if (string.IsNullOrEmpty(pGamePath))
+            }
+            if (string.IsNullOrEmpty(pGamePath)) {
                 return false;
-            if (!File.Exists(Path.Combine(pGamePath, puLocalVer)) || !File.Exists(Path.Combine(pGamePath, pGameEXE)))
+            }
+            if (!File.Exists(Path.Combine(pGamePath, puLocalVer)) || !File.Exists(Path.Combine(pGamePath, pGameEXE))) {
                 return false;
-            if (!File.Exists(Path.Combine(pGamePath, puPF)) || !File.Exists(Path.Combine(pGamePath, puHF)))
+            }
+            if (!File.Exists(Path.Combine(pGamePath, puPF)) || !File.Exists(Path.Combine(pGamePath, puHF))) {
                 return false;
+            }
             return true;
         }
 
         public bool CheckGame(string pGamePath) {
-            if (!IsInitialized)
+            if (!IsInitialized) {
                 Initialize();
-            if (string.IsNullOrEmpty(pGamePath))
+            }
+            if (string.IsNullOrEmpty(pGamePath)) {
                 return false;
-            if (!File.Exists(Path.Combine(pGamePath, puLocalVer)) || !File.Exists(Path.Combine(pGamePath, pGameEXE)))
+            }
+            if (!File.Exists(Path.Combine(pGamePath, puLocalVer)) || !File.Exists(Path.Combine(pGamePath, pGameEXE))) {
                 return false;
-            if (!File.Exists(Path.Combine(pGamePath, puPF)) || !File.Exists(Path.Combine(pGamePath, puHF)))
+            }
+            if (!File.Exists(Path.Combine(pGamePath, puPF)) || !File.Exists(Path.Combine(pGamePath, puHF))) {
                 return false;
+            }
             return true;
         }
 
         public bool CheckDefLauncher() {
-            if (!IsInitialized)
+            if (!IsInitialized) {
                 Initialize();
-            if (string.IsNullOrEmpty(pDefLauncherPath))
+            }
+            if (string.IsNullOrEmpty(pDefLauncherPath)) {
                 return false;
-            if (!File.Exists(Path.Combine(pDefLauncherPath, pDefLauncherEXE)))
+            }
+            if (!File.Exists(Path.Combine(pDefLauncherPath, pDefLauncherEXE))) {
                 return false;
+            }
             return true;
         }
 
         public bool CheckDefLauncher(string pDefLauncherPath) {
-            if (!IsInitialized)
+            if (!IsInitialized) {
                 Initialize();
-            if (string.IsNullOrEmpty(pDefLauncherPath))
+            }
+            if (string.IsNullOrEmpty(pDefLauncherPath)) {
                 return false;
-            if (!File.Exists(Path.Combine(pDefLauncherPath, pDefLauncherEXE)))
+            }
+            if (!File.Exists(Path.Combine(pDefLauncherPath, pDefLauncherEXE))) {
                 return false;
+            }
             return true;
         }
 
         public bool CheckUpdateAccess() {
-            if (Utils.IsFileLocked(GetGameEXE()) || Utils.IsFileLocked(GetPFPath()) || Utils.IsFileLocked(GetHFPath()))
-                return false;
-            return true;
+            return !Utils.IsFileLocked(GetGameEXE()) && !Utils.IsFileLocked(GetPFPath()) && !Utils.IsFileLocked(GetHFPath());
         }
 
         private DMOFileSystem _GameFS = null;
         public DMOFileSystem GetFS() {
-            if (_GameFS == null)
+            if (_GameFS == null) {
                 _GameFS = new DMOFileSystem();
+            }
             return _GameFS;
         }
 
@@ -201,7 +224,7 @@ namespace AdvancedLauncher.Environment {
 
         #endregion
 
-        #region Get Section
+        #region Get/Set Section
 
         public string GetGameEXE() {
             if (!IsInitialized)
@@ -271,6 +294,14 @@ namespace AdvancedLauncher.Environment {
             if (!IsInitialized)
                 Initialize();
             return pLastSessionAvailable;
+        }
+
+        public GameType GetGameType() {
+            return Type;
+        }
+
+        public void SetGameType(GameType type) {
+            this.Type = type;
         }
 
         #endregion

@@ -66,7 +66,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public void Activate() {
-            game_path = LauncherEnv.Settings.pCurrent.GameEnv.GamePath;
+            game_path = LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath;
             try {
                 ShowWindow.Begin();
             } catch (Exception ex) {

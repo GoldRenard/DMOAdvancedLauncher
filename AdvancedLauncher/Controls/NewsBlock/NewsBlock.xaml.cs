@@ -172,11 +172,11 @@ namespace AdvancedLauncher.Controls {
 
 
         private void ReloadNews() {
-            if (_jsonUrl != LauncherEnv.Settings.pCurrent.News.TwitterUrl) {
-                _jsonUrl = LauncherEnv.Settings.pCurrent.News.TwitterUrl;
+            if (_jsonUrl != LauncherEnv.Settings.CurrentProfile.News.TwitterUrl) {
+                _jsonUrl = LauncherEnv.Settings.CurrentProfile.News.TwitterUrl;
             }
-            if (LauncherEnv.Settings.pCurrent.DMOProfile.IsNewsAvailable) {
-                ShowTab(LauncherEnv.Settings.pCurrent.News.FirstTab);
+            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsNewsAvailable) {
+                ShowTab(LauncherEnv.Settings.CurrentProfile.News.FirstTab);
             } else {
                 ShowTab(0);
             }

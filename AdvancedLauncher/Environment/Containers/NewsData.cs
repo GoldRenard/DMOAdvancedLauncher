@@ -22,15 +22,22 @@ using System.Xml.Serialization;
 namespace AdvancedLauncher.Environment.Containers {
     public class NewsData {
         [XmlAttribute("FirstTab")]
-        public byte FirstTab { set; get; }
+        public byte FirstTab {
+            set;
+            get;
+        }
         [XmlAttribute("TwitterUrl")]
-        public string TwitterUrl { set; get; }
+        public string TwitterUrl {
+            set;
+            get;
+        }
 
         public NewsData(NewsData nd) {
             FirstTab = nd.FirstTab;
             TwitterUrl = nd.TwitterUrl;
         }
-        public NewsData() { }
+        public NewsData() {
+        }
     }
 
 }

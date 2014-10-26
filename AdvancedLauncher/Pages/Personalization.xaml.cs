@@ -104,7 +104,7 @@ namespace AdvancedLauncher.Pages {
         private void LoadResourceList() {
             Resource_DC.UnLoadData();
             string[] rlines = null;
-            string rFile = (LauncherEnv.GetResourcesPath() + string.Format(RES_LIST_FILE, LauncherEnv.Settings.pCurrent.DMOProfile.GetTypeName()));
+            string rFile = (LauncherEnv.GetResourcesPath() + string.Format(RES_LIST_FILE, LauncherEnv.Settings.CurrentProfile.DMOProfile.GetTypeName()));
             if (File.Exists(rFile)) {
                 rlines = System.IO.File.ReadAllLines(rFile);
 
@@ -202,11 +202,11 @@ namespace AdvancedLauncher.Pages {
             if (item == null)
                 return false;
 
-            DMOFileSystem dmoFS = LauncherEnv.Settings.pCurrent.GameEnv.GetFS();
+            DMOFileSystem dmoFS = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
 
             //Открываем файловую систему игры
             bool IsOpened = false;
-            try { IsOpened = dmoFS.Open(FileAccess.Read, 16, LauncherEnv.Settings.pCurrent.GameEnv.GetHFPath(), LauncherEnv.Settings.pCurrent.GameEnv.GetPFPath()); } catch { IsOpened = false; }
+            try { IsOpened = dmoFS.Open(FileAccess.Read, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath()); } catch { IsOpened = false; }
 
             if (IsOpened) {
                 Stream file = null;
@@ -239,9 +239,9 @@ namespace AdvancedLauncher.Pages {
         private void BtnApply_Click(object sender, RoutedEventArgs e) {
 
             //Открываем файловую систему игры
-            DMOFileSystem dmoFS = LauncherEnv.Settings.pCurrent.GameEnv.GetFS();
+            DMOFileSystem dmoFS = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
             bool IsOpened = false;
-            try { IsOpened = dmoFS.Open(FileAccess.Write, 16, LauncherEnv.Settings.pCurrent.GameEnv.GetHFPath(), LauncherEnv.Settings.pCurrent.GameEnv.GetPFPath()); } catch { IsOpened = false; }
+            try { IsOpened = dmoFS.Open(FileAccess.Write, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath()); } catch { IsOpened = false; }
 
             if (IsOpened) {
                 ResourceItemViewModel r_selected = (ResourceItemViewModel)ItemsComboBox.SelectedValue;

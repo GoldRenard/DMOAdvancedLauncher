@@ -33,7 +33,7 @@ namespace AdvancedLauncher.Service {
                 client.Proxy = (IWebProxy)null;
 
                 try {
-                    string result = client.DownloadString(new Uri(LauncherEnv.RemotePath + "check_updates.php"));
+                    string result = client.DownloadString(new Uri(LauncherEnv.REMOTE_PATH + "check_updates.php"));
                     res_arr = result.Split('|');
                 } catch {
                     return;

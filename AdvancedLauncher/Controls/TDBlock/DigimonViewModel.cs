@@ -183,7 +183,7 @@ namespace AdvancedLauncher.Controls {
             //If we don't have image, try to download it
             if (!File.Exists(ImageFile)) {
                 try {
-                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.RemotePath, digi_id), ImageFile);
+                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.REMOTE_PATH, digi_id), ImageFile);
                 } catch {
                 }
             }

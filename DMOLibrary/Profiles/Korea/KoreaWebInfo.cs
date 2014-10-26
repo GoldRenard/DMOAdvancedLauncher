@@ -18,6 +18,7 @@
 
 using System;
 using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
@@ -88,7 +89,9 @@ namespace DMOLibrary.Profiles.Korea {
                         guildInfo.Id = Convert.ToInt32(m1.Groups[4].ToString());
                         isFound = true;
                     }
-                } catch { isFound = false; }
+                } catch {
+                    isFound = false;
+                }
 
                 if (!isFound) {
                     OnCompleted(DMODownloadResultCode.NOT_FOUND, guildInfo); // guild not found
@@ -110,7 +113,9 @@ namespace DMOLibrary.Profiles.Korea {
                     return guildInfo;
                 }
             }
-            Guild empty = new Guild { Id = -1 };
+            Guild empty = new Guild {
+                Id = -1
+            };
             OnCompleted(DMODownloadResultCode.DB_CONNECT_ERROR, empty); //can't connect to database*/
             return empty;
         }
@@ -168,7 +173,8 @@ namespace DMOLibrary.Profiles.Korea {
                             }
                             tamerList.Add(tamerInfo);
                         }
-                    } catch { }
+                    } catch {
+                    }
                 }
             }
 
@@ -196,7 +202,9 @@ namespace DMOLibrary.Profiles.Korea {
                 partnerInfo.TamerId = tamer.Id;
                 partnerInfo.ServId = tamer.ServId;
                 partnerInfo.Name = ClearStr(doc.DocumentNode.SelectSingleNode("//div[1]//div[2]//div[2]//table[1]//tr[1]//td[2]//table[1]//tr[3]//td[2]//b").InnerText);
-            } catch { return digimonList; }
+            } catch {
+                return digimonList;
+            }
             if (!StarterInfo(ref partnerInfo, tamer.Name)) {
                 return digimonList;
             }
@@ -235,10 +243,12 @@ namespace DMOLibrary.Profiles.Korea {
                     digimonInfo.Name = types[0].Name;
                     digimonInfo.TypeId = types[0].Id;
 
-                    if (isDetailed) {
-                        DigimonInfo(ref digimonInfo, tamer.Name);
+                    if (digimonList.Count(d => d.TypeId.Equals(digimonInfo.TypeId)) == 0) {
+                        if (isDetailed) {
+                            DigimonInfo(ref digimonInfo, tamer.Name);
+                        }
+                        digimonList.Add(digimonInfo);
                     }
-                    digimonList.Add(digimonInfo);
                 }
             }
             return digimonList;
@@ -257,7 +267,11 @@ namespace DMOLibrary.Profiles.Korea {
             doc.LoadHtml(html);
 
             HtmlNode partnerNode;
-            try { partnerNode = doc.DocumentNode.SelectNodes("//table[@class='forum_list']")[1].SelectSingleNode(".//tbody//tr[not(@onmouseover)]"); } catch { return false; }
+            try {
+                partnerNode = doc.DocumentNode.SelectNodes("//table[@class='forum_list']")[1].SelectSingleNode(".//tbody//tr[not(@onmouseover)]");
+            } catch {
+                return false;
+            }
 
             if (partnerNode != null) {
                 if (Database.OpenConnection()) {
@@ -302,7 +316,11 @@ namespace DMOLibrary.Profiles.Korea {
                 doc.LoadHtml(html);
 
                 HtmlNode partner_node;
-                try { partner_node = doc.DocumentNode.SelectNodes("//table[@class='forum_list']")[1].SelectSingleNode(".//tbody//tr[not(@onmouseover)]"); } catch { return false; }
+                try {
+                    partner_node = doc.DocumentNode.SelectNodes("//table[@class='forum_list']")[1].SelectSingleNode(".//tbody//tr[not(@onmouseover)]");
+                } catch {
+                    return false;
+                }
 
                 if (partner_node != null) {
                     digimon.TypeId = d_type.Id;

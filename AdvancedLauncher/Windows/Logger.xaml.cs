@@ -23,17 +23,22 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
+using System.Windows.Threading;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
 
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Environment.Commands;
 using System.IO;
 
 namespace AdvancedLauncher.Windows {
     public partial class Logger : UserControl, INotifyPropertyChanged {
         private Storyboard ShowWindow, HideWindow;
+        public delegate void AddLogHandler(LoggingEvent logEvent);
+        private int recentIndex = -1;
 
         private static Logger _Instance;
         public static Logger Instance {
@@ -71,6 +76,11 @@ namespace AdvancedLauncher.Windows {
             if (state) {
                 this.Visibility = Visibility.Visible;
                 ShowWindow.Begin();
+                Dispatcher.BeginInvoke(
+                    DispatcherPriority.ContextIdle,
+                    new Action(delegate() {
+                        ConsoleInput.Focus();
+                    }));
             } else {
                 HideWindow.Begin();
             }
@@ -88,17 +98,57 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        public delegate void AddLogHandler(LoggingEvent logEvent);
         public void AddEntry(LoggingEvent logEvent) {
             if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
-                    LogEntries.Add(_logEvent);
-                    NotifyPropertyChanged("LogEntries");
+                    AddEntry(_logEvent);
                 }), logEvent);
                 return;
             }
-            LogEntries.Add(logEvent);
+            if (LogEntries.Count == 0) {
+                LogEntries.Add(logEvent);
+            } else {
+                LogEntries.Insert(0, logEvent);
+            }
             NotifyPropertyChanged("LogEntries");
+        }
+
+        private void OnConsoleSendClick(object sender, RoutedEventArgs e) {
+            CommandHandler.Send(ConsoleInput.Text.Trim());
+            ConsoleInput.Clear();
+            recentIndex = CommandHandler.GetRecent().Count;
+        }
+
+        private void OnKeyDownHandler(object sender, KeyEventArgs e) {
+            switch (e.Key) {
+                case Key.Return:
+                    OnConsoleSendClick(sender, e);
+                    break;
+                case Key.Up:
+                case Key.Down:
+                    int newIndex = GetNewIndex(e.Key);
+                    if (newIndex >= 0 && CommandHandler.GetRecent().Count > newIndex) {
+                        recentIndex = newIndex;
+                        ConsoleInput.Text = CommandHandler.GetRecent()[newIndex];
+                        ConsoleInput.CaretIndex = ConsoleInput.Text.Length;
+                    }
+                    break;
+            }
+        }
+
+        private int GetNewIndex(Key key) {
+            switch (key) {
+                case Key.Up:
+                    if (recentIndex <= 0) {
+                        return recentIndex;
+                    } else {
+                        return recentIndex - 1;
+                    }
+                case Key.Down:
+                    return recentIndex + 1;
+                default:
+                    return recentIndex;
+            }
         }
     }
 }

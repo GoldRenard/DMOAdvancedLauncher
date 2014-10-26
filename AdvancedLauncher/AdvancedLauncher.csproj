@@ -123,6 +123,8 @@
     <Compile Include="Environment\Commands\CommandHandler.cs" />
     <Compile Include="Environment\Commands\Command.cs" />
     <Compile Include="Environment\Commands\HelpCommand.cs" />
+    <Compile Include="Environment\Commands\EchoCommand.cs" />
+    <Compile Include="Environment\Commands\ExecCommand.cs" />
     <Compile Include="Environment\Containers\NewsData.cs" />
     <Compile Include="Environment\Containers\RotationData.cs" />
     <Compile Include="Environment\GameEnv.cs" />
@@ -864,7 +866,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Console.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

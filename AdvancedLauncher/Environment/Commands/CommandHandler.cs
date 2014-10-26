@@ -15,10 +15,13 @@ namespace AdvancedLauncher.Environment.Commands {
         private static List<String> recentCommands = new List<string>();
 
         static CommandHandler() {
-            commands.Add("help", new HelpCommand());
+            RegisterCommand(new HelpCommand());
+            RegisterCommand(new EchoCommand());
+            RegisterCommand(new ExecCommand());
         }
 
         public static void Send(string input) {
+            LOGGER.Info(input);
             if (string.IsNullOrEmpty(input)) {
                 LOGGER.Info(ENTER_COMMAND);
                 return;
@@ -38,12 +41,20 @@ namespace AdvancedLauncher.Environment.Commands {
             command.DoCommand(args);
         }
 
-        public static void RegisterCommand(String name, Command command) {
-            commands.Add(name, command);
+        public static void RegisterCommand(Command command) {
+            if (commands.ContainsKey(command.GetName())) {
+                LOGGER.ErrorFormat("Can't register command {0} because command with this name already registered!", command.GetName());
+                return;
+            }
+            commands.Add(command.GetName(), command);
         }
 
         public static void UnRegisterCommand(string name) {
             commands.Remove(name);
+        }
+
+        public static void UnRegisterCommand(Command command) {
+            UnRegisterCommand(command.GetName());
         }
 
         public static Dictionary<String, Command> GetCommands() {

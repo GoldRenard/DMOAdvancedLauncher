@@ -40,6 +40,32 @@ namespace AdvancedLauncher.Windows {
         public delegate void AddLogHandler(LoggingEvent logEvent, bool notify);
         private int recentIndex = -1;
 
+        class ClearCommand : Command {
+
+            private readonly Logger loggerInstance;
+
+            public ClearCommand(Logger loggerInstance)
+                : base("clear", "Clears the console log") {
+                    this.loggerInstance = loggerInstance;
+            }
+
+            public override void DoCommand(string[] args) {
+                loggerInstance._LogEntries.Clear();
+                loggerInstance._LogEntriesFiltered.Clear();
+                loggerInstance.NotifyPropertyChanged("LogEntries");
+                loggerInstance.NotifyPropertyChanged("LogEntriesFiltered");
+            }
+        }
+
+        private enum LogLevel {
+            DEBUG,
+            ERROR,
+            FATAL,
+            INFO,
+            WARN,
+            OTNER
+        }
+
         private static Logger _Instance;
         public static Logger Instance {
             get {
@@ -57,15 +83,15 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private static ObservableCollection<LoggingEvent> _LogEntries = new ObservableCollection<LoggingEvent>();
-        private static ObservableCollection<LoggingEvent> _LogEntriesFiltered = new ObservableCollection<LoggingEvent>();
-        public static ObservableCollection<LoggingEvent> LogEntries {
+        private ObservableCollection<LoggingEvent> _LogEntries = new ObservableCollection<LoggingEvent>();
+        private ObservableCollection<LoggingEvent> _LogEntriesFiltered = new ObservableCollection<LoggingEvent>();
+        public ObservableCollection<LoggingEvent> LogEntries {
             get {
                 return _LogEntries;
             }
         }
 
-        public static ObservableCollection<LoggingEvent> LogEntriesFiltered {
+        public ObservableCollection<LoggingEvent> LogEntriesFiltered {
             get {
                 return _LogEntriesFiltered;
             }
@@ -79,6 +105,8 @@ namespace AdvancedLauncher.Windows {
             ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
             HideWindow = ((Storyboard)this.FindResource("HideWindow"));
             this.Items.ItemsSource = LogEntriesFiltered;
+
+            CommandHandler.RegisterCommand(new ClearCommand(this));
         }
 
         public void Show(bool state) {
@@ -147,15 +175,6 @@ namespace AdvancedLauncher.Windows {
                 AddFilteredEntry(log, false);
             }
             NotifyPropertyChanged("LogEntriesFiltered");
-        }
-
-        enum LogLevel {
-            DEBUG,
-            ERROR,
-            FATAL,
-            INFO,
-            WARN,
-            OTNER
         }
 
         private LogLevel ConvertLevel(Level logLevel) {

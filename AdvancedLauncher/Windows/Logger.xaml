@@ -67,7 +67,7 @@
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="ConsoleInput" PreviewKeyDown="OnKeyDownHandler" Focusable="True" />
-                    <Button x:Name="ConsoleSend" Grid.Column="1" Content="Send" Margin="10,0,0,0" Click="OnConsoleSendClick" />
+                    <Button x:Name="ConsoleSend" Grid.Column="1" Content="{Binding SendButton}" Margin="10,0,0,0" Click="OnConsoleSendClick" />
                 </Grid>
                 <Grid Grid.Row="1" Background="{StaticResource DeepSurfaceBrush}">
                     <ItemsControl x:Name= "Items">

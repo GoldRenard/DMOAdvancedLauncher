@@ -49,7 +49,7 @@ namespace DMOLibrary.Profiles {
         public event DownloadCompleteHandler DownloadCompleted;
         public event DownloadStatusChangedHandler StatusChanged;
         protected virtual void OnStarted() {
-            LOGGER.Info("Info obtaining started.");
+            LOGGER.Info("GuildInfo obtaining started.");
             IsBusy = true;
             if (DownloadStarted != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
@@ -62,7 +62,7 @@ namespace DMOLibrary.Profiles {
             }
         }
         protected virtual void OnCompleted(DMODownloadResultCode code, Guild result) {
-            LOGGER.Info(String.Format("Info obtaining completed: code={0}, result={1}", code, result));
+            LOGGER.Info(String.Format("GuildInfo obtaining completed: code={0}, result={1}", code, result));
             if (DownloadCompleted != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
                     OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteHandler((sender, code_, result_) => {
@@ -74,7 +74,7 @@ namespace DMOLibrary.Profiles {
             IsBusy = false;
         }
         protected virtual void OnStatusChanged(DMODownloadStatusCode code, string info, int p, int pm) {
-            LOGGER.Info(String.Format("Info obtaining status changed: code={0}, info={1}, p={2}, pm={3}", code, info, p, pm));
+            LOGGER.Info(String.Format("GuildInfo obtaining status changed: code={0}, info={1}, p={2}, pm={3}", code, info, p, pm));
             downloadStatus.Code = code;
             downloadStatus.Info = info;
             downloadStatus.Progress = p;

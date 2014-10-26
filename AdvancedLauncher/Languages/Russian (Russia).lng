@@ -3,10 +3,12 @@
 
   <CantOpenLink>Не удается открыть ссылку. Попробуйте изменить браузер по-умолчанию. Ошибка: </CantOpenLink>
   <Error>Ошибка</Error>
+  <Console>Консоль</Console>
   <CreateButton>Создать</CreateButton>
   <DeleteButton>Удалить</DeleteButton>
   <BrowseButton>Обзор</BrowseButton>
   <ApplyButton>Применить</ApplyButton>
+  <SendButton>Отправить</SendButton>
   <CancelButton>Отмена</CancelButton>
   <CloseButton>Закрыть</CloseButton>
   <StartButton>Начать игру</StartButton>

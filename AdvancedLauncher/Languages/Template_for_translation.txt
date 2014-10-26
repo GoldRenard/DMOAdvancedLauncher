@@ -3,10 +3,12 @@
 
   <CantOpenLink>Can't open link. Try to change the default browser. Error: </CantOpenLink>
   <Error>Error</Error>
+  <Console>Console</Console>
   <CreateButton>Create</CreateButton>
   <DeleteButton>Delete</DeleteButton>
   <BrowseButton>Browse</BrowseButton>
   <ApplyButton>Apply</ApplyButton>
+  <SendButton>Send</SendButton>
   <CancelButton>Cancel</CancelButton>
   <CloseButton>Close</CloseButton>
   <StartButton>GAME START</StartButton>

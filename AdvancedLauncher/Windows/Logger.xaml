@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:AdvancedLauncher.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:log4netCore="clr-namespace:log4net.Core;assembly=log4net"
              mc:Ignorable="d" 
              d:DesignHeight="470" d:DesignWidth="900"
@@ -56,24 +57,27 @@
                     Viewport="0,0,333,800"
                     ViewportUnits="Absolute" />
             </Grid.Background>
-            <Grid Margin="20,10,20,50">
+            <Grid Margin="20,0,20,10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="30" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
-                    <TextBox x:Name="ConsoleInput" PreviewKeyDown="OnKeyDownHandler" Focusable="True" />
-                    <Button x:Name="ConsoleSend" Grid.Column="1" Content="{Binding SendButton}" Margin="10,0,0,0" Click="OnConsoleSendClick" />
-                </Grid>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="20">
+                    <CheckBox x:Name="FilterFatal" Content="Fatal" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                    <CheckBox x:Name="FilterError" Content="Error" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                    <CheckBox x:Name="FilterWarn" Content="Warn" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                    <CheckBox x:Name="FilterInfo" Content="Info" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                    <CheckBox x:Name="FilterDebug" Content="Debug" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
+                </StackPanel>
                 <Grid Grid.Row="1" Background="{StaticResource DeepSurfaceBrush}">
                     <ItemsControl x:Name= "Items">
                         <ItemsControl.Template>
                             <ControlTemplate>
                                 <ScrollViewer CanContentScroll="True" x:Name="LogScrollViewer">
+                                    <i:Interaction.Behaviors>
+                                        <controls:AutoScrollBehavior />
+                                    </i:Interaction.Behaviors>
                                     <ItemsPresenter />
                                 </ScrollViewer>
                             </ControlTemplate>
@@ -85,16 +89,16 @@
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                 </Grid>
-            </Grid>
-            <Grid Margin="20,10" VerticalAlignment="Bottom">
-                <Button x:Name="BtnClose" Height="30" Width="100" HorizontalAlignment="Right" Content="{Binding CloseButton}" Click="OnCloseClick" />
-                <StackPanel Orientation="Horizontal" Height="20">
-                    <CheckBox x:Name="FilterFatal" Content="Fatal" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
-                    <CheckBox x:Name="FilterError" Content="Error" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
-                    <CheckBox x:Name="FilterWarn" Content="Warn" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
-                    <CheckBox x:Name="FilterInfo" Content="Info" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
-                    <CheckBox x:Name="FilterDebug" Content="Debug" Margin="5,0" IsChecked="True" Click="OnFilterChecked" />
-                </StackPanel>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="85" />
+                        <ColumnDefinition Width="85" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="ConsoleInput" PreviewKeyDown="OnKeyDownHandler" Focusable="True" />
+                    <Button x:Name="ConsoleSend" Grid.Column="1" Content="{Binding SendButton}" Margin="5,0,0,0" Click="OnConsoleSendClick" />
+                    <Button x:Name="BtnClose" Grid.Column="2" Content="{Binding CloseButton}" Margin="5,0,0,0" Click="OnCloseClick" />
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

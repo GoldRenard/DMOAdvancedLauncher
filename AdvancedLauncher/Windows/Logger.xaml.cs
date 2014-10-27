@@ -157,11 +157,7 @@ namespace AdvancedLauncher.Windows {
                 return;
             }
             if (IsApplicable(logEvent) == true) {
-                if (_LogEntriesFiltered.Count == 0) {
-                    _LogEntriesFiltered.Add(logEvent);
-                } else {
-                    _LogEntriesFiltered.Insert(0, logEvent);
-                }
+                _LogEntriesFiltered.Add(logEvent);
             }
             if (notify) {
                 NotifyPropertyChanged("LogEntriesFiltered");

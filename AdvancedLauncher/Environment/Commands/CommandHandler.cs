@@ -21,11 +21,11 @@ namespace AdvancedLauncher.Environment.Commands {
         }
 
         public static void Send(string input) {
-            LOGGER.Info(input);
             if (string.IsNullOrEmpty(input)) {
                 LOGGER.Info(ENTER_COMMAND);
                 return;
             }
+            LOGGER.Info(input);
             recentCommands.Add(input);
             string[] args = input.Split(' ');
             if (!commands.ContainsKey(args[0])) {

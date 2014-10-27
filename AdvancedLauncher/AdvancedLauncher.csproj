@@ -287,7 +287,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="app.manifest" />
     <None Include="Languages\Russian %28Russia%29.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

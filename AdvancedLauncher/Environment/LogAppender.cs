@@ -8,7 +8,7 @@ namespace AdvancedLauncher.Environment {
 
         protected override void Append(LoggingEvent loggingEvent) {
             if (Logger.IsInstanceInitialized) {
-                Logger.Instance.AddEntry(loggingEvent, true);
+                Logger.Instance.AddEntry(loggingEvent);
             }
         }
     }

@@ -35,9 +35,9 @@ using AdvancedLauncher.Environment.Commands;
 using System.IO;
 
 namespace AdvancedLauncher.Windows {
-    public partial class Logger : UserControl, INotifyPropertyChanged {
+    public partial class Logger : UserControl {
         private Storyboard ShowWindow, HideWindow;
-        public delegate void AddLogHandler(LoggingEvent logEvent, bool notify);
+        public delegate void AddLogHandler(LoggingEvent logEvent);
         private int recentIndex = -1;
 
         class ClearCommand : Command {
@@ -52,8 +52,6 @@ namespace AdvancedLauncher.Windows {
             public override void DoCommand(string[] args) {
                 loggerInstance._LogEntries.Clear();
                 loggerInstance._LogEntriesFiltered.Clear();
-                loggerInstance.NotifyPropertyChanged("LogEntries");
-                loggerInstance.NotifyPropertyChanged("LogEntriesFiltered");
             }
         }
 
@@ -127,40 +125,26 @@ namespace AdvancedLauncher.Windows {
             Show(false);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        public void AddEntry(LoggingEvent logEvent, bool notify) {
+        public void AddEntry(LoggingEvent logEvent) {
             if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent, _notify) => {
-                    AddEntry(_logEvent, _notify);
-                }), logEvent, notify);
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
+                    AddEntry(_logEvent);
+                }), logEvent);
                 return;
             }
-            AddFilteredEntry(logEvent, notify);
+            AddFilteredEntry(logEvent);
             _LogEntries.Add(logEvent);
-            if (notify) {
-                NotifyPropertyChanged("LogEntries");
-            }
         }
 
-        public void AddFilteredEntry(LoggingEvent logEvent, bool notify) {
+        public void AddFilteredEntry(LoggingEvent logEvent) {
             if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent, _notify) => {
-                    AddFilteredEntry(_logEvent, _notify);
-                }), logEvent, notify);
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
+                    AddFilteredEntry(_logEvent);
+                }), logEvent);
                 return;
             }
             if (IsApplicable(logEvent) == true) {
                 _LogEntriesFiltered.Add(logEvent);
-            }
-            if (notify) {
-                NotifyPropertyChanged("LogEntriesFiltered");
             }
         }
 
@@ -168,9 +152,8 @@ namespace AdvancedLauncher.Windows {
         private void OnFilterChecked(object sender, RoutedEventArgs e) {
             _LogEntriesFiltered.Clear();
             foreach (LoggingEvent log in LogEntries) {
-                AddFilteredEntry(log, false);
+                AddFilteredEntry(log);
             }
-            NotifyPropertyChanged("LogEntriesFiltered");
         }
 
         private LogLevel ConvertLevel(Level logLevel) {

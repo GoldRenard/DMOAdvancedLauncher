@@ -48,7 +48,6 @@ namespace AdvancedLauncher.Windows {
         private int currentTab = 0;
 
         public MainWindow() {
-            // test commit
             InitializeComponent();
             if (!LayoutRoot.Children.Contains(Logger.Instance)) {
                 LayoutRoot.Children.Add(Logger.Instance);

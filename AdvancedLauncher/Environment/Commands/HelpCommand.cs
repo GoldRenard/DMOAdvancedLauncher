@@ -14,6 +14,7 @@ namespace AdvancedLauncher.Environment.Commands {
         public override void DoCommand(string[] args) {
             Dictionary<String, Command> commands = CommandHandler.GetCommands();
             StringBuilder builder = new StringBuilder();
+            builder.AppendLine();
             builder.AppendLine("Available commands:");
             foreach (String key in commands.Keys) {
                 Command command;

@@ -20,29 +20,21 @@
                 <Setter Property="FontFamily" Value="Courier New" />
                 <Setter Property="FontSize" Value="11" />
                 <Setter Property="Foreground" Value="{StaticResource TBFGNormalBrush}" />
+                <Setter Property="TextWrapping" Value="Wrap" />
             </Style>
 
             <DataTemplate DataType="{x:Type log4netCore:LoggingEvent}">
-                <Grid IsSharedSizeScope="True">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="Info" Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" Style="{StaticResource LogTextBlock}" FontWeight="Bold">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="[{0} {1} {2}]">
-                                <Binding Path="TimeStamp" />
-                                <Binding Path="Level.DisplayName" />
-                                <Binding Path="LoggerName" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-
-                    <TextBlock Text="{Binding MessageObject}" Style="{StaticResource LogTextBlock}" Grid.Column="1" TextWrapping="Wrap" Margin="5,0,5,0" />
-                </Grid>
+                <TextBlock Style="{StaticResource LogTextBlock}">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="[{0} {1} {2}] {3}">
+                            <Binding Path="TimeStamp" />
+                            <Binding Path="Level.DisplayName" />
+                            <Binding Path="LoggerName" />
+                            <Binding Path="MessageObject" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
             </DataTemplate>
-
         </ResourceDictionary>
         
     </UserControl.Resources>

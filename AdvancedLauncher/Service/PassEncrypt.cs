@@ -17,15 +17,16 @@
 // ======================================================================
 
 using System;
-using System.Linq;
-using System.Text;
-using System.Security;
-using System.Security.Cryptography;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AdvancedLauncher.Service {
+
     public static class PassEncrypt {
+
         // This constant string is used as a "salt" value for the PasswordDeriveBytes function calls.
         // This size of the IV (in bytes) must = (keysize / 8).  Default keysize is 256, so the IV must be
         // 32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
@@ -55,13 +56,15 @@ namespace AdvancedLauncher.Service {
                 memoryStream.Close();
                 cryptoStream.Close();
                 return Convert.ToBase64String(cipherTextBytes);
-            } catch { } finally {
+            } catch {
+            } finally {
                 try {
                     if (memoryStream != null)
                         memoryStream.Close();
                     if (cryptoStream != null)
                         cryptoStream.Close();
-                } catch { }
+                } catch {
+                }
             }
             return null;
         }
@@ -87,13 +90,15 @@ namespace AdvancedLauncher.Service {
                 memoryStream.Close();
                 cryptoStream.Close();
                 return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
-            } catch { } finally {
+            } catch {
+            } finally {
                 try {
                     if (memoryStream != null)
                         memoryStream.Close();
                     if (cryptoStream != null)
                         cryptoStream.Close();
-                } catch { }
+                } catch {
+                }
             }
             return null;
         }

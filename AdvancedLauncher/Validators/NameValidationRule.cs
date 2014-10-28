@@ -18,10 +18,11 @@
 
 using System;
 using System.Windows.Controls;
-using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Validators {
-    class NameValidationRule : ValidationRule {
+
+    internal class NameValidationRule : ValidationRule {
+
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {
                 return new ValidationResult(false, null);

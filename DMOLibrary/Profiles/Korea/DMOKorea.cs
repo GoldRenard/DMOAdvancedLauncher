@@ -16,19 +16,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Security;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Net;
-using System.Web;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace DMOLibrary.Profiles.Korea {
+
     public class DMOKorea : DMOProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOKorea));
+
         private void InitVars() {
             typeName = "Korea";
             _IsLoginRequired = true;
@@ -46,6 +40,7 @@ namespace DMOLibrary.Profiles.Korea {
         }
 
         #region Constructors
+
         public DMOKorea() {
             InitVars();
         }
@@ -55,11 +50,12 @@ namespace DMOLibrary.Profiles.Korea {
             InitVars();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Getting user login commandline
 
         public virtual void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+            LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             switch (e.Url.AbsolutePath) {
                 //loginning
                 case "/help/Login/MemberLogin.aspx": {
@@ -73,7 +69,9 @@ namespace DMOLibrary.Profiles.Korea {
                         try {
                             wb.Document.GetElementById("security_name").SetAttribute("value", UserId);
                             wb.Document.GetElementById("security_code").SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
-                        } catch { isFound = false; }
+                        } catch {
+                            isFound = false;
+                        }
 
                         if (isFound) {
                             System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("login");
@@ -113,12 +111,15 @@ namespace DMOLibrary.Profiles.Korea {
             loginTryNum = 0;
             if (wb != null)
                 wb.Dispose();
-            wb = new System.Windows.Forms.WebBrowser() { ScriptErrorsSuppressed = true };
+            wb = new System.Windows.Forms.WebBrowser() {
+                ScriptErrorsSuppressed = true
+            };
             wb.DocumentCompleted += LoginDocumentCompleted;
             wb.Navigate("http://www.digimonmasters.com/help/Login/MemberLogin.aspx");
             OnChanged(LoginState.LOGINNING);
         }
-        #endregion
+
+        #endregion Getting user login commandline
 
         public override string GetGameStartArgs(string args) {
             return args.Replace(" 1 ", " ");

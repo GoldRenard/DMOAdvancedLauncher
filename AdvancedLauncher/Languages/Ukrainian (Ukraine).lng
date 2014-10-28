@@ -3,10 +3,12 @@
 
   <CantOpenLink>Неможливо відкрити посилання. Спробуйте змінити браузер за замовчуванням. Помилка: </CantOpenLink>
   <Error>Помилка</Error>
+  <Console>Консоль</Console>
   <CreateButton>Створити</CreateButton>
   <DeleteButton>Видалити</DeleteButton>
   <BrowseButton>Огляд</BrowseButton>
   <ApplyButton>Застосувати</ApplyButton>
+  <SendButton>Відправити</SendButton>
   <CancelButton>Відміна</CancelButton>
   <CloseButton>Закрити</CloseButton>
   <StartButton>Почати гру</StartButton>

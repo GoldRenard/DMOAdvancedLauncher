@@ -20,10 +20,20 @@ using System;
 using System.Collections.Generic;
 
 namespace DMOLibrary {
+
     #region Structs
+
     public class Server {
-        public int Id { set; get; }
-        public string Name { set; get; }
+
+        public int Id {
+            set;
+            get;
+        }
+
+        public string Name {
+            set;
+            get;
+        }
     }
 
     public struct Guild {
@@ -121,5 +131,6 @@ namespace DMOLibrary {
         GETTING_DATA = 1,
         WAS_ERROR = 2
     }
-    #endregion
+
+    #endregion Structs
 }

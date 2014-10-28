@@ -16,10 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows.Controls;
 
 namespace AdvancedLauncher.Controls {
+
     public class Trigger : CheckBox {
     }
 }

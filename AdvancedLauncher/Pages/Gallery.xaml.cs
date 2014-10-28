@@ -20,24 +20,26 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Animation;
-using System.IO;
 using System.Diagnostics;
-
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Pages {
+
     public partial class Gallery : UserControl {
         private bool IsGalleryInitialized = false;
         private Storyboard ShowWindow;
+
         private delegate void DoAddThumb(BitmapImage bitmap, string path);
+
         private GalleryViewModel GalleryModel = new GalleryViewModel();
 
         private Binding GalleryHint = new Binding("GalleryHint");
@@ -204,11 +206,11 @@ namespace AdvancedLauncher.Pages {
             bitmap.Freeze();
             return bitmap;
         }
-
     }
 
     public class GalleryItemViewModel : INotifyPropertyChanged {
         private ImageSource _Thumb;
+
         public ImageSource Thumb {
             get {
                 return _Thumb;
@@ -222,6 +224,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         private string _FullPath;
+
         public string FullPath {
             get {
                 return _FullPath;
@@ -235,6 +238,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
@@ -244,6 +248,7 @@ namespace AdvancedLauncher.Pages {
     }
 
     public class GalleryViewModel : INotifyPropertyChanged {
+
         public GalleryViewModel() {
             this.Items = new ObservableCollection<GalleryItemViewModel>();
         }
@@ -284,6 +289,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

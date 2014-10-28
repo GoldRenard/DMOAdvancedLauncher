@@ -1,19 +1,19 @@
 ﻿<UserControl x:Class="AdvancedLauncher.Controls.GameControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="330"
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml"/>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
-                <Setter Property="Margin" Value="0,2,0,0"/>
+                <Setter Property="Margin" Value="0,2,0,0" />
                 <Setter Property="Height" Value="10" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -52,8 +52,8 @@
                                 <Border Name="PART_Track" CornerRadius="4" BorderBrush="#15A5F9" BorderThickness="1">
                                     <Border.Background>
                                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#00FFFFFF"/>
-                                            <GradientStop Color="#60FFFFFF" Offset="1"/>
+                                            <GradientStop Color="#00FFFFFF" />
+                                            <GradientStop Color="#60FFFFFF" Offset="1" />
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
@@ -62,8 +62,8 @@
                                         <Border x:Name="Indicator"  CornerRadius="4" BorderBrush="Transparent" BorderThickness="1">
                                             <Border.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                    <GradientStop Color="#45B7F9"/>
-                                                    <GradientStop Color="#1392DB" Offset="1"/>
+                                                    <GradientStop Color="#45B7F9" />
+                                                    <GradientStop Color="#1392DB" Offset="1" />
                                                 </LinearGradientBrush>
                                             </Border.Background>
                                         </Border>
@@ -93,7 +93,7 @@
                 <Setter Property="FontFamily" Value="Tahoma" />
                 <Setter Property="FontStyle" Value="Normal" />
                 <Setter Property="FontWeight" Value="Normal" />
-                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontSize" Value="12" />
             </Style>
 
             <Style x:Key="LoginPWBox" TargetType="{x:Type PasswordBox}">
@@ -105,19 +105,19 @@
 
                 <Setter Property="MinWidth" Value="30" />
                 <Setter Property="MinHeight" Value="20" />
-                <Setter Property="Height" Value="25"/>
+                <Setter Property="Height" Value="25" />
 
-                <Setter Property="FontFamily" Value="Arial"/>
-                <Setter Property="FontStyle" Value="Normal"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="FontStretch" Value="Normal"/>
-                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontStyle" Value="Normal" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontStretch" Value="Normal" />
+                <Setter Property="FontSize" Value="16" />
 
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type PasswordBox}">
                             <Border Name="Border" Padding="5,0" CornerRadius="5" Background="#C0FFFFFF">
-                                <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsFocused" Value="true">
@@ -150,13 +150,13 @@
 
                 <Setter Property="MinWidth" Value="30" />
                 <Setter Property="MinHeight" Value="20" />
-                <Setter Property="Height" Value="25"/>
+                <Setter Property="Height" Value="25" />
 
-                <Setter Property="FontFamily" Value="Arial"/>
-                <Setter Property="FontStyle" Value="Normal"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="FontStretch" Value="Normal"/>
-                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontStyle" Value="Normal" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontStretch" Value="Normal" />
+                <Setter Property="FontSize" Value="16" />
 
                 <Setter Property="Template">
                     <Setter.Value>
@@ -188,25 +188,25 @@
             </Style>
 
             <Style x:Key="LoginTBHint" TargetType="TextBlock">
-                <Setter Property="FontFamily" Value="Arial"/>
-                <Setter Property="FontStyle" Value="Normal"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="FontStretch" Value="Normal"/>
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="Height" Value="25"/>
-                <Setter Property="Padding" Value="6,0"/>
-                <Setter Property="Foreground" Value="Gray"/>
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontStyle" Value="Normal" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontStretch" Value="Normal" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Padding" Value="6,0" />
+                <Setter Property="Foreground" Value="Gray" />
             </Style>
             <Style x:Key="StatusText" TargetType="TextBlock">
-                <Setter Property="FontFamily" Value="Arial"/>
-                <Setter Property="FontStyle" Value="Normal"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="FontStretch" Value="Normal"/>
-                <Setter Property="FontSize" Value="13"/>
-                <Setter Property="Height" Value="14"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontStyle" Value="Normal" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontStretch" Value="Normal" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="Height" Value="14" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Foreground" Value="White" />
             </Style>
             <Style x:Key="AnimationImage25" TargetType="{x:Type Image}">
                 <Setter Property="RenderTransform">
@@ -226,7 +226,7 @@
                     </Trigger>
                     <Trigger Property="IsEnabled" Value="False">
                         <Trigger.EnterActions>
-                            <RemoveStoryboard BeginStoryboardName="AnimationBeginStoryboard"/>
+                            <RemoveStoryboard BeginStoryboardName="AnimationBeginStoryboard" />
                         </Trigger.EnterActions>
                     </Trigger>
                 </Style.Triggers>
@@ -235,23 +235,23 @@
             <Storyboard x:Key="ShowLoginBlockFirst">
                 <DoubleAnimation To="60" Duration="0:0:0.3" Storyboard.TargetName="LoginBlock" Storyboard.TargetProperty="Height">
                     <DoubleAnimation.EasingFunction>
-                        <QuadraticEase EasingMode="EaseOut"/>
+                        <QuadraticEase EasingMode="EaseOut" />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}" />
                 </ObjectAnimationUsingKeyFrames>
-                <DoubleAnimation To="1" BeginTime="0:0:0.1" Duration="0:0:0.2" Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="Opacity"/>
+                <DoubleAnimation To="1" BeginTime="0:0:0.1" Duration="0:0:0.2" Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="Opacity" />
             </Storyboard>
             <Storyboard x:Key="ShowLoginBlock">
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}" />
                 </ObjectAnimationUsingKeyFrames>
-                <DoubleAnimation To="1" Duration="0:0:0.3" Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="Opacity"/>
-                
-                <DoubleAnimation To="0" Duration="0:0:0.3" Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="Opacity"/>
+                <DoubleAnimation To="1" Duration="0:0:0.3" Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="Opacity" />
+
+                <DoubleAnimation To="0" Duration="0:0:0.3" Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="Opacity" />
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}" />
                 </ObjectAnimationUsingKeyFrames>
                 <BooleanAnimationUsingKeyFrames Storyboard.TargetName="LoaderIcon" Storyboard.TargetProperty="IsEnabled">
                     <DiscreteBooleanKeyFrame Value="False" KeyTime="0:0:0.3" />
@@ -261,51 +261,50 @@
             <Storyboard x:Key="ShowWaitingBlockFirst">
                 <DoubleAnimation To="60" Duration="0:0:0.3" Storyboard.TargetName="LoginBlock" Storyboard.TargetProperty="Height">
                     <DoubleAnimation.EasingFunction>
-                        <QuadraticEase EasingMode="EaseOut"/>
+                        <QuadraticEase EasingMode="EaseOut" />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}" />
                 </ObjectAnimationUsingKeyFrames>
                 <BooleanAnimationUsingKeyFrames Storyboard.TargetName="LoaderIcon" Storyboard.TargetProperty="IsEnabled">
                     <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0.0" />
                 </BooleanAnimationUsingKeyFrames>
-                <DoubleAnimation To="1" BeginTime="0:0:0.1" Duration="0:0:0.2" Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="Opacity"/>
+                <DoubleAnimation To="1" BeginTime="0:0:0.1" Duration="0:0:0.2" Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="Opacity" />
             </Storyboard>
             <Storyboard x:Key="ShowWaitingBlock">
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}" />
                 </ObjectAnimationUsingKeyFrames>
                 <BooleanAnimationUsingKeyFrames Storyboard.TargetName="LoaderIcon" Storyboard.TargetProperty="IsEnabled">
                     <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0.0" />
                 </BooleanAnimationUsingKeyFrames>
-                <DoubleAnimation To="1" Duration="0:0:0.3" Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="Opacity"/>
-                
-                <DoubleAnimation To="0" Duration="0:0:0.3" Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="Opacity"/>
+                <DoubleAnimation To="1" Duration="0:0:0.3" Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="Opacity" />
+
+                <DoubleAnimation To="0" Duration="0:0:0.3" Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="Opacity" />
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}" />
                 </ObjectAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="HideLogin">
                 <DoubleAnimation To="0" Duration="0:0:0.3" Storyboard.TargetName="LoginBlock" Storyboard.TargetProperty="Height">
                     <DoubleAnimation.EasingFunction>
-                        <QuadraticEase EasingMode="EaseOut"/>
+                        <QuadraticEase EasingMode="EaseOut" />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}" />
                 </ObjectAnimationUsingKeyFrames>
-                <DoubleAnimation To="0" Duration="0:0:0.2" Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="Opacity"/>
+                <DoubleAnimation To="0" Duration="0:0:0.2" Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="Opacity" />
 
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}"/>
-                </ObjectAnimationUsingKeyFrames>          
-                <DoubleAnimation To="0" Duration="0:0:0.2" Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="Opacity"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}" />
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimation To="0" Duration="0:0:0.2" Storyboard.TargetName="WaitingBlock" Storyboard.TargetProperty="Opacity" />
                 <BooleanAnimationUsingKeyFrames Storyboard.TargetName="LoaderIcon" Storyboard.TargetProperty="IsEnabled">
                     <DiscreteBooleanKeyFrame Value="False" KeyTime="0:0:0.3" />
                 </BooleanAnimationUsingKeyFrames>
-
             </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -347,10 +346,10 @@
             </StackPanel>
             <Grid Margin="50,-10,0,0" x:Name="WaitingBlock" Opacity="0" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Name="LoaderIcon" Height="50" Width="50" Stretch="Uniform" IsEnabled="True" Source="/AdvancedLauncher;component/Resources/loading.png" Style="{StaticResource AnimationImage25}"/>
+                <Image Name="LoaderIcon" Height="50" Width="50" Stretch="Uniform" IsEnabled="True" Source="/AdvancedLauncher;component/Resources/loading.png" Style="{StaticResource AnimationImage25}" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock x:Name="LoginStatus1" Style="{StaticResource StatusText}" />
                     <TextBlock x:Name="LoginStatus2" Style="{StaticResource StatusText}" />
@@ -365,13 +364,13 @@
                 Click="OnStartButtonClick"
                 Content="{Binding GameButton_Waiting}"
                 IsEnabled="False"
-                Style="{StaticResource BlueButton}"/>
-                <CheckBox x:Name="LastSession" Visibility="Visible" IsChecked="False" Style="{StaticResource BlueCheckBox}" Content="{Binding UseLastSession}" Margin="0,2,0,0"/>
+                Style="{StaticResource BlueButton}" />
+                <CheckBox x:Name="LastSession" Visibility="Visible" IsChecked="False" Style="{StaticResource BlueCheckBox}" Content="{Binding UseLastSession}" Margin="0,2,0,0" />
             </StackPanel>
             <StackPanel x:Name="UpdateBlock" Visibility="Collapsed">
                 <TextBlock x:Name="UpdateText" Style="{StaticResource UpdateText}" />
-                <ProgressBar x:Name="MainProgressBar" Value="0"/>
-                <ProgressBar x:Name="SubProgressBar" Value="0"/>
+                <ProgressBar x:Name="MainProgressBar" Value="0" />
+                <ProgressBar x:Name="SubProgressBar" Value="0" />
             </StackPanel>
         </Grid>
     </StackPanel>

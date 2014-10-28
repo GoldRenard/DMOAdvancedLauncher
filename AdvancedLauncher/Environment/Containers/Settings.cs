@@ -17,17 +17,19 @@
 // ======================================================================
 
 using System;
-using System.Linq;
-using System.ComponentModel;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Environment.Containers {
+
     [XmlType(TypeName = "Settings")]
     public class Settings : INotifyPropertyChanged {
+
         [XmlElement("Language")]
         public string LanguageFile;
+
         [XmlElement("DefaultProfile")]
         public int DefaultProfile;
 
@@ -72,7 +74,7 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Collection Manipulating Section
 
@@ -104,6 +106,7 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         private Profile _CurrentProfile = null;
+
         [XmlIgnore]
         public Profile CurrentProfile {
             get {
@@ -123,12 +126,14 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        #endregion
+        #endregion Collection Manipulating Section
 
         #region Events Section
 
         public delegate void ProfileLockedChangedHandler(bool IsLocked);
+
         public event ProfileLockedChangedHandler ProfileLocked;
+
         public void OnProfileLocked(bool IsLocked) {
             if (ProfileLocked != null) {
                 ProfileLocked(IsLocked);
@@ -136,7 +141,9 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         public delegate void FileSystemLockedChangedHandler(bool IsLocked);
+
         public event FileSystemLockedChangedHandler FileSystemLocked;
+
         public void OnFileSystemLocked(bool IsLocked) {
             if (FileSystemLocked != null) {
                 FileSystemLocked(IsLocked);
@@ -144,7 +151,9 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         public delegate void ClosingLockedChangedHandler(bool IsLocked);
+
         public event ClosingLockedChangedHandler ClosingLocked;
+
         public void OnClosingLocked(bool IsLocked) {
             if (ClosingLocked != null) {
                 ClosingLocked(IsLocked);
@@ -152,7 +161,9 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         public delegate void ProfileChangedHandler();
+
         public event ProfileChangedHandler ProfileChanged;
+
         protected void OnCurrentChanged() {
             if (ProfileChanged != null) {
                 ProfileChanged();
@@ -160,6 +171,7 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         public event ProfileChangedHandler CollectionChanged;
+
         protected void OnCollectionChanged() {
             if (CollectionChanged != null) {
                 CollectionChanged();
@@ -167,6 +179,7 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
@@ -174,6 +187,6 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        #endregion
+        #endregion Events Section
     }
 }

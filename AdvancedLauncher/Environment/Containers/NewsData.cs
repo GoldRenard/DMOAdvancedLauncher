@@ -16,16 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Environment.Containers {
+
     public class NewsData {
+
         [XmlAttribute("FirstTab")]
         public byte FirstTab {
             set;
             get;
         }
+
         [XmlAttribute("TwitterUrl")]
         public string TwitterUrl {
             set;
@@ -36,8 +38,8 @@ namespace AdvancedLauncher.Environment.Containers {
             FirstTab = nd.FirstTab;
             TwitterUrl = nd.TwitterUrl;
         }
+
         public NewsData() {
         }
     }
-
 }

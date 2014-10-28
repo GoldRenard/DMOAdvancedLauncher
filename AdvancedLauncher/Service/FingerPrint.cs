@@ -17,17 +17,17 @@
 // ======================================================================
 
 using System;
-using System.Management;
 using System.Security.Cryptography;
-using System.Security;
 using System.Text;
 
 namespace AdvancedLauncher.Service {
+
     /// <summary>
     /// Generates a 16 byte Unique Identification code of a computer
     /// Example: 4876-8DB5-EE85-69D3-FE52-8CF7-395D-2EA9
     /// </summary>
     public class FingerPrint {
+
         [Flags]
         public enum FingerPart {
             CPU = 1,
@@ -40,6 +40,7 @@ namespace AdvancedLauncher.Service {
         }
 
         private static string fprint = string.Empty;
+
         public static string Value(FingerPart p, bool IsHashed) {
             if (string.IsNullOrEmpty(fprint)) {
                 fprint = string.Empty;
@@ -62,12 +63,14 @@ namespace AdvancedLauncher.Service {
             }
             return fprint;
         }
+
         private static string GetHash(string s) {
             MD5 sec = new MD5CryptoServiceProvider();
             ASCIIEncoding enc = new ASCIIEncoding();
             byte[] bt = enc.GetBytes(s);
             return GetHexString(sec.ComputeHash(bt));
         }
+
         private static string GetHexString(byte[] bt) {
             string s = string.Empty;
             for (int i = 0; i < bt.Length; i++) {
@@ -88,7 +91,9 @@ namespace AdvancedLauncher.Service {
             }
             return s;
         }
+
         #region Original Device ID Getting Code
+
         //Return a hardware identifier
         private static string identifier
         (string wmiClass, string wmiProperty, string wmiMustBeTrue) {
@@ -109,6 +114,7 @@ namespace AdvancedLauncher.Service {
             }
             return result;
         }
+
         //Return a hardware identifier
         private static string identifier(string wmiClass, string wmiProperty) {
             string result = "";
@@ -127,6 +133,7 @@ namespace AdvancedLauncher.Service {
             }
             return result;
         }
+
         private static string cpuId() {
             //Uses first CPU identifier available in order of preference
             //Don't get all identifiers, as it is very time consuming
@@ -144,6 +151,7 @@ namespace AdvancedLauncher.Service {
             }
             return retVal;
         }
+
         //BIOS Identifier
         private static string biosId() {
             return identifier("Win32_BIOS", "Manufacturer")
@@ -153,6 +161,7 @@ namespace AdvancedLauncher.Service {
             + identifier("Win32_BIOS", "ReleaseDate")
             + identifier("Win32_BIOS", "Version");
         }
+
         //Main physical hard drive ID
         private static string diskId() {
             return identifier("Win32_DiskDrive", "Model")
@@ -160,6 +169,7 @@ namespace AdvancedLauncher.Service {
             + identifier("Win32_DiskDrive", "Signature")
             + identifier("Win32_DiskDrive", "TotalHeads");
         }
+
         //Motherboard ID
         private static string baseId() {
             return identifier("Win32_BaseBoard", "Model")
@@ -172,16 +182,19 @@ namespace AdvancedLauncher.Service {
         private static string uuId() {
             return identifier("Win32_ComputerSystemProduct", "UUID");
         }
+
         //Primary video controller ID
         private static string videoId() {
             return identifier("Win32_VideoController", "DriverVersion")
             + identifier("Win32_VideoController", "Name");
         }
+
         //First enabled network card ID
         private static string macId() {
             return identifier("Win32_NetworkAdapterConfiguration",
                 "MACAddress", "IPEnabled");
         }
-        #endregion
+
+        #endregion Original Device ID Getting Code
     }
 }

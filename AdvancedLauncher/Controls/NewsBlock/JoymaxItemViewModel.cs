@@ -21,8 +21,10 @@ using System.ComponentModel;
 using System.Windows;
 
 namespace AdvancedLauncher.Controls {
+
     public class JoymaxItemViewModel : INotifyPropertyChanged {
         private string _Title;
+
         public string Title {
             get {
                 return _Title;
@@ -36,6 +38,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _Date;
+
         public string Date {
             get {
                 return _Date;
@@ -49,6 +52,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _Content;
+
         public string Content {
             get {
                 return _Content;
@@ -62,6 +66,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _Type;
+
         public string Type {
             get {
                 return _Type;
@@ -75,6 +80,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private Rect _ImgVB;
+
         public Rect ImgVB {
             get {
                 return _ImgVB;
@@ -88,6 +94,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _Link;
+
         public string Link {
             get {
                 return _Link;
@@ -101,6 +108,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

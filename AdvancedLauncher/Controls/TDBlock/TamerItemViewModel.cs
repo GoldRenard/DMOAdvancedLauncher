@@ -18,13 +18,14 @@
 
 using System;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Media;
 using DMOLibrary;
 
 namespace AdvancedLauncher.Controls {
+
     public class TamerItemViewModel : INotifyPropertyChanged {
         private string _TName;
+
         public string TName {
             get {
                 return _TName;
@@ -36,6 +37,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private int _Level;
+
         public int Level {
             get {
                 return _Level;
@@ -47,6 +49,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private long _Rank;
+
         public long Rank {
             get {
                 return _Rank;
@@ -58,6 +61,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _PName;
+
         public string PName {
             get {
                 return _PName;
@@ -69,6 +73,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private int _DCnt;
+
         public int DCnt {
             get {
                 return _DCnt;
@@ -80,6 +85,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _TType;
+
         public string TType {
             get {
                 return _TType;
@@ -91,6 +97,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private Tamer _Tamer;
+
         public Tamer Tamer {
             get {
                 return _Tamer;
@@ -102,6 +109,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private ImageSource _Image;
+
         public ImageSource Image {
             get {
                 return _Image;
@@ -115,6 +123,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

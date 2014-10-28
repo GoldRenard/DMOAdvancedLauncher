@@ -17,14 +17,15 @@
 // ======================================================================
 
 using System;
-using System.Threading;
 using System.Windows.Threading;
 
 namespace AdvancedLauncher.Service {
+
     /// <summary>
     /// Encapsulates a WPF dispatcher with added functionalities.
     /// </summary>
     public class DispatcherHelper {
+
         private static DispatcherOperationCallback exitFrameCallback = new
              DispatcherOperationCallback(ExitFrame);
 

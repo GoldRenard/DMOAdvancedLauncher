@@ -17,16 +17,15 @@
 // ======================================================================
 
 using System;
-using System.IO;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Threading;
+using System.Data.SQLite;
+using System.IO;
 
 namespace DMOLibrary {
+
     public class DMODatabase {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMODatabase));
         private static string DatabaseFile;
         private SQLiteConnection connection;
         private SQLiteTransaction transaction;
@@ -37,6 +36,7 @@ namespace DMOLibrary {
         private static bool isConnected = false;
 
         #region Query list
+
         private static string Q_DTYPE_ALL = "SELECT * FROM Digimon_types;";
         private static string Q_DTYPE_BY_NAME = "SELECT * FROM Digimon_types WHERE name = '{0}';";
         private static string Q_DTYPE_BY_KNAME = "SELECT * FROM Digimon_types WHERE name_korean = '{0}';";
@@ -79,7 +79,7 @@ SELECT * FROM (
     ) as digimon JOIN Tamers ON digimon.tamer_id = Tamers.id AND Tamers.serv_id = {0}
 ) ORDER BY RANDOM() LIMIT 1";
 
-        static string Q_D_SELECT_RANDOM2 = @"
+        private static string Q_D_SELECT_RANDOM2 = @"
 SELECT * FROM (
     SELECT *, Tamers.name as 'tamer_name', Tamers.lvl as 'tamer_lvl' FROM (
 	    SELECT * FROM Digimons WHERE
@@ -94,11 +94,12 @@ SELECT * FROM (
     ) as digimon JOIN Tamers ON digimon.tamer_id = Tamers.id AND Tamers.serv_id = {0}
 ) ORDER BY RANDOM() LIMIT 1";
 
-        static string Q_D_SELECT_RANDOM_TYPE = @"SELECT * FROM Digimon_types ORDER BY RANDOM() LIMIT 1";
+        private static string Q_D_SELECT_RANDOM_TYPE = @"SELECT * FROM Digimon_types ORDER BY RANDOM() LIMIT 1";
 
-        #endregion
+        #endregion Query list
 
         #region Connection creating, opening, closing
+
         public DMODatabase(string databaseFile, string cInitQuery) {
             DatabaseFile = databaseFile;
             if (!File.Exists(DatabaseFile)) {
@@ -121,28 +122,34 @@ SELECT * FROM (
                 return true;
             } catch (SQLiteException ex) {
                 MSG_ERROR(SQL_CANT_CONNECT + ex.Message);
+                LOGGER.Error(ex);
                 return false;
             }
         }
+
         public bool CloseConnection() {
             try {
                 transaction.Commit();
                 connection.Close();
                 isConnected = false;
                 return true;
-            } catch { return false; }
+            } catch {
+                return false;
+            }
         }
-        #endregion
+
+        #endregion Connection creating, opening, closing
 
         #region First initialization
+
         public static string CREATE_DATABASE_QUERY = @"CREATE TABLE Servers(
-	[id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+	[id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	[name] CHAR(100) NOT NULL
 );
 CREATE TABLE Guilds(
-	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-	[id] INTEGER NOT NULL, 
-	[serv_id] INTEGER NOT NULL, 
+	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	[id] INTEGER NOT NULL,
+	[serv_id] INTEGER NOT NULL,
 	[name] CHAR(100) NOT NULL,
 	[rep] BIGINT NOT NULL,
 	[master_id] INT NOT NULL,
@@ -159,16 +166,16 @@ CREATE TABLE Tamer_types(
 );
 
 CREATE TABLE Tamers(
-	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	[id] INTEGER NOT NULL,
-	[serv_id] INTEGER NOT NULL, 
+	[serv_id] INTEGER NOT NULL,
 	[type_id] INT NOT NULL,
-	[guild_id] INTEGER NOT NULL, 
+	[guild_id] INTEGER NOT NULL,
 	[partner_key] INTEGER NOT NULL,
 	[isActive] INTEGER NOT NULL,
 	[name] CHAR(100) NOT NULL,
 	[rank] BIGINT NOT NULL,
-	[lvl] INT NOT NULL, 
+	[lvl] INT NOT NULL,
 	FOREIGN KEY ([serv_id]) REFERENCES Servers([id]),
 	FOREIGN KEY ([guild_id]) REFERENCES Guilds([id]),
 	FOREIGN KEY ([type_id]) REFERENCES Tamer_types([id])
@@ -181,14 +188,14 @@ CREATE TABLE Digimon_types(
     [name_korean] CHAR(100)
 );
 CREATE TABLE Digimons(
-	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-	[serv_id] INTEGER NOT NULL, 
-	[tamer_id] INT NOT NULL, 
+	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	[serv_id] INTEGER NOT NULL,
+	[tamer_id] INT NOT NULL,
 	[type_id] INT NOT NULL,
 	[name] CHAR(100) NOT NULL,
 	[rank] BIGINT NOT NULL,
 	[isActive] INTEGER NOT NULL,
-	[lvl] INT NOT NULL, 
+	[lvl] INT NOT NULL,
 	[size_cm] REAL NOT NULL,
 	[size_pc] INT NOT NULL,
 	[size_rank] BIGINT NOT NULL,
@@ -278,9 +285,16 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80006, 'Tachikawa Mimi');
 INSERT INTO Tamer_types([id], [name]) VALUES (80007, 'Ishida Yamato');
 INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
 ";
+
         private bool RecreateDB(string cInitQuery) {
             if (File.Exists(DatabaseFile)) {
-                try { File.Delete(DatabaseFile); } catch (Exception ex) { MSG_ERROR(SQL_CANT_DELETE_DB + ex.Message); return false; }
+                try {
+                    File.Delete(DatabaseFile);
+                } catch (Exception ex) {
+                    MSG_ERROR(SQL_CANT_DELETE_DB + ex.Message);
+                    LOGGER.Error(ex);
+                    return false;
+                }
             }
             SQLiteConnection.CreateFile(DatabaseFile);
             connection = new SQLiteConnection("Data Source = " + DatabaseFile);
@@ -297,9 +311,10 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             return true;
         }
 
-        #endregion
+        #endregion First initialization
 
         #region Simple queries and utils
+
         private bool Query(string query) {
             try {
                 SQLiteTransaction transaction = connection.BeginTransaction();
@@ -309,6 +324,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 sqlComm.Dispose();
             } catch (SQLiteException ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return false;
             }
             return true;
@@ -321,6 +337,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 result = Convert.ToInt32(cmd.ExecuteScalar());
             } catch (SQLiteException ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return 0;
             }
             return result;
@@ -329,6 +346,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
         private string DateTime2String(DateTime datetime) {
             return datetime.ToString("yyyy-MM-dd HH:mm:ss.FFFFFFF");
         }
+
         private DateTime String2DateTime(string datetime) {
             return DateTime.ParseExact(datetime, "yyyy-MM-dd HH:mm:ss.FFFFFFF", System.Globalization.CultureInfo.CurrentCulture);
         }
@@ -336,9 +354,11 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
         public static void MSG_ERROR(string text) {
             System.Windows.MessageBox.Show(text, "SQLite error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
         }
-        #endregion
+
+        #endregion Simple queries and utils
 
         #region Read section
+
         public List<DigimonType> GetDigimonTypes() {
             List<DigimonType> types = new List<DigimonType>();
 
@@ -358,6 +378,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return null;
             }
 
@@ -386,6 +407,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return null;
             }
             if (types.Count > 0) {
@@ -413,12 +435,14 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return null;
             }
 
             if (types.Count > 0) {
                 return types;
             }
+            LOGGER.WarnFormat("Unknown digimon: name=\"{0}\"", name);
             return null;
         }
 
@@ -442,9 +466,13 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return type;
             }
 
+            if (type.Id == -1) {
+                LOGGER.WarnFormat("Unknown digimon: id={0}", id);
+            }
             return type;
         }
 
@@ -463,9 +491,12 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return type;
             }
-
+            if (type.Id == -1) {
+                LOGGER.WarnFormat("Unknown tamer: id={0}", id);
+            }
             return type;
         }
 
@@ -484,6 +515,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 return null;
             }
             return servers;
@@ -511,6 +543,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
                 dataReader.Close();
             } catch (Exception ex) {
                 MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
+                LOGGER.Error(ex);
                 g.Id = -1;
                 return g;
             }
@@ -596,17 +629,21 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             g.Members = ReadTamers(g);
             return g;
         }
-        #endregion
+
+        #endregion Read section
 
         #region Write Section
+
         public bool WriteGuildInfo(Guild g, bool isDetailed) {
             if (QueryIntRes(string.Format(Q_G_COUNT, g.Id, g.ServId)) > 0) {
-                if (isDetailed)
+                if (isDetailed) {
                     return Query(string.Format(Q_G_UPDATE_WD, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime), 1));
-                else
+                } else {
                     return Query(string.Format(Q_G_UPDATE, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime)));
-            } else
+                }
+            } else {
                 return Query(string.Format(Q_G_INSERT, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime), isDetailed ? 1 : 0));
+            }
         }
 
         public bool WriteTamer(Tamer t) {
@@ -661,9 +698,11 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             }
             return true;
         }
-        #endregion
+
+        #endregion Write Section
 
         #region Additional Section
+
         public Digimon RandomDigimon(Server serv, string g_name, int minlvl) {
             Digimon d = new Digimon();
             string query = string.Format(Q_D_SELECT_RANDOM, serv.Id, g_name, minlvl);
@@ -738,6 +777,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
             }
             return d;
         }
-        #endregion
+
+        #endregion Additional Section
     }
 }

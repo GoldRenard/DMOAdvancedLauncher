@@ -16,23 +16,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-
-using AdvancedLauncher.Service;
 using AdvancedLauncher.Environment;
-using System.IO;
+using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Windows {
+
     public partial class About : UserControl {
         private Storyboard ShowWindow, HideWindow;
         private const string LICENSE_FILE = "Docs\\LICENSE.txt";
+
         public About() {
             InitializeComponent();
-            LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+            LanguageEnv.Languagechanged += delegate() {
+                this.DataContext = LanguageEnv.Strings;
+            };
             ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
             HideWindow = ((Storyboard)this.FindResource("HideWindow"));
             LoadLicence();

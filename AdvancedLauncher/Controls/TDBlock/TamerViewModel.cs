@@ -17,20 +17,20 @@
 // ======================================================================
 
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.ComponentModel;
 using System.IO;
-using AdvancedLauncher.Environment.Containers;
+using System.Linq;
+using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Environment.Containers;
 using DMOLibrary;
 
 namespace AdvancedLauncher.Controls {
+
     public class TamerViewModel : INotifyPropertyChanged {
+
         public TamerViewModel() {
             this.Items = new ObservableCollection<TamerItemViewModel>();
         }
@@ -81,6 +81,7 @@ namespace AdvancedLauncher.Controls {
 
         private bool _sortASC;
         private Type last_type;
+
         public void Sort<TType>(Func<TamerItemViewModel, TType> keySelector) {
             List<TamerItemViewModel> sortedList;
             if (last_type != typeof(TType))
@@ -100,6 +101,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
@@ -111,7 +113,9 @@ namespace AdvancedLauncher.Controls {
             public int Id;
             public BitmapImage Image;
         }
+
         private static List<DigiImage> ImagesCollection = new List<DigiImage>();
+
         public static BitmapImage GetImage(int digi_id) {
             DigiImage Image = ImagesCollection.Find(i => i.Id == digi_id);
             if (Image.Image != null)

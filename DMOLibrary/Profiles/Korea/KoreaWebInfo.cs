@@ -17,14 +17,15 @@
 // ======================================================================
 
 using System;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Korea {
+
     public class KoreaWebInfo : DMOWebProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(KoreaWebInfo));
         private static string STR_GUILD_ID_REGEX = "(main_sub\\.aspx\\?v=)(\\d+)(&o=)(\\d+)";
         private static string STR_TAMER_LVL_REGEX = "(\\/images\\/comm\\/icon\\/lv_)(\\d+)(\\.gif)";
         private static string STR_TAMER_TYPE_REGEX = "(\\/images\\/ranking\\/icon\\/)(\\d+)(\\.gif)";
@@ -74,7 +75,6 @@ namespace DMOLibrary.Profiles.Korea {
                 HtmlNode ranking = doc.DocumentNode;
                 try {
                     ranking = doc.DocumentNode.SelectNodes("//div[@id='body']//table[@class='forum_list'][1]//tbody//tr[not(@onmouseover)]")[4];
-
                     guildInfo.ServId = serv.Id;
                     guildInfo.Rank = CheckRankNode(ranking.SelectSingleNode(".//td[1]"));
 
@@ -120,11 +120,11 @@ namespace DMOLibrary.Profiles.Korea {
             return empty;
         }
 
-        protected override bool GetGuildInfo(ref Guild g, bool isDetailed) {
+        protected override bool GetGuildInfo(ref Guild guild, bool isDetailed) {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlDocument doc = new HtmlDocument();
-
-            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_PAGE, g.Id.ToString(), g.ServId));
+            LOGGER.InfoFormat("Obtaining info of {0}", guild.Name);
+            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_PAGE, guild.Id.ToString(), guild.ServId));
             if (html == string.Empty) {
                 return false;
             }
@@ -137,8 +137,8 @@ namespace DMOLibrary.Profiles.Korea {
                 for (int i = 0; i < tlist.Count; i++) {
                     try {
                         Tamer tamerInfo = new Tamer();
-                        tamerInfo.ServId = g.ServId;
-                        tamerInfo.GuildId = g.Id;
+                        tamerInfo.ServId = guild.ServId;
+                        tamerInfo.GuildId = guild.Id;
                         tamerInfo.Name = ClearStr(tlist[i].SelectSingleNode(".//td[3]").InnerText);
 
                         OnStatusChanged(DMODownloadStatusCode.GETTING_TAMER, tamerInfo.Name, i, tlist.Count);
@@ -164,14 +164,15 @@ namespace DMOLibrary.Profiles.Korea {
                         }
 
                         if (tamerInfo.TypeId != 0 && tamerInfo.Lvl != 0 && tamerInfo.Id != 0) {
-                            if (tamerInfo.Name == g.MasterName) {
-                                g.MasterId = tamerInfo.Id;
+                            if (tamerInfo.Name == guild.MasterName) {
+                                guild.MasterId = tamerInfo.Id;
                             }
                             tamerInfo.Digimons = GetDigimons(tamerInfo, isDetailed);
                             if (tamerInfo.Digimons.Count == 0) {
                                 return false;
                             }
                             tamerList.Add(tamerInfo);
+                            LOGGER.InfoFormat("Found tamer \"{0}\"", tamerInfo.Name);
                         }
                     } catch {
                     }
@@ -181,16 +182,18 @@ namespace DMOLibrary.Profiles.Korea {
             if (tamerList.Count == 0) {
                 return false;
             }
-            g.Members = tamerList;
+            guild.Members = tamerList;
             return true;
         }
 
         protected override List<Digimon> GetDigimons(Tamer tamer, bool isDetailed) {
+            LOGGER.InfoFormat("Obtaining digimons for tamer \"{0}\"", tamer.Name);
             List<Digimon> digimonList = new List<Digimon>();
             HtmlDocument doc = new HtmlDocument();
 
             string html = WebDownload.GetHTML(string.Format(STR_URL_TAMER_POPPAGE, tamer.Id.ToString(), tamer.ServId.ToString()));
             if (html == string.Empty) {
+                LOGGER.ErrorFormat("Obtaining digimons for tamer \"{0}\" failed", tamer.Name);
                 return digimonList;
             }
             doc.LoadHtml(html);
@@ -205,13 +208,14 @@ namespace DMOLibrary.Profiles.Korea {
             } catch {
                 return digimonList;
             }
-            if (!StarterInfo(ref partnerInfo, tamer.Name)) {
-                return digimonList;
+            if (StarterInfo(ref partnerInfo, tamer.Name)) {
+                digimonList.Add(partnerInfo);
+            } else {
+                LOGGER.ErrorFormat("Unable to obtain starter digimon \"{0}\" for tamer \"{1}\"", partnerInfo.Name, tamer.Name);
             }
-            digimonList.Add(partnerInfo);
 
-            HtmlNode merc_list = doc.DocumentNode.SelectNodes("//table[@class='list']")[1];
-            HtmlNodeCollection dlist = merc_list.SelectNodes(".//tr");
+            HtmlNode mercList = doc.DocumentNode.SelectNodes("//table[@class='list']")[1];
+            HtmlNodeCollection dlist = mercList.SelectNodes(".//tr");
 
             if (dlist != null) {
                 for (int i = 1; i < dlist.Count; i++) {
@@ -245,23 +249,27 @@ namespace DMOLibrary.Profiles.Korea {
 
                     if (digimonList.Count(d => d.TypeId.Equals(digimonInfo.TypeId)) == 0) {
                         if (isDetailed) {
-                            DigimonInfo(ref digimonInfo, tamer.Name);
+                            if (!DigimonInfo(ref digimonInfo, tamer.Name)) {
+                                LOGGER.ErrorFormat("Unable to obtain detailed data of digimon \"{0}\" for tamer \"{1}\"", digimonInfo.Name, tamer.Name);
+                            }
                         }
                         digimonList.Add(digimonInfo);
+                        LOGGER.InfoFormat("Found digimon \"{0}\"", digimonInfo.Name);
                     }
                 }
             }
             return digimonList;
         }
 
-        protected override bool StarterInfo(ref Digimon digimon, string tamer_name) {
+        protected override bool StarterInfo(ref Digimon digimon, string tamerName) {
+            LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamerName);
             HtmlDocument doc = new HtmlDocument();
-
             digimon.SizePc = 100;
             digimon.SizeCm = ResolveStartedSize(digimon.Name);
 
-            string html = WebDownload.GetHTML(string.Format(STR_URL_STARTER_RANK, tamer_name, digimon.ServId));
+            string html = WebDownload.GetHTML(string.Format(STR_URL_STARTER_RANK, tamerName, digimon.ServId));
             if (html == string.Empty) {
+                LOGGER.ErrorFormat("Obtaining starter digimon for tamer \"{0}\" failed", tamerName);
                 return false;
             }
             doc.LoadHtml(html);
@@ -289,14 +297,14 @@ namespace DMOLibrary.Profiles.Korea {
             return false;
         }
 
-        protected override bool DigimonInfo(ref Digimon digimon, string tamer_name) {
+        protected override bool DigimonInfo(ref Digimon digimon, string tamerName) {
             //we don't need starters info
             foreach (int id in STARTER_IDS) {
                 if (digimon.TypeId == id) {
                     return false;
                 }
             }
-
+            LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamerName);
             HtmlDocument doc = new HtmlDocument();
             List<DigimonType> d_types = new List<DigimonType>();
             if (Database.OpenConnection()) {
@@ -309,7 +317,7 @@ namespace DMOLibrary.Profiles.Korea {
             }
 
             foreach (DigimonType d_type in d_types) {
-                string html = WebDownload.GetHTML(string.Format(STR_URL_MERC_SIZE_RANK, tamer_name, digimon.ServId.ToString(), d_type.Id.ToString()));
+                string html = WebDownload.GetHTML(string.Format(STR_URL_MERC_SIZE_RANK, tamerName, digimon.ServId.ToString(), d_type.Id.ToString()));
                 if (html == string.Empty) {
                     continue;
                 }
@@ -339,7 +347,7 @@ namespace DMOLibrary.Profiles.Korea {
             return false;
         }
 
-        static string ClearStr(string str) {
+        private static string ClearStr(string str) {
             return str.Replace(",", string.Empty).Replace(" ", string.Empty).Replace(Environment.NewLine, string.Empty);
         }
 

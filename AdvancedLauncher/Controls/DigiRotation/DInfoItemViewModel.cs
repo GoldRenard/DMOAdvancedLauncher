@@ -18,13 +18,14 @@
 
 using System;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Controls {
+
     public class DInfoItemViewModel : INotifyPropertyChanged {
         private string _DType;
+
         public string DType {
             get {
                 return _DType;
@@ -38,6 +39,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private int _Level;
+
         public int Level {
             get {
                 return _Level;
@@ -55,11 +57,11 @@ namespace AdvancedLauncher.Controls {
                 return LanguageEnv.Strings.RotationLevelText;
             }
             set {
-
             }
         }
 
         private string _TName;
+
         public string TName {
             get {
                 return _TName;
@@ -73,6 +75,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private int _TLevel;
+
         public int TLevel {
             get {
                 return _TLevel;
@@ -86,6 +89,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private ImageSource _Image;
+
         public ImageSource Image {
             get {
                 return _Image;
@@ -99,6 +103,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private ImageSource _Medal;
+
         public ImageSource Medal {
             get {
                 return _Medal;
@@ -112,6 +117,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

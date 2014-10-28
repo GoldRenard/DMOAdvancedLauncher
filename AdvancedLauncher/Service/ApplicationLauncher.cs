@@ -16,20 +16,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.IO;
-using System.Windows;
 using System.Diagnostics;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Management;
-
+using System.IO;
 
 namespace AdvancedLauncher.Service {
+
     /// -------------------------------------------------------------------------------------------------
     /// <summary> Application Running Helper. </summary>
     /// -------------------------------------------------------------------------------------------------
     public static class ApplicationLauncher {
+
         /// -------------------------------------------------------------------------------------------------
         /// <summary> Execute process with AppLocale if it exists in system and allowed in SettingsProvider
         ///           or execute it directly </summary>
@@ -91,7 +88,7 @@ namespace AdvancedLauncher.Service {
         /// <param name="args">Command line</param>
         /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
         /// -------------------------------------------------------------------------------------------------
-        static bool executeAppLocale(string program, string args) {
+        private static bool executeAppLocale(string program, string args) {
             string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
 
             if (!IsALSupported) {
@@ -109,10 +106,12 @@ namespace AdvancedLauncher.Service {
             set;
             get;
         }
+
         public static bool IsKoreanSupported {
             set;
             get;
         }
+
         public static bool IsALSupported {
             get {
                 string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";

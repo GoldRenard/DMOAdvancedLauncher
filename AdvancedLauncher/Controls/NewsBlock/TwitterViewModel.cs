@@ -17,13 +17,14 @@
 // ======================================================================
 
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
-using System.Windows;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace AdvancedLauncher.Controls {
+
     public class TwitterViewModel : INotifyPropertyChanged {
+
         public TwitterViewModel() {
             this.Items = new ObservableCollection<TwitterItemViewModel>();
         }
@@ -55,6 +56,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

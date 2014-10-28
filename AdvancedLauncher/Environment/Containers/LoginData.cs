@@ -16,13 +16,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using AdvancedLauncher.Service;
-using System.Xml.Serialization;
 using System.Security;
+using System.Xml.Serialization;
+using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Environment.Containers {
+
     public class LoginData {
+
         [XmlIgnore]
         public SecureString SecurePassword {
             set;
@@ -53,6 +54,7 @@ namespace AdvancedLauncher.Environment.Containers {
             set;
             get;
         }
+
         [XmlAttribute("LastSessionArgs")]
         public string LastSessionArgs {
             set;
@@ -64,6 +66,7 @@ namespace AdvancedLauncher.Environment.Containers {
             Password = source.Password;
             LastSessionArgs = source.LastSessionArgs;
         }
+
         public LoginData() {
         }
 

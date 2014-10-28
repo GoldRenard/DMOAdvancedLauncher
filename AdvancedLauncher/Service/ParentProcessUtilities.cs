@@ -17,18 +17,21 @@
 // ======================================================================
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.ComponentModel;
 
 namespace AdvancedLauncher.Service {
+
     /// <summary>
     /// A utility class to determine a process parent.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct ParentProcessUtilities {
+
         // These members must match PROCESS_BASIC_INFORMATION
         internal IntPtr Reserved1;
+
         internal IntPtr PebBaseAddress;
         internal IntPtr Reserved2_0;
         internal IntPtr Reserved2_1;

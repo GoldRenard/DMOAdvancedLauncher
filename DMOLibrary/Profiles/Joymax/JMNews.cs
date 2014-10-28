@@ -16,18 +16,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Joymax {
-    class JMNews : DMONewsProfile {
+
+    internal class JMNews : DMONewsProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(JMNews));
         private static string STR_URL_NEW_PAGE = "http://www.joymax.com/dmo/Property_Front.aspx?workurl=http://dmocp.joymax.com{0}";
         private static string STR_DATE_FORMAT_REGEX = "(\\d\\d)(-)(\\d\\d)(-)(\\d\\d)";
 
         public override List<NewsItem> GetNews() {
+            LOGGER.Info("Getting JoyMax news...");
+
             HtmlDocument doc = new HtmlDocument();
             List<NewsItem> news = new List<NewsItem>();
 

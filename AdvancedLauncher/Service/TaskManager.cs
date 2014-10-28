@@ -17,14 +17,16 @@
 // ======================================================================
 
 using System;
-using System.Windows;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
 
 namespace AdvancedLauncher.Service {
-    /// <summary> Данный класс реализует своеобразный менеджер задач, 
+
+    /// <summary> Данный класс реализует своеобразный менеджер задач,
     /// цель которого - не дать приложению закрыться, пока есть хоть одна задача </summary>
     public static class TaskManager {
+
         /// <summary> Структура задачи </summary>
         public struct Task {
             public object Owner;
@@ -41,7 +43,7 @@ namespace AdvancedLauncher.Service {
         }
 
         /// <summary> Проверка занятости приложения </summary>
-        /// <returns> <see langword="true"/> если приложение занято какой-либо задачей, 
+        /// <returns> <see langword="true"/> если приложение занято какой-либо задачей,
         /// <see langword="false"/> если свободно и может быть закрыто. </returns>
         public static bool IsBusy {
             get {

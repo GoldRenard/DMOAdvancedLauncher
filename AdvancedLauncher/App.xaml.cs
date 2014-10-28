@@ -16,18 +16,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
+using System.Security.Principal;
 using System.Windows;
+using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
-using AdvancedLauncher.Environment;
-using System.Security.Principal;
 
 namespace AdvancedLauncher {
+
     public partial class App : Application {
         public static SplashScreen splash = new SplashScreen("Resources/SplashScreen.png");
         public static char subVersion = 'a';
-        Window WpfBugWindow = new Window() {
+
+        private Window WpfBugWindow = new Window() {
             AllowsTransparency = true,
             Background = System.Windows.Media.Brushes.Transparent,
             WindowStyle = WindowStyle.None,
@@ -65,7 +66,7 @@ namespace AdvancedLauncher {
                 MessageBox.Show("Administrator Privileges are required to run DMO AdvancedLauncher. Please run application as Administrator.", "Please run application as Administrator", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-        void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
             BugWindow bw = new BugWindow(sender, e);
             bw.ShowDialog();
         }

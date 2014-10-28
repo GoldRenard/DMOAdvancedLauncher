@@ -17,21 +17,16 @@
 // ======================================================================
 
 using System;
-using System.Security;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Globalization;
-using Ookii.Dialogs.Wpf;
-using Microsoft.Win32;
-using HtmlAgilityPack;
-using System.Runtime.InteropServices;
+using System.Security;
 using System.Windows.Threading;
+using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles {
+
     public abstract class DMOProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOProfile));
         protected Dispatcher OwnerDispatcher = null;
 
         protected string typeName;
@@ -42,26 +37,39 @@ namespace DMOLibrary.Profiles {
         public DMOProfile() {
             string dir = string.Format(DATABASES_FOLDER, System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory));
             if (!Directory.Exists(dir)) {
-                try { Directory.CreateDirectory(dir); } catch { }
+                try {
+                    Directory.CreateDirectory(dir);
+                } catch {
+                }
             }
         }
 
-        public string GetTypeName() { return typeName; }
+        public string GetTypeName() {
+            return typeName;
+        }
 
         #region Game start
+
         protected string UserId;
         protected SecureString Password;
         protected int loginTryNum, start_try = 0, last_error = -1;
-        protected System.Windows.Forms.WebBrowser wb = new System.Windows.Forms.WebBrowser() { ScriptErrorsSuppressed = true };
+
+        protected System.Windows.Forms.WebBrowser wb = new System.Windows.Forms.WebBrowser() {
+            ScriptErrorsSuppressed = true
+        };
 
         public abstract void TryLogin(string UserId, SecureString Password);
 
         public delegate void LoginCompleteHandler(object sender, LoginCode code, string result);
+
         public event LoginCompleteHandler LoginCompleted;
+
         public delegate void LoginStateHandler(object sender, LoginState state, int try_num, int last_error);
+
         public event LoginStateHandler LoginStateChanged;
 
         protected virtual void OnCompleted(LoginCode code, string result) {
+            LOGGER.InfoFormat("Logging in completed: code={0}, result=\"{1}\"", code, result);
             if (LoginCompleted != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
                     OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteHandler((sender, code_, result_) => {
@@ -73,6 +81,7 @@ namespace DMOLibrary.Profiles {
         }
 
         protected virtual void OnChanged(LoginState state) {
+            LOGGER.InfoFormat("Logging state changed: state={0}", state);
             if (LoginStateChanged != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
                     OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginStateHandler((sender_, state_, try_num_, last_error_) => {
@@ -99,7 +108,10 @@ namespace DMOLibrary.Profiles {
             string Args = string.Empty;
             if (res_code == 0) {
                 foreach (HtmlNode node in result.DocumentNode.SelectNodes("//param")) {
-                    try { Args += node.Attributes["value"].Value + " "; } catch { };
+                    try {
+                        Args += node.Attributes["value"].Value + " ";
+                    } catch {
+                    };
                 }
                 OnCompleted(LoginCode.SUCCESS, Args);
             } else {
@@ -108,9 +120,11 @@ namespace DMOLibrary.Profiles {
                 TryLogin(UserId, Password);
             }
         }
+
         #endregion Game start
 
         #region Database Section
+
         public string GetDatabasePath() {
             if (databaseName != string.Empty)
                 return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), databaseName);
@@ -126,37 +140,66 @@ namespace DMOLibrary.Profiles {
 
         protected DMOWebProfile _WebProfile = null;
         protected DMONewsProfile _NewsProfile = null;
-        public DMOWebProfile WebProfile { set { } get { return _WebProfile; } }
-        public DMONewsProfile NewsProfile { set { } get { return _NewsProfile; } }
+
+        public DMOWebProfile WebProfile {
+            set {
+            }
+            get {
+                return _WebProfile;
+            }
+        }
+
+        public DMONewsProfile NewsProfile {
+            set {
+            }
+            get {
+                return _NewsProfile;
+            }
+        }
 
         public DMODatabase Database;
         protected ObservableCollection<Server> _ServerList;
+
         public ObservableCollection<Server> ServerList {
-            set { }
-            get { return _ServerList; }
+            set {
+            }
+            get {
+                return _ServerList;
+            }
         }
 
         public bool IsWebAvailable {
-            set { }
-            get { return _WebProfile != null; }
+            set {
+            }
+            get {
+                return _WebProfile != null;
+            }
         }
 
         public bool IsNewsAvailable {
-            set { }
-            get { return _NewsProfile != null; }
+            set {
+            }
+            get {
+                return _NewsProfile != null;
+            }
         }
 
         public bool IsLoginRequired {
-            set { }
-            get { return _IsLoginRequired; }
+            set {
+            }
+            get {
+                return _IsLoginRequired;
+            }
         }
-        #endregion
+
+        #endregion Database Section
 
         #region Service
 
         public abstract string GetGameStartArgs(string args);
+
         public abstract string GetLauncherStartArgs(string args);
 
-        #endregion
+        #endregion Service
     }
 }

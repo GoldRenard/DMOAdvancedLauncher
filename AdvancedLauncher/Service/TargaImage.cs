@@ -7,11 +7,11 @@
 //
 // This source code, along with any associated files, is licensed under
 // The Code Project Open License (CPOL) 1.02
-// A copy of this license can be found in the CPOL.html file 
+// A copy of this license can be found in the CPOL.html file
 // which was downloaded with this source code
 // or at http://www.codeproject.com/info/cpol10.aspx
 //
-// 
+//
 // COVERED CODE IS PROVIDED UNDER THIS LICENSE ON AN "AS IS" BASIS,
 // WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED,
 // INCLUDING, WITHOUT LIMITATION, WARRANTIES THAT THE COVERED CODE IS
@@ -28,20 +28,20 @@
 //
 // ==========================================================
 
-
 using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Text;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace AdvancedLauncher.Service {
+
     internal static class TargaConstants {
+
         // constant byte lengths for various fields in the Targa format
         internal const int HeaderByteLength = 18;
+
         internal const int FooterByteLength = 26;
         internal const int FooterSignatureOffsetFromEnd = 18;
         internal const int FooterSignatureByteLength = 16;
@@ -59,6 +59,7 @@ namespace AdvancedLauncher.Service {
     /// The Targa format of the file.
     /// </summary>
     public enum TGAFormat {
+
         /// <summary>
         /// Unknown Targa Image format.
         /// </summary>
@@ -77,11 +78,11 @@ namespace AdvancedLauncher.Service {
         NEW_TGA = 200
     }
 
-
     /// <summary>
-    /// Indicates the type of color map, if any, included with the image file. 
+    /// Indicates the type of color map, if any, included with the image file.
     /// </summary>
     public enum ColorMapType : byte {
+
         /// <summary>
         /// No color map was included in the file.
         /// </summary>
@@ -93,11 +94,11 @@ namespace AdvancedLauncher.Service {
         COLOR_MAP_INCLUDED = 1
     }
 
-
     /// <summary>
     /// The type of image read from the file.
     /// </summary>
     public enum ImageType : byte {
+
         /// <summary>
         /// No image data was found in file.
         /// </summary>
@@ -134,11 +135,11 @@ namespace AdvancedLauncher.Service {
         RUN_LENGTH_ENCODED_BLACK_AND_WHITE = 11
     }
 
-
     /// <summary>
     /// The top-to-bottom ordering in which pixel data is transferred from the file to the screen.
     /// </summary>
     public enum VerticalTransferOrder {
+
         /// <summary>
         /// Unknown transfer order.
         /// </summary>
@@ -155,11 +156,11 @@ namespace AdvancedLauncher.Service {
         TOP = 1
     }
 
-
     /// <summary>
     /// The left-to-right ordering in which pixel data is transferred from the file to the screen.
     /// </summary>
     public enum HorizontalTransferOrder {
+
         /// <summary>
         /// Unknown transfer order.
         /// </summary>
@@ -176,11 +177,11 @@ namespace AdvancedLauncher.Service {
         LEFT = 1
     }
 
-
     /// <summary>
     /// Screen destination of first pixel based on the VerticalTransferOrder and HorizontalTransferOrder.
     /// </summary>
     public enum FirstPixelDestination {
+
         /// <summary>
         /// Unknown first pixel destination.
         /// </summary>
@@ -207,11 +208,11 @@ namespace AdvancedLauncher.Service {
         BOTTOM_RIGHT = 4
     }
 
-
     /// <summary>
     /// The RLE packet type used in a RLE compressed image.
     /// </summary>
     public enum RLEPacketType {
+
         /// <summary>
         /// A raw RLE packet type.
         /// </summary>
@@ -222,7 +223,6 @@ namespace AdvancedLauncher.Service {
         /// </summary>
         RUN_LENGTH = 1
     }
-
 
     /// <summary>
     /// Reads and loads a Truevision TGA Format image file.
@@ -242,10 +242,8 @@ namespace AdvancedLauncher.Service {
         private System.Collections.Generic.List<System.Collections.Generic.List<byte>> rows = new System.Collections.Generic.List<System.Collections.Generic.List<byte>>();
         private System.Collections.Generic.List<byte> row = new System.Collections.Generic.List<byte>();
 
-
         // Track whether Dispose has been called.
         private bool disposed = false;
-
 
         /// <summary>
         /// Creates a new instance of the TargaImage object.
@@ -258,60 +256,68 @@ namespace AdvancedLauncher.Service {
             this.bmpImageThumbnail = null;
         }
 
-
         /// <summary>
         /// Gets a TargaHeader object that holds the Targa Header information of the loaded file.
         /// </summary>
         public TargaHeader Header {
-            get { return this.objTargaHeader; }
+            get {
+                return this.objTargaHeader;
+            }
         }
-
 
         /// <summary>
         /// Gets a TargaExtensionArea object that holds the Targa Extension Area information of the loaded file.
         /// </summary>
         public TargaExtensionArea ExtensionArea {
-            get { return this.objTargaExtensionArea; }
+            get {
+                return this.objTargaExtensionArea;
+            }
         }
-
 
         /// <summary>
         /// Gets a TargaExtensionArea object that holds the Targa Footer information of the loaded file.
         /// </summary>
         public TargaFooter Footer {
-            get { return this.objTargaFooter; }
+            get {
+                return this.objTargaFooter;
+            }
         }
-
 
         /// <summary>
         /// Gets the Targa format of the loaded file.
         /// </summary>
         public TGAFormat Format {
-            get { return this.eTGAFormat; }
+            get {
+                return this.eTGAFormat;
+            }
         }
-
 
         /// <summary>
         /// Gets a Bitmap representation of the loaded file.
         /// </summary>
         public Bitmap Image {
-            get { return this.bmpTargaImage; }
+            get {
+                return this.bmpTargaImage;
+            }
         }
 
         /// <summary>
         /// Gets the thumbnail of the loaded file if there is one in the file.
         /// </summary>
         public Bitmap Thumbnail {
-            get { return this.bmpImageThumbnail; }
+            get {
+                return this.bmpImageThumbnail;
+            }
         }
 
         /// <summary>
         /// Gets the full path and filename of the loaded file.
         /// </summary>
         public string FileName {
-            get { return this.strFileName; }
+            get {
+                return this.strFileName;
+            }
         }
-
 
         /// <summary>
         /// Gets the byte offset between the beginning of one scan line and the next. Used when loading the image into the Image Bitmap.
@@ -321,9 +327,10 @@ namespace AdvancedLauncher.Service {
         /// The stride refers to the number of bytes allocated for one scanline of the bitmap.
         /// </remarks>
         public int Stride {
-            get { return this.intStride; }
+            get {
+                return this.intStride;
+            }
         }
-
 
         /// <summary>
         /// Gets the number of bytes used to pad each scan line to meet the Stride value. Used when loading the image into the Image Bitmap.
@@ -331,16 +338,17 @@ namespace AdvancedLauncher.Service {
         /// <remarks>
         /// The memory allocated for Microsoft Bitmaps must be aligned on a 32bit boundary.
         /// The stride refers to the number of bytes allocated for one scanline of the bitmap.
-        /// In your loop, you copy the pixels one scanline at a time and take into 
+        /// In your loop, you copy the pixels one scanline at a time and take into
         /// consideration the amount of padding that occurs due to memory alignment.
         /// </remarks>
         public int Padding {
-            get { return this.intPadding; }
+            get {
+                return this.intPadding;
+            }
         }
 
-
         // Use C# destructor syntax for finalization code.
-        // This destructor will run only if the Dispose method 
+        // This destructor will run only if the Dispose method
         // does not get called.
         // It gives your base class the opportunity to finalize.
         // Do not provide destructors in types derived from this class.
@@ -353,7 +361,6 @@ namespace AdvancedLauncher.Service {
             // readability and maintainability.
             Dispose(false);
         }
-
 
         /// <summary>
         /// Creates a new instance of the TargaImage object with strFileName as the image loaded.
@@ -384,15 +391,11 @@ namespace AdvancedLauncher.Service {
                                 }
                             } else
                                 throw new Exception(@"Error loading file, could not read file from disk.");
-
                         }
-
                     } else
                         throw new Exception(@"Error loading file, could not read file from disk.");
-
                 } else
                     throw new Exception(@"Error loading file, could not find file '" + strFileName + "' on disk.");
-
             } else
                 throw new Exception(@"Error loading file, file '" + strFileName + "' must have an extension of '.tga'.");
         }
@@ -425,9 +428,7 @@ namespace AdvancedLauncher.Service {
         /// </summary>
         /// <param name="binReader">A BinaryReader that points the loaded file byte stream.</param>
         private void LoadTGAFooterInfo(BinaryReader binReader) {
-
             if (binReader != null && binReader.BaseStream != null && binReader.BaseStream.Length > 0 && binReader.BaseStream.CanSeek == true) {
-
                 try {
                     // set the cursor at the beginning of the signature string.
                     binReader.BaseStream.Seek((TargaConstants.FooterSignatureOffsetFromEnd * -1), SeekOrigin.End);
@@ -466,7 +467,7 @@ namespace AdvancedLauncher.Service {
                         this.eTGAFormat = TGAFormat.ORIGINAL_TGA;
                     }
                 } catch (Exception ex) {
-                    // clear all 
+                    // clear all
                     this.ClearAll();
                     throw ex;
                 }
@@ -474,17 +475,13 @@ namespace AdvancedLauncher.Service {
                 this.ClearAll();
                 throw new Exception(@"Error loading file, could not read file from disk.");
             }
-
-
         }
-
 
         /// <summary>
         /// Loads the Targa Header information from the file.
         /// </summary>
         /// <param name="binReader">A BinaryReader that points the loaded file byte stream.</param>
         private void LoadTGAHeaderInfo(BinaryReader binReader) {
-
             if (binReader != null && binReader.BaseStream != null && binReader.BaseStream.Length > 0 && binReader.BaseStream.CanSeek == true) {
                 try {
                     // set the cursor at the beginning of the file.
@@ -518,7 +515,6 @@ namespace AdvancedLauncher.Service {
                             throw new Exception("Targa Image only supports 8, 16, 24, or 32 bit pixel depths.");
                     }
 
-
                     byte ImageDescriptor = binReader.ReadByte();
                     this.objTargaHeader.SetAttributeBits((byte)Utilities.GetBits(ImageDescriptor, 0, 4));
 
@@ -534,7 +530,6 @@ namespace AdvancedLauncher.Service {
                     this.ClearAll();
                     throw ex;
                 }
-
 
                 // load color map if it's included and/or needed
                 // Only needed for UNCOMPRESSED_COLOR_MAPPED and RUN_LENGTH_ENCODED_COLOR_MAPPED
@@ -557,17 +552,20 @@ namespace AdvancedLauncher.Service {
                                             // remember that the bytes are stored in reverse oreder
                                             this.objTargaHeader.ColorMap.Add(Utilities.GetColorFrom2Bytes(color15[1], color15[0]));
                                             break;
+
                                         case 16:
                                             byte[] color16 = binReader.ReadBytes(2);
                                             // remember that the bytes are stored in reverse oreder
                                             this.objTargaHeader.ColorMap.Add(Utilities.GetColorFrom2Bytes(color16[1], color16[0]));
                                             break;
+
                                         case 24:
                                             b = Convert.ToInt32(binReader.ReadByte());
                                             g = Convert.ToInt32(binReader.ReadByte());
                                             r = Convert.ToInt32(binReader.ReadByte());
                                             this.objTargaHeader.ColorMap.Add(System.Drawing.Color.FromArgb(r, g, b));
                                             break;
+
                                         case 32:
                                             a = Convert.ToInt32(binReader.ReadByte());
                                             b = Convert.ToInt32(binReader.ReadByte());
@@ -575,28 +573,21 @@ namespace AdvancedLauncher.Service {
                                             r = Convert.ToInt32(binReader.ReadByte());
                                             this.objTargaHeader.ColorMap.Add(System.Drawing.Color.FromArgb(a, r, g, b));
                                             break;
+
                                         default:
                                             this.ClearAll();
                                             throw new Exception("TargaImage only supports ColorMap Entry Sizes of 15, 16, 24 or 32 bits.");
-
                                     }
-
-
                                 }
                             } catch (Exception ex) {
                                 this.ClearAll();
                                 throw ex;
                             }
-
-
-
                         } else {
                             this.ClearAll();
                             throw new Exception("Image Type requires a Color Map and Color Map Length is zero.");
                         }
                     }
-
-
                 } else {
                     if (this.objTargaHeader.ImageType == ImageType.UNCOMPRESSED_COLOR_MAPPED ||
                         this.objTargaHeader.ImageType == ImageType.RUN_LENGTH_ENCODED_COLOR_MAPPED) {
@@ -604,21 +595,17 @@ namespace AdvancedLauncher.Service {
                         throw new Exception("Image Type requires a Color Map and there was not a Color Map included in the file.");
                     }
                 }
-
-
             } else {
                 this.ClearAll();
                 throw new Exception(@"Error loading file, could not read file from disk.");
             }
         }
 
-
         /// <summary>
         /// Loads the Targa Extension Area from the file, if it exists.
         /// </summary>
         /// <param name="binReader">A BinaryReader that points the loaded file byte stream.</param>
         private void LoadTGAExtensionArea(BinaryReader binReader) {
-
             if (binReader != null && binReader.BaseStream != null && binReader.BaseStream.Length > 0 && binReader.BaseStream.CanSeek == true) {
                 // is there an Extension Area in file
                 if (this.objTargaFooter.ExtensionAreaOffset > 0) {
@@ -631,7 +618,6 @@ namespace AdvancedLauncher.Service {
                         this.objTargaExtensionArea.SetExtensionSize((int)(binReader.ReadInt16()));
                         this.objTargaExtensionArea.SetAuthorName(System.Text.Encoding.ASCII.GetString(binReader.ReadBytes(TargaConstants.ExtensionAreaAuthorNameByteLength)).TrimEnd('\0'));
                         this.objTargaExtensionArea.SetAuthorComments(System.Text.Encoding.ASCII.GetString(binReader.ReadBytes(TargaConstants.ExtensionAreaAuthorCommentsByteLength)).TrimEnd('\0'));
-
 
                         // get the date/time stamp of the file
                         Int16 iMonth = binReader.ReadInt16();
@@ -646,9 +632,7 @@ namespace AdvancedLauncher.Service {
                         if (DateTime.TryParse(strStamp, out dtstamp) == true)
                             this.objTargaExtensionArea.SetDateTimeStamp(dtstamp);
 
-
                         this.objTargaExtensionArea.SetJobName(System.Text.Encoding.ASCII.GetString(binReader.ReadBytes(TargaConstants.ExtensionAreaJobNameByteLength)).TrimEnd('\0'));
-
 
                         // get the job time of the file
                         iHour = binReader.ReadInt16();
@@ -657,17 +641,13 @@ namespace AdvancedLauncher.Service {
                         TimeSpan ts = new TimeSpan((int)iHour, (int)iMinute, (int)iSecond);
                         this.objTargaExtensionArea.SetJobTime(ts);
 
-
                         this.objTargaExtensionArea.SetSoftwareID(System.Text.Encoding.ASCII.GetString(binReader.ReadBytes(TargaConstants.ExtensionAreaSoftwareIDByteLength)).TrimEnd('\0'));
-
 
                         // get the version number and letter from file
                         float iVersionNumber = (float)binReader.ReadInt16() / 100.0F;
                         string strVersionLetter = System.Text.Encoding.ASCII.GetString(binReader.ReadBytes(TargaConstants.ExtensionAreaSoftwareVersionLetterByteLength)).TrimEnd('\0');
 
-
                         this.objTargaExtensionArea.SetSoftwareID(iVersionNumber.ToString(@"F2") + strVersionLetter);
-
 
                         // get the color key of the file
                         int a = (int)binReader.ReadByte();
@@ -675,7 +655,6 @@ namespace AdvancedLauncher.Service {
                         int b = (int)binReader.ReadByte();
                         int g = (int)binReader.ReadByte();
                         this.objTargaExtensionArea.SetKeyColor(Color.FromArgb(a, r, g, b));
-
 
                         this.objTargaExtensionArea.SetPixelAspectRatioNumerator((int)binReader.ReadInt16());
                         this.objTargaExtensionArea.SetPixelAspectRatioDenominator((int)binReader.ReadInt16());
@@ -686,7 +665,6 @@ namespace AdvancedLauncher.Service {
                         this.objTargaExtensionArea.SetScanLineOffset(binReader.ReadInt32());
                         this.objTargaExtensionArea.SetAttributesType((int)binReader.ReadByte());
 
-
                         // load Scan Line Table from file if any
                         if (this.objTargaExtensionArea.ScanLineOffset > 0) {
                             binReader.BaseStream.Seek(this.objTargaExtensionArea.ScanLineOffset, SeekOrigin.Begin);
@@ -694,7 +672,6 @@ namespace AdvancedLauncher.Service {
                                 this.objTargaExtensionArea.ScanLineTable.Add(binReader.ReadInt32());
                             }
                         }
-
 
                         // load Color Correction Table from file if any
                         if (this.objTargaExtensionArea.ColorCorrectionOffset > 0) {
@@ -719,16 +696,15 @@ namespace AdvancedLauncher.Service {
         }
 
         /// <summary>
-        /// Reads the image data bytes from the file. Handles Uncompressed and RLE Compressed image data. 
+        /// Reads the image data bytes from the file. Handles Uncompressed and RLE Compressed image data.
         /// Uses FirstPixelDestination to properly align the image.
         /// </summary>
         /// <param name="binReader">A BinaryReader that points the loaded file byte stream.</param>
         /// <returns>An array of bytes representing the image data in the proper alignment.</returns>
         private byte[] LoadImageBytes(BinaryReader binReader) {
-
             // read the image data into a byte array
             // take into account stride has to be a multiple of 4
-            // use padding to make sure multiple of 4    
+            // use padding to make sure multiple of 4
 
             byte[] data = null;
             if (binReader != null && binReader.BaseStream != null && binReader.BaseStream.Length > 0 && binReader.BaseStream.CanSeek == true) {
@@ -739,7 +715,6 @@ namespace AdvancedLauncher.Service {
 
                     // seek to the beginning of the image data using the ImageDataOffset value
                     binReader.BaseStream.Seek(this.objTargaHeader.ImageDataOffset, SeekOrigin.Begin);
-
 
                     // get the size in bytes of each row in the image
                     int intImageRowByteSize = (int)this.objTargaHeader.Width * ((int)this.objTargaHeader.BytesPerPixel);
@@ -792,10 +767,8 @@ namespace AdvancedLauncher.Service {
                                         rows.Add(row);
                                         row = new System.Collections.Generic.List<byte>();
                                         intImageRowBytesRead = 0;
-
                                     }
                                 }
-
                             } else if ((RLEPacketType)intRLEPacketType == RLEPacketType.RAW) {
                                 // get the number of bytes to read based on the read pixel count
                                 int intBytesToRead = intRLEPixelCount * (int)this.objTargaHeader.BytesPerPixel;
@@ -816,15 +789,13 @@ namespace AdvancedLauncher.Service {
                                         row = new System.Collections.Generic.List<byte>();
                                         intImageRowBytesRead = 0;
                                     }
-
                                 }
-
                             }
                         }
 
-                        #endregion
-
+                        #endregion COMPRESSED
                     } else {
+
                         #region NON-COMPRESSED
 
                         // loop through each row in the image
@@ -842,8 +813,7 @@ namespace AdvancedLauncher.Service {
                             row = new System.Collections.Generic.List<byte>();
                         }
 
-
-                        #endregion
+                        #endregion NON-COMPRESSED
                     }
 
                     // flag that states whether or not to reverse the location of all rows.
@@ -852,7 +822,7 @@ namespace AdvancedLauncher.Service {
                     // flag that states whether or not to reverse the bytes in each row.
                     bool blnEachRowReverse = false;
 
-                    // use FirstPixelDestination to determine the alignment of the 
+                    // use FirstPixelDestination to determine the alignment of the
                     // image data byte
                     switch (this.objTargaHeader.FirstPixelDestination) {
                         case FirstPixelDestination.TOP_LEFT:
@@ -878,10 +848,9 @@ namespace AdvancedLauncher.Service {
                             break;
                     }
 
-                    // write the bytes from each row into a memory stream and get the 
+                    // write the bytes from each row into a memory stream and get the
                     // resulting byte array
                     using (msData = new MemoryStream()) {
-
                         // do we reverse the rows in the row list.
                         if (blnRowsReverse == true)
                             rows.Reverse();
@@ -901,11 +870,7 @@ namespace AdvancedLauncher.Service {
                         }
                         // get the image byte array
                         data = msData.ToArray();
-
-
-
                     }
-
                 } else {
                     this.ClearAll();
                     throw new Exception(@"Error loading file, No image data in file.");
@@ -917,7 +882,6 @@ namespace AdvancedLauncher.Service {
 
             // return the image byte array
             return data;
-
         }
 
         /// <summary>
@@ -934,7 +898,7 @@ namespace AdvancedLauncher.Service {
             // calculate the stride, in bytes, of the image (32bit aligned width of each image row)
             this.intStride = (((int)this.objTargaHeader.Width * (int)this.objTargaHeader.PixelDepth + 31) & ~31) >> 3; // width in bytes
 
-            // calculate the padding, in bytes, of the image 
+            // calculate the padding, in bytes, of the image
             // number of bytes to add to make each row a 32bit aligned row
             // padding in bytes
             this.intPadding = this.intStride - ((((int)this.objTargaHeader.Width * (int)this.objTargaHeader.PixelDepth) + 7) / 8);
@@ -943,7 +907,7 @@ namespace AdvancedLauncher.Service {
             byte[] bimagedata = this.LoadImageBytes(binReader);
 
             // since the Bitmap constructor requires a poiter to an array of image bytes
-            // we have to pin down the memory used by the byte array and use the pointer 
+            // we have to pin down the memory used by the byte array and use the pointer
             // of this pinned memory to create the Bitmap.
             // This tells the Garbage Collector to leave the memory alone and DO NOT touch it.
             this.ImageByteHandle = GCHandle.Alloc(bimagedata, GCHandleType.Pinned);
@@ -958,10 +922,8 @@ namespace AdvancedLauncher.Service {
                 this.bmpImageThumbnail.Dispose();
             }
 
-
             // get the Pixel format to use with the Bitmap object
             PixelFormat pf = this.GetPixelFormat();
-
 
             // create a Bitmap object using the image Width, Height,
             // Stride, PixelFormat and the pointer to the pinned byte array.
@@ -971,10 +933,7 @@ namespace AdvancedLauncher.Service {
                                             pf,
                                             this.ImageByteHandle.AddrOfPinnedObject());
 
-
             this.LoadThumbnail(binReader, pf);
-
-
 
             // load the color map into the Bitmap, if it exists
             if (this.objTargaHeader.ColorMap.Count > 0) {
@@ -988,11 +947,9 @@ namespace AdvancedLauncher.Service {
                         this.objTargaExtensionArea.AttributesType == 1)
                         // use 255 for alpha ( 255 = opaque/visible ) so we can see the image
                         pal.Entries[i] = Color.FromArgb(255, this.objTargaHeader.ColorMap[i].R, this.objTargaHeader.ColorMap[i].G, this.objTargaHeader.ColorMap[i].B);
-
                     else
                         // use whatever value is there
                         pal.Entries[i] = this.objTargaHeader.ColorMap[i];
-
                 }
 
                 // set the new palette back to the Bitmap object
@@ -1003,8 +960,6 @@ namespace AdvancedLauncher.Service {
                     this.bmpImageThumbnail.Palette = pal;
                 }
             } else { // no color map
-
-
                 // check to see if this is a Black and White (Greyscale)
                 if (this.objTargaHeader.PixelDepth == 8 && (this.objTargaHeader.ImageType == ImageType.UNCOMPRESSED_BLACK_AND_WHITE ||
                     this.objTargaHeader.ImageType == ImageType.RUN_LENGTH_ENCODED_BLACK_AND_WHITE)) {
@@ -1024,10 +979,7 @@ namespace AdvancedLauncher.Service {
                         this.bmpImageThumbnail.Palette = pal;
                     }
                 }
-
-
             }
-
         }
 
         /// <summary>
@@ -1035,7 +987,6 @@ namespace AdvancedLauncher.Service {
         /// </summary>
         /// <returns></returns>
         private PixelFormat GetPixelFormat() {
-
             PixelFormat pfTargaPixelFormat = PixelFormat.Undefined;
 
             // first off what is our Pixel Depth (bits per pixel)
@@ -1075,7 +1026,6 @@ namespace AdvancedLauncher.Service {
                     //PixelFormat.Format32bppRgb
                     if (this.Format == TGAFormat.NEW_TGA) {
                         switch (this.objTargaExtensionArea.AttributesType) {
-
                             case 1:
                             case 2: // no alpha data
                                 pfTargaPixelFormat = PixelFormat.Format32bppRgb;
@@ -1089,23 +1039,17 @@ namespace AdvancedLauncher.Service {
                             case 4: // premultiplied alpha data
                                 pfTargaPixelFormat = PixelFormat.Format32bppPArgb;
                                 break;
-
                         }
                     } else {
                         pfTargaPixelFormat = PixelFormat.Format32bppRgb;
                         break;
                     }
 
-
-
                     break;
-
             }
-
 
             return pfTargaPixelFormat;
         }
-
 
         /// <summary>
         /// Loads the thumbnail of the loaded image file, if any.
@@ -1113,15 +1057,13 @@ namespace AdvancedLauncher.Service {
         /// <param name="binReader">A BinaryReader that points the loaded file byte stream.</param>
         /// <param name="pfPixelFormat">A PixelFormat value indicating what pixel format to use when loading the thumbnail.</param>
         private void LoadThumbnail(BinaryReader binReader, PixelFormat pfPixelFormat) {
-
             // read the Thumbnail image data into a byte array
             // take into account stride has to be a multiple of 4
-            // use padding to make sure multiple of 4    
+            // use padding to make sure multiple of 4
 
             byte[] data = null;
             if (binReader != null && binReader.BaseStream != null && binReader.BaseStream.Length > 0 && binReader.BaseStream.CanSeek == true) {
                 if (this.ExtensionArea.PostageStampOffset > 0) {
-
                     // seek to the beginning of the image data using the ImageDataOffset value
                     binReader.BaseStream.Seek(this.ExtensionArea.PostageStampOffset, SeekOrigin.Begin);
 
@@ -1134,14 +1076,10 @@ namespace AdvancedLauncher.Service {
                     System.Collections.Generic.List<System.Collections.Generic.List<byte>> objRows = new System.Collections.Generic.List<System.Collections.Generic.List<byte>>();
                     System.Collections.Generic.List<byte> objRow = new System.Collections.Generic.List<byte>();
 
-
-
-
                     byte[] padding = new byte[iPadding];
                     MemoryStream msData = null;
                     bool blnEachRowReverse = false;
                     bool blnRowsReverse = false;
-
 
                     using (msData = new MemoryStream()) {
                         // get the size in bytes of each row in the image
@@ -1197,10 +1135,7 @@ namespace AdvancedLauncher.Service {
                         this.ThumbnailByteHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
                         this.bmpImageThumbnail = new Bitmap(iWidth, iHeight, iStride, pfPixelFormat,
                                                         this.ThumbnailByteHandle.AddrOfPinnedObject());
-
                     }
-
-
                 } else {
                     if (this.bmpImageThumbnail != null) {
                         this.bmpImageThumbnail.Dispose();
@@ -1213,7 +1148,6 @@ namespace AdvancedLauncher.Service {
                     this.bmpImageThumbnail = null;
                 }
             }
-
         }
 
         /// <summary>
@@ -1239,7 +1173,6 @@ namespace AdvancedLauncher.Service {
             this.rows.Clear();
             this.row.Clear();
             this.strFileName = string.Empty;
-
         }
 
         /// <summary>
@@ -1277,28 +1210,26 @@ namespace AdvancedLauncher.Service {
         /// </summary>
         public void Dispose() {
             Dispose(true);
-            // Take yourself off the Finalization queue 
+            // Take yourself off the Finalization queue
             // to prevent finalization code for this object
             // from executing a second time.
             GC.SuppressFinalize(this);
-
         }
-
 
         /// <summary>
         /// Dispose(bool disposing) executes in two distinct scenarios.
         /// If disposing equals true, the method has been called directly
         /// or indirectly by a user's code. Managed and unmanaged resources
         /// can be disposed.
-        /// If disposing equals false, the method has been called by the 
-        /// runtime from inside the finalizer and you should not reference 
+        /// If disposing equals false, the method has been called by the
+        /// runtime from inside the finalizer and you should not reference
         /// other objects. Only unmanaged resources can be disposed.
         /// </summary>
         /// <param name="disposing">If true dispose all resources, else dispose only release unmanaged resources.</param>
         protected virtual void Dispose(bool disposing) {
             // Check to see if Dispose has already been called.
             if (!this.disposed) {
-                // If disposing equals true, dispose all managed 
+                // If disposing equals true, dispose all managed
                 // and unmanaged resources.
                 if (disposing) {
                     // Dispose managed resources.
@@ -1314,17 +1245,15 @@ namespace AdvancedLauncher.Service {
                         if (this.ImageByteHandle.IsAllocated) {
                             this.ImageByteHandle.Free();
                         }
-
                     }
 
                     if (this.ThumbnailByteHandle != null) {
                         if (this.ThumbnailByteHandle.IsAllocated) {
                             this.ThumbnailByteHandle.Free();
                         }
-
                     }
                 }
-                // Release unmanaged resources. If disposing is false, 
+                // Release unmanaged resources. If disposing is false,
                 // only the following code is executed.
                 // ** release unmanged resources here **
 
@@ -1334,18 +1263,15 @@ namespace AdvancedLauncher.Service {
                 // but before the disposed flag is set to true.
                 // If thread safety is necessary, it must be
                 // implemented by the client.
-
             }
             disposed = true;
         }
 
-
-        #endregion
+        #endregion IDisposable Members
     }
 
-
     /// <summary>
-    /// This class holds all of the header properties of a Targa image. 
+    /// This class holds all of the header properties of a Targa image.
     /// This includes the TGA File Header section the ImageID and the Color Map.
     /// </summary>
     public class TargaHeader {
@@ -1373,14 +1299,16 @@ namespace AdvancedLauncher.Service {
         /// image.
         /// </summary>
         public byte ImageIDLength {
-            get { return this.bImageIDLength; }
+            get {
+                return this.bImageIDLength;
+            }
         }
 
         /// <summary>
         /// Sets the ImageIDLength property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="bImageIDLength">The Image ID Length value read from the file.</param>
-        internal protected void SetImageIDLength(byte bImageIDLength) {
+        protected internal void SetImageIDLength(byte bImageIDLength) {
             this.bImageIDLength = bImageIDLength;
         }
 
@@ -1391,14 +1319,16 @@ namespace AdvancedLauncher.Service {
         /// COLOR_MAP_INCLUDED - indicates that a color-map is included with this image.
         /// </summary>
         public ColorMapType ColorMapType {
-            get { return this.eColorMapType; }
+            get {
+                return this.eColorMapType;
+            }
         }
 
         /// <summary>
         /// Sets the ColorMapType property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="eColorMapType">One of the ColorMapType enumeration values.</param>
-        internal protected void SetColorMapType(ColorMapType eColorMapType) {
+        protected internal void SetColorMapType(ColorMapType eColorMapType) {
             this.eColorMapType = eColorMapType;
         }
 
@@ -1406,14 +1336,16 @@ namespace AdvancedLauncher.Service {
         /// Gets one of the ImageType enumeration values indicating the type of Targa image read from the file.
         /// </summary>
         public ImageType ImageType {
-            get { return this.eImageType; }
+            get {
+                return this.eImageType;
+            }
         }
 
         /// <summary>
         /// Sets the ImageType property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="eImageType">One of the ImageType enumeration values.</param>
-        internal protected void SetImageType(ImageType eImageType) {
+        protected internal void SetImageType(ImageType eImageType) {
             this.eImageType = eImageType;
         }
 
@@ -1421,14 +1353,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the index of the first color map entry. ColorMapFirstEntryIndex refers to the starting entry in loading the color map.
         /// </summary>
         public short ColorMapFirstEntryIndex {
-            get { return this.sColorMapFirstEntryIndex; }
+            get {
+                return this.sColorMapFirstEntryIndex;
+            }
         }
 
         /// <summary>
         /// Sets the ColorMapFirstEntryIndex property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="sColorMapFirstEntryIndex">The First Entry Index value read from the file.</param>
-        internal protected void SetColorMapFirstEntryIndex(short sColorMapFirstEntryIndex) {
+        protected internal void SetColorMapFirstEntryIndex(short sColorMapFirstEntryIndex) {
             this.sColorMapFirstEntryIndex = sColorMapFirstEntryIndex;
         }
 
@@ -1436,14 +1370,16 @@ namespace AdvancedLauncher.Service {
         /// Gets total number of color map entries included.
         /// </summary>
         public short ColorMapLength {
-            get { return this.sColorMapLength; }
+            get {
+                return this.sColorMapLength;
+            }
         }
 
         /// <summary>
         /// Sets the ColorMapLength property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="sColorMapLength">The Color Map Length value read from the file.</param>
-        internal protected void SetColorMapLength(short sColorMapLength) {
+        protected internal void SetColorMapLength(short sColorMapLength) {
             this.sColorMapLength = sColorMapLength;
         }
 
@@ -1451,14 +1387,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the number of bits per entry in the Color Map. Typically 15, 16, 24 or 32-bit values are used.
         /// </summary>
         public byte ColorMapEntrySize {
-            get { return this.bColorMapEntrySize; }
+            get {
+                return this.bColorMapEntrySize;
+            }
         }
 
         /// <summary>
         /// Sets the ColorMapEntrySize property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="bColorMapEntrySize">The Color Map Entry Size value read from the file.</param>
-        internal protected void SetColorMapEntrySize(byte bColorMapEntrySize) {
+        protected internal void SetColorMapEntrySize(byte bColorMapEntrySize) {
             this.bColorMapEntrySize = bColorMapEntrySize;
         }
 
@@ -1468,14 +1406,16 @@ namespace AdvancedLauncher.Service {
         /// an origin at the lower left of the screen (e.g., the TARGA series).
         /// </summary>
         public short XOrigin {
-            get { return this.sXOrigin; }
+            get {
+                return this.sXOrigin;
+            }
         }
 
         /// <summary>
         /// Sets the XOrigin property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="sXOrigin">The X Origin value read from the file.</param>
-        internal protected void SetXOrigin(short sXOrigin) {
+        protected internal void SetXOrigin(short sXOrigin) {
             this.sXOrigin = sXOrigin;
         }
 
@@ -1485,14 +1425,16 @@ namespace AdvancedLauncher.Service {
         /// origin at the lower left of the screen (e.g., the TARGA series).
         /// </summary>
         public short YOrigin {
-            get { return this.sYOrigin; }
+            get {
+                return this.sYOrigin;
+            }
         }
 
         /// <summary>
         /// Sets the YOrigin property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="sYOrigin">The Y Origin value read from the file.</param>
-        internal protected void SetYOrigin(short sYOrigin) {
+        protected internal void SetYOrigin(short sYOrigin) {
             this.sYOrigin = sYOrigin;
         }
 
@@ -1500,14 +1442,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the width of the image in pixels.
         /// </summary>
         public short Width {
-            get { return this.sWidth; }
+            get {
+                return this.sWidth;
+            }
         }
 
         /// <summary>
         /// Sets the Width property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="sWidth">The Width value read from the file.</param>
-        internal protected void SetWidth(short sWidth) {
+        protected internal void SetWidth(short sWidth) {
             this.sWidth = sWidth;
         }
 
@@ -1515,14 +1459,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the height of the image in pixels.
         /// </summary>
         public short Height {
-            get { return this.sHeight; }
+            get {
+                return this.sHeight;
+            }
         }
 
         /// <summary>
         /// Sets the Height property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="sHeight">The Height value read from the file.</param>
-        internal protected void SetHeight(short sHeight) {
+        protected internal void SetHeight(short sHeight) {
             this.sHeight = sHeight;
         }
 
@@ -1531,25 +1477,31 @@ namespace AdvancedLauncher.Service {
         /// the Attribute or Alpha channel bits. Common values are 8, 16, 24 and 32.
         /// </summary>
         public byte PixelDepth {
-            get { return this.bPixelDepth; }
+            get {
+                return this.bPixelDepth;
+            }
         }
 
         /// <summary>
         /// Sets the PixelDepth property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="bPixelDepth">The Pixel Depth value read from the file.</param>
-        internal protected void SetPixelDepth(byte bPixelDepth) {
+        protected internal void SetPixelDepth(byte bPixelDepth) {
             this.bPixelDepth = bPixelDepth;
         }
 
         /// <summary>
-        /// Gets or Sets the ImageDescriptor property. The ImageDescriptor is the byte that holds the 
+        /// Gets or Sets the ImageDescriptor property. The ImageDescriptor is the byte that holds the
         /// Image Origin and Attribute Bits values.
         /// Available only to objects in the same assembly as TargaHeader.
         /// </summary>
-        internal protected byte ImageDescriptor {
-            get { return this.bImageDescriptor; }
-            set { this.bImageDescriptor = value; }
+        protected internal byte ImageDescriptor {
+            get {
+                return this.bImageDescriptor;
+            }
+            set {
+                this.bImageDescriptor = value;
+            }
         }
 
         /// <summary>
@@ -1557,7 +1509,6 @@ namespace AdvancedLauncher.Service {
         /// </summary>
         public FirstPixelDestination FirstPixelDestination {
             get {
-
                 if (this.eVerticalTransferOrder == VerticalTransferOrder.UNKNOWN || this.eHorizontalTransferOrder == HorizontalTransferOrder.UNKNOWN)
                     return FirstPixelDestination.UNKNOWN;
                 else if (this.eVerticalTransferOrder == VerticalTransferOrder.BOTTOM && this.eHorizontalTransferOrder == HorizontalTransferOrder.LEFT)
@@ -1568,23 +1519,23 @@ namespace AdvancedLauncher.Service {
                     return FirstPixelDestination.TOP_LEFT;
                 else
                     return FirstPixelDestination.TOP_RIGHT;
-
             }
         }
-
 
         /// <summary>
         /// Gets one of the VerticalTransferOrder enumeration values specifying the top-to-bottom ordering in which pixel data is transferred from the file to the screen.
         /// </summary>
         public VerticalTransferOrder VerticalTransferOrder {
-            get { return this.eVerticalTransferOrder; }
+            get {
+                return this.eVerticalTransferOrder;
+            }
         }
 
         /// <summary>
         /// Sets the VerticalTransferOrder property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="eVerticalTransferOrder">One of the VerticalTransferOrder enumeration values.</param>
-        internal protected void SetVerticalTransferOrder(VerticalTransferOrder eVerticalTransferOrder) {
+        protected internal void SetVerticalTransferOrder(VerticalTransferOrder eVerticalTransferOrder) {
             this.eVerticalTransferOrder = eVerticalTransferOrder;
         }
 
@@ -1592,14 +1543,16 @@ namespace AdvancedLauncher.Service {
         /// Gets one of the HorizontalTransferOrder enumeration values specifying the left-to-right ordering in which pixel data is transferred from the file to the screen.
         /// </summary>
         public HorizontalTransferOrder HorizontalTransferOrder {
-            get { return this.eHorizontalTransferOrder; }
+            get {
+                return this.eHorizontalTransferOrder;
+            }
         }
 
         /// <summary>
         /// Sets the HorizontalTransferOrder property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="eHorizontalTransferOrder">One of the HorizontalTransferOrder enumeration values.</param>
-        internal protected void SetHorizontalTransferOrder(HorizontalTransferOrder eHorizontalTransferOrder) {
+        protected internal void SetHorizontalTransferOrder(HorizontalTransferOrder eHorizontalTransferOrder) {
             this.eHorizontalTransferOrder = eHorizontalTransferOrder;
         }
 
@@ -1607,30 +1560,34 @@ namespace AdvancedLauncher.Service {
         /// Gets the number of attribute bits per pixel.
         /// </summary>
         public byte AttributeBits {
-            get { return this.bAttributeBits; }
+            get {
+                return this.bAttributeBits;
+            }
         }
 
         /// <summary>
         /// Sets the AttributeBits property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="bAttributeBits">The Attribute Bits value read from the file.</param>
-        internal protected void SetAttributeBits(byte bAttributeBits) {
+        protected internal void SetAttributeBits(byte bAttributeBits) {
             this.bAttributeBits = bAttributeBits;
         }
 
         /// <summary>
-        /// Gets identifying information about the image. 
+        /// Gets identifying information about the image.
         /// A value of zero in ImageIDLength indicates that no ImageIDValue is included with the image.
         /// </summary>
         public string ImageIDValue {
-            get { return this.strImageIDValue; }
+            get {
+                return this.strImageIDValue;
+            }
         }
 
         /// <summary>
         /// Sets the ImageIDValue property, available only to objects in the same assembly as TargaHeader.
         /// </summary>
         /// <param name="strImageIDValue">The Image ID value read from the file.</param>
-        internal protected void SetImageIDValue(string strImageIDValue) {
+        protected internal void SetImageIDValue(string strImageIDValue) {
             this.strImageIDValue = strImageIDValue;
         }
 
@@ -1638,7 +1595,9 @@ namespace AdvancedLauncher.Service {
         /// Gets the Color Map of the image, if any. The Color Map is represented by a list of System.Drawing.Color objects.
         /// </summary>
         public System.Collections.Generic.List<System.Drawing.Color> ColorMap {
-            get { return this.cColorMap; }
+            get {
+                return this.cColorMap;
+            }
         }
 
         /// <summary>
@@ -1660,12 +1619,15 @@ namespace AdvancedLauncher.Service {
                     case 15:
                         Bytes = 2;
                         break;
+
                     case 16:
                         Bytes = 2;
                         break;
+
                     case 24:
                         Bytes = 3;
                         break;
+
                     case 32:
                         Bytes = 4;
                         break;
@@ -1689,7 +1651,6 @@ namespace AdvancedLauncher.Service {
         }
     }
 
-
     /// <summary>
     /// Holds Footer infomation read from the image file.
     /// </summary>
@@ -1700,18 +1661,20 @@ namespace AdvancedLauncher.Service {
         private string strReservedCharacter = string.Empty;
 
         /// <summary>
-        /// Gets the offset from the beginning of the file to the start of the Extension Area. 
+        /// Gets the offset from the beginning of the file to the start of the Extension Area.
         /// If the ExtensionAreaOffset is zero, no Extension Area exists in the file.
         /// </summary>
         public int ExtensionAreaOffset {
-            get { return this.intExtensionAreaOffset; }
+            get {
+                return this.intExtensionAreaOffset;
+            }
         }
 
         /// <summary>
         /// Sets the ExtensionAreaOffset property, available only to objects in the same assembly as TargaFooter.
         /// </summary>
         /// <param name="intExtensionAreaOffset">The Extension Area Offset value read from the file.</param>
-        internal protected void SetExtensionAreaOffset(int intExtensionAreaOffset) {
+        protected internal void SetExtensionAreaOffset(int intExtensionAreaOffset) {
             this.intExtensionAreaOffset = intExtensionAreaOffset;
         }
 
@@ -1720,14 +1683,16 @@ namespace AdvancedLauncher.Service {
         /// If the DeveloperDirectoryOffset is zero, then the Developer Area does not exist
         /// </summary>
         public int DeveloperDirectoryOffset {
-            get { return this.intDeveloperDirectoryOffset; }
+            get {
+                return this.intDeveloperDirectoryOffset;
+            }
         }
 
         /// <summary>
         /// Sets the DeveloperDirectoryOffset property, available only to objects in the same assembly as TargaFooter.
         /// </summary>
         /// <param name="intDeveloperDirectoryOffset">The Developer Directory Offset value read from the file.</param>
-        internal protected void SetDeveloperDirectoryOffset(int intDeveloperDirectoryOffset) {
+        protected internal void SetDeveloperDirectoryOffset(int intDeveloperDirectoryOffset) {
             this.intDeveloperDirectoryOffset = intDeveloperDirectoryOffset;
         }
 
@@ -1738,14 +1703,16 @@ namespace AdvancedLauncher.Service {
         /// signature is not found, then the file is assumed to be an Original TGA format.
         /// </summary>
         public string Signature {
-            get { return this.strSignature; }
+            get {
+                return this.strSignature;
+            }
         }
 
         /// <summary>
         /// Sets the Signature property, available only to objects in the same assembly as TargaFooter.
         /// </summary>
         /// <param name="strSignature">The Signature value read from the file.</param>
-        internal protected void SetSignature(string strSignature) {
+        protected internal void SetSignature(string strSignature) {
             this.strSignature = strSignature;
         }
 
@@ -1753,63 +1720,65 @@ namespace AdvancedLauncher.Service {
         /// A New Targa format reserved character "." (period)
         /// </summary>
         public string ReservedCharacter {
-            get { return this.strReservedCharacter; }
+            get {
+                return this.strReservedCharacter;
+            }
         }
 
         /// <summary>
         /// Sets the ReservedCharacter property, available only to objects in the same assembly as TargaFooter.
         /// </summary>
         /// <param name="strReservedCharacter">The ReservedCharacter value read from the file.</param>
-        internal protected void SetReservedCharacter(string strReservedCharacter) {
+        protected internal void SetReservedCharacter(string strReservedCharacter) {
             this.strReservedCharacter = strReservedCharacter;
         }
 
         /// <summary>
         /// Creates a new instance of the TargaFooter class.
         /// </summary>
-        public TargaFooter() { }
-
-
+        public TargaFooter() {
+        }
     }
-
 
     /// <summary>
     /// This class holds all of the Extension Area properties of the Targa image. If an Extension Area exists in the file.
     /// </summary>
     public class TargaExtensionArea {
-        int intExtensionSize = 0;
-        string strAuthorName = string.Empty;
-        string strAuthorComments = string.Empty;
-        DateTime dtDateTimeStamp = DateTime.Now;
-        string strJobName = string.Empty;
-        TimeSpan dtJobTime = TimeSpan.Zero;
-        string strSoftwareID = string.Empty;
-        string strSoftwareVersion = string.Empty;
-        Color cKeyColor = Color.Empty;
-        int intPixelAspectRatioNumerator = 0;
-        int intPixelAspectRatioDenominator = 0;
-        int intGammaNumerator = 0;
-        int intGammaDenominator = 0;
-        int intColorCorrectionOffset = 0;
-        int intPostageStampOffset = 0;
-        int intScanLineOffset = 0;
-        int intAttributesType = 0;
+        private int intExtensionSize = 0;
+        private string strAuthorName = string.Empty;
+        private string strAuthorComments = string.Empty;
+        private DateTime dtDateTimeStamp = DateTime.Now;
+        private string strJobName = string.Empty;
+        private TimeSpan dtJobTime = TimeSpan.Zero;
+        private string strSoftwareID = string.Empty;
+        private string strSoftwareVersion = string.Empty;
+        private Color cKeyColor = Color.Empty;
+        private int intPixelAspectRatioNumerator = 0;
+        private int intPixelAspectRatioDenominator = 0;
+        private int intGammaNumerator = 0;
+        private int intGammaDenominator = 0;
+        private int intColorCorrectionOffset = 0;
+        private int intPostageStampOffset = 0;
+        private int intScanLineOffset = 0;
+        private int intAttributesType = 0;
         private System.Collections.Generic.List<int> intScanLineTable = new List<int>();
         private System.Collections.Generic.List<System.Drawing.Color> cColorCorrectionTable = new List<System.Drawing.Color>();
 
         /// <summary>
-        /// Gets the number of Bytes in the fixed-length portion of the ExtensionArea. 
+        /// Gets the number of Bytes in the fixed-length portion of the ExtensionArea.
         /// For Version 2.0 of the TGA File Format, this number should be set to 495
         /// </summary>
         public int ExtensionSize {
-            get { return this.intExtensionSize; }
+            get {
+                return this.intExtensionSize;
+            }
         }
 
         /// <summary>
         /// Sets the ExtensionSize property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intExtensionSize">The Extension Size value read from the file.</param>
-        internal protected void SetExtensionSize(int intExtensionSize) {
+        protected internal void SetExtensionSize(int intExtensionSize) {
             this.intExtensionSize = intExtensionSize;
         }
 
@@ -1817,14 +1786,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the name of the person who created the image.
         /// </summary>
         public string AuthorName {
-            get { return this.strAuthorName; }
+            get {
+                return this.strAuthorName;
+            }
         }
 
         /// <summary>
         /// Sets the AuthorName property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="strAuthorName">The Author Name value read from the file.</param>
-        internal protected void SetAuthorName(string strAuthorName) {
+        protected internal void SetAuthorName(string strAuthorName) {
             this.strAuthorName = strAuthorName;
         }
 
@@ -1832,14 +1803,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the comments from the author who created the image.
         /// </summary>
         public string AuthorComments {
-            get { return this.strAuthorComments; }
+            get {
+                return this.strAuthorComments;
+            }
         }
 
         /// <summary>
         /// Sets the AuthorComments property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="strAuthorComments">The Author Comments value read from the file.</param>
-        internal protected void SetAuthorComments(string strAuthorComments) {
+        protected internal void SetAuthorComments(string strAuthorComments) {
             this.strAuthorComments = strAuthorComments;
         }
 
@@ -1847,14 +1820,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the date and time that the image was saved.
         /// </summary>
         public DateTime DateTimeStamp {
-            get { return this.dtDateTimeStamp; }
+            get {
+                return this.dtDateTimeStamp;
+            }
         }
 
         /// <summary>
         /// Sets the DateTimeStamp property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="dtDateTimeStamp">The Date Time Stamp value read from the file.</param>
-        internal protected void SetDateTimeStamp(DateTime dtDateTimeStamp) {
+        protected internal void SetDateTimeStamp(DateTime dtDateTimeStamp) {
             this.dtDateTimeStamp = dtDateTimeStamp;
         }
 
@@ -1862,14 +1837,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the name or id tag which refers to the job with which the image was associated.
         /// </summary>
         public string JobName {
-            get { return this.strJobName; }
+            get {
+                return this.strJobName;
+            }
         }
 
         /// <summary>
         /// Sets the JobName property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="strJobName">The Job Name value read from the file.</param>
-        internal protected void SetJobName(string strJobName) {
+        protected internal void SetJobName(string strJobName) {
             this.strJobName = strJobName;
         }
 
@@ -1877,14 +1854,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the job elapsed time when the image was saved.
         /// </summary>
         public TimeSpan JobTime {
-            get { return this.dtJobTime; }
+            get {
+                return this.dtJobTime;
+            }
         }
 
         /// <summary>
         /// Sets the JobTime property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="dtJobTime">The Job Time value read from the file.</param>
-        internal protected void SetJobTime(TimeSpan dtJobTime) {
+        protected internal void SetJobTime(TimeSpan dtJobTime) {
             this.dtJobTime = dtJobTime;
         }
 
@@ -1892,14 +1871,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the Software ID. Usually used to determine and record with what program a particular image was created.
         /// </summary>
         public string SoftwareID {
-            get { return this.strSoftwareID; }
+            get {
+                return this.strSoftwareID;
+            }
         }
 
         /// <summary>
         /// Sets the SoftwareID property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="strSoftwareID">The Software ID value read from the file.</param>
-        internal protected void SetSoftwareID(string strSoftwareID) {
+        protected internal void SetSoftwareID(string strSoftwareID) {
             this.strSoftwareID = strSoftwareID;
         }
 
@@ -1907,14 +1888,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the version of software defined by the SoftwareID.
         /// </summary>
         public string SoftwareVersion {
-            get { return this.strSoftwareVersion; }
+            get {
+                return this.strSoftwareVersion;
+            }
         }
 
         /// <summary>
         /// Sets the SoftwareVersion property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="strSoftwareVersion">The Software Version value read from the file.</param>
-        internal protected void SetSoftwareVersion(string strSoftwareVersion) {
+        protected internal void SetSoftwareVersion(string strSoftwareVersion) {
             this.strSoftwareVersion = strSoftwareVersion;
         }
 
@@ -1923,14 +1906,16 @@ namespace AdvancedLauncher.Service {
         /// The Key Color can be thought of as the "background color" or "transparent color".
         /// </summary>
         public Color KeyColor {
-            get { return this.cKeyColor; }
+            get {
+                return this.cKeyColor;
+            }
         }
 
         /// <summary>
         /// Sets the KeyColor property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="cKeyColor">The Key Color value read from the file.</param>
-        internal protected void SetKeyColor(Color cKeyColor) {
+        protected internal void SetKeyColor(Color cKeyColor) {
             this.cKeyColor = cKeyColor;
         }
 
@@ -1938,14 +1923,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the Pixel Ratio Numerator.
         /// </summary>
         public int PixelAspectRatioNumerator {
-            get { return this.intPixelAspectRatioNumerator; }
+            get {
+                return this.intPixelAspectRatioNumerator;
+            }
         }
 
         /// <summary>
         /// Sets the PixelAspectRatioNumerator property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intPixelAspectRatioNumerator">The Pixel Aspect Ratio Numerator value read from the file.</param>
-        internal protected void SetPixelAspectRatioNumerator(int intPixelAspectRatioNumerator) {
+        protected internal void SetPixelAspectRatioNumerator(int intPixelAspectRatioNumerator) {
             this.intPixelAspectRatioNumerator = intPixelAspectRatioNumerator;
         }
 
@@ -1953,14 +1940,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the Pixel Ratio Denominator.
         /// </summary>
         public int PixelAspectRatioDenominator {
-            get { return this.intPixelAspectRatioDenominator; }
+            get {
+                return this.intPixelAspectRatioDenominator;
+            }
         }
 
         /// <summary>
         /// Sets the PixelAspectRatioDenominator property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intPixelAspectRatioDenominator">The Pixel Aspect Ratio Denominator value read from the file.</param>
-        internal protected void SetPixelAspectRatioDenominator(int intPixelAspectRatioDenominator) {
+        protected internal void SetPixelAspectRatioDenominator(int intPixelAspectRatioDenominator) {
             this.intPixelAspectRatioDenominator = intPixelAspectRatioDenominator;
         }
 
@@ -1980,14 +1969,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the Gamma Numerator.
         /// </summary>
         public int GammaNumerator {
-            get { return this.intGammaNumerator; }
+            get {
+                return this.intGammaNumerator;
+            }
         }
 
         /// <summary>
         /// Sets the GammaNumerator property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intGammaNumerator">The Gamma Numerator value read from the file.</param>
-        internal protected void SetGammaNumerator(int intGammaNumerator) {
+        protected internal void SetGammaNumerator(int intGammaNumerator) {
             this.intGammaNumerator = intGammaNumerator;
         }
 
@@ -1995,14 +1986,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the Gamma Denominator.
         /// </summary>
         public int GammaDenominator {
-            get { return this.intGammaDenominator; }
+            get {
+                return this.intGammaDenominator;
+            }
         }
 
         /// <summary>
         /// Sets the GammaDenominator property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intGammaDenominator">The Gamma Denominator value read from the file.</param>
-        internal protected void SetGammaDenominator(int intGammaDenominator) {
+        protected internal void SetGammaDenominator(int intGammaDenominator) {
             this.intGammaDenominator = intGammaDenominator;
         }
 
@@ -2023,14 +2016,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the offset from the beginning of the file to the start of the Color Correction table.
         /// </summary>
         public int ColorCorrectionOffset {
-            get { return this.intColorCorrectionOffset; }
+            get {
+                return this.intColorCorrectionOffset;
+            }
         }
 
         /// <summary>
         /// Sets the ColorCorrectionOffset property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intColorCorrectionOffset">The Color Correction Offset value read from the file.</param>
-        internal protected void SetColorCorrectionOffset(int intColorCorrectionOffset) {
+        protected internal void SetColorCorrectionOffset(int intColorCorrectionOffset) {
             this.intColorCorrectionOffset = intColorCorrectionOffset;
         }
 
@@ -2038,14 +2033,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the offset from the beginning of the file to the start of the Postage Stamp image data.
         /// </summary>
         public int PostageStampOffset {
-            get { return this.intPostageStampOffset; }
+            get {
+                return this.intPostageStampOffset;
+            }
         }
 
         /// <summary>
         /// Sets the PostageStampOffset property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intPostageStampOffset">The Postage Stamp Offset value read from the file.</param>
-        internal protected void SetPostageStampOffset(int intPostageStampOffset) {
+        protected internal void SetPostageStampOffset(int intPostageStampOffset) {
             this.intPostageStampOffset = intPostageStampOffset;
         }
 
@@ -2053,14 +2050,16 @@ namespace AdvancedLauncher.Service {
         /// Gets the offset from the beginning of the file to the start of the Scan Line table.
         /// </summary>
         public int ScanLineOffset {
-            get { return this.intScanLineOffset; }
+            get {
+                return this.intScanLineOffset;
+            }
         }
 
         /// <summary>
         /// Sets the ScanLineOffset property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intScanLineOffset">The Scan Line Offset value read from the file.</param>
-        internal protected void SetScanLineOffset(int intScanLineOffset) {
+        protected internal void SetScanLineOffset(int intScanLineOffset) {
             this.intScanLineOffset = intScanLineOffset;
         }
 
@@ -2075,23 +2074,27 @@ namespace AdvancedLauncher.Service {
         /// 128-255: Un-assigned
         /// </summary>
         public int AttributesType {
-            get { return this.intAttributesType; }
+            get {
+                return this.intAttributesType;
+            }
         }
 
         /// <summary>
         /// Sets the AttributesType property, available only to objects in the same assembly as TargaExtensionArea.
         /// </summary>
         /// <param name="intAttributesType">The Attributes Type value read from the file.</param>
-        internal protected void SetAttributesType(int intAttributesType) {
+        protected internal void SetAttributesType(int intAttributesType) {
             this.intAttributesType = intAttributesType;
         }
 
         /// <summary>
-        /// Gets a list of offsets from the beginning of the file that point to the start of the next scan line, 
-        /// in the order that the image was saved 
+        /// Gets a list of offsets from the beginning of the file that point to the start of the next scan line,
+        /// in the order that the image was saved
         /// </summary>
         public System.Collections.Generic.List<int> ScanLineTable {
-            get { return this.intScanLineTable; }
+            get {
+                return this.intScanLineTable;
+            }
         }
 
         /// <summary>
@@ -2099,16 +2102,16 @@ namespace AdvancedLauncher.Service {
         /// This allows the user to store a correction table for image remapping or LUT driving.
         /// </summary>
         public System.Collections.Generic.List<System.Drawing.Color> ColorCorrectionTable {
-            get { return this.cColorCorrectionTable; }
+            get {
+                return this.cColorCorrectionTable;
+            }
         }
-
     }
-
 
     /// <summary>
     /// Utilities functions used by the TargaImage class.
     /// </summary>
-    static class Utilities {
+    internal static class Utilities {
 
         /// <summary>
         /// Gets an int value representing the subset of bits from a single Byte.
@@ -2120,7 +2123,7 @@ namespace AdvancedLauncher.Service {
         /// An int value representing the subset of bits.
         /// </returns>
         /// <remarks>
-        /// Given -> b = 00110101 
+        /// Given -> b = 00110101
         /// A call to GetBits(b, 2, 4)
         /// GetBits looks at the following bits in the byte -> 00{1101}00
         /// Returns 1101 as an int (13)
@@ -2218,6 +2221,5 @@ namespace AdvancedLauncher.Service {
             }
             return new string(b);
         }
-
     }
 }

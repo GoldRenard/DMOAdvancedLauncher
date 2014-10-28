@@ -17,21 +17,22 @@
 // ======================================================================
 
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
 using System.Xml.Serialization;
 using DMOLibrary.Profiles;
 
-
 namespace AdvancedLauncher.Environment.Containers {
+
     [XmlType(TypeName = "Profile")]
     public class Profile : INotifyPropertyChanged {
         private static string DEFAULT_TWITTER_SOURCE = "http://renamon.ru/launcher/dmor_timeline.php";
 
         private int _Id = 0;
+
         [XmlAttribute("Id")]
         public int Id {
             set {
@@ -43,6 +44,7 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         private string _Name = "Default";
+
         [XmlAttribute("Name")]
         public string Name {
             set {
@@ -54,6 +56,7 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         private bool _AppLocaleEnabled = true;
+
         [XmlAttribute]
         public bool AppLocaleEnabled {
             set {
@@ -68,6 +71,7 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         private bool _UpdateEngineEnabled = false;
+
         [XmlAttribute]
         public bool UpdateEngineEnabled {
             set {
@@ -81,6 +85,7 @@ namespace AdvancedLauncher.Environment.Containers {
         #region Subcontainers
 
         private LoginData _Login = new LoginData();
+
         public LoginData Login {
             set {
                 _Login = value; NotifyPropertyChanged("Login");
@@ -98,6 +103,7 @@ namespace AdvancedLauncher.Environment.Containers {
         private RotationData _Rotation = new RotationData() {
             UpdateInterval = 2
         };
+
         public RotationData Rotation {
             set {
                 _Rotation = value; NotifyPropertyChanged("Rotation");
@@ -117,6 +123,7 @@ namespace AdvancedLauncher.Environment.Containers {
             FirstTab = 0,
             TwitterUrl = DEFAULT_TWITTER_SOURCE
         };
+
         public NewsData News {
             set {
                 _News = value; NotifyPropertyChanged("News");
@@ -129,10 +136,12 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        #endregion
+        #endregion Subcontainers
 
         #region Image
+
         private string _ImagePath;
+
         public string ImagePath {
             set {
                 _ImagePath = value; NotifyPropertyChanged("ImagePath"); NotifyPropertyChanged("Image");
@@ -144,6 +153,7 @@ namespace AdvancedLauncher.Environment.Containers {
 
         private string _ImagePathLoaded;
         private ImageSource _Image = new BitmapImage(new Uri("pack://application:,,,/Resources/Icons/NoAvatar.png"));
+
         [XmlIgnore]
         public ImageSource Image {
             set {
@@ -164,10 +174,13 @@ namespace AdvancedLauncher.Environment.Containers {
                 return _Image;
             }
         }
-        #endregion
+
+        #endregion Image
 
         #region Game Environment
+
         private GameEnv _GameEnv = new GameEnv();
+
         public GameEnv GameEnv {
             set {
                 _GameEnv = value; NotifyPropertyChanged("GameEnv");
@@ -219,9 +232,10 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        #endregion
+        #endregion Game Environment
 
         #region DMOLibrary.DMOProfile
+
         private static Dictionary<Environment.GameEnv.GameType, DMOProfile> profileCollection = new Dictionary<Environment.GameEnv.GameType, DMOProfile>();
 
         [XmlIgnore]
@@ -237,15 +251,19 @@ namespace AdvancedLauncher.Environment.Containers {
                         case Environment.GameEnv.GameType.ADMO:
                             profile = new DMOLibrary.Profiles.Aeria.DMOAeria();
                             break;
+
                         case Environment.GameEnv.GameType.GDMO:
                             profile = new DMOLibrary.Profiles.Joymax.DMOJoymax();
                             break;
+
                         case Environment.GameEnv.GameType.KDMO_DM:
                             profile = new DMOLibrary.Profiles.Korea.DMOKorea();
                             break;
+
                         case Environment.GameEnv.GameType.KDMO_IMBC:
                             profile = new DMOLibrary.Profiles.Korea.DMOKoreaIMBC();
                             break;
+
                         default:
                             throw new NotImplementedException();
                     }
@@ -265,7 +283,8 @@ namespace AdvancedLauncher.Environment.Containers {
             }
             return profile;
         }
-        #endregion
+
+        #endregion DMOLibrary.DMOProfile
 
         #region Constructors
 
@@ -284,16 +303,19 @@ namespace AdvancedLauncher.Environment.Containers {
             this.GameEnv = new GameEnv(p.GameEnv);
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Property Change Handler
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion
+
+        #endregion Property Change Handler
     }
 }

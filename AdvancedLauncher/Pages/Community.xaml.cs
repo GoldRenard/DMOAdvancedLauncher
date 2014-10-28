@@ -16,24 +16,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using DMOLibrary;
-using DMOLibrary.Profiles;
-using System.Linq;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Validators;
+using DMOLibrary;
+using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Pages {
+
     public partial class Community : UserControl {
         private Storyboard ShowWindow;
+
         private delegate void DoOneText(string text);
+
         private DMOWebProfile webProfile;
+
         private Guild CURRENT_GUILD = new Guild() {
             Id = -1
         };
@@ -205,6 +206,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         #region Обработка поля ввода имени гильдии
+
         private void OnNameGotFocus(object sender, RoutedEventArgs e) {
             if (GuildNameTextBox.Text == LanguageEnv.Strings.CommGuildName) {
                 GuildNameTextBox.Foreground = Brushes.Black;
@@ -231,6 +233,7 @@ namespace AdvancedLauncher.Pages {
             }
             return result.IsValid;
         }
-        #endregion
+
+        #endregion Обработка поля ввода имени гильдии
     }
 }

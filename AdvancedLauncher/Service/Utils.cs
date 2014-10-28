@@ -17,14 +17,14 @@
 // ======================================================================
 
 using System;
-using System.Windows;
-using System.Globalization;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Windows;
 using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Service {
+
     public static class Utils {
+
         /// <summary> Error MessageBox </summary>
         /// <param name="text">Content of error</param>
         public static void MSG_ERROR(string text) {

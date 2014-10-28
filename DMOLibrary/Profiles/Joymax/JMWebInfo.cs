@@ -18,13 +18,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Linq;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Joymax {
 
     public class JMWebInfo : DMOWebProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(JMWebInfo));
         private static string STR_RANKING_NODE = "//div[@class='list bbs-ranking']";
         private static string STR_GUILD_ID_REGEX = "(\\/Ranking\\/GuildRankingDetail\\.aspx\\?gid=)(\\d+)(&srvn=)";
         private static string STR_TAMER_ID_REGEX = "(\\/Ranking\\/MainPop\\.aspx\\?tid=)(\\d+)(&srvn=)";
@@ -129,7 +130,7 @@ namespace DMOLibrary.Profiles.Joymax {
         protected override bool GetGuildInfo(ref Guild guild, bool isDetailed) {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlDocument doc = new HtmlDocument();
-
+            LOGGER.InfoFormat("Obtaining info of {0}", guild.Name);
             string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_PAGE, guild.Id.ToString(), "srv" + guild.ServId));
             if (html == string.Empty) {
                 return false;
@@ -163,6 +164,7 @@ namespace DMOLibrary.Profiles.Joymax {
                         return false;
                     }*/
                     tamerList.Add(tamerInfo);
+                    LOGGER.InfoFormat("Found tamer \"{0}\"", tamerInfo.Name);
                     if (tamerInfo.Name == guild.MasterName) {
                         guild.MasterId = tamerInfo.Id;
                     }
@@ -176,11 +178,13 @@ namespace DMOLibrary.Profiles.Joymax {
         }
 
         protected override List<Digimon> GetDigimons(Tamer tamer, bool isDetailed) {
+            LOGGER.InfoFormat("Obtaining digimons for tamer \"{0}\"", tamer.Name);
             List<Digimon> digimonList = new List<Digimon>();
             HtmlDocument doc = new HtmlDocument();
 
             string html = WebDownload.GetHTML(string.Format(STR_URL_TAMER_POPPAGE, tamer.Id.ToString(), "srv" + tamer.ServId.ToString()));
             if (html == string.Empty) {
+                LOGGER.ErrorFormat("Obtaining digimons for tamer \"{0}\" failed", tamer.Name);
                 return digimonList;
             }
             doc.LoadHtml(html);
@@ -193,6 +197,8 @@ namespace DMOLibrary.Profiles.Joymax {
             partnerInfo.Name = ClearStr(tamerInfo.SelectNodes("//ul/li[@class='partner']/span")[0].InnerText);
             if (StarterInfo(ref partnerInfo, tamer.Name)) {
                 digimonList.Add(partnerInfo);
+            } else {
+                LOGGER.ErrorFormat("Unable to obtain starter digimon \"{0}\" for tamer \"{1}\"", partnerInfo.Name, tamer.Name);
             }
 
             HtmlNode mercenaryList = doc.DocumentNode.SelectNodes("//div[@id='rankingscroll']")[0];
@@ -218,9 +224,12 @@ namespace DMOLibrary.Profiles.Joymax {
 
                     if (digimonList.Count(d => d.TypeId.Equals(digimonInfo.TypeId)) == 0) {
                         if (isDetailed) {
-                            DigimonInfo(ref digimonInfo, tamer.Name);
+                            if (!DigimonInfo(ref digimonInfo, tamer.Name)) {
+                                LOGGER.ErrorFormat("Unable to obtain detailed data of digimon \"{0}\" for tamer \"{1}\"", digimonInfo.Name, tamer.Name);
+                            }
                         }
                         digimonList.Add(digimonInfo);
+                        LOGGER.Info(String.Format("Found digimon \"{0}\"", digimonInfo.Name));
                     }
                 }
             }
@@ -228,12 +237,14 @@ namespace DMOLibrary.Profiles.Joymax {
         }
 
         protected override bool StarterInfo(ref Digimon digimon, string tamerName) {
+            LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamerName);
             HtmlDocument doc = new HtmlDocument();
             digimon.SizePc = 100;
             digimon.SizeCm = ResolveStartedSize(digimon.Name);
 
             string html = WebDownload.GetHTML(string.Format(STR_URL_STARTER_RANK, tamerName, "srv" + digimon.ServId));
             if (html == string.Empty) {
+                LOGGER.ErrorFormat("Obtaining starter digimon for tamer \"{0}\" failed", tamerName);
                 return false;
             }
             doc.LoadHtml(html);
@@ -265,6 +276,7 @@ namespace DMOLibrary.Profiles.Joymax {
                     return false;
                 }
             }
+            LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamerName);
             HtmlDocument doc = new HtmlDocument();
             List<DigimonType> digimonTypes = new List<DigimonType>();
             if (Database.OpenConnection()) {

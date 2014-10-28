@@ -64,6 +64,12 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Libs\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Libs\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -73,6 +79,9 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -90,6 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\AutoScrollBehavior.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
     </Compile>
@@ -117,6 +127,12 @@
     <Compile Include="Controls\TDBlock\DigimonViewModel.cs" />
     <Compile Include="Controls\TDBlock\TamerItemViewModel.cs" />
     <Compile Include="Controls\TDBlock\TamerViewModel.cs" />
+    <Compile Include="Environment\Commands\CommandHandler.cs" />
+    <Compile Include="Environment\Commands\Command.cs" />
+    <Compile Include="Environment\Commands\HelpCommand.cs" />
+    <Compile Include="Environment\Commands\EchoCommand.cs" />
+    <Compile Include="Environment\Commands\ExecCommand.cs" />
+    <Compile Include="Environment\Commands\ExitCommand.cs" />
     <Compile Include="Environment\Containers\NewsData.cs" />
     <Compile Include="Environment\Containers\RotationData.cs" />
     <Compile Include="Environment\GameEnv.cs" />
@@ -124,6 +140,7 @@
     <Compile Include="Environment\Containers\Profile.cs" />
     <Compile Include="Environment\Containers\Settings.cs" />
     <Compile Include="Environment\LanguageEnv.cs" />
+    <Compile Include="Environment\LogAppender.cs" />
     <Compile Include="Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>
     </Compile>
@@ -166,6 +183,9 @@
     </Compile>
     <Compile Include="Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Logger.xaml.cs">
+      <DependentUpon>Logger.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\DigiRotation\DigiRotation.xaml">
       <SubType>Designer</SubType>
@@ -252,6 +272,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Logger.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -271,6 +295,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="app.manifest" />
     <None Include="Languages\Russian %28Russia%29.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -848,6 +875,9 @@
     <None Include="Languages\Template_for_translation.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Console.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

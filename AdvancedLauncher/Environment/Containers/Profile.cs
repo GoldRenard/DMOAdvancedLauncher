@@ -17,11 +17,11 @@
 // ======================================================================
 
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
 using System.Xml.Serialization;
 using DMOLibrary.Profiles;
 

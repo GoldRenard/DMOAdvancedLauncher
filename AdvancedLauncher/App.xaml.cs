@@ -16,12 +16,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
+using System.Security.Principal;
 using System.Windows;
+using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
-using AdvancedLauncher.Environment;
-using System.Security.Principal;
 
 namespace AdvancedLauncher {
     public partial class App : Application {

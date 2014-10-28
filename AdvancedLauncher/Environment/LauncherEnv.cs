@@ -16,12 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Globalization;
-using AdvancedLauncher.Service;
+using System.IO;
 using System.Xml.Serialization;
 using AdvancedLauncher.Environment.Containers;
 

@@ -17,19 +17,18 @@
 // ======================================================================
 
 using System;
-using System.IO;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
-
-using DMOLibrary;
-using DMOLibrary.Profiles;
+using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
+using DMOLibrary;
+using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Controls {
     public partial class DigiRotation : UserControl {

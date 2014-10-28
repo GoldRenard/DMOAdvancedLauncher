@@ -17,16 +17,14 @@
 // ======================================================================
 
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Management;
+using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Text;
-using System.Linq;
-using System.Windows.Controls;
-using System.IO;
-using System.Reflection;
 using System.Windows.Resources;
-using System.Diagnostics;
-using System.Management;
 
 namespace AdvancedLauncher.Windows {
     public partial class BugWindow : Window {

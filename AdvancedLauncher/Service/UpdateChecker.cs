@@ -17,8 +17,8 @@
 // ======================================================================
 
 using System;
-using System.Net;
 using System.ComponentModel;
+using System.Net;
 using System.Windows;
 using AdvancedLauncher.Environment;
 

@@ -16,10 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Windows.Controls;
-using AdvancedLauncher.Environment;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
 
 namespace AdvancedLauncher.Validators {
     class URLValidationRule : ValidationRule {

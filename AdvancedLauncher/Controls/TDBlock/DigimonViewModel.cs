@@ -17,17 +17,15 @@
 // ======================================================================
 
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.ComponentModel;
 using System.IO;
-using DMOLibrary;
+using System.Linq;
+using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
+using DMOLibrary;
 
 namespace AdvancedLauncher.Controls {
     public class DigimonViewModel : INotifyPropertyChanged {

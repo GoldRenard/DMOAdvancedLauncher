@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AdvancedLauncher.Environment.Commands {
     public static class CommandHandler {
@@ -18,6 +16,7 @@ namespace AdvancedLauncher.Environment.Commands {
             RegisterCommand(new HelpCommand());
             RegisterCommand(new EchoCommand());
             RegisterCommand(new ExecCommand());
+            RegisterCommand(new ExitCommand());
         }
 
         public static void Send(string input) {

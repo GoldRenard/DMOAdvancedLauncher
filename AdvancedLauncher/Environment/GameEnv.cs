@@ -17,12 +17,12 @@
 // ======================================================================
 
 using System;
-using System.IO;
 using System.ComponentModel;
-using Microsoft.Win32;
+using System.IO;
 using System.Xml.Serialization;
 using AdvancedLauncher.Service;
 using DMOLibrary.DMOFileSystem;
+using Microsoft.Win32;
 
 namespace AdvancedLauncher.Environment {
     public class GameEnv : INotifyPropertyChanged {

@@ -99,7 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\AutoScrollBehavior .cs" />
+    <Compile Include="Controls\AutoScrollBehavior.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
     </Compile>
@@ -132,6 +132,7 @@
     <Compile Include="Environment\Commands\HelpCommand.cs" />
     <Compile Include="Environment\Commands\EchoCommand.cs" />
     <Compile Include="Environment\Commands\ExecCommand.cs" />
+    <Compile Include="Environment\Commands\ExitCommand.cs" />
     <Compile Include="Environment\Containers\NewsData.cs" />
     <Compile Include="Environment\Containers\RotationData.cs" />
     <Compile Include="Environment\GameEnv.cs" />

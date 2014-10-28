@@ -18,7 +18,6 @@
 
 using System;
 using System.Windows.Controls;
-using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Validators {
     class NameValidationRule : ValidationRule {

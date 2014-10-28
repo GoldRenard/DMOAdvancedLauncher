@@ -16,13 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.IO;
-using System.Windows;
 using System.Diagnostics;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Management;
+using System.IO;
 
 
 namespace AdvancedLauncher.Service {

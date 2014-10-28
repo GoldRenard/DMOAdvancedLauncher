@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace AdvancedLauncher.Environment.Commands {
     public abstract class Command {
         private string commandName;
@@ -14,6 +10,7 @@ namespace AdvancedLauncher.Environment.Commands {
         }
 
         public abstract void DoCommand(string[] args);
+
         public virtual string GetDescription() {
             return commandDescription;
         }

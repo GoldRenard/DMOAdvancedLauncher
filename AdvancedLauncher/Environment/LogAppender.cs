@@ -1,7 +1,6 @@
-﻿using System;
+﻿using AdvancedLauncher.Windows;
 using log4net.Appender;
 using log4net.Core;
-using AdvancedLauncher.Windows;
 
 namespace AdvancedLauncher.Environment {
     public class LogAppender : AppenderSkeleton {

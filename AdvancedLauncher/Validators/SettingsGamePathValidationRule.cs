@@ -16,9 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows.Controls;
-using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Validators {
     class SettingsGamePathValidationRule : ValidationRule {

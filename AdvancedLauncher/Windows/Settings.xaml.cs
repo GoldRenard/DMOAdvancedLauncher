@@ -17,20 +17,17 @@
 // ======================================================================
 
 using System;
-using System.Windows;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using AdvancedLauncher.Service;
 using AdvancedLauncher.Environment;
-using System.IO;
-using DMOLibrary;
-using System.Globalization;
 using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Windows {
     public partial class Settings : UserControl, INotifyPropertyChanged {

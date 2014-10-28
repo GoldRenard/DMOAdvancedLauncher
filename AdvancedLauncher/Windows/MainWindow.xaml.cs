@@ -17,12 +17,11 @@
 // ======================================================================
 
 using System;
-using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Pages;
-using System.Runtime.InteropServices;
 
 namespace AdvancedLauncher.Windows {
     public partial class MainWindow : Window {

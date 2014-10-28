@@ -17,8 +17,6 @@
 // ======================================================================
 
 using System;
-using System.IO;
-using System.Windows;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;

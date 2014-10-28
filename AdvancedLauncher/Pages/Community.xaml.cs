@@ -16,18 +16,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using DMOLibrary;
-using DMOLibrary.Profiles;
-using System.Linq;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Validators;
+using DMOLibrary;
+using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Pages {
     public partial class Community : UserControl {

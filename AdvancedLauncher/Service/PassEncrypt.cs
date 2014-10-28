@@ -17,12 +17,11 @@
 // ======================================================================
 
 using System;
-using System.Linq;
-using System.Text;
-using System.Security;
-using System.Security.Cryptography;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AdvancedLauncher.Service {
     public static class PassEncrypt {

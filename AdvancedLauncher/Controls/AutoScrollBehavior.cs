@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Linq;
-using System.Text;
 using System.Windows.Interactivity;
 
 namespace AdvancedLauncher.Controls {

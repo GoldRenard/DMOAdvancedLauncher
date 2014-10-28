@@ -17,10 +17,9 @@
 // ======================================================================
 
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
-using System.Windows;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace AdvancedLauncher.Controls {
     public class TwitterViewModel : INotifyPropertyChanged {

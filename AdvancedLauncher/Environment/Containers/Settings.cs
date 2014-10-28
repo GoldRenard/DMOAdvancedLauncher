@@ -17,10 +17,9 @@
 // ======================================================================
 
 using System;
-using System.Linq;
-using System.ComponentModel;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Environment.Containers {

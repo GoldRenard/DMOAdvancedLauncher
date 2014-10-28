@@ -17,20 +17,18 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
-using System.IO;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using Microsoft.Win32;
-
-using AdvancedLauncher.Service;
+using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Service;
 using DMOLibrary.DMOFileSystem;
+using Microsoft.Win32;
 
 namespace AdvancedLauncher.Pages {
     public partial class Personalization : UserControl {

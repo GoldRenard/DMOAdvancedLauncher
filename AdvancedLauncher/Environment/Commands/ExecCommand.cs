@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
+using System.Text;
 
 namespace AdvancedLauncher.Environment.Commands {
     public class ExecCommand : Command {

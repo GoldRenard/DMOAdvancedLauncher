@@ -17,21 +17,19 @@
 // ======================================================================
 
 using System;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using System.ComponentModel;
-using System.Net;
 using System.IO;
-using System.Windows.Threading;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media.Animation;
 using System.Windows.Shell;
-
+using AdvancedLauncher.Environment;
+using AdvancedLauncher.Service;
+using DMOLibrary.DMOFileSystem;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
-using DMOLibrary.DMOFileSystem;
-using AdvancedLauncher.Service;
-using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Controls {
     public partial class GameControl : UserControl {

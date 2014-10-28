@@ -17,22 +17,15 @@
 // ======================================================================
 
 using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
-using System.Windows.Navigation;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using log4net;
-using log4net.Appender;
-using log4net.Core;
-
-using AdvancedLauncher.Service;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Commands;
-using System.IO;
+using log4net.Core;
 
 namespace AdvancedLauncher.Windows {
     public partial class Logger : UserControl {
@@ -46,7 +39,7 @@ namespace AdvancedLauncher.Windows {
 
             public ClearCommand(Logger loggerInstance)
                 : base("clear", "Clears the console log") {
-                    this.loggerInstance = loggerInstance;
+                this.loggerInstance = loggerInstance;
             }
 
             public override void DoCommand(string[] args) {

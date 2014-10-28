@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
              xmlns:controls="clr-namespace:AdvancedLauncher.Controls"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:log4netCore="clr-namespace:log4net.Core;assembly=log4net"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
-             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}" >
+             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml"/>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/MagicoUI.xaml"/>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/MagicoUI.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="LogTextBlock" TargetType="{x:Type TextBlock}">
                 <Setter Property="FontFamily" Value="Courier New" />
@@ -36,7 +36,6 @@
                 </TextBlock>
             </DataTemplate>
         </ResourceDictionary>
-        
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot" d:Visibility="Collapsed" Background="#524885">
         <Grid>
@@ -76,7 +75,7 @@
                         </ItemsControl.Template>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <VirtualizingStackPanel IsItemsHost="True"/>
+                                <VirtualizingStackPanel IsItemsHost="True" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>

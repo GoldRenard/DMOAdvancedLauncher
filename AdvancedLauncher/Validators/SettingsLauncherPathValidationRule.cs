@@ -19,7 +19,9 @@
 using System.Windows.Controls;
 
 namespace AdvancedLauncher.Validators {
-    class SettingsLauncherPathValidationRule : ValidationRule {
+
+    internal class SettingsLauncherPathValidationRule : ValidationRule {
+
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (AdvancedLauncher.Windows.Settings.SelectedProfile == null) {
                 return new ValidationResult(false, null);

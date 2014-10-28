@@ -18,14 +18,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.IO.MemoryMappedFiles;
+using System.Text;
 using System.Windows.Threading;
 
 namespace DMOLibrary.DMOFileSystem {
+
     public class DMOFileSystem {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOFileSystem));
+
         public class DMOFileEntry {
             public uint Id;
             public long Offset;
@@ -51,8 +53,11 @@ namespace DMOLibrary.DMOFileSystem {
         private Dispatcher OwnerDispatcher;
 
         #region EVENTS
+
         public delegate void WriteDirectoryStatusChange(object sender, int fileNum, int fileCount);
+
         public event WriteDirectoryStatusChange WriteStatusChanged;
+
         protected virtual void OnFileWrited(int fileNum, int fileCount) {
             LOGGER.DebugFormat("OnFileWrited: fileNum={0}, fileCount={1}", fileNum, fileCount);
             if (WriteStatusChanged != null) {
@@ -64,7 +69,8 @@ namespace DMOLibrary.DMOFileSystem {
                     WriteStatusChanged(this, fileNum, fileCount);
             }
         }
-        #endregion
+
+        #endregion EVENTS
 
         private static string ERROR_CANT_WRITE_FILEMAP = "Can't write filemap. \"{0}\".";
         private static string ERROR_CANT_WRITE_FILE = "Can't write file. \"{0}\".";
@@ -208,9 +214,11 @@ namespace DMOLibrary.DMOFileSystem {
 
             return outStream;
         }
-        #endregion
+
+        #endregion Read Section
 
         #region Write Section
+
         public bool WriteMapFile() {
             LOGGER.Debug("Writing map file...");
             if (!IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
@@ -257,7 +265,6 @@ namespace DMOLibrary.DMOFileSystem {
         }
 
         public bool WriteStream(Stream sourceStream, uint entryId) {
-
             if (!_WriteStream(sourceStream, entryId)) {
                 return false;
             }
@@ -344,9 +351,11 @@ namespace DMOLibrary.DMOFileSystem {
             }
             return true;
         }
-        #endregion
+
+        #endregion Write Section
 
         #region Tools
+
         public static uint FileHash(string filePath) {
             uint result = 5381;
             int HASH_TRANS_SIZE = 0x400, charIndex = 0, len;
@@ -403,6 +412,7 @@ namespace DMOLibrary.DMOFileSystem {
             });
             return entryIndex;
         }
-        #endregion
+
+        #endregion Tools
     }
 }

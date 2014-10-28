@@ -17,11 +17,13 @@
 // ======================================================================
 
 using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
 
 namespace DMOLibrary {
+
     public static class SecureStringConverter {
+
         public static string ConvertToUnsecureString(this SecureString securePassword) {
             if (securePassword == null) {
                 return null;

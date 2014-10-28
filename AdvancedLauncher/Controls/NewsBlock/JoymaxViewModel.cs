@@ -22,7 +22,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace AdvancedLauncher.Controls {
+
     public class JoymaxViewModel : INotifyPropertyChanged {
+
         public JoymaxViewModel() {
             this.Items = new ObservableCollection<JoymaxItemViewModel>();
         }
@@ -57,6 +59,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

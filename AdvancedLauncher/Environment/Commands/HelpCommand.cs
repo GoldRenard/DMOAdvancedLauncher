@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace AdvancedLauncher.Environment.Commands {
+
     public class HelpCommand : Command {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(HelpCommand));
 

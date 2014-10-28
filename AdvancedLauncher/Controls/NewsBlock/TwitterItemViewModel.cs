@@ -21,8 +21,10 @@ using System.ComponentModel;
 using System.Windows.Media;
 
 namespace AdvancedLauncher.Controls {
+
     public class TwitterItemViewModel : INotifyPropertyChanged {
         private string _Title;
+
         public string Title {
             get {
                 return _Title;
@@ -36,6 +38,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _Date;
+
         public string Date {
             get {
                 return _Date;
@@ -49,6 +52,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private ImageSource _Image;
+
         public ImageSource Image {
             get {
                 return _Image;
@@ -62,6 +66,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

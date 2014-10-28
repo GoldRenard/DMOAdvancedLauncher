@@ -21,7 +21,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace AdvancedLauncher.Controls {
+
     public class HintTextBox : TextBox {
+
         static HintTextBox() {
             TextMarginProperty = DependencyProperty.Register("TextMargin", typeof(Thickness), typeof(HintTextBox));
             IsEmptyProperty = DependencyProperty.Register("IsEmpty", typeof(bool), typeof(HintTextBox));
@@ -45,11 +47,12 @@ namespace AdvancedLauncher.Controls {
             this.TextChanged += HintTextBox_TextChanged;
         }
 
-        void HintTextBox_TextChanged(object sender, TextChangedEventArgs e) {
+        private void HintTextBox_TextChanged(object sender, TextChangedEventArgs e) {
             IsEmpty = this.Text.Length == 0;
         }
 
         #region TextProperty
+
         public static DependencyProperty TextMarginProperty;
         public static DependencyProperty IsEmptyProperty;
         public static DependencyProperty HintTextProperty;
@@ -60,41 +63,81 @@ namespace AdvancedLauncher.Controls {
         public static DependencyProperty HintFontWeightProperty;
 
         public Thickness TextMargin {
-            get { return (Thickness)base.GetValue(TextMarginProperty); }
-            set { base.SetValue(TextMarginProperty, value); }
-        }
-        public bool IsEmpty {
-            get { return (bool)base.GetValue(IsEmptyProperty); }
-            set { base.SetValue(IsEmptyProperty, value); }
-        }
-        public string HintText {
-            get { return (string)base.GetValue(HintTextProperty); }
-            set { base.SetValue(HintTextProperty, value); }
-        }
-        public double HintFontSize {
-            get { return (double)base.GetValue(HintFontSizeProperty); }
-            set { base.SetValue(HintFontSizeProperty, value); }
-        }
-        public FontFamily HintFontFamily {
-            get { return (FontFamily)base.GetValue(HintFontFamilyProperty); }
-            set { base.SetValue(HintFontFamilyProperty, value); }
-        }
-        public FontStretch HintFontStretch {
-            get { return (FontStretch)base.GetValue(HintFontStretchProperty); }
-            set { base.SetValue(HintFontStretchProperty, value); }
-        }
-        public FontStyle HintFontStyle {
-            get { return (FontStyle)base.GetValue(HintFontStyleProperty); }
-            set { base.SetValue(HintFontStyleProperty, value); }
-        }
-        public FontWeight HintFontWeight {
-            get { return (FontWeight)base.GetValue(HintFontWeightProperty); }
-            set { base.SetValue(HintFontWeightProperty, value); }
+            get {
+                return (Thickness)base.GetValue(TextMarginProperty);
+            }
+            set {
+                base.SetValue(TextMarginProperty, value);
+            }
         }
 
-        #endregion
+        public bool IsEmpty {
+            get {
+                return (bool)base.GetValue(IsEmptyProperty);
+            }
+            set {
+                base.SetValue(IsEmptyProperty, value);
+            }
+        }
+
+        public string HintText {
+            get {
+                return (string)base.GetValue(HintTextProperty);
+            }
+            set {
+                base.SetValue(HintTextProperty, value);
+            }
+        }
+
+        public double HintFontSize {
+            get {
+                return (double)base.GetValue(HintFontSizeProperty);
+            }
+            set {
+                base.SetValue(HintFontSizeProperty, value);
+            }
+        }
+
+        public FontFamily HintFontFamily {
+            get {
+                return (FontFamily)base.GetValue(HintFontFamilyProperty);
+            }
+            set {
+                base.SetValue(HintFontFamilyProperty, value);
+            }
+        }
+
+        public FontStretch HintFontStretch {
+            get {
+                return (FontStretch)base.GetValue(HintFontStretchProperty);
+            }
+            set {
+                base.SetValue(HintFontStretchProperty, value);
+            }
+        }
+
+        public FontStyle HintFontStyle {
+            get {
+                return (FontStyle)base.GetValue(HintFontStyleProperty);
+            }
+            set {
+                base.SetValue(HintFontStyleProperty, value);
+            }
+        }
+
+        public FontWeight HintFontWeight {
+            get {
+                return (FontWeight)base.GetValue(HintFontWeightProperty);
+            }
+            set {
+                base.SetValue(HintFontWeightProperty, value);
+            }
+        }
+
+        #endregion TextProperty
 
         #region ImageProperty
+
         public static DependencyProperty ImageProperty;
         public static DependencyProperty ImageMarginProperty;
         public static DependencyProperty ImageOpacityProperty;
@@ -103,34 +146,59 @@ namespace AdvancedLauncher.Controls {
         public static DependencyProperty ImageStretchProperty;
 
         public ImageSource Image {
-            get { return (ImageSource)base.GetValue(ImageProperty); }
-            set { base.SetValue(ImageProperty, value); }
+            get {
+                return (ImageSource)base.GetValue(ImageProperty);
+            }
+            set {
+                base.SetValue(ImageProperty, value);
+            }
         }
 
         public Thickness ImageMargin {
-            get { return (Thickness)base.GetValue(ImageMarginProperty); }
-            set { base.SetValue(ImageMarginProperty, value); }
+            get {
+                return (Thickness)base.GetValue(ImageMarginProperty);
+            }
+            set {
+                base.SetValue(ImageMarginProperty, value);
+            }
         }
 
         public double ImageOpacity {
-            get { return (double)base.GetValue(ImageOpacityProperty); }
-            set { base.SetValue(ImageOpacityProperty, value); }
+            get {
+                return (double)base.GetValue(ImageOpacityProperty);
+            }
+            set {
+                base.SetValue(ImageOpacityProperty, value);
+            }
         }
 
         public double ImageWidth {
-            get { return (double)base.GetValue(ImageWidthProperty); }
-            set { base.SetValue(ImageWidthProperty, value); }
+            get {
+                return (double)base.GetValue(ImageWidthProperty);
+            }
+            set {
+                base.SetValue(ImageWidthProperty, value);
+            }
         }
 
         public double ImageHeight {
-            get { return (double)base.GetValue(ImageHeightProperty); }
-            set { base.SetValue(ImageHeightProperty, value); }
+            get {
+                return (double)base.GetValue(ImageHeightProperty);
+            }
+            set {
+                base.SetValue(ImageHeightProperty, value);
+            }
         }
 
         public Stretch ImageStretch {
-            get { return (Stretch)base.GetValue(ImageStretchProperty); }
-            set { base.SetValue(ImageStretchProperty, value); }
+            get {
+                return (Stretch)base.GetValue(ImageStretchProperty);
+            }
+            set {
+                base.SetValue(ImageStretchProperty, value);
+            }
         }
-        #endregion
+
+        #endregion ImageProperty
     }
 }

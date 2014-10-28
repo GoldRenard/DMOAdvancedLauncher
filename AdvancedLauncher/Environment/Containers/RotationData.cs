@@ -19,22 +19,27 @@
 using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Environment.Containers {
+
     public class RotationData {
+
         [XmlAttribute("Guild")]
         public string Guild {
             set;
             get;
         }
+
         [XmlAttribute("Tamer")]
         public string Tamer {
             set;
             get;
         }
+
         [XmlAttribute("ServerId")]
         public byte ServerId {
             set;
             get;
         }
+
         [XmlAttribute("UpdateInterval")]
         public int UpdateInterval {
             set;
@@ -47,6 +52,7 @@ namespace AdvancedLauncher.Environment.Containers {
             ServerId = rd.ServerId;
             UpdateInterval = rd.UpdateInterval;
         }
+
         public RotationData() {
         }
     }

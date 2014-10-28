@@ -20,14 +20,20 @@ using System;
 using System.Net;
 
 namespace DMOLibrary {
+
     public class WebDownload : WebClient {
         private int _timeout;
+
         /// <summary>
         /// Time in milliseconds
         /// </summary>
         public int Timeout {
-            get { return _timeout; }
-            set { _timeout = value; }
+            get {
+                return _timeout;
+            }
+            set {
+                _timeout = value;
+            }
         }
 
         public WebDownload() {
@@ -52,7 +58,10 @@ namespace DMOLibrary {
                 wd.Encoding = System.Text.Encoding.UTF8;
                 wd.Proxy = (IWebProxy)null;
                 wd.Timeout = 3000;
-                try { html = wd.DownloadString(url); } catch { };
+                try {
+                    html = wd.DownloadString(url);
+                } catch {
+                };
                 if (html != string.Empty && html != null) {
                     return html;
                 }

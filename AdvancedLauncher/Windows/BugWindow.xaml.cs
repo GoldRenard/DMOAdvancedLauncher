@@ -27,6 +27,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 
 namespace AdvancedLauncher.Windows {
+
     public partial class BugWindow : Window {
         private Exception _Exception;
 
@@ -41,7 +42,6 @@ namespace AdvancedLauncher.Windows {
         private void LoadIcon() {
             StreamResourceInfo sri = Application.GetResourceStream(new Uri("pack://application:,,,/app_icon.ico"));
             if (sri != null) {
-
                 using (Stream iconStream = sri.Stream) {
                     using (System.Drawing.Icon icon = new System.Drawing.Icon(iconStream, 64, 64)) {
                         using (System.Drawing.Bitmap bitmap = icon.ToBitmap()) {

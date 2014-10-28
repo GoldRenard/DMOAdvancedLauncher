@@ -21,7 +21,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
 namespace AdvancedLauncher.Service {
-    class JpegEncoder {
+
+    internal class JpegEncoder {
+
         public Image ResizeScreenShot(string source, string destination) {
             Image originalImage, resizedImage;
 
@@ -70,7 +72,6 @@ namespace AdvancedLauncher.Service {
             float nPercentW = 0;
             float nPercentH = 0;
 
-
             if (size.Width == -1)
                 nPercent = ((float)size.Height / (float)sourceHeight);
             else if (size.Height == -1)
@@ -97,6 +98,5 @@ namespace AdvancedLauncher.Service {
 
             return (Image)b;
         }
-
     }
 }

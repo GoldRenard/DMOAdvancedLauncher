@@ -19,6 +19,7 @@
 using System.Windows.Controls;
 
 namespace AdvancedLauncher.Controls {
+
     public class Trigger : CheckBox {
     }
 }

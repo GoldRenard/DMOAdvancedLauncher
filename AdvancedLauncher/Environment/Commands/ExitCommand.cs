@@ -1,6 +1,7 @@
 ﻿using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Environment.Commands {
+
     public class ExitCommand : Command {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ExitCommand));
 

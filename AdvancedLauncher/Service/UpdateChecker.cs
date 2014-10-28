@@ -23,7 +23,9 @@ using System.Windows;
 using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Service {
+
     public static class UpdateChecker {
+
         public static void Check() {
             BackgroundWorker updateWorker = new BackgroundWorker();
             updateWorker.DoWork += (s1, e2) => {

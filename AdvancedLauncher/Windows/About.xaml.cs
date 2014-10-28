@@ -25,12 +25,16 @@ using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Windows {
+
     public partial class About : UserControl {
         private Storyboard ShowWindow, HideWindow;
         private const string LICENSE_FILE = "Docs\\LICENSE.txt";
+
         public About() {
             InitializeComponent();
-            LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+            LanguageEnv.Languagechanged += delegate() {
+                this.DataContext = LanguageEnv.Strings;
+            };
             ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
             HideWindow = ((Storyboard)this.FindResource("HideWindow"));
             LoadLicence();

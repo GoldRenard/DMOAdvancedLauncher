@@ -21,7 +21,9 @@ using System.Windows.Controls;
 using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Validators {
-    class GuildNameValidationRule : ValidationRule {
+
+    internal class GuildNameValidationRule : ValidationRule {
+
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             int code = 0;
 

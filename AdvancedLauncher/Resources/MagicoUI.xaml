@@ -29,52 +29,52 @@
     <Color x:Key="PressedMaskC1">#2E000000</Color>
     <Color x:Key="PressedMaskC2">#2Effffff</Color>
 
-    <SolidColorBrush x:Key="NormalBrush" Color="{StaticResource NormalColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="HighBrush" Color="{StaticResource HighColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="HighTPBrush" Color="{StaticResource HighTPColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="PressedBrush" Color="{StaticResource PressedColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource DisabledColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="FGNormalBrush" Color="{StaticResource FGNormalColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="FGPressedBrush" Color="{StaticResource FGPressedColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="FGDisabledBrush" Color="{StaticResource FGDisabledColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="OuterStrokeBrush" Color="{StaticResource OuterStrokeColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="InnerStrokeBrush" Color="{StaticResource InnerStrokeColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="DeepSurfaceBrush" Color="{StaticResource DeepSurfaceColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="DeepSurfaceHighBrush" Color="{StaticResource DeepSurfaceHighColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="TBFGNormalBrush" Color="{StaticResource TBFGNormalColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="TBFGDisabledBrush" Color="{StaticResource TBFGDisabledColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="TBFGReadOnlyBrush" Color="{StaticResource TBFGReadOnlyColor}" x:Shared="False"/>
-    <SolidColorBrush x:Key="TBErrorBrush" Color="{StaticResource TBErrorColor}" x:Shared="False"/>
-    
+    <SolidColorBrush x:Key="NormalBrush" Color="{StaticResource NormalColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="HighBrush" Color="{StaticResource HighColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="HighTPBrush" Color="{StaticResource HighTPColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="PressedBrush" Color="{StaticResource PressedColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource DisabledColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="FGNormalBrush" Color="{StaticResource FGNormalColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="FGPressedBrush" Color="{StaticResource FGPressedColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="FGDisabledBrush" Color="{StaticResource FGDisabledColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="OuterStrokeBrush" Color="{StaticResource OuterStrokeColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="InnerStrokeBrush" Color="{StaticResource InnerStrokeColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="DeepSurfaceBrush" Color="{StaticResource DeepSurfaceColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="DeepSurfaceHighBrush" Color="{StaticResource DeepSurfaceHighColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="TBFGNormalBrush" Color="{StaticResource TBFGNormalColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="TBFGDisabledBrush" Color="{StaticResource TBFGDisabledColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="TBFGReadOnlyBrush" Color="{StaticResource TBFGReadOnlyColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="TBErrorBrush" Color="{StaticResource TBErrorColor}" x:Shared="False" />
+
     <LinearGradientBrush x:Key="NormalMaskBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="{StaticResource NormalMaskC1}" Offset="0.0"/>
-        <GradientStop Color="{StaticResource NormalMaskC2}" Offset="0.5"/>
-        <GradientStop Color="{StaticResource NormalMaskC3}" Offset="0.5"/>
-        <GradientStop Color="{StaticResource NormalMaskC4}" Offset="1.0"/>
+        <GradientStop Color="{StaticResource NormalMaskC1}" Offset="0.0" />
+        <GradientStop Color="{StaticResource NormalMaskC2}" Offset="0.5" />
+        <GradientStop Color="{StaticResource NormalMaskC3}" Offset="0.5" />
+        <GradientStop Color="{StaticResource NormalMaskC4}" Offset="1.0" />
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="PressedMaskBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#2E000000" Offset="0.0"/>
-        <GradientStop Color="#2Effffff" Offset="1.0"/>
+        <GradientStop Color="#2E000000" Offset="0.0" />
+        <GradientStop Color="#2Effffff" Offset="1.0" />
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="NormalMaskBrushVertical" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="{StaticResource NormalMaskC1}" Offset="0.0"/>
-        <GradientStop Color="{StaticResource NormalMaskC2}" Offset="0.5"/>
-        <GradientStop Color="{StaticResource NormalMaskC3}" Offset="0.5"/>
-        <GradientStop Color="{StaticResource NormalMaskC4}" Offset="1.0"/>
+        <GradientStop Color="{StaticResource NormalMaskC1}" Offset="0.0" />
+        <GradientStop Color="{StaticResource NormalMaskC2}" Offset="0.5" />
+        <GradientStop Color="{StaticResource NormalMaskC3}" Offset="0.5" />
+        <GradientStop Color="{StaticResource NormalMaskC4}" Offset="1.0" />
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="PressedMaskBrushVertical" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="#2E000000" Offset="0.0"/>
-        <GradientStop Color="#2Effffff" Offset="1.0"/>
+        <GradientStop Color="#2E000000" Offset="0.0" />
+        <GradientStop Color="#2Effffff" Offset="1.0" />
     </LinearGradientBrush>
-    
+
     <LinearGradientBrush x:Key="InnerShadowGradient" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#8C000000" Offset="0.0"/>
-        <GradientStop Color="#00000000" Offset="0.5"/>
+        <GradientStop Color="#8C000000" Offset="0.0" />
+        <GradientStop Color="#00000000" Offset="0.5" />
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="TextBoxInnerGradient" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#8C000000" Offset="0.0"/>
-        <GradientStop Color="#00000000" Offset="0.9"/>
-        <GradientStop Color="#22FFFFFF" Offset="1.0"/>
+        <GradientStop Color="#8C000000" Offset="0.0" />
+        <GradientStop Color="#00000000" Offset="0.9" />
+        <GradientStop Color="#22FFFFFF" Offset="1.0" />
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
         <GradientStop Color="{StaticResource HighTPColor}" Offset="0" />
@@ -86,15 +86,15 @@
 
     <!-- BASE CONTROLS -->
     <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource OuterStrokeBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="SnapsToDevicePixels" Value="False"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
@@ -141,7 +141,7 @@
                                 CornerRadius="1"
                                 Background="White"
                                 Margin="{TemplateBinding BorderThickness}"
-                                Opacity="0"/>
+                                Opacity="0" />
 
                         <ContentPresenter
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -152,12 +152,12 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="BorderInner" Property="BorderBrush" Value="Transparent" />
-                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}"/>
+                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter Property="Background" Value="{StaticResource DisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -165,39 +165,39 @@
         </Setter>
     </Style>
     <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}">
-        <Setter Property="Background" Value="{StaticResource DeepSurfaceBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
-        <Setter Property="SnapsToDevicePixels" Value="False"/>
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Background" Value="{StaticResource DeepSurfaceBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <BulletDecorator Background="Transparent">
                         <BulletDecorator.Bullet>
-                            <Border x:Name="Border" 
-                                    Width="18" 
-                                    Height="18" 
+                            <Border x:Name="Border"
+                                    Width="18"
+                                    Height="18"
                                     CornerRadius="3"
                                     Background="{TemplateBinding Background}">
                                 <Grid>
-                                    <Border BorderBrush="{StaticResource InnerShadowGradient}" CornerRadius="2" BorderThickness="2"/>
+                                    <Border BorderBrush="{StaticResource InnerShadowGradient}" CornerRadius="2" BorderThickness="2" />
                                     <Path Width="18" Height="18" x:Name="CheckMark" SnapsToDevicePixels="False" Stroke="{StaticResource NormalBrush}" Visibility="Collapsed" StrokeThickness="3" Data="M 3 9 L 8 14 M 6.1 14.1 L 15 5" />
                                 </Grid>
                             </Border>
                         </BulletDecorator.Bullet>
-                        <ContentPresenter Margin="4,-1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True"/>
+                        <ContentPresenter Margin="4,-1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True" />
                     </BulletDecorator>
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="ShowMarkTimeLine">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
                             </ObjectAnimationUsingKeyFrames>
                             <DoubleAnimation Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
                         </Storyboard>
                         <Storyboard x:Key="HideMarkTimeLine">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Collapsed}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Collapsed}" />
                             </ObjectAnimationUsingKeyFrames>
                             <DoubleAnimation Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
                         </Storyboard>
@@ -210,29 +210,29 @@
                     </ControlTemplate.Resources>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
                             <Setter TargetName="CheckMark" Property="Data" Value="M 3 15 L 15 3" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="ShowMarkTimeLine" Storyboard="{StaticResource ShowMarkTimeLine}"/>
+                                <BeginStoryboard x:Name="ShowMarkTimeLine" Storyboard="{StaticResource ShowMarkTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="HideMarkTimeLine" Storyboard="{StaticResource HideMarkTimeLine}"/>
+                                <BeginStoryboard x:Name="HideMarkTimeLine" Storyboard="{StaticResource HideMarkTimeLine}" />
                             </Trigger.ExitActions>
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}" />
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter TargetName="CheckMark" Property="Stroke" Value="{StaticResource FGDisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter TargetName="CheckMark" Property="Stroke" Value="{StaticResource FGDisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -240,42 +240,42 @@
         </Setter>
     </Style>
     <Style x:Key="{x:Type RadioButton}" TargetType="{x:Type RadioButton}">
-        <Setter Property="Background" Value="{StaticResource DeepSurfaceBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
-        <Setter Property="SnapsToDevicePixels" Value="False"/>
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="FocusVisualStyle"	Value="{x:Null}"/>
+        <Setter Property="Background" Value="{StaticResource DeepSurfaceBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="FocusVisualStyle"	Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     <BulletDecorator Background="Transparent">
                         <BulletDecorator.Bullet>
-                            <Grid Width="18" Height="18" >
+                            <Grid Width="18" Height="18">
                                 <Ellipse x:Name="Border" Fill="{TemplateBinding Background}" />
                                 <Ellipse x:Name="Border2" Stroke="{StaticResource InnerShadowGradient}" StrokeThickness="2" Margin="0" />
-                                <Ellipse x:Name="CheckMark" Margin="4" Fill="{StaticResource NormalBrush}" Visibility="Collapsed"/>
-                                <Ellipse x:Name="CheckMark2" Margin="4" Fill="{StaticResource NormalMaskBrush}" Visibility="Collapsed" Stroke="{StaticResource InnerStrokeBrush}"/>
+                                <Ellipse x:Name="CheckMark" Margin="4" Fill="{StaticResource NormalBrush}" Visibility="Collapsed" />
+                                <Ellipse x:Name="CheckMark2" Margin="4" Fill="{StaticResource NormalMaskBrush}" Visibility="Collapsed" Stroke="{StaticResource InnerStrokeBrush}" />
                             </Grid>
                         </BulletDecorator.Bullet>
-                        <ContentPresenter Margin="4,-1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True"/>
+                        <ContentPresenter Margin="4,-1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True" />
                     </BulletDecorator>
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="ShowMarkTimeLine">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
                             </ObjectAnimationUsingKeyFrames>
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark2" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
                             </ObjectAnimationUsingKeyFrames>
                             <DoubleAnimation Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
                             <DoubleAnimation Storyboard.TargetName="CheckMark2" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
                         </Storyboard>
                         <Storyboard x:Key="HideMarkTimeLine">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Collapsed}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Collapsed}" />
                             </ObjectAnimationUsingKeyFrames>
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark2" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Collapsed}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Collapsed}" />
                             </ObjectAnimationUsingKeyFrames>
                             <DoubleAnimation Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
                             <DoubleAnimation Storyboard.TargetName="CheckMark2" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
@@ -290,32 +290,31 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="ShowMarkTimeLine" Storyboard="{StaticResource ShowMarkTimeLine}"/>
+                                <BeginStoryboard x:Name="ShowMarkTimeLine" Storyboard="{StaticResource ShowMarkTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="HideMarkTimeLine" Storyboard="{StaticResource HideMarkTimeLine}"/>
+                                <BeginStoryboard x:Name="HideMarkTimeLine" Storyboard="{StaticResource HideMarkTimeLine}" />
                             </Trigger.ExitActions>
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="CheckMark2" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="CheckMark2" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}" />
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter TargetName="CheckMark" Property="Fill" Value="{StaticResource FGDisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter TargetName="CheckMark" Property="Fill" Value="{StaticResource FGDisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}">
         <Setter Property="SnapsToDevicePixels" Value="False" />
@@ -341,15 +340,15 @@
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Focused">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" 
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         To="{StaticResource DeepSurfaceHighColor}" Duration="0:0:0.2" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unfocused">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" 
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         To="{StaticResource DeepSurfaceColor}" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
@@ -357,30 +356,30 @@
                         </VisualStateManager.VisualStateGroups>
                         <Border Name="Border" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1">
                             <Grid>
-                                <ScrollViewer 
+                                <ScrollViewer
                                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                         CanContentScroll="True"
-                                        Foreground="{TemplateBinding Foreground}" 
-                                        FontSize="{TemplateBinding FontSize}" 
+                                        Foreground="{TemplateBinding Foreground}"
+                                        FontSize="{TemplateBinding FontSize}"
                                         FontFamily="{TemplateBinding FontFamily}"
                                         FontStretch="{TemplateBinding FontStretch}"
                                         FontStyle="{TemplateBinding FontStyle}"
                                         FontWeight="{TemplateBinding FontWeight}"
-                                        x:Name="PART_ContentHost"/>
-                                </Grid>
+                                        x:Name="PART_ContentHost" />
+                            </Grid>
                         </Border>
-                        <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1"/>
+                        <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Validation.HasError" Value="True">
-                            <Setter TargetName="BorderInner" Property="BorderBrush" Value="{StaticResource TBErrorBrush}"/>
-                            <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                            <Setter TargetName="BorderInner" Property="BorderBrush" Value="{StaticResource TBErrorBrush}" />
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource TBFGDisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TBFGDisabledBrush}" />
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource TBFGReadOnlyBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TBFGReadOnlyBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -410,36 +409,36 @@
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Focused">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" 
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         To="{StaticResource DeepSurfaceHighColor}" Duration="0:0:0.2" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unfocused">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" 
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         To="{StaticResource DeepSurfaceColor}" Duration="0:0:0.2" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Border Name="Border" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1">
-                            <ScrollViewer 
-                                VerticalAlignment="Center" 
-                                Foreground="{TemplateBinding Foreground}" 
-                                FontSize="{TemplateBinding FontSize}" 
+                            <ScrollViewer
+                                VerticalAlignment="Center"
+                                Foreground="{TemplateBinding Foreground}"
+                                FontSize="{TemplateBinding FontSize}"
                                 FontFamily="{TemplateBinding FontFamily}"
                                 FontStretch="{TemplateBinding FontStretch}"
                                 FontStyle="{TemplateBinding FontStyle}"
                                 FontWeight="{TemplateBinding FontWeight}"
                                 x:Name="PART_ContentHost" />
                         </Border>
-                        <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1"/>
+                        <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource TBFGDisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TBFGDisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -450,8 +449,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource OuterStrokeBrush}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -487,16 +486,16 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border x:Name="PART_Track" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1"/>
-                        <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1"/>
+                        <Border x:Name="PART_Track" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1" />
+                        <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1" />
                         <Border x:Name="PART_Indicator" HorizontalAlignment="Left">
                             <Grid>
-                                <Border x:Name="Indicator" 
-                                    CornerRadius="2" 
-                                    Margin="2" 
-                                    BorderThickness="1" 
-                                    Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}"/>
+                                <Border x:Name="Indicator"
+                                    CornerRadius="2"
+                                    Margin="2"
+                                    BorderThickness="1"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}" />
                                 <Grid ClipToBounds="True" Margin="3" x:Name="Animation">
                                     <Border x:Name="PART_GlowRect"
                                         Width="100"
@@ -520,13 +519,13 @@
     </Style>
 
     <Style x:Key="MagicoComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+        <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource OuterStrokeBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="SnapsToDevicePixels" Value="False"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
@@ -553,10 +552,10 @@
                                 CornerRadius="1"
                                 Background="White"
                                 Margin="{TemplateBinding BorderThickness}"
-                                Opacity="0"/>
-                        
-                        <Path x:Name="Arrow1" Margin="0,5,10,0" Fill="{StaticResource FGNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
-                        <Path x:Name="Arrow2" Margin="0,0,10,3" Fill="{StaticResource FGNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Data="M 0 0 L 4 -4 L 8 0 Z"/>
+                                Opacity="0" />
+
+                        <Path x:Name="Arrow1" Margin="0,5,10,0" Fill="{StaticResource FGNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z" />
+                        <Path x:Name="Arrow2" Margin="0,0,10,3" Fill="{StaticResource FGNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Data="M 0 0 L 4 -4 L 8 0 Z" />
                     </Grid>
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="MouseDownTimeLine">
@@ -575,26 +574,26 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="ToggleButton.IsMouseOver" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}" />
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="ToggleButton.IsChecked" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}" />
                             </Trigger.ExitActions>
                             <Setter TargetName="BorderInner" Property="BorderBrush" Value="Transparent" />
-                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}"/>
+                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter Property="Background" Value="{StaticResource DisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -605,10 +604,10 @@
         <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
     </ControlTemplate>
     <Style x:Key="BlueComboBoxItem" TargetType="ComboBoxItem">
-        <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+        <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource OuterStrokeBrush}" />
-        <Setter Property="SnapsToDevicePixels" Value="true"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Foreground" Value="{StaticResource TBFGNormalBrush}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -627,11 +626,11 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="Border" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="Text" Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
+                            <Setter TargetName="Border" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Text" Property="Foreground" Value="{StaticResource FGNormalBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -639,14 +638,14 @@
         </Setter>
     </Style>
     <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
-        <Setter Property="SnapsToDevicePixels" Value="False"/>
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-        <Setter Property="MinWidth" Value="40"/>
+        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="MinWidth" Value="40" />
         <Setter Property="MinHeight" Value="30" />
         <Setter Property="Height" Value="30" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource BlueComboBoxItem}" />
@@ -654,61 +653,61 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <ToggleButton 
-                            Name="ToggleButton" 
-                            Style="{StaticResource MagicoComboBoxToggleButton}" 
-                            Focusable="false" 
-                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" 
-                            ClickMode="Press"/>
-                        <ContentPresenter Name="ContentSite" 
-                                          IsHitTestVisible="False" 
-                                          Content="{TemplateBinding SelectionBoxItem}" 
-                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
-                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
-                                          Margin="10,0,20,0" 
-                                          VerticalAlignment="Center" 
-                                          HorizontalAlignment="Left"/>
-                        <TextBox x:Name="PART_EditableTextBox" 
-                                 Style="{x:Null}" 
-                                 Template="{StaticResource MagicoComboBoxTextBox}" 
-                                 HorizontalAlignment="Left" 
-                                 VerticalAlignment="Center" 
-                                 Margin="10,0,20,0" 
-                                 Focusable="True" 
+                        <ToggleButton
+                            Name="ToggleButton"
+                            Style="{StaticResource MagicoComboBoxToggleButton}"
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press" />
+                        <ContentPresenter Name="ContentSite"
+                                          IsHitTestVisible="False"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          Margin="10,0,20,0"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox"
+                                 Style="{x:Null}"
+                                 Template="{StaticResource MagicoComboBoxTextBox}"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
+                                 Margin="10,0,20,0"
+                                 Focusable="True"
                                  Foreground="{TemplateBinding Foreground}"
                                  FontFamily="{TemplateBinding FontFamily}"
                                  FontSize="{TemplateBinding FontFamily}"
                                  FontStretch="{TemplateBinding FontStretch}"
                                  FontStyle="{TemplateBinding FontStyle}"
                                  FontWeight="{TemplateBinding FontWeight}"
-                                 Background="Transparent" 
-                                 Visibility="Hidden" 
+                                 Background="Transparent"
+                                 Visibility="Hidden"
                                  Text="Coffie"
-                                 IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                                 IsReadOnly="{TemplateBinding IsReadOnly}" />
                         <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
                             <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border Name="DropDownBorder" CornerRadius="0,0,3,3" Background="{StaticResource DeepSurfaceHighBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1"/>
-                                <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="0,0,3,3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1"/>
+                                <Border Name="DropDownBorder" CornerRadius="0,0,3,3" Background="{StaticResource DeepSurfaceHighBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1" />
+                                <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="0,0,3,3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1" />
                                 <ScrollViewer SnapsToDevicePixels="True">
-                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>
                             </Grid>
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasItems" Value="False">
-                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
                         </Trigger>
                         <Trigger Property="IsGrouping" Value="true">
-                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
                         </Trigger>
                         <Trigger Property="IsEditable" Value="true">
-                            <Setter Property="IsTabStop" Value="false"/>
-                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                            <Setter Property="IsTabStop" Value="false" />
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -719,13 +718,13 @@
     </Style>
 
     <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+        <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource OuterStrokeBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -749,9 +748,9 @@
                                 CornerRadius="1"
                                 Background="White"
                                 Margin="{TemplateBinding BorderThickness}"
-                                Opacity="0"/>
-                        
-                        <Path 
+                                Opacity="0" />
+
+                        <Path
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Fill="{StaticResource FGNormalBrush}"
@@ -774,26 +773,26 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}" />
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}" />
                             </Trigger.ExitActions>
                             <Setter TargetName="BorderInner" Property="BorderBrush" Value="Transparent" />
-                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}"/>
+                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter Property="Background" Value="{StaticResource DisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -824,9 +823,9 @@
                                 CornerRadius="1"
                                 Background="White"
                                 Margin="{TemplateBinding BorderThickness}"
-                                Opacity="0"/>
+                                Opacity="0" />
 
-                        <Path 
+                        <Path
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Fill="{StaticResource FGNormalBrush}"
@@ -849,26 +848,26 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}" />
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}" />
                             </Trigger.ExitActions>
                             <Setter TargetName="BorderInner" Property="BorderBrush" Value="Transparent" />
-                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrushVertical}"/>
-                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}"/>
+                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrushVertical}" />
+                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter Property="Background" Value="{StaticResource DisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -876,10 +875,10 @@
         </Setter>
     </Style>
     <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="IsTabStop" Value="false"/>
-        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -889,14 +888,14 @@
         </Setter>
     </Style>
     <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource OuterStrokeBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
-        <Setter Property="IsTabStop" Value="false"/>
-        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -920,7 +919,7 @@
                                 CornerRadius="1"
                                 Background="White"
                                 Margin="{TemplateBinding BorderThickness}"
-                                Opacity="0"/>
+                                Opacity="0" />
                     </Grid>
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="MouseDownTimeLine">
@@ -939,26 +938,26 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}" />
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsDragging" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}" />
                             </Trigger.ExitActions>
                             <Setter TargetName="BorderInner" Property="BorderBrush" Value="Transparent" />
-                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}"/>
+                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter Property="Background" Value="{StaticResource DisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -989,7 +988,7 @@
                                 CornerRadius="1"
                                 Background="White"
                                 Margin="{TemplateBinding BorderThickness}"
-                                Opacity="0"/>
+                                Opacity="0" />
                     </Grid>
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="MouseDownTimeLine">
@@ -1008,26 +1007,26 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}" />
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsDragging" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseDownTimeLine" Storyboard="{StaticResource MouseDownTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseUpTimeLine" Storyboard="{StaticResource MouseUpTimeLine}" />
                             </Trigger.ExitActions>
                             <Setter TargetName="BorderInner" Property="BorderBrush" Value="Transparent" />
-                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrushVertical}"/>
-                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}"/>
+                            <Setter TargetName="BorderInner" Property="Background" Value="{StaticResource PressedMaskBrushVertical}" />
+                            <Setter Property="Foreground" Value="{StaticResource FGPressedBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter Property="Background" Value="{StaticResource DisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1035,17 +1034,17 @@
         </Setter>
     </Style>
     <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
-        <Grid >
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition MaxHeight="22"/>
-                <RowDefinition Height="0.00001*"/>
-                <RowDefinition MaxHeight="22"/>
+                <RowDefinition MaxHeight="22" />
+                <RowDefinition Height="0.00001*" />
+                <RowDefinition MaxHeight="22" />
             </Grid.RowDefinitions>
-            <Border Name="Border" Grid.RowSpan="3" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1"/>
-            <Border IsHitTestVisible="False" Grid.RowSpan="3" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1"/>
+            <Border Name="Border" Grid.RowSpan="3" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1" />
+            <Border IsHitTestVisible="False" Grid.RowSpan="3" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1" />
             <RepeatButton
                   Margin="2,2,2,0"
-                  Grid.Row="0"                           
+                  Grid.Row="0"
                   Style="{StaticResource ScrollBarLineButtonVertical}"
                   Command="ScrollBar.LineUpCommand"
                   Content="M 0 4 L 8 4 L 4 0 Z" />
@@ -1060,84 +1059,84 @@
                     <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand" />
                 </Track.IncreaseRepeatButton>
             </Track>
-            <RepeatButton 
+            <RepeatButton
                   Margin="2,0,2,2"
-                  Grid.Row="3" 
+                  Grid.Row="3"
                   Style="{StaticResource ScrollBarLineButtonVertical}"
                   Command="ScrollBar.LineDownCommand"
-                  Content="M 0 0 L 4 4 L 8 0 Z"/>
+                  Content="M 0 0 L 4 4 L 8 0 Z" />
         </Grid>
     </ControlTemplate>
     <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
-        <Grid >
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MaxWidth="22"/>
-                <ColumnDefinition Width="0.00001*"/>
-                <ColumnDefinition MaxWidth="22"/>
+                <ColumnDefinition MaxWidth="22" />
+                <ColumnDefinition Width="0.00001*" />
+                <ColumnDefinition MaxWidth="22" />
             </Grid.ColumnDefinitions>
-            <Border Name="Border" Grid.ColumnSpan="3" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1"/>
-            <Border IsHitTestVisible="False" Grid.ColumnSpan="3" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1"/>
-                <RepeatButton 
+            <Border Name="Border" Grid.ColumnSpan="3" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1" />
+            <Border IsHitTestVisible="False" Grid.ColumnSpan="3" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1" />
+            <RepeatButton
                         Grid.Column="0"
                         Margin="2,2,0,2"
                         Style="{StaticResource ScrollBarLineButton}"
                         Command="ScrollBar.LineLeftCommand"
                         Content="M 4 0 L 4 8 L 0 4 Z" />
-                <Track Name="PART_Track" Margin="0,2,0,2" Grid.Column="1" IsDirectionReversed="False">
-                    <Track.DecreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageLeftCommand" />
-                    </Track.DecreaseRepeatButton>
-                    <Track.Thumb>
-                        <Thumb Style="{StaticResource ScrollBarThumb}" />
-                    </Track.Thumb>
-                    <Track.IncreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageRightCommand" />
-                    </Track.IncreaseRepeatButton>
-                </Track>
-                <RepeatButton 
+            <Track Name="PART_Track" Margin="0,2,0,2" Grid.Column="1" IsDirectionReversed="False">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageLeftCommand" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource ScrollBarThumb}" />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageRightCommand" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+            <RepeatButton
                         Grid.Column="3"
                         Margin="0,2,2,2"
                         Style="{StaticResource ScrollBarLineButton}"
                         Command="ScrollBar.LineRightCommand"
-                        Content="M 0 0 L 4 4 L 0 8 Z"/>
+                        Content="M 0 0 L 4 4 L 0 8 Z" />
         </Grid>
     </ControlTemplate>
     <Style x:Key="MagicoScrollBar" TargetType="{x:Type ScrollBar}">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="Width" Value="Auto" />
                 <Setter Property="Height" Value="22" />
                 <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="22"/>
+                <Setter Property="Width" Value="22" />
                 <Setter Property="Height" Value="Auto" />
                 <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
             </Trigger>
         </Style.Triggers>
     </Style>
     <Style x:Key="{x:Type ScrollViewer}" TargetType="{x:Type ScrollViewer}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                     <Grid x:Name="SW_Root">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
                                                 Margin="{TemplateBinding Padding}"
                                                 Content="{TemplateBinding Content}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                CanContentScroll="{TemplateBinding CanContentScroll}"/>
+                                                CanContentScroll="{TemplateBinding CanContentScroll}" />
 
                         <ScrollBar Style="{StaticResource MagicoScrollBar}" Name="PART_VerticalScrollBar"
 							        Grid.Column="1"
@@ -1148,7 +1147,7 @@
 							        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                     IsTabStop="False"
                                     Orientation="Vertical"
-                                    Minimum="0"/>
+                                    Minimum="0" />
 
                         <ScrollBar Style="{StaticResource MagicoScrollBar}" x:Name="PART_HorizontalScrollBar"
                                     Grid.Column="0"
@@ -1159,7 +1158,7 @@
                                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
                                     IsTabStop="False"
                                     Orientation="Horizontal"
-                                    Minimum="0"/>
+                                    Minimum="0" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -1167,7 +1166,7 @@
     </Style>
 
     <Style x:Key="{x:Type ListBox}" TargetType="ListBox">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
@@ -1182,7 +1181,7 @@
                                 <StackPanel IsItemsHost="True" />
                             </ScrollViewer>
                         </Border>
-                        <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1"/>
+                        <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsGrouping" Value="true">
@@ -1194,7 +1193,7 @@
         </Setter>
     </Style>
     <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template">
@@ -1205,17 +1204,17 @@
                             <VisualStateGroup x:Name="SelectionStates">
                                 <VisualState Name="Normal">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="Transparent" Duration="0:0:0.15"/>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="Transparent" Duration="0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#61FFFFFF" Duration="0:0:0.15"/>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#61FFFFFF" Duration="0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#31FFFFFF" Duration="0:0:0.15"/>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#31FFFFFF" Duration="0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -1238,25 +1237,25 @@
         <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
     </Style>
 
-    <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+    <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
     <Style x:Key="{x:Type GroupBox}" TargetType="{x:Type GroupBox}">
-        <Setter Property="BorderBrush" Value="#7BA7B8"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#7BA7B8" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="4" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="4"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="4" />
                         </Grid.RowDefinitions>
                         <!-- ContentPresenter for the header -->
                         <Border x:Name="Header" Padding="6,0,6,0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
@@ -1265,14 +1264,14 @@
                             </TextBlock>
                         </Border>
                         <!-- Primary content for GroupBox -->
-                        <ContentPresenter Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}"/>
+                        <ContentPresenter Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" />
                         <Border CornerRadius="4" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="4" BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{StaticResource HighBrush}">
                             <Border.OpacityMask>
                                 <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="6">
-                                    <Binding ElementName="Header" Path="ActualWidth"/>
-                                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
-                                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
+                                    <Binding ElementName="Header" Path="ActualWidth" />
+                                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth" />
+                                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight" />
                                 </MultiBinding>
                             </Border.OpacityMask>
                         </Border>
@@ -1281,7 +1280,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- CUSTOM CONTROLS -->
     <Style x:Key="{x:Type MagicoControls:HintTextBox}" TargetType="{x:Type MagicoControls:HintTextBox}">
         <Setter Property="SnapsToDevicePixels" Value="False" />
@@ -1307,15 +1306,15 @@
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Focused">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" 
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         To="{StaticResource DeepSurfaceHighColor}" Duration="0:0:0.2" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unfocused">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" 
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         To="{StaticResource DeepSurfaceColor}" Duration="0:0:0.2" />
                                     </Storyboard>
                                 </VisualState>
@@ -1323,11 +1322,11 @@
                         </VisualStateManager.VisualStateGroups>
                         <Border x:Name="Border" CornerRadius="3" Background="{StaticResource DeepSurfaceBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1">
                             <Grid>
-                                <ScrollViewer 
+                                <ScrollViewer
                                     VerticalAlignment="Center"
                                     Margin="{TemplateBinding MagicoControls:HintTextBox.TextMargin}"
-                                    Foreground="{TemplateBinding Foreground}" 
-                                    FontSize="{TemplateBinding FontSize}" 
+                                    Foreground="{TemplateBinding Foreground}"
+                                    FontSize="{TemplateBinding FontSize}"
                                     FontFamily="{TemplateBinding FontFamily}"
                                     FontStretch="{TemplateBinding FontStretch}"
                                     FontStyle="{TemplateBinding FontStyle}"
@@ -1337,43 +1336,43 @@
                                     <!-- Подгон под основной текст -->
                                     <TextBlock  IsHitTestVisible="False"
                                         VerticalAlignment="Center"
-                                        Foreground="{TemplateBinding Foreground}" 
+                                        Foreground="{TemplateBinding Foreground}"
                                         Margin="{TemplateBinding MagicoControls:HintTextBox.TextMargin}"
-                                        FontSize="{TemplateBinding MagicoControls:HintTextBox.HintFontSize}" 
+                                        FontSize="{TemplateBinding MagicoControls:HintTextBox.HintFontSize}"
                                         FontFamily="{TemplateBinding MagicoControls:HintTextBox.HintFontFamily}"
                                         FontStretch="{TemplateBinding MagicoControls:HintTextBox.HintFontStretch}"
                                         FontStyle="{TemplateBinding MagicoControls:HintTextBox.HintFontStyle}"
                                         FontWeight="{TemplateBinding MagicoControls:HintTextBox.HintFontWeight}"
                                         Text="{TemplateBinding MagicoControls:HintTextBox.HintText}"
-                                        Visibility="{TemplateBinding MagicoControls:HintTextBox.IsEmpty, Converter={StaticResource BoolToHiddenConverter}}"/>
+                                        Visibility="{TemplateBinding MagicoControls:HintTextBox.IsEmpty, Converter={StaticResource BoolToHiddenConverter}}" />
                                 </Grid>
-                                <Image RenderOptions.BitmapScalingMode="HighQuality" 
+                                <Image RenderOptions.BitmapScalingMode="HighQuality"
                                     Source="{TemplateBinding MagicoControls:HintTextBox.Image}"
                                     Margin="{TemplateBinding MagicoControls:HintTextBox.ImageMargin}"
                                     Width="{TemplateBinding MagicoControls:HintTextBox.ImageWidth}"
                                     Height="{TemplateBinding MagicoControls:HintTextBox.ImageHeight}"
                                     Stretch="{TemplateBinding MagicoControls:HintTextBox.ImageStretch}"
                                     Opacity="{TemplateBinding MagicoControls:HintTextBox.ImageOpacity}"
-                                    HorizontalAlignment="Left"/>
+                                    HorizontalAlignment="Left" />
                             </Grid>
                         </Border>
-                        <Border IsHitTestVisible="False" 
-                                Name="BorderInner" 
-                                CornerRadius="3" 
-                                Margin="0,0,0,-1" 
-                                Background="Transparent" 
-                                BorderBrush="{StaticResource TextBoxInnerGradient}" 
-                                BorderThickness="1"/>
+                        <Border IsHitTestVisible="False"
+                                Name="BorderInner"
+                                CornerRadius="3"
+                                Margin="0,0,0,-1"
+                                Background="Transparent"
+                                BorderBrush="{StaticResource TextBoxInnerGradient}"
+                                BorderThickness="1" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Validation.HasError" Value="True">
-                            <Setter TargetName="BorderInner" Property="BorderBrush" Value="{StaticResource TBErrorBrush}"/>
+                            <Setter TargetName="BorderInner" Property="BorderBrush" Value="{StaticResource TBErrorBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource TBFGDisabledBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TBFGDisabledBrush}" />
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource TBFGReadOnlyBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TBFGReadOnlyBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1381,44 +1380,44 @@
         </Setter>
     </Style>
     <Style x:Key="{x:Type MagicoControls:Trigger}" TargetType="{x:Type MagicoControls:Trigger}">
-        <Setter Property="Background" Value="{StaticResource DeepSurfaceBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}"/>
-        <Setter Property="SnapsToDevicePixels" Value="False"/>
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="{StaticResource DeepSurfaceBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource FGNormalBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <BulletDecorator Background="Transparent">
                         <BulletDecorator.Bullet>
-                            <Border x:Name="Border" 
-                                    Width="40" 
-                                    Height="19" 
+                            <Border x:Name="Border"
+                                    Width="40"
+                                    Height="19"
                                     CornerRadius="3"
                                     Background="{TemplateBinding Background}">
                                 <Grid>
-                                    <Border BorderBrush="{StaticResource InnerShadowGradient}" CornerRadius="2" BorderThickness="2"/>
+                                    <Border BorderBrush="{StaticResource InnerShadowGradient}" CornerRadius="2" BorderThickness="2" />
                                     <TextBlock x:Name="OffText"
-                                               Text="OFF" 
-                                               VerticalAlignment="Center" 
-                                               HorizontalAlignment="Right" 
+                                               Text="OFF"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Right"
                                                Margin="0,0,6,0"
-                                               FontFamily="Arial" 
-                                               FontSize="6" 
-                                               FontStretch="Normal" 
+                                               FontFamily="Arial"
+                                               FontSize="6"
+                                               FontStretch="Normal"
                                                FontWeight="Normal"
                                                Foreground="{StaticResource FGNormalBrush}" />
                                     <TextBlock x:Name="OnText"
-                                               Text="ON" 
-                                               VerticalAlignment="Center" 
-                                               HorizontalAlignment="Left" 
+                                               Text="ON"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
                                                Margin="6,0,0,0"
-                                               FontFamily="Arial" 
-                                               FontSize="7" 
-                                               FontStretch="Normal" 
+                                               FontFamily="Arial"
+                                               FontSize="7"
+                                               FontStretch="Normal"
                                                FontWeight="Normal"
-                                               Foreground="{StaticResource HighBrush}"/>
+                                               Foreground="{StaticResource HighBrush}" />
                                     <Grid x:Name="Switcher" HorizontalAlignment="Left">
                                         <Border
                                             x:Name="SwitcherBorder"
@@ -1443,7 +1442,7 @@
                                             Width="16"
                                             Height="17"
                                             Background="White"
-                                            Opacity="0"/>
+                                            Opacity="0" />
                                         <Path Width="18" Height="18" SnapsToDevicePixels="False" Stroke="#32000000" RenderOptions.EdgeMode="Aliased" StrokeThickness="1" Data="
                                               M 3 3 L 3 16
                                               M 5 3 L 5 16
@@ -1456,7 +1455,7 @@
                                 </Grid>
                             </Border>
                         </BulletDecorator.Bullet>
-                        <ContentPresenter Margin="4,-1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True"/>
+                        <ContentPresenter Margin="4,-1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True" />
                     </BulletDecorator>
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="ShowMarkTimeLine">
@@ -1477,26 +1476,26 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="ShowMarkTimeLine" Storyboard="{StaticResource ShowMarkTimeLine}"/>
+                                <BeginStoryboard x:Name="ShowMarkTimeLine" Storyboard="{StaticResource ShowMarkTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="HideMarkTimeLine" Storyboard="{StaticResource HideMarkTimeLine}"/>
+                                <BeginStoryboard x:Name="HideMarkTimeLine" Storyboard="{StaticResource HideMarkTimeLine}" />
                             </Trigger.ExitActions>
-                            <Setter TargetName="Switcher" Property="Margin" Value="22,0,0,0"/>
+                            <Setter TargetName="Switcher" Property="Margin" Value="22,0,0,0" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseEnterTimeLine" Storyboard="{StaticResource MouseEnterTimeLine}" />
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
-                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}"/>
+                                <BeginStoryboard x:Name="MouseExitTimeLine" Storyboard="{StaticResource MouseExitTimeLine}" />
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="OnText" Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter TargetName="OffText" Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
-                            <Setter TargetName="SwitcherBorder" Property="Background" Value="{StaticResource DisabledBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}"/>
+                            <Setter TargetName="OnText" Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter TargetName="OffText" Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
+                            <Setter TargetName="SwitcherBorder" Property="Background" Value="{StaticResource DisabledBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource FGDisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

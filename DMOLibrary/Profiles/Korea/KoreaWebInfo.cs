@@ -17,13 +17,13 @@
 // ======================================================================
 
 using System;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Korea {
+
     public class KoreaWebInfo : DMOWebProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(KoreaWebInfo));
         private static string STR_GUILD_ID_REGEX = "(main_sub\\.aspx\\?v=)(\\d+)(&o=)(\\d+)";
@@ -75,7 +75,6 @@ namespace DMOLibrary.Profiles.Korea {
                 HtmlNode ranking = doc.DocumentNode;
                 try {
                     ranking = doc.DocumentNode.SelectNodes("//div[@id='body']//table[@class='forum_list'][1]//tbody//tr[not(@onmouseover)]")[4];
-
                     guildInfo.ServId = serv.Id;
                     guildInfo.Rank = CheckRankNode(ranking.SelectSingleNode(".//td[1]"));
 
@@ -348,7 +347,7 @@ namespace DMOLibrary.Profiles.Korea {
             return false;
         }
 
-        static string ClearStr(string str) {
+        private static string ClearStr(string str) {
             return str.Replace(",", string.Empty).Replace(" ", string.Empty).Replace(Environment.NewLine, string.Empty);
         }
 

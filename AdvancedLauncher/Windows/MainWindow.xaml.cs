@@ -24,8 +24,9 @@ using AdvancedLauncher.Environment;
 using AdvancedLauncher.Pages;
 
 namespace AdvancedLauncher.Windows {
+
     public partial class MainWindow : Window {
-        public static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));  
+        public static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));
         private const int SC_CLOSE = 0xF060;
         private const int MF_ENABLED = 0x0000;
         private const int MF_GRAYED = 0x0001;
@@ -33,8 +34,10 @@ namespace AdvancedLauncher.Windows {
 
         [DllImport("user32.dll")]
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
         [DllImport("user32.dll")]
         private static extern int EnableMenuItem(IntPtr hMenu, int wIDEnableItem, int wEnable);
+
         private IntPtr hWnd = IntPtr.Zero;
 
         private bool IsCloseLocked = true;
@@ -52,17 +55,24 @@ namespace AdvancedLauncher.Windows {
                 LayoutRoot.Children.Add(Logger.Instance);
             }
             AdvancedLauncher.Service.UpdateChecker.Check();
-            LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+            LanguageEnv.Languagechanged += delegate() {
+                this.DataContext = LanguageEnv.Strings;
+            };
             LauncherEnv.Settings.ProfileChanged += ReloadTabs;
             LauncherEnv.Settings.ProfileLocked += OnProfileLocked;
             LauncherEnv.Settings.ClosingLocked += OnClosingLocked;
             LauncherEnv.Settings.FileSystemLocked += OnFileSystemLocked;
-            this.Closing += (s, e) => { e.Cancel = IsCloseLocked; };
+            this.Closing += (s, e) => {
+                e.Cancel = IsCloseLocked;
+            };
             MainMenu.AboutClick += OnAboutClick;
             MainMenu.SettingsClick += OnSettingsClick;
             MainMenu.LoggerClick += OnLoggerClick;
             ReloadTabs();
-            try { App.splash.Close(TimeSpan.FromSeconds(1)); } catch { }
+            try {
+                App.splash.Close(TimeSpan.FromSeconds(1));
+            } catch {
+            }
 #if DEBUG
             this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif

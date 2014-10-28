@@ -2,6 +2,7 @@
 using System.Text;
 
 namespace AdvancedLauncher.Environment.Commands {
+
     public class EchoCommand : Command {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(EchoCommand));
 

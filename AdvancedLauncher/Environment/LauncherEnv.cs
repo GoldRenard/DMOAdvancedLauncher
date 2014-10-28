@@ -23,6 +23,7 @@ using System.Xml.Serialization;
 using AdvancedLauncher.Environment.Containers;
 
 namespace AdvancedLauncher.Environment {
+
     public static class LauncherEnv {
         private static string _AppPath = null;
         private const string SETTINGS_FILE = "Settings.xml";
@@ -32,6 +33,7 @@ namespace AdvancedLauncher.Environment {
         public const string REMOTE_PATH = "http://renamon.ru/launcher/";
         public static Settings Settings;
         public static System.Net.WebClient WebClient = new System.Net.WebClient();
+
         public static string AppPath {
             get {
                 return _AppPath;

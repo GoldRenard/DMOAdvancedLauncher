@@ -28,13 +28,15 @@ using AdvancedLauncher.Environment.Commands;
 using log4net.Core;
 
 namespace AdvancedLauncher.Windows {
+
     public partial class Logger : UserControl {
         private Storyboard ShowWindow, HideWindow;
+
         public delegate void AddLogHandler(LoggingEvent logEvent);
+
         private int recentIndex = -1;
 
-        class ClearCommand : Command {
-
+        private class ClearCommand : Command {
             private readonly Logger loggerInstance;
 
             public ClearCommand(Logger loggerInstance)
@@ -58,6 +60,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         private static Logger _Instance;
+
         public static Logger Instance {
             get {
                 if (!IsInstanceInitialized) {
@@ -68,6 +71,7 @@ namespace AdvancedLauncher.Windows {
                 return _Instance;
             }
         }
+
         public static bool IsInstanceInitialized {
             get {
                 return _Instance != null;
@@ -76,6 +80,7 @@ namespace AdvancedLauncher.Windows {
 
         private ObservableCollection<LoggingEvent> _LogEntries = new ObservableCollection<LoggingEvent>();
         private ObservableCollection<LoggingEvent> _LogEntriesFiltered = new ObservableCollection<LoggingEvent>();
+
         public ObservableCollection<LoggingEvent> LogEntries {
             get {
                 return _LogEntries;
@@ -142,6 +147,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         #region Filter Things
+
         private void OnFilterChecked(object sender, RoutedEventArgs e) {
             _LogEntriesFiltered.Clear();
             foreach (LoggingEvent log in LogEntries) {
@@ -168,21 +174,28 @@ namespace AdvancedLauncher.Windows {
             switch (ConvertLevel(logEvent.Level)) {
                 case LogLevel.DEBUG:
                     return FilterDebug.IsChecked;
+
                 case LogLevel.ERROR:
                     return FilterError.IsChecked;
+
                 case LogLevel.FATAL:
                     return FilterFatal.IsChecked;
+
                 case LogLevel.INFO:
                     return FilterInfo.IsChecked;
+
                 case LogLevel.WARN:
                     return FilterWarn.IsChecked;
+
                 default:
                     return true;
             }
         }
-        #endregion
+
+        #endregion Filter Things
 
         #region Console Things
+
         private void OnConsoleSendClick(object sender, RoutedEventArgs e) {
             CommandHandler.Send(ConsoleInput.Text.Trim());
             ConsoleInput.Clear();
@@ -194,6 +207,7 @@ namespace AdvancedLauncher.Windows {
                 case Key.Return:
                     OnConsoleSendClick(sender, e);
                     break;
+
                 case Key.Up:
                 case Key.Down:
                     int newIndex = GetNewIndex(e.Key);
@@ -216,11 +230,12 @@ namespace AdvancedLauncher.Windows {
                     }
                 case Key.Down:
                     return recentIndex + 1;
+
                 default:
                     return recentIndex;
             }
         }
-        #endregion
 
+        #endregion Console Things
     }
 }

@@ -16,14 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-
 namespace DMOLibrary.Profiles.Joymax {
+
     public class DMOJoymax : DMOProfile {
+
         private void InitVars() {
             typeName = "Joymax";
 
@@ -42,6 +38,7 @@ namespace DMOLibrary.Profiles.Joymax {
         }
 
         #region Constructors
+
         public DMOJoymax() {
             InitVars();
         }
@@ -51,14 +48,15 @@ namespace DMOLibrary.Profiles.Joymax {
             InitVars();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Getting user login commandline
+
         public override void TryLogin(string UserId, System.Security.SecureString Password) {
             OnCompleted(LoginCode.SUCCESS, "true");
         }
 
-        #endregion
+        #endregion Getting user login commandline
 
         public override string GetGameStartArgs(string args) {
             return "true";

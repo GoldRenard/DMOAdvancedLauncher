@@ -21,8 +21,10 @@ using System.ComponentModel;
 using System.Windows.Media;
 
 namespace AdvancedLauncher.Controls {
+
     public class DigimonItemViewModel : INotifyPropertyChanged {
         private string _DName;
+
         public string DName {
             get {
                 return _DName;
@@ -36,6 +38,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _TName;
+
         public string TName {
             get {
                 return _TName;
@@ -49,6 +52,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _DType;
+
         public string DType {
             get {
                 return _DType;
@@ -62,6 +66,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private int _Level;
+
         public int Level {
             get {
                 return _Level;
@@ -75,6 +80,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private string _Size;
+
         public string Size {
             get {
                 return _Size;
@@ -88,6 +94,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private int _SizePC;
+
         public int SizePC {
             get {
                 return _SizePC;
@@ -101,6 +108,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private int _PSize;
+
         public int PSize {
             get {
                 return _PSize;
@@ -114,6 +122,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private long _Rank;
+
         public long Rank {
             get {
                 return _Rank;
@@ -127,6 +136,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private ImageSource _Image;
+
         public ImageSource Image {
             get {
                 return _Image;
@@ -140,6 +150,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

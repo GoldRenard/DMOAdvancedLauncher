@@ -31,6 +31,7 @@ using DMOLibrary;
 using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Controls {
+
     public partial class DigiRotation : UserControl {
         private static int ROTATION_INTERVAL = 5000;
         private TaskManager.Task LoadingTask;
@@ -44,11 +45,13 @@ namespace AdvancedLauncher.Controls {
         private bool IsErrorOccured = false;
 
         private bool _IsLoading = false;
+
         public bool IsLoading {
             get {
                 return _IsLoading;
             }
         }
+
         private bool IsStatic = false;       //Используется для указания ротации без информации о дигимоне и теймере (просто ротация картинок)
 
         private static BitmapImage unknownDigimon = new BitmapImage(new Uri(@"images/unknown.png", UriKind.Relative));
@@ -73,6 +76,7 @@ namespace AdvancedLauncher.Controls {
             public int Id;
             public BitmapImage Image;
         }
+
         private List<DigiImage> ImagesCollection = new List<DigiImage>();
 
         public DigiRotation() {
@@ -101,7 +105,7 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        void MainWorkerFunc(object sender, DoWorkEventArgs e) {
+        private void MainWorkerFunc(object sender, DoWorkEventArgs e) {
             //Ротация в цикле
             while (true) {
                 //Если источник не загружен
@@ -233,6 +237,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         #region Utils
+
         public void UpdateDigiInfo(ref Grid block, DInfoItemViewModel vmodel) {
             if (!IsStatic) {
                 //Если не статическое, получаем рандомного дигимона из базы данных
@@ -316,9 +321,11 @@ namespace AdvancedLauncher.Controls {
         }
 
         #region Loading Animation
+
         private Storyboard sbAnimShow = new Storyboard();
         private Storyboard sbAnimHide = new Storyboard();
         private bool IsAnimInitialized = false;
+
         private void InitializeAnim() {
             if (IsAnimInitialized) {
                 return;
@@ -363,8 +370,9 @@ namespace AdvancedLauncher.Controls {
                 }
             }));
         }
-        #endregion
 
-        #endregion
+        #endregion Loading Animation
+
+        #endregion Utils
     }
 }

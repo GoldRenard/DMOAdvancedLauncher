@@ -9,15 +9,15 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="90" />
-            <RowDefinition  />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Image x:Name="ErrorIcon" Width="48" Height="48"/>
+        <Image x:Name="ErrorIcon" Width="48" Height="48" />
         <StackPanel Grid.Column="1" Margin="5">
             <TextBlock Text="A crash has been detected by AdvancedLauncher." />
             <TextBlock Margin="0,5,0,0" Text="This is a AdvancedLauncher crash reporting window. To help the development process, please Submit a Bug-report to our email." TextWrapping="Wrap" />
             <TextBlock Text="Many thanks in advance and sorry for the inconvenience." />
         </StackPanel>
-        
+
         <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,0">
             <GroupBox Height="50" Header="Exception Reason" Margin="5" VerticalAlignment="Top">
                 <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">

@@ -16,18 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Security;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Net;
-using System.Web;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace DMOLibrary.Profiles.Korea {
+
     public class DMOKorea : DMOProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOKorea));
 
@@ -48,6 +40,7 @@ namespace DMOLibrary.Profiles.Korea {
         }
 
         #region Constructors
+
         public DMOKorea() {
             InitVars();
         }
@@ -57,7 +50,7 @@ namespace DMOLibrary.Profiles.Korea {
             InitVars();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Getting user login commandline
 
@@ -125,7 +118,8 @@ namespace DMOLibrary.Profiles.Korea {
             wb.Navigate("http://www.digimonmasters.com/help/Login/MemberLogin.aspx");
             OnChanged(LoginState.LOGINNING);
         }
-        #endregion
+
+        #endregion Getting user login commandline
 
         public override string GetGameStartArgs(string args) {
             return args.Replace(" 1 ", " ");

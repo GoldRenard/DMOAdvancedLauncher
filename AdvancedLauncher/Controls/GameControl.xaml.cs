@@ -32,6 +32,7 @@ using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace AdvancedLauncher.Controls {
+
     public partial class GameControl : UserControl {
         private TaskManager.Task UpdateTask;
         private bool UpdateRequired = false;
@@ -52,9 +53,10 @@ namespace AdvancedLauncher.Controls {
         private int verCurrent = -1;
         private int verRemote = -1;
 
-        class CheckResult {
+        private class CheckResult {
             public int LocalVer;
             public int RemoteVer;
+
             public bool IsUpdateRequired {
                 get {
                     return RemoteVer > LocalVer;
@@ -63,7 +65,9 @@ namespace AdvancedLauncher.Controls {
         };
 
         public delegate void SetProgressBar(double value, double maxvalue);
+
         public delegate void SetProgressBarVal(double value);
+
         public delegate void SetInfoText(string text);
 
         public GameControl() {
@@ -103,6 +107,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         #region Update Section
+
         private void CheckWorker_DoWork(object sender, DoWorkEventArgs e) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 //Добавляем задачу обновления
@@ -387,7 +392,7 @@ namespace AdvancedLauncher.Controls {
             return ContentLength;
         }
 
-        #endregion
+        #endregion Update Section
 
         #region Game Start/Login Section
 
@@ -472,11 +477,12 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        #endregion
+        #endregion Game Start/Login Section
 
         #region Interface Section
 
         #region Start Button
+
         private void SetStartEnabled(bool IsEnabled) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 //Убираем задачу обновления
@@ -543,7 +549,8 @@ namespace AdvancedLauncher.Controls {
                 StartGame(string.Empty);
             }
         }
-        #endregion
+
+        #endregion Start Button
 
         #region ProgressBar
 
@@ -576,6 +583,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private double MainPBValue = 0;
+
         private void UpdateMainProgressBar(double value, double maxvalue) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SetProgressBar((value_, maxvalue_) => {
                 MainProgressBar.Maximum = maxvalue_;
@@ -620,9 +628,11 @@ namespace AdvancedLauncher.Controls {
                 UpdateText.Text = text_;
             }), text);
         }
-        #endregion
+
+        #endregion ProgressBar
 
         #region LoginBlock
+
         private bool IsLoginDataLoaded = false;
 
         private void InitLoginBlock() {
@@ -668,8 +678,8 @@ namespace AdvancedLauncher.Controls {
             OnStartButtonClick(this, null);
         }
 
-        #endregion
+        #endregion LoginBlock
 
-        #endregion
+        #endregion Interface Section
     }
 }

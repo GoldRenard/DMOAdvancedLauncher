@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 
 namespace AdvancedLauncher.Environment.Commands {
+
     public class ExecCommand : Command {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ExecCommand));
 
@@ -13,7 +14,7 @@ namespace AdvancedLauncher.Environment.Commands {
 
         public override void DoCommand(string[] args) {
             if (args.Length < 2) {
-                LOGGER.InfoFormat("Usage: {0} <executable> [arguments]");
+                LOGGER.InfoFormat("Usage: {0} <executable> [arguments]", args[0]);
                 return;
             }
             List<String> argList = new List<string>(args);

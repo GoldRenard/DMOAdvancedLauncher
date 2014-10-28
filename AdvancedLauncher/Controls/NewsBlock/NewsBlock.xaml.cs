@@ -36,6 +36,7 @@ using DMOLibrary;
 using Newtonsoft.Json.Linq;
 
 namespace AdvancedLauncher.Controls {
+
     public partial class NewsBlock : UserControl {
         private BackgroundWorker bwLoadTwitter = new BackgroundWorker();
         private BackgroundWorker bwLoadJoymax = new BackgroundWorker();
@@ -49,6 +50,7 @@ namespace AdvancedLauncher.Controls {
         private int AnimSpeed = 100;
 
         private bool _IsLoading = false;
+
         public bool IsLoading {
             get {
                 return _IsLoading;
@@ -57,16 +59,22 @@ namespace AdvancedLauncher.Controls {
 
         private TwitterViewModel TwitterVM = new TwitterViewModel();
         private List<TwitterItemViewModel> TwitterStatuses = new List<TwitterItemViewModel>();
+
         private delegate void DoAddTwit(List<UserStatus> statusList, BitmapImage bmp);
+
         private delegate void DoLoadTwitter(List<TwitterItemViewModel> statuses);
 
         private JoymaxViewModel JoymaxVM = new JoymaxViewModel();
         private List<JoymaxItemViewModel> JoymaxNews = new List<JoymaxItemViewModel>();
+
         private delegate void DoAddJoyNews(List<NewsItem> news);
+
         private delegate void DoLoadJoymax(List<JoymaxItemViewModel> news);
 
         public delegate void ChangedEventHandler(object sender, byte tabNum);
+
         public event ChangedEventHandler TabChanged;
+
         protected virtual void OnChanged(byte tabNum) {
             if (TabChanged != null) {
                 TabChanged(this, tabNum);
@@ -86,7 +94,7 @@ namespace AdvancedLauncher.Controls {
                 TwitterNewsList.DataContext = TwitterVM;
                 JoymaxNewsList.DataContext = JoymaxVM;
 
-                //Init animations for News 
+                //Init animations for News
                 DoubleAnimation dShowJoymax = new DoubleAnimation(1, new Duration(TimeSpan.FromMilliseconds(AnimSpeed)));
                 Storyboard.SetTarget(dShowJoymax, JoymaxNewsList);
                 Storyboard.SetTargetProperty(dShowJoymax, new PropertyPath(OpacityProperty));
@@ -166,7 +174,6 @@ namespace AdvancedLauncher.Controls {
                 ReloadNews();
             }
         }
-
 
         private void ReloadNews() {
             if (_jsonUrl != LauncherEnv.Settings.CurrentProfile.News.TwitterUrl) {
@@ -441,7 +448,6 @@ namespace AdvancedLauncher.Controls {
                         }
                 }
             }
-
         }
 
         private List<TwitterTextPart> GetTwitterParts(ref List<string> DataArr, ref int DataCounter, string FormatString, string SplitText, TwitterTextType NonStringType, bool IsReturnNull) {
@@ -476,7 +482,7 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        #endregion
+        #endregion Twitter statuses
 
         #region Joymax news
 
@@ -511,7 +517,7 @@ namespace AdvancedLauncher.Controls {
             }), news);
         }
 
-        #endregion
+        #endregion Joymax news
 
         #region Interface processing
 
@@ -545,6 +551,6 @@ namespace AdvancedLauncher.Controls {
             NewsScroll.ScrollToVerticalOffset(y - x);
         }
 
-        #endregion
+        #endregion Interface processing
     }
 }

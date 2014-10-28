@@ -1,5 +1,5 @@
-﻿
-namespace AdvancedLauncher.Environment.Commands {
+﻿namespace AdvancedLauncher.Environment.Commands {
+
     public abstract class Command {
         private string commandName;
         private string commandDescription;
@@ -14,6 +14,7 @@ namespace AdvancedLauncher.Environment.Commands {
         public virtual string GetDescription() {
             return commandDescription;
         }
+
         public virtual string GetName() {
             return commandName;
         }

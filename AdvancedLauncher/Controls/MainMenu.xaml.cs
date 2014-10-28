@@ -25,7 +25,9 @@ using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
 
 namespace AdvancedLauncher.Controls {
+
     public partial class MainMenu : UserControl, INotifyPropertyChanged {
+
         public MainMenu() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
@@ -40,7 +42,9 @@ namespace AdvancedLauncher.Controls {
         }
 
         #region Buttons Handler
+
         public event RoutedEventHandler SettingsClick;
+
         private void NotifySettingsClick(object sender, RoutedEventArgs e) {
             if (SettingsClick != null) {
                 SettingsClick(sender, e);
@@ -48,6 +52,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event RoutedEventHandler AboutClick;
+
         private void NotifyAboutClick(object sender, RoutedEventArgs e) {
             if (AboutClick != null) {
                 AboutClick(sender, e);
@@ -55,6 +60,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event RoutedEventHandler LoggerClick;
+
         private void NotifyLoggerClick(object sender, RoutedEventArgs e) {
             if (LoggerClick != null) {
                 LoggerClick(sender, e);
@@ -72,11 +78,12 @@ namespace AdvancedLauncher.Controls {
         private void OnLoggerClick(object sender, RoutedEventArgs e) {
             NotifyLoggerClick(sender, e);
         }
-        #endregion
+
+        #endregion Buttons Handler
 
         #region Profile Selection
 
-        /* We must prevent updating current profile in ProfileList_SelectionChanged by updating 
+        /* We must prevent updating current profile in ProfileList_SelectionChanged by updating
          * ProfileList.ItemsSource or ProfileList.SelectedItem by outside profiles reloading */
         private bool IsPreventChange = false;
 
@@ -99,11 +106,12 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        #endregion
+        #endregion Profile Selection
 
         #region Service
 
         private bool _IsOpened = false;
+
         public bool IsOpened {
             set {
                 _IsOpened = value;
@@ -117,6 +125,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private bool _isEnabled = true;
+
         public bool IsChangeEnabled {
             set {
                 _isEnabled = value;
@@ -141,6 +150,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
@@ -148,6 +158,6 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        #endregion
+        #endregion Service
     }
 }

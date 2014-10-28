@@ -30,6 +30,7 @@ using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Windows {
+
     public partial class Settings : UserControl, INotifyPropertyChanged {
         private string LINK_EAL_INSTALLING_RUS = "http://www.bolden.ru/index.php?option=com_content&task=view&id=76";
         private string LINK_EAL_INSTALLING = "http://www.voom.net/install-files-for-east-asian-languages-windows-xp";
@@ -38,6 +39,7 @@ namespace AdvancedLauncher.Windows {
         private Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog() {
             Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png"
         };
+
         private System.Windows.Forms.FolderBrowserDialog Folderdialog = new System.Windows.Forms.FolderBrowserDialog() {
             ShowNewFolderButton = false
         };
@@ -52,7 +54,9 @@ namespace AdvancedLauncher.Windows {
             HideWindow = ((Storyboard)this.FindResource("HideWindow"));
 
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };
+                LanguageEnv.Languagechanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
 
                 //Copying settings object and set it as DataContext
@@ -82,6 +86,7 @@ namespace AdvancedLauncher.Windows {
         #region Profile Section
 
         public static Profile SelectedProfile;
+
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
             SelectedProfile = (Profile)ProfileList.SelectedItem;
             ValidatePaths();
@@ -98,7 +103,8 @@ namespace AdvancedLauncher.Windows {
         }
 
         public bool IsSelectedNotDefault {
-            set { }
+            set {
+            }
             get {
                 return SelectedProfile.Id != settingsContainer.DefaultProfile;
             }
@@ -131,7 +137,7 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        #endregion
+        #endregion Profile Section
 
         #region Path Browse Section
 
@@ -143,7 +149,7 @@ namespace AdvancedLauncher.Windows {
                         SelectedProfile.GameEnv.GamePath = Folderdialog.SelectedPath;
                         break;
                     } else {
-                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectGameDirError, 
+                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectGameDirError,
                             LanguageEnv.Strings.Settings_GamePath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                 } else {
@@ -169,18 +175,24 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        #endregion
+        #endregion Path Browse Section
 
         #region AppLocale Section
 
         public bool IsALSupported {
-            set { }
-            get { return Service.ApplicationLauncher.IsALSupported; }
+            set {
+            }
+            get {
+                return Service.ApplicationLauncher.IsALSupported;
+            }
         }
 
         public bool IsALNotSupported {
-            set { }
-            get { return !Service.ApplicationLauncher.IsALSupported; }
+            set {
+            }
+            get {
+                return !Service.ApplicationLauncher.IsALSupported;
+            }
         }
 
         private void OnAppLocaleHelpClick(object sender, RoutedEventArgs e) {
@@ -211,7 +223,7 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        #endregion
+        #endregion AppLocale Section
 
         #region Global Actions Section
 
@@ -238,7 +250,7 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        #endregion
+        #endregion Global Actions Section
 
         #region Service
 
@@ -247,13 +259,15 @@ namespace AdvancedLauncher.Windows {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion
+
+        #endregion Service
 
         #region Validation
 
@@ -262,7 +276,6 @@ namespace AdvancedLauncher.Windows {
             tbLauncherPath.GetBindingExpression(TextBox.TextProperty).UpdateSource();
         }
 
-        #endregion
+        #endregion Validation
     }
-
 }

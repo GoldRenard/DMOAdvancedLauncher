@@ -23,17 +23,21 @@ using System.IO;
 using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Environment {
+
     [XmlType("Language")]
     public class LanguageEnv : INotifyPropertyChanged {
         private static string sep = ": ";
+
         [XmlIgnore]
         public const string DefaultName = "English (Default)";
+
         [XmlIgnore]
         public string FileName = DefaultName;
 
         #region Shared Strings
 
         private string _CantOpenLink = "Can't open link. Try to change the default browser. Error: ";
+
         public string CantOpenLink {
             set {
                 _CantOpenLink = value; NotifyPropertyChanged("CantOpenLink");
@@ -44,6 +48,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Error = "Error";
+
         public string Error {
             set {
                 _Error = value; NotifyPropertyChanged("Error");
@@ -54,6 +59,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Console = "Console";
+
         public string Console {
             set {
                 _Console = value; NotifyPropertyChanged("Console");
@@ -64,6 +70,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CreateButton = "Create";
+
         public string CreateButton {
             set {
                 _CreateButton = value; NotifyPropertyChanged("CreateButton");
@@ -74,6 +81,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _DeleteButton = "Delete";
+
         public string DeleteButton {
             set {
                 _DeleteButton = value; NotifyPropertyChanged("DeleteButton");
@@ -84,6 +92,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _BrowseButton = "Browse";
+
         public string BrowseButton {
             set {
                 _BrowseButton = value; NotifyPropertyChanged("BrowseButton");
@@ -94,6 +103,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _ApplyButton = "Apply";
+
         public string ApplyButton {
             set {
                 _ApplyButton = value; NotifyPropertyChanged("ApplyButton");
@@ -104,6 +114,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CancelButton = "Cancel";
+
         public string CancelButton {
             set {
                 _CancelButton = value; NotifyPropertyChanged("CancelButton");
@@ -114,6 +125,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _SendButton = "Send";
+
         public string SendButton {
             set {
                 _SendButton = value; NotifyPropertyChanged("SendButton");
@@ -124,6 +136,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CloseButton = "Close";
+
         public string CloseButton {
             set {
                 _CloseButton = value; NotifyPropertyChanged("CloseButton");
@@ -134,6 +147,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _StartButton = "GAME START";
+
         public string StartButton {
             set {
                 _StartButton = value; NotifyPropertyChanged("StartButton");
@@ -144,6 +158,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _WaitForComplete = "Please wait completion of the current operation";
+
         public string WaitForComplete {
             set {
                 _WaitForComplete = value; NotifyPropertyChanged("WaitForComplete");
@@ -154,6 +169,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PleaseWait = "Please wait";
+
         public string PleaseWait {
             set {
                 _PleaseWait = value; NotifyPropertyChanged("PleaseWait");
@@ -164,6 +180,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _ErrorOccured = "An error has occurred!";
+
         public string ErrorOccured {
             set {
                 _ErrorOccured = value; NotifyPropertyChanged("ErrorOccured");
@@ -174,6 +191,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _ConnectionError = "Check your Internet connection.";
+
         public string ConnectionError {
             set {
                 _ConnectionError = value; NotifyPropertyChanged("ConnectionError");
@@ -184,6 +202,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _DBConnectionError = "Database connection error.";
+
         public string DBConnectionError {
             set {
                 _DBConnectionError = value; NotifyPropertyChanged("DBConnectionError");
@@ -194,6 +213,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CantGetError = "Can't get remote information";
+
         public string CantGetError {
             set {
                 _CantGetError = value; NotifyPropertyChanged("CantGetError");
@@ -204,6 +224,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _GuildNotFoundError = "Guild not found. Check your settings.";
+
         public string GuildNotFoundError {
             set {
                 _GuildNotFoundError = value; NotifyPropertyChanged("GuildNotFoundError");
@@ -214,6 +235,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _GameFilesInUse = "Unable to get access to the required game files. Please close all programs that use them.";
+
         public string GameFilesInUse {
             set {
                 _GameFilesInUse = value; NotifyPropertyChanged("GameFilesInUse");
@@ -224,6 +246,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PleaseCloseGame = "Please close the game.";
+
         public string PleaseCloseGame {
             set {
                 _PleaseCloseGame = value; NotifyPropertyChanged("PleaseCloseGame");
@@ -234,6 +257,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PleaseSelectGamePath = "Please select correct path to directory of game in settings of launcher.";
+
         public string PleaseSelectGamePath {
             set {
                 _PleaseSelectGamePath = value; NotifyPropertyChanged("PleaseSelectGamePaths");
@@ -244,6 +268,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PleaseSelectLauncherPath = "Please select correct path to directory of default launcher in settings.";
+
         public string PleaseSelectLauncherPath {
             set {
                 _PleaseSelectLauncherPath = value; NotifyPropertyChanged("PleaseSelectGamePaths");
@@ -253,11 +278,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Shared Strings
 
         #region Main Window
 
         private string _MainWindow_NewsTab = "NEWS";
+
         public string MainWindow_NewsTab {
             set {
                 _MainWindow_NewsTab = value; NotifyPropertyChanged("MainWindow_NewsTab");
@@ -268,6 +294,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _MainWindow_GalleryTab = "GALLERY";
+
         public string MainWindow_GalleryTab {
             set {
                 _MainWindow_GalleryTab = value; NotifyPropertyChanged("MainWindow_GalleryTab");
@@ -278,6 +305,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _MainWindow_CommunityTab = "COMMUNITY";
+
         public string MainWindow_CommunityTab {
             set {
                 _MainWindow_CommunityTab = value; NotifyPropertyChanged("MainWindow_CommunityTab");
@@ -288,6 +316,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _MainWindow_PersonalizationTab = "PERSONALIZATION";
+
         public string MainWindow_PersonalizationTab {
             set {
                 _MainWindow_PersonalizationTab = value; NotifyPropertyChanged("MainWindow_PersonalizationTab");
@@ -297,11 +326,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Main Window
 
         #region About Window
 
         private string _About = "About";
+
         public string About {
             set {
                 _About = value; NotifyPropertyChanged("About");
@@ -312,6 +342,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _About_Version = "Version";
+
         public string About_Version {
             set {
                 _About_Version = value; NotifyPropertyChanged("About_Version");
@@ -326,6 +357,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _About_Developer = "Developer";
+
         public string About_Developer {
             set {
                 _About_Developer = value; NotifyPropertyChanged("About_Developer");
@@ -336,6 +368,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _About_DesignHelp = "Design help";
+
         public string About_DesignHelp {
             set {
                 _About_DesignHelp = value; NotifyPropertyChanged("About_DesignHelp");
@@ -346,6 +379,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _About_Acknowledgments = "Acknowledgments";
+
         public string About_Acknowledgments {
             set {
                 _About_Acknowledgments = value; NotifyPropertyChanged("About_Acknowledgments");
@@ -356,6 +390,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _About_Translators = "Translators";
+
         public string About_Translators {
             set {
                 _About_Translators = value; NotifyPropertyChanged("About_Translators");
@@ -366,6 +401,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _About_Licence404 = "Licence file \"{0}\" not found.";
+
         public string About_Licence404 {
             set {
                 _About_Licence404 = value; NotifyPropertyChanged("About_Licence404");
@@ -375,11 +411,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion About Window
 
         #region Settings Window
 
         private string _Settings = "Settings";
+
         public string Settings {
             set {
                 _Settings = value; NotifyPropertyChanged("Settings");
@@ -390,6 +427,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_Language = "Language";
+
         public string Settings_Language {
             set {
                 _Settings_Language = value; NotifyPropertyChanged("Settings_Language");
@@ -400,6 +438,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_LastProfile = "It is impossible to delete the latest profile. Launcher must has at least one profile.";
+
         public string Settings_LastProfile {
             set {
                 _Settings_LastProfile = value; NotifyPropertyChanged("Settings_LastProfile");
@@ -412,6 +451,7 @@ namespace AdvancedLauncher.Environment {
         #region Group Names
 
         private string _Settings_MainGroup = "Profile";
+
         public string Settings_MainGroup {
             set {
                 _Settings_MainGroup = value; NotifyPropertyChanged("Settings_MainGroup");
@@ -422,6 +462,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_RotationGroup = "DigiRotation";
+
         public string Settings_RotationGroup {
             set {
                 _Settings_RotationGroup = value; NotifyPropertyChanged("Settings_RotationGroup");
@@ -432,6 +473,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_NewsGroup = "News";
+
         public string Settings_NewsGroup {
             set {
                 _Settings_NewsGroup = value; NotifyPropertyChanged("Settings_NewsGroup");
@@ -442,6 +484,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_GameGroup = "Game";
+
         public string Settings_GameGroup {
             set {
                 _Settings_GameGroup = value; NotifyPropertyChanged("Settings_GameGroup");
@@ -452,6 +495,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_AccountGroup = "Account";
+
         public string Settings_AccountGroup {
             set {
                 _Settings_AccountGroup = value; NotifyPropertyChanged("Settings_AccountGroup");
@@ -460,10 +504,13 @@ namespace AdvancedLauncher.Environment {
                 return _Settings_AccountGroup;
             }
         }
-        #endregion
+
+        #endregion Group Names
 
         #region Profile
+
         private string _Settings_ProfileNameHint = "Write profile name";
+
         public string Settings_ProfileNameHint {
             set {
                 _Settings_ProfileNameHint = value; NotifyPropertyChanged("Settings_ProfileNameHint");
@@ -474,6 +521,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_SetAsDefaultButton = "Set as default profile";
+
         public string Settings_SetAsDefaultButton {
             set {
                 _Settings_SetAsDefaultButton = value; NotifyPropertyChanged("Settings_SetAsDefaultButton");
@@ -482,10 +530,13 @@ namespace AdvancedLauncher.Environment {
                 return _Settings_SetAsDefaultButton;
             }
         }
-        #endregion
+
+        #endregion Profile
 
         #region DigiRotation
+
         private string _Settings_RotationGuildHint = "Guild for Rotation";
+
         public string Settings_RotationGuildHint {
             set {
                 _Settings_RotationGuildHint = value; NotifyPropertyChanged("Settings_RotationGuildHint");
@@ -496,6 +547,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_RotationTamerHint = "Tamer for Rotation (optional)";
+
         public string Settings_RotationTamerHint {
             set {
                 _Settings_RotationTamerHint = value; NotifyPropertyChanged("Settings_RotationTamerHint");
@@ -506,6 +558,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_RotationUpdateFREQ = "Update frequency (days)";
+
         public string Settings_RotationUpdateFREQ {
             set {
                 _Settings_RotationUpdateFREQ = value; NotifyPropertyChanged("Settings_RotationUpdateFREQ");
@@ -514,10 +567,13 @@ namespace AdvancedLauncher.Environment {
                 return _Settings_RotationUpdateFREQ + sep;
             }
         }
-        #endregion
+
+        #endregion DigiRotation
 
         #region News
+
         private string _Settings_TwitterHint = "Twitter URL (JSON-source)";
+
         public string Settings_TwitterHint {
             set {
                 _Settings_TwitterHint = value; NotifyPropertyChanged("Settings_TwitterHint");
@@ -528,6 +584,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_FirstNewsTab = "First news tab";
+
         public string Settings_FirstNewsTab {
             set {
                 _Settings_FirstNewsTab = value; NotifyPropertyChanged("Settings_FirstNewsTab");
@@ -536,10 +593,13 @@ namespace AdvancedLauncher.Environment {
                 return _Settings_FirstNewsTab + sep;
             }
         }
-        #endregion
+
+        #endregion News
 
         #region Game
+
         private string _Settings_ClientType = "Type of client";
+
         public string Settings_ClientType {
             set {
                 _Settings_ClientType = value; NotifyPropertyChanged("Settings_ClientType");
@@ -550,6 +610,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_GamePath = "Path to game";
+
         public string Settings_GamePath {
             set {
                 _Settings_GamePath = value; NotifyPropertyChanged("Settings_GamePath");
@@ -560,6 +621,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_LauncherPath = "Path to default launcher";
+
         public string Settings_LauncherPath {
             set {
                 _Settings_LauncherPath = value; NotifyPropertyChanged("Settings_LauncherPath");
@@ -570,6 +632,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_UpdateEngine = "Integrated Update Engine";
+
         public string Settings_UpdateEngine {
             set {
                 _Settings_UpdateEngine = value; NotifyPropertyChanged("Settings_UpdateEngine");
@@ -580,6 +643,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_AppLocale = "Run through Microsoft AppLocale";
+
         public string Settings_AppLocale {
             set {
                 _Settings_AppLocale = value; NotifyPropertyChanged("Settings_AppLocale");
@@ -590,6 +654,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_AppLocale_Help = "Why inactive?";
+
         public string Settings_AppLocale_Help {
             set {
                 _Settings_AppLocale_Help = value; NotifyPropertyChanged("Settings_AppLocale_Help");
@@ -600,6 +665,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_Account_User = "Username";
+
         public string Settings_Account_User {
             set {
                 _Settings_Account_User = value; NotifyPropertyChanged("Settings_Account_User");
@@ -610,6 +676,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_Account_Password = "Password";
+
         public string Settings_Account_Password {
             set {
                 _Settings_Account_Password = value; NotifyPropertyChanged("Settings_Account_Password");
@@ -618,11 +685,13 @@ namespace AdvancedLauncher.Environment {
                 return _Settings_Account_Password;
             }
         }
-        #endregion
+
+        #endregion Game
 
         #region Browse Messages
 
         private string _Settings_SelectGameDir = "Please specify the directory where the game is located";
+
         public string Settings_SelectGameDir {
             set {
                 _Settings_SelectGameDir = value; NotifyPropertyChanged("Settings_SelectGameDir");
@@ -633,6 +702,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_SelectGameDirError = "You must specify the correct folder of the game.";
+
         public string Settings_SelectGameDirError {
             set {
                 _Settings_SelectGameDirError = value; NotifyPropertyChanged("Settings_SelectGameDirError");
@@ -643,6 +713,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_SelectLauncherDir = "Please specify the directory where the default launcher is located";
+
         public string Settings_SelectLauncherDir {
             set {
                 _Settings_SelectLauncherDir = value; NotifyPropertyChanged("Settings_SelectLauncherDir");
@@ -653,6 +724,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _Settings_SelectLauncherDirError = "You must specify the correct folder of the default launcher.";
+
         public string Settings_SelectLauncherDirError {
             set {
                 _Settings_SelectLauncherDirError = value; NotifyPropertyChanged("Settings_SelectLauncherDirError");
@@ -662,13 +734,14 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Browse Messages
 
-        #endregion
+        #endregion Settings Window
 
         #region AppLocale
 
         private string _AppLocale_FailReasons = "Can't run the game through AppLocale for the following reasons:";
+
         public string AppLocale_FailReasons {
             set {
                 _AppLocale_FailReasons = value; NotifyPropertyChanged("AppLocale_FailReasons");
@@ -679,6 +752,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _AppLocale_Error = "Microsoft AppLocale Error";
+
         public string AppLocale_Error {
             set {
                 _AppLocale_Error = value; NotifyPropertyChanged("AppLocale_Error");
@@ -689,6 +763,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _AppLocale_NotInstalled = " - Microsoft AppLocale Utility is not installed";
+
         public string AppLocale_NotInstalled {
             set {
                 _AppLocale_NotInstalled = value; NotifyPropertyChanged("AppLocale_NotInstalled");
@@ -699,6 +774,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _AppLocale_EALNotInstalled = " - Support of East Asian languages is not installed";
+
         public string AppLocale_EALNotInstalled {
             set {
                 _AppLocale_EALNotInstalled = value; NotifyPropertyChanged("AppLocale_EALNotInstalled");
@@ -709,6 +785,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _AppLocale_FixQuestion = "Want to open the download page and/or instructions to fix these errors right now?";
+
         public string AppLocale_FixQuestion {
             set {
                 _AppLocale_FixQuestion = value; NotifyPropertyChanged("AppLocale_FixQuestion");
@@ -718,11 +795,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion AppLocale
 
         #region DigiRotation
 
         private string _RotationLevelText = "level";
+
         public string RotationLevelText {
             set {
                 _RotationLevelText = value; NotifyPropertyChanged("RotationLevelText");
@@ -733,6 +811,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _RotationDownloading = "Downloading data...";
+
         public string RotationDownloading {
             set {
                 _RotationDownloading = value; NotifyPropertyChanged("RotationDownloading");
@@ -743,6 +822,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _RotationTamer = "Tamer";
+
         public string RotationTamer {
             set {
                 _RotationTamer = value; NotifyPropertyChanged("RotationTamer");
@@ -752,11 +832,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion DigiRotation
 
         #region NewsBlock
 
         private string _News = "News";
+
         public string News {
             set {
                 _News = value; NotifyPropertyChanged("News");
@@ -767,6 +848,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _NewsPubDate = "Publication date";
+
         public string NewsPubDate {
             set {
                 _NewsPubDate = value; NotifyPropertyChanged("NewsPubDate");
@@ -777,6 +859,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _NewsReadMore = "Read more...";
+
         public string NewsReadMore {
             set {
                 _NewsReadMore = value; NotifyPropertyChanged("NewsReadMore");
@@ -787,6 +870,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _NewsTwitterError = "Unable to get a list of tweets";
+
         public string NewsTwitterError {
             set {
                 _NewsTwitterError = value; NotifyPropertyChanged("NewsTwitterError");
@@ -797,6 +881,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _NewsType_Notice = "notice";
+
         public string NewsType_Notice {
             set {
                 _NewsType_Notice = value; NotifyPropertyChanged("NewsType_Notice");
@@ -807,6 +892,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _NewsType_Event = "event";
+
         public string NewsType_Event {
             set {
                 _NewsType_Event = value; NotifyPropertyChanged("NewsType_Event");
@@ -817,6 +903,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _NewsType_Patch = "patch";
+
         public string NewsType_Patch {
             set {
                 _NewsType_Patch = value; NotifyPropertyChanged("NewsType_Patch");
@@ -826,13 +913,14 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion NewsBlock
 
         #region Game control
 
         #region Update Section
 
         private string _GameButton_Waiting = "Waiting";
+
         public string GameButton_Waiting {
             set {
                 _GameButton_Waiting = value; NotifyPropertyChanged("GameButton_Waiting");
@@ -843,6 +931,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _GameButton_UpdateGame = "Update game";
+
         public string GameButton_UpdateGame {
             set {
                 _GameButton_UpdateGame = value; NotifyPropertyChanged("GameButton_UpdateGame");
@@ -853,6 +942,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _UpdateCantGetVersion = "Unable to get the version of the game.";
+
         public string UpdateCantGetVersion {
             set {
                 _UpdateCantGetVersion = value; NotifyPropertyChanged("UpdateCantGetVersion");
@@ -863,6 +953,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _UpdateCantConnect = "Can't connect to the update servers.";
+
         public string UpdateCantConnect {
             set {
                 _UpdateCantConnect = value; NotifyPropertyChanged("UpdateCantConnect");
@@ -873,6 +964,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _UpdateDownloading = "Downloading update {0} of {1}... [{2:0.00}MB / {3:0.00}MB]";
+
         public string UpdateDownloading {
             set {
                 _UpdateDownloading = value; NotifyPropertyChanged("UpdateDownloading");
@@ -883,6 +975,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _UpdateExtracting = "Unpacking update {0} of {1}... [{2} / {3}]";
+
         public string UpdateExtracting {
             set {
                 _UpdateExtracting = value; NotifyPropertyChanged("UpdateExtracting");
@@ -893,6 +986,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _UpdateInstalling = "Installing updates... [{0} / {1}]";
+
         public string UpdateInstalling {
             set {
                 _UpdateInstalling = value; NotifyPropertyChanged("UpdateInstalling");
@@ -903,6 +997,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _UseLastSession = "Use last session";
+
         public string UseLastSession {
             set {
                 _UseLastSession = value; NotifyPropertyChanged("UseLastSession");
@@ -912,11 +1007,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Update Section
 
         #region Login Section
 
         private string _LoginTry = "Try {0}...";
+
         public string LoginTry {
             set {
                 _LoginTry = value; NotifyPropertyChanged("LoginTry");
@@ -927,6 +1023,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _LoginGettingData = "Obtaining data...";
+
         public string LoginGettingData {
             set {
                 _LoginGettingData = value; NotifyPropertyChanged("LoginGettingData");
@@ -937,6 +1034,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _LoginLogIn = "Log in...";
+
         public string LoginLogIn {
             set {
                 _LoginLogIn = value; NotifyPropertyChanged("LoginLogIn");
@@ -947,6 +1045,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _LoginWasError = "was error";
+
         public string LoginWasError {
             set {
                 _LoginWasError = value; NotifyPropertyChanged("LoginWasError");
@@ -957,6 +1056,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _LoginBadAccount = "Can't login. Your username or password may be incorrect.";
+
         public string LoginBadAccount {
             set {
                 _LoginBadAccount = value; NotifyPropertyChanged("LoginBadAccount");
@@ -967,6 +1067,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _LoginEmptyUsername = "Please type your username!";
+
         public string LoginEmptyUsername {
             set {
                 _LoginEmptyUsername = value; NotifyPropertyChanged("LoginEmptyUsername");
@@ -977,6 +1078,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _LoginEmptyPassword = "Please type your password!";
+
         public string LoginEmptyPassword {
             set {
                 _LoginEmptyPassword = value; NotifyPropertyChanged("LoginEmptyPassword");
@@ -987,6 +1089,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _LoginWrongPage = "Login page is incorrect or has been changed. Please contact the developer of launcher.";
+
         public string LoginWrongPage {
             set {
                 _LoginWrongPage = value; NotifyPropertyChanged("LoginWrongPage");
@@ -996,13 +1099,14 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Login Section
 
-        #endregion
+        #endregion Game control
 
         #region Gallery
 
         private string _GalleryHint = "CLICK TWICE ON THE SCREENSHOT FOR OPENING";
+
         public string GalleryHint {
             set {
                 _GalleryHint = value; NotifyPropertyChanged("GalleryHint");
@@ -1013,6 +1117,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _GalleryNoScreenshots = "THERE IS NO SCREENSHOTS";
+
         public string GalleryNoScreenshots {
             set {
                 _GalleryNoScreenshots = value; NotifyPropertyChanged("GalleryNoScreenshots");
@@ -1023,6 +1128,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _GalleryCantOpenImage = "Can't open the image. Error: ";
+
         public string GalleryCantOpenImage {
             set {
                 _GalleryCantOpenImage = value; NotifyPropertyChanged("GalleryCantOpenImage");
@@ -1032,11 +1138,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Gallery
 
         #region Persinalization
 
         private string _PersonalizationWrongTGA = "It is not a TGA-image!";
+
         public string PersonalizationWrongTGA {
             set {
                 _PersonalizationWrongTGA = value; NotifyPropertyChanged("PersonalizationWrongTGA");
@@ -1047,6 +1154,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PersonalizationCantSave = "Unable to save the Image.";
+
         public string PersonalizationCantSave {
             set {
                 _PersonalizationCantSave = value; NotifyPropertyChanged("PersonalizationCantSave");
@@ -1057,6 +1165,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PersonalizationCantWrite = "Unable to write the Image into the game!";
+
         public string PersonalizationCantWrite {
             set {
                 _PersonalizationCantWrite = value; NotifyPropertyChanged("PersonalizationCantWrite");
@@ -1067,6 +1176,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PersonalizationSelectTitle = "Select Image:";
+
         public string PersonalizationSelectTitle {
             set {
                 _PersonalizationSelectTitle = value; NotifyPropertyChanged("PersonalizationSelectTitle");
@@ -1077,6 +1187,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PersonalizationSelectMessage = "Click here to select the Image";
+
         public string PersonalizationSelectMessage {
             set {
                 _PersonalizationSelectMessage = value; NotifyPropertyChanged("PersonalizationSelectMessage");
@@ -1087,6 +1198,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PersonalizationCurrentTitle = "Current Image:";
+
         public string PersonalizationCurrentTitle {
             set {
                 _PersonalizationCurrentTitle = value; NotifyPropertyChanged("PersonalizationCurrentTitle");
@@ -1097,6 +1209,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _PersonalizationSaveButton = "Save Image";
+
         public string PersonalizationSaveButton {
             set {
                 _PersonalizationSaveButton = value; NotifyPropertyChanged("PersonalizationSaveButton");
@@ -1106,11 +1219,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Persinalization
 
         #region Community
 
         private string _CommGuildName = "Guild name";
+
         public string CommGuildName {
             set {
                 _CommGuildName = value; NotifyPropertyChanged("CommGuildName");
@@ -1121,6 +1235,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommGuildNameEmpty = "Please enter the name of the guild!";
+
         public string CommGuildNameEmpty {
             set {
                 _CommGuildNameEmpty = value; NotifyPropertyChanged("CommGuildNameEmpty");
@@ -1131,6 +1246,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommWrongGuildName = "Guild's name contains invalid characters!";
+
         public string CommWrongGuildName {
             set {
                 _CommWrongGuildName = value; NotifyPropertyChanged("CommWrongGuildName");
@@ -1141,6 +1257,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommSearchingGuild = "Searching the guild";
+
         public string CommSearchingGuild {
             set {
                 _CommSearchingGuild = value; NotifyPropertyChanged("CommSearchingGuild");
@@ -1151,6 +1268,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommGettingTamer = "Obtaining Tamer: {0}";
+
         public string CommGettingTamer {
             set {
                 _CommGettingTamer = value; NotifyPropertyChanged("CommGettingTamer");
@@ -1161,7 +1279,9 @@ namespace AdvancedLauncher.Environment {
         }
 
         #region Main DC
+
         private string _CommShowTab = "SHOW";
+
         public string CommShowTab {
             set {
                 _CommShowTab = value; NotifyPropertyChanged("CommShowTab");
@@ -1172,6 +1292,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommTamersTab = "TAMERS";
+
         public string CommTamersTab {
             set {
                 _CommTamersTab = value; NotifyPropertyChanged("CommTamersTab");
@@ -1182,6 +1303,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommDigimonsTab = "DIGIMONS";
+
         public string CommDigimonsTab {
             set {
                 _CommDigimonsTab = value; NotifyPropertyChanged("CommDigimonsTab");
@@ -1192,6 +1314,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommSelect_Guild = "What guild you are looking for";
+
         public string CommSelect_Guild {
             set {
                 _CommSelect_Guild = value; NotifyPropertyChanged("CommSelect_Guild");
@@ -1202,6 +1325,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommCheckBox_Detailed = "Receive detailed data (long)";
+
         public string CommCheckBox_Detailed {
             set {
                 _CommCheckBox_Detailed = value; NotifyPropertyChanged("CommCheckBox_Detailed");
@@ -1212,6 +1336,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommButton_Search = "Search a guild";
+
         public string CommButton_Search {
             set {
                 _CommButton_Search = value; NotifyPropertyChanged("CommButton_Search");
@@ -1222,6 +1347,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommInformation = "Information";
+
         public string CommInformation {
             set {
                 _CommInformation = value; NotifyPropertyChanged("CommInformation");
@@ -1232,6 +1358,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommGMaster = "Master";
+
         public string CommGMaster {
             set {
                 _CommGMaster = value; NotifyPropertyChanged("CommGMaster");
@@ -1242,6 +1369,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommGBest = "Best";
+
         public string CommGBest {
             set {
                 _CommGBest = value; NotifyPropertyChanged("CommGBest");
@@ -1252,6 +1380,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommGRank = "Ranking";
+
         public string CommGRank {
             set {
                 _CommGRank = value; NotifyPropertyChanged("CommGRank");
@@ -1262,6 +1391,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommGRep = "Reputation";
+
         public string CommGRep {
             set {
                 _CommGRep = value; NotifyPropertyChanged("CommGRep");
@@ -1272,6 +1402,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommGTCnt = "Quantity of tamers";
+
         public string CommGTCnt {
             set {
                 _CommGTCnt = value; NotifyPropertyChanged("CommGTCnt");
@@ -1282,6 +1413,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommGDCnt = "Quantity of digimons";
+
         public string CommGDCnt {
             set {
                 _CommGDCnt = value; NotifyPropertyChanged("CommGDCnt");
@@ -1291,11 +1423,12 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Main DC
 
         #region Headers
 
         private string _CommHeader_Type = "Type";
+
         public string CommHeader_Type {
             set {
                 _CommHeader_Type = value; NotifyPropertyChanged("CommHeader_Type");
@@ -1306,6 +1439,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommHeader_Level = "Level";
+
         public string CommHeader_Level {
             set {
                 _CommHeader_Level = value; NotifyPropertyChanged("CommHeader_Level");
@@ -1316,6 +1450,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommHeader_Ranking = "Ranking";
+
         public string CommHeader_Ranking {
             set {
                 _CommHeader_Ranking = value; NotifyPropertyChanged("CommHeader_Ranking");
@@ -1326,6 +1461,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommHeader_Tamer = "Tamer";
+
         public string CommHeader_Tamer {
             set {
                 _CommHeader_Tamer = value; NotifyPropertyChanged("CommHeader_Tamer");
@@ -1336,6 +1472,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommHeader_Partner = "Partner";
+
         public string CommHeader_Partner {
             set {
                 _CommHeader_Partner = value; NotifyPropertyChanged("CommHeader_Partner");
@@ -1346,6 +1483,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommHeader_Mercenary = "Mercenary";
+
         public string CommHeader_Mercenary {
             set {
                 _CommHeader_Mercenary = value; NotifyPropertyChanged("CommHeader_Mercenary");
@@ -1356,6 +1494,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommHeader_Name = "Name";
+
         public string CommHeader_Name {
             set {
                 _CommHeader_Name = value; NotifyPropertyChanged("CommHeader_Name");
@@ -1366,6 +1505,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _CommHeader_Size = "Size";
+
         public string CommHeader_Size {
             set {
                 _CommHeader_Size = value; NotifyPropertyChanged("CommHeader_Size");
@@ -1374,13 +1514,15 @@ namespace AdvancedLauncher.Environment {
                 return _CommHeader_Size;
             }
         }
-        #endregion
 
-        #endregion
+        #endregion Headers
+
+        #endregion Community
 
         #region Update Checker
 
         private string _UpdateAvailableText = "New version {0} available. Changelog:";
+
         public string UpdateAvailableText {
             set {
                 _UpdateAvailableText = value; NotifyPropertyChanged("UpdateAvailableText");
@@ -1391,6 +1533,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _UpdateAvailableCaption = "New version {0} available";
+
         public string UpdateAvailableCaption {
             set {
                 _UpdateAvailableCaption = value; NotifyPropertyChanged("UpdateAvailableCaption");
@@ -1401,6 +1544,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private string _UpdateDownloadQuestion = "Do you want to download it now?";
+
         public string UpdateDownloadQuestion {
             set {
                 _UpdateDownloadQuestion = value; NotifyPropertyChanged("UpdateDownloadQuestion");
@@ -1410,12 +1554,13 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Update Checker
 
         public static LanguageEnv Default = new LanguageEnv();
         private static List<LanguageEnv> lCollection = new List<LanguageEnv>();
 
         private static LanguageEnv _Strings = new LanguageEnv();
+
         public static LanguageEnv Strings {
             set {
                 _Strings = value;
@@ -1485,18 +1630,21 @@ namespace AdvancedLauncher.Environment {
             return translations;
         }
 
-        #endregion
+        #endregion Save/Read/Load
 
         #region Event Handlers
 
         public delegate void ChangedEventHandler();
+
         public static event ChangedEventHandler Languagechanged;
+
         public static void OnChanged() {
             if (Languagechanged != null)
                 Languagechanged();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
@@ -1504,6 +1652,6 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Event Handlers
     }
 }

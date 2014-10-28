@@ -23,14 +23,15 @@ using AdvancedLauncher.Environment;
 using log4net;
 
 namespace AdvancedLauncher.Pages {
+
     public partial class MainPage : UserControl {
-        public static readonly ILog LOGGER = LogManager.GetLogger(typeof(MainPage));  
+        public static readonly ILog LOGGER = LogManager.GetLogger(typeof(MainPage));
         private Storyboard ShowWindow;
+
         private delegate void DoChangeTextNBool(string text, bool bool_);
 
         public MainPage() {
             InitializeComponent();
-            //LOGGER.Info("Initialized");
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
                 NewsBlock_.TabChanged += NewsTabChanged;

@@ -31,6 +31,7 @@ using DMOLibrary.DMOFileSystem;
 using Microsoft.Win32;
 
 namespace AdvancedLauncher.Pages {
+
     public partial class Personalization : UserControl {
         private byte[] CurrentImageBytes, SelectedImageBytes;
         private BitmapSource SelectedImage;
@@ -39,18 +40,18 @@ namespace AdvancedLauncher.Pages {
         private TargaImage TarImage = new TargaImage();
 
         //Microsoft.Win32.OpenFileDialog oFileDialog = new Microsoft.Win32.OpenFileDialog() { Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png" };
-        OpenFileDialog oFileDialog = new OpenFileDialog() {
-            Filter = "Targa Image (*.tga) | *.tga"
-        };
-        SaveFileDialog sFileDialog = new SaveFileDialog() {
+        private OpenFileDialog oFileDialog = new OpenFileDialog() {
             Filter = "Targa Image (*.tga) | *.tga"
         };
 
-        const string RES_LIST_FILE = "\\ResourceList_{0}.cfg";
-        bool isGameImageLoaded = false;
+        private SaveFileDialog sFileDialog = new SaveFileDialog() {
+            Filter = "Targa Image (*.tga) | *.tga"
+        };
+
+        private const string RES_LIST_FILE = "\\ResourceList_{0}.cfg";
+        private bool isGameImageLoaded = false;
 
         public Personalization() {
-
             InitializeComponent();
 
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
@@ -161,7 +162,7 @@ namespace AdvancedLauncher.Pages {
 
                     if (isGameImageLoaded) {                  //Если картинка из игры была загружена (что подтверждает доступность ресурсов игры)
                         BtnApply.IsEnabled = true;            //Разрешаем запись этой картинки в игру
-                    }                                 
+                    }
 
                     return;
                 }
@@ -181,7 +182,7 @@ namespace AdvancedLauncher.Pages {
                     sFileDialog.FileName = Path.GetFileName(item.RPath);
                 } else {
                     sFileDialog.FileName = item.RID.ToString() + ".tga";    //Иначе сохраняем именем ID
-                } 
+                }
 
                 var result = sFileDialog.ShowDialog();
                 if (result == true) {
@@ -251,14 +252,12 @@ namespace AdvancedLauncher.Pages {
             return false;
         }
 
-
         /// <summary>
         /// Применяет изменения в игру. Записывает выбранное изображение.
         /// </summary>
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры события</param>
         private void OnApplyClick(object sender, RoutedEventArgs e) {
-
             //Открываем файловую систему игры
             DMOFileSystem dmoFS = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
             bool IsOpened = false;
@@ -284,7 +283,6 @@ namespace AdvancedLauncher.Pages {
                     isGameImageLoaded = LoadGameImage(selectedResource);
                 }
             }
-
         }
 
         #region Utils
@@ -303,7 +301,7 @@ namespace AdvancedLauncher.Pages {
 
         private BitmapSource LoadTGA(string file) {
             System.Drawing.Bitmap bmp = TargaImage.LoadTargaImage(file);
-            BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), 
+            BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(),
                 IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
             bs.Freeze();
             return bs;
@@ -317,12 +315,12 @@ namespace AdvancedLauncher.Pages {
             return bs;
         }
 
-        #endregion
-
+        #endregion Utils
     }
 
     public class ResourceItemViewModel : INotifyPropertyChanged {
         private string _RName;
+
         public string RName {
             get {
                 return _RName;
@@ -336,6 +334,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         private uint _RID;
+
         public uint RID {
             get {
                 return _RID;
@@ -349,6 +348,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         private bool _IsRID;
+
         public bool IsRID {
             get {
                 return _IsRID;
@@ -370,6 +370,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         private string _RPath;
+
         public string RPath {
             get {
                 return _RPath;
@@ -381,6 +382,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
@@ -390,6 +392,7 @@ namespace AdvancedLauncher.Pages {
     }
 
     public class ResourceViewModel : INotifyPropertyChanged {
+
         public ResourceViewModel() {
             this.Items = new ObservableCollection<ResourceItemViewModel>();
         }
@@ -424,6 +427,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {

@@ -4,15 +4,15 @@
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
              xmlns:srv="clr-namespace:AdvancedLauncher.Service"
              xmlns:Controls="clr-namespace:AdvancedLauncher.Controls"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="500"
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml"/>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <srv:IntConverter x:Key="WidthConverter"></srv:IntConverter>
             <Style x:Key="DigimonsItemContainer" TargetType="{x:Type ListBoxItem}">
@@ -24,7 +24,7 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter TargetName="MainBorder" Property="Background" Value="#50CCEBF6"/>
+                                    <Setter TargetName="MainBorder" Property="Background" Value="#50CCEBF6" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -40,7 +40,7 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter TargetName="MainBorder" Property="Background" Value="#50CCEBF6"/>
+                                    <Setter TargetName="MainBorder" Property="Background" Value="#50CCEBF6" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -64,7 +64,7 @@
                 <ScrollViewer x:Name="CommScroll" Style="{StaticResource RoundedSV}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left"
                             Width="{Binding ElementName = CommRoot, Path=ActualWidth}">
                     <Grid x:Name="NewsWrap" HorizontalAlignment="Left" Width="{Binding ElementName=CommScroll, Path=ActualWidth, Converter={StaticResource WidthConverter}}">
-                        <ListBox x:Name="Tamers" Visibility="Collapsed" Opacity="0" BorderThickness="0" 
+                        <ListBox x:Name="Tamers" Visibility="Collapsed" Opacity="0" BorderThickness="0"
                                      ItemContainerStyle="{StaticResource TamersItemContainer}"
                                      Background="Transparent" ItemsSource="{Binding Items}"
                                      IsSynchronizedWithCurrentItem="True"
@@ -83,13 +83,13 @@
                                                 <ColumnDefinition Width="70" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="{Binding DataContext.CommHeader_Type, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
-                                            <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnTamerHeaderLoaded"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded"/>
-                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Partner, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnTamerHeaderLoaded"/>
-                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Mercenary, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnTamerHeaderLoaded" />
+                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
+                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
+                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Partner, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnTamerHeaderLoaded" />
+                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Mercenary, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
                                         </Grid>
-                                        <ItemsPresenter/>
+                                        <ItemsPresenter />
                                     </StackPanel>
                                 </ControlTemplate>
                             </ListBox.Template>
@@ -109,16 +109,16 @@
                                             <Rectangle Fill="Transparent" />
                                             <Image Source="{Binding Image}" Stretch="None" />
                                         </Grid>
-                                        <TextBlock Grid.Column="1" Text="{Binding TName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding Level}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
-                                        <TextBlock Grid.Column="3" Text="{Binding Rank}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
-                                        <TextBlock Grid.Column="4" Text="{Binding PName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
-                                        <TextBlock Grid.Column="5" Text="{Binding DCnt}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding TName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Level}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" />
+                                        <TextBlock Grid.Column="3" Text="{Binding Rank}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
+                                        <TextBlock Grid.Column="4" Text="{Binding PName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
+                                        <TextBlock Grid.Column="5" Text="{Binding DCnt}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <ListBox x:Name="Digimons" Visibility="Collapsed" Opacity="0" BorderThickness="0" 
+                        <ListBox x:Name="Digimons" Visibility="Collapsed" Opacity="0" BorderThickness="0"
                                      ItemContainerStyle="{StaticResource DigimonsItemContainer}"
                                      Background="Transparent" ItemsSource="{Binding Items}">
                             <ListBox.Template>
@@ -135,12 +135,12 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="{Binding DataContext.CommHeader_Type, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
                                             <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnDigimonHeaderLoaded" />
-                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded"/>
-                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Tamer, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnDigimonHeaderLoaded"/>
-                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Size, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
+                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
+                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Tamer, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnDigimonHeaderLoaded" />
+                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Size, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
                                         </Grid>
-                                        <ItemsPresenter/>
+                                        <ItemsPresenter />
                                     </StackPanel>
                                 </ControlTemplate>
                             </ListBox.Template>
@@ -160,11 +160,11 @@
                                             <Rectangle Fill="Transparent" />
                                             <Image Source="{Binding Image}" Stretch="None" />
                                         </Grid>
-                                        <TextBlock Grid.Column="1" Text="{Binding DName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding Level}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
-                                        <TextBlock Grid.Column="3" Text="{Binding Rank}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
-                                        <TextBlock Grid.Column="4" Text="{Binding TName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
-                                        <TextBlock Grid.Column="5" Text="{Binding Size}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding DName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Level}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
+                                        <TextBlock Grid.Column="3" Text="{Binding Rank}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
+                                        <TextBlock Grid.Column="4" Text="{Binding TName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
+                                        <TextBlock Grid.Column="5" Text="{Binding Size}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" />
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Interactivity;
 
 namespace AdvancedLauncher.Controls {
+
     public class AutoScrollBehavior : Behavior<ScrollViewer> {
         private ScrollViewer _scrollViewer = null;
         private double _height = 0.0d;

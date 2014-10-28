@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 
 namespace AdvancedLauncher.Environment.Commands {
-    public static class CommandHandler {
 
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(CommandHandler));  
+    public static class CommandHandler {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(CommandHandler));
         private static Dictionary<String, Command> commands = new Dictionary<String, Command>();
 
         private const string ENTER_COMMAND = "Please enter the command or \"help\" to view available commands";

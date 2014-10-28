@@ -26,6 +26,7 @@ using AdvancedLauncher.Environment;
 using DMOLibrary;
 
 namespace AdvancedLauncher.Controls {
+
     public partial class TDBlock : UserControl {
         private TamerViewModel TamerModel = new TamerViewModel();
         private DigimonViewModel DigimonModel = new DigimonViewModel();
@@ -33,7 +34,9 @@ namespace AdvancedLauncher.Controls {
         private byte CurrentTab = 1;
 
         public delegate void ChangedEventHandler(object sender, int tab_num);
+
         public event ChangedEventHandler TabChanged;
+
         protected virtual void OnChanged(int tab_num) {
             if (TabChanged != null)
                 TabChanged(this, tab_num);
@@ -173,7 +176,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        #endregion
+        #endregion Showing tabs
 
         #region List Header Processing and translation
 
@@ -221,6 +224,6 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        #endregion
+        #endregion List Header Processing and translation
     }
 }

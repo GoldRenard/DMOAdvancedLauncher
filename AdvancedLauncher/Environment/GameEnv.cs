@@ -25,7 +25,9 @@ using DMOLibrary.DMOFileSystem;
 using Microsoft.Win32;
 
 namespace AdvancedLauncher.Environment {
+
     public class GameEnv : INotifyPropertyChanged {
+
         public enum GameType {
             ADMO = 0,
             GDMO = 1,
@@ -35,8 +37,10 @@ namespace AdvancedLauncher.Environment {
 
         [XmlAttribute("Type")]
         public GameType Type;
+
         [XmlElement("GamePath")]
         public string pGamePath;
+
         [XmlElement("DefLauncherPath")]
         public string pDefLauncherPath;
 
@@ -82,6 +86,7 @@ namespace AdvancedLauncher.Environment {
 
         public GameEnv() {
         }
+
         public GameEnv(GameEnv gameEnv) {
             this.Type = gameEnv.Type;
             this.pGamePath = gameEnv.pGamePath;
@@ -144,7 +149,7 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Load Section
 
         #region Check Section
 
@@ -211,6 +216,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         private DMOFileSystem _GameFS = null;
+
         public DMOFileSystem GetFS() {
             if (_GameFS == null) {
                 _GameFS = new DMOFileSystem();
@@ -222,7 +228,7 @@ namespace AdvancedLauncher.Environment {
             return GetFS().Open(fAccess, 16, GetHFPath(), GetPFPath());
         }
 
-        #endregion
+        #endregion Check Section
 
         #region Get/Set Section
 
@@ -261,6 +267,7 @@ namespace AdvancedLauncher.Environment {
                 return null;
             return Path.Combine(pGamePath, puHF);
         }
+
         public string GetImportPath() {
             if (!IsInitialized)
                 Initialize();
@@ -276,6 +283,7 @@ namespace AdvancedLauncher.Environment {
                 return null;
             return Path.Combine(pGamePath, puLocalVer);
         }
+
         public string GetRemoteVerURL() {
             if (!IsInitialized)
                 Initialize();
@@ -283,6 +291,7 @@ namespace AdvancedLauncher.Environment {
                 return null;
             return puRemoteVer;
         }
+
         public string GetPatchURL() {
             if (!IsInitialized)
                 Initialize();
@@ -290,23 +299,27 @@ namespace AdvancedLauncher.Environment {
                 return null;
             return puRemotePatch;
         }
+
         public bool IsLastSessionAvailable() {
             if (!IsInitialized)
                 Initialize();
             return pLastSessionAvailable;
         }
 
-        #endregion
+        #endregion Get/Set Section
 
         #region Property change handler
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion
+
+        #endregion Property change handler
 
         #region Registry
 
@@ -338,6 +351,6 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Registry
     }
 }

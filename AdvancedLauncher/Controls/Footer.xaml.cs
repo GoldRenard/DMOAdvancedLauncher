@@ -20,7 +20,9 @@ using System;
 using System.Windows.Controls;
 
 namespace AdvancedLauncher.Controls {
+
     public partial class Footer : UserControl {
+
         public Footer() {
             InitializeComponent();
             Version v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;

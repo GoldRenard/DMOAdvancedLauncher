@@ -22,12 +22,16 @@ using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace AdvancedLauncher.Service {
-    class InstanceChecker {
-        static Mutex mutex;
+
+    internal class InstanceChecker {
+        private static Mutex mutex;
+
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
+
         [DllImport("user32.dll")]
         private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 

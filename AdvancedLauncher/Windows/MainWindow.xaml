@@ -23,7 +23,7 @@
         <ResourceDictionary>
             <Style x:Key="NavTabTextBlock" TargetType="{x:Type TextBlock}">
                 <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                <Setter Property="FontFamily" Value="Tahoma"/>
+                <Setter Property="FontFamily" Value="Tahoma" />
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="Height" Value="24" />
                 <Setter Property="Foreground" Value="#FFFFFFFF" />
@@ -36,7 +36,7 @@
                 </Setter>
             </Style>
             <Style x:Key="{x:Type TabItem}" TargetType="{x:Type TabItem}">
-                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Background" Value="Transparent" />
                 <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -49,7 +49,7 @@
                             </TextBlock>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter TargetName="Text" Property="Foreground" Value="#B0FFFFFF"/>
+                                    <Setter TargetName="Text" Property="Foreground" Value="#B0FFFFFF" />
                                     <Setter TargetName="Text" Property="Effect">
                                         <Setter.Value>
                                             <DropShadowEffect ShadowDepth="0" BlurRadius="5" Color="#70FFFFFF" />
@@ -57,7 +57,7 @@
                                     </Setter>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="true">
-                                    <Setter TargetName="Text" Property="Foreground" Value="#FFFFFFFF"/>
+                                    <Setter TargetName="Text" Property="Foreground" Value="#FFFFFFFF" />
                                     <Setter TargetName="Text" Property="Effect">
                                         <Setter.Value>
                                             <DropShadowEffect ShadowDepth="0" BlurRadius="5" Color="#BFFFFFFF" />
@@ -65,7 +65,7 @@
                                     </Setter>
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="Text" Property="Foreground" Value="#30FFFFFF"/>
+                                    <Setter TargetName="Text" Property="Foreground" Value="#30FFFFFF" />
                                     <Setter TargetName="Text" Property="Effect">
                                         <Setter.Value>
                                             <DropShadowEffect ShadowDepth="0" BlurRadius="5" Color="#00FFFFFF" />
@@ -83,18 +83,18 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="TabControl">
                             <Grid>
-                                <ContentPresenter ContentSource="SelectedContent"/>
+                                <ContentPresenter ContentSource="SelectedContent" />
                                 <Grid VerticalAlignment="Top" Height="50" IsHitTestVisible="False">
-                                    <Image Grid.Column="0" Source="/AdvancedLauncher;component/Resources/logo.png" Width="170" Margin="0,2,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                    <Image Grid.Column="0" Source="/AdvancedLauncher;component/Resources/logo.png" Width="170" Margin="0,2,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                     <Grid.Background>
                                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#FF6DC6E8" Offset="0"/>
-                                            <GradientStop Color="#FF6DC6E8" Offset="0.1"/>
-                                            <GradientStop Color="#00FFFFFF" Offset="1"/>
+                                            <GradientStop Color="#FF6DC6E8" Offset="0" />
+                                            <GradientStop Color="#FF6DC6E8" Offset="0.1" />
+                                            <GradientStop Color="#00FFFFFF" Offset="1" />
                                         </LinearGradientBrush>
                                     </Grid.Background>
                                 </Grid>
-                                <TabPanel Margin="160,10,0,0" IsItemsHost="true"/>
+                                <TabPanel Margin="160,10,0,0" IsItemsHost="true" />
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>
@@ -104,23 +104,23 @@
     </Window.Resources>
 
     <Grid x:Name="LayoutRoot">
-            <Grid.Background>
-                <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/background.jpg"
+        <Grid.Background>
+            <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/background.jpg"
                     Stretch="None"
                     TileMode="FlipY"
                     Viewbox="0,0,333,800"
                     ViewboxUnits="Absolute"
                     Viewport="0,0,333,800"
                     ViewportUnits="Absolute" />
-            </Grid.Background>
-            <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged">
-                <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
-                    <Page:MainPage x:Name="MainPage" />
-                </TabItem>
-                <TabItem x:Name="NavGallery" Header="{Binding MainWindow_GalleryTab}"/>
-                <TabItem x:Name="NavCommunity" Header="{Binding MainWindow_CommunityTab}"/>
-                <TabItem x:Name="NavPersonalization" Header="{Binding MainWindow_PersonalizationTab}"/>
-            </TabControl>
+        </Grid.Background>
+        <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged">
+            <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
+                <Page:MainPage x:Name="MainPage" />
+            </TabItem>
+            <TabItem x:Name="NavGallery" Header="{Binding MainWindow_GalleryTab}" />
+            <TabItem x:Name="NavCommunity" Header="{Binding MainWindow_CommunityTab}" />
+            <TabItem x:Name="NavPersonalization" Header="{Binding MainWindow_PersonalizationTab}" />
+        </TabControl>
         <Menu:MainMenu x:Name="MainMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Width="170" />
     </Grid>
 </Window>

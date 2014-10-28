@@ -47,6 +47,7 @@ namespace AdvancedLauncher.Windows {
         private int currentTab = 0;
 
         public MainWindow() {
+            // test commit
             InitializeComponent();
             AdvancedLauncher.Service.UpdateChecker.Check();
             LanguageEnv.Languagechanged += delegate() { this.DataContext = LanguageEnv.Strings; };

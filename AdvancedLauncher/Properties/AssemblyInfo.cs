@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GoldRenard")]
 [assembly: AssemblyProduct("Advanced DMO Launcher")]
-[assembly: AssemblyCopyright("GoldRenard, DragonVs © 2013")]
+[assembly: AssemblyCopyright("GoldRenard, DragonVs © 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]

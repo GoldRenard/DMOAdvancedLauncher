@@ -66,7 +66,7 @@ namespace KBLCService {
                 String windowTitle = null;
 
                 const int findInterval = 500;              // 500мс интервал поиска окна
-                const int checkInterval = 10000;           // 10сек интервал наличия окна
+                const int checkInterval = 1000;           // 10сек интервал наличия окна
                 int findTimeout = 60000 / findInterval;   // 60 секунд таймаут поиска окна
 
                 // Ожидание обнаружения окна

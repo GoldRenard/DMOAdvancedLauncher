@@ -1,7 +1,7 @@
 [Setup]
 AppId={{F95215F2-3DC9-4B42-9DC8-3E46B448B055}
 AppName=DMO Advanced Launcher
-AppVersion=2.2a
+AppVersion=2.3a
 AppPublisher=GoldRenard & DragonVs
 DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no

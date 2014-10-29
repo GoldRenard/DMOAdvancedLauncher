@@ -5,15 +5,14 @@ using System.Windows;
 // Управление общими сведениями о сборке осуществляется с помощью
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Advanced DMO Launcher")]
-[assembly: AssemblyDescription("Advanced Digimon Masters Online Launcher")]
+[assembly: AssemblyTitle("DMO Keyboard Layout Changer Service")]
+[assembly: AssemblyDescription("This service will fix DMO keyboard layout changing issue")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GoldRenard")]
-[assembly: AssemblyProduct("Advanced DMO Launcher")]
-[assembly: AssemblyCopyright("GoldRenard, DragonVs © 2013")]
+[assembly: AssemblyProduct("DMO Keyboard Layout Changer Service")]
+[assembly: AssemblyCopyright("GoldRenard ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 // Параметр ComVisible со значением FALSE делает типы в сборке невидимыми
 // для COM-компонентов.  Если требуется обратиться к типу в этой сборке через
@@ -47,4 +46,4 @@ using System.Windows;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию,
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.3.*")]
+[assembly: AssemblyVersion("1.0.*")]

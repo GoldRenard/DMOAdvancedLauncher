@@ -19,33 +19,36 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Service {
 
-    /// -------------------------------------------------------------------------------------------------
-    /// <summary> Application Running Helper. </summary>
-    /// -------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Application running helper
+    /// </summary>
     public static class ApplicationLauncher {
 
-        /// -------------------------------------------------------------------------------------------------
-        /// <summary> Execute process with AppLocale if it exists in system and allowed in SettingsProvider
-        ///           or execute it directly </summary>
+        /// <summary>
+        /// Execute process with AppLocale if it exists in system and allowed in SettingsProvider or execute it directly
+        /// </summary>
         /// <param name="program">Path to program</param>
-        /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
-        /// -------------------------------------------------------------------------------------------------
-        public static bool Execute(string program, bool UseAL) {
-            return Execute(program, string.Empty, UseAL);
+        /// <param name="UseAL">Should use AppLocale</param>
+        /// <param name="useKBLC">Should use Keyboard Layout change service</param>
+        /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
+        public static bool Execute(string program, bool UseAL, bool useKBLC) {
+            return Execute(program, string.Empty, UseAL, useKBLC);
         }
 
-        /// -------------------------------------------------------------------------------------------------
-        /// <summary> Execute process with AppLocale if it exists in system and allowed in SettingsProvider
-        ///           or execute it directly </summary>
+        /// <summary>
+        /// Execute process with AppLocale if it exists in system and allowed in SettingsProvider or execute it directly
+        /// </summary>
         /// <param name="program">Path to program</param>
         /// <param name="args">Arguments</param>
-        /// <param name="useAL">Use AppLocale</param>
-        /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
-        /// -------------------------------------------------------------------------------------------------
-        public static bool Execute(string program, string args, bool useAL) {
+        /// <param name="UseAL">Should use AppLocale</param>
+        /// <param name="useKBLC">Should use Keyboard Layout change service</param>
+        /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
+        public static bool Execute(string program, string args, bool useAL, bool useKBLC) {
+            bool executed = false;
             if (File.Exists(program)) {
                 Process parent = ParentProcessUtilities.GetParentProcess();
                 bool isSteam = false;
@@ -53,27 +56,31 @@ namespace AdvancedLauncher.Service {
                     isSteam = parent.ProcessName.ToLower().Equals("steam");
                 }
                 if (useAL && !isSteam) {
-                    if (!executeAppLocale(program, args)) {
-                        if (StartProcess(program, args))
-                            return true;
+                    if (!ExecuteAppLocale(program, args)) {
+                        if (StartProcess(program, args)) {
+                            executed = true;
+                        }
                     } else {
-                        return true;
+                        executed = true;
                     }
                 } else {
                     if (StartProcess(program, args)) {
-                        return true;
+                        executed = true;
                     }
                 }
             }
-            return false;
+            if (executed && useKBLC && !IsExecutableWorking(LauncherEnv.GetKBLCFile())) {
+                StartProcess(LauncherEnv.GetKBLCFile(), "-attach -notray");
+            }
+            return executed;
         }
 
-        /// -------------------------------------------------------------------------------------------------
-        /// <summary> Execute process </summary>
+        /// <summary>
+        /// Execute process
+        /// </summary>
         /// <param name="program">Path to program</param>
         /// <param name="commandline">Command line</param>
         /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
-        /// -------------------------------------------------------------------------------------------------
         public static bool StartProcess(string program, string commandline) {
             try {
                 Process proc = new Process();
@@ -87,24 +94,36 @@ namespace AdvancedLauncher.Service {
             return true;
         }
 
-        /// -------------------------------------------------------------------------------------------------
-        /// <summary> Execute process with AppLocale if it exists in system and allowed in SettingsProvider </summary>
+        /// <summary>
+        /// Execute process with AppLocale if it exists in system and allowed in SettingsProvider
+        /// </summary>
         /// <param name="program">Path to program</param>
         /// <param name="args">Command line</param>
         /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
-        /// -------------------------------------------------------------------------------------------------
-        private static bool executeAppLocale(string program, string args) {
+        private static bool ExecuteAppLocale(string program, string args) {
             string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
 
             if (!IsALSupported) {
                 return false;
             }
 
-            if (!string.IsNullOrEmpty(args))
+            if (!string.IsNullOrEmpty(args)) {
                 StartProcess(appLocalePath, "\"" + program + "\" \"" + args + "\" \"/L0412\"");
-            else
+            } else {
                 StartProcess(appLocalePath, "\"" + program + "\" \"/L0412\"");
+            }
             return true;
+        }
+
+        private static bool IsExecutableWorking(string path) {
+            string processName = Path.GetFileNameWithoutExtension(path);
+            Process[] processes = Process.GetProcessesByName(processName);
+            foreach (Process process in processes) {
+                if (process.MainModule.FileName.Equals(path)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static bool IsALInstalled {

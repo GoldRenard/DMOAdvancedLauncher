@@ -58,6 +58,7 @@
   <Settings_UpdateEngine>Integrated Update Engine</Settings_UpdateEngine>
   <Settings_AppLocale>Run through Microsoft AppLocale</Settings_AppLocale>
   <Settings_AppLocale_Help>Why inactive?</Settings_AppLocale_Help>
+  <Settings_KBLCService>Fix keyboard layout changing</Settings_KBLCService>
   <Settings_Account_User>Username</Settings_Account_User>
   <Settings_Account_Password>Password</Settings_Account_Password>
   <Settings_SelectGameDir>Please specify the directory where the game is located</Settings_SelectGameDir>

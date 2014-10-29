@@ -82,6 +82,18 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
+        private bool _KBLCServiceEnabled = false;
+
+        [XmlAttribute]
+        public bool KBLCServiceEnabled {
+            set {
+                _KBLCServiceEnabled = value; NotifyPropertyChanged("KBLCServiceEnabled");
+            }
+            get {
+                return _KBLCServiceEnabled;
+            }
+        }
+
         #region Subcontainers
 
         private LoginData _Login = new LoginData();
@@ -297,6 +309,7 @@ namespace AdvancedLauncher.Environment.Containers {
             this.ImagePath = p.ImagePath;
             this.AppLocaleEnabled = p.AppLocaleEnabled;
             this.UpdateEngineEnabled = p.UpdateEngineEnabled;
+            this.KBLCServiceEnabled = p.KBLCServiceEnabled;
             this._Login = new LoginData(p._Login);
             this._Rotation = new RotationData(p._Rotation);
             this._News = new NewsData(p._News);

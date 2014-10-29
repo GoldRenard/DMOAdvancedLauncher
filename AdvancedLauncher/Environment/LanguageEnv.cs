@@ -664,6 +664,17 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
+        private string _Settings_KBLCService = "Fix keyboard layout changing";
+
+        public string Settings_KBLCService {
+            set {
+                _Settings_KBLCService = value; NotifyPropertyChanged("Settings_KBLCService");
+            }
+            get {
+                return _Settings_KBLCService;
+            }
+        }
+
         private string _Settings_Account_User = "Username";
 
         public string Settings_Account_User {

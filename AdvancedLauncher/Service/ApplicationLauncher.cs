@@ -47,7 +47,12 @@ namespace AdvancedLauncher.Service {
         /// -------------------------------------------------------------------------------------------------
         public static bool Execute(string program, string args, bool useAL) {
             if (File.Exists(program)) {
-                if (useAL && !ParentProcessUtilities.GetParentProcess().ProcessName.ToLower().Equals("steam")) {
+                Process parent = ParentProcessUtilities.GetParentProcess();
+                bool isSteam = false;
+                if (parent != null) {
+                    isSteam = parent.ProcessName.ToLower().Equals("steam");
+                }
+                if (useAL && !isSteam) {
                     if (!executeAppLocale(program, args)) {
                         if (StartProcess(program, args))
                             return true;

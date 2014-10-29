@@ -21,6 +21,7 @@ using System.Windows;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
+using log4net.Config;
 
 namespace AdvancedLauncher {
 
@@ -53,6 +54,7 @@ namespace AdvancedLauncher {
         }
 
         private void Application_Startup(object sender, StartupEventArgs e) {
+            XmlConfigurator.Configure();
             if (IsAdministrator()) {
                 splash.Show(false);
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {

@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ namespace AdvancedLauncher.Environment {
         private const string CONFIG_DIR = "Configs";
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
+        public const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         public const string REMOTE_PATH = "http://renamon.ru/launcher/";
         public static Settings Settings;
         public static System.Net.WebClient WebClient = new System.Net.WebClient();
@@ -105,6 +106,10 @@ namespace AdvancedLauncher.Environment {
 
         public static string GetSettingsFile() {
             return Path.Combine(GetConfigsPath(), SETTINGS_FILE);
+        }
+
+        public static string GetKBLCFile() {
+            return Path.Combine(AppPath, KBLC_SERVICE_EXECUTABLE);
         }
 
         public static string GetConfigsPath() {

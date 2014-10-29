@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2013 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 // ======================================================================
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 

@@ -51,8 +51,15 @@ namespace KBLCService {
                     BuildIcon();
                 }
 
-                SetMode(((string)Utils.GetRegistryValue(@"HKEY_CURRENT_USER\Keyboard Layout\Toggle\Hotkey", "1")) == "2");
-                Service.Start(IsAttach);
+                if (IsAttach) {
+                    Service.Detached += () => {
+                        Utils.CloseApp();
+                    };
+                }
+
+                bool IsControl = "2".Equals(Utils.GetRegistryValue(@"HKEY_CURRENT_USER\Keyboard Layout\Toggle\Hotkey", "1"));
+                SetMode(IsControl);
+                Service.Start(IsAttach, IsControl);
             } else {
                 Utils.CloseApp();
             }

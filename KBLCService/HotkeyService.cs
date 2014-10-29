@@ -32,6 +32,8 @@ namespace KBLCService {
 
         private static string[] WindowTitles = new string[] { "DMO", "DigimonMastersOnline" };
 
+        public event Action Detached;
+
         private Window HookWindow = new Window() {
             Width = 0,
             Height = 0,
@@ -60,7 +62,6 @@ namespace KBLCService {
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Аргументы воркера</param>
         private void WorkerBody(object sender, DoWorkEventArgs e) {
-            this.IsStarted = true;
             if (IsAttach) {
                 String windowTitle = null;
 
@@ -122,10 +123,10 @@ namespace KBLCService {
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Аргументы воркера</param>
         private void WorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            this.IsStarted = false;
-            Hook.UnregisterHotKeys();
             if (IsAttach) {
-                Utils.CloseApp();
+                if (Detached != null) {
+                    Detached();
+                }
             }
         }
 
@@ -137,6 +138,7 @@ namespace KBLCService {
         public void Start(bool IsAttach, bool IsControl = false) {
             this.IsAttach = IsAttach;
             this.IsControl = IsControl;
+            this.IsStarted = true;
             Worker.RunWorkerAsync();
         }
 
@@ -144,7 +146,11 @@ namespace KBLCService {
         /// Остановка воркера
         /// </summary>
         public void Stop() {
-            Worker.CancelAsync();
+            if (IsStarted) {
+                this.IsStarted = false;
+                Hook.UnregisterHotKeys();
+                Worker.CancelAsync();
+            }
         }
 
         /// <summary>
@@ -202,6 +208,7 @@ namespace KBLCService {
             }
 
             if (Application.Current.Dispatcher.CheckAccess()) {
+                Hook.UnregisterHotKeys();
                 try {
                     if (IsControl) {
                         Hook.RegisterHotKey(ModifierKeys.Control | ModifierKeys.Shift, 0);

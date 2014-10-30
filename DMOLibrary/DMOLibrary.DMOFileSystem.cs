@@ -44,7 +44,13 @@ namespace DMOLibrary.DMOFileSystem {
         private string HeaderFile, PackageFile;
         public List<DMOFileEntry> ArchiveEntries = new List<DMOFileEntry>();
 
-        private bool IsOpened = false;
+        private bool _IsOpened = false;
+
+        public bool IsOpened {
+            get {
+                return _IsOpened;
+            }
+        }
 
         private BinaryWriter MapWriter;
         private FileStream ArchiveStream;
@@ -85,7 +91,7 @@ namespace DMOLibrary.DMOFileSystem {
         public bool Open(FileAccess access, int archiveHeader, string headerFile, string packageFile) {
             LOGGER.DebugFormat("Opening FileSystem: access={0}, archiveHeader={1}, headerFile={2}, packageFile={3}",
                 access, archiveHeader, headerFile, packageFile);
-            if (IsOpened) {
+            if (_IsOpened) {
                 return false;
             }
 
@@ -145,12 +151,12 @@ namespace DMOLibrary.DMOFileSystem {
                 }
             }
 
-            IsOpened = true;
+            _IsOpened = true;
             return true;
         }
 
         public void Close() {
-            if (IsOpened) {
+            if (_IsOpened) {
                 if (MapWriter != null) {
                     MapWriter.Close();
                     MapWriter.Dispose();
@@ -161,7 +167,7 @@ namespace DMOLibrary.DMOFileSystem {
                     ArchiveStream.Dispose();
                     ArchiveStream = null;
                 }
-                IsOpened = false;
+                _IsOpened = false;
             }
         }
 
@@ -179,7 +185,7 @@ namespace DMOLibrary.DMOFileSystem {
 
         public Stream ReadFile(int entryIndex) {
             LOGGER.DebugFormat("Reading file: entryIndex={0}", entryIndex);
-            if (!IsOpened && !(Access == FileAccess.Read || Access == FileAccess.ReadWrite)) {
+            if (!_IsOpened && !(Access == FileAccess.Read || Access == FileAccess.ReadWrite)) {
                 LOGGER.Error("Reading file failed: Archieve not opened or no read access");
                 return null;
             }
@@ -221,7 +227,7 @@ namespace DMOLibrary.DMOFileSystem {
 
         public bool WriteMapFile() {
             LOGGER.Debug("Writing map file...");
-            if (!IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
+            if (!_IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
                 LOGGER.Error("Writing map file failed: Archieve not opened or no write access");
                 return false;
             }
@@ -276,7 +282,7 @@ namespace DMOLibrary.DMOFileSystem {
 
         private bool _WriteStream(Stream SourceStream, uint entryId) {
             LOGGER.DebugFormat("Writing stream: entryId=\"{0}\"", entryId);
-            if (!IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
+            if (!_IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
                 LOGGER.Error("Writing stream failed: Archieve not opened or no write access");
                 return false;
             }
@@ -312,7 +318,7 @@ namespace DMOLibrary.DMOFileSystem {
 
         public bool WriteDirectory(string path, bool deleteOnComplete) {
             LOGGER.DebugFormat("Writing directory: path=\"{0}\", DeleteOnComplete={1}", path, deleteOnComplete);
-            if (!IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
+            if (!_IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
                 return false;
             }
             if (!Directory.Exists(path)) {

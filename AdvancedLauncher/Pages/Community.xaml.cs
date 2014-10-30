@@ -19,7 +19,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Validators;
@@ -28,8 +27,7 @@ using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Pages {
 
-    public partial class Community : UserControl {
-        private Storyboard ShowWindow;
+    public partial class Community : AbstractPage {
 
         private delegate void DoOneText(string text);
 
@@ -39,24 +37,15 @@ namespace AdvancedLauncher.Pages {
             Id = -1
         };
 
-        public Community() {
+        protected override void InitializeAbstractPage() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-                LanguageEnv.Languagechanged += delegate() {
-                    this.DataContext = LanguageEnv.Strings;
-                };
-                LauncherEnv.Settings.ProfileChanged += ProfileChanged;
-                TDBlock_.TabChanged += OnTabChanged;
-                ProfileChanged();
-            }
         }
 
-        public void Activate() {
-            ShowWindow.Begin();
+        public Community() {
+            TDBlock_.TabChanged += OnTabChanged;
         }
 
-        private void ProfileChanged() {
+        protected override void ProfileChanged() {
             //Очищаем все поля и списки
             GMaster.Text = GRank.Text = GRep.Text = GTop.Text = GDCnt.Text = GTCnt.Text = "-";
             TDBlock_.ClearAll();

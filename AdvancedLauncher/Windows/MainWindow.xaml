@@ -117,9 +117,15 @@
             <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
                 <Page:MainPage x:Name="MainPage" />
             </TabItem>
-            <TabItem x:Name="NavGallery" Header="{Binding MainWindow_GalleryTab}" />
-            <TabItem x:Name="NavCommunity" Header="{Binding MainWindow_CommunityTab}" />
-            <TabItem x:Name="NavPersonalization" Header="{Binding MainWindow_PersonalizationTab}" />
+            <TabItem x:Name="NavGallery" Header="{Binding MainWindow_GalleryTab}">
+                <Page:Gallery x:Name="Gallery" />
+            </TabItem>
+            <TabItem x:Name="NavCommunity" Header="{Binding MainWindow_CommunityTab}">
+                <Page:Community x:Name="Community" />
+            </TabItem>
+            <TabItem x:Name="NavPersonalization" Header="{Binding MainWindow_PersonalizationTab}">
+                <Page:Personalization x:Name="Personalization" />
+            </TabItem>
         </TabControl>
         <Menu:MainMenu x:Name="MainMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Width="170" />
     </Grid>

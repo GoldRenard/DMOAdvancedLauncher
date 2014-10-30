@@ -17,47 +17,24 @@
 // ======================================================================
 
 using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Windows {
 
-    public partial class About : UserControl {
-        private Storyboard ShowWindow, HideWindow;
+    public partial class About : AbstractWindow {
         private const string LICENSE_FILE = "Docs\\LICENSE.txt";
 
-        public About() {
+        protected override void InitializeAbstractWindow() {
             InitializeComponent();
-            LanguageEnv.Languagechanged += delegate() {
-                this.DataContext = LanguageEnv.Strings;
-            };
-            ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-            HideWindow = ((Storyboard)this.FindResource("HideWindow"));
-            LoadLicence();
         }
 
-        public void LoadLicence() {
+        public About() {
             if (File.Exists(LICENSE_FILE)) {
                 Licence.Text = File.ReadAllText(LICENSE_FILE);
             } else {
                 Licence.Text = string.Format(AdvancedLauncher.Environment.LanguageEnv.Strings.About_Licence404, LICENSE_FILE);
             }
-        }
-
-        public void Show(bool state) {
-            if (state) {
-                ShowWindow.Begin();
-            } else {
-                HideWindow.Begin();
-            }
-        }
-
-        private void OnCloseClick(object sender, RoutedEventArgs e) {
-            Show(false);
         }
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {

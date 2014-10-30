@@ -34,9 +34,8 @@ using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Pages {
 
-    public partial class Gallery : UserControl {
+    public partial class Gallery : AbstractPage {
         private bool IsGalleryInitialized = false;
-        private Storyboard ShowWindow;
 
         private delegate void DoAddThumb(BitmapImage bitmap, string path);
 
@@ -56,30 +55,17 @@ namespace AdvancedLauncher.Pages {
         private Storyboard AnimHide = new Storyboard();
         private bool IsAnimInitialized = false;
 
-        public Gallery() {
+        protected override void InitializeAbstractPage() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                Templates.DataContext = GalleryModel;
-                ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-                LanguageEnv.Languagechanged += delegate() {
-                    this.DataContext = LanguageEnv.Strings;
-                };
-                LauncherEnv.Settings.ProfileChanged += ProfileChanged;
-            }
         }
 
-        private void ProfileChanged() {
-            GalleryModel.UnLoadData();
-            IsGalleryInitialized = false;
+        public Gallery() {
+            Templates.DataContext = GalleryModel;
         }
 
-        public void Activate() {
+        public override void PageActivate() {
+            base.PageActivate();
             gamePath = LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath;
-            try {
-                ShowWindow.Begin();
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
             if (Directory.Exists(gamePath + screenshotPath)) {
                 if (Directory.GetFiles(gamePath + screenshotPath, "*.jpg").Length == 0) {
                     Info.SetBinding(TextBlock.TextProperty, GalleryNoScreenshots);
@@ -95,6 +81,11 @@ namespace AdvancedLauncher.Pages {
             if (!IsGalleryInitialized || GalleryModel.Count() != Directory.GetFiles(gamePath + screenshotPath, "*.jpg").Length) {
                 UpdateThumbs();
             }
+        }
+
+        protected override void ProfileChanged() {
+            GalleryModel.UnLoadData();
+            IsGalleryInitialized = false;
         }
 
         private void UpdateThumbs() {

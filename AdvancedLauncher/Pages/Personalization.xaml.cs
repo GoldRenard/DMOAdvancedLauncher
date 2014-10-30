@@ -23,7 +23,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
@@ -32,12 +31,12 @@ using Microsoft.Win32;
 
 namespace AdvancedLauncher.Pages {
 
-    public partial class Personalization : UserControl {
+    public partial class Personalization : AbstractPage {
         private byte[] CurrentImageBytes, SelectedImageBytes;
         private BitmapSource SelectedImage;
-        private Storyboard ShowWindow;
         private ResourceViewModel ResourceModel = new ResourceViewModel();
         private TargaImage TarImage = new TargaImage();
+        private DMOFileSystem FileSystem;
 
         //Microsoft.Win32.OpenFileDialog oFileDialog = new Microsoft.Win32.OpenFileDialog() { Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png" };
         private OpenFileDialog oFileDialog = new OpenFileDialog() {
@@ -51,19 +50,13 @@ namespace AdvancedLauncher.Pages {
         private const string RES_LIST_FILE = "\\ResourceList_{0}.cfg";
         private bool isGameImageLoaded = false;
 
-        public Personalization() {
+        protected override void InitializeAbstractPage() {
             InitializeComponent();
+        }
 
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-                LanguageEnv.Languagechanged += delegate() {
-                    this.DataContext = LanguageEnv.Strings;
-                };
-                LauncherEnv.Settings.ProfileChanged += ProfileChanged;
-                ItemsComboBox.ItemsSource = ResourceModel.Items;
-                this.Loaded += OnLoaded;
-                ProfileChanged();
-            }
+        public Personalization() {
+            ItemsComboBox.ItemsSource = ResourceModel.Items;
+            this.Loaded += OnLoaded;
         }
 
         /// <summary>
@@ -82,7 +75,8 @@ namespace AdvancedLauncher.Pages {
         /// <summary>
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
-        private void ProfileChanged() {
+        protected override void ProfileChanged() {
+            FileSystem = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
             LoadResourceList();
             ResetCurrent();
             ResetSelect();
@@ -92,15 +86,28 @@ namespace AdvancedLauncher.Pages {
         /// Активация страницы. При активации нам необходимо проверить не загружено ли изображение.
         /// Если не загружено и загружен список ресурсов - загружаем изображение
         /// </summary>
-        public void Activate() {
-            if (!isGameImageLoaded && ItemsComboBox.Items.Count > 0) {
-                if (ItemsComboBox.SelectedIndex == 0) {
-                    OnSelectionChanged(ItemsComboBox, null);
-                } else {
-                    ItemsComboBox.SelectedIndex = 0;
+        public override void PageActivate() {
+            base.PageActivate();
+            try {
+                FileSystem.Open(FileAccess.Read, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
+                if (!isGameImageLoaded && ItemsComboBox.Items.Count > 0) {
+                    if (ItemsComboBox.SelectedIndex == 0) {
+                        OnSelectionChanged(ItemsComboBox, null);
+                    } else {
+                        ItemsComboBox.SelectedIndex = 0;
+                    }
+                }
+            } catch {
+                MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            }
+        }
+
+        public override void PageClose() {
+            if (FileSystem != null) {
+                if (FileSystem.IsOpened) {
+                    FileSystem.Close();
                 }
             }
-            ShowWindow.Begin();
         }
 
         /// <summary>
@@ -217,24 +224,8 @@ namespace AdvancedLauncher.Pages {
             if (item == null) {
                 return false;
             }
-
-            DMOFileSystem dmoFS = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
-
-            //Открываем файловую систему игры
-            bool IsOpened = false;
-            try {
-                IsOpened = dmoFS.Open(FileAccess.Read, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
-            } catch {
-                IsOpened = false;
-            }
-
-            if (IsOpened) {
-                Stream file = null;
-                if (item.RID != 0) {                     //Если есть ИД, считываем по нему
-                    file = dmoFS.ReadFile(item.RID);
-                } else {
-                    file = dmoFS.ReadFile(item.RPath);   //Иначе считываем по пути ресурса
-                }
+            if (FileSystem.IsOpened) {
+                Stream file = item.RID != 0 ? FileSystem.ReadFile(item.RID) : FileSystem.ReadFile(item.RPath);
                 if (file != null) {
                     isGameImageLoaded = true;
                     MemoryStream ms = new MemoryStream();
@@ -242,12 +233,9 @@ namespace AdvancedLauncher.Pages {
                     CurrentImageBytes = ms.ToArray();
                     Current_Image.Source = LoadTGA(CurrentImageBytes);
                     SaveBtn.Visibility = Visibility.Visible;
-                    dmoFS.Close();
+                    ms.Close();
                     return true;
                 }
-                dmoFS.Close();
-            } else {
-                MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OK, MessageBoxImage.Asterisk);
             }
             return false;
         }

@@ -8,10 +8,10 @@
     <Color x:Key="NormalColor">#FF716EB2</Color>
     <Color x:Key="HighColor">#FF8985D8</Color>
     <Color x:Key="HighTPColor">#008985D8</Color>
-    <Color x:Key="PressedColor">#FF46455D</Color>
+    <Color x:Key="PressedColor">#FF575498</Color>
     <Color x:Key="DisabledColor">#FF46455D</Color>
     <Color x:Key="FGNormalColor">White</Color>
-    <Color x:Key="FGPressedColor">#BFB3F3</Color>
+    <Color x:Key="FGPressedColor">White</Color>
     <Color x:Key="FGDisabledColor">#ADADAD</Color>
     <Color x:Key="OuterStrokeColor">#8C000000</Color>
     <Color x:Key="InnerStrokeColor">#61FFFFFF</Color>
@@ -21,6 +21,7 @@
     <Color x:Key="TBFGDisabledColor">#887B7E9B</Color>
     <Color x:Key="TBFGReadOnlyColor">#887B7E9B</Color>
     <Color x:Key="TBErrorColor">#8CFF0000</Color>
+    <Color x:Key="CMPopupColor">#CC000000</Color>
 
     <Color x:Key="NormalMaskC1">#2Effffff</Color>
     <Color x:Key="NormalMaskC2">#2Ed2d2d2</Color>
@@ -41,6 +42,7 @@
     <SolidColorBrush x:Key="InnerStrokeBrush" Color="{StaticResource InnerStrokeColor}" x:Shared="False" />
     <SolidColorBrush x:Key="DeepSurfaceBrush" Color="{StaticResource DeepSurfaceColor}" x:Shared="False" />
     <SolidColorBrush x:Key="DeepSurfaceHighBrush" Color="{StaticResource DeepSurfaceHighColor}" x:Shared="False" />
+    <SolidColorBrush x:Key="CMPopupBrush" Color="{StaticResource CMPopupColor}" x:Shared="False" />
     <SolidColorBrush x:Key="TBFGNormalBrush" Color="{StaticResource TBFGNormalColor}" x:Shared="False" />
     <SolidColorBrush x:Key="TBFGDisabledBrush" Color="{StaticResource TBFGDisabledColor}" x:Shared="False" />
     <SolidColorBrush x:Key="TBFGReadOnlyBrush" Color="{StaticResource TBFGReadOnlyColor}" x:Shared="False" />
@@ -116,7 +118,7 @@
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource PressedColor}" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource PressedColor}" Duration="0:0:0.03" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -686,7 +688,7 @@
                                  IsReadOnly="{TemplateBinding IsReadOnly}" />
                         <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
                             <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border Name="DropDownBorder" CornerRadius="0,0,3,3" Background="{StaticResource DeepSurfaceHighBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1" />
+                                <Border Name="DropDownBorder" CornerRadius="0,0,3,3" Background="{StaticResource CMPopupBrush}" BorderBrush="{StaticResource DeepSurfaceBrush}" BorderThickness="1" />
                                 <Border IsHitTestVisible="False" Name="BorderInner" CornerRadius="0,0,3,3" Margin="0,0,0,-1" Background="Transparent" BorderBrush="{StaticResource TextBoxInnerGradient}" BorderThickness="1" />
                                 <ScrollViewer SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
@@ -1139,12 +1141,12 @@
                                                 CanContentScroll="{TemplateBinding CanContentScroll}" />
 
                         <ScrollBar Style="{StaticResource MagicoScrollBar}" Name="PART_VerticalScrollBar"
-							        Grid.Column="1"
+                                    Grid.Column="1"
                                     Grid.Row="0"
                                     Value="{TemplateBinding VerticalOffset}"
-							        Maximum="{TemplateBinding ScrollableHeight}"
-							        ViewportSize="{TemplateBinding ViewportHeight}"
-							        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                    Maximum="{TemplateBinding ScrollableHeight}"
+                                    ViewportSize="{TemplateBinding ViewportHeight}"
+                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                     IsTabStop="False"
                                     Orientation="Vertical"
                                     Minimum="0" />

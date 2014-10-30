@@ -44,10 +44,7 @@ namespace AdvancedLauncher.Windows {
 
         private Settings SettingsWindow = null;
         private About AboutWindow = null;
-        private Gallery GalleryTab = null;
-        private Personalization PersonalizationTab = null;
-        private Community CommunityTab = null;
-        private int currentTab = 0;
+        private AbstractPage currentTab;
 
         public MainWindow() {
             InitializeComponent();
@@ -125,44 +122,18 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void OnTabChanged(object sender, SelectionChangedEventArgs e) {
+            TabItem selectedTab = (TabItem)NavControl.SelectedValue;
+            AbstractPage selectedPage = (AbstractPage)selectedTab.Content;
             //Prevent handling over changing inside tab item
-            if (currentTab == NavControl.SelectedIndex) {
+            if (currentTab == selectedPage) {
                 return;
             }
-
-            switch (NavControl.SelectedIndex) {
-                case 0: {
-                        MainPage.Activate();
-                        break;
-                    }
-                case 1: {
-                        if (GalleryTab == null) {
-                            GalleryTab = new Gallery();
-                            NavGallery.Content = GalleryTab;
-                        }
-                        GalleryTab.Activate();
-                        break;
-                    }
-                case 2: {
-                        if (CommunityTab == null) {
-                            CommunityTab = new Community();
-                            NavCommunity.Content = CommunityTab;
-                        }
-                        CommunityTab.Activate();
-                        break;
-                    }
-                case 3: {
-                        if (PersonalizationTab == null) {
-                            PersonalizationTab = new Personalization();
-                            NavPersonalization.Content = PersonalizationTab;
-                        }
-                        PersonalizationTab.Activate();
-                        break;
-                    }
+            if (currentTab != null) {
+                currentTab.PageClose();
             }
-
-            currentTab = NavControl.SelectedIndex;
-            ((TabItem)NavControl.Items[currentTab]).Focus();
+            currentTab = selectedPage;
+            currentTab.PageActivate();
+            selectedTab.Focus();
         }
 
         private void OnSettingsClick(object sender, RoutedEventArgs e) {
@@ -170,7 +141,7 @@ namespace AdvancedLauncher.Windows {
                 SettingsWindow = new Settings();
                 LayoutRoot.Children.Add(SettingsWindow);
             }
-            SettingsWindow.Show(true);
+            SettingsWindow.Show();
         }
 
         private void OnAboutClick(object sender, RoutedEventArgs e) {
@@ -178,14 +149,14 @@ namespace AdvancedLauncher.Windows {
                 AboutWindow = new About();
                 LayoutRoot.Children.Add(AboutWindow);
             }
-            AboutWindow.Show(true);
+            AboutWindow.Show();
         }
 
         private void OnLoggerClick(object sender, RoutedEventArgs e) {
             if (!LayoutRoot.Children.Contains(Logger.Instance)) {
                 LayoutRoot.Children.Add(Logger.Instance);
             }
-            Logger.Instance.Show(true);
+            Logger.Instance.Show();
         }
     }
 }

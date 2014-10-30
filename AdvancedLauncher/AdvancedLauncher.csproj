@@ -141,6 +141,7 @@
     <Compile Include="Environment\Containers\Settings.cs" />
     <Compile Include="Environment\LanguageEnv.cs" />
     <Compile Include="Environment\LogAppender.cs" />
+    <Compile Include="Pages\AbstractPage.cs" />
     <Compile Include="Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>
     </Compile>
@@ -175,6 +176,7 @@
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AbstractWindow.cs" />
     <Compile Include="Windows\BugWindow.xaml.cs">
       <DependentUpon>BugWindow.xaml</DependentUpon>
     </Compile>

@@ -17,39 +17,27 @@
 // ======================================================================
 
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using AdvancedLauncher.Environment;
 using log4net;
 
 namespace AdvancedLauncher.Pages {
 
-    public partial class MainPage : UserControl {
+    public partial class MainPage : AbstractPage {
         public static readonly ILog LOGGER = LogManager.GetLogger(typeof(MainPage));
-        private Storyboard ShowWindow;
 
         private delegate void DoChangeTextNBool(string text, bool bool_);
 
-        public MainPage() {
+        protected override void InitializeAbstractPage() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-                NewsBlock_.TabChanged += NewsTabChanged;
-                Twitter.Click += NewsBlock_.OnShowTwitter;
-                Joymax.Click += NewsBlock_.OnShowJoymax;
-                LanguageEnv.Languagechanged += delegate() {
-                    this.DataContext = LanguageEnv.Strings;
-                };
-                LauncherEnv.Settings.ProfileChanged += ProfileChanged;
-                ProfileChanged();
-            }
         }
 
-        public void Activate() {
-            ShowWindow.Begin();
+        public MainPage() {
+            NewsBlock_.TabChanged += NewsTabChanged;
+            Twitter.Click += NewsBlock_.OnShowTwitter;
+            Joymax.Click += NewsBlock_.OnShowJoymax;
         }
 
-        private void ProfileChanged() {
+        protected override void ProfileChanged() {
             if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsNewsAvailable) {
                 Joymax.Visibility = Visibility.Visible;
                 NewsTabChanged(this, LauncherEnv.Settings.CurrentProfile.News.FirstTab);

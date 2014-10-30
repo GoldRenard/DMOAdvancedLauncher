@@ -142,6 +142,65 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="BlueButtonSmall" TargetType="{x:Type Button}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="MinHeight" Value="23" />
+        <Setter Property="MinWidth" Value="75" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border" Cursor="Hand" BorderThickness="1" CornerRadius="3" BorderBrush="#0B8EDA">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" To="#77CDFF" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" To="#1396E2" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#0B8EDA" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" To="#FC86DA" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" To="#EC2984" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#D7358C" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" To="#FC86DA" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" To="#EC2984" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#D7358C" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" To="#B5B5B5" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" To="#717171" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#5F5F5F" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#77CDFF" />
+                                <GradientStop Color="#1396E2" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Text" FontFamily="Arial" FontSize="{TemplateBinding FontSize}" FontWeight="Bold" Foreground="white" TextAlignment="Center" VerticalAlignment="Center"><ContentPresenter /></TextBlock>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Text" Property="FontSize" Value="13.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="BlueHyperLink" TargetType="{x:Type Hyperlink}">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -431,11 +490,11 @@
                         <Grid Grid.Column="1" Width="18" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
                             <Border CornerRadius="8" Margin="1" Background="{StaticResource BluePathBrush}" />
                             <ScrollBar Style="{StaticResource BlueScrollBar}" Name="PART_VerticalScrollBar"
-							        Margin="0,1,0,0"
+                                    Margin="0,1,0,0"
                                     Value="{TemplateBinding VerticalOffset}"
-							        Maximum="{TemplateBinding ScrollableHeight}"
-							        ViewportSize="{TemplateBinding ViewportHeight}"
-							        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+                                    Maximum="{TemplateBinding ScrollableHeight}"
+                                    ViewportSize="{TemplateBinding ViewportHeight}"
+                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
                         </Grid>
 
                         <Grid Grid.Column="0" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
@@ -539,11 +598,11 @@
                         <Border Grid.Column="1" CornerRadius="8" Margin="1" Background="{StaticResource RoundedSB_PathBrush}" />
                         <ScrollBar  Grid.Column="1"
                                     Name="PART_VerticalScrollBar"
-							        Style="{StaticResource RoundedSB}"
+                                    Style="{StaticResource RoundedSB}"
                                     Value="{TemplateBinding VerticalOffset}"
-							        Maximum="{TemplateBinding ScrollableHeight}"
-							        ViewportSize="{TemplateBinding ViewportHeight}"
-							        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+                                    Maximum="{TemplateBinding ScrollableHeight}"
+                                    ViewportSize="{TemplateBinding ViewportHeight}"
+                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

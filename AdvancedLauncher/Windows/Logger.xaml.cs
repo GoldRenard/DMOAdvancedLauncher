@@ -19,36 +19,20 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Commands;
 using log4net.Core;
 
 namespace AdvancedLauncher.Windows {
 
-    public partial class Logger : UserControl {
-        private Storyboard ShowWindow, HideWindow;
+    public partial class Logger : AbstractWindow {
 
-        public delegate void AddLogHandler(LoggingEvent logEvent);
+        private delegate void AddLogHandler(LoggingEvent logEvent);
 
         private int recentIndex = -1;
 
-        private class ClearCommand : Command {
-            private readonly Logger loggerInstance;
-
-            public ClearCommand(Logger loggerInstance)
-                : base("clear", "Clears the console log") {
-                this.loggerInstance = loggerInstance;
-            }
-
-            public override void DoCommand(string[] args) {
-                loggerInstance._LogEntries.Clear();
-                loggerInstance._LogEntriesFiltered.Clear();
-            }
-        }
+        #region Properties and structs
 
         private enum LogLevel {
             DEBUG,
@@ -93,34 +77,22 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private Logger() {
-            InitializeComponent();
-            LanguageEnv.Languagechanged += delegate() {
-                this.DataContext = LanguageEnv.Strings;
-            };
-            ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-            HideWindow = ((Storyboard)this.FindResource("HideWindow"));
-            this.Items.ItemsSource = LogEntriesFiltered;
+        #endregion Properties and structs
 
+        protected override void InitializeAbstractWindow() {
+            InitializeComponent();
+        }
+
+        private Logger() {
+            this.Items.ItemsSource = LogEntriesFiltered;
             CommandHandler.RegisterCommand(new ClearCommand(this));
         }
 
-        public void Show(bool state) {
-            if (state) {
-                this.Visibility = Visibility.Visible;
-                ShowWindow.Begin();
-                Dispatcher.BeginInvoke(
-                    DispatcherPriority.ContextIdle,
-                    new Action(delegate() {
-                    ConsoleInput.Focus();
-                }));
-            } else {
-                HideWindow.Begin();
-            }
-        }
-
-        private void OnCloseClick(object sender, RoutedEventArgs e) {
-            Show(false);
+        public override void Show() {
+            base.Show();
+            this.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate() {
+                ConsoleInput.Focus();
+            }));
         }
 
         public void AddEntry(LoggingEvent logEvent) {
@@ -233,6 +205,20 @@ namespace AdvancedLauncher.Windows {
 
                 default:
                     return recentIndex;
+            }
+        }
+
+        private class ClearCommand : Command {
+            private readonly Logger loggerInstance;
+
+            public ClearCommand(Logger loggerInstance)
+                : base("clear", "Clears the console log") {
+                this.loggerInstance = loggerInstance;
+            }
+
+            public override void DoCommand(string[] args) {
+                loggerInstance._LogEntries.Clear();
+                loggerInstance._LogEntriesFiltered.Clear();
             }
         }
 

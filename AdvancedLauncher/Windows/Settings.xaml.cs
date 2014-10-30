@@ -23,7 +23,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
@@ -31,7 +30,7 @@ using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Windows {
 
-    public partial class Settings : UserControl, INotifyPropertyChanged {
+    public partial class Settings : AbstractWindow, INotifyPropertyChanged {
         private string LINK_EAL_INSTALLING_RUS = "http://www.bolden.ru/index.php?option=com_content&task=view&id=76";
         private string LINK_EAL_INSTALLING = "http://www.voom.net/install-files-for-east-asian-languages-windows-xp";
         private string LINK_MS_APPLOCALE = "http://www.microsoft.com/en-us/download/details.aspx?id=2043";
@@ -45,18 +44,14 @@ namespace AdvancedLauncher.Windows {
         };
 
         private AdvancedLauncher.Environment.Containers.Settings settingsContainer;
-        private Storyboard ShowWindow, HideWindow;
         private int currentLangIndex;
 
-        public Settings() {
+        protected override void InitializeAbstractWindow() {
             InitializeComponent();
-            ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-            HideWindow = ((Storyboard)this.FindResource("HideWindow"));
+        }
 
+        public Settings() {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageEnv.Languagechanged += delegate() {
-                    this.DataContext = LanguageEnv.Strings;
-                };
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
 
                 //Copying settings object and set it as DataContext
@@ -227,13 +222,9 @@ namespace AdvancedLauncher.Windows {
 
         #region Global Actions Section
 
-        public void Show(bool state) {
-            (state ? ShowWindow : HideWindow).Begin();
-        }
-
-        private void OnCloseClick(object sender, RoutedEventArgs e) {
+        protected override void OnCloseClick(object sender, RoutedEventArgs e) {
             ComboBoxLanguage.SelectedIndex = currentLangIndex;
-            Show(false);
+            base.OnCloseClick(sender, e);
         }
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
@@ -241,7 +232,7 @@ namespace AdvancedLauncher.Windows {
             settingsContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
             LauncherEnv.Settings.Merge(settingsContainer);
             LauncherEnv.Save();
-            Show(false);
+            Close();
         }
 
         private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {

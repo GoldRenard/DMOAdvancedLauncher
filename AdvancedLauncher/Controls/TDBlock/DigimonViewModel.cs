@@ -154,20 +154,46 @@ namespace AdvancedLauncher.Controls {
 
         private static List<DigiImage> ImagesCollection = new List<DigiImage>();
 
-        public static BitmapImage GetImage(int digi_id) {
-            DigiImage Image = ImagesCollection.Find(i => i.Id == digi_id);
+        public static BitmapImage GetImage(int digimonId) {
+            DigiImage Image = ImagesCollection.Find(i => i.Id == digimonId);
             if (Image.Image != null) {
                 return Image.Image;
             }
 
-            string ImageFile = string.Format("{0}\\Community\\{1}.png", LauncherEnv.GetResourcesPath(), digi_id);
+            string Image3rdDirectory = string.Format("{0}\\Community\\3rd", LauncherEnv.GetResourcesPath());
+            string ImageFile = string.Format("{0}\\Community\\{1}.png", LauncherEnv.GetResourcesPath(), digimonId);
+            string ImageFile3rd = string.Format("{0}\\{1}.png", Image3rdDirectory, digimonId);
 
-            //If we don't have image, try to download it
+            //If we don't have image, try to download it from author's resource
             if (!File.Exists(ImageFile)) {
                 try {
-                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.REMOTE_PATH, digi_id), ImageFile);
+                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}Community/{1}.png", LauncherEnv.REMOTE_PATH, digimonId), ImageFile);
                 } catch {
                 }
+            }
+
+            //If we don't have image yet, try to download it from joymsx
+            if (!File.Exists(ImageFile) && !File.Exists(ImageFile3rd)) {
+                try {
+                    if (!Directory.Exists(Image3rdDirectory)) {
+                        Directory.CreateDirectory(Image3rdDirectory);
+                    }
+                    LauncherEnv.WebClient.DownloadFile(string.Format("http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/{0}.gif", digimonId), ImageFile3rd);
+                } catch {
+                }
+            }
+
+            //If we don't have image yet, try to download it from IMBC
+            if (!File.Exists(ImageFile) && !File.Exists(ImageFile3rd)) {
+                try {
+                    LauncherEnv.WebClient.DownloadFile(string.Format("http://dm.imbc.com/images/ranking/icon/{0}.gif", digimonId), ImageFile3rd);
+                } catch {
+                }
+            }
+
+            //If we don't have our own image but downloaded 3rd one, use it
+            if (!File.Exists(ImageFile) && File.Exists(ImageFile3rd)) {
+                ImageFile = ImageFile3rd;
             }
 
             if (File.Exists(ImageFile)) {
@@ -185,7 +211,7 @@ namespace AdvancedLauncher.Controls {
                 bitmap.Freeze();
                 ImagesCollection.Add(new DigiImage() {
                     Image = bitmap,
-                    Id = digi_id
+                    Id = digimonId
                 });
                 return bitmap;
             }

@@ -198,8 +198,9 @@ namespace AdvancedLauncher.Environment.Containers {
                 _GameEnv = value; NotifyPropertyChanged("GameEnv");
             }
             get {
-                if (!_GameEnv.IsInitialized)
+                if (!_GameEnv.IsInitialized) {
                     _GameEnv.Initialize();
+                }
                 return _GameEnv;
             }
         }

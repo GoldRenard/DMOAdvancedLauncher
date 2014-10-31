@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -27,6 +28,7 @@ namespace AdvancedLauncher.Service {
     /// Application running helper
     /// </summary>
     public static class ApplicationLauncher {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ApplicationLauncher));
 
         /// <summary>
         /// Execute process with AppLocale if it exists in system and allowed in SettingsProvider or execute it directly
@@ -48,12 +50,17 @@ namespace AdvancedLauncher.Service {
         /// <param name="useKBLC">Should use Keyboard Layout change service</param>
         /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
         public static bool Execute(string program, string args, bool useAL, bool useKBLC) {
+            LOGGER.DebugFormat("Trying to start: [program={0}, args={1}, useAL={2}, useKBLC={3}",
+                program, args, useAL, useKBLC);
             bool executed = false;
             if (File.Exists(program)) {
                 Process parent = ParentProcessUtilities.GetParentProcess();
                 bool isSteam = false;
                 if (parent != null) {
                     isSteam = parent.ProcessName.ToLower().Equals("steam");
+                }
+                if (isSteam) {
+                    LOGGER.DebugFormat("Steam found as parent process. Force disable AppLocale.");
                 }
                 if (useAL && !isSteam) {
                     if (!ExecuteAppLocale(program, args)) {
@@ -88,7 +95,8 @@ namespace AdvancedLauncher.Service {
                 proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(program);
                 proc.StartInfo.Arguments = commandline;
                 proc.Start();
-            } catch {
+            } catch (Exception e) {
+                LOGGER.Debug("Failed to start: [program={0}, commandline={1}]", e);
                 return false;
             }
             return true;

@@ -66,7 +66,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="{Binding About_Developer}" HorizontalAlignment="Left" />
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left">
-                                <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" RequestNavigate="OnRequestNavigate">GoldRenard (Erogov Ilya)</Hyperlink>
+                                <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" RequestNavigate="OnRequestNavigate">GoldRenard (Egorov Ilya)</Hyperlink>
                     </TextBlock>
 
                     <TextBlock Grid.Row="1" Text="{Binding About_DesignHelp}" HorizontalAlignment="Left" />
@@ -87,8 +87,8 @@
                 </StackPanel>
                 <StackPanel Margin="25,10,0,0">
                     <TextBlock Text="{Binding About_Translators}" />
-                    <TextBlock Margin="0,10,0,0" Text="English - GoldRenard (Erogov Ilya)" />
-                    <TextBlock Text="Russian - GoldRenard (Erogov Ilya)" />
+                    <TextBlock Margin="0,10,0,0" Text="English - GoldRenard (Egorov Ilya)" />
+                    <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
                     <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
                     <!--<TextBlock Text="Polish - Czip from digimonrpgonline.net" />-->
                 </StackPanel>

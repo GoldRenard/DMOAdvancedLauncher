@@ -67,30 +67,30 @@ namespace DMOLibrary {
         private static string Q_D_SELECT_RANDOM = @"
 SELECT * FROM (
     SELECT *, Tamers.name as 'tamer_name', Tamers.lvl as 'tamer_lvl' FROM (
-	    SELECT * FROM Digimons WHERE
-	    [serv_id] = {0} AND
-	    [tamer_id] IN (
-		    SELECT [id] FROM Tamers WHERE [serv_id] = {0} AND [isActive] = 1 AND [guild_id] = (
-			    SELECT [id] FROM Guilds WHERE [name] == '{1}'
-		    )
-	    ) AND
-	    [lvl] >= {2} AND
-	    [isActive] = 1
+        SELECT * FROM Digimons WHERE
+        [serv_id] = {0} AND
+        [tamer_id] IN (
+            SELECT [id] FROM Tamers WHERE [serv_id] = {0} AND [isActive] = 1 AND [guild_id] = (
+                SELECT [id] FROM Guilds WHERE [name] == '{1}'
+            )
+        ) AND
+        [lvl] >= {2} AND
+        [isActive] = 1
     ) as digimon JOIN Tamers ON digimon.tamer_id = Tamers.id AND Tamers.serv_id = {0}
 ) ORDER BY RANDOM() LIMIT 1";
 
         private static string Q_D_SELECT_RANDOM2 = @"
 SELECT * FROM (
     SELECT *, Tamers.name as 'tamer_name', Tamers.lvl as 'tamer_lvl' FROM (
-	    SELECT * FROM Digimons WHERE
-	    [serv_id] = {0} AND
-	    [tamer_id] IN (
-		    SELECT [id] FROM Tamers WHERE [serv_id] = {0} AND [name] = '{2}' AND [isActive] = 1 AND [guild_id] = (
-			    SELECT [id] FROM Guilds WHERE [name] = '{1}'
-		    )
-	    ) AND
-	    [lvl] >= {3} AND
-	    [isActive] = 1
+        SELECT * FROM Digimons WHERE
+        [serv_id] = {0} AND
+        [tamer_id] IN (
+            SELECT [id] FROM Tamers WHERE [serv_id] = {0} AND [name] = '{2}' AND [isActive] = 1 AND [guild_id] = (
+                SELECT [id] FROM Guilds WHERE [name] = '{1}'
+            )
+        ) AND
+        [lvl] >= {3} AND
+        [isActive] = 1
     ) as digimon JOIN Tamers ON digimon.tamer_id = Tamers.id AND Tamers.serv_id = {0}
 ) ORDER BY RANDOM() LIMIT 1";
 
@@ -143,65 +143,65 @@ SELECT * FROM (
         #region First initialization
 
         public static string CREATE_DATABASE_QUERY = @"CREATE TABLE Servers(
-	[id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	[name] CHAR(100) NOT NULL
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [name] CHAR(100) NOT NULL
 );
 CREATE TABLE Guilds(
-	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	[id] INTEGER NOT NULL,
-	[serv_id] INTEGER NOT NULL,
-	[name] CHAR(100) NOT NULL,
-	[rep] BIGINT NOT NULL,
-	[master_id] INT NOT NULL,
-	[master_name] CHAR(100) NOT NULL,
-	[rank] BIGINT NOT NULL,
-	[update_date] CHAR(100) NOT NULL,
-	[isDetailed] INTEGER NOT NULL,
-	FOREIGN KEY ([serv_id]) REFERENCES Servers([id])
+    [key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [id] INTEGER NOT NULL,
+    [serv_id] INTEGER NOT NULL,
+    [name] CHAR(100) NOT NULL,
+    [rep] BIGINT NOT NULL,
+    [master_id] INT NOT NULL,
+    [master_name] CHAR(100) NOT NULL,
+    [rank] BIGINT NOT NULL,
+    [update_date] CHAR(100) NOT NULL,
+    [isDetailed] INTEGER NOT NULL,
+    FOREIGN KEY ([serv_id]) REFERENCES Servers([id])
 );
 
 CREATE TABLE Tamer_types(
-	[id] INTEGER PRIMARY KEY NOT NULL,
-	[name] CHAR(100) NOT NULL
+    [id] INTEGER PRIMARY KEY NOT NULL,
+    [name] CHAR(100) NOT NULL
 );
 
 CREATE TABLE Tamers(
-	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	[id] INTEGER NOT NULL,
-	[serv_id] INTEGER NOT NULL,
-	[type_id] INT NOT NULL,
-	[guild_id] INTEGER NOT NULL,
-	[partner_key] INTEGER NOT NULL,
-	[isActive] INTEGER NOT NULL,
-	[name] CHAR(100) NOT NULL,
-	[rank] BIGINT NOT NULL,
-	[lvl] INT NOT NULL,
-	FOREIGN KEY ([serv_id]) REFERENCES Servers([id]),
-	FOREIGN KEY ([guild_id]) REFERENCES Guilds([id]),
-	FOREIGN KEY ([type_id]) REFERENCES Tamer_types([id])
+    [key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [id] INTEGER NOT NULL,
+    [serv_id] INTEGER NOT NULL,
+    [type_id] INT NOT NULL,
+    [guild_id] INTEGER NOT NULL,
+    [partner_key] INTEGER NOT NULL,
+    [isActive] INTEGER NOT NULL,
+    [name] CHAR(100) NOT NULL,
+    [rank] BIGINT NOT NULL,
+    [lvl] INT NOT NULL,
+    FOREIGN KEY ([serv_id]) REFERENCES Servers([id]),
+    FOREIGN KEY ([guild_id]) REFERENCES Guilds([id]),
+    FOREIGN KEY ([type_id]) REFERENCES Tamer_types([id])
 );
 
 CREATE TABLE Digimon_types(
-	[id] INTEGER PRIMARY KEY NOT NULL,
-	[name] CHAR(100) NOT NULL,
-	[name_alt] CHAR(100),
+    [id] INTEGER PRIMARY KEY NOT NULL,
+    [name] CHAR(100) NOT NULL,
+    [name_alt] CHAR(100),
     [name_korean] CHAR(100)
 );
 CREATE TABLE Digimons(
-	[key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	[serv_id] INTEGER NOT NULL,
-	[tamer_id] INT NOT NULL,
-	[type_id] INT NOT NULL,
-	[name] CHAR(100) NOT NULL,
-	[rank] BIGINT NOT NULL,
-	[isActive] INTEGER NOT NULL,
-	[lvl] INT NOT NULL,
-	[size_cm] REAL NOT NULL,
-	[size_pc] INT NOT NULL,
-	[size_rank] BIGINT NOT NULL,
-	FOREIGN KEY ([serv_id]) REFERENCES Servers([id]),
-	FOREIGN KEY ([tamer_id]) REFERENCES Tamers([id]),
-	FOREIGN KEY ([type_id]) REFERENCES Digimon_types([id])
+    [key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [serv_id] INTEGER NOT NULL,
+    [tamer_id] INT NOT NULL,
+    [type_id] INT NOT NULL,
+    [name] CHAR(100) NOT NULL,
+    [rank] BIGINT NOT NULL,
+    [isActive] INTEGER NOT NULL,
+    [lvl] INT NOT NULL,
+    [size_cm] REAL NOT NULL,
+    [size_pc] INT NOT NULL,
+    [size_rank] BIGINT NOT NULL,
+    FOREIGN KEY ([serv_id]) REFERENCES Servers([id]),
+    FOREIGN KEY ([tamer_id]) REFERENCES Tamers([id]),
+    FOREIGN KEY ([type_id]) REFERENCES Digimon_types([id])
 );
 
 INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean]) VALUES (31003, 'Gaomon', NULL, '가오몬');

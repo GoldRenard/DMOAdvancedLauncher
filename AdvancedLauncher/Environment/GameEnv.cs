@@ -94,6 +94,9 @@ namespace AdvancedLauncher.Environment {
         }
 
         public void Initialize() {
+            if (IsInitialized) {
+                return;
+            }
             IsInitialized = true;
             LoadType(Type);
             if (string.IsNullOrEmpty(pGamePath)) {
@@ -154,25 +157,11 @@ namespace AdvancedLauncher.Environment {
         #region Check Section
 
         public bool CheckGame() {
-            if (!IsInitialized) {
-                Initialize();
-            }
-            if (string.IsNullOrEmpty(pGamePath)) {
-                return false;
-            }
-            if (!File.Exists(Path.Combine(pGamePath, puLocalVer)) || !File.Exists(Path.Combine(pGamePath, pGameEXE))) {
-                return false;
-            }
-            if (!File.Exists(Path.Combine(pGamePath, puPF)) || !File.Exists(Path.Combine(pGamePath, puHF))) {
-                return false;
-            }
-            return true;
+            return CheckGame(pGamePath);
         }
 
         public bool CheckGame(string pGamePath) {
-            if (!IsInitialized) {
-                Initialize();
-            }
+            Initialize();
             if (string.IsNullOrEmpty(pGamePath)) {
                 return false;
             }
@@ -186,22 +175,11 @@ namespace AdvancedLauncher.Environment {
         }
 
         public bool CheckDefLauncher() {
-            if (!IsInitialized) {
-                Initialize();
-            }
-            if (string.IsNullOrEmpty(pDefLauncherPath)) {
-                return false;
-            }
-            if (!File.Exists(Path.Combine(pDefLauncherPath, pDefLauncherEXE))) {
-                return false;
-            }
-            return true;
+            return CheckDefLauncher(pDefLauncherPath);
         }
 
         public bool CheckDefLauncher(string pDefLauncherPath) {
-            if (!IsInitialized) {
-                Initialize();
-            }
+            Initialize();
             if (string.IsNullOrEmpty(pDefLauncherPath)) {
                 return false;
             }
@@ -233,76 +211,65 @@ namespace AdvancedLauncher.Environment {
         #region Get/Set Section
 
         public string GetGameEXE() {
-            if (!IsInitialized)
-                Initialize();
-            if (string.IsNullOrEmpty(pGamePath))
+            Initialize();
+            if (string.IsNullOrEmpty(pGamePath)) {
                 return null;
-            if (string.IsNullOrEmpty(pGameEXE))
-                return null;
+            }
             return Path.Combine(pGamePath, pGameEXE);
         }
 
         public string GetDefLauncherEXE() {
-            if (!IsInitialized)
-                Initialize();
-            if (string.IsNullOrEmpty(DefLauncherPath))
+            Initialize();
+            if (string.IsNullOrEmpty(DefLauncherPath)) {
                 return null;
-            if (string.IsNullOrEmpty(pDefLauncherEXE))
-                return null;
+            }
             return Path.Combine(DefLauncherPath, pDefLauncherEXE);
         }
 
         public string GetPFPath() {
-            if (!IsInitialized)
-                Initialize();
-            if (string.IsNullOrEmpty(pGamePath))
+            Initialize();
+            if (string.IsNullOrEmpty(pGamePath)) {
                 return null;
+            }
             return Path.Combine(pGamePath, puPF);
         }
 
         public string GetHFPath() {
-            if (!IsInitialized)
-                Initialize();
-            if (string.IsNullOrEmpty(pGamePath))
+            Initialize();
+            if (string.IsNullOrEmpty(pGamePath)) {
                 return null;
+            }
             return Path.Combine(pGamePath, puHF);
         }
 
         public string GetImportPath() {
-            if (!IsInitialized)
-                Initialize();
-            if (string.IsNullOrEmpty(pGamePath))
+            Initialize();
+            if (string.IsNullOrEmpty(pGamePath)) {
                 return null;
+            }
             return Path.Combine(pGamePath, puImportDir);
         }
 
         public string GetLocalVerFile() {
-            if (!IsInitialized)
-                Initialize();
-            if (string.IsNullOrEmpty(pGamePath))
+            Initialize();
+            if (string.IsNullOrEmpty(pGamePath)) {
                 return null;
+            }
             return Path.Combine(pGamePath, puLocalVer);
         }
 
         public string GetRemoteVerURL() {
-            if (!IsInitialized)
-                Initialize();
-            if (string.IsNullOrEmpty(puRemoteVer))
-                return null;
+            Initialize();
             return puRemoteVer;
         }
 
         public string GetPatchURL() {
-            if (!IsInitialized)
-                Initialize();
-            if (string.IsNullOrEmpty(puRemotePatch))
-                return null;
+            Initialize();
             return puRemotePatch;
         }
 
         public bool IsLastSessionAvailable() {
-            if (!IsInitialized)
-                Initialize();
+            Initialize();
             return pLastSessionAvailable;
         }
 

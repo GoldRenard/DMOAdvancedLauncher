@@ -7,6 +7,7 @@ namespace AdvancedLauncher.Controls {
     public class AutoScrollBehavior : Behavior<ScrollViewer> {
         private ScrollViewer Target = null;
         private double Height = 0.0d;
+        private const double DELTA_MULTIPLY = 0.2;
 
         protected override void OnAttached() {
             base.OnAttached();
@@ -16,7 +17,7 @@ namespace AdvancedLauncher.Controls {
 
         private void OnLayoutUpdated(object sender, EventArgs e) {
             if (this.Target.ExtentHeight != Height
-                && this.Height - this.Target.ContentVerticalOffset <= this.Target.ViewportHeight) {
+                && this.Height - this.Target.ContentVerticalOffset <= this.Target.ViewportHeight * DELTA_MULTIPLY) {
                 this.Target.ScrollToVerticalOffset(this.Target.ExtentHeight);
                 this.Height = this.Target.ExtentHeight;
             }

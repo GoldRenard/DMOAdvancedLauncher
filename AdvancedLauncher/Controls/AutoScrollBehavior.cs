@@ -7,7 +7,7 @@ namespace AdvancedLauncher.Controls {
     public class AutoScrollBehavior : Behavior<ScrollViewer> {
         private ScrollViewer Target = null;
         private double Height = 0.0d;
-        private const double DELTA_MULTIPLY = 0.2;
+        private const double DELTA_MULTIPLY = 2;
 
         protected override void OnAttached() {
             base.OnAttached();

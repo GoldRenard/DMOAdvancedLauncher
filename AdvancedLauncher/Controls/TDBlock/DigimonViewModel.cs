@@ -46,13 +46,12 @@ namespace AdvancedLauncher.Controls {
             private set;
         }
 
-        public void LoadData(Tamer tamer) {
-            this.IsDataLoaded = true;
+        private void LoadDigimonList(bool dbConnected, Tamer tamer) {
             string typeName;
             DigimonType dtype;
-            if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
+            if (dbConnected) {
                 foreach (Digimon item in tamer.Digimons) {
-                    dtype = Profile.GetJoymaxProfile().Database.GetDigimonTypeById(item.TypeId);
+                    dtype = Profile.GetJoymaxProfile().Database.GetDigimonTypeById(item.TypeId).GetValueOrDefault();
                     typeName = dtype.Name;
                     if (dtype.NameAlt != null) {
                         typeName += " (" + dtype.NameAlt + ")";
@@ -68,8 +67,7 @@ namespace AdvancedLauncher.Controls {
                         Rank = item.Rank
                     });
                 }
-                Profile.GetJoymaxProfile().Database.CloseConnection();
-            } else
+            } else {
                 foreach (Digimon item in tamer.Digimons) {
                     this.Items.Add(new DigimonItemViewModel {
                         DName = item.Name,
@@ -82,47 +80,27 @@ namespace AdvancedLauncher.Controls {
                         Rank = item.Rank
                     });
                 }
+            }
+        }
+
+        public void LoadData(Tamer tamer) {
+            this.IsDataLoaded = true;
+            bool isConnected = Profile.GetJoymaxProfile().Database.OpenConnection();
+            LoadDigimonList(isConnected, tamer);
+            if (isConnected) {
+                Profile.GetJoymaxProfile().Database.CloseConnection();
+            }
         }
 
         public void LoadData(List<Tamer> tamers) {
             this.IsDataLoaded = true;
-            string typeName;
-            DigimonType dtype;
-            if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
-                foreach (Tamer t in tamers) {
-                    foreach (Digimon item in t.Digimons) {
-                        dtype = Profile.GetJoymaxProfile().Database.GetDigimonTypeById(item.TypeId);
-                        typeName = dtype.Name;
-                        if (dtype.NameAlt != null)
-                            typeName += " (" + dtype.NameAlt + ")";
-                        this.Items.Add(new DigimonItemViewModel {
-                            DName = item.Name,
-                            DType = typeName,
-                            Image = GetImage(item.TypeId),
-                            TName = t.Name,
-                            Level = item.Lvl,
-                            SizePC = item.SizePc,
-                            Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
-                            Rank = item.Rank
-                        });
-                    }
-                }
+            bool isConnected = Profile.GetJoymaxProfile().Database.OpenConnection();
+            foreach (Tamer tamer in tamers) {
+                LoadDigimonList(isConnected, tamer);
+            }
+            if (isConnected) {
                 Profile.GetJoymaxProfile().Database.CloseConnection();
-            } else
-                foreach (Tamer t in tamers) {
-                    foreach (Digimon item in t.Digimons) {
-                        this.Items.Add(new DigimonItemViewModel {
-                            DName = item.Name,
-                            DType = "Unknown",
-                            Image = GetImage(item.TypeId),
-                            TName = t.Name,
-                            Level = item.Lvl,
-                            SizePC = item.SizePc,
-                            Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
-                            Rank = item.Rank
-                        });
-                    }
-                }
+            }
         }
 
         public void RemoveAt(int index) {

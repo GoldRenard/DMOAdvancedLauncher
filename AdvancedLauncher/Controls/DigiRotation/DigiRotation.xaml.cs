@@ -179,6 +179,7 @@ namespace AdvancedLauncher.Controls {
                     } else {
                         _IsLoading = false;
                         TaskManager.Tasks.Remove(LoadingTask);
+                        IsSourceLoaded = true;
                     }
                     //Убираем задачу загрузки
                 }
@@ -246,6 +247,9 @@ namespace AdvancedLauncher.Controls {
                 BitmapImage Medal = null;
                 Digimon d = null;
 
+                if (!LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
+                    return;
+                }
                 if (!string.IsNullOrEmpty(rTamer.Trim())) {
                     d = WebProfile.GetRandomDigimon(rServ, rGuild, rTamer.Trim(), 70);
                 }

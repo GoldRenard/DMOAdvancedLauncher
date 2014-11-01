@@ -179,6 +179,7 @@ namespace AdvancedLauncher.Controls {
                     } else {
                         _IsLoading = false;
                         TaskManager.Tasks.Remove(LoadingTask);
+                        IsSourceLoaded = true;
                     }
                     //Убираем задачу загрузки
                 }
@@ -246,6 +247,9 @@ namespace AdvancedLauncher.Controls {
                 BitmapImage Medal = null;
                 Digimon d = null;
 
+                if (!LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
+                    return;
+                }
                 if (!string.IsNullOrEmpty(rTamer.Trim())) {
                     d = WebProfile.GetRandomDigimon(rServ, rGuild, rTamer.Trim(), 70);
                 }
@@ -272,7 +276,7 @@ namespace AdvancedLauncher.Controls {
                 }), d.Name, d.Lvl, d.CustomTamerName, d.CustomTamerlvl, GetDigimonImage(d.TypeId), Medal);
             } else {
                 //Если статика - получаем рандомный тип и показываем
-                DigimonType dType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.RandomDigimonType();
+                DigimonType dType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.FindRandomDigimonType();
                 block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
                     vmodel.DType = DType_;
                     vmodel.Level = Level_;

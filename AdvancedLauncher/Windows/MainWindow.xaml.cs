@@ -47,7 +47,8 @@ namespace AdvancedLauncher.Windows {
         private AbstractPage currentTab;
 
         public MainWindow() {
-            var initiaizeProfile = LauncherEnv.Settings.CurrentProfile;
+            // force initialize default profile in current thread
+            var profile = LauncherEnv.Settings.CurrentProfile;
             InitializeComponent();
             if (!LayoutRoot.Children.Contains(Logger.Instance)) {
                 LayoutRoot.Children.Add(Logger.Instance);

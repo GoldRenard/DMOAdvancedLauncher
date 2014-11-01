@@ -47,7 +47,7 @@ namespace AdvancedLauncher.Controls {
             string typeName;
             DigimonType dtype;
             foreach (Digimon item in tamer.Digimons) {
-                dtype = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.GetDigimonTypeById(item.TypeId).GetValueOrDefault();
+                dtype = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.FindDigimonTypeById(item.TypeId).GetValueOrDefault();
                 typeName = dtype.Name;
                 if (dtype.NameAlt != null) {
                     typeName += " (" + dtype.NameAlt + ")";

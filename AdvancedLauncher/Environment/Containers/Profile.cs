@@ -286,17 +286,6 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        public static DMOProfile GetJoymaxProfile() {
-            DMOProfile profile;
-            if (profileCollection.ContainsKey(Environment.GameEnv.GameType.GDMO)) {
-                profileCollection.TryGetValue(Environment.GameEnv.GameType.GDMO, out profile);
-            } else {
-                profile = new DMOLibrary.Profiles.Joymax.DMOJoymax();
-                profileCollection.Add(Environment.GameEnv.GameType.GDMO, profile);
-            }
-            return profile;
-        }
-
         #endregion DMOLibrary.DMOProfile
 
         #region Constructors

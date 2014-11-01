@@ -205,7 +205,7 @@ namespace DMOLibrary.Profiles.Joymax {
                     digimonInfo.Name = ClearStr(mercenaryList.SelectNodes("//em[@class='partner']")[i].InnerText);
                     List<DigimonType> types = null;
                     string searchName = DMODatabase.PrepareDigimonSearch(digimonInfo.Name);
-                    types = Database.GetDigimonTypesBySearchGDMO(searchName);
+                    types = Database.FindDigimonTypesBySearchGDMO(searchName);
                     if (types == null) {
                         continue;
                     }
@@ -247,7 +247,7 @@ namespace DMOLibrary.Profiles.Joymax {
                 for (int i = 0; i <= dlist.Count - 1; i++) {
                     if (ClearStr(ranking.SelectNodes("//td[@class='tamer2']")[i].InnerText) == tamerName) {
                         string searchName = DMODatabase.PrepareDigimonSearch(digimon.Name);
-                        List<DigimonType> types = Database.GetDigimonTypesBySearchGDMO(searchName);
+                        List<DigimonType> types = Database.FindDigimonTypesBySearchGDMO(searchName);
                         if (types != null) {
                             if (types.Count > 0) {
                                 digimon.TypeId = types[0].Id;
@@ -272,7 +272,7 @@ namespace DMOLibrary.Profiles.Joymax {
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamerName);
 
-            DigimonType? tryType = Database.GetDigimonTypeById(digimon.TypeId);
+            DigimonType? tryType = Database.FindDigimonTypeById(digimon.TypeId);
             if (tryType == null) {
                 return false;
             }

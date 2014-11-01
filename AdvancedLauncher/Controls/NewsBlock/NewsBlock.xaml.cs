@@ -487,34 +487,36 @@ namespace AdvancedLauncher.Controls {
         #region Joymax news
 
         private void GetJoymaxNews() {
-            List<NewsItem> news = Environment.Containers.Profile.GetJoymaxProfile().NewsProfile.GetNews();
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) => {
-                Rect viewbox;
-                string mode;
-                foreach (NewsItem n in news) {
-                    mode = n.Mode;
-                    if (mode == "NOTICE") {
-                        viewbox = new Rect(215, 54, 90, 18);
-                        mode = LanguageEnv.Strings.NewsType_Notice;
-                    } else if (mode == "EVENT") {
-                        viewbox = new Rect(215, 36, 90, 18);
-                        mode = LanguageEnv.Strings.NewsType_Event;
-                    } else if (mode == "PATCH") {
-                        viewbox = new Rect(215, 0, 90, 18);
-                        mode = LanguageEnv.Strings.NewsType_Patch;
-                    } else {
-                        viewbox = new Rect(215, 0, 90, 18);
+            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile != null) {
+                List<NewsItem> news = LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile.GetNews();
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) => {
+                    Rect viewbox;
+                    string mode;
+                    foreach (NewsItem n in news) {
+                        mode = n.Mode;
+                        if (mode == "NOTICE") {
+                            viewbox = new Rect(215, 54, 90, 18);
+                            mode = LanguageEnv.Strings.NewsType_Notice;
+                        } else if (mode == "EVENT") {
+                            viewbox = new Rect(215, 36, 90, 18);
+                            mode = LanguageEnv.Strings.NewsType_Event;
+                        } else if (mode == "PATCH") {
+                            viewbox = new Rect(215, 0, 90, 18);
+                            mode = LanguageEnv.Strings.NewsType_Patch;
+                        } else {
+                            viewbox = new Rect(215, 0, 90, 18);
+                        }
+                        JoymaxNews.Add(new JoymaxItemViewModel {
+                            Title = n.Subject,
+                            Content = n.Content,
+                            Date = n.Date,
+                            Type = mode,
+                            Link = n.Url,
+                            ImgVB = viewbox
+                        });
                     }
-                    JoymaxNews.Add(new JoymaxItemViewModel {
-                        Title = n.Subject,
-                        Content = n.Content,
-                        Date = n.Date,
-                        Type = mode,
-                        Link = n.Url,
-                        ImgVB = viewbox
-                    });
-                }
-            }), news);
+                }), news);
+            }
         }
 
         #endregion Joymax news

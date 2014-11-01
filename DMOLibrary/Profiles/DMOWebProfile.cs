@@ -110,15 +110,15 @@ namespace DMOLibrary.Profiles {
         }
 
         public Digimon GetRandomDigimon(Server serv, string guildName, int minlvl) {
-            return Database.RandomDigimon(serv, guildName, minlvl);
+            return Database.FindRandomDigimon(serv, guildName, minlvl);
         }
 
         public Digimon GetRandomDigimon(Server serv, string guildName, string tamerName, int minlvl) {
-            return Database.RandomDigimon(serv, guildName, tamerName, minlvl);
+            return Database.FindRandonDigimon(serv, guildName, tamerName, minlvl);
         }
 
         public DigimonType GetRandomDigimonType() {
-            return Database.RandomDigimonType();
+            return Database.FindRandomDigimonType();
         }
 
         public abstract List<DigimonType> GetDigimonTypes();

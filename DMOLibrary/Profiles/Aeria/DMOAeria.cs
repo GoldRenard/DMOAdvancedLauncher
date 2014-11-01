@@ -29,7 +29,7 @@ namespace DMOLibrary.Profiles.Aeria {
             typeName = "Aeria";
             Database = new DMODatabase(GetDatabasePath(), "INSERT INTO Servers([name]) VALUES ('Seraphimon');");
             if (Database.OpenConnection()) {
-                _ServerList = Database.GetServers();
+                _ServerList = Database.FindServers();
                 Database.CloseConnection();
             }
             _IsLoginRequired = true;

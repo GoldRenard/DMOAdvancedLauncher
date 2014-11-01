@@ -7,7 +7,7 @@ DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no
 DefaultGroupName=Digimon Masters Online
 OutputDir=.\Setups\
-OutputBaseFilename=DMOLauncher_Setup_2.2.4981.21424
+OutputBaseFilename=DMOLauncher_Setup_2.3a
 SetupIconFile=..\AdvancedLauncher\app_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -29,10 +29,10 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "..\AdvancedLauncher\bin\Release\*"; DestDir: "{app}"; Excludes: "*.pdb,\Databases\*,\Configs\*,*.vshost.*,*.xml"; Flags: ignoreversion recursesubdirs
-Source: "Apps\apploc.msi"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
-Source: "Apps\AppLoc.exe"; DestDir:"{win}\apppatch"; Flags: ignoreversion uninsneveruninstall; BeforeInstall: InstallAL('{tmp}\apploc.msi')
-Source: "Apps\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
-Source: "Apps\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Check: not CheckForNetFx4 
+Source: "apploc.msi"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
+Source: "AppLoc.exe"; DestDir:"{win}\apppatch"; Flags: ignoreversion uninsneveruninstall; BeforeInstall: InstallAL('{tmp}\apploc.msi')
+Source: "vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall;
+Source: "dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Check: not CheckForNetFx4 
 
 [InstallDelete]
 Type: files; Name: "{app}\Databases\*.sqlite"

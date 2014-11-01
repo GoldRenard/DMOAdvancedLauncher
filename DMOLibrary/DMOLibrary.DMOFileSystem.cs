@@ -203,9 +203,9 @@ namespace DMOLibrary.DMOFileSystem {
             } //check if exists
             catch {
                 try {
-                    mmf = MemoryMappedFile.CreateFromFile(PackageFile, FileMode.Open, mapName, 0, MemoryMappedFileAccess.Read);
-                } catch {
-                    LOGGER.Error("Reading file failed: Unable to create MemoryMappedFile");
+                    mmf = MemoryMappedFile.CreateFromFile(ArchiveStream, mapName, 0, MemoryMappedFileAccess.Read, null, HandleInheritability.None, true);
+                } catch (Exception e) {
+                    LOGGER.Error("Reading file failed: Unable to create MemoryMappedFile", e);
                     return null;
                 }
             } // or not - open*/
@@ -213,8 +213,8 @@ namespace DMOLibrary.DMOFileSystem {
             MemoryMappedViewStream outStream;
             try {
                 outStream = mmf.CreateViewStream(ArchiveEntries[entryIndex].Offset, ArchiveEntries[entryIndex].SizeCurrent, MemoryMappedFileAccess.Read);
-            } catch {
-                LOGGER.Error("Reading file failed: Unable to create MemoryMappedViewStream");
+            } catch (Exception e) {
+                LOGGER.Error("Reading file failed: Unable to create MemoryMappedViewStream", e);
                 return null;
             }
 

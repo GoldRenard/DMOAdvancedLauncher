@@ -89,7 +89,7 @@ namespace AdvancedLauncher.Pages {
         public override void PageActivate() {
             base.PageActivate();
             try {
-                FileSystem.Open(FileAccess.Read, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
+                FileSystem.Open(FileAccess.ReadWrite, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
                 if (!isGameImageLoaded && ItemsComboBox.Items.Count > 0) {
                     if (ItemsComboBox.SelectedIndex == 0) {
                         OnSelectionChanged(ItemsComboBox, null);
@@ -246,30 +246,18 @@ namespace AdvancedLauncher.Pages {
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры события</param>
         private void OnApplyClick(object sender, RoutedEventArgs e) {
-            //Открываем файловую систему игры
-            DMOFileSystem dmoFS = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
-            bool IsOpened = false;
-            try {
-                IsOpened = dmoFS.Open(FileAccess.Write, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
-            } catch {
-                IsOpened = false;
+            ResourceItemViewModel selectedResource = (ResourceItemViewModel)ItemsComboBox.SelectedValue;
+            bool writeResult = false;
+            if (selectedResource.IsRID) {
+                writeResult = FileSystem.WriteStream(new MemoryStream(SelectedImageBytes), selectedResource.RID);
+            } else {
+                writeResult = FileSystem.WriteStream(new MemoryStream(SelectedImageBytes), selectedResource.RPath);
             }
 
-            if (IsOpened) {
-                ResourceItemViewModel selectedResource = (ResourceItemViewModel)ItemsComboBox.SelectedValue;
-                bool writeResult = false;
-                if (selectedResource.IsRID) {
-                    writeResult = dmoFS.WriteStream(new MemoryStream(SelectedImageBytes), selectedResource.RID);
-                } else {
-                    writeResult = dmoFS.WriteStream(new MemoryStream(SelectedImageBytes), selectedResource.RPath);
-                }
-                dmoFS.Close();
-
-                if (!writeResult) {
-                    Utils.MSG_ERROR(LanguageEnv.Strings.PersonalizationCantWrite);
-                } else {
-                    isGameImageLoaded = LoadGameImage(selectedResource);
-                }
+            if (!writeResult) {
+                Utils.MSG_ERROR(LanguageEnv.Strings.PersonalizationCantWrite);
+            } else {
+                isGameImageLoaded = LoadGameImage(selectedResource);
             }
         }
 

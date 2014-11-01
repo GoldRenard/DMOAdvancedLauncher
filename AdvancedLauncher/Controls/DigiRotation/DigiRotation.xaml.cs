@@ -108,6 +108,11 @@ namespace AdvancedLauncher.Controls {
         private void MainWorkerFunc(object sender, DoWorkEventArgs e) {
             //Ротация в цикле
             while (true) {
+                if (!LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
+                    System.Threading.Thread.Sleep(ROTATION_INTERVAL);
+                    continue;
+                }
+
                 //Если источник не загружен
                 if (!IsSourceLoaded) {
                     //Добавляем задачу загрузки
@@ -138,6 +143,7 @@ namespace AdvancedLauncher.Controls {
                     //Проверяем, доступен ли веб-профиль и необходимая информация
                     if (LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile != null && !string.IsNullOrEmpty(rGuild)) {
                         rServ = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetServerById(LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1);
+
                         //Устанавливаем новый профиль
                         WebProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile;
                         //Регистрируем ивенты загрузки
@@ -186,8 +192,7 @@ namespace AdvancedLauncher.Controls {
                             sbb2.Begin();
                         }));
                         System.Threading.Thread.Sleep(ROTATION_INTERVAL);
-                    }
-                    if (IsSourceLoaded) {
+
                         UpdateDigiInfo(ref Block1, Block1Model);
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             sbb1.Begin();
@@ -195,7 +200,6 @@ namespace AdvancedLauncher.Controls {
                         System.Threading.Thread.Sleep(ROTATION_INTERVAL);
                     }
                 } else {
-                    System.Threading.Thread.Sleep(ROTATION_INTERVAL);
                 }
             }
         }

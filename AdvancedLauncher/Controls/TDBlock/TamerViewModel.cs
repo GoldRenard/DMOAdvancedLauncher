@@ -24,7 +24,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
-using AdvancedLauncher.Environment.Containers;
 using DMOLibrary;
 
 namespace AdvancedLauncher.Controls {
@@ -47,31 +46,18 @@ namespace AdvancedLauncher.Controls {
 
         public void LoadData(List<Tamer> List) {
             this.IsDataLoaded = true;
-            if (Profile.GetJoymaxProfile().Database.OpenConnection()) {
-                foreach (Tamer item in List)
-                    this.Items.Add(new TamerItemViewModel {
-                        TName = item.Name,
-                        TType = Profile.GetJoymaxProfile().Database.GetTamerTypeById(item.TypeId).Name,
-                        Level = item.Lvl,
-                        PName = item.PartnerName,
-                        Rank = item.Rank,
-                        DCnt = item.Digimons.Count,
-                        Tamer = item,
-                        Image = GetImage(item.TypeId)
-                    });
-                Profile.GetJoymaxProfile().Database.CloseConnection();
-            } else
-                foreach (Tamer item in List)
-                    this.Items.Add(new TamerItemViewModel {
-                        TName = item.Name,
-                        TType = "Unknown",
-                        Level = item.Lvl,
-                        PName = item.PartnerName,
-                        Rank = item.Rank,
-                        DCnt = item.Digimons.Count,
-                        Tamer = item,
-                        Image = GetImage(item.TypeId)
-                    });
+            foreach (Tamer item in List) {
+                this.Items.Add(new TamerItemViewModel {
+                    TName = item.Name,
+                    TType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.GetTamerTypeById(item.TypeId).Name,
+                    Level = item.Lvl,
+                    PName = item.PartnerName,
+                    Rank = item.Rank,
+                    DCnt = item.Digimons.Count,
+                    Tamer = item,
+                    Image = GetImage(item.TypeId)
+                });
+            }
         }
 
         public void UnLoadData() {

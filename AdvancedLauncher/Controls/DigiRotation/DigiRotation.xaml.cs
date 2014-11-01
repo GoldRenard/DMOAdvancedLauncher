@@ -69,7 +69,6 @@ namespace AdvancedLauncher.Controls {
         private delegate void UpdateInfo(string dType, int lvl, string tamerName, int tamerLevel, ImageSource image, ImageSource medal);
 
         private DMOWebProfile WebProfile = null;
-        private DMOProfile StaticProfile = null;
 
         //Данная структура и список используются для хранения и использования уже загруженных изображений и предотвращения их повторной загрузки
         private struct DigiImage {
@@ -85,7 +84,6 @@ namespace AdvancedLauncher.Controls {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                StaticProfile = Environment.Containers.Profile.GetJoymaxProfile();
                 LanguageEnv.Languagechanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
@@ -108,9 +106,11 @@ namespace AdvancedLauncher.Controls {
         private void MainWorkerFunc(object sender, DoWorkEventArgs e) {
             //Ротация в цикле
             while (true) {
-                if (!LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
-                    System.Threading.Thread.Sleep(ROTATION_INTERVAL);
-                    continue;
+                if (LauncherEnv.Settings.CurrentProfile.DMOProfile.Database != null) {
+                    if (!LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
+                        System.Threading.Thread.Sleep(ROTATION_INTERVAL);
+                        continue;
+                    }
                 }
 
                 //Если источник не загружен
@@ -155,8 +155,6 @@ namespace AdvancedLauncher.Controls {
                         WebProfile.DownloadCompleted -= OnDownloadComplete;
                         WebProfile.StatusChanged -= OnStatusChange;
                     } else {
-                        //Иначе запускаем статическую ротацию просто со слайдшоу дигимонов
-                        WebProfile = StaticProfile.WebProfile;
                         //Блоки с инфой нам не нужны, скрываем
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             BlockPanel1.Visibility = Visibility.Collapsed;
@@ -274,7 +272,7 @@ namespace AdvancedLauncher.Controls {
                 }), d.Name, d.Lvl, d.CustomTamerName, d.CustomTamerlvl, GetDigimonImage(d.TypeId), Medal);
             } else {
                 //Если статика - получаем рандомный тип и показываем
-                DigimonType dType = WebProfile.GetRandomDigimonType();
+                DigimonType dType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.RandomDigimonType();
                 block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
                     vmodel.DType = DType_;
                     vmodel.Level = Level_;

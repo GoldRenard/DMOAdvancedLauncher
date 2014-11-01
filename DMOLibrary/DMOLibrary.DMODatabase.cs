@@ -34,6 +34,7 @@ namespace DMOLibrary {
         private static string SQL_CANT_DELETE_DB = "SQLite Error: Cant't delete old database.";
 
         private bool isConnected = false;
+
         public bool IsConnected {
             get {
                 return isConnected;
@@ -125,8 +126,8 @@ SELECT * FROM (
         }
 
         public bool OpenConnection() {
-            while (isConnected) {
-                DispatcherHelper.DoEvents();
+            if (isConnected) {
+                return true; // already connected
             }
             try {
                 connection.Open();
@@ -141,6 +142,9 @@ SELECT * FROM (
         }
 
         public bool CloseConnection() {
+            if (!isConnected) {
+                return true; //already disconnected
+            }
             try {
                 transaction.Commit();
                 connection.Close();

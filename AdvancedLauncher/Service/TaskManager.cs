@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Service {
 
@@ -61,6 +62,9 @@ namespace AdvancedLauncher.Service {
                 }
             };
             queueWorker.RunWorkerCompleted += (s, e) => {
+                if (LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
+                    LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.CloseConnection();
+                }
                 if (!Application.Current.Dispatcher.CheckAccess()) {
                     Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                         Application.Current.Shutdown();

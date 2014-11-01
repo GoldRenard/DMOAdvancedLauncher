@@ -100,6 +100,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\AutoScrollBehavior.cs" />
+    <Compile Include="Controls\TDBlock\IconHolder.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
     </Compile>

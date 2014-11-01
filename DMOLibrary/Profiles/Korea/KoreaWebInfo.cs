@@ -248,7 +248,7 @@ namespace DMOLibrary.Profiles.Korea {
                     List<DigimonType> types = null;
                     if (Database.OpenConnection()) {
                         string searchName = DMODatabase.PrepareDigimonSearch(digimonInfo.Name);
-                        types = Database.GetDigimonTypesBySearchKDMO(digimonInfo.Name);
+                        types = Database.GetDigimonTypesBySearchKDMO(searchName);
                         Database.CloseConnection();
                     }
                     if (types == null) {

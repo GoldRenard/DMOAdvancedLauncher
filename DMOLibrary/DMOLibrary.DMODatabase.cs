@@ -45,7 +45,7 @@ namespace DMOLibrary {
         private static string Q_DTYPE_BY_SEARCH_KDMO = "SELECT * FROM Digimon_types WHERE [search_kdmo] = '{0}';";
         private static string Q_DTYPE_COUNT = "SELECT count([key]) FROM Digimon_types WHERE [id] = {0};";
         private static string Q_DTYPE_INSERT = "INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES ({0}, '{1}', '{2}', '{3}', '{4}', '{5}');";
-        private static string Q_DTYPE_GUPDATE = "UPDATE Digimon_types SET [name] = '{1}', [search_gdmo] = '{2}' WHERE [id] = {0};";
+        private static string Q_DTYPE_GUPDATE = "UPDATE Digimon_types SET [search_gdmo] = '{1}' WHERE [id] = {0};";
         private static string Q_DTYPE_KUPDATE = "UPDATE Digimon_types SET [name_korean] = '{1}', [search_kdmo] = '{2}' WHERE [id] = {0};";
         private static string Q_TTYPE_BY_ID = "SELECT * FROM Tamer_types WHERE [id] = '{0}';";
         private static string Q_S_BY_NAME = "SELECT * FROM Servers;";
@@ -284,6 +284,28 @@ INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo]
 INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (33068, 'Gazimon', NULL, '가지몬', 'gazimon', '가지몬');
 INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (31040, 'Swimmon', NULL, '스윔몬', 'swimmon', '스윔몬');
 
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (33003, 'Dorulumon', NULL, '도루루몬', 'dorulumon', '도루루몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (45160, 'Lucemon', NULL, '루체몬', 'lucemon', '루체몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (33002, 'Ballistamon', NULL, '바리스타몬', 'ballistamon', '바리스타몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (45166, 'Baihumon', NULL, '백호몬', 'baihumon', '백호몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (35145, 'Psychemon', NULL, '사이케몬', 'psychemon', '사이케몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (33001, 'Shoutmon', NULL, '샤우트몬', 'shoutmon', '샤우트몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (71080, 'Shoutmon', 'X2', '샤우트몬X2', 'shoutmonx2', '샤우트몬X2');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (71087, 'Shoutmon', 'X3', '샤우트몬X3', 'shoutmonx3', '샤우트몬X3');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (31147, 'Syakomon', NULL, '샤코몬', 'syakomon', '샤코몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (31052, 'Gomamon', 'Jijimon', '쉬라몬(할배몬계열)', 'gomamonjijimon', '쉬라몬할배몬계열');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (31144, 'Armadillomon', 'Shakkoumon', '아르마몬(토우몬계열)', 'armadillomonshakkoumon', '아르마몬토우몬계열');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (35143, 'Otamamon', NULL, '올챙몬', 'otamamon', '올챙몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (45163, 'Zhuqiaomon', NULL, '주작몬', 'zhuqiaomon', '주작몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (45164, 'Quinglongmon', NULL, '청룡몬', 'quinglongmon', '청룡몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (33070, 'Tsukaimon', 'Murmukusmon', '츄카이몬(무크스몬계열)', 'tsukaimonmurmukusmon', '츄카이몬무크스몬계열');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (35144, 'ToyAgumon', NULL, '토이아구몬', 'toyagumon', '토이아구몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (31143, 'Patamon', 'Shakkoumon', '파닥몬(토우몬계열)', 'patamonshakkoumon', '파닥몬토우몬계열');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (35139, 'Salamon', 'Lilithmon', '플롯트몬(리리스몬계열)', 'salamonlilithmon', '플롯트몬리리스몬계열');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (31146, 'Salamon', 'Silphymon', '플롯트몬(실피드몬계열)', 'salamonsilphymon', '플롯트몬실피드몬계열');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (45165, 'Xuanwumon', NULL, '현무몬', 'xuanwumon', '현무몬');
+INSERT INTO Digimon_types([id], [name], [name_alt], [name_korean], [search_gdmo], [search_kdmo]) VALUES (31145, 'Hawkmon', 'Silphymon', '호크몬(실피드몬계열)', 'hawkmonsilphymon', '호크몬실피드몬계열');
+
 INSERT INTO Tamer_types([id], [name]) VALUES (80001, 'Marcus Damon');
 INSERT INTO Tamer_types([id], [name]) VALUES (80002, 'Thomas H. Norstein');
 INSERT INTO Tamer_types([id], [name]) VALUES (80003, 'Yoshino Fujieda');
@@ -292,6 +314,8 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80005, 'Taichi Kamiya');
 INSERT INTO Tamer_types([id], [name]) VALUES (80006, 'Tachikawa Mimi');
 INSERT INTO Tamer_types([id], [name]) VALUES (80007, 'Ishida Yamato');
 INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
+INSERT INTO Tamer_types([id], [name]) VALUES (80009, 'Sora Takenouchi');
+INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
 ";
 
         private bool RecreateDB(string cInitQuery) {
@@ -640,18 +664,21 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
         }
 
         public bool WriteDigimonType(DigimonType type, bool isKorean) {
-            DigimonType? tryType = GetDigimonTypeById(type.Id);
-            if (tryType == null) {
-                string query;
+            string query;
+            if (GetDigimonTypeById(type.Id) == null) {
                 if (isKorean) {
                     query = string.Format(Q_DTYPE_INSERT, type.Id, type.Name, String.Empty, type.Name, String.Empty, PrepareDigimonSearch(type.Name));
                 } else {
                     query = string.Format(Q_DTYPE_INSERT, type.Id, type.Name, String.Empty, String.Empty, PrepareDigimonSearch(type.Name), String.Empty);
                 }
-                return Query(query);
+            } else {
+                if (isKorean) {
+                    query = string.Format(Q_DTYPE_KUPDATE, type.Id, type.Name, PrepareDigimonSearch(type.Name));
+                } else {
+                    query = string.Format(Q_DTYPE_GUPDATE, type.Id, PrepareDigimonSearch(type.Name));
+                }
             }
-            DigimonType digimonType = (DigimonType)tryType;
-            return Query(string.Format(isKorean ? Q_DTYPE_KUPDATE : Q_DTYPE_GUPDATE, type.Id, type.Name, PrepareDigimonSearch(type.Name)));
+            return Query(query);
         }
 
         private string GetWriteDigimonQuery(Digimon d, bool isDetailed) {

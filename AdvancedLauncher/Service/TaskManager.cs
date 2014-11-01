@@ -62,7 +62,7 @@ namespace AdvancedLauncher.Service {
                 }
             };
             queueWorker.RunWorkerCompleted += (s, e) => {
-                if (LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
+                if (LauncherEnv.Settings.CurrentProfile.DMOProfile.Database != null) {
                     LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.CloseConnection();
                 }
                 if (!Application.Current.Dispatcher.CheckAccess()) {

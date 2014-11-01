@@ -27,6 +27,11 @@ namespace DMOLibrary.Profiles.Aeria {
 
         private void InitVars() {
             typeName = "Aeria";
+            Database = new DMODatabase(GetDatabasePath(), "INSERT INTO Servers([name]) VALUES ('Seraphimon');");
+            if (Database.OpenConnection()) {
+                _ServerList = Database.GetServers();
+                Database.CloseConnection();
+            }
             _IsLoginRequired = true;
             _NewsProfile = new JMNews();
         }
@@ -74,6 +79,17 @@ namespace DMOLibrary.Profiles.Aeria {
                             OnCompleted(LoginCode.WRONG_PAGE, string.Empty);
                             return;
                         }
+                        break;
+                    }
+                case "/dialog/oauth/authorize": {
+                        System.Windows.Forms.HtmlElementCollection links = wb.Document.GetElementsByTagName("a");
+                        foreach (System.Windows.Forms.HtmlElement link in links) {
+                            if (link.InnerText.Trim().ToLower().Equals("authorize")) {
+                                link.InvokeMember("click");
+                                break;
+                            }
+                        }
+                        OnCompleted(LoginCode.UNKNOWN_URL, string.Empty);
                         break;
                     }
                 //logged

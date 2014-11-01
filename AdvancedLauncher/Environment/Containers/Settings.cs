@@ -120,22 +120,21 @@ namespace AdvancedLauncher.Environment.Containers {
                 }
 
                 if (_CurrentProfile != null) {
-                    if (!_CurrentProfile.DMOProfile.Database.IsConnected) {
+                    if (_CurrentProfile.DMOProfile.Database != null) {
                         _CurrentProfile.DMOProfile.Database.OpenConnection();
                     }
                 }
-
                 return _CurrentProfile;
             }
             set {
                 if (_CurrentProfile != null) {
-                    if (_CurrentProfile.DMOProfile.Database.IsConnected) {
+                    if (_CurrentProfile.DMOProfile.Database != null) {
                         _CurrentProfile.DMOProfile.Database.CloseConnection();
                     }
                 }
                 _CurrentProfile = value;
                 if (_CurrentProfile != null) {
-                    if (!_CurrentProfile.DMOProfile.Database.IsConnected) {
+                    if (_CurrentProfile.DMOProfile.Database != null) {
                         _CurrentProfile.DMOProfile.Database.OpenConnection();
                     }
                 }

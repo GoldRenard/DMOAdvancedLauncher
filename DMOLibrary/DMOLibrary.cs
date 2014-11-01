@@ -54,6 +54,13 @@ namespace DMOLibrary {
         public int Id;
         public string Name;
         public string NameAlt;
+        public string SearchGDMO;
+        public string SearchKDMO;
+
+        public override string ToString() {
+            return string.Format("DigimonType [Id={0}, Name={1}, NameAlt={2}, SearchGDMO={3}, SearchKDMO={4}",
+                Id, Name, NameAlt, SearchGDMO, SearchKDMO);
+        }
     }
 
     public class Digimon {

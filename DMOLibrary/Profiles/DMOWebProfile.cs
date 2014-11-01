@@ -136,6 +136,8 @@ namespace DMOLibrary.Profiles {
             return d;
         }
 
+        public abstract List<DigimonType> GetDigimonTypes();
+
         public abstract Guild GetGuild(string guildName, Server serv, bool isDetailed, int actualDays);
 
         protected abstract bool GetGuildInfo(ref Guild g, bool isDetailed);

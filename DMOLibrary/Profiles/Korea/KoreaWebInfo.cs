@@ -37,6 +37,7 @@ namespace DMOLibrary.Profiles.Korea {
         private static string STR_URL_GUILD_PAGE = "http://www.digimonmasters.com/guild/main_sub.aspx?v={1}00&o={0}";
         private static string STR_URL_STARTER_RANK = "http://www.digimonmasters.com/ranking/partner.aspx?type={1}00&search={0}";
         private static string STR_URL_MERC_SIZE_RANK = "http://www.digimonmasters.com/ranking/size.aspx?type={1}00&search={0}&digimon={2}";
+        private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://www.digimonmasters.com/ranking/size.aspx";
 
         public KoreaWebInfo(DMODatabase Database) {
             this.Database = Database;
@@ -48,15 +49,15 @@ namespace DMOLibrary.Profiles.Korea {
             if (Database.OpenConnection()) {
                 //Check actual guild in database
                 Guild storedGuild = Database.ReadGuild(guildName, serv, actualDays);
+                Database.CloseConnection();
                 if (storedGuild.Id != -1) {
                     if (!(isDetailed && !storedGuild.IsDetailed)) {
                         //and return it
-                        Database.CloseConnection();
+
                         OnCompleted(DMODownloadResultCode.OK, storedGuild);
                         return storedGuild;
                     }
                 }
-                Database.CloseConnection();
                 //else get database from web
                 Guild guildInfo = new Guild();
                 guildInfo.Id = -1;
@@ -96,6 +97,14 @@ namespace DMOLibrary.Profiles.Korea {
                 if (!isFound) {
                     OnCompleted(DMODownloadResultCode.NOT_FOUND, guildInfo); // guild not found
                     return guildInfo;
+                }
+
+                if (Database.OpenConnection()) {
+                    List<DigimonType> types = GetDigimonTypes();
+                    foreach (DigimonType type in types) {
+                        Database.WriteDigimonType(type, true);
+                    }
+                    Database.CloseConnection();
                 }
 
                 if (GetGuildInfo(ref guildInfo, isDetailed)) {
@@ -238,7 +247,8 @@ namespace DMOLibrary.Profiles.Korea {
 
                     List<DigimonType> types = null;
                     if (Database.OpenConnection()) {
-                        types = Database.GetDigimonTypesByKoreanName(digimonInfo.Name);
+                        string searchName = DMODatabase.PrepareDigimonSearch(digimonInfo.Name);
+                        types = Database.GetDigimonTypesBySearchKDMO(searchName);
                         Database.CloseConnection();
                     }
                     if (types == null) {
@@ -283,9 +293,14 @@ namespace DMOLibrary.Profiles.Korea {
 
             if (partnerNode != null) {
                 if (Database.OpenConnection()) {
-                    DigimonType dType = Database.GetDigimonTypesByKoreanName(digimon.Name)[0];
-                    digimon.TypeId = dType.Id;
-                    digimon.Name = dType.Name;
+                    string searchName = DMODatabase.PrepareDigimonSearch(digimon.Name);
+                    List<DigimonType> types = Database.GetDigimonTypesBySearchKDMO(searchName);
+                    if (types != null) {
+                        if (types.Count > 0) {
+                            digimon.TypeId = types[0].Id;
+                            digimon.Name = types[0].Name;
+                        }
+                    }
                     Database.CloseConnection();
                 }
 
@@ -305,43 +320,42 @@ namespace DMOLibrary.Profiles.Korea {
                 }
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamerName);
-            HtmlDocument doc = new HtmlDocument();
-            List<DigimonType> d_types = new List<DigimonType>();
+
+            DigimonType? tryType = null;
             if (Database.OpenConnection()) {
-                if (Database.GetDigimonTypeById(digimon.TypeId).Id == -1) {
-                    Database.CloseConnection();
-                    return false;
-                }
-                d_types = Database.GetDigimonTypesByName(digimon.Name);
+                tryType = Database.GetDigimonTypeById(digimon.TypeId);
                 Database.CloseConnection();
             }
+            if (tryType == null) {
+                return false;
+            }
+            DigimonType digimonType = (DigimonType)tryType;
 
-            foreach (DigimonType d_type in d_types) {
-                string html = WebDownload.GetHTML(string.Format(STR_URL_MERC_SIZE_RANK, tamerName, digimon.ServId.ToString(), d_type.Id.ToString()));
-                if (html == string.Empty) {
-                    continue;
-                }
-                doc.LoadHtml(html);
+            string html = WebDownload.GetHTML(string.Format(STR_URL_MERC_SIZE_RANK, tamerName, digimon.ServId.ToString(), digimonType.Id.ToString()));
+            if (html == string.Empty) {
+                return false;
+            }
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(html);
 
-                HtmlNode partner_node;
-                try {
-                    partner_node = doc.DocumentNode.SelectNodes("//table[@class='forum_list']")[1].SelectSingleNode(".//tbody//tr[not(@onmouseover)]");
-                } catch {
-                    return false;
-                }
+            HtmlNode partner_node;
+            try {
+                partner_node = doc.DocumentNode.SelectNodes("//table[@class='forum_list']")[1].SelectSingleNode(".//tbody//tr[not(@onmouseover)]");
+            } catch {
+                return false;
+            }
 
-                if (partner_node != null) {
-                    digimon.TypeId = d_type.Id;
-                    digimon.SizeRank = Convert.ToInt32(ClearStr(partner_node.SelectSingleNode(".//td[1]").InnerText));
-                    digimon.Name = ClearStr(partner_node.SelectSingleNode(".//td[2]//label").InnerText);
-                    digimon.Lvl = Convert.ToInt32(ClearStr(partner_node.SelectSingleNode(".//td[4]").InnerText));
-                    Regex r = new Regex(STR_DIGIMON_SIZE, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                    Match m = r.Match(partner_node.SelectSingleNode(".//td[3]").InnerHtml);
-                    if (m.Success) {
-                        digimon.SizeCm = Convert.ToInt32(m.Groups[1].ToString());
-                        digimon.SizePc = Convert.ToInt32(m.Groups[3].ToString());
-                        return true;
-                    }
+            if (partner_node != null) {
+                digimon.TypeId = digimonType.Id;
+                digimon.SizeRank = Convert.ToInt32(ClearStr(partner_node.SelectSingleNode(".//td[1]").InnerText));
+                digimon.Name = ClearStr(partner_node.SelectSingleNode(".//td[2]//label").InnerText);
+                digimon.Lvl = Convert.ToInt32(ClearStr(partner_node.SelectSingleNode(".//td[4]").InnerText));
+                Regex r = new Regex(STR_DIGIMON_SIZE, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                Match m = r.Match(partner_node.SelectSingleNode(".//td[3]").InnerHtml);
+                if (m.Success) {
+                    digimon.SizeCm = Convert.ToInt32(m.Groups[1].ToString());
+                    digimon.SizePc = Convert.ToInt32(m.Groups[3].ToString());
+                    return true;
                 }
             }
             return false;
@@ -367,6 +381,32 @@ namespace DMOLibrary.Profiles.Korea {
                 rankNum = Convert.ToInt64(rank);
             }
             return rankNum;
+        }
+
+        public override List<DigimonType> GetDigimonTypes() {
+            List<DigimonType> dTypes = new List<DigimonType>();
+
+            string html = WebDownload.GetHTML(STR_URL_MERC_SIZE_RANK_MAIN);
+            if (html == string.Empty) {
+                return dTypes;
+            }
+            HtmlDocument doc = new HtmlDocument();
+            HtmlNode.ElementsFlags.Remove("option");
+            doc.LoadHtml(html);
+
+            HtmlNode selectTypes = doc.GetElementbyId("drpDigimon");
+            foreach (HtmlNode type in selectTypes.ChildNodes) {
+                if (!"option".Equals(type.Name)) {
+                    continue;
+                }
+                DigimonType dType = new DigimonType() {
+                    Id = Convert.ToInt32(type.Attributes["value"].Value),
+                    Name = type.InnerText
+                };
+                dTypes.Add(dType);
+                LOGGER.DebugFormat("Found {0}", dType);
+            }
+            return dTypes;
         }
 
         private static double ResolveStartedSize(string digimonName) {

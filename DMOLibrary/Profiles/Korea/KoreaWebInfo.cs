@@ -46,87 +46,73 @@ namespace DMOLibrary.Profiles.Korea {
         public override Guild GetGuild(string guildName, Server serv, bool isDetailed, int actualDays) {
             if (IsBusy) DispatcherHelper.DoEvents();
             OnStarted();
-            if (Database.OpenConnection()) {
-                //Check actual guild in database
-                Guild storedGuild = Database.ReadGuild(guildName, serv, actualDays);
-                Database.CloseConnection();
-                if (storedGuild.Id != -1) {
-                    if (!(isDetailed && !storedGuild.IsDetailed)) {
-                        //and return it
+            //Check actual guild in database
+            Guild storedGuild = Database.ReadGuild(guildName, serv, actualDays);
+            if (storedGuild.Id != -1) {
+                if (!(isDetailed && !storedGuild.IsDetailed)) {
+                    //and return it
 
-                        OnCompleted(DMODownloadResultCode.OK, storedGuild);
-                        return storedGuild;
-                    }
-                }
-                //else get database from web
-                Guild guildInfo = new Guild();
-                guildInfo.Id = -1;
-                HtmlDocument doc = new HtmlDocument();
-
-                OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
-
-                string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, guildName, serv.Id));
-                if (html == string.Empty) {
-                    OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guildInfo);
-                    return guildInfo;
-                }
-                doc.LoadHtml(html);
-
-                bool isFound = false;
-                HtmlNode ranking = doc.DocumentNode;
-                try {
-                    ranking = doc.DocumentNode.SelectNodes("//div[@id='body']//table[@class='forum_list'][1]//tbody//tr[not(@onmouseover)]")[4];
-                    guildInfo.ServId = serv.Id;
-                    guildInfo.Rank = CheckRankNode(ranking.SelectSingleNode(".//td[1]"));
-
-                    guildInfo.Name = ClearStr(ranking.SelectSingleNode(".//td[2]").InnerText);
-                    guildInfo.Rep = Convert.ToInt32(ClearStr(ranking.SelectSingleNode(".//td[4]").InnerText));
-                    guildInfo.MasterName = ClearStr(ranking.SelectSingleNode(".//td[5]").InnerText);
-
-                    Regex r1 = new Regex(STR_GUILD_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                    string link = ranking.SelectSingleNode(".//td[7]").InnerHtml;
-                    Match m1 = r1.Match(link);
-                    if (m1.Success) {
-                        guildInfo.Id = Convert.ToInt32(m1.Groups[4].ToString());
-                        isFound = true;
-                    }
-                } catch {
-                    isFound = false;
-                }
-
-                if (!isFound) {
-                    OnCompleted(DMODownloadResultCode.NOT_FOUND, guildInfo); // guild not found
-                    return guildInfo;
-                }
-
-                if (Database.OpenConnection()) {
-                    List<DigimonType> types = GetDigimonTypes();
-                    foreach (DigimonType type in types) {
-                        Database.WriteDigimonType(type, true);
-                    }
-                    Database.CloseConnection();
-                }
-
-                if (GetGuildInfo(ref guildInfo, isDetailed)) {
-                    //write new guild into database and read back with detailed data (if not)
-                    guildInfo.UpdateTime = DateTime.Now;
-                    if (Database.OpenConnection()) {
-                        Database.WriteGuild(guildInfo, isDetailed);
-                        storedGuild = Database.ReadGuild(guildName, serv, actualDays);
-                        Database.CloseConnection();
-                    }
                     OnCompleted(DMODownloadResultCode.OK, storedGuild);
                     return storedGuild;
-                } else {
-                    OnCompleted(DMODownloadResultCode.CANT_GET, guildInfo); // can't get guild info
-                    return guildInfo;
                 }
             }
-            Guild empty = new Guild {
-                Id = -1
-            };
-            OnCompleted(DMODownloadResultCode.DB_CONNECT_ERROR, empty); //can't connect to database*/
-            return empty;
+            //else get database from web
+            Guild guildInfo = new Guild();
+            guildInfo.Id = -1;
+            HtmlDocument doc = new HtmlDocument();
+
+            OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
+
+            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, guildName, serv.Id));
+            if (html == string.Empty) {
+                OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guildInfo);
+                return guildInfo;
+            }
+            doc.LoadHtml(html);
+
+            bool isFound = false;
+            HtmlNode ranking = doc.DocumentNode;
+            try {
+                ranking = doc.DocumentNode.SelectNodes("//div[@id='body']//table[@class='forum_list'][1]//tbody//tr[not(@onmouseover)]")[4];
+                guildInfo.ServId = serv.Id;
+                guildInfo.Rank = CheckRankNode(ranking.SelectSingleNode(".//td[1]"));
+
+                guildInfo.Name = ClearStr(ranking.SelectSingleNode(".//td[2]").InnerText);
+                guildInfo.Rep = Convert.ToInt32(ClearStr(ranking.SelectSingleNode(".//td[4]").InnerText));
+                guildInfo.MasterName = ClearStr(ranking.SelectSingleNode(".//td[5]").InnerText);
+
+                Regex r1 = new Regex(STR_GUILD_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                string link = ranking.SelectSingleNode(".//td[7]").InnerHtml;
+                Match m1 = r1.Match(link);
+                if (m1.Success) {
+                    guildInfo.Id = Convert.ToInt32(m1.Groups[4].ToString());
+                    isFound = true;
+                }
+            } catch {
+                isFound = false;
+            }
+
+            if (!isFound) {
+                OnCompleted(DMODownloadResultCode.NOT_FOUND, guildInfo); // guild not found
+                return guildInfo;
+            }
+
+            List<DigimonType> types = GetDigimonTypes();
+            foreach (DigimonType type in types) {
+                Database.WriteDigimonType(type, true);
+            }
+
+            if (GetGuildInfo(ref guildInfo, isDetailed)) {
+                //write new guild into database and read back with detailed data (if not)
+                guildInfo.UpdateTime = DateTime.Now;
+                Database.WriteGuild(guildInfo, isDetailed);
+                storedGuild = Database.ReadGuild(guildName, serv, actualDays);
+                OnCompleted(DMODownloadResultCode.OK, storedGuild);
+                return storedGuild;
+            } else {
+                OnCompleted(DMODownloadResultCode.CANT_GET, guildInfo); // can't get guild info
+                return guildInfo;
+            }
         }
 
         protected override bool GetGuildInfo(ref Guild guild, bool isDetailed) {
@@ -246,11 +232,8 @@ namespace DMOLibrary.Profiles.Korea {
                     digimonInfo.Rank = Convert.ToInt32(rank);
 
                     List<DigimonType> types = null;
-                    if (Database.OpenConnection()) {
-                        string searchName = DMODatabase.PrepareDigimonSearch(digimonInfo.Name);
-                        types = Database.GetDigimonTypesBySearchKDMO(searchName);
-                        Database.CloseConnection();
-                    }
+                    string searchName = DMODatabase.PrepareDigimonSearch(digimonInfo.Name);
+                    types = Database.GetDigimonTypesBySearchKDMO(searchName);
                     if (types == null) {
                         continue;
                     }
@@ -292,16 +275,13 @@ namespace DMOLibrary.Profiles.Korea {
             }
 
             if (partnerNode != null) {
-                if (Database.OpenConnection()) {
-                    string searchName = DMODatabase.PrepareDigimonSearch(digimon.Name);
-                    List<DigimonType> types = Database.GetDigimonTypesBySearchKDMO(searchName);
-                    if (types != null) {
-                        if (types.Count > 0) {
-                            digimon.TypeId = types[0].Id;
-                            digimon.Name = types[0].Name;
-                        }
+                string searchName = DMODatabase.PrepareDigimonSearch(digimon.Name);
+                List<DigimonType> types = Database.GetDigimonTypesBySearchKDMO(searchName);
+                if (types != null) {
+                    if (types.Count > 0) {
+                        digimon.TypeId = types[0].Id;
+                        digimon.Name = types[0].Name;
                     }
-                    Database.CloseConnection();
                 }
 
                 digimon.Rank = CheckRankNode(partnerNode.SelectSingleNode(".//td[1]"));
@@ -321,11 +301,7 @@ namespace DMOLibrary.Profiles.Korea {
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamerName);
 
-            DigimonType? tryType = null;
-            if (Database.OpenConnection()) {
-                tryType = Database.GetDigimonTypeById(digimon.TypeId);
-                Database.CloseConnection();
-            }
+            DigimonType? tryType = Database.GetDigimonTypeById(digimon.TypeId);
             if (tryType == null) {
                 return false;
             }

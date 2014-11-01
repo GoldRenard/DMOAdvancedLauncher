@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Environment;
 using DMOLibrary;
 
 namespace AdvancedLauncher.Controls {
@@ -43,60 +43,37 @@ namespace AdvancedLauncher.Controls {
             private set;
         }
 
-        private void LoadDigimonList(bool dbConnected, Tamer tamer) {
+        private void LoadDigimonList(Tamer tamer) {
             string typeName;
             DigimonType dtype;
-            if (dbConnected) {
-                foreach (Digimon item in tamer.Digimons) {
-                    dtype = Profile.GetJoymaxProfile().Database.GetDigimonTypeById(item.TypeId).GetValueOrDefault();
-                    typeName = dtype.Name;
-                    if (dtype.NameAlt != null) {
-                        typeName += " (" + dtype.NameAlt + ")";
-                    }
-                    this.Items.Add(new DigimonItemViewModel {
-                        DName = item.Name,
-                        DType = typeName,
-                        Image = IconHolder.GetImage(item.TypeId),
-                        TName = tamer.Name,
-                        Level = item.Lvl,
-                        SizePC = item.SizePc,
-                        Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
-                        Rank = item.Rank
-                    });
+            foreach (Digimon item in tamer.Digimons) {
+                dtype = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.GetDigimonTypeById(item.TypeId).GetValueOrDefault();
+                typeName = dtype.Name;
+                if (dtype.NameAlt != null) {
+                    typeName += " (" + dtype.NameAlt + ")";
                 }
-            } else {
-                foreach (Digimon item in tamer.Digimons) {
-                    this.Items.Add(new DigimonItemViewModel {
-                        DName = item.Name,
-                        DType = "Unknown",
-                        Image = IconHolder.GetImage(item.TypeId),
-                        TName = tamer.Name,
-                        Level = item.Lvl,
-                        SizePC = item.SizePc,
-                        Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
-                        Rank = item.Rank
-                    });
-                }
+                this.Items.Add(new DigimonItemViewModel {
+                    DName = item.Name,
+                    DType = typeName,
+                    Image = IconHolder.GetImage(item.TypeId),
+                    TName = tamer.Name,
+                    Level = item.Lvl,
+                    SizePC = item.SizePc,
+                    Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
+                    Rank = item.Rank
+                });
             }
         }
 
         public void LoadData(Tamer tamer) {
             this.IsDataLoaded = true;
-            bool isConnected = Profile.GetJoymaxProfile().Database.OpenConnection();
-            LoadDigimonList(isConnected, tamer);
-            if (isConnected) {
-                Profile.GetJoymaxProfile().Database.CloseConnection();
-            }
+            LoadDigimonList(tamer);
         }
 
         public void LoadData(List<Tamer> tamers) {
             this.IsDataLoaded = true;
-            bool isConnected = Profile.GetJoymaxProfile().Database.OpenConnection();
             foreach (Tamer tamer in tamers) {
-                LoadDigimonList(isConnected, tamer);
-            }
-            if (isConnected) {
-                Profile.GetJoymaxProfile().Database.CloseConnection();
+                LoadDigimonList(tamer);
             }
         }
 

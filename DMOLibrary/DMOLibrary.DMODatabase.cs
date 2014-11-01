@@ -33,7 +33,12 @@ namespace DMOLibrary {
         private static string SQL_CANT_CONNECT = "SQLite Error: Cant't connect to database.";
         private static string SQL_CANT_DELETE_DB = "SQLite Error: Cant't delete old database.";
 
-        private static bool isConnected = false;
+        private bool isConnected = false;
+        public bool IsConnected {
+            get {
+                return isConnected;
+            }
+        }
 
         #region Query list
 
@@ -120,7 +125,9 @@ SELECT * FROM (
         }
 
         public bool OpenConnection() {
-            while (isConnected) DispatcherHelper.DoEvents();
+            while (isConnected) {
+                DispatcherHelper.DoEvents();
+            }
             try {
                 connection.Open();
                 transaction = connection.BeginTransaction();

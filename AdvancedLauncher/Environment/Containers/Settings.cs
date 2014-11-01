@@ -118,10 +118,27 @@ namespace AdvancedLauncher.Environment.Containers {
                         _CurrentProfile = profile;
                     }
                 }
+
+                if (_CurrentProfile != null) {
+                    if (!_CurrentProfile.DMOProfile.Database.IsConnected) {
+                        _CurrentProfile.DMOProfile.Database.OpenConnection();
+                    }
+                }
+
                 return _CurrentProfile;
             }
             set {
+                if (_CurrentProfile != null) {
+                    if (_CurrentProfile.DMOProfile.Database.IsConnected) {
+                        _CurrentProfile.DMOProfile.Database.CloseConnection();
+                    }
+                }
                 _CurrentProfile = value;
+                if (_CurrentProfile != null) {
+                    if (!_CurrentProfile.DMOProfile.Database.IsConnected) {
+                        _CurrentProfile.DMOProfile.Database.OpenConnection();
+                    }
+                }
                 OnCurrentChanged();
             }
         }

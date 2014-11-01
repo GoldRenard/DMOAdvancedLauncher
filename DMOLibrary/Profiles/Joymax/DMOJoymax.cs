@@ -30,7 +30,7 @@ namespace DMOLibrary.Profiles.Joymax {
             INSERT INTO Servers([name]) VALUES ('Barbamon');
             INSERT INTO Servers([name]) VALUES ('Beelzemon');");
             if (Database.OpenConnection()) {
-                _ServerList = Database.GetServers();
+                _ServerList = Database.FindServers();
                 Database.CloseConnection();
             }
             _WebProfile = new JMWebInfo(Database);

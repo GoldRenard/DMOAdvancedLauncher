@@ -233,7 +233,7 @@ namespace DMOLibrary.Profiles.Korea {
 
                     List<DigimonType> types = null;
                     string searchName = DMODatabase.PrepareDigimonSearch(digimonInfo.Name);
-                    types = Database.GetDigimonTypesBySearchKDMO(searchName);
+                    types = Database.FindDigimonTypesBySearchKDMO(searchName);
                     if (types == null) {
                         continue;
                     }
@@ -276,7 +276,7 @@ namespace DMOLibrary.Profiles.Korea {
 
             if (partnerNode != null) {
                 string searchName = DMODatabase.PrepareDigimonSearch(digimon.Name);
-                List<DigimonType> types = Database.GetDigimonTypesBySearchKDMO(searchName);
+                List<DigimonType> types = Database.FindDigimonTypesBySearchKDMO(searchName);
                 if (types != null) {
                     if (types.Count > 0) {
                         digimon.TypeId = types[0].Id;
@@ -301,7 +301,7 @@ namespace DMOLibrary.Profiles.Korea {
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamerName);
 
-            DigimonType? tryType = Database.GetDigimonTypeById(digimon.TypeId);
+            DigimonType? tryType = Database.FindDigimonTypeById(digimon.TypeId);
             if (tryType == null) {
                 return false;
             }

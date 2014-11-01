@@ -49,7 +49,7 @@ namespace AdvancedLauncher.Controls {
             foreach (Tamer item in List) {
                 this.Items.Add(new TamerItemViewModel {
                     TName = item.Name,
-                    TType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.GetTamerTypeById(item.TypeId).Name,
+                    TType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.FindTamerTypeById(item.TypeId).Name,
                     Level = item.Lvl,
                     PName = item.PartnerName,
                     Rank = item.Rank,

@@ -34,7 +34,7 @@ namespace DMOLibrary.Profiles.Korea {
             INSERT INTO Servers([name]) VALUES ('Lilithmon');
             INSERT INTO Servers([name]) VALUES ('Barbamon');");
             if (Database.OpenConnection()) {
-                _ServerList = Database.GetServers();
+                _ServerList = Database.FindServers();
                 Database.CloseConnection();
             }
             _WebProfile = new KoreaWebInfo(Database);

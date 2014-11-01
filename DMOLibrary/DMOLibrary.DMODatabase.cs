@@ -402,7 +402,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
 
         #region Read section
 
-        public List<DigimonType> GetDigimonTypes() {
+        public List<DigimonType> FindDigimonTypes() {
             List<DigimonType> types = new List<DigimonType>();
 
             string query = Q_DTYPE_ALL;
@@ -465,23 +465,23 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return null;
         }
 
-        public List<DigimonType> GetDigimonTypesByName(string name) {
+        public List<DigimonType> FindDigimonTypesByName(string name) {
             return FindDigimonTypes(Q_DTYPE_BY_NAME, name);
         }
 
-        public List<DigimonType> GetDigimonTypesByKoreanName(string name) {
+        public List<DigimonType> FindDigimonTypesByKoreanName(string name) {
             return FindDigimonTypes(Q_DTYPE_BY_KNAME, name);
         }
 
-        public List<DigimonType> GetDigimonTypesBySearchGDMO(string name) {
+        public List<DigimonType> FindDigimonTypesBySearchGDMO(string name) {
             return FindDigimonTypes(Q_DTYPE_BY_SEARCH_GDMO, name);
         }
 
-        public List<DigimonType> GetDigimonTypesBySearchKDMO(string name) {
+        public List<DigimonType> FindDigimonTypesBySearchKDMO(string name) {
             return FindDigimonTypes(Q_DTYPE_BY_SEARCH_KDMO, name);
         }
 
-        public DigimonType? GetDigimonTypeById(int id) {
+        public DigimonType? FindDigimonTypeById(int id) {
             List<DigimonType> types = FindDigimonTypes(Q_DTYPE_BY_ID, id);
             if (types != null) {
                 return types[0];
@@ -489,7 +489,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return null;
         }
 
-        public TamerType GetTamerTypeById(int id) {
+        public TamerType FindTamerTypeById(int id) {
             TamerType type = new TamerType();
             type.Id = -1;
 
@@ -513,7 +513,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return type;
         }
 
-        public ObservableCollection<Server> GetServers() {
+        public ObservableCollection<Server> FindServers() {
             ObservableCollection<Server> servers = new ObservableCollection<Server>();
             string query = Q_S_BY_NAME;
             try {
@@ -645,38 +645,38 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
 
         #region Write Section
 
-        public bool WriteGuildInfo(Guild g, bool isDetailed) {
-            if (QueryIntRes(string.Format(Q_G_COUNT, g.Id, g.ServId)) > 0) {
+        public bool WriteGuildInfo(Guild guild, bool isDetailed) {
+            if (QueryIntRes(string.Format(Q_G_COUNT, guild.Id, guild.ServId)) > 0) {
                 if (isDetailed) {
-                    return Query(string.Format(Q_G_UPDATE_WD, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime), 1));
+                    return Query(string.Format(Q_G_UPDATE_WD, guild.Id, guild.ServId, guild.Name, guild.Rep, guild.MasterId, guild.MasterName, guild.Rank, DateTime2String(guild.UpdateTime), 1));
                 } else {
-                    return Query(string.Format(Q_G_UPDATE, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime)));
+                    return Query(string.Format(Q_G_UPDATE, guild.Id, guild.ServId, guild.Name, guild.Rep, guild.MasterId, guild.MasterName, guild.Rank, DateTime2String(guild.UpdateTime)));
                 }
             } else {
-                return Query(string.Format(Q_G_INSERT, g.Id, g.ServId, g.Name, g.Rep, g.MasterId, g.MasterName, g.Rank, DateTime2String(g.UpdateTime), isDetailed ? 1 : 0));
+                return Query(string.Format(Q_G_INSERT, guild.Id, guild.ServId, guild.Name, guild.Rep, guild.MasterId, guild.MasterName, guild.Rank, DateTime2String(guild.UpdateTime), isDetailed ? 1 : 0));
             }
         }
 
-        public bool WriteTamer(Tamer t) {
-            return Query(GetWriteTamerQuery(t));
+        public bool WriteTamer(Tamer tamer) {
+            return Query(GetWriteTamerQuery(tamer));
         }
 
-        private string GetWriteTamerQuery(Tamer t) {
-            int pKey = QueryIntRes(string.Format(Q_T_GET_PKEY, t.ServId, t.Id));
-            if (QueryIntRes(string.Format(Q_T_COUNT, t.Id, t.ServId)) > 0) {
-                return string.Format(Q_T_UPDATE, t.Id, t.ServId, t.TypeId, t.GuildId, pKey, t.Name, t.Rank, t.Lvl);
+        private string GetWriteTamerQuery(Tamer tamer) {
+            int pKey = QueryIntRes(string.Format(Q_T_GET_PKEY, tamer.ServId, tamer.Id));
+            if (QueryIntRes(string.Format(Q_T_COUNT, tamer.Id, tamer.ServId)) > 0) {
+                return string.Format(Q_T_UPDATE, tamer.Id, tamer.ServId, tamer.TypeId, tamer.GuildId, pKey, tamer.Name, tamer.Rank, tamer.Lvl);
             } else {
-                return string.Format(Q_T_INSERT, t.Id, t.ServId, t.TypeId, t.GuildId, pKey, t.Name, t.Rank, t.Lvl);
+                return string.Format(Q_T_INSERT, tamer.Id, tamer.ServId, tamer.TypeId, tamer.GuildId, pKey, tamer.Name, tamer.Rank, tamer.Lvl);
             }
         }
 
-        public bool WriteDigimon(Digimon d, bool isDetailed) {
-            return Query(GetWriteDigimonQuery(d, isDetailed));
+        public bool WriteDigimon(Digimon digimon, bool isDetailed) {
+            return Query(GetWriteDigimonQuery(digimon, isDetailed));
         }
 
         public bool WriteDigimonType(DigimonType type, bool isKorean) {
             string query;
-            if (GetDigimonTypeById(type.Id) == null) {
+            if (FindDigimonTypeById(type.Id) == null) {
                 if (isKorean) {
                     query = string.Format(Q_DTYPE_INSERT, type.Id, type.Name, String.Empty, type.Name, String.Empty, PrepareDigimonSearch(type.Name));
                 } else {
@@ -692,37 +692,37 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return Query(query);
         }
 
-        private string GetWriteDigimonQuery(Digimon d, bool isDetailed) {
-            if (QueryIntRes(string.Format(Q_D_COUNT, d.ServId, d.TamerId, d.TypeId)) > 0) {
+        private string GetWriteDigimonQuery(Digimon digimon, bool isDetailed) {
+            if (QueryIntRes(string.Format(Q_D_COUNT, digimon.ServId, digimon.TamerId, digimon.TypeId)) > 0) {
                 if (isDetailed) {
-                    return string.Format(Q_D_UPDATE_FULL, d.ServId, d.TamerId, d.TypeId, d.Name, d.Rank, d.Lvl, d.SizeCm, d.SizePc, d.SizeRank);
+                    return string.Format(Q_D_UPDATE_FULL, digimon.ServId, digimon.TamerId, digimon.TypeId, digimon.Name, digimon.Rank, digimon.Lvl, digimon.SizeCm, digimon.SizePc, digimon.SizeRank);
                 } else {
-                    return string.Format(Q_D_UPDATE_PART, d.ServId, d.TamerId, d.TypeId, d.Rank, d.Lvl);
+                    return string.Format(Q_D_UPDATE_PART, digimon.ServId, digimon.TamerId, digimon.TypeId, digimon.Rank, digimon.Lvl);
                 }
             } else {
-                return string.Format(Q_D_INSERT, d.ServId, d.TamerId, d.TypeId, d.Name, d.Rank, d.Lvl, d.SizeCm, d.SizePc, d.SizeRank);
+                return string.Format(Q_D_INSERT, digimon.ServId, digimon.TamerId, digimon.TypeId, digimon.Name, digimon.Rank, digimon.Lvl, digimon.SizeCm, digimon.SizePc, digimon.SizeRank);
             }
         }
 
-        public bool WriteGuild(Guild g, bool isDetailed) {
+        public bool WriteGuild(Guild guild, bool isDetailed) {
             //set all current tamers of guild to inactive (maybe they aren't in that guild)
-            if (!Query(string.Format(Q_T_SET_INACTIVE, g.ServId, g.Id))) {
+            if (!Query(string.Format(Q_T_SET_INACTIVE, guild.ServId, guild.Id))) {
                 return false;
             }
-            foreach (Tamer t in g.Members) {
-                if (!Query(string.Format(Q_D_SET_INACTIVE, t.ServId, t.Id))) {
+            foreach (Tamer tamer in guild.Members) {
+                if (!Query(string.Format(Q_D_SET_INACTIVE, tamer.ServId, tamer.Id))) {
                     return false;
                 }
-                foreach (Digimon d in t.Digimons) {
-                    if (!WriteDigimon(d, isDetailed)) {
+                foreach (Digimon digimon in tamer.Digimons) {
+                    if (!WriteDigimon(digimon, isDetailed)) {
                         return false;
                     }
                 }
-                if (!WriteTamer(t)) {
+                if (!WriteTamer(tamer)) {
                     return false;
                 }
             }
-            if (!WriteGuildInfo(g, isDetailed)) {
+            if (!WriteGuildInfo(guild, isDetailed)) {
                 return false;
             }
             return true;
@@ -732,9 +732,9 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
 
         #region Additional Section
 
-        public Digimon RandomDigimon(Server serv, string g_name, int minlvl) {
+        public Digimon FindRandomDigimon(Server server, string guildName, int minlvl) {
             Digimon d = new Digimon();
-            string query = string.Format(Q_D_SELECT_RANDOM, serv.Id, g_name, minlvl);
+            string query = string.Format(Q_D_SELECT_RANDOM, server.Id, guildName, minlvl);
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
@@ -759,10 +759,10 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return d;
         }
 
-        public Digimon RandomDigimon(Server serv, string g_name, string t_name, int minlvl) {
+        public Digimon FindRandonDigimon(Server server, string guildName, string tamerName, int minlvl) {
             Digimon d = new Digimon();
             bool IsLoaded = false;
-            string query = string.Format(Q_D_SELECT_RANDOM2, serv.Id, g_name, t_name, minlvl);
+            string query = string.Format(Q_D_SELECT_RANDOM2, server.Id, guildName, tamerName, minlvl);
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
@@ -791,7 +791,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return d;
         }
 
-        public DigimonType RandomDigimonType() {
+        public DigimonType FindRandomDigimonType() {
             DigimonType d = new DigimonType();
             try {
                 SQLiteCommand cmd = new SQLiteCommand(Q_D_SELECT_RANDOM_TYPE, connection);

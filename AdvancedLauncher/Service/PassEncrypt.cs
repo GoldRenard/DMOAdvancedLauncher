@@ -27,11 +27,6 @@ namespace AdvancedLauncher.Service {
 
     public static class PassEncrypt {
 
-        // This constant string is used as a "salt" value for the PasswordDeriveBytes function calls.
-        // This size of the IV (in bytes) must = (keysize / 8).  Default keysize is 256, so the IV must be
-        // 32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
-        private const string initVector = "bm45feji562b55q0";
-
         // This constant is used to determine the keysize of the encryption algorithm.
         private const int keysize = 256;
 
@@ -41,7 +36,7 @@ namespace AdvancedLauncher.Service {
             MemoryStream memoryStream = null;
             CryptoStream cryptoStream = null;
             try {
-                byte[] initVectorBytes = Encoding.UTF8.GetBytes(initVector);
+                byte[] initVectorBytes = Encoding.UTF8.GetBytes(getInitVector());
                 byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
                 PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
                 byte[] keyBytes = password.GetBytes(keysize / 8);
@@ -76,7 +71,7 @@ namespace AdvancedLauncher.Service {
             MemoryStream memoryStream = null;
             CryptoStream cryptoStream = null;
             try {
-                byte[] initVectorBytes = Encoding.ASCII.GetBytes(initVector);
+                byte[] initVectorBytes = Encoding.ASCII.GetBytes(getInitVector());
                 byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
                 PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
                 byte[] keyBytes = password.GetBytes(keysize / 8);
@@ -127,6 +122,14 @@ namespace AdvancedLauncher.Service {
                     return securePassword;
                 }
             }
+        }
+
+        private static string getInitVector() {
+            // This constant string is used as a "salt" value for the PasswordDeriveBytes function calls.
+            // This size of the IV (in bytes) must = (keysize / 8).  Default keysize is 256, so the IV must be
+            // 32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
+            string fingerPrint = FingerPrint.Value(FingerPrint.FingerPart.BASE | FingerPrint.FingerPart.CPU, true);
+            return fingerPrint.Substring(0, 16);
         }
     }
 }

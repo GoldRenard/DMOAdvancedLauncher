@@ -25,18 +25,27 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Resources;
+using log4net;
+using log4net.Appender;
 
 namespace AdvancedLauncher.Windows {
 
     public partial class BugWindow : Window {
+        private static readonly log4net.ILog LOGGER = LogManager.GetLogger(typeof(BugWindow));
+
         private Exception _Exception;
 
         public BugWindow(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
             InitializeComponent();
             LoadIcon();
+            LOGGER.Error("Exception detected", e.Exception);
             _Exception = e.Exception;
             ExceptionText.Text = _Exception.Message;
             StackTrace.Text = _Exception.ToString();
+
+            if (string.IsNullOrEmpty(GetLogFileName())) {
+                LogFile.Visibility = System.Windows.Visibility.Collapsed;
+            }
         }
 
         private void LoadIcon() {
@@ -72,6 +81,7 @@ namespace AdvancedLauncher.Windows {
             StringBuilder strB = new StringBuilder();
             strB.Append("Hello! I've just got crash of AdvancedLauncher and provide next info about this crash:%0D%0A");
             strB.Append("=====================================================================%0D%0A");
+            strB.Append(string.Format("Application version: {0} %0D%0A", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
             strB.Append(string.Format("Operating System: {0} %0D%0A", OSVersion()));
             strB.Append(string.Format("Exception Reason: {0} %0D%0A", ex.Message));
             strB.Append(string.Format("Exception StackTrace:%0D%0A{0}%0D%0A", ex.ToString().Replace(System.Environment.NewLine, "%0D%0A")));
@@ -87,6 +97,27 @@ namespace AdvancedLauncher.Windows {
                 return name.ToString() + (System.Environment.Is64BitOperatingSystem ? " 64-Bit" : " 32-Bit");
             }
             return "Unknown";
+        }
+
+        public String GetLogFileName() {
+            String filename = null;
+            IAppender[] appenders = LOGGER.Logger.Repository.GetAppenders();
+            // Check each appender this logger has
+            foreach (IAppender appender in appenders) {
+                Type t = appender.GetType();
+                // Get the file name from the first FileAppender found and return
+                if (t.Equals(typeof(FileAppender)) || t.Equals(typeof(RollingFileAppender))) {
+                    filename = ((FileAppender)appender).File;
+                    break;
+                }
+            }
+            return filename;
+        }
+
+        private void OnLogRequested(object sender, RoutedEventArgs e) {
+            if (!string.IsNullOrEmpty(GetLogFileName())) {
+                System.Diagnostics.Process.Start("explorer.exe", @"/select, " + GetLogFileName());
+            }
         }
     }
 }

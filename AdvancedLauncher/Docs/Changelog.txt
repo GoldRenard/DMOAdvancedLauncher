@@ -1,3 +1,16 @@
+2.3a:
+Common:
+- Fixed Aeria authentication
+- Added pt-BR translation. Sorry, I've forgot the author's name :( Anyway, thanks!
+- Workaround for in-game keyboard layout changing ("Fix keyboard layout changing" settings option)
+- Some UI changes and improvements
+- Application console & logging for easy debug and troubleshooting
+- Global application code refactoring and minor bug fixes
+DigiRotation and Community:
+- Fixed Joymax (nope, FailMax :D) GuildInfo grabbing stability
+- Partial support for future Digimons
+- Updated database
+
 2.2a:
 Common:
 - New "All in one" profile system

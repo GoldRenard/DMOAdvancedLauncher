@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="90" />
             <RowDefinition />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <Image x:Name="ErrorIcon" Width="48" Height="48" />
         <StackPanel Grid.Column="1" Margin="5">
@@ -18,19 +19,22 @@
             <TextBlock Text="Many thanks in advance and sorry for the inconvenience." />
         </StackPanel>
 
-        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,0">
-            <GroupBox Height="50" Header="Exception Reason" Margin="5" VerticalAlignment="Top">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="5">
+            <GroupBox Height="50" Header="Exception Reason" VerticalAlignment="Top">
                 <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <TextBlock x:Name="ExceptionText" TextWrapping="Wrap" />
                 </ScrollViewer>
             </GroupBox>
-            <GroupBox Header="Stack Trace" Margin="5,55,5,25">
+            <GroupBox Header="Stack Trace" Margin="0,50,0,20">
                 <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <TextBox AcceptsReturn="True" IsReadOnly="True" TextWrapping="Wrap" x:Name="StackTrace" />
                 </ScrollViewer>
             </GroupBox>
+            <TextBlock Name="LogFile" VerticalAlignment="Bottom">
+                <Hyperlink Click="OnLogRequested">Please attach the application log to the email (click to show the file)</Hyperlink>
+            </TextBlock>
         </Grid>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Height="20" VerticalAlignment="Bottom"  Margin="0,0,0,5" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Height="20" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="70" Content="Submit" Margin="4,0" Click="OnSubmitClick" />
             <Button Width="70" Content="Close" Margin="4,0" Click="OnCloseClick" />
         </StackPanel>

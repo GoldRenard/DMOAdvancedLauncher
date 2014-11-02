@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <CantOpenLink>Can't open link. Try to change the default browser. Error: </CantOpenLink>
+  <Error>Fehler</Error>
+  <Console>Konsole</Console>
+  <CreateButton>Erstellen</CreateButton>
+  <DeleteButton>Entfernen</DeleteButton>
+  <BrowseButton>Durchsuchen</BrowseButton>
+  <ApplyButton>Akzeptieren</ApplyButton>
+  <SendButton>Senden</SendButton>
+  <CancelButton>Abbrechen</CancelButton>
+  <CloseButton>Schliessen</CloseButton>
+  <StartButton>SPIEL STARTEN</StartButton>
+  <WaitForComplete>Bitte warten Sie bis der Vorgang abgeschlossen wurde.</WaitForComplete>
+  <PleaseWait>Bitte warten...</PleaseWait>
+  <ErrorOccured>Ein Fehler ist aufgetreten.</ErrorOccured>
+  <ConnectionError>Bitte kontrollieren Sie Ihre Internetverbindung.</ConnectionError>
+  <DBConnectionError>Keine Verbindung zur Datenbank.</DBConnectionError>
+  <CantGetError>Konnte keine Informationen empfangen.</CantGetError>
+  <GuildNotFoundError>Gilde wurde nicht gefunden. Bitte kontrollieren Sie Ihre Einstellungen.</GuildNotFoundError>
+  <GameFilesInUse>Kein Zugriff auf die Spieldateien! Bitte schliessen Sie alle Digimon Masters Online Anwendungen und versuchen Sie es erneut.</GameFilesInUse>
+  <PleaseCloseGame>Bitte schliessen Sie das Spiel.</PleaseCloseGame>
+  <PleaseSelectGamePath>Bitte geben Sie einen Pfad zum Spielverzeichnis an.</PleaseSelectGamePath>
+  <PleaseSelectLauncherPath>Bitte geben Sie einen Pfad zu Ihrem "Digimon Masters Online" Launcher an.</PleaseSelectLauncherPath>
+  
+  <MainWindow_NewsTab>NEUIGKEITEN</MainWindow_NewsTab>
+  <MainWindow_GalleryTab>GALLERIE</MainWindow_GalleryTab>
+  <MainWindow_CommunityTab>COMMUNITY</MainWindow_CommunityTab>
+  <MainWindow_PersonalizationTab>ANPASSUNG</MainWindow_PersonalizationTab>
+  
+  <About>About</About>
+  <About_Version>Version</About_Version>
+  <About_Developer>Programmierer</About_Developer>
+  <About_DesignHelp>Design Hilfe</About_DesignHelp>
+  <About_Acknowledgments>Danke an</About_Acknowledgments>
+  <About_Translators>Uebersetzer</About_Translators>
+  <About_Licence404>Lizenz Datei "{0}" wurde nicht gefunden.</About_Licence404>
+  
+  <Settings>Einstellungen</Settings>
+  <Settings_Language>Sprache</Settings_Language>
+  <Settings_LastProfile>Sie muessen mindestens ein Profil haben. Es ist nicht moeglich das Letzte zu entfernen.</Settings_LastProfile>
+  <Settings_MainGroup>Profil</Settings_MainGroup>
+  <Settings_RotationGroup>Digi-Rotation</Settings_RotationGroup>
+  <Settings_NewsGroup>Neuigkeiten</Settings_NewsGroup>
+  <Settings_GameGroup>Spiel</Settings_GameGroup>
+  <Settings_AccountGroup>Account</Settings_AccountGroup>
+  <Settings_ProfileNameHint>-Dein Profil Name-</Settings_ProfileNameHint>
+  <Settings_SetAsDefaultButton>Als Standard festlegen</Settings_SetAsDefaultButton>
+  <Settings_RotationGuildHint>Gilde in der Rotation</Settings_RotationGuildHint>
+  <Settings_RotationTamerHint>Tamer in der Rotation (Optional)</Settings_RotationTamerHint>
+  <Settings_RotationUpdateFREQ>Aktualisierungsgeschwindigkeit (in Tagen)</Settings_RotationUpdateFREQ>
+  <Settings_TwitterHint>Twitter URL (JSON-source)</Settings_TwitterHint>
+  <Settings_FirstNewsTab>Erster Tab in den NEUIGKEITEN</Settings_FirstNewsTab>
+  <Settings_ClientType>Client-Typ</Settings_ClientType>
+  <Settings_GamePath>Pfad zum Spielverzeichnis</Settings_GamePath>
+  <Settings_LauncherPath>Pfad zum DMO Launcher</Settings_LauncherPath>
+  <Settings_UpdateEngine>Integrierte Update Funktion</Settings_UpdateEngine>
+  <Settings_AppLocale>Durch "Microsoft AppLocale" starten</Settings_AppLocale>
+  <Settings_AppLocale_Help>Warum nicht aktiv?</Settings_AppLocale_Help>
+  <Settings_KBLCService>Fix Tastaturlayout Wechsel</Settings_KBLCService>
+  <Settings_Account_User>Benutzername</Settings_Account_User>
+  <Settings_Account_Password>Passwort</Settings_Account_Password>
+  <Settings_SelectGameDir>Bitte geben Sie den Pfad des Spielverzeichnisses an.</Settings_SelectGameDir>
+  <Settings_SelectGameDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem Spielverzeichnis an.</Settings_SelectGameDirError>
+  <Settings_SelectLauncherDir>Bitte geben Sie einen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDir>
+  <Settings_SelectLauncherDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDirError>
+  
+  <AppLocale_FailReasons>Das Spiel konnte nicht durch AppLocale gestartet werden. Moegliche Ursachen:</AppLocale_FailReasons>
+  <AppLocale_Error>Microsoft AppLocale Fehler</AppLocale_Error>
+  <AppLocale_NotInstalled> - Microsoft AppLocale ist auf ihrem Computer nicht installiert.</AppLocale_NotInstalled>
+  <AppLocale_EALNotInstalled> - Support der Ost-Asiatischen Sprachen wurde noch nicht installiert.</AppLocale_EALNotInstalled>
+  <AppLocale_FixQuestion>Wollen Sie auf die Download Seite von AppLocale verlinkt werden und/oder Vorschlaege zur Fehlerbehebung einsehen?</AppLocale_FixQuestion>
+  
+  <RotationLevelText>Level</RotationLevelText>
+  <RotationDownloading>Informationen werden empfangen...</RotationDownloading>
+  <RotationTamer>Tamer</RotationTamer>
+  
+  <News>Neuigkeiten</News>
+  <NewsPubDate>Veroeffentlichungs Datum</NewsPubDate>
+  <NewsReadMore>Weiter lesen...</NewsReadMore>
+  <NewsTwitterError>Konnte keine Twitter Neuigkeiten empfangen!</NewsTwitterError>
+  <NewsType_Notice>Meldung</NewsType_Notice>
+  <NewsType_Event>Ereignis</NewsType_Event>
+  <NewsType_Patch>Update</NewsType_Patch>
+  
+  <GameButton_Waiting>BITTE WARTEN...</GameButton_Waiting>
+  <GameButton_UpdateGame>SPIEL UPDATEN</GameButton_UpdateGame>
+  <UpdateCantGetVersion>Empfangen der richtigen Version ist fehlgeschlagen.</UpdateCantGetVersion>
+  <UpdateCantConnect>Launcher konnte nicht zu den Update Servern verbinden.</UpdateCantConnect>
+  <UpdateDownloading>Wird gedownloaded... {0} of {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
+  <UpdateExtracting>Update wird entpackt... {0} of {1}... [{2} / {3}]</UpdateExtracting>
+  <UpdateInstalling>Update wird installiert... [{0} / {1}]</UpdateInstalling>
+  <UseLastSession>Benutze die vorherige Sitzung</UseLastSession>
+  
+  <LoginTry>Versuch {0}...</LoginTry>
+  <LoginGettingData>Empfangen...</LoginGettingData>
+  <LoginLogIn>Einloggen...</LoginLogIn>
+  <LoginWasError>Es gab einen Fehler</LoginWasError>
+  <LoginBadAccount>Login fehlgeschlagen. Stellen Sie sicher dass ihr Benutzername und Passwort korrekt sind.</LoginBadAccount>
+  <LoginEmptyBenutzername>Bitte geben Sie einen Benutzernamen ein!</LoginEmptyBenutzername>
+  <LoginEmptyPassword>Bitte geben Sie Ihr Passwort ein!</LoginEmptyPassword>
+  <LoginWrongPage>Die Login-Seite ist inkorrekt oder wurde veraendert. Bitte kontaktieren Sie den Programmierer dieses Launchers.</LoginWrongPage>
+  
+  <GalleryHint>DOPPELKLICKEN SIE AUF EIN BILD UM ES ANZUSEHEN</GalleryHint>
+  <GalleryNoScreenshots>KEINE SCREENSHOTS VORHANDEN</GalleryNoScreenshots>
+  <GalleryCantOpenImage>Fehler! Konnte die Bilddatei nicht oeffnen. Moegliche Ursachen:</GalleryCantOpenImage>
+  
+  <PersonalizationWrongTGA>Es ist keine gueltige TGA(TARGA) Bilddatei!</PersonalizationWrongTGA>
+  <PersonalizationCantSave>Fehler beim abspeichern der Bilddatei.</PersonalizationCantSave>
+  <PersonalizationCantWrite>Konnte die Bilddatei nicht in das Spiel kopieren!</PersonalizationCantWrite>
+  <PersonalizationSelectTitle>Bilddatei auswaehlen:</PersonalizationSelectTitle>
+  <PersonalizationSelectMessage>Klicken Sie hier, um eine Bilddatei auszuwaehlen.</PersonalizationSelectMessage>
+  <PersonalizationCurrentTitle>Aktuelles Bild:</PersonalizationCurrentTitle>
+  <PersonalizationSaveButton>Bild speichern</PersonalizationSaveButton>
+  
+  <CommGuildName>Name der Gilde</CommGuildName>
+  <CommGuildNameEmpty>Bitte geben Sie einen Gildennamen ein!</CommGuildNameEmpty>
+  <CommWrongGuildName>Der Gildenname beinhaltet unzulaessige Zeichen!</CommWrongGuildName>
+  
+  <CommSearchingGuild>Gilde wird gesucht...</CommSearchingGuild>
+  <CommGettingTamer>Tamer werden empfangen: {0}</CommGettingTamer>
+  
+  <CommShowTab>ANZEIGE</CommShowTab>
+  <CommTamersTab>TAMER</CommTamersTab>
+  <CommDigimonsTab>DIGIMON</CommDigimonsTab>
+  
+  <CommSelect_Guild>Welche Gilde suchen Sie?</CommSelect_Guild>
+  <CommCheckBox_Detailed>Umfangreiche Informationen herunterladen</CommCheckBox_Detailed>
+  <CommButton_Search>Gilde suchen</CommButton_Search>
+  
+  <CommInformation>Informationen</CommInformation>
+  <CommGMaster>Gilden-Meister</CommGMaster>
+  <CommGBest>Bestes Mitglied</CommGBest>
+  <CommGRank>Gilden-Rang</CommGRank>
+  <CommGRep>Ruf(Gilden-Punkte)</CommGRep>
+  <CommGTCnt>Anzahl der Tamer</CommGTCnt>
+  <CommGDCnt>Anzahl der Digimon</CommGDCnt>
+  
+  <CommHeader_Type>Typ</CommHeader_Type>
+  <CommHeader_Level>Level</CommHeader_Level>
+  <CommHeader_Ranking>Rang</CommHeader_Ranking>
+  <CommHeader_Tamer>Tamer</CommHeader_Tamer>
+  <CommHeader_Partner>Partner</CommHeader_Partner>
+  <CommHeader_Mercenary>Digimon</CommHeader_Mercenary>
+  <CommHeader_Name>Name</CommHeader_Name>
+  <CommHeader_Size>Groesse</CommHeader_Size>
+  
+  <UpdateAvailableText>Neue Version {0} ist verfuegbar. Changelog:</UpdateAvailableText>
+  <UpdateAvailableCaption>Neue Version {0} ist verfuegbar</UpdateAvailableCaption>
+  <UpdateDownloadQuestion>Moechten Sie jetzt updaten?</UpdateDownloadQuestion>
+</Language>

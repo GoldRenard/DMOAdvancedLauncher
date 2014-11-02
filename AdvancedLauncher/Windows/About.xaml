@@ -90,6 +90,7 @@
                     <TextBlock Margin="0,10,0,0" Text="English - GoldRenard (Egorov Ilya)" />
                     <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
                     <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
+                    <TextBlock Text="French - Rei Ayanami" />
                     <!--<TextBlock Text="Polish - Czip from digimonrpgonline.net" />-->
                 </StackPanel>
             </StackPanel>

@@ -334,14 +334,14 @@
                     <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrushLow}" />
                     <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrush}" />
                     <Grid>
-                        <Button x:Name="About" Content="{Binding About}" Click="OnAboutClick" />
-                        <Image IsHitTestVisible="False" Margin="3,0,0,0" Width="25" Height="25" HorizontalAlignment="Left" Source="/AdvancedLauncher;component/Resources/Icons/Info.png" Stretch="UniformToFill" />
+                        <Button x:Name="Logger" Content="{Binding Console}" Click="OnLoggerClick" />
+                        <Image IsHitTestVisible="False" Margin="3,0,0,0" Width="25" Height="25" HorizontalAlignment="Left" Source="/AdvancedLauncher;component/Resources/Icons/Console.png" Stretch="UniformToFill" />
                     </Grid>
                     <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrushLow}" />
                     <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource InnerStrokeBrush}" />
                     <Grid>
-                        <Button x:Name="Logger" Content="{Binding Console}" Click="OnLoggerClick" />
-                        <Image IsHitTestVisible="False" Margin="3,0,0,0" Width="25" Height="25" HorizontalAlignment="Left" Source="/AdvancedLauncher;component/Resources/Icons/Console.png" Stretch="UniformToFill" />
+                        <Button x:Name="About" Content="{Binding About}" Click="OnAboutClick" />
+                        <Image IsHitTestVisible="False" Margin="3,0,0,0" Width="25" Height="25" HorizontalAlignment="Left" Source="/AdvancedLauncher;component/Resources/Icons/Info.png" Stretch="UniformToFill" />
                     </Grid>
                 </StackPanel>
             </Border>

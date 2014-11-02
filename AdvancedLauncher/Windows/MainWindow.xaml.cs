@@ -26,7 +26,7 @@ using AdvancedLauncher.Pages;
 namespace AdvancedLauncher.Windows {
 
     public partial class MainWindow : Window {
-        public static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));
         private const int SC_CLOSE = 0xF060;
         private const int MF_ENABLED = 0x0000;
         private const int MF_GRAYED = 0x0001;

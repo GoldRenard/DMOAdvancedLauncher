@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <CantOpenLink>Impossivel de Exibir a pagina. Certifique-se de estar conectado a internet. Erro: </CantOpenLink>
+  <Error>Erro</Error>
+  <CreateButton>Criar</CreateButton>
+  <DeleteButton>Deletar</DeleteButton>
+  <BrowseButton>Procurar</BrowseButton>
+  <ApplyButton>Aplicar</ApplyButton>
+  <CancelButton>Cancelar</CancelButton>
+  <CloseButton>Fechar</CloseButton>
+  <StartButton>Iniciar Jogo</StartButton>
+  <WaitForComplete>Espere a Conclusao da Operacao Atual</WaitForComplete>
+  <PleaseWait>Por Favor Espere</PleaseWait>
+  <ErrorOccured>Algum Erro Ocorreu!</ErrorOccured>
+  <ConnectionError>Cheque sua Conecxao com a Internet.</ConnectionError>
+  <DBConnectionError>Erro na Conecxao Database.</DBConnectionError>
+  <CantGetError>Informacoes Erradas</CantGetError>
+  <GuildNotFoundError>Guild nao encontrada. Cheque suas configuracoes.</GuildNotFoundError>
+  <GameFilesInUse>Nao ha acesso ao DMO. Por favor Feche todos os Programas referentes ao mesmo.</GameFilesInUse>
+  <PleaseCloseGame>Por Favor Feche o Jogo.</PleaseCloseGame>
+  <PleaseSelectGamePath>Configure corretamente o Launcher do Jogo.</PleaseSelectGamePath>
+  <PleaseSelectLauncherPath>Por Favor Configure corretamente o launcher nas Configuracoes.</PleaseSelectLauncherPath>
+  
+  <MainWindow_NewsTab>NOVIDADES</MainWindow_NewsTab>
+  <MainWindow_GalleryTab>GALERIA</MainWindow_GalleryTab>
+  <MainWindow_CommunityTab>COMUNIDADE</MainWindow_CommunityTab>
+  <MainWindow_PersonalizationTab>PERSONALIZACAO</MainWindow_PersonalizationTab>
+  
+  <About>Sobre</About>
+  <About_Version>Versao</About_Version>
+  <About_Developer>Desenvolvedores</About_Developer>
+  <About_DesignHelp>Ajuda no Design</About_DesignHelp>
+  <About_Acknowledgments>Acknowledgments</About_Acknowledgments>
+  <About_Translators>Tradutores</About_Translators>
+  <About_Licence404>Licence file "{0}" not found.</About_Licence404>
+  
+  <Settings>Configuracoes</Settings>
+  <Settings_Language>Idioma</Settings_Language>
+  <Settings_LastProfile>Impossivel deletar o ultimo Usuario. O Launcher precisa de pelo menos um.</Settings_LastProfile>
+  <Settings_MainGroup>Usuarios</Settings_MainGroup>
+  <Settings_RotationGroup>DigiRotacao</Settings_RotationGroup>
+  <Settings_NewsGroup>Novas</Settings_NewsGroup>
+  <Settings_GameGroup>Jogo</Settings_GameGroup>
+  <Settings_AccountGroup>Conta</Settings_AccountGroup>
+  <Settings_ProfileNameHint>Digite o Nome de Usuario (Ficticio)</Settings_ProfileNameHint>
+  <Settings_SetAsDefaultButton>Definir Usuario Padrao</Settings_SetAsDefaultButton>
+  <Settings_RotationGuildHint>Rotatoria da Guild</Settings_RotationGuildHint>
+  <Settings_RotationTamerHint>Tamer para Rotatoria (opcional)</Settings_RotationTamerHint>
+  <Settings_RotationUpdateFREQ>Frequencia de Atualizacao (Dias)</Settings_RotationUpdateFREQ>
+  <Settings_TwitterHint>Twitter URL (JSON-source)</Settings_TwitterHint>
+  <Settings_FirstNewsTab>Primeira Aba de Novas</Settings_FirstNewsTab>
+  <Settings_ClientType>Tipo de Usuario</Settings_ClientType>
+  <Settings_GamePath>Diretorio do DMO</Settings_GamePath>
+  <Settings_LauncherPath>Diretorio do launcher</Settings_LauncherPath>
+  <Settings_UpdateEngine>Atualizar DMO sem o Launcher</Settings_UpdateEngine>
+  <Settings_AppLocale>Fixar Idioma Coreano</Settings_AppLocale>
+  <Settings_AppLocale_Help>Por que Inativo?</Settings_AppLocale_Help>
+  <Settings_Account_User>Usuario (Loguin)</Settings_Account_User>
+  <Settings_Account_Password>Senha</Settings_Account_Password>
+  <Settings_SelectGameDir>Por Favor Especifique o diretorio do DMO</Settings_SelectGameDir>
+  <Settings_SelectGameDirError>Voce precisa especificar onde esta localizado o "DigimonMasters.exe"</Settings_SelectGameDirError>
+  <Settings_SelectLauncherDir>Por Favor Especifique onde esta o Launcher</Settings_SelectLauncherDir>
+  <Settings_SelectLauncherDirError>Voce precisa especificar onde esta localizado o Launcher.</Settings_SelectLauncherDirError>
+  
+  <AppLocale_FailReasons>Impossivel iniciar o AppLocate por Motivos:</AppLocale_FailReasons>
+  <AppLocale_Error>Microsoft AppLocale Error</AppLocale_Error>
+  <AppLocale_NotInstalled> - Microsoft AppLocale Nao esta Instalado</AppLocale_NotInstalled>
+  <AppLocale_EALNotInstalled> Idioma Coreano Nao Suportado (Instale-o)</AppLocale_EALNotInstalled>
+  <AppLocale_FixQuestion>Want to open the download page and/or instructions to fix these errors right now?</AppLocale_FixQuestion>
+  
+  <RotationLevelText>level</RotationLevelText>
+  <RotationDownloading>Baixando Informacoes da Guild...</RotationDownloading>
+  <RotationTamer>Tamer</RotationTamer>
+  
+  <News>NOVAS</News>
+  <NewsPubDate>Data de Publicacao</NewsPubDate>
+  <NewsReadMore>Veja Mais...</NewsReadMore>
+  <NewsTwitterError>Tweets nao encontrdos</NewsTwitterError>
+  <NewsType_Notice>Noticia</NewsType_Notice>
+  <NewsType_Event>Eventos</NewsType_Event>
+  <NewsType_Patch>Patch</NewsType_Patch>
+  
+  <GameButton_Waiting>AGUARDE</GameButton_Waiting>
+  <GameButton_UpdateGame>ATUALIZAR DMO</GameButton_UpdateGame>
+  <UpdateCantGetVersion>Versao do Jogo Incorreta.</UpdateCantGetVersion>
+  <UpdateCantConnect>Servidores nao encontrados.</UpdateCantConnect>
+  <UpdateDownloading>Baixando Atualizacoes {0} de {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
+  <UpdateExtracting>Extraindo Atualizacoes {0} de {1}... [{2} / {3}]</UpdateExtracting>
+  <UpdateInstalling>Instalando Atualizacoes... [{0} / {1}]</UpdateInstalling>
+  <UseLastSession>Usar Ultima Secao (Apenas para DC's)</UseLastSession>
+  
+  <LoginTry>Tentativa {0}...</LoginTry>
+  <LoginGettingData>Obtendo Informacoes...</LoginGettingData>
+  <LoginLogIn>Logando...</LoginLogIn>
+  <LoginWasError>Ocorreu um erro</LoginWasError>
+  <LoginBadAccount>Loguin ou Senha Incorretos.</LoginBadAccount>
+  <LoginEmptyUsername>Coloque seu Loguin!</LoginEmptyUsername>
+  <LoginEmptyPassword>Coloque sua Senha!</LoginEmptyPassword>
+  <LoginWrongPage>Pagina de Loguin incorreta contate o desenvolvedor.</LoginWrongPage>
+  
+  <GalleryHint>CLIQUE DUAS VEZES PARA ABRIR.</GalleryHint>
+  <GalleryNoScreenshots>AQUI NAO HA SCREENSHOTS</GalleryNoScreenshots>
+  <GalleryCantOpenImage>Erro ao Abrir. Erro: </GalleryCantOpenImage>
+  
+  <PersonalizationWrongTGA>Isto nao e uma Imagem .TGA!</PersonalizationWrongTGA>
+  <PersonalizationCantSave>Imcapaz de Salvar a Imagem.</PersonalizationCantSave>
+  <PersonalizationCantWrite>Imcapaz de Gravar esta imagem no Jogo!</PersonalizationCantWrite>
+  <PersonalizationSelectTitle>Selecione uma Imagem:</PersonalizationSelectTitle>
+  <PersonalizationSelectMessage>Clique aqui para selecionar uma Imagem</PersonalizationSelectMessage>
+  <PersonalizationCurrentTitle>Imagem Atual:</PersonalizationCurrentTitle>
+  <PersonalizationSaveButton>Salvar uma Imagem</PersonalizationSaveButton>
+  
+  <CommGuildName>Nome da Guild</CommGuildName>
+  <CommGuildNameEmpty>Por Favor coloque  o Nome da Guild!</CommGuildNameEmpty>
+  <CommWrongGuildName>Guild's nao Existe!</CommWrongGuildName>
+  
+  <CommSearchingGuild>Procurando Guild</CommSearchingGuild>
+  <CommGettingTamer>Tamer: {0}</CommGettingTamer>
+  
+  <CommShowTab>MOSTRAR</CommShowTab>
+  <CommTamersTab>TAMERS</CommTamersTab>
+  <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
+  
+  <CommSelect_Guild>Qual Guild voce esta procurando</CommSelect_Guild>
+  <CommCheckBox_Detailed>Receber dados detalhados (longo)</CommCheckBox_Detailed>
+  <CommButton_Search>Porcurar por Guild</CommButton_Search>
+  
+  <CommInformation>Informacao</CommInformation>
+  <CommGMaster>Master (Lider)</CommGMaster>
+  <CommGBest>Melhor Rank</CommGBest>
+  <CommGRank>Ranking</CommGRank>
+  <CommGRep>Reputacao</CommGRep>
+  <CommGTCnt>Quantidade de Tamers</CommGTCnt>
+  <CommGDCnt>Quantidade de Digimons</CommGDCnt>
+  
+  <CommHeader_Type>Tipo</CommHeader_Type>
+  <CommHeader_Level>Level</CommHeader_Level>
+  <CommHeader_Ranking>Ranking</CommHeader_Ranking>
+  <CommHeader_Tamer>Tamer</CommHeader_Tamer>
+  <CommHeader_Partner>Parceiro</CommHeader_Partner>
+  <CommHeader_Mercenary>Mercenario</CommHeader_Mercenary>
+  <CommHeader_Name>Nome</CommHeader_Name>
+  <CommHeader_Size>Tamanho (Size)</CommHeader_Size>
+  
+  <UpdateAvailableText>Nova versao {0} disponivel. Changelog:</UpdateAvailableText>
+  <UpdateAvailableCaption>Nova versao {0} disponivel.</UpdateAvailableCaption>
+  <UpdateDownloadQuestion>Voce que baixar agora?</UpdateDownloadQuestion>
+</Language>

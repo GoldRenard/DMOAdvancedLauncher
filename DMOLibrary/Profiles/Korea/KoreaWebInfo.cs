@@ -43,7 +43,7 @@ namespace DMOLibrary.Profiles.Korea {
             this.Database = Database;
         }
 
-        public override Guild GetGuild(string guildName, Server serv, bool isDetailed, int actualDays) {
+        public override Guild GetGuild(string guildName, ServerOld serv, bool isDetailed, int actualDays) {
             if (IsBusy) DispatcherHelper.DoEvents();
             OnStarted();
             //Check actual guild in database

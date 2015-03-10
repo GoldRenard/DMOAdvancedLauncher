@@ -100,7 +100,7 @@ namespace DMOLibrary.Profiles {
 
         #endregion EVENTS
 
-        public void GetGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, string guildName, Server serv, bool isDetailed, int actualDays) {
+        public void GetGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, string guildName, ServerOld serv, bool isDetailed, int actualDays) {
             this.OwnerDispatcher = ownerDispatcher;
             BackgroundWorker bw = new BackgroundWorker();
             bw.DoWork += (s1, e2) => {
@@ -109,11 +109,11 @@ namespace DMOLibrary.Profiles {
             bw.RunWorkerAsync();
         }
 
-        public Digimon GetRandomDigimon(Server serv, string guildName, int minlvl) {
+        public Digimon GetRandomDigimon(ServerOld serv, string guildName, int minlvl) {
             return Database.FindRandomDigimon(serv, guildName, minlvl);
         }
 
-        public Digimon GetRandomDigimon(Server serv, string guildName, string tamerName, int minlvl) {
+        public Digimon GetRandomDigimon(ServerOld serv, string guildName, string tamerName, int minlvl) {
             return Database.FindRandonDigimon(serv, guildName, tamerName, minlvl);
         }
 
@@ -123,7 +123,7 @@ namespace DMOLibrary.Profiles {
 
         public abstract List<DigimonType> GetDigimonTypes();
 
-        public abstract Guild GetGuild(string guildName, Server serv, bool isDetailed, int actualDays);
+        public abstract Guild GetGuild(string guildName, ServerOld serv, bool isDetailed, int actualDays);
 
         protected abstract bool GetGuildInfo(ref Guild g, bool isDetailed);
 

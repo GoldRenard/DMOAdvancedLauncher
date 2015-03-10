@@ -23,7 +23,7 @@ namespace DMOLibrary {
 
     #region Structs
 
-    public class Server {
+    public class ServerOld {
 
         public int Id {
             set;

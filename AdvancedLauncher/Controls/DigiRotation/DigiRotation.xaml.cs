@@ -39,7 +39,7 @@ namespace AdvancedLauncher.Controls {
 
         private string rGuild;
         private string rTamer;
-        private Server rServ;
+        private ServerOld rServ;
 
         private bool IsSourceLoaded = false;
         private bool IsErrorOccured = false;

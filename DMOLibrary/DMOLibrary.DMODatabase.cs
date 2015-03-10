@@ -513,14 +513,14 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return type;
         }
 
-        public ObservableCollection<Server> FindServers() {
-            ObservableCollection<Server> servers = new ObservableCollection<Server>();
+        public ObservableCollection<ServerOld> FindServers() {
+            ObservableCollection<ServerOld> servers = new ObservableCollection<ServerOld>();
             string query = Q_S_BY_NAME;
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read()) {
-                    Server serv = new Server();
+                    ServerOld serv = new ServerOld();
                     serv.Name = (string)dataReader["name"];
                     serv.Id = Convert.ToInt32(dataReader["id"]);
                     servers.Add(serv);
@@ -534,7 +534,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return servers;
         }
 
-        public Guild ReadOnlyGuild(string guildName, Server server, int actualDays) {
+        public Guild ReadOnlyGuild(string guildName, ServerOld server, int actualDays) {
             Guild guild = new Guild();
             guild.Id = -1;
 
@@ -627,7 +627,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return digimons;
         }
 
-        public Guild ReadGuild(string guildName, Server server, int actualDays) {
+        public Guild ReadGuild(string guildName, ServerOld server, int actualDays) {
             Guild guild = ReadOnlyGuild(guildName, server, actualDays);
             if (guild.Id == -1) {
                 return guild;
@@ -732,7 +732,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
 
         #region Additional Section
 
-        public Digimon FindRandomDigimon(Server server, string guildName, int minlvl) {
+        public Digimon FindRandomDigimon(ServerOld server, string guildName, int minlvl) {
             Digimon d = new Digimon();
             string query = string.Format(Q_D_SELECT_RANDOM, server.Id, guildName, minlvl);
             try {
@@ -759,7 +759,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return d;
         }
 
-        public Digimon FindRandonDigimon(Server server, string guildName, string tamerName, int minlvl) {
+        public Digimon FindRandonDigimon(ServerOld server, string guildName, string tamerName, int minlvl) {
             Digimon d = new Digimon();
             bool IsLoaded = false;
             string query = string.Format(Q_D_SELECT_RANDOM2, server.Id, guildName, tamerName, minlvl);

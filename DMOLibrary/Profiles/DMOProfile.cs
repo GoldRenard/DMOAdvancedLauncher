@@ -131,8 +131,8 @@ namespace DMOLibrary.Profiles {
             return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), typeName);
         }
 
-        public Server GetServerById(int serverId) {
-            foreach (Server s in _ServerList)
+        public ServerOld GetServerById(int serverId) {
+            foreach (ServerOld s in _ServerList)
                 if (s.Id == serverId)
                     return s;
             return null;
@@ -158,9 +158,9 @@ namespace DMOLibrary.Profiles {
         }
 
         public DMODatabase Database;
-        protected ObservableCollection<Server> _ServerList;
+        protected ObservableCollection<ServerOld> _ServerList;
 
-        public ObservableCollection<Server> ServerList {
+        public ObservableCollection<ServerOld> ServerList {
             set {
             }
             get {

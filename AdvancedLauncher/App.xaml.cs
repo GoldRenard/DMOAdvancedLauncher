@@ -54,6 +54,8 @@ namespace AdvancedLauncher {
         }
 
         private void Application_Startup(object sender, StartupEventArgs e) {
+            DMOLibrary.Test.DoTest();
+
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
                 splash.Show(false);

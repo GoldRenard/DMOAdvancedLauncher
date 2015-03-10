@@ -19,22 +19,26 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Security;
-using System.Windows.Threading;
+using DMOLibrary.Database.Context;
+using DMOLibrary.Database.Entity;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles {
 
     public abstract class DMOProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOProfile));
-        protected Dispatcher OwnerDispatcher = null;
-
-        protected string typeName;
-        protected string databaseName = string.Empty;
         private string DATABASES_FOLDER = "{0}\\Databases";
-        protected bool _IsLoginRequired = false;
+        protected DMOWebProfile _WebProfile = null;
+        protected DMONewsProfile _NewsProfile = null;
+        protected ObservableCollection<Server> _ServerList;
+        public DMODatabase Database;
 
-        public DMOProfile() {
+        private readonly string typeName;
+
+        public DMOProfile(Server.ServerType serverType, string typeName) {
+            this.typeName = typeName;
             string dir = string.Format(DATABASES_FOLDER, System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory));
             if (!Directory.Exists(dir)) {
                 try {
@@ -42,10 +46,10 @@ namespace DMOLibrary.Profiles {
                 } catch {
                 }
             }
-        }
-
-        public string GetTypeName() {
-            return typeName;
+            using (ServersContext context = new ServersContext()) {
+                _ServerList = new ObservableCollection<Server>(context.Servers.Where(i => i.Type == serverType).ToList());
+            }
+            Database = new DMODatabase(GetDatabasePath());
         }
 
         #region Game start
@@ -71,24 +75,14 @@ namespace DMOLibrary.Profiles {
         protected virtual void OnCompleted(LoginCode code, string result) {
             LOGGER.InfoFormat("Logging in completed: code={0}, result=\"{1}\"", code, result);
             if (LoginCompleted != null) {
-                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteHandler((sender, code_, result_) => {
-                        LoginCompleted(sender, code_, result_);
-                    }), this, code, result);
-                } else
-                    LoginCompleted(this, code, result);
+                LoginCompleted(this, code, result);
             }
         }
 
         protected virtual void OnChanged(LoginState state) {
             LOGGER.InfoFormat("Logging state changed: state={0}", state);
             if (LoginStateChanged != null) {
-                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginStateHandler((sender_, state_, try_num_, last_error_) => {
-                        LoginStateChanged(sender_, state_, try_num_, last_error_);
-                    }), this, state, start_try + 1, last_error);
-                } else
-                    LoginStateChanged(this, state, start_try + 1, last_error);
+                LoginStateChanged(this, state, start_try + 1, last_error);
             }
         }
 
@@ -126,80 +120,83 @@ namespace DMOLibrary.Profiles {
         #region Database Section
 
         public string GetDatabasePath() {
-            if (databaseName != string.Empty)
-                return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), databaseName);
-            return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), typeName);
+            String fileName = GetTypeName();
+            if (GetDatabaseName() != null) {
+                fileName = GetDatabaseName();
+            }
+            return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), fileName);
         }
 
-        public ServerOld GetServerById(int serverId) {
-            foreach (ServerOld s in _ServerList)
-                if (s.Id == serverId)
-                    return s;
-            return null;
+        public Server GetServerById(int serverId) {
+            return _ServerList.Where(i => i.Identifier == serverId).FirstOrDefault();
         }
-
-        protected DMOWebProfile _WebProfile = null;
-        protected DMONewsProfile _NewsProfile = null;
 
         public DMOWebProfile WebProfile {
-            set {
-            }
             get {
+                if (_WebProfile == null) {
+                    _WebProfile = GetWebProfile();
+                }
                 return _WebProfile;
             }
         }
 
         public DMONewsProfile NewsProfile {
-            set {
-            }
             get {
+                if (_NewsProfile == null) {
+                    _NewsProfile = GetNewsProfile();
+                }
                 return _NewsProfile;
             }
         }
 
-        public DMODatabase Database;
-        protected ObservableCollection<ServerOld> _ServerList;
-
-        public ObservableCollection<ServerOld> ServerList {
-            set {
-            }
+        public ObservableCollection<Server> ServerList {
             get {
                 return _ServerList;
             }
         }
 
         public bool IsWebAvailable {
-            set {
-            }
             get {
                 return _WebProfile != null;
             }
         }
 
         public bool IsNewsAvailable {
-            set {
-            }
             get {
                 return _NewsProfile != null;
             }
         }
 
-        public bool IsLoginRequired {
-            set {
-            }
+        public virtual bool IsLoginRequired {
             get {
-                return _IsLoginRequired;
+                return false;
             }
         }
 
         #endregion Database Section
 
-        #region Service
+        #region Definition
 
         public abstract string GetGameStartArgs(string args);
 
         public abstract string GetLauncherStartArgs(string args);
 
-        #endregion Service
+        public string GetTypeName() {
+            return typeName;
+        }
+
+        protected virtual string GetDatabaseName() {
+            return null;
+        }
+
+        protected virtual DMOWebProfile GetWebProfile() {
+            return null;
+        }
+
+        protected virtual DMONewsProfile GetNewsProfile() {
+            return null;
+        }
+
+        #endregion Definition
     }
 }

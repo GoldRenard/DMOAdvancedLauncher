@@ -23,19 +23,6 @@ namespace DMOLibrary {
 
     #region Structs
 
-    public class ServerOld {
-
-        public int Id {
-            set;
-            get;
-        }
-
-        public string Name {
-            set;
-            get;
-        }
-    }
-
     public struct Guild {
         public int Key;
         public int Id;

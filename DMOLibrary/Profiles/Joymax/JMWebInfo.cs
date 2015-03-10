@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DMOLibrary.Database.Entity;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Joymax {
@@ -41,11 +42,11 @@ namespace DMOLibrary.Profiles.Joymax {
             this.Database = Database;
         }
 
-        public override Guild GetGuild(string guildName, ServerOld serv, bool isDetailed, int actualDays) {
+        public override Guild GetGuild(string guildName, Server server, bool isDetailed, int actualDays) {
             if (IsBusy) DispatcherHelper.DoEvents();
             OnStarted();
             //Check actual guild in database
-            Guild storedGuild = Database.ReadGuild(guildName, serv, actualDays);
+            Guild storedGuild = Database.ReadGuild(guildName, server, actualDays);
             if (storedGuild.Id != -1) {
                 if (!(isDetailed && !storedGuild.IsDetailed)) {
                     //and return it
@@ -60,7 +61,7 @@ namespace DMOLibrary.Profiles.Joymax {
 
             OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
 
-            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, guildName, "srv" + serv.Id));
+            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, guildName, "srv" + server.Identifier));
             if (html == string.Empty) {
                 OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guildInfo);
                 return guildInfo;
@@ -90,7 +91,7 @@ namespace DMOLibrary.Profiles.Joymax {
                                 string master = ranking.SelectNodes("//td[@class='master']")[i].InnerText;
                                 master = master.Substring(0, master.IndexOf(' '));
                                 guildInfo.MasterName = master;
-                                guildInfo.ServId = serv.Id;
+                                guildInfo.ServId = server.Identifier;
                                 guildInfo.Name = guildName;
                                 guildInfo.Rank = Convert.ToInt32(ranking.SelectNodes("//td[@class='ranking']")[i].InnerText);
                                 guildInfo.Rep = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='reputation']")[i].InnerText));
@@ -107,7 +108,7 @@ namespace DMOLibrary.Profiles.Joymax {
                     //write new guild into database and read back with detailed data (if not)
                     guildInfo.UpdateTime = DateTime.Now;
                     Database.WriteGuild(guildInfo, isDetailed);
-                    storedGuild = Database.ReadGuild(guildName, serv, actualDays);
+                    storedGuild = Database.ReadGuild(guildName, server, actualDays);
                     OnCompleted(DMODownloadResultCode.OK, storedGuild);
                     return storedGuild;
                 } else {

@@ -17,41 +17,16 @@
 // ======================================================================
 
 using System.Security;
+using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Profiles.Korea {
 
-    public class DMOKoreaIMBC : DMOProfile {
+    public class DMOKoreaIMBC : DMOKorea {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOKoreaIMBC));
 
-        private void InitVars() {
-            typeName = "KoreaIMBC";
-            databaseName = "Korea";
-            _IsLoginRequired = true;
-
-            Database = new DMODatabase(GetDatabasePath(), @"
-            INSERT INTO Servers([name]) VALUES ('Lucemon');
-            INSERT INTO Servers([name]) VALUES ('Leviamon');
-            INSERT INTO Servers([name]) VALUES ('Lilithmon');
-            INSERT INTO Servers([name]) VALUES ('Barbamon');");
-            if (Database.OpenConnection()) {
-                _ServerList = Database.FindServers();
-                Database.CloseConnection();
-            }
-            _WebProfile = new KoreaWebInfo(Database);
+        public DMOKoreaIMBC()
+            : base(Server.ServerType.KDMO_IMBC, "KoreaIMBC") {
         }
-
-        #region Constructors
-
-        public DMOKoreaIMBC() {
-            InitVars();
-        }
-
-        public DMOKoreaIMBC(System.Windows.Threading.Dispatcher ownerDispatcher) {
-            this.OwnerDispatcher = ownerDispatcher;
-            InitVars();
-        }
-
-        #endregion Constructors
 
         #region Getting user login commandline
 
@@ -123,12 +98,8 @@ namespace DMOLibrary.Profiles.Korea {
 
         #endregion Getting user login commandline
 
-        public override string GetGameStartArgs(string args) {
-            return args.Replace(" 1 ", " ");
-        }
-
-        public override string GetLauncherStartArgs(string args) {
-            return args;
+        protected virtual string GetDatabaseName() {
+            return "Korea";
         }
     }
 }

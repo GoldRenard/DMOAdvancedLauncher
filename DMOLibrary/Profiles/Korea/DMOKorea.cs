@@ -17,40 +17,20 @@
 // ======================================================================
 
 using System.Security;
+using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Profiles.Korea {
 
     public class DMOKorea : DMOProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOKorea));
 
-        private void InitVars() {
-            typeName = "Korea";
-            _IsLoginRequired = true;
-
-            Database = new DMODatabase(GetDatabasePath(), @"
-            INSERT INTO Servers([name]) VALUES ('Lucemon');
-            INSERT INTO Servers([name]) VALUES ('Leviamon');
-            INSERT INTO Servers([name]) VALUES ('Lilithmon');
-            INSERT INTO Servers([name]) VALUES ('Barbamon');");
-            if (Database.OpenConnection()) {
-                _ServerList = Database.FindServers();
-                Database.CloseConnection();
-            }
-            _WebProfile = new KoreaWebInfo(Database);
+        public DMOKorea()
+            : this(Server.ServerType.KDMO, "Korea") {
         }
 
-        #region Constructors
-
-        public DMOKorea() {
-            InitVars();
+        public DMOKorea(Server.ServerType serverType, string typeName)
+            : base(serverType, typeName) {
         }
-
-        public DMOKorea(System.Windows.Threading.Dispatcher ownerDispatcher) {
-            this.OwnerDispatcher = ownerDispatcher;
-            InitVars();
-        }
-
-        #endregion Constructors
 
         #region Getting user login commandline
 
@@ -120,6 +100,16 @@ namespace DMOLibrary.Profiles.Korea {
         }
 
         #endregion Getting user login commandline
+
+        public override bool IsLoginRequired {
+            get {
+                return true;
+            }
+        }
+
+        protected override DMOWebProfile GetWebProfile() {
+            return new KoreaWebInfo(Database);
+        }
 
         public override string GetGameStartArgs(string args) {
             return args.Replace(" 1 ", " ");

@@ -28,6 +28,7 @@ using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using DMOLibrary;
+using DMOLibrary.Database.Entity;
 using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Controls {
@@ -39,7 +40,7 @@ namespace AdvancedLauncher.Controls {
 
         private string rGuild;
         private string rTamer;
-        private ServerOld rServ;
+        private Server rServ;
 
         private bool IsSourceLoaded = false;
         private bool IsErrorOccured = false;

@@ -16,39 +16,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using DMOLibrary.Database.Entity;
+
 namespace DMOLibrary.Profiles.Joymax {
 
     public class DMOJoymax : DMOProfile {
 
-        private void InitVars() {
-            typeName = "Joymax";
-
-            Database = new DMODatabase(GetDatabasePath(), @"
-            INSERT INTO Servers([name]) VALUES ('Leviamon');
-            INSERT INTO Servers([name]) VALUES ('Lucemon');
-            INSERT INTO Servers([name]) VALUES ('Lilithmon');
-            INSERT INTO Servers([name]) VALUES ('Barbamon');
-            INSERT INTO Servers([name]) VALUES ('Beelzemon');");
-            if (Database.OpenConnection()) {
-                _ServerList = Database.FindServers();
-                Database.CloseConnection();
-            }
-            _WebProfile = new JMWebInfo(Database);
-            _NewsProfile = new JMNews();
+        public DMOJoymax()
+            : base(Server.ServerType.GDMO, "Joymax") {
         }
-
-        #region Constructors
-
-        public DMOJoymax() {
-            InitVars();
-        }
-
-        public DMOJoymax(System.Windows.Threading.Dispatcher ownerDispatcher) {
-            this.OwnerDispatcher = ownerDispatcher;
-            InitVars();
-        }
-
-        #endregion Constructors
 
         #region Getting user login commandline
 
@@ -57,6 +33,14 @@ namespace DMOLibrary.Profiles.Joymax {
         }
 
         #endregion Getting user login commandline
+
+        protected override DMONewsProfile GetNewsProfile() {
+            return new JMNews();
+        }
+
+        protected override DMOWebProfile GetWebProfile() {
+            return new JMWebInfo(Database);
+        }
 
         public override string GetGameStartArgs(string args) {
             return "true";

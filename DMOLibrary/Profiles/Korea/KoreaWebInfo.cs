@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DMOLibrary.Database.Entity;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Korea {
@@ -43,11 +44,11 @@ namespace DMOLibrary.Profiles.Korea {
             this.Database = Database;
         }
 
-        public override Guild GetGuild(string guildName, ServerOld serv, bool isDetailed, int actualDays) {
+        public override Guild GetGuild(string guildName, Server server, bool isDetailed, int actualDays) {
             if (IsBusy) DispatcherHelper.DoEvents();
             OnStarted();
             //Check actual guild in database
-            Guild storedGuild = Database.ReadGuild(guildName, serv, actualDays);
+            Guild storedGuild = Database.ReadGuild(guildName, server, actualDays);
             if (storedGuild.Id != -1) {
                 if (!(isDetailed && !storedGuild.IsDetailed)) {
                     //and return it
@@ -63,7 +64,7 @@ namespace DMOLibrary.Profiles.Korea {
 
             OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
 
-            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, guildName, serv.Id));
+            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, guildName, server.Identifier));
             if (html == string.Empty) {
                 OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guildInfo);
                 return guildInfo;
@@ -74,7 +75,7 @@ namespace DMOLibrary.Profiles.Korea {
             HtmlNode ranking = doc.DocumentNode;
             try {
                 ranking = doc.DocumentNode.SelectNodes("//div[@id='body']//table[@class='forum_list'][1]//tbody//tr[not(@onmouseover)]")[4];
-                guildInfo.ServId = serv.Id;
+                guildInfo.ServId = server.Identifier;
                 guildInfo.Rank = CheckRankNode(ranking.SelectSingleNode(".//td[1]"));
 
                 guildInfo.Name = ClearStr(ranking.SelectSingleNode(".//td[2]").InnerText);
@@ -106,7 +107,7 @@ namespace DMOLibrary.Profiles.Korea {
                 //write new guild into database and read back with detailed data (if not)
                 guildInfo.UpdateTime = DateTime.Now;
                 Database.WriteGuild(guildInfo, isDetailed);
-                storedGuild = Database.ReadGuild(guildName, serv, actualDays);
+                storedGuild = Database.ReadGuild(guildName, server, actualDays);
                 OnCompleted(DMODownloadResultCode.OK, storedGuild);
                 return storedGuild;
             } else {

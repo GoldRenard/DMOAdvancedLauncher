@@ -24,6 +24,8 @@ namespace DMOLibrary {
 
         public static void DoTest() {
             using (var db = new ServersContext()) {
+                //List<Server> gdmoServers = db.Servers.Where(i => i.Type == Server.ServerType.GDMO).ToList();
+                //int s1 = 1;
             }
         }
     }

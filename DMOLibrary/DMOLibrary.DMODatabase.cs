@@ -18,9 +18,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.IO;
+using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary {
 
@@ -54,7 +54,6 @@ namespace DMOLibrary {
         private static string Q_DTYPE_GUPDATE = "UPDATE Digimon_types SET [search_gdmo] = '{1}' WHERE [id] = {0};";
         private static string Q_DTYPE_KUPDATE = "UPDATE Digimon_types SET [name_korean] = '{1}', [search_kdmo] = '{2}' WHERE [id] = {0};";
         private static string Q_TTYPE_BY_ID = "SELECT * FROM Tamer_types WHERE [id] = '{0}';";
-        private static string Q_S_BY_NAME = "SELECT * FROM Servers;";
 
         private static string Q_G_COUNT = "SELECT count([key]) FROM Guilds WHERE [id] = {0} AND [serv_id] = {1};";
         private static string Q_G_SELECT_BY_NAME = "SELECT * FROM Guilds WHERE [name] = '{0}' AND [serv_id] = {1};";
@@ -111,6 +110,10 @@ SELECT * FROM (
         #endregion Query list
 
         #region Connection creating, opening, closing
+
+        public DMODatabase(string databaseFile)
+            : this(databaseFile, null) {
+        }
 
         public DMODatabase(string databaseFile, string cInitQuery) {
             DatabaseFile = databaseFile;
@@ -346,9 +349,11 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
                 CloseConnection();
                 return false;
             }
-            if (!Query(cInitQuery)) {
-                CloseConnection();
-                return false;
+            if (cInitQuery != null) {
+                if (!Query(cInitQuery)) {
+                    CloseConnection();
+                    return false;
+                }
             }
             CloseConnection();
             return true;
@@ -513,32 +518,11 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return type;
         }
 
-        public ObservableCollection<ServerOld> FindServers() {
-            ObservableCollection<ServerOld> servers = new ObservableCollection<ServerOld>();
-            string query = Q_S_BY_NAME;
-            try {
-                SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read()) {
-                    ServerOld serv = new ServerOld();
-                    serv.Name = (string)dataReader["name"];
-                    serv.Id = Convert.ToInt32(dataReader["id"]);
-                    servers.Add(serv);
-                }
-                dataReader.Close();
-            } catch (Exception ex) {
-                MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
-                LOGGER.Error(ex);
-                return null;
-            }
-            return servers;
-        }
-
-        public Guild ReadOnlyGuild(string guildName, ServerOld server, int actualDays) {
+        public Guild ReadOnlyGuild(string guildName, Server server, int actualDays) {
             Guild guild = new Guild();
             guild.Id = -1;
 
-            string query = string.Format(Q_G_SELECT_BY_NAME, guildName, server.Id);
+            string query = string.Format(Q_G_SELECT_BY_NAME, guildName, server.Identifier);
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
@@ -627,7 +611,7 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return digimons;
         }
 
-        public Guild ReadGuild(string guildName, ServerOld server, int actualDays) {
+        public Guild ReadGuild(string guildName, Server server, int actualDays) {
             Guild guild = ReadOnlyGuild(guildName, server, actualDays);
             if (guild.Id == -1) {
                 return guild;
@@ -732,9 +716,9 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
 
         #region Additional Section
 
-        public Digimon FindRandomDigimon(ServerOld server, string guildName, int minlvl) {
+        public Digimon FindRandomDigimon(Server server, string guildName, int minlvl) {
             Digimon d = new Digimon();
-            string query = string.Format(Q_D_SELECT_RANDOM, server.Id, guildName, minlvl);
+            string query = string.Format(Q_D_SELECT_RANDOM, server.Identifier, guildName, minlvl);
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
@@ -759,10 +743,10 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
             return d;
         }
 
-        public Digimon FindRandonDigimon(ServerOld server, string guildName, string tamerName, int minlvl) {
+        public Digimon FindRandonDigimon(Server server, string guildName, string tamerName, int minlvl) {
             Digimon d = new Digimon();
             bool IsLoaded = false;
-            string query = string.Format(Q_D_SELECT_RANDOM2, server.Id, guildName, tamerName, minlvl);
+            string query = string.Format(Q_D_SELECT_RANDOM2, server.Identifier, guildName, tamerName, minlvl);
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();

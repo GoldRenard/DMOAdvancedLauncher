@@ -23,6 +23,7 @@ using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Validators;
 using DMOLibrary;
+using DMOLibrary.Database.Entity;
 using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Pages {
@@ -59,7 +60,7 @@ namespace AdvancedLauncher.Pages {
 
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Rotation.Guild)) {
-                foreach (ServerOld serv in ComboBoxServer.Items) {
+                foreach (Server serv in ComboBoxServer.Items) {
                     //Ищем сервер с нужным идентификатором и выбираем его
                     if (serv.Id == LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1) {
                         ComboBoxServer.SelectedValue = serv;
@@ -159,7 +160,7 @@ namespace AdvancedLauncher.Pages {
                 webProfile.DownloadStarted += OnDownloadStarted;
                 webProfile.DownloadCompleted += OnDownloadCompleted;
                 webProfile.StatusChanged += OnStatusChanged;
-                webProfile.GetGuildAsync(this.Dispatcher, GuildNameTextBox.Text, (ServerOld)ComboBoxServer.SelectedValue, (bool)chkbox_IsDetailed.IsChecked, 1);
+                webProfile.GetGuildAsync(this.Dispatcher, GuildNameTextBox.Text, (Server)ComboBoxServer.SelectedValue, (bool)chkbox_IsDetailed.IsChecked, 1);
             }
         }
 

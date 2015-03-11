@@ -66,14 +66,6 @@ namespace DMOLibrary {
         public List<Digimon> Digimons;
     }
 
-    public struct NewsItem {
-        public string Mode;
-        public string Subject;
-        public string Date;
-        public string Content;
-        public string Url;
-    }
-
     public struct DownloadStatus {
         public DMODownloadStatusCode Code;
         public string Info;

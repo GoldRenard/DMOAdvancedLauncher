@@ -22,6 +22,14 @@ namespace DMOLibrary.Profiles {
 
     public abstract class DMONewsProfile {
 
+        public struct NewsItem {
+            public string Mode;
+            public string Subject;
+            public string Date;
+            public string Content;
+            public string Url;
+        }
+
         public abstract List<NewsItem> GetNews();
     }
 }

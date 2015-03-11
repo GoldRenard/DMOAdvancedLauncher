@@ -23,7 +23,11 @@ using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Database.Context {
 
-    public class ServersContext : BaseContext {
+    public class MainContext : BaseContext {
+
+        static MainContext() {
+            System.Data.Entity.Database.SetInitializer<MainContext>(new ContextInitializer());
+        }
 
         public DbSet<Server> Servers {
             get;

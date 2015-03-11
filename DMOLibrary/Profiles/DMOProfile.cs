@@ -46,7 +46,7 @@ namespace DMOLibrary.Profiles {
                 } catch {
                 }
             }
-            using (ServersContext context = new ServersContext()) {
+            using (MainContext context = new MainContext()) {
                 _ServerList = new ObservableCollection<Server>(context.Servers.Where(i => i.Type == serverType).ToList());
             }
             Database = new DMODatabase(GetDatabasePath());

@@ -23,46 +23,6 @@ using DMOLibrary.Database.Entity;
 namespace DMOLibrary.Database.Context {
 
     public abstract class BaseContext : DbContext {
-        public static int REQUIRED_DATABASE_VERSION = 1;
-        private static bool INITIALIZED = false;
 
-        public BaseContext()
-            : base() {
-            if (!INITIALIZED) {
-                Initialize();
-            }
-        }
-
-        public DbSet<VersionInfo> VersionInfoes {
-            get;
-            set;
-        }
-
-        public void Initialize() {
-            // first of all we check existing VersionInfoes table
-            // and manually create the table for it if it will fail
-            try {
-                this.VersionInfoes.Count();
-            } catch {
-                this.Database.ExecuteSqlCommand(VersionInfo.CREATE_QUERY);
-            }
-
-            int currentVersion = 0;
-            if (this.VersionInfoes.Count() > 0) {
-                currentVersion = this.VersionInfoes.Max(x => x.Version);
-            }
-            MigrationHelper mmSqliteHelper = new MigrationHelper();
-            while (currentVersion < REQUIRED_DATABASE_VERSION) {
-                currentVersion++;
-                foreach (string migration in mmSqliteHelper.Migrations[currentVersion]) {
-                    this.Database.ExecuteSqlCommand(migration);
-                }
-                this.VersionInfoes.Add(new VersionInfo() {
-                    Version = currentVersion
-                });
-                this.SaveChanges();
-            }
-            INITIALIZED = true;
-        }
     }
 }

@@ -43,5 +43,10 @@ namespace DMOLibrary.Database.Entity {
             get;
             set;
         }
+
+        public string Test {
+            get;
+            set;
+        }
     }
 }

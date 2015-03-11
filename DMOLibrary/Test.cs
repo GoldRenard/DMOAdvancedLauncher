@@ -16,16 +16,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Collections.Generic;
 using DMOLibrary.Database.Context;
+using System.Linq;
+using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary {
 
     public class Test {
 
         public static void DoTest() {
-            using (var db = new ServersContext()) {
-                //List<Server> gdmoServers = db.Servers.Where(i => i.Type == Server.ServerType.GDMO).ToList();
-                //int s1 = 1;
+            using (var db = new MainContext()) {
+                List<Server> gdmoServers = db.Servers.Where(i => i.Type == Server.ServerType.GDMO).ToList();
+                int s1 = 1;
             }
         }
     }

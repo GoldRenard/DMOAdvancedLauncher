@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 using HtmlAgilityPack;
 
@@ -100,8 +101,9 @@ namespace DMOLibrary.Profiles.Korea {
 
             List<DigimonType> types = GetDigimonTypes();
             foreach (DigimonType type in types) {
-                Database.WriteDigimonType(type, true);
+                MainContext.Instance.AddOrUpdateDigimonType(type, true);
             }
+            MainContext.Instance.SaveChanges();
 
             if (GetGuildInfo(ref guildInfo, isDetailed)) {
                 //write new guild into database and read back with detailed data (if not)
@@ -233,13 +235,13 @@ namespace DMOLibrary.Profiles.Korea {
                     digimonInfo.Rank = Convert.ToInt32(rank);
 
                     List<DigimonType> types = null;
-                    string searchName = DMODatabase.PrepareDigimonSearch(digimonInfo.Name);
-                    types = Database.FindDigimonTypesBySearchKDMO(searchName);
+                    string searchName = MainContext.PrepareDigimonSearch(digimonInfo.Name);
+                    types = MainContext.Instance.FindDigimonTypesBySearchKDMO(searchName);
                     if (types == null) {
                         continue;
                     }
                     digimonInfo.Name = types[0].Name;
-                    digimonInfo.TypeId = types[0].Id;
+                    digimonInfo.TypeId = types[0].Code;
 
                     if (digimonList.Count(d => d.TypeId.Equals(digimonInfo.TypeId)) == 0) {
                         if (isDetailed) {
@@ -276,11 +278,11 @@ namespace DMOLibrary.Profiles.Korea {
             }
 
             if (partnerNode != null) {
-                string searchName = DMODatabase.PrepareDigimonSearch(digimon.Name);
-                List<DigimonType> types = Database.FindDigimonTypesBySearchKDMO(searchName);
+                string searchName = MainContext.PrepareDigimonSearch(digimon.Name);
+                List<DigimonType> types = MainContext.Instance.FindDigimonTypesBySearchKDMO(searchName);
                 if (types != null) {
                     if (types.Count > 0) {
-                        digimon.TypeId = types[0].Id;
+                        digimon.TypeId = types[0].Code;
                         digimon.Name = types[0].Name;
                     }
                 }
@@ -302,11 +304,11 @@ namespace DMOLibrary.Profiles.Korea {
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamerName);
 
-            DigimonType? tryType = Database.FindDigimonTypeById(digimon.TypeId);
+            DigimonType tryType = MainContext.Instance.FindDigimonTypeByCode(digimon.TypeId);
             if (tryType == null) {
                 return false;
             }
-            DigimonType digimonType = (DigimonType)tryType;
+            DigimonType digimonType = (DigimonType) tryType;
 
             string html = WebDownload.GetHTML(string.Format(STR_URL_MERC_SIZE_RANK, tamerName, digimon.ServId.ToString(), digimonType.Id.ToString()));
             if (html == string.Empty) {
@@ -323,7 +325,7 @@ namespace DMOLibrary.Profiles.Korea {
             }
 
             if (partner_node != null) {
-                digimon.TypeId = digimonType.Id;
+                digimon.TypeId = digimonType.Code;
                 digimon.SizeRank = Convert.ToInt32(ClearStr(partner_node.SelectSingleNode(".//td[1]").InnerText));
                 digimon.Name = ClearStr(partner_node.SelectSingleNode(".//td[2]//label").InnerText);
                 digimon.Lvl = Convert.ToInt32(ClearStr(partner_node.SelectSingleNode(".//td[4]").InnerText));
@@ -377,7 +379,7 @@ namespace DMOLibrary.Profiles.Korea {
                     continue;
                 }
                 DigimonType dType = new DigimonType() {
-                    Id = Convert.ToInt32(type.Attributes["value"].Value),
+                    Code = Convert.ToInt32(type.Attributes["value"].Value),
                     Name = type.InnerText
                 };
                 dTypes.Add(dType);

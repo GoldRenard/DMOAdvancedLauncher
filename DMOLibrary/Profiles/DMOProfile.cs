@@ -46,9 +46,7 @@ namespace DMOLibrary.Profiles {
                 } catch {
                 }
             }
-            using (MainContext context = new MainContext()) {
-                _ServerList = new ObservableCollection<Server>(context.Servers.Where(i => i.Type == serverType).ToList());
-            }
+            _ServerList = new ObservableCollection<Server>(MainContext.Instance.Servers.Where(i => i.Type == serverType).ToList());
             Database = new DMODatabase(GetDatabasePath());
         }
 
@@ -157,13 +155,13 @@ namespace DMOLibrary.Profiles {
 
         public bool IsWebAvailable {
             get {
-                return _WebProfile != null;
+                return WebProfile != null;
             }
         }
 
         public bool IsNewsAvailable {
             get {
-                return _NewsProfile != null;
+                return NewsProfile != null;
             }
         }
 

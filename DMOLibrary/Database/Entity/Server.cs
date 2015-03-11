@@ -33,6 +33,7 @@ namespace DMOLibrary.Database.Entity {
         }
 
         [Required]
+        [StringLength(25)]
         public string Name {
             get;
             set;
@@ -40,11 +41,6 @@ namespace DMOLibrary.Database.Entity {
 
         [Required]
         public ServerType Type {
-            get;
-            set;
-        }
-
-        public string Test {
             get;
             set;
         }

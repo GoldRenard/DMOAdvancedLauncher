@@ -26,10 +26,8 @@ namespace DMOLibrary {
     public class Test {
 
         public static void DoTest() {
-            using (var db = new MainContext()) {
-                List<Server> gdmoServers = db.Servers.Where(i => i.Type == Server.ServerType.GDMO).ToList();
-                int s1 = 1;
-            }
+            List<Server> gdmoServers = MainContext.Instance.Servers.Where(i => i.Type == Server.ServerType.GDMO).ToList();
+            int s1 = 1;
         }
     }
 }

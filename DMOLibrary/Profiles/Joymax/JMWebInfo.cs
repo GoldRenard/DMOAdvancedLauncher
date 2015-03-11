@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 using HtmlAgilityPack;
 
@@ -74,8 +75,10 @@ namespace DMOLibrary.Profiles.Joymax {
             if (tlist != null) {
                 List<DigimonType> types = GetDigimonTypes();
                 foreach (DigimonType type in types) {
-                    Database.WriteDigimonType(type, false);
+                    MainContext.Instance.AddOrUpdateDigimonType(type, false);
                 }
+                MainContext.Instance.SaveChanges();
+
                 HtmlNode e = null;
                 for (int i = 0; i <= tlist.Count - 2; i++) {
                     try {
@@ -205,12 +208,12 @@ namespace DMOLibrary.Profiles.Joymax {
                     digimonInfo.ServId = tamer.ServId;
                     digimonInfo.Name = ClearStr(mercenaryList.SelectNodes("//em[@class='partner']")[i].InnerText);
                     List<DigimonType> types = null;
-                    string searchName = DMODatabase.PrepareDigimonSearch(digimonInfo.Name);
-                    types = Database.FindDigimonTypesBySearchGDMO(searchName);
+                    string searchName = MainContext.PrepareDigimonSearch(digimonInfo.Name);
+                    types = MainContext.Instance.FindDigimonTypesBySearchGDMO(searchName);
                     if (types == null) {
                         continue;
                     }
-                    digimonInfo.TypeId = types[0].Id;
+                    digimonInfo.TypeId = types[0].Code;
                     digimonInfo.Lvl = Convert.ToInt32(ClearStr(mercenaryList.SelectNodes("//span[@class='level']")[i].InnerText));
                     digimonInfo.Rank = Convert.ToInt32(ClearStr(mercenaryList.SelectNodes("//span[@class='ranking']")[i].InnerText));
 
@@ -247,11 +250,11 @@ namespace DMOLibrary.Profiles.Joymax {
             if (dlist != null)
                 for (int i = 0; i <= dlist.Count - 1; i++) {
                     if (ClearStr(ranking.SelectNodes("//td[@class='tamer2']")[i].InnerText) == tamerName) {
-                        string searchName = DMODatabase.PrepareDigimonSearch(digimon.Name);
-                        List<DigimonType> types = Database.FindDigimonTypesBySearchGDMO(searchName);
+                        string searchName = MainContext.PrepareDigimonSearch(digimon.Name);
+                        List<DigimonType> types = MainContext.Instance.FindDigimonTypesBySearchGDMO(searchName);
                         if (types != null) {
                             if (types.Count > 0) {
-                                digimon.TypeId = types[0].Id;
+                                digimon.TypeId = types[0].Code;
                             }
                         }
                         digimon.Rank = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='ranking']")[i + 3].InnerText));
@@ -273,7 +276,7 @@ namespace DMOLibrary.Profiles.Joymax {
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamerName);
 
-            DigimonType? tryType = Database.FindDigimonTypeById(digimon.TypeId);
+            DigimonType tryType = MainContext.Instance.FindDigimonTypeByCode(digimon.TypeId);
             if (tryType == null) {
                 return false;
             }
@@ -293,7 +296,7 @@ namespace DMOLibrary.Profiles.Joymax {
             if (dlist != null) {
                 for (int i = 0; i <= dlist.Count - 1; i++) {
                     if (ClearStr(ranking.SelectNodes("//td[@class='tamer2']")[i].InnerText) == tamerName) {
-                        digimon.TypeId = digimonType.Id;
+                        digimon.TypeId = digimonType.Code;
                         size = ranking.SelectNodes("//td[@class='size']")[i + 3].InnerText.Replace("cm", "");
                         string size_cm = size.Substring(0, size.IndexOf(' '));
                         double.TryParse(size_cm.Replace('.', ','), out digimon.SizeCm);
@@ -328,7 +331,7 @@ namespace DMOLibrary.Profiles.Joymax {
                     continue;
                 }
                 DigimonType dType = new DigimonType() {
-                    Id = Convert.ToInt32(type.Attributes["value"].Value),
+                    Code = Convert.ToInt32(type.Attributes["value"].Value),
                     Name = type.InnerText
                 };
                 dTypes.Add(dType);

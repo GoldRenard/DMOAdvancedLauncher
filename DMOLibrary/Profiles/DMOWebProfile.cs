@@ -118,10 +118,6 @@ namespace DMOLibrary.Profiles {
             return Database.FindRandonDigimon(server, guildName, tamerName, minlvl);
         }
 
-        public DigimonType GetRandomDigimonType() {
-            return Database.FindRandomDigimonType();
-        }
-
         public abstract List<DigimonType> GetDigimonTypes();
 
         public abstract Guild GetGuild(string guildName, Server server, bool isDetailed, int actualDays);

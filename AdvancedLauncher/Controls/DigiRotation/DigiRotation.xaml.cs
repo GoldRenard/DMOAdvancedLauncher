@@ -28,6 +28,7 @@ using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using DMOLibrary;
+using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 using DMOLibrary.Profiles;
 
@@ -277,7 +278,7 @@ namespace AdvancedLauncher.Controls {
                 }), d.Name, d.Lvl, d.CustomTamerName, d.CustomTamerlvl, GetDigimonImage(d.TypeId), Medal);
             } else {
                 //Если статика - получаем рандомный тип и показываем
-                DigimonType dType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.FindRandomDigimonType();
+                DigimonType dType = MainContext.Instance.FindRandomDigimonType();
                 block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
                     vmodel.DType = DType_;
                     vmodel.Level = Level_;
@@ -285,7 +286,7 @@ namespace AdvancedLauncher.Controls {
                     vmodel.TLevel = TLevel_;
                     vmodel.Image = Image_;
                     vmodel.Medal = Medal_;
-                }), string.Empty, 0, string.Empty, 0, GetDigimonImage(dType.Id), null);
+                }), string.Empty, 0, string.Empty, 0, GetDigimonImage(dType.Code), null);
             }
         }
 

@@ -20,13 +20,50 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DMOLibrary.Database.Entity {
 
-    public class VersionInfo : BaseEntity {
-        public static string CREATE_QUERY = "CREATE TABLE [VersionInfoes] ([Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, [Version] INTEGER NOT NULL)";
+    public class DigimonType : BaseEntity {
 
         [Required]
-        public int Version {
+        public int Code {
             get;
             set;
+        }
+
+        [Required]
+        [StringLength(50)]
+        public string Name {
+            get;
+            set;
+        }
+
+        [StringLength(50)]
+        public string NameAlt {
+            get;
+            set;
+        }
+
+        [StringLength(50)]
+        public string NameKorean {
+            get;
+            set;
+        }
+
+        [Required]
+        [StringLength(50)]
+        public string SearchGDMO {
+            get;
+            set;
+        }
+
+        [Required]
+        [StringLength(50)]
+        public string SearchKDMO {
+            get;
+            set;
+        }
+
+        public override string ToString() {
+            return string.Format("DigimonType [Id={0}, Name={1}, NameAlt={2}, SearchGDMO={3}, SearchKDMO={4}",
+                Id, Name, NameAlt, SearchGDMO, SearchKDMO);
         }
     }
 }

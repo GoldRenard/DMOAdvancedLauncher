@@ -23,7 +23,7 @@ namespace DMOLibrary.Database.Entity {
     public abstract class BaseEntity {
 
         [Key]
-        public int Id {
+        public long Id {
             get;
             set;
         }

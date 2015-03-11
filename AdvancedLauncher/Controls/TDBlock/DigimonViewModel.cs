@@ -23,6 +23,8 @@ using System.ComponentModel;
 using System.Linq;
 using AdvancedLauncher.Environment;
 using DMOLibrary;
+using DMOLibrary.Database.Context;
+using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
@@ -47,7 +49,7 @@ namespace AdvancedLauncher.Controls {
             string typeName;
             DigimonType dtype;
             foreach (Digimon item in tamer.Digimons) {
-                dtype = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.FindDigimonTypeById(item.TypeId).GetValueOrDefault();
+                dtype = MainContext.Instance.FindDigimonTypeByCode(item.TypeId);
                 typeName = dtype.Name;
                 if (dtype.NameAlt != null) {
                     typeName += " (" + dtype.NameAlt + ")";

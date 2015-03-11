@@ -83,7 +83,7 @@
   <ItemGroup>
     <Compile Include="Database\Context\BaseContext.cs" />
     <Compile Include="Database\Context\ContextInitializer.cs" />
-    <Compile Include="Database\Entity\VersionInfo.cs" />
+    <Compile Include="Database\Entity\DigimonType.cs" />
     <Compile Include="Database\Entity\BaseEntity.cs" />
     <Compile Include="Database\Entity\Server.cs" />
     <Compile Include="Database\Context\MainContext.cs" />

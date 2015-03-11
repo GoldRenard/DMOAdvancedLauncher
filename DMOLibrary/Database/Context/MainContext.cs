@@ -19,46 +19,110 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Database.Context {
 
     public class MainContext : BaseContext {
+        private static MainContext _Instance = null;
+
+        #region Constructors
 
         static MainContext() {
             System.Data.Entity.Database.SetInitializer<MainContext>(new ContextInitializer());
         }
+
+        private MainContext() {
+            // hide the constructor
+        }
+
+        public static MainContext Instance {
+            get {
+                if (_Instance == null) {
+                    _Instance = new MainContext();
+                }
+                return _Instance;
+            }
+        }
+
+        #endregion
+
+        #region Databases
 
         public DbSet<Server> Servers {
             get;
             set;
         }
 
-        public static List<string> GetInitializeQueries() {
-            List<String> queries = new List<string>();
-            queries.Add("CREATE TABLE [Servers] ([Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, [Identifier] INTEGER(1) NOT NULL, [Name] TEXT NOT NULL, [Type] INTEGER NOT NULL)");
-            queries.Add(String.Format("INSERT INTO Servers([Identifier], [Name], [Type]) VALUES (1, 'Seraphimon', {0})", (int)Server.ServerType.ADMO));
-            queries.Add(String.Format("INSERT INTO Servers([Identifier], [Name], [Type]) VALUES "
-                + "(1, 'Leviamon', {0}),"
-                + "(2, 'Lucemon', {0}),"
-                + "(3, 'Lilithmon', {0}),"
-                + "(4, 'Barbamon', {0}),"
-                + "(5, 'Beelzemon', {0})",
-                (int)Server.ServerType.GDMO));
-            queries.Add(String.Format("INSERT INTO Servers([Identifier], [Name], [Type]) VALUES "
-                + "(1, 'Lucemon', {0}),"
-                + "(2, 'Leviamon', {0}),"
-                + "(3, 'Lilithmon', {0}),"
-                + "(4, 'Barbamon', {0})",
-                (int)Server.ServerType.KDMO));
-
-            queries.Add(String.Format("INSERT INTO Servers([Identifier], [Name], [Type]) VALUES "
-                + "(1, 'Lucemon', {0}),"
-                + "(2, 'Leviamon', {0}),"
-                + "(3, 'Lilithmon', {0}),"
-                + "(4, 'Barbamon', {0})",
-                (int)Server.ServerType.KDMO_IMBC));
-            return queries;
+        public DbSet<DigimonType> DigimonTypes {
+            get;
+            set;
         }
+
+        #endregion
+
+        #region DigimonType tools
+
+        public DigimonType FindRandomDigimonType() {
+            return DigimonTypes.OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();
+        }
+
+        public List<DigimonType> FindDigimonTypesByName(string name) {
+            return DigimonTypes.Where(e => e.Name == name).ToList();
+        }
+
+        public List<DigimonType> FindDigimonTypesByKoreanName(string name) {
+            return DigimonTypes.Where(e => e.NameKorean == name).ToList();
+        }
+
+        public DigimonType FindDigimonTypeByCode(int code) {
+            return DigimonTypes.FirstOrDefault(e => e.Code == code);
+        }
+
+        public List<DigimonType> FindDigimonTypesBySearchGDMO(string search) {
+            return DigimonTypes.Where(e => e.SearchGDMO == search).ToList();
+        }
+
+        public List<DigimonType> FindDigimonTypesBySearchKDMO(string search) {
+            return DigimonTypes.Where(e => e.SearchKDMO == search).ToList();
+        }
+
+        public void AddOrUpdateDigimonType(DigimonType type, bool isKorean) {
+            DigimonType ordinal = DigimonTypes.FirstOrDefault(e => e.Code == type.Code);
+            if (ordinal == null) {
+                if (isKorean) {
+                    type.NameKorean = type.Name;
+                    type.SearchKDMO = PrepareDigimonSearch(type.Name);
+                } else {
+                    type.SearchGDMO = PrepareDigimonSearch(type.Name);
+                }
+                DigimonTypes.Add(type);
+                return;
+            }
+
+            if (isKorean) {
+                ordinal.NameKorean = type.Name;
+                ordinal.SearchKDMO = PrepareDigimonSearch(type.Name);
+            } else {
+                ordinal.SearchGDMO = PrepareDigimonSearch(type.Name);
+            }
+        }
+
+        public static String PrepareDigimonSearch(string name) {
+            if (name == null) {
+                return null;
+            }
+            return name
+                .Replace(" ", String.Empty)
+                .Replace("(", String.Empty)
+                .Replace(")", String.Empty)
+                .Replace("[", String.Empty)
+                .Replace("]", String.Empty)
+                .Replace("-", String.Empty)
+                .ToLower();
+        }
+
+        #endregion
     }
 }

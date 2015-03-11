@@ -25,6 +25,8 @@ using System.Linq;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using DMOLibrary;
+using DMOLibrary.Database.Context;
+using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
@@ -47,9 +49,11 @@ namespace AdvancedLauncher.Controls {
         public void LoadData(List<Tamer> List) {
             this.IsDataLoaded = true;
             foreach (Tamer item in List) {
+                TamerType tamerType =  MainContext.Instance.FindTamerTypeByCode(item.TypeId);
+                string tamerName = tamerType != null ? tamerType.Name : "???";
                 this.Items.Add(new TamerItemViewModel {
                     TName = item.Name,
-                    TType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.FindTamerTypeById(item.TypeId).Name,
+                    TType = MainContext.Instance.FindTamerTypeByCode(item.TypeId).Name,
                     Level = item.Lvl,
                     PName = item.PartnerName,
                     Rank = item.Rank,

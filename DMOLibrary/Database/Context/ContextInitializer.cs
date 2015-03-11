@@ -15,6 +15,7 @@ namespace DMOLibrary.Database.Context {
         protected override void Seed(MainContext context) {
             SeedServers(context);
             SeedDigimonTypes(context);
+            SeedTamerTypes(context);
             base.Seed(context);
         }
 
@@ -156,6 +157,30 @@ namespace DMOLibrary.Database.Context {
                 NameKorean = nameKorean,
                 SearchGDMO = searchGDMO,
                 SearchKDMO = searchKDMO
+            });
+        }
+
+        #endregion
+
+        #region Tamer Types Seed
+
+        private void SeedTamerTypes(MainContext context) {
+            SeedTamerType(context, 80001, "Marcus Damon");
+            SeedTamerType(context, 80002, "Thomas H. Norstein");
+            SeedTamerType(context, 80003, "Yoshino Fujieda");
+            SeedTamerType(context, 80004, "Keenan Krier");
+            SeedTamerType(context, 80005, "Taichi Kamiya");
+            SeedTamerType(context, 80006, "Tachikawa Mimi");
+            SeedTamerType(context, 80007, "Ishida Yamato");
+            SeedTamerType(context, 80008, "Takaishi Takeru");
+            SeedTamerType(context, 80009, "Sora Takenouchi");
+            SeedTamerType(context, 80010, "Hikari «Kari» Kamiya");
+        }
+
+        private void SeedTamerType(MainContext context, int code, string name) {
+            context.TamerTypes.Add(new TamerType() {
+                Code = code,
+                Name = name
             });
         }
 

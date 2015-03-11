@@ -43,8 +43,6 @@ namespace DMOLibrary {
 
         #region Query list
 
-        private static string Q_TTYPE_BY_ID = "SELECT * FROM Tamer_types WHERE [id] = '{0}';";
-
         private static string Q_G_COUNT = "SELECT count([key]) FROM Guilds WHERE [id] = {0} AND [serv_id] = {1};";
         private static string Q_G_SELECT_BY_NAME = "SELECT * FROM Guilds WHERE [name] = '{0}' AND [serv_id] = {1};";
         private static string Q_G_INSERT = "INSERT INTO Guilds ([id], [serv_id], [name], [rep], [master_id], [master_name], [rank], [update_date], [isDetailed]) VALUES ({0}, {1}, '{2}', {3}, {4}, '{5}', {6}, '{7}', {8});";
@@ -94,8 +92,6 @@ SELECT * FROM (
         [isActive] = 1
     ) as digimon JOIN Tamers ON digimon.tamer_id = Tamers.id AND Tamers.serv_id = {0}
 ) ORDER BY RANDOM() LIMIT 1";
-
-        private static string Q_D_SELECT_RANDOM_TYPE = @"SELECT * FROM Digimon_types ORDER BY RANDOM() LIMIT 1";
 
         #endregion Query list
 
@@ -170,11 +166,6 @@ CREATE TABLE Guilds(
     FOREIGN KEY ([serv_id]) REFERENCES Servers([id])
 );
 
-CREATE TABLE Tamer_types(
-    [id] INTEGER PRIMARY KEY NOT NULL,
-    [name] CHAR(100) NOT NULL
-);
-
 CREATE TABLE Tamers(
     [key] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     [id] INTEGER NOT NULL,
@@ -207,17 +198,6 @@ CREATE TABLE Digimons(
     FOREIGN KEY ([tamer_id]) REFERENCES Tamers([id]),
     FOREIGN KEY ([type_id]) REFERENCES Digimon_types([id])
 );
-
-INSERT INTO Tamer_types([id], [name]) VALUES (80001, 'Marcus Damon');
-INSERT INTO Tamer_types([id], [name]) VALUES (80002, 'Thomas H. Norstein');
-INSERT INTO Tamer_types([id], [name]) VALUES (80003, 'Yoshino Fujieda');
-INSERT INTO Tamer_types([id], [name]) VALUES (80004, 'Keenan Krier');
-INSERT INTO Tamer_types([id], [name]) VALUES (80005, 'Taichi Kamiya');
-INSERT INTO Tamer_types([id], [name]) VALUES (80006, 'Tachikawa Mimi');
-INSERT INTO Tamer_types([id], [name]) VALUES (80007, 'Ishida Yamato');
-INSERT INTO Tamer_types([id], [name]) VALUES (80008, 'Takaishi Takeru');
-INSERT INTO Tamer_types([id], [name]) VALUES (80009, 'Sora Takenouchi');
-INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
 ";
 
         private bool RecreateDB(string cInitQuery) {
@@ -294,30 +274,6 @@ INSERT INTO Tamer_types([id], [name]) VALUES (80010, 'Hikari «Kari» Kamiya');
         #endregion Simple queries and utils
 
         #region Read section
-
-        public TamerType FindTamerTypeById(int id) {
-            TamerType type = new TamerType();
-            type.Id = -1;
-
-            string query = string.Format(Q_TTYPE_BY_ID, id.ToString());
-            try {
-                SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                SQLiteDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read()) {
-                    type.Name = (string)dataReader["name"];
-                    type.Id = Convert.ToInt32(dataReader["id"]);
-                }
-                dataReader.Close();
-            } catch (Exception ex) {
-                MSG_ERROR(string.Format(SQL_CANT_PROC_QUERY, ex.Message, query));
-                LOGGER.Error(ex);
-                return type;
-            }
-            if (type.Id == -1) {
-                LOGGER.WarnFormat("Unknown tamer: id={0}", id);
-            }
-            return type;
-        }
 
         public Guild ReadOnlyGuild(string guildName, Server server, int actualDays) {
             Guild guild = new Guild();

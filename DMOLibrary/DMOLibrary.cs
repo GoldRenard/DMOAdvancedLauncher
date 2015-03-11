@@ -52,11 +52,6 @@ namespace DMOLibrary {
         public int SizeRank;
     }
 
-    public struct TamerType {
-        public int Id;
-        public string Name;
-    }
-
     public struct Tamer {
         public int Key;
         public int Id;

@@ -87,6 +87,7 @@
     <Compile Include="Database\Entity\BaseEntity.cs" />
     <Compile Include="Database\Entity\Server.cs" />
     <Compile Include="Database\Context\MainContext.cs" />
+    <Compile Include="Database\Entity\TamerType.cs" />
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="DispatcherHelper.cs" />
     <Compile Include="Profiles\Joymax\JMNews.cs" />

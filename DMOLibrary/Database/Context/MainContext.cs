@@ -60,9 +60,22 @@ namespace DMOLibrary.Database.Context {
             set;
         }
 
+        public DbSet<TamerType> TamerTypes {
+            get;
+            set;
+        }
+
         #endregion
 
-        #region DigimonType tools
+        #region TamerType operations
+
+        public TamerType FindTamerTypeByCode(int code) {
+            return TamerTypes.FirstOrDefault(e => e.Code == code);
+        }
+
+        #endregion
+
+        #region DigimonType operations
 
         public DigimonType FindRandomDigimonType() {
             return DigimonTypes.OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();

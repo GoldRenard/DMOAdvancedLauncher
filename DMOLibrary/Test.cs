@@ -20,14 +20,52 @@ using System.Collections.Generic;
 using DMOLibrary.Database.Context;
 using System.Linq;
 using DMOLibrary.Database.Entity;
+using System;
 
 namespace DMOLibrary {
 
     public class Test {
 
         public static void DoTest() {
-            List<Server> gdmoServers = MainContext.Instance.Servers.Where(i => i.Type == Server.ServerType.GDMO).ToList();
-            int s1 = 1;
+            Server server = MainContext.Instance.Servers.First(i => i.Type == Server.ServerType.GDMO);
+            server.Guilds.Add(new Guild() {
+                Name = "test guild gdmo"
+            });
+            Server server2 = MainContext.Instance.Servers.First(i => i.Type == Server.ServerType.KDMO);
+            server2.Guilds.Add(new Guild() {
+                Name = "test guild kdmo"
+            });
+            MainContext.Instance.SaveChanges();
+
+
+            Guild guilds = MainContext.Instance.Guilds.First(i => i.Server.Type == Server.ServerType.GDMO);
+            TamerType tamerType = MainContext.Instance.TamerTypes.First();
+            DigimonType digimonType = MainContext.Instance.DigimonTypes.First();
+
+            Tamer tamer = new Tamer() {
+                Name = "GoldRenard",
+                Type = tamerType
+            };
+
+            Digimon partner = new Digimon() {
+                Tamer = tamer,
+                Type = digimonType,
+                Name = "Renamon"
+            };
+            //tamer.Partner = partner;
+
+            guilds.Tamers.Add(tamer);
+            tamer.Digimons.Add(partner);
+
+            MainContext.Instance.SaveChanges();
+            tamer.Partner = partner;
+            MainContext.Instance.SaveChanges();
+
+            Tamer tamer2 = MainContext.Instance.Tamers.First();
+
+            int i1 = 1;
+            i1++;
+
         }
     }
 }

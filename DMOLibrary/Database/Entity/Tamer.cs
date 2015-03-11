@@ -16,41 +16,79 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
 
 namespace DMOLibrary.Database.Entity {
+    public class Tamer : BaseEntity {
 
-    public class Server : BaseEntity {
-
-        public Server() {
-            Guilds = new List<Guild>();
+        public Tamer() {
+            Digimons = new List<Digimon>();
         }
 
-        public enum ServerType {
-            KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
+        public long GuildId {
+            get;
+            set;
         }
 
-        [Required]
-        public byte Identifier {
+        public virtual Guild Guild {
             get;
             set;
         }
 
         [Required]
-        [StringLength(25)]
         public string Name {
             get;
             set;
         }
 
-        [Required]
-        public ServerType Type {
+        /// <summary>
+        /// Legacy: Id
+        /// </summary>
+        public int AccountId {
             get;
             set;
         }
 
-        public virtual ICollection<Guild> Guilds {
+        /// <summary>
+        /// Do not forget to rename from Lvl in viewModels
+        /// </summary>
+        public byte Level {
+            get;
+            set;
+        }
+
+        public long Rank {
+            get;
+            set;
+        }
+
+        [Required]
+        public TamerType Type {
+            get;
+            set;
+        }
+
+        public long PartnerId {
+            get;
+            set;
+        }
+
+        [NotMapped]
+        public Digimon Partner {
+            get {
+                return Digimons.First(e => e.Id == PartnerId);
+            }
+            set {
+                PartnerId = value.Id;
+            }
+        }
+
+        public virtual ICollection<Digimon> Digimons {
             get;
             set;
         }

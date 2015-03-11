@@ -23,8 +23,7 @@ namespace DMOLibrary {
 
     #region Structs
 
-    public struct Guild {
-        public int Key;
+    public struct GuildOld {
         public int Id;
         public int ServId;
         public string Name;
@@ -34,10 +33,10 @@ namespace DMOLibrary {
         public long Rank;
         public DateTime UpdateTime;
         public bool IsDetailed;
-        public List<Tamer> Members;
+        public List<TamerOld> Members;
     }
 
-    public class Digimon {
+    public class DigimonOld {
         public int Key;
         public int TypeId;
         public int ServId;
@@ -52,7 +51,7 @@ namespace DMOLibrary {
         public int SizeRank;
     }
 
-    public struct Tamer {
+    public struct TamerOld {
         public int Key;
         public int Id;
         public int TypeId;
@@ -63,7 +62,7 @@ namespace DMOLibrary {
         public string Name;
         public long Rank;
         public int Lvl;
-        public List<Digimon> Digimons;
+        public List<DigimonOld> Digimons;
     }
 
     public struct DownloadStatus {

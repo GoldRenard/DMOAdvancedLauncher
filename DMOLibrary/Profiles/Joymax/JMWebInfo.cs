@@ -43,11 +43,11 @@ namespace DMOLibrary.Profiles.Joymax {
             this.Database = Database;
         }
 
-        public override Guild GetGuild(string guildName, Server server, bool isDetailed, int actualDays) {
+        public override GuildOld GetGuild(string guildName, Server server, bool isDetailed, int actualDays) {
             if (IsBusy) DispatcherHelper.DoEvents();
             OnStarted();
             //Check actual guild in database
-            Guild storedGuild = Database.ReadGuild(guildName, server, actualDays);
+            GuildOld storedGuild = Database.ReadGuild(guildName, server, actualDays);
             if (storedGuild.Id != -1) {
                 if (!(isDetailed && !storedGuild.IsDetailed)) {
                     //and return it
@@ -56,7 +56,7 @@ namespace DMOLibrary.Profiles.Joymax {
                 }
             }
             //else get database from web
-            Guild guildInfo = new Guild();
+            GuildOld guildInfo = new GuildOld();
             guildInfo.Id = -1;
             HtmlDocument doc = new HtmlDocument();
 
@@ -124,8 +124,8 @@ namespace DMOLibrary.Profiles.Joymax {
             }
         }
 
-        protected override bool GetGuildInfo(ref Guild guild, bool isDetailed) {
-            List<Tamer> tamerList = new List<Tamer>();
+        protected override bool GetGuildInfo(ref GuildOld guild, bool isDetailed) {
+            List<TamerOld> tamerList = new List<TamerOld>();
             HtmlDocument doc = new HtmlDocument();
             LOGGER.InfoFormat("Obtaining info of {0}", guild.Name);
             string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_PAGE, guild.Id.ToString(), "srv" + guild.ServId));
@@ -137,7 +137,7 @@ namespace DMOLibrary.Profiles.Joymax {
             HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
             for (int i = 0; i <= tlist.Count - 1; i++) {
-                Tamer tamerInfo = new Tamer();
+                TamerOld tamerInfo = new TamerOld();
                 tamerInfo.Name = ClearStr(ranking.SelectNodes("//td[@class='guild']")[i].InnerText);
                 OnStatusChanged(DMODownloadStatusCode.GETTING_TAMER, tamerInfo.Name, i, tlist.Count - 1);
                 tamerInfo.ServId = guild.ServId;
@@ -174,9 +174,9 @@ namespace DMOLibrary.Profiles.Joymax {
             return true;
         }
 
-        protected override List<Digimon> GetDigimons(Tamer tamer, bool isDetailed) {
+        protected override List<DigimonOld> GetDigimons(TamerOld tamer, bool isDetailed) {
             LOGGER.InfoFormat("Obtaining digimons for tamer \"{0}\"", tamer.Name);
-            List<Digimon> digimonList = new List<Digimon>();
+            List<DigimonOld> digimonList = new List<DigimonOld>();
             HtmlDocument doc = new HtmlDocument();
 
             string html = WebDownload.GetHTML(string.Format(STR_URL_TAMER_POPPAGE, tamer.Id.ToString(), "srv" + tamer.ServId.ToString()));
@@ -188,7 +188,7 @@ namespace DMOLibrary.Profiles.Joymax {
 
             //getting starter
             HtmlNode tamerInfo = doc.DocumentNode.SelectNodes("//div[@class='tamer-area']")[0];
-            Digimon partnerInfo = new Digimon();
+            DigimonOld partnerInfo = new DigimonOld();
             partnerInfo.TamerId = tamer.Id;
             partnerInfo.ServId = tamer.ServId;
             partnerInfo.Name = ClearStr(tamerInfo.SelectNodes("//ul/li[@class='partner']/span")[0].InnerText);
@@ -203,7 +203,7 @@ namespace DMOLibrary.Profiles.Joymax {
 
             if (dlist != null) {
                 for (int i = 0; i <= dlist.Count - 1; i++) {
-                    Digimon digimonInfo = new Digimon();
+                    DigimonOld digimonInfo = new DigimonOld();
                     digimonInfo.TamerId = tamer.Id;
                     digimonInfo.ServId = tamer.ServId;
                     digimonInfo.Name = ClearStr(mercenaryList.SelectNodes("//em[@class='partner']")[i].InnerText);
@@ -231,7 +231,7 @@ namespace DMOLibrary.Profiles.Joymax {
             return digimonList;
         }
 
-        protected override bool StarterInfo(ref Digimon digimon, string tamerName) {
+        protected override bool StarterInfo(ref DigimonOld digimon, string tamerName) {
             LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamerName);
             HtmlDocument doc = new HtmlDocument();
             digimon.SizePc = 100;
@@ -267,7 +267,7 @@ namespace DMOLibrary.Profiles.Joymax {
             return false;
         }
 
-        protected override bool DigimonInfo(ref Digimon digimon, string tamerName) {
+        protected override bool DigimonInfo(ref DigimonOld digimon, string tamerName) {
             //we don't need starters info
             foreach (int id in STARTER_IDS) {
                 if (digimon.TypeId == id) {

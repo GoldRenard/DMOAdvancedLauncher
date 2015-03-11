@@ -97,7 +97,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowTamers(List<Tamer> tamers) {
+        public void ShowTamers(List<TamerOld> tamers) {
             OnChanged(1);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -121,7 +121,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowDigimons(Tamer tamer) {
+        public void ShowDigimons(TamerOld tamer) {
             OnChanged(2);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -148,7 +148,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowDigimons(List<Tamer> tamers) {
+        public void ShowDigimons(List<TamerOld> tamers) {
             OnChanged(2);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();

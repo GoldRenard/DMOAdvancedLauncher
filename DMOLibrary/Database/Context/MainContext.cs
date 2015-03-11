@@ -55,6 +55,21 @@ namespace DMOLibrary.Database.Context {
             set;
         }
 
+        public DbSet<Guild> Guilds {
+            get;
+            set;
+        }
+
+        public DbSet<Tamer> Tamers {
+            get;
+            set;
+        }
+
+        public DbSet<Digimon> Digimons {
+            get;
+            set;
+        }
+
         public DbSet<DigimonType> DigimonTypes {
             get;
             set;

@@ -34,7 +34,7 @@ namespace AdvancedLauncher.Pages {
 
         private DMOWebProfile webProfile;
 
-        private Guild CURRENT_GUILD = new Guild() {
+        private GuildOld CURRENT_GUILD = new GuildOld() {
             Id = -1
         };
 
@@ -113,7 +113,7 @@ namespace AdvancedLauncher.Pages {
             LoadProgressBar.Value = status.Progress;
         }
 
-        private void OnDownloadCompleted(object sender, DMODownloadResultCode code, Guild result) {
+        private void OnDownloadCompleted(object sender, DMODownloadResultCode code, GuildOld result) {
             BlockControls(false);
 
             webProfile.DownloadStarted -= OnDownloadStarted;
@@ -172,7 +172,7 @@ namespace AdvancedLauncher.Pages {
             chkbox_IsDetailed.IsEnabled = !block;
         }
 
-        public void UpdateInfo(Guild g) {
+        public void UpdateInfo(GuildOld g) {
             GMaster.Text = g.MasterName;
             GRank.Text = g.Rank.ToString();
             GRep.Text = g.Rep.ToString();
@@ -188,7 +188,7 @@ namespace AdvancedLauncher.Pages {
             GTop.Text = g.Members[index].Name;
             //calc total digimons
             int count = 0;
-            foreach (Tamer t in g.Members) {
+            foreach (TamerOld t in g.Members) {
                 count += t.Digimons.Count;
             }
             GDCnt.Text = count.ToString();

@@ -212,7 +212,7 @@ namespace AdvancedLauncher.Controls {
             }));
         }
 
-        private void OnDownloadComplete(object sender, DMODownloadResultCode code, Guild result) {
+        private void OnDownloadComplete(object sender, DMODownloadResultCode code, GuildOld result) {
             if (code != DMODownloadResultCode.OK) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
                     ErrorMessage1.Text = LanguageEnv.Strings.ErrorOccured + " [" + code + "]";
@@ -247,7 +247,7 @@ namespace AdvancedLauncher.Controls {
             if (!IsStatic) {
                 //Если не статическое, получаем рандомного дигимона из базы данных
                 BitmapImage Medal = null;
-                Digimon d = null;
+                DigimonOld d = null;
 
                 if (!LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
                     return;

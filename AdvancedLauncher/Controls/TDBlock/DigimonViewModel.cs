@@ -45,10 +45,10 @@ namespace AdvancedLauncher.Controls {
             private set;
         }
 
-        private void LoadDigimonList(Tamer tamer) {
+        private void LoadDigimonList(TamerOld tamer) {
             string typeName;
             DigimonType dtype;
-            foreach (Digimon item in tamer.Digimons) {
+            foreach (DigimonOld item in tamer.Digimons) {
                 dtype = MainContext.Instance.FindDigimonTypeByCode(item.TypeId);
                 typeName = dtype.Name;
                 if (dtype.NameAlt != null) {
@@ -67,14 +67,14 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        public void LoadData(Tamer tamer) {
+        public void LoadData(TamerOld tamer) {
             this.IsDataLoaded = true;
             LoadDigimonList(tamer);
         }
 
-        public void LoadData(List<Tamer> tamers) {
+        public void LoadData(List<TamerOld> tamers) {
             this.IsDataLoaded = true;
-            foreach (Tamer tamer in tamers) {
+            foreach (TamerOld tamer in tamers) {
                 LoadDigimonList(tamer);
             }
         }

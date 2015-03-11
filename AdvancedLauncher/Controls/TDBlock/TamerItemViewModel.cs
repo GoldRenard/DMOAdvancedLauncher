@@ -96,9 +96,9 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private Tamer _Tamer;
+        private TamerOld _Tamer;
 
-        public Tamer Tamer {
+        public TamerOld Tamer {
             get {
                 return _Tamer;
             }

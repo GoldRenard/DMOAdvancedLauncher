@@ -275,8 +275,8 @@ CREATE TABLE Digimons(
 
         #region Read section
 
-        public Guild ReadOnlyGuild(string guildName, Server server, int actualDays) {
-            Guild guild = new Guild();
+        public GuildOld ReadOnlyGuild(string guildName, Server server, int actualDays) {
+            GuildOld guild = new GuildOld();
             guild.Id = -1;
 
             string query = string.Format(Q_G_SELECT_BY_NAME, guildName, server.Identifier);
@@ -304,14 +304,14 @@ CREATE TABLE Digimons(
             return guild;
         }
 
-        public List<Tamer> ReadTamers(Guild guild) {
-            List<Tamer> tamers = new List<Tamer>();
+        public List<TamerOld> ReadTamers(GuildOld guild) {
+            List<TamerOld> tamers = new List<TamerOld>();
             string query = string.Format(Q_T_SELECT, guild.ServId, guild.Id);
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read()) {
-                    Tamer tamer = new Tamer();
+                    TamerOld tamer = new TamerOld();
                     tamer.Id = Convert.ToInt32(dataReader["id"]);
                     tamer.ServId = Convert.ToInt32(dataReader["serv_id"]);
                     tamer.TypeId = Convert.ToInt32(dataReader["type_id"]);
@@ -322,7 +322,7 @@ CREATE TABLE Digimons(
                     tamer.Lvl = Convert.ToInt32(dataReader["lvl"]);
                     tamer.Digimons = ReadDigimons(tamer);
                     tamer.PartnerName = "-";
-                    foreach (Digimon digimon in tamer.Digimons) {
+                    foreach (DigimonOld digimon in tamer.Digimons) {
                         if (digimon.Key == tamer.PartnerKey) {
                             tamer.PartnerName = digimon.Name;
                             break;
@@ -339,14 +339,14 @@ CREATE TABLE Digimons(
             return tamers;
         }
 
-        public List<Digimon> ReadDigimons(Tamer tamer) {
-            List<Digimon> digimons = new List<Digimon>();
+        public List<DigimonOld> ReadDigimons(TamerOld tamer) {
+            List<DigimonOld> digimons = new List<DigimonOld>();
             string query = string.Format(Q_D_SELECT, tamer.ServId, tamer.Id);
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 SQLiteDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read()) {
-                    Digimon d = new Digimon();
+                    DigimonOld d = new DigimonOld();
                     d.ServId = Convert.ToInt32(dataReader["serv_id"]);
                     d.TamerId = Convert.ToInt32(dataReader["tamer_id"]);
                     d.TypeId = Convert.ToInt32(dataReader["type_id"]);
@@ -368,8 +368,8 @@ CREATE TABLE Digimons(
             return digimons;
         }
 
-        public Guild ReadGuild(string guildName, Server server, int actualDays) {
-            Guild guild = ReadOnlyGuild(guildName, server, actualDays);
+        public GuildOld ReadGuild(string guildName, Server server, int actualDays) {
+            GuildOld guild = ReadOnlyGuild(guildName, server, actualDays);
             if (guild.Id == -1) {
                 return guild;
             }
@@ -386,7 +386,7 @@ CREATE TABLE Digimons(
 
         #region Write Section
 
-        public bool WriteGuildInfo(Guild guild, bool isDetailed) {
+        public bool WriteGuildInfo(GuildOld guild, bool isDetailed) {
             if (QueryIntRes(string.Format(Q_G_COUNT, guild.Id, guild.ServId)) > 0) {
                 if (isDetailed) {
                     return Query(string.Format(Q_G_UPDATE_WD, guild.Id, guild.ServId, guild.Name, guild.Rep, guild.MasterId, guild.MasterName, guild.Rank, DateTime2String(guild.UpdateTime), 1));
@@ -398,11 +398,11 @@ CREATE TABLE Digimons(
             }
         }
 
-        public bool WriteTamer(Tamer tamer) {
+        public bool WriteTamer(TamerOld tamer) {
             return Query(GetWriteTamerQuery(tamer));
         }
 
-        private string GetWriteTamerQuery(Tamer tamer) {
+        private string GetWriteTamerQuery(TamerOld tamer) {
             int pKey = QueryIntRes(string.Format(Q_T_GET_PKEY, tamer.ServId, tamer.Id));
             if (QueryIntRes(string.Format(Q_T_COUNT, tamer.Id, tamer.ServId)) > 0) {
                 return string.Format(Q_T_UPDATE, tamer.Id, tamer.ServId, tamer.TypeId, tamer.GuildId, pKey, tamer.Name, tamer.Rank, tamer.Lvl);
@@ -411,11 +411,11 @@ CREATE TABLE Digimons(
             }
         }
 
-        public bool WriteDigimon(Digimon digimon, bool isDetailed) {
+        public bool WriteDigimon(DigimonOld digimon, bool isDetailed) {
             return Query(GetWriteDigimonQuery(digimon, isDetailed));
         }
 
-        private string GetWriteDigimonQuery(Digimon digimon, bool isDetailed) {
+        private string GetWriteDigimonQuery(DigimonOld digimon, bool isDetailed) {
             if (QueryIntRes(string.Format(Q_D_COUNT, digimon.ServId, digimon.TamerId, digimon.TypeId)) > 0) {
                 if (isDetailed) {
                     return string.Format(Q_D_UPDATE_FULL, digimon.ServId, digimon.TamerId, digimon.TypeId, digimon.Name, digimon.Rank, digimon.Lvl, digimon.SizeCm, digimon.SizePc, digimon.SizeRank);
@@ -427,16 +427,16 @@ CREATE TABLE Digimons(
             }
         }
 
-        public bool WriteGuild(Guild guild, bool isDetailed) {
+        public bool WriteGuild(GuildOld guild, bool isDetailed) {
             //set all current tamers of guild to inactive (maybe they aren't in that guild)
             if (!Query(string.Format(Q_T_SET_INACTIVE, guild.ServId, guild.Id))) {
                 return false;
             }
-            foreach (Tamer tamer in guild.Members) {
+            foreach (TamerOld tamer in guild.Members) {
                 if (!Query(string.Format(Q_D_SET_INACTIVE, tamer.ServId, tamer.Id))) {
                     return false;
                 }
-                foreach (Digimon digimon in tamer.Digimons) {
+                foreach (DigimonOld digimon in tamer.Digimons) {
                     if (!WriteDigimon(digimon, isDetailed)) {
                         return false;
                     }
@@ -455,8 +455,8 @@ CREATE TABLE Digimons(
 
         #region Additional Section
 
-        public Digimon FindRandomDigimon(Server server, string guildName, int minlvl) {
-            Digimon d = new Digimon();
+        public DigimonOld FindRandomDigimon(Server server, string guildName, int minlvl) {
+            DigimonOld d = new DigimonOld();
             string query = string.Format(Q_D_SELECT_RANDOM, server.Identifier, guildName, minlvl);
             try {
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
@@ -482,8 +482,8 @@ CREATE TABLE Digimons(
             return d;
         }
 
-        public Digimon FindRandonDigimon(Server server, string guildName, string tamerName, int minlvl) {
-            Digimon d = new Digimon();
+        public DigimonOld FindRandonDigimon(Server server, string guildName, string tamerName, int minlvl) {
+            DigimonOld d = new DigimonOld();
             bool IsLoaded = false;
             string query = string.Format(Q_D_SELECT_RANDOM2, server.Identifier, guildName, tamerName, minlvl);
             try {

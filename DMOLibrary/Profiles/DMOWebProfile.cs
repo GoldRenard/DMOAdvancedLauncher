@@ -45,7 +45,7 @@ namespace DMOLibrary.Profiles {
 
         public delegate void DownloadHandler(object sender);
 
-        public delegate void DownloadCompleteHandler(object sender, DMODownloadResultCode code, Guild result);
+        public delegate void DownloadCompleteHandler(object sender, DMODownloadResultCode code, GuildOld result);
 
         public delegate void DownloadStatusChangedHandler(object sender, DownloadStatus status);
 
@@ -69,7 +69,7 @@ namespace DMOLibrary.Profiles {
             }
         }
 
-        protected virtual void OnCompleted(DMODownloadResultCode code, Guild result) {
+        protected virtual void OnCompleted(DMODownloadResultCode code, GuildOld result) {
             LOGGER.Info(String.Format("GuildInfo obtaining completed: code={0}, result={1}", code, result));
             if (DownloadCompleted != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
@@ -110,24 +110,24 @@ namespace DMOLibrary.Profiles {
             bw.RunWorkerAsync();
         }
 
-        public Digimon GetRandomDigimon(Server server, string guildName, int minlvl) {
+        public DigimonOld GetRandomDigimon(Server server, string guildName, int minlvl) {
             return Database.FindRandomDigimon(server, guildName, minlvl);
         }
 
-        public Digimon GetRandomDigimon(Server server, string guildName, string tamerName, int minlvl) {
+        public DigimonOld GetRandomDigimon(Server server, string guildName, string tamerName, int minlvl) {
             return Database.FindRandonDigimon(server, guildName, tamerName, minlvl);
         }
 
         public abstract List<DigimonType> GetDigimonTypes();
 
-        public abstract Guild GetGuild(string guildName, Server server, bool isDetailed, int actualDays);
+        public abstract GuildOld GetGuild(string guildName, Server server, bool isDetailed, int actualDays);
 
-        protected abstract bool GetGuildInfo(ref Guild g, bool isDetailed);
+        protected abstract bool GetGuildInfo(ref GuildOld g, bool isDetailed);
 
-        protected abstract List<Digimon> GetDigimons(Tamer tamer, bool isDetailed);
+        protected abstract List<DigimonOld> GetDigimons(TamerOld tamer, bool isDetailed);
 
-        protected abstract bool StarterInfo(ref Digimon digimon, string tamerName);
+        protected abstract bool StarterInfo(ref DigimonOld digimon, string tamerName);
 
-        protected abstract bool DigimonInfo(ref Digimon digimon, string tamerName);
+        protected abstract bool DigimonInfo(ref DigimonOld digimon, string tamerName);
     }
 }

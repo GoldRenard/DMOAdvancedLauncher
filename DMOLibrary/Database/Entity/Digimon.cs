@@ -16,41 +16,61 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
 
 namespace DMOLibrary.Database.Entity {
+    public class Digimon : BaseEntity {
 
-    public class Server : BaseEntity {
-
-        public Server() {
-            Guilds = new List<Guild>();
+        public long TamerId {
+            get;
+            set;
         }
 
-        public enum ServerType {
-            KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
-        }
-
-        [Required]
-        public byte Identifier {
+        public virtual Tamer Tamer {
             get;
             set;
         }
 
         [Required]
-        [StringLength(25)]
         public string Name {
             get;
             set;
         }
 
         [Required]
-        public ServerType Type {
+        public DigimonType Type {
             get;
             set;
         }
 
-        public virtual ICollection<Guild> Guilds {
+        public long Rank {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Do not forget to rename from Lvl in viewModels
+        /// </summary>
+        public byte Level {
+            get;
+            set;
+        }
+
+        public double SizeCm {
+            get;
+            set;
+        }
+
+        public int SizePc {
+            get;
+            set;
+        }
+
+        public int SizeRank {
             get;
             set;
         }

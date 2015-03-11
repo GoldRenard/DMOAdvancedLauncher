@@ -46,9 +46,9 @@ namespace AdvancedLauncher.Controls {
             private set;
         }
 
-        public void LoadData(List<Tamer> List) {
+        public void LoadData(List<TamerOld> List) {
             this.IsDataLoaded = true;
-            foreach (Tamer item in List) {
+            foreach (TamerOld item in List) {
                 TamerType tamerType =  MainContext.Instance.FindTamerTypeByCode(item.TypeId);
                 string tamerName = tamerType != null ? tamerType.Name : "???";
                 this.Items.Add(new TamerItemViewModel {

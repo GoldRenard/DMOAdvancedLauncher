@@ -16,41 +16,66 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
 
 namespace DMOLibrary.Database.Entity {
+    public class Guild : BaseEntity {
 
-    public class Server : BaseEntity {
-
-        public Server() {
-            Guilds = new List<Guild>();
+        public Guild() {
+            Tamers = new List<Tamer>();
         }
 
-        public enum ServerType {
-            KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
+        public long ServerId {
+            get;
+            set;
         }
 
-        [Required]
-        public byte Identifier {
+        public virtual Server Server {
             get;
             set;
         }
 
         [Required]
-        [StringLength(25)]
         public string Name {
             get;
             set;
         }
 
-        [Required]
-        public ServerType Type {
+        public long Rep {
             get;
             set;
         }
 
-        public virtual ICollection<Guild> Guilds {
+        public long MasterId {
+            get;
+            set;
+        }
+
+        public string MasterName {
+            get;
+            set;
+        }
+
+        public long Rank {
+            get;
+            set;
+        }
+
+        public DateTime? UpdateTime {
+            get;
+            set;
+        }
+
+        public bool IsDetailed {
+            get;
+            set;
+        }
+
+        public virtual ICollection<Tamer> Tamers {
             get;
             set;
         }

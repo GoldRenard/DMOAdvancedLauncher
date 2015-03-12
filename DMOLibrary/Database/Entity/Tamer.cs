@@ -30,6 +30,14 @@ namespace DMOLibrary.Database.Entity {
             Digimons = new List<Digimon>();
         }
 
+        /// <summary>
+        /// Legacy: Id
+        /// </summary>
+        public int AccountId {
+            get;
+            set;
+        }
+
         public long GuildId {
             get;
             set;
@@ -47,14 +55,6 @@ namespace DMOLibrary.Database.Entity {
         }
 
         /// <summary>
-        /// Legacy: Id
-        /// </summary>
-        public int AccountId {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Do not forget to rename from Lvl in viewModels
         /// </summary>
         public byte Level {
@@ -67,13 +67,12 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
-        [Required]
         public TamerType Type {
             get;
             set;
         }
 
-        public long PartnerId {
+        public bool IsMaster {
             get;
             set;
         }
@@ -81,10 +80,7 @@ namespace DMOLibrary.Database.Entity {
         [NotMapped]
         public Digimon Partner {
             get {
-                return Digimons.First(e => e.Id == PartnerId);
-            }
-            set {
-                PartnerId = value.Id;
+                return Digimons.First(d => d.IsStarter);
             }
         }
 

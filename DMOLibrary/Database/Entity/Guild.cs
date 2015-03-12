@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -27,6 +28,11 @@ namespace DMOLibrary.Database.Entity {
 
         public Guild() {
             Tamers = new List<Tamer>();
+        }
+
+        public int Identifier {
+            get;
+            set;
         }
 
         public long ServerId {
@@ -50,16 +56,6 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
-        public long MasterId {
-            get;
-            set;
-        }
-
-        public string MasterName {
-            get;
-            set;
-        }
-
         public long Rank {
             get;
             set;
@@ -73,6 +69,13 @@ namespace DMOLibrary.Database.Entity {
         public bool IsDetailed {
             get;
             set;
+        }
+
+        [NotMapped]
+        public Tamer Master {
+            get {
+                return Tamers.First(t => t.IsMaster);
+            }
         }
 
         public virtual ICollection<Tamer> Tamers {

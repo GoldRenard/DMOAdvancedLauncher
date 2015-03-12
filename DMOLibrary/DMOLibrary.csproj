@@ -93,9 +93,11 @@
     <Compile Include="Database\Entity\Tamer.cs" />
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="DispatcherHelper.cs" />
+    <Compile Include="Profiles\AbstractWebProfile.cs" />
     <Compile Include="Profiles\Joymax\JMNews.cs" />
     <Compile Include="Profiles\DMONewsProfile.cs" />
     <Compile Include="Profiles\DMOWebProfile.cs" />
+    <Compile Include="Profiles\Joymax\JoymaxWebProfile.cs" />
     <Compile Include="Profiles\Korea\DMOKorea.cs" />
     <Compile Include="Profiles\Korea\DMOKoreaIMBC.cs" />
     <Compile Include="Profiles\Korea\KoreaWebInfo.cs" />

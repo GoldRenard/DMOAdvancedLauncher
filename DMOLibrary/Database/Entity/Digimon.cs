@@ -52,6 +52,11 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
+        public bool IsStarter {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Do not forget to rename from Lvl in viewModels
         /// </summary>

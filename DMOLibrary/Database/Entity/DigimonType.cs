@@ -62,8 +62,8 @@ namespace DMOLibrary.Database.Entity {
         }
 
         public override string ToString() {
-            return string.Format("DigimonType [Id={0}, Name={1}, NameAlt={2}, SearchGDMO={3}, SearchKDMO={4}",
-                Id, Name, NameAlt, SearchGDMO, SearchKDMO);
+            return string.Format("DigimonType [Id={0}, Code={1}, Name={2}, NameAlt={3}, SearchGDMO={4}, SearchKDMO={5}",
+                Id, Code, Name, NameAlt, SearchGDMO, SearchKDMO);
         }
     }
 }

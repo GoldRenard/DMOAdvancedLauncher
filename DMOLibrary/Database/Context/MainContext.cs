@@ -46,7 +46,7 @@ namespace DMOLibrary.Database.Context {
             }
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Databases
 
@@ -80,12 +80,26 @@ namespace DMOLibrary.Database.Context {
             set;
         }
 
-        #endregion
+        #endregion Databases
 
         #region TamerType operations
 
         public TamerType FindTamerTypeByCode(int code) {
             return TamerTypes.FirstOrDefault(e => e.Code == code);
+        }
+
+        #endregion TamerType operations
+
+        #region
+
+        public Digimon FindRandomDigimon(Guild guild, int minlvl) {
+            return Digimons.Where(e => e.Tamer.Guild.Id == guild.Id && e.Level >= minlvl)
+                .OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();
+        }
+
+        public Digimon FindRandomDigimon(Tamer tamer, int minlvl) {
+            return Digimons.Where(e => e.Tamer.Id == tamer.Id && e.Level >= minlvl)
+                .OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();
         }
 
         #endregion
@@ -114,6 +128,14 @@ namespace DMOLibrary.Database.Context {
 
         public List<DigimonType> FindDigimonTypesBySearchKDMO(string search) {
             return DigimonTypes.Where(e => e.SearchKDMO == search).ToList();
+        }
+
+        public DigimonType FindDigimonTypeBySearchGDMO(string search) {
+            return DigimonTypes.Where(e => e.SearchGDMO == search).FirstOrDefault();
+        }
+
+        public DigimonType FindDigimonTypeBySearchKDMO(string search) {
+            return DigimonTypes.Where(e => e.SearchKDMO == search).FirstOrDefault();
         }
 
         public void AddOrUpdateDigimonType(DigimonType type, bool isKorean) {

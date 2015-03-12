@@ -27,5 +27,29 @@ namespace DMOLibrary.Database.Entity {
             get;
             set;
         }
+
+        public override int GetHashCode() {
+            int prime = 31;
+            int result = 1;
+            result = prime * result + Id.GetHashCode();
+            return result;
+        }
+
+        public override bool Equals(object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (!this.GetType().IsAssignableFrom(obj.GetType())) {
+                return false;
+            }
+            BaseEntity other = (BaseEntity)obj;
+            if (!Id.Equals(other.Id)) {
+                return false;
+            }
+            return this.GetHashCode() == obj.GetHashCode();
+        }
     }
 }

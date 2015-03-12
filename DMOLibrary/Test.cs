@@ -30,7 +30,7 @@ namespace DMOLibrary {
         public static void DoTest() {
             Server server = MainContext.Instance.Servers.First(i => i.Type == Server.ServerType.GDMO);
 
-            Guild guild = new JoymaxWebProfile().GetGuild(server, "MonolithMesa", false);
+            Guild guild = new JoymaxWebProfile().GetGuild(server, "MonolithMesa", true);
 
             MainContext.Instance.Guilds.Add(guild);
             MainContext.Instance.SaveChanges();

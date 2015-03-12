@@ -54,10 +54,10 @@ namespace DMOLibrary.Database.Context {
         #region Digimon Types Seed
 
         private void SeedDigimonTypes(MainContext context) {
-            SeedDigimonType(context, 31003, "Gaomon", null, "가오몬", "gaomon", "가오몬");
-            SeedDigimonType(context, 31002, "Lalamon", null, "라라몬", "lalamon", "라라몬");
-            SeedDigimonType(context, 31004, "Falcomon", null, "팰코몬", "falcomon", "팰코몬");
-            SeedDigimonType(context, 31001, "Agumon", null, "아구몬", "agumon", "아구몬");
+            SeedDigimonType(context, 31003, true, 137, "Gaomon", null, "가오몬", "gaomon", "가오몬");
+            SeedDigimonType(context, 31002, true, 154, "Lalamon", null, "라라몬", "lalamon", "라라몬");
+            SeedDigimonType(context, 31004, true, 127, "Falcomon", null, "팰코몬", "falcomon", "팰코몬");
+            SeedDigimonType(context, 31001, true, 117, "Agumon", null, "아구몬", "agumon", "아구몬");
             SeedDigimonType(context, 31007, "Agumon(Classic)", null, "아구몬클래식", "agumonclassic", "아구몬클래식");
             SeedDigimonType(context, 31043, "Agumon(Black)", null, "아구몬(흑)", "agumonblack", "아구몬흑");
             SeedDigimonType(context, 32019, "Salamon(BlackGatomon)", null, "플롯트몬(블랙가트몬)", "salamonblackgatomon", "플롯트몬블랙가트몬");
@@ -150,8 +150,18 @@ namespace DMOLibrary.Database.Context {
         }
 
         private void SeedDigimonType(MainContext context, int code, string name, string nameAlt, string nameKorean, string searchGDMO, string searchKDMO) {
+            SeedDigimonType(context, code, false, name, nameAlt, nameKorean, searchGDMO, searchKDMO);
+        }
+
+        private void SeedDigimonType(MainContext context, int code, bool isStarter, string name, string nameAlt, string nameKorean, string searchGDMO, string searchKDMO) {
+            SeedDigimonType(context, code, false, 0, name, nameAlt, nameKorean, searchGDMO, searchKDMO);
+        }
+
+        private void SeedDigimonType(MainContext context, int code, bool isStarter, double sizeCm, string name, string nameAlt, string nameKorean, string searchGDMO, string searchKDMO) {
             context.DigimonTypes.Add(new DigimonType() {
                 Code = code,
+                IsStarter = isStarter,
+                SizeCm = sizeCm,
                 Name = name,
                 NameAlt = nameAlt,
                 NameKorean = nameKorean,

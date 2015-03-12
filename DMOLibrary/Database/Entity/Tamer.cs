@@ -80,7 +80,7 @@ namespace DMOLibrary.Database.Entity {
         [NotMapped]
         public Digimon Partner {
             get {
-                return Digimons.First(d => d.IsStarter);
+                return Digimons.First(d => d.Type.IsStarter);
             }
         }
 

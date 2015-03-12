@@ -28,6 +28,16 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
+        public bool IsStarter {
+            get;
+            set;
+        }
+
+        public double SizeCm {
+            get;
+            set;
+        }
+
         [Required]
         [StringLength(50)]
         public string Name {

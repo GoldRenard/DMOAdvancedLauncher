@@ -1,4 +1,22 @@
-﻿using System;
+﻿// ======================================================================
+// DMOLibrary
+// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+// ======================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +41,6 @@ namespace DMOLibrary.Profiles.Joymax {
 
         public override Guild GetGuild(Server server, string guildName, bool isDetailed) {
             OnStarted();
-
             Guild guild = new Guild() {
                 Server = server
             };
@@ -121,7 +138,7 @@ namespace DMOLibrary.Profiles.Joymax {
                     tamer.AccountId = Convert.ToInt32(m.Groups[2].ToString());
                     tamer.Digimons = GetDigimons(tamer, isDetailed);
 
-                    Digimon partner = tamer.Digimons.FirstOrDefault(d => d.IsStarter);
+                    Digimon partner = tamer.Digimons.FirstOrDefault(d => d.Type.IsStarter);
                     if (partner != null) {
                         partner.Name = ClearStr(ranking.SelectNodes("//td[@class='partner']")[i].InnerText);
                     }
@@ -175,6 +192,7 @@ namespace DMOLibrary.Profiles.Joymax {
                     if (digimonInfo.Type == null) {
                         continue;
                     }
+                    digimonInfo.SizeCm = digimonInfo.Type.SizeCm;
 
                     if (digimonList.Count(d => d.Type.Equals(digimonInfo.Type)) == 0) {
                         if (isDetailed) {
@@ -197,7 +215,7 @@ namespace DMOLibrary.Profiles.Joymax {
             LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
             HtmlDocument doc = new HtmlDocument();
             digimon.SizePc = 100;
-            digimon.SizeCm = ResolveStartedSize(digimon.Type.Name);
+            digimon.SizeCm = digimon.Type.SizeCm;
 
             string html = WebDownload.GetHTML(string.Format(STR_URL_STARTER_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier));
             if (html == string.Empty) {
@@ -215,7 +233,6 @@ namespace DMOLibrary.Profiles.Joymax {
                         digimon.Rank = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='ranking']")[i + 3].InnerText));
                         digimon.Name = ClearStr(ranking.SelectNodes("//td[@class='name']")[i + 3].InnerText);
                         digimon.Level = Convert.ToByte(ClearStr(ranking.SelectNodes("//td[@class='level']")[i + 3].InnerText));
-                        digimon.IsStarter = true;
                         return true;
                     }
                 }
@@ -225,7 +242,7 @@ namespace DMOLibrary.Profiles.Joymax {
 
         protected override bool GetMercenaryInfo(ref Digimon digimon, Tamer tamer) {
             //we don't need starters info
-            if (STARTER_IDS.Contains(digimon.Type.Code)) {
+            if (digimon.Type.IsStarter) {
                 return false;
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
@@ -286,19 +303,6 @@ namespace DMOLibrary.Profiles.Joymax {
                 LOGGER.DebugFormat("Found {0}", dType);
             }
             return dTypes;
-        }
-
-        private static double ResolveStartedSize(string digimonName) {
-            if ("Agumon".Equals(digimonName)) {
-                return 117;
-            } else if ("Gaomon".Equals(digimonName)) {
-                return 137;
-            } else if ("Lalamon".Equals(digimonName)) {
-                return 154;
-            } else if ("Falcomon".Equals(digimonName)) {
-                return 127;
-            }
-            return 100;
         }
     }
 }

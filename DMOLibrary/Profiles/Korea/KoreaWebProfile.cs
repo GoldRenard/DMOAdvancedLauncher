@@ -41,7 +41,6 @@ namespace DMOLibrary.Profiles.Korea {
         private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://www.digimonmasters.com/ranking/size.aspx";
         private static string STR_URL_STARTER_RANK = "http://www.digimonmasters.com/ranking/partner.aspx?type={1}00&search={0}";
 
-
         public override Guild GetGuild(Server server, string guildName, bool isDetailed) {
             OnStarted();
             Guild guild = new Guild() {
@@ -294,7 +293,6 @@ namespace DMOLibrary.Profiles.Korea {
             if (partnerNode != null) {
                 digimon.SizeRank = Convert.ToInt32(ClearStr(partnerNode.SelectSingleNode(".//td[1]").InnerText));
                 digimon.Name = ClearStr(partnerNode.SelectSingleNode(".//td[2]//label").InnerText);
-                digimon.Level = Convert.ToByte(ClearStr(partnerNode.SelectSingleNode(".//td[4]").InnerText));
                 Regex r = new Regex(STR_DIGIMON_SIZE, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                 Match m = r.Match(partnerNode.SelectSingleNode(".//td[3]").InnerHtml);
                 if (m.Success) {

@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Database\Context\BaseContext.cs" />
     <Compile Include="Database\Context\ContextInitializer.cs" />
+    <Compile Include="Database\MergeHelper.cs" />
     <Compile Include="Database\Entity\Digimon.cs" />
     <Compile Include="Database\Entity\DigimonType.cs" />
     <Compile Include="Database\Entity\BaseEntity.cs" />

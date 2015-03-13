@@ -35,11 +35,14 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
+        [Required]
+        [ForeignKey("Server")]
         public long ServerId {
             get;
             set;
         }
 
+        [InverseProperty("Guilds")]
         public virtual Server Server {
             get;
             set;

@@ -38,11 +38,14 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
+        [Required]
+        [ForeignKey("Guild")]
         public long GuildId {
             get;
             set;
         }
 
+        [InverseProperty("Tamers")]
         public virtual Guild Guild {
             get;
             set;

@@ -23,6 +23,7 @@ using DMOLibrary.Database.Entity;
 using System;
 using DMOLibrary.Profiles.Joymax;
 using DMOLibrary.Profiles.Korea;
+using DMOLibrary.Database;
 
 namespace DMOLibrary {
 
@@ -30,15 +31,12 @@ namespace DMOLibrary {
 
         public static void DoTest() {
             Server server = MainContext.Instance.Servers.First(i => i.Type == Server.ServerType.KDMO && i.Name == "Lucemon");
-
             Guild guild = new KoreaWebProfile().GetGuild(server, "VirusBusters", false);
-
-            MainContext.Instance.Guilds.Add(guild);
-            MainContext.Instance.SaveChanges();
-
+            MergeHelper.Merge(guild);
+            guild = new KoreaWebProfile().GetGuild(server, "VirusBusters", true);
+            MergeHelper.Merge(guild);
             int i1 = 0;
             i1++;
-
         }
     }
 }

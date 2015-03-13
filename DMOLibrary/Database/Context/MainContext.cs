@@ -47,6 +47,26 @@ namespace DMOLibrary.Database.Context {
             }
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            modelBuilder.Entity<Guild>()
+                .HasRequired(r => r.Server)
+                .WithMany(s => s.Guilds)
+                .HasForeignKey(f => f.ServerId)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Tamer>()
+                .HasRequired(r => r.Guild)
+                .WithMany(s => s.Tamers)
+                .HasForeignKey(f => f.GuildId)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Digimon>()
+                .HasRequired(r => r.Tamer)
+                .WithMany(s => s.Digimons)
+                .HasForeignKey(f => f.TamerId)
+                .WillCascadeOnDelete(true);
+        }
+
         #endregion Constructors
 
         #region Database sets

@@ -19,17 +19,21 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
 namespace DMOLibrary.Database.Entity {
     public class Digimon : BaseEntity {
 
+        [Required]
+        [ForeignKey("Tamer")]
         public long TamerId {
             get;
             set;
         }
 
+        [InverseProperty("Digimons")]
         public virtual Tamer Tamer {
             get;
             set;

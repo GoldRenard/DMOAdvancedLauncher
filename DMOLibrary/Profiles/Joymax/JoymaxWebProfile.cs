@@ -32,8 +32,8 @@ namespace DMOLibrary.Profiles.Joymax {
         private static string STR_GUILD_ID_REGEX = "(\\/Ranking\\/GuildRankingDetail\\.aspx\\?gid=)(\\d+)(&srvn=)";
         private static string STR_TAMER_ID_REGEX = "(\\/Ranking\\/MainPop\\.aspx\\?tid=)(\\d+)(&srvn=)";
 
-        private static string STR_URL_GUILD_PAGE = "http://dmocp.joymax.com/Ranking/GuildRankingDetail.aspx?gid={0}&srvn={1}";
         private static string STR_URL_TAMER_POPPAGE = "http://dmocp.joymax.com/us/Ranking/MainPop.aspx?tid={0}&srvn={1}";
+        private static string STR_URL_GUILD_PAGE = "http://dmocp.joymax.com/Ranking/GuildRankingDetail.aspx?gid={0}&srvn={1}";
         private static string STR_URL_GUILD_RANK = "http://dmocp.joymax.com/Ranking/GuildRankingList.aspx?st=0&sw={0}&srvn={1}";
         private static string STR_URL_MERC_SIZE_RANK = "http://dmocp.joymax.com/Ranking/SizeRankingList.aspx?sw={0}&srvn={1}&dtype={2}";
         private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://dmocp.joymax.com/Ranking/SizeRankingList.aspx";
@@ -42,7 +42,8 @@ namespace DMOLibrary.Profiles.Joymax {
         public override Guild GetGuild(Server server, string guildName, bool isDetailed) {
             OnStarted();
             Guild guild = new Guild() {
-                Server = server
+                Server = server,
+                IsDetailed = isDetailed
             };
             HtmlDocument doc = new HtmlDocument();
             OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
@@ -119,7 +120,7 @@ namespace DMOLibrary.Profiles.Joymax {
 
             HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
-            for (int i = 0; i < /*tlist.Count - 1*/ 1; i++) {
+            for (int i = 0; i < tlist.Count - 1; i++) {
                 Tamer tamer = new Tamer() {
                     Guild = guild,
                     Name = ClearStr(ranking.SelectNodes("//td[@class='guild']")[i].InnerText),

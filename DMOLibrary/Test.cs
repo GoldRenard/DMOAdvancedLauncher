@@ -22,15 +22,16 @@ using System.Linq;
 using DMOLibrary.Database.Entity;
 using System;
 using DMOLibrary.Profiles.Joymax;
+using DMOLibrary.Profiles.Korea;
 
 namespace DMOLibrary {
 
     public class Test {
 
         public static void DoTest() {
-            Server server = MainContext.Instance.Servers.First(i => i.Type == Server.ServerType.GDMO);
+            Server server = MainContext.Instance.Servers.First(i => i.Type == Server.ServerType.KDMO && i.Name == "Lucemon");
 
-            Guild guild = new JoymaxWebProfile().GetGuild(server, "MonolithMesa", true);
+            Guild guild = new KoreaWebProfile().GetGuild(server, "VirusBusters", false);
 
             MainContext.Instance.Guilds.Add(guild);
             MainContext.Instance.SaveChanges();

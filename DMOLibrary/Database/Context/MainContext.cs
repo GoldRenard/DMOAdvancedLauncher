@@ -25,9 +25,10 @@ using DMOLibrary.Database.Entity;
 namespace DMOLibrary.Database.Context {
 
     public class MainContext : BaseContext {
-        private static MainContext _Instance = null;
 
         #region Constructors
+
+        private static MainContext _Instance = null;
 
         static MainContext() {
             System.Data.Entity.Database.SetInitializer<MainContext>(new ContextInitializer());
@@ -48,7 +49,7 @@ namespace DMOLibrary.Database.Context {
 
         #endregion Constructors
 
-        #region Databases
+        #region Database sets
 
         public DbSet<Server> Servers {
             get;
@@ -82,15 +83,7 @@ namespace DMOLibrary.Database.Context {
 
         #endregion Databases
 
-        #region TamerType operations
-
-        public TamerType FindTamerTypeByCode(int code) {
-            return TamerTypes.FirstOrDefault(e => e.Code == code);
-        }
-
-        #endregion TamerType operations
-
-        #region
+        #region Digimon operations
 
         public Digimon FindRandomDigimon(Guild guild, int minlvl) {
             return Digimons.Where(e => e.Tamer.Guild.Id == guild.Id && e.Level >= minlvl)
@@ -103,6 +96,14 @@ namespace DMOLibrary.Database.Context {
         }
 
         #endregion
+
+        #region TamerType operations
+
+        public TamerType FindTamerTypeByCode(int code) {
+            return TamerTypes.FirstOrDefault(e => e.Code == code);
+        }
+
+        #endregion TamerType operations
 
         #region DigimonType operations
 

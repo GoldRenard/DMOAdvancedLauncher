@@ -57,14 +57,12 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
-        [Required]
         [StringLength(50)]
         public string SearchGDMO {
             get;
             set;
         }
 
-        [Required]
         [StringLength(50)]
         public string SearchKDMO {
             get;

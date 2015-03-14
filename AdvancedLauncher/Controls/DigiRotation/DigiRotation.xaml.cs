@@ -241,51 +241,51 @@ namespace AdvancedLauncher.Controls {
         #region Utils
 
         public void UpdateDigiInfo(ref Grid block, DInfoItemViewModel vmodel) {
-            if (!IsStatic && rGuildEntity != null) {
-                //Если не статическое, получаем рандомного дигимона из базы данных
-                BitmapImage Medal = null;
-                Digimon d = null;
+            using (MainContext context = new MainContext()) {
+                if (!IsStatic && rGuildEntity != null) {
+                    //Если не статическое, получаем рандомного дигимона из базы данных
+                    BitmapImage Medal = null;
+                    Digimon d = null;
 
-                Tamer tamer = null;
-                if (!string.IsNullOrEmpty(rTamer.Trim())) {
-                    tamer = MainContext.Instance.FindTamerByGuildAndName(rGuildEntity, rTamer.Trim());
-                }
+                    Tamer tamer = null;
+                    if (!string.IsNullOrEmpty(rTamer.Trim())) {
+                        tamer = context.FindTamerByGuildAndName(rGuildEntity, rTamer.Trim());
+                    }
+                    if (tamer != null) {
+                        d = context.FindRandomDigimon(tamer, 70);
+                    }
+                    if (d == null) {
+                        d = context.FindRandomDigimon(rGuildEntity, 70);
+                    }
 
-                if (tamer != null) {
-                    d = MainContext.Instance.FindRandomDigimon(tamer, 70);
-                }
-                if (d == null) {
-                    d = MainContext.Instance.FindRandomDigimon(rGuildEntity, 70);
-                }
+                    //Устанавливаем медали в зависимости от уровня
+                    if (d.Level >= 70 && d.Level < 75) {
+                        Medal = medalBronze;
+                    } else if (d.Level >= 75 && d.Level < 80) {
+                        Medal = medalSilver;
+                    } else if (d.Level >= 80) {
+                        Medal = medalGold;
+                    }
 
-                //Устанавливаем медали в зависимости от уровня
-                if (d.Level >= 70 && d.Level < 75) {
-                    Medal = medalBronze;
-                } else if (d.Level >= 75 && d.Level < 80) {
-                    Medal = medalSilver;
-                } else if (d.Level >= 80) {
-                    Medal = medalGold;
+                    block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
+                        vmodel.DType = DType_;
+                        vmodel.Level = Level_;
+                        vmodel.TName = string.Format(TNameFormat, LanguageEnv.Strings.RotationTamer, TName_, TLevel_);
+                        vmodel.TLevel = TLevel_;
+                        vmodel.Image = Image_;
+                        vmodel.Medal = Medal_;
+                    }), d.Name, d.Level, d.Tamer.Name, d.Tamer.Level, GetDigimonImage(d.Type.Code), Medal);
+                } else {
+                    DigimonType dType = context.FindRandomDigimonType();
+                    block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
+                        vmodel.DType = DType_;
+                        vmodel.Level = Level_;
+                        vmodel.TName = string.Format(TNameFormat, LanguageEnv.Strings.RotationTamer, TName_, TLevel_);
+                        vmodel.TLevel = TLevel_;
+                        vmodel.Image = Image_;
+                        vmodel.Medal = Medal_;
+                    }), string.Empty, 0, string.Empty, 0, GetDigimonImage(dType.Code), null);
                 }
-
-                block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
-                    vmodel.DType = DType_;
-                    vmodel.Level = Level_;
-                    vmodel.TName = string.Format(TNameFormat, LanguageEnv.Strings.RotationTamer, TName_, TLevel_);
-                    vmodel.TLevel = TLevel_;
-                    vmodel.Image = Image_;
-                    vmodel.Medal = Medal_;
-                }), d.Name, d.Level, d.Tamer.Name, d.Tamer.Level, GetDigimonImage(d.Type.Code), Medal);
-            } else {
-                //Если статика - получаем рандомный тип и показываем
-                DigimonType dType = MainContext.Instance.FindRandomDigimonType();
-                block.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {
-                    vmodel.DType = DType_;
-                    vmodel.Level = Level_;
-                    vmodel.TName = string.Format(TNameFormat, LanguageEnv.Strings.RotationTamer, TName_, TLevel_);
-                    vmodel.TLevel = TLevel_;
-                    vmodel.Image = Image_;
-                    vmodel.Medal = Medal_;
-                }), string.Empty, 0, string.Empty, 0, GetDigimonImage(dType.Code), null);
             }
         }
 

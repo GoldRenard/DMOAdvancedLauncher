@@ -35,7 +35,9 @@ namespace DMOLibrary.Profiles {
 
         public DMOProfile(Server.ServerType serverType, string typeName) {
             this.typeName = typeName;
-            _ServerList = new ObservableCollection<Server>(MainContext.Instance.Servers.Where(i => i.Type == serverType).ToList());
+            using (MainContext context = new MainContext()) {
+                _ServerList = new ObservableCollection<Server>(context.Servers.Where(i => i.Type == serverType).ToList());
+            }
         }
 
         #region Game start
@@ -152,10 +154,6 @@ namespace DMOLibrary.Profiles {
 
         public string GetTypeName() {
             return typeName;
-        }
-
-        protected virtual string GetDatabaseName() {
-            return null;
         }
 
         public virtual AbstractWebProfile GetWebProfile() {

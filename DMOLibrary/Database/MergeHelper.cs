@@ -1,4 +1,22 @@
-﻿using System;
+﻿// ======================================================================
+// DMOLibrary
+// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+// ======================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -16,32 +34,35 @@ namespace DMOLibrary.Database {
                     return false;
                 }
 
-                Guild storedGuild = MainContext.Instance.Guilds.FirstOrDefault(g =>
-                    g.Server.Id == guild.Server.Id && g.Name == guild.Name);
+                using (MainContext context = new MainContext()) {
+                    Guild storedGuild = context.Guilds.FirstOrDefault(g =>
+                        g.Server.Id == guild.Server.Id && g.Name == guild.Name);
 
-                // If we don't have this guild yet, add it
-                if (storedGuild == null) {
-                    MainContext.Instance.Guilds.Add(guild);
-                    MainContext.Instance.SaveChanges();
-                    return true;
-                }
-
-                // of we have two guilds with the same time - do nothing
-                if (storedGuild.UpdateTime != null) {
-                    if (storedGuild.UpdateTime.Equals(guild.UpdateTime)) {
+                    // If we don't have this guild yet, add it
+                    if (storedGuild == null) {
+                        context.Servers.Attach(guild.Server);
+                        context.Guilds.Add(guild);
+                        context.SaveChanges();
                         return true;
                     }
-                }
 
-                bool result = MergeGuild(guild, storedGuild);
-                if (result) {
-                    MainContext.Instance.SaveChanges();
+                    // of we have two guilds with the same time - do nothing
+                    if (storedGuild.UpdateTime != null) {
+                        if (storedGuild.UpdateTime.Equals(guild.UpdateTime)) {
+                            return true;
+                        }
+                    }
+
+                    bool result = MergeGuild(context, guild, storedGuild);
+                    if (result) {
+                        context.SaveChanges();
+                    }
+                    return result;
                 }
-                return result;
             }
         }
 
-        private static bool MergeGuild(Guild mergeGuild, Guild storedGuild) {
+        private static bool MergeGuild(MainContext context, Guild mergeGuild, Guild storedGuild) {
             MergeEntity(mergeGuild, storedGuild, false, "Rep", "Rank", "UpdateTime");
 
             // Syncronize the tamer sets by name
@@ -49,7 +70,7 @@ namespace DMOLibrary.Database {
             List<Tamer> newTamers = mergeGuild.Tamers.Where(t1 => storedGuild.Tamers.FirstOrDefault(t2 => t2.Name == t1.Name) == null).ToList();
             foreach (Tamer tamer in tamersToDelete) {
                 storedGuild.Tamers.Remove(tamer);
-                MainContext.Instance.Tamers.Remove(tamer);
+                context.Tamers.Remove(tamer);
             }
             foreach (Tamer tamer in newTamers) {
                 tamer.Guild = storedGuild;
@@ -57,7 +78,7 @@ namespace DMOLibrary.Database {
             }
 
             foreach (Tamer storedTamer in storedGuild.Tamers) {
-                if (!MergeTamer(mergeGuild.Tamers.Single(t => t.Name == storedTamer.Name), storedTamer)) {
+                if (!MergeTamer(context, mergeGuild.Tamers.Single(t => t.Name == storedTamer.Name), storedTamer)) {
                     return false;
                 }
             }
@@ -68,7 +89,7 @@ namespace DMOLibrary.Database {
             return true;
         }
 
-        private static bool MergeTamer(Tamer mergeTamer, Tamer storedTamer) {
+        private static bool MergeTamer(MainContext context, Tamer mergeTamer, Tamer storedTamer) {
             MergeEntity(mergeTamer, storedTamer, false, "Level", "Rank", "Type", "IsMaster");
 
             // Syncronize the digimon sets by digimon type (one digimon per-type limitation)
@@ -76,7 +97,7 @@ namespace DMOLibrary.Database {
             List<Digimon> newDigimons = mergeTamer.Digimons.Where(d1 => storedTamer.Digimons.FirstOrDefault(d2 => d2.Type.Id == d1.Type.Id) == null).ToList();
             foreach (Digimon digimon in digimonsToDelete) {
                 storedTamer.Digimons.Remove(digimon);
-                MainContext.Instance.Digimons.Remove(digimon);
+                context.Digimons.Remove(digimon);
             }
             foreach (Digimon digimon in newDigimons) {
                 digimon.Tamer = storedTamer;
@@ -84,14 +105,14 @@ namespace DMOLibrary.Database {
             }
 
             foreach (Digimon storedDigimon in storedTamer.Digimons) {
-                if (!MergeDigimon(mergeTamer.Digimons.Single(d => d.Type.Id == storedDigimon.Type.Id), storedDigimon)) {
+                if (!MergeDigimon(context, mergeTamer.Digimons.Single(d => d.Type.Id == storedDigimon.Type.Id), storedDigimon)) {
                     return false;
                 }
             }
             return true;
         }
 
-        private static bool MergeDigimon(Digimon mergeDigimon, Digimon storedDigimon) {
+        private static bool MergeDigimon(MainContext context, Digimon mergeDigimon, Digimon storedDigimon) {
             if (mergeDigimon.Tamer.Guild.IsDetailed) {
                 MergeEntity(mergeDigimon, storedDigimon, false, "Rank", "Level", "Name", "SizeCm", "SizePc", "SizeRank");
             } else {

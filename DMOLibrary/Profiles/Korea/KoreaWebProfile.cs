@@ -86,10 +86,12 @@ namespace DMOLibrary.Profiles.Korea {
             }
 
             List<DigimonType> types = GetDigimonTypes();
-            foreach (DigimonType type in types) {
-                MainContext.Instance.AddOrUpdateDigimonType(type, true);
+            using (MainContext context = new MainContext()) {
+                foreach (DigimonType type in types) {
+                    context.AddOrUpdateDigimonType(type, true);
+                }
+                context.SaveChanges();
             }
-            MainContext.Instance.SaveChanges();
 
             if (GetGuildInfo(ref guild, isDetailed)) {
                 guild.Tamers.First(t => t.Name == guildMaster).IsMaster = true;
@@ -115,46 +117,48 @@ namespace DMOLibrary.Profiles.Korea {
             HtmlNode ranking = doc.DocumentNode.SelectNodes("//table[@class='forum_list']//tbody")[1];
             HtmlNodeCollection tlist = ranking.SelectNodes(".//tr");
             if (tlist != null) {
-                for (int i = 0; i < tlist.Count; i++) {
-                    try {
-                        Tamer tamer = new Tamer() {
-                            Guild = guild,
-                            Name = ClearStr(tlist[i].SelectSingleNode(".//td[3]").InnerText),
-                            Rank = CheckRankNode(tlist[i].SelectSingleNode(".//td[2]"))
-                        };
-                        OnStatusChanged(DMODownloadStatusCode.GETTING_TAMER, tamer.Name, i, tlist.Count);
+                using (MainContext context = new MainContext()) {
+                    for (int i = 0; i < tlist.Count; i++) {
+                        try {
+                            Tamer tamer = new Tamer() {
+                                Guild = guild,
+                                Name = ClearStr(tlist[i].SelectSingleNode(".//td[3]").InnerText),
+                                Rank = CheckRankNode(tlist[i].SelectSingleNode(".//td[2]"))
+                            };
+                            OnStatusChanged(DMODownloadStatusCode.GETTING_TAMER, tamer.Name, i, tlist.Count);
 
-                        Regex regex = new Regex(STR_TAMER_TYPE_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                        Match match = regex.Match(tlist[i].SelectSingleNode(".//td[3]").InnerHtml);
-                        if (match.Success) {
-                            tamer.Type = MainContext.Instance.FindTamerTypeByCode(Convert.ToInt32(match.Groups[2].ToString()));
-                        }
-
-                        regex = new Regex(STR_TAMER_LVL_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                        match = regex.Match(tlist[i].SelectSingleNode(".//td[4]").InnerHtml);
-                        if (match.Success) {
-                            tamer.Level = Convert.ToByte(match.Groups[2].ToString());
-                        }
-
-                        regex = new Regex(STR_TAMER_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                        match = regex.Match(tlist[i].SelectSingleNode(".//td[7]").InnerHtml);
-                        if (match.Success) {
-                            tamer.AccountId = Convert.ToInt32(match.Groups[2].ToString());
-                        }
-
-                        if (tamer.Level != 0 && tamer.AccountId != 0) {
-                            tamer.Digimons = GetDigimons(tamer, isDetailed);
-                            if (tamer.Digimons.Count == 0) {
-                                return false;
+                            Regex regex = new Regex(STR_TAMER_TYPE_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                            Match match = regex.Match(tlist[i].SelectSingleNode(".//td[3]").InnerHtml);
+                            if (match.Success) {
+                                tamer.Type = context.FindTamerTypeByCode(Convert.ToInt32(match.Groups[2].ToString()));
                             }
-                            Digimon partner = tamer.Digimons.FirstOrDefault(d => d.Type.IsStarter);
-                            if (partner != null) {
-                                partner.Name = ClearStr(tlist[i].SelectSingleNode(".//td[5]").InnerText);
+
+                            regex = new Regex(STR_TAMER_LVL_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                            match = regex.Match(tlist[i].SelectSingleNode(".//td[4]").InnerHtml);
+                            if (match.Success) {
+                                tamer.Level = Convert.ToByte(match.Groups[2].ToString());
                             }
-                            tamerList.Add(tamer);
-                            LOGGER.InfoFormat("Found tamer \"{0}\"", tamer.Name);
+
+                            regex = new Regex(STR_TAMER_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                            match = regex.Match(tlist[i].SelectSingleNode(".//td[7]").InnerHtml);
+                            if (match.Success) {
+                                tamer.AccountId = Convert.ToInt32(match.Groups[2].ToString());
+                            }
+
+                            if (tamer.Level != 0 && tamer.AccountId != 0) {
+                                tamer.Digimons = GetDigimons(tamer, isDetailed);
+                                if (tamer.Digimons.Count == 0) {
+                                    return false;
+                                }
+                                Digimon partner = tamer.Digimons.FirstOrDefault(d => d.Type.IsStarter);
+                                if (partner != null) {
+                                    partner.Name = ClearStr(tlist[i].SelectSingleNode(".//td[5]").InnerText);
+                                }
+                                tamerList.Add(tamer);
+                                LOGGER.InfoFormat("Found tamer \"{0}\"", tamer.Name);
+                            }
+                        } catch {
                         }
-                    } catch {
                     }
                 }
             }
@@ -198,38 +202,39 @@ namespace DMOLibrary.Profiles.Korea {
             HtmlNodeCollection dlist = mercList.SelectNodes(".//tr");
 
             if (dlist != null) {
-                for (int i = 1; i < dlist.Count; i++) {
-                    Digimon digimonInfo = new Digimon() {
-                        Tamer = tamer,
-                        Name = ClearStr(dlist[i].SelectSingleNode(".//td[1]").InnerText),
-                        Level = Convert.ToByte(ClearStr(dlist[i].SelectSingleNode(".//td[2]//label").InnerText))
-                    };
+                using (MainContext context = new MainContext()) {
+                    for (int i = 1; i < dlist.Count; i++) {
+                        Digimon digimonInfo = new Digimon() {
+                            Tamer = tamer,
+                            Name = ClearStr(dlist[i].SelectSingleNode(".//td[1]").InnerText),
+                            Level = Convert.ToByte(ClearStr(dlist[i].SelectSingleNode(".//td[2]//label").InnerText))
+                        };
 
-                    string rank = string.Empty;
-                    foreach (char c in ClearStr(dlist[i].SelectSingleNode(".//td[3]//label").InnerText)) {
-                        if (Char.IsDigit(c)) {
-                            rank += c;
-                        } else {
-                            break;
-                        }
-                    }
-                    digimonInfo.Rank = Convert.ToInt32(rank);
-
-                    digimonInfo.Type = MainContext.Instance.FindDigimonTypeBySearchKDMO(MainContext.PrepareDigimonSearch(digimonInfo.Name));
-                    if (digimonInfo.Type == null) {
-                        continue;
-                    }
-                    digimonInfo.Name = digimonInfo.Type.Name;
-                    digimonInfo.SizeCm = digimonInfo.Type.SizeCm;
-
-                    if (digimonList.Count(d => d.Type.Equals(digimonInfo.Type)) == 0) {
-                        if (isDetailed) {
-                            if (!GetMercenaryInfo(ref digimonInfo, tamer)) {
-                                LOGGER.ErrorFormat("Unable to obtain detailed data of digimon \"{0}\" for tamer \"{1}\"", digimonInfo.Name, tamer.Name);
+                        string rank = string.Empty;
+                        foreach (char c in ClearStr(dlist[i].SelectSingleNode(".//td[3]//label").InnerText)) {
+                            if (Char.IsDigit(c)) {
+                                rank += c;
+                            } else {
+                                break;
                             }
                         }
-                        digimonList.Add(digimonInfo);
-                        LOGGER.InfoFormat("Found digimon \"{0}\"", digimonInfo.Name);
+                        digimonInfo.Rank = Convert.ToInt32(rank);
+                        digimonInfo.Type = context.FindDigimonTypeBySearchKDMO(MainContext.PrepareDigimonSearch(digimonInfo.Name));
+                        if (digimonInfo.Type == null) {
+                            continue;
+                        }
+                        digimonInfo.Name = digimonInfo.Type.Name;
+                        digimonInfo.SizeCm = digimonInfo.Type.SizeCm;
+
+                        if (digimonList.Count(d => d.Type.Equals(digimonInfo.Type)) == 0) {
+                            if (isDetailed) {
+                                if (!GetMercenaryInfo(ref digimonInfo, tamer)) {
+                                    LOGGER.ErrorFormat("Unable to obtain detailed data of digimon \"{0}\" for tamer \"{1}\"", digimonInfo.Name, tamer.Name);
+                                }
+                            }
+                            digimonList.Add(digimonInfo);
+                            LOGGER.InfoFormat("Found digimon \"{0}\"", digimonInfo.Name);
+                        }
                     }
                 }
             }
@@ -254,7 +259,10 @@ namespace DMOLibrary.Profiles.Korea {
             }
 
             if (partnerNode != null) {
-                DigimonType type = MainContext.Instance.FindDigimonTypeBySearchKDMO(MainContext.PrepareDigimonSearch(digimon.Name));
+                DigimonType type = null;
+                using (MainContext context = new MainContext()) {
+                    type = context.FindDigimonTypeBySearchKDMO(MainContext.PrepareDigimonSearch(digimon.Name));
+                }
                 if (type != null) {
                     digimon.Type = type;
                     digimon.Name = type.Name;

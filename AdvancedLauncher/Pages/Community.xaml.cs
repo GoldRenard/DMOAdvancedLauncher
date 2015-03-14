@@ -24,6 +24,7 @@ using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Validators;
 using DMOLibrary;
+using DMOLibrary.Database;
 using DMOLibrary.Database.Entity;
 using DMOLibrary.Profiles;
 
@@ -124,6 +125,7 @@ namespace AdvancedLauncher.Pages {
             ProgressBlock.Opacity = 0;
             switch (code) {
                 case DMODownloadResultCode.OK: {
+                        MergeHelper.Merge(result);
                         CURRENT_GUILD = result;
                         UpdateInfo(CURRENT_GUILD);
                         TDBlock_.ShowTamers(CURRENT_GUILD.Tamers);

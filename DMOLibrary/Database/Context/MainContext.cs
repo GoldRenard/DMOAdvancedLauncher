@@ -28,23 +28,17 @@ namespace DMOLibrary.Database.Context {
 
         #region Constructors
 
-        private static MainContext _Instance = null;
-
         static MainContext() {
             System.Data.Entity.Database.SetInitializer<MainContext>(new ContextInitializer());
         }
 
-        private MainContext() {
-            // hide the constructor
+        public MainContext() {
+            // default constructor
         }
 
-        public static MainContext Instance {
-            get {
-                if (_Instance == null) {
-                    _Instance = new MainContext();
-                }
-                return _Instance;
-            }
+        public MainContext(bool lazyFetch) {
+            Configuration.ProxyCreationEnabled = lazyFetch;
+            //Configuration.LazyLoadingEnabled = lazyFetch;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
@@ -114,6 +108,22 @@ namespace DMOLibrary.Database.Context {
         }
 
         #endregion Database sets
+
+        #region Guild operations
+
+        public Guild FetchGuild(Server server, string name) {
+            return Guilds
+                .Include(g => g.Server)
+                .Include(g => g.Tamers)
+                .Include(g => g.Tamers.Select(t => t.Guild))
+                .Include(g => g.Tamers.Select(t => t.Type))
+                .Include(g => g.Tamers.Select(t => t.Digimons))
+                .Include(g => g.Tamers.Select(t => t.Digimons.Select(d => d.Tamer)))
+                .Include(g => g.Tamers.Select(t => t.Digimons.Select(d => d.Type)))
+                .FirstOrDefault(g => g.Server.Id == server.Id && g.Name == name);
+        }
+
+        #endregion
 
         #region Digimon operations
 

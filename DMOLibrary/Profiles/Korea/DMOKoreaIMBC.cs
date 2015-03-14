@@ -30,7 +30,7 @@ namespace DMOLibrary.Profiles.Korea {
 
         #region Getting user login commandline
 
-        private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+        public override void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
             LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             switch (e.Url.AbsolutePath) {
                 //loginning
@@ -97,9 +97,5 @@ namespace DMOLibrary.Profiles.Korea {
         }
 
         #endregion Getting user login commandline
-
-        protected virtual string GetDatabaseName() {
-            return "Korea";
-        }
     }
 }

@@ -46,22 +46,24 @@ namespace AdvancedLauncher.Controls {
         private void LoadDigimonList(Tamer tamer) {
             string typeName;
             DigimonType dtype;
-            foreach (Digimon item in tamer.Digimons) {
-                dtype = MainContext.Instance.FindDigimonTypeByCode(item.Type.Code);
-                typeName = dtype.Name;
-                if (dtype.NameAlt != null) {
-                    typeName += " (" + dtype.NameAlt + ")";
+            using (MainContext context = new MainContext()) {
+                foreach (Digimon item in tamer.Digimons) {
+                    dtype = context.FindDigimonTypeByCode(item.Type.Code);
+                    typeName = dtype.Name;
+                    if (dtype.NameAlt != null) {
+                        typeName += " (" + dtype.NameAlt + ")";
+                    }
+                    this.Items.Add(new DigimonItemViewModel {
+                        DName = item.Name,
+                        DType = typeName,
+                        Image = IconHolder.GetImage(item.Type.Code),
+                        TName = tamer.Name,
+                        Level = item.Level,
+                        SizePC = item.SizePc,
+                        Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
+                        Rank = item.Rank
+                    });
                 }
-                this.Items.Add(new DigimonItemViewModel {
-                    DName = item.Name,
-                    DType = typeName,
-                    Image = IconHolder.GetImage(item.Type.Code),
-                    TName = tamer.Name,
-                    Level = item.Level,
-                    SizePC = item.SizePc,
-                    Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
-                    Rank = item.Rank
-                });
             }
         }
 

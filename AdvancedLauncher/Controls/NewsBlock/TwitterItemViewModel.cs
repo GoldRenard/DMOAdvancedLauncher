@@ -23,6 +23,49 @@ using System.Windows.Media;
 namespace AdvancedLauncher.Controls {
 
     public class TwitterItemViewModel : INotifyPropertyChanged {
+
+        private string _UserName;
+
+        public string UserName {
+            get {
+                return _UserName;
+            }
+            set {
+                if (value != _UserName) {
+                    _UserName = value;
+                    NotifyPropertyChanged("UserName");
+                }
+            }
+        }
+
+        private string _UserLink;
+
+        public string UserLink {
+            get {
+                return _UserLink;
+            }
+            set {
+                if (value != _UserLink) {
+                    _UserLink = value;
+                    NotifyPropertyChanged("UserLink");
+                }
+            }
+        }
+
+        private string _StatusLink;
+
+        public string StatusLink {
+            get {
+                return _StatusLink;
+            }
+            set {
+                if (value != _StatusLink) {
+                    _StatusLink = value;
+                    NotifyPropertyChanged("StatusLink");
+                }
+            }
+        }
+
         private string _Title;
 
         public string Title {

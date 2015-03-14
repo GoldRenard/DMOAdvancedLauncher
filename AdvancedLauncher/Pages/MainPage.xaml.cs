@@ -31,31 +31,8 @@ namespace AdvancedLauncher.Pages {
             InitializeComponent();
         }
 
-        public MainPage() {
-            NewsBlock_.TabChanged += NewsTabChanged;
-            Twitter.Click += NewsBlock_.OnShowTwitter;
-            Joymax.Click += NewsBlock_.OnShowJoymax;
-        }
-
         protected override void ProfileChanged() {
-            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsNewsAvailable) {
-                Joymax.Visibility = Visibility.Visible;
-                NewsTabChanged(this, LauncherEnv.Settings.CurrentProfile.News.FirstTab);
-            } else {
-                Joymax.Visibility = Visibility.Collapsed;
-                NewsTabChanged(this, 0);
-            }
-        }
-
-        private void NewsTabChanged(object sender, byte tab) {
-            LauncherEnv.Settings.CurrentProfile.News.FirstTab = tab;
-            if (tab == 0) {
-                Twitter.IsEnabled = false;
-                Joymax.IsEnabled = true;
-            } else {
-                Twitter.IsEnabled = true;
-                Joymax.IsEnabled = false;
-            }
+            // nothing to do
         }
     }
 }

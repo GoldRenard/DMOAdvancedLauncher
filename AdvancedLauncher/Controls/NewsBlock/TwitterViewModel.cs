@@ -42,11 +42,7 @@ namespace AdvancedLauncher.Controls {
         public void LoadData(List<TwitterItemViewModel> List) {
             this.IsDataLoaded = true;
             foreach (TwitterItemViewModel item in List) {
-                this.Items.Add(new TwitterItemViewModel {
-                    Title = item.Title,
-                    Date = item.Date,
-                    Image = item.Image
-                });
+                this.Items.Add(item);
             }
         }
 

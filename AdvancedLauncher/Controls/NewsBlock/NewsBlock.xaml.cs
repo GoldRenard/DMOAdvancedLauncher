@@ -40,22 +40,16 @@ namespace AdvancedLauncher.Controls {
     public partial class NewsBlock : UserControl {
         private BackgroundWorker bwLoadTwitter = new BackgroundWorker();
         private BackgroundWorker bwLoadJoymax = new BackgroundWorker();
+
+
         private Storyboard ShowTwitter = new Storyboard();
-        private Storyboard HideTwitter = new Storyboard();
         private Storyboard ShowJoymax = new Storyboard();
-        private Storyboard HideJoymax = new Storyboard();
-        private Storyboard AnimShow = new Storyboard();
-        private Storyboard AnimHide = new Storyboard();
 
         private int AnimSpeed = 100;
 
-        private bool _IsLoading = false;
+        private bool _IsTwitterLoading = false;
 
-        public bool IsLoading {
-            get {
-                return _IsLoading;
-            }
-        }
+        private bool _IsJoymaxLoading = false;
 
         private TwitterViewModel TwitterVM = new TwitterViewModel();
         private List<TwitterItemViewModel> TwitterStatuses = new List<TwitterItemViewModel>();
@@ -70,16 +64,6 @@ namespace AdvancedLauncher.Controls {
         private delegate void DoAddJoyNews(List<DMONewsProfile.NewsItem> news);
 
         private delegate void DoLoadJoymax(List<JoymaxItemViewModel> news);
-
-        public delegate void ChangedEventHandler(object sender, byte tabNum);
-
-        public event ChangedEventHandler TabChanged;
-
-        protected virtual void OnChanged(byte tabNum) {
-            if (TabChanged != null) {
-                TabChanged(this, tabNum);
-            }
-        }
 
         private string _jsonUrlLoaded;
         private string _jsonUrl;
@@ -98,57 +82,21 @@ namespace AdvancedLauncher.Controls {
                 DoubleAnimation dShowJoymax = new DoubleAnimation(1, new Duration(TimeSpan.FromMilliseconds(AnimSpeed)));
                 Storyboard.SetTarget(dShowJoymax, JoymaxNewsList);
                 Storyboard.SetTargetProperty(dShowJoymax, new PropertyPath(OpacityProperty));
-                DoubleAnimation dHideJoymax = new DoubleAnimation(0, new Duration(TimeSpan.FromMilliseconds(AnimSpeed)));
-                Storyboard.SetTarget(dHideJoymax, JoymaxNewsList);
-                Storyboard.SetTargetProperty(dHideJoymax, new PropertyPath(OpacityProperty));
                 DoubleAnimation dShowTwitter = new DoubleAnimation(1, new Duration(TimeSpan.FromMilliseconds(AnimSpeed)));
                 Storyboard.SetTarget(dShowTwitter, TwitterNewsList);
                 Storyboard.SetTargetProperty(dShowTwitter, new PropertyPath(OpacityProperty));
-                DoubleAnimation dHideTwitter = new DoubleAnimation(0, new Duration(TimeSpan.FromMilliseconds(AnimSpeed)));
-                Storyboard.SetTarget(dHideTwitter, TwitterNewsList);
-                Storyboard.SetTargetProperty(dHideTwitter, new PropertyPath(OpacityProperty));
 
                 ShowJoymax.Children.Add(dShowJoymax);
-                HideTwitter.Children.Add(dHideTwitter);
-                HideTwitter.Completed += (s, e) => {
-                    IsLoadingAnim(false);
-                    TwitterNewsList.Visibility = Visibility.Collapsed;
-                    JoymaxNewsList.Visibility = Visibility.Visible;
-                    ShowJoymax.Begin();
-                };
-
                 ShowTwitter.Children.Add(dShowTwitter);
-                HideJoymax.Children.Add(dHideJoymax);
-                HideJoymax.Completed += (s, e) => {
-                    IsLoadingAnim(false);
-                    TwitterNewsList.Visibility = Visibility.Visible;
-                    JoymaxNewsList.Visibility = Visibility.Collapsed;
-                    ShowTwitter.Begin();
-                };
-
-                //Animations for loading circle
-                DoubleAnimation dblAnimShow = new DoubleAnimation();
-                dblAnimShow.To = 1;
-                dblAnimShow.Duration = new Duration(TimeSpan.FromMilliseconds(300));
-                DoubleAnimation dblAnimHide = new DoubleAnimation();
-                dblAnimHide.To = 0;
-                dblAnimHide.Duration = new Duration(TimeSpan.FromMilliseconds(300));
-                Storyboard.SetTarget(dblAnimShow, LoaderIcon);
-                Storyboard.SetTarget(dblAnimHide, LoaderIcon);
-                Storyboard.SetTargetProperty(dblAnimShow, new PropertyPath(OpacityProperty));
-                Storyboard.SetTargetProperty(dblAnimHide, new PropertyPath(OpacityProperty));
-                AnimShow.Children.Add(dblAnimShow);
-                AnimHide.Children.Add(dblAnimHide);
-                AnimHide.Completed += (s, e) => {
-                    LoaderIcon.Visibility = Visibility.Collapsed; LoaderIcon.IsEnabled = false;
-                };
 
                 bwLoadTwitter.RunWorkerCompleted += (s, e) => {
-                    HideJoymax.Begin();
+                    ShowTwitter.Begin();
+                    IsTwitterLoadingAnim(false);
                 };
+
                 bwLoadTwitter.DoWork += (s1, e1) => {
                     if (!TwitterVM.IsDataLoaded || _jsonUrlLoaded != _jsonUrl) {
-                        IsLoadingAnim(true);
+                        IsTwitterLoadingAnim(true);
                         GetTwitterNewsAPI11(_jsonUrl);
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadTwitter((list) => {
                             TwitterVM.UnLoadData();
@@ -159,11 +107,12 @@ namespace AdvancedLauncher.Controls {
                 };
 
                 bwLoadJoymax.RunWorkerCompleted += (s, e) => {
-                    HideTwitter.Begin();
+                    ShowJoymax.Begin();
+                    IsJoymaxLoadingAnim(false);
                 };
                 bwLoadJoymax.DoWork += (s1, e1) => {
                     if (!JoymaxVM.IsDataLoaded) {
-                        IsLoadingAnim(true);
+                        IsJoymaxLoadingAnim(true);
                         GetJoymaxNews();
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadJoymax((list) => {
                             if (list != null)
@@ -172,6 +121,12 @@ namespace AdvancedLauncher.Controls {
                     }
                 };
                 ReloadNews();
+            }
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (this.IsLoaded) {
+                ShowTab(((TabControl)sender).SelectedIndex);
             }
         }
 
@@ -186,22 +141,13 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        public void OnShowTwitter(object sender, RoutedEventArgs e) {
-            ShowTab(0);
-        }
-
-        public void OnShowJoymax(object sender, RoutedEventArgs e) {
-            ShowTab(1);
-        }
-
-        public void ShowTab(byte tab) {
-            if (IsLoading) {
+        public void ShowTab(int tab) {
+            if (tab < 0) {
                 return;
             }
-            OnChanged(tab);
-            if (tab == 0) {
+            if (tab == 0 && !_IsTwitterLoading) {
                 bwLoadTwitter.RunWorkerAsync();
-            } else {
+            } else if (!_IsJoymaxLoading) {
                 bwLoadJoymax.RunWorkerAsync();
             }
         }
@@ -278,6 +224,8 @@ namespace AdvancedLauncher.Controls {
                 status.UserScreenName = tweet["user"]["screen_name"].ToString();
                 status.ProfileImageUrl = tweet["user"]["profile_image_url"].ToString();
                 try {
+                    status.UserScreenName = tweet["retweeted_status"]["user"]["name"].ToString();
+                    status.UserName = tweet["retweeted_status"]["user"]["screen_name"].ToString();
                     status.RetweetImageUrl = tweet["retweeted_status"]["user"]["profile_image_url"].ToString();
                 } catch {
                 };
@@ -311,7 +259,10 @@ namespace AdvancedLauncher.Controls {
                     Title = status.Status,
                     Date = status.StatusDate.ToLongDateString()
                         + " " + status.StatusDate.ToShortTimeString(),
-                    Image = status.ProfileImageBitmap
+                    Image = status.ProfileImageBitmap,
+                    StatusLink = "https://twitter.com/statuses/" + status.StatusId,
+                    UserLink = "https://twitter.com/" + status.UserScreenName,
+                    UserName = status.UserName
                 });
             }
         }
@@ -421,7 +372,6 @@ namespace AdvancedLauncher.Controls {
                                 NavigateUri = new Uri(part.Data)
                             };
                             hyperLink.Inlines.Add(part.Data);
-                            hyperLink.Style = (Style)FindResource("BlueHyperLink");
                             hyperLink.RequestNavigate += OnRequestNavigate;
                             tb.Inlines.Add(hyperLink);
                             break;
@@ -431,7 +381,6 @@ namespace AdvancedLauncher.Controls {
                                 NavigateUri = new Uri(string.Format("https://twitter.com/search?q=%23{0}&src=hash", part.Data.Substring(1)))
                             };
                             hyperLink.Inlines.Add(part.Data);
-                            hyperLink.Style = (Style)FindResource("BlueHyperLink");
                             hyperLink.RequestNavigate += OnRequestNavigate;
                             tb.Inlines.Add(hyperLink);
                             break;
@@ -441,7 +390,6 @@ namespace AdvancedLauncher.Controls {
                                 NavigateUri = new Uri(string.Format("https://twitter.com/{0}/", part.Data.Substring(1)))
                             };
                             hyperLink.Inlines.Add(part.Data);
-                            hyperLink.Style = (Style)FindResource("BlueHyperLink");
                             hyperLink.RequestNavigate += OnRequestNavigate;
                             tb.Inlines.Add(hyperLink);
                             break;
@@ -527,30 +475,30 @@ namespace AdvancedLauncher.Controls {
             Utils.OpenSiteNoDecode(e.Uri.ToString());
         }
 
-        private void IsLoadingAnim(bool state) {
+        private void IsTwitterLoadingAnim(bool state) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                _IsLoading = state;
-                if (_IsLoading) {
-                    LoaderIcon.IsEnabled = true;
-                    LoaderIcon.Visibility = Visibility.Visible;
-                    AnimShow.Begin();
-                } else
-                    AnimHide.Begin();
+                _IsTwitterLoading = state;
+                TwitterProgressRing.IsActive = _IsTwitterLoading;
+            }));
+        }
+
+        private void IsJoymaxLoadingAnim(bool state) {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+                _IsJoymaxLoading = state;
+                JoymaxProgressRing.IsActive = _IsJoymaxLoading;
             }));
         }
 
         //Добавляет хэндлер колеса мыши
-        private void OnNewsScrollLoaded(object sender, RoutedEventArgs e) {
-            TwitterNewsList.AddHandler(MouseWheelEvent, new RoutedEventHandler(MyMouseWheelH), true);
-            JoymaxNewsList.AddHandler(MouseWheelEvent, new RoutedEventHandler(MyMouseWheelH), true);
+        private void OnJoymaxScrollLoaded(object sender, RoutedEventArgs e) {
+            JoymaxNewsList.AddHandler(MouseWheelEvent, new RoutedEventHandler(JoymaxMouseWheelH), true);
         }
 
-        //Прокручивание контента по колесу мыши
-        private void MyMouseWheelH(object sender, RoutedEventArgs e) {
+        private void JoymaxMouseWheelH(object sender, RoutedEventArgs e) {
             MouseWheelEventArgs eargs = (MouseWheelEventArgs)e;
             double x = (double)eargs.Delta;
-            double y = NewsScroll.VerticalOffset;
-            NewsScroll.ScrollToVerticalOffset(y - x);
+            double y = JoymaxScroll.VerticalOffset;
+            JoymaxScroll.ScrollToVerticalOffset(y - x);
         }
 
         #endregion Interface processing

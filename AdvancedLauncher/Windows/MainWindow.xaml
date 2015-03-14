@@ -16,7 +16,7 @@
         Height="470"
         MinWidth="900"
         MinHeight="470"
-        Background="#252525"
+        d:Background="#252525"
         Icon="/AdvancedLauncher;component/app_icon.ico"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"

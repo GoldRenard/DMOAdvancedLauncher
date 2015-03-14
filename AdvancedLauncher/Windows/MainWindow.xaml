@@ -33,9 +33,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <!--<i:Interaction.Behaviors>
-        <Behaviours:BorderlessWindowBehavior />
-    </i:Interaction.Behaviors>-->
     <Grid x:Name="LayoutRoot">
         <!--<Grid.Background>
             <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/background.jpg"

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:Converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="850">
@@ -24,7 +25,17 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Background="{DynamicResource AccentColorBrush}">
+    <Grid>
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="Background" Value="{Binding Path=WindowTitleBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}" Value="False">
+                        <Setter Property="Background" Value="{Binding Path=NonActiveWindowTitleBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />

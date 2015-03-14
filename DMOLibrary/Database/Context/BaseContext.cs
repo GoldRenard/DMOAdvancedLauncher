@@ -17,12 +17,9 @@
 // ======================================================================
 
 using System.Data.Entity;
-using System.Linq;
-using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Database.Context {
 
     public abstract class BaseContext : DbContext {
-
     }
 }

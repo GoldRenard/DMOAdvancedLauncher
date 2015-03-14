@@ -28,6 +28,7 @@ using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using DMOLibrary;
+using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 using DMOLibrary.Profiles;
@@ -42,6 +43,7 @@ namespace AdvancedLauncher.Controls {
         private string rGuild;
         private string rTamer;
         private Server rServ;
+        private Guild rGuildEntity;
 
         private bool IsSourceLoaded = false;
         private bool IsErrorOccured = false;
@@ -70,7 +72,7 @@ namespace AdvancedLauncher.Controls {
 
         private delegate void UpdateInfo(string dType, int lvl, string tamerName, int tamerLevel, ImageSource image, ImageSource medal);
 
-        private DMOWebProfile WebProfile = null;
+        private AbstractWebProfile WebProfile = null;
 
         //Данная структура и список используются для хранения и использования уже загруженных изображений и предотвращения их повторной загрузки
         private struct DigiImage {
@@ -108,13 +110,6 @@ namespace AdvancedLauncher.Controls {
         private void MainWorkerFunc(object sender, DoWorkEventArgs e) {
             //Ротация в цикле
             while (true) {
-                if (LauncherEnv.Settings.CurrentProfile.DMOProfile.Database != null) {
-                    if (!LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
-                        System.Threading.Thread.Sleep(ROTATION_INTERVAL);
-                        continue;
-                    }
-                }
-
                 //Если источник не загружен
                 if (!IsSourceLoaded) {
                     //Добавляем задачу загрузки
@@ -142,17 +137,16 @@ namespace AdvancedLauncher.Controls {
                         rTamer = LauncherEnv.Settings.CurrentProfile.Rotation.Tamer;
                     }));
 
-                    //Проверяем, доступен ли веб-профиль и необходимая информация
-                    if (LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile != null && !string.IsNullOrEmpty(rGuild)) {
-                        rServ = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetServerById(LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1);
+                    WebProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
 
-                        //Устанавливаем новый профиль
-                        WebProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile;
+                    //Проверяем, доступен ли веб-профиль и необходимая информация
+                    if (WebProfile != null && !string.IsNullOrEmpty(rGuild)) {
+                        rServ = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetServerById(LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1);
                         //Регистрируем ивенты загрузки
                         WebProfile.StatusChanged += OnStatusChange;
                         WebProfile.DownloadCompleted += OnDownloadComplete;
                         //Получаем информацию о списках гильдии
-                        WebProfile.GetGuild(rGuild, rServ, false, LauncherEnv.Settings.CurrentProfile.Rotation.UpdateInterval + 1);
+                        AbstractWebProfile.GetActualGuild(WebProfile, rServ, rGuild, false, LauncherEnv.Settings.CurrentProfile.Rotation.UpdateInterval + 1);
                         //Убираем обработку ивентов
                         WebProfile.DownloadCompleted -= OnDownloadComplete;
                         WebProfile.StatusChanged -= OnStatusChange;
@@ -212,7 +206,7 @@ namespace AdvancedLauncher.Controls {
             }));
         }
 
-        private void OnDownloadComplete(object sender, DMODownloadResultCode code, GuildOld result) {
+        private void OnDownloadComplete(object sender, DMODownloadResultCode code, Guild result) {
             if (code != DMODownloadResultCode.OK) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
                     ErrorMessage1.Text = LanguageEnv.Strings.ErrorOccured + " [" + code + "]";
@@ -238,33 +232,38 @@ namespace AdvancedLauncher.Controls {
                     ErrorBlock.Visibility = Visibility.Visible;
                     IsErrorOccured = true;
                 }));
+                return;
             }
+            MergeHelper.Merge(result);
+            rGuildEntity = result;
         }
 
         #region Utils
 
         public void UpdateDigiInfo(ref Grid block, DInfoItemViewModel vmodel) {
-            if (!IsStatic) {
+            if (!IsStatic && rGuildEntity != null) {
                 //Если не статическое, получаем рандомного дигимона из базы данных
                 BitmapImage Medal = null;
-                DigimonOld d = null;
+                Digimon d = null;
 
-                if (!LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.IsConnected) {
-                    return;
-                }
+                Tamer tamer = null;
                 if (!string.IsNullOrEmpty(rTamer.Trim())) {
-                    d = WebProfile.GetRandomDigimon(rServ, rGuild, rTamer.Trim(), 70);
+                    tamer = MainContext.Instance.FindTamerByGuildAndName(rGuildEntity, rTamer.Trim());
+                }
+
+                if (tamer != null) {
+                    d = MainContext.Instance.FindRandomDigimon(tamer, 70);
                 }
                 if (d == null) {
-                    d = WebProfile.GetRandomDigimon(rServ, rGuild, 70);
+                    d = MainContext.Instance.FindRandomDigimon(rGuildEntity, 70);
                 }
 
                 //Устанавливаем медали в зависимости от уровня
-                if (d.Lvl >= 70 && d.Lvl < 75) {
+                if (d.Level >= 70 && d.Level < 75) {
                     Medal = medalBronze;
-                } else if (d.Lvl >= 75 && d.Lvl < 80) {
+                } else if (d.Level >= 75 && d.Level < 80) {
                     Medal = medalSilver;
-                } else if (d.Lvl >= 80) {
+                } else if (d.Level >= 80) {
                     Medal = medalGold;
                 }
 
@@ -275,7 +274,7 @@ namespace AdvancedLauncher.Controls {
                     vmodel.TLevel = TLevel_;
                     vmodel.Image = Image_;
                     vmodel.Medal = Medal_;
-                }), d.Name, d.Lvl, d.CustomTamerName, d.CustomTamerlvl, GetDigimonImage(d.TypeId), Medal);
+                }), d.Name, d.Level, d.Tamer.Name, d.Tamer.Level, GetDigimonImage(d.Type.Code), Medal);
             } else {
                 //Если статика - получаем рандомный тип и показываем
                 DigimonType dType = MainContext.Instance.FindRandomDigimonType();

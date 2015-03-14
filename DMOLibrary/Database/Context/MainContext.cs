@@ -60,11 +60,23 @@ namespace DMOLibrary.Database.Context {
                 .HasForeignKey(f => f.GuildId)
                 .WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<Tamer>()
+                .HasOptional(t => t.Type)
+                .WithMany(t => t.Tamers)
+                .HasForeignKey(t => t.TypeId)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Digimon>()
                 .HasRequired(r => r.Tamer)
                 .WithMany(s => s.Digimons)
                 .HasForeignKey(f => f.TamerId)
                 .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Digimon>()
+                .HasRequired(d => d.Type)
+                .WithMany(d => d.Digimons)
+                .HasForeignKey(d => d.TypeId)
+                .WillCascadeOnDelete(false);
         }
 
         #endregion Constructors
@@ -101,7 +113,7 @@ namespace DMOLibrary.Database.Context {
             set;
         }
 
-        #endregion Databases
+        #endregion Database sets
 
         #region Digimon operations
 
@@ -115,7 +127,15 @@ namespace DMOLibrary.Database.Context {
                 .OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();
         }
 
-        #endregion
+        #endregion Digimon operations
+
+        #region Tamer operations
+
+        public Tamer FindTamerByGuildAndName(Guild guild, string name) {
+            return Tamers.FirstOrDefault(e => e.Guild.Id == guild.Id && e.Name == name);
+        }
+
+        #endregion Tamer operations
 
         #region TamerType operations
 
@@ -152,11 +172,11 @@ namespace DMOLibrary.Database.Context {
         }
 
         public DigimonType FindDigimonTypeBySearchGDMO(string search) {
-            return DigimonTypes.Where(e => e.SearchGDMO == search).FirstOrDefault();
+            return DigimonTypes.FirstOrDefault(e => e.SearchGDMO == search);
         }
 
         public DigimonType FindDigimonTypeBySearchKDMO(string search) {
-            return DigimonTypes.Where(e => e.SearchKDMO == search).FirstOrDefault();
+            return DigimonTypes.FirstOrDefault(e => e.SearchKDMO == search);
         }
 
         public void AddOrUpdateDigimonType(DigimonType type, bool isKorean) {
@@ -194,6 +214,6 @@ namespace DMOLibrary.Database.Context {
                 .ToLower();
         }
 
-        #endregion
+        #endregion DigimonType operations
     }
 }

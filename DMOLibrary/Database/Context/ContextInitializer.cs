@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Database.Context {
 
     public class ContextInitializer
 #if DEBUG
-        : DropCreateDatabaseAlways<MainContext> {
+ : DropCreateDatabaseAlways<MainContext> {
+        //: CreateDatabaseIfNotExists<MainContext> {
 #endif
 #if RELEASE
         : CreateDatabaseIfNotExists<MainContext> {
 #endif
+
         protected override void Seed(MainContext context) {
             SeedServers(context);
             SeedDigimonTypes(context);
@@ -170,7 +170,7 @@ namespace DMOLibrary.Database.Context {
             });
         }
 
-        #endregion
+        #endregion Digimon Types Seed
 
         #region Tamer Types Seed
 
@@ -194,6 +194,6 @@ namespace DMOLibrary.Database.Context {
             });
         }
 
-        #endregion
+        #endregion Tamer Types Seed
     }
 }

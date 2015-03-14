@@ -8,27 +8,37 @@ using DMOLibrary.Database.Entity;
 namespace DMOLibrary.Database {
 
     public static class MergeHelper {
+        private static object MERGE_LOCKER = new object();
 
         public static bool Merge(Guild guild) {
-            if (guild == null) {
-                return false;
-            }
+            lock (MERGE_LOCKER) {
+                if (guild == null) {
+                    return false;
+                }
 
-            Guild storedGuild = MainContext.Instance.Guilds.FirstOrDefault(g =>
-                g.Server.Id == guild.Server.Id && g.Name == guild.Name);
+                Guild storedGuild = MainContext.Instance.Guilds.FirstOrDefault(g =>
+                    g.Server.Id == guild.Server.Id && g.Name == guild.Name);
 
-            // If we don't have this guild yet, add it
-            if (storedGuild == null) {
-                MainContext.Instance.Guilds.Add(guild);
-                MainContext.Instance.SaveChanges();
-                return true;
-            }
+                // If we don't have this guild yet, add it
+                if (storedGuild == null) {
+                    MainContext.Instance.Guilds.Add(guild);
+                    MainContext.Instance.SaveChanges();
+                    return true;
+                }
 
-            bool result = MergeGuild(guild, storedGuild);
-            if (result) {
-                MainContext.Instance.SaveChanges();
+                // of we have two guilds with the same time - do nothing
+                if (storedGuild.UpdateTime != null) {
+                    if (storedGuild.UpdateTime.Equals(guild.UpdateTime)) {
+                        return true;
+                    }
+                }
+
+                bool result = MergeGuild(guild, storedGuild);
+                if (result) {
+                    MainContext.Instance.SaveChanges();
+                }
+                return result;
             }
-            return result;
         }
 
         private static bool MergeGuild(Guild mergeGuild, Guild storedGuild) {

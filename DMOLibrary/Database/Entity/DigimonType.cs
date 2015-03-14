@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DMOLibrary.Database.Entity {
@@ -65,6 +66,11 @@ namespace DMOLibrary.Database.Entity {
 
         [StringLength(50)]
         public string SearchKDMO {
+            get;
+            set;
+        }
+
+        public virtual ICollection<Digimon> Digimons {
             get;
             set;
         }

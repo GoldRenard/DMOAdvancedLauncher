@@ -16,14 +16,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
 
 namespace DMOLibrary.Database.Entity {
+
     public class Tamer : BaseEntity {
 
         public Tamer() {
@@ -70,7 +69,12 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
-        public TamerType Type {
+        public long? TypeId {
+            get;
+            set;
+        }
+
+        public virtual TamerType Type {
             get;
             set;
         }

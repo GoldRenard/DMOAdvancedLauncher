@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Security;
 using DMOLibrary.Database.Context;
@@ -29,25 +28,14 @@ namespace DMOLibrary.Profiles {
 
     public abstract class DMOProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOProfile));
-        private string DATABASES_FOLDER = "{0}\\Databases";
-        protected DMOWebProfile _WebProfile = null;
         protected DMONewsProfile _NewsProfile = null;
         protected ObservableCollection<Server> _ServerList;
-        public DMODatabase Database;
 
         private readonly string typeName;
 
         public DMOProfile(Server.ServerType serverType, string typeName) {
             this.typeName = typeName;
-            string dir = string.Format(DATABASES_FOLDER, System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory));
-            if (!Directory.Exists(dir)) {
-                try {
-                    Directory.CreateDirectory(dir);
-                } catch {
-                }
-            }
             _ServerList = new ObservableCollection<Server>(MainContext.Instance.Servers.Where(i => i.Type == serverType).ToList());
-            Database = new DMODatabase(GetDatabasePath());
         }
 
         #region Game start
@@ -117,25 +105,8 @@ namespace DMOLibrary.Profiles {
 
         #region Database Section
 
-        public string GetDatabasePath() {
-            String fileName = GetTypeName();
-            if (GetDatabaseName() != null) {
-                fileName = GetDatabaseName();
-            }
-            return string.Format(DATABASES_FOLDER + "\\{1}.sqlite", System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory), fileName);
-        }
-
         public Server GetServerById(int serverId) {
             return _ServerList.Where(i => i.Identifier == serverId).FirstOrDefault();
-        }
-
-        public DMOWebProfile WebProfile {
-            get {
-                if (_WebProfile == null) {
-                    _WebProfile = GetWebProfile();
-                }
-                return _WebProfile;
-            }
         }
 
         public DMONewsProfile NewsProfile {
@@ -155,7 +126,7 @@ namespace DMOLibrary.Profiles {
 
         public bool IsWebAvailable {
             get {
-                return WebProfile != null;
+                return GetWebProfile() != null;
             }
         }
 
@@ -187,7 +158,7 @@ namespace DMOLibrary.Profiles {
             return null;
         }
 
-        protected virtual DMOWebProfile GetWebProfile() {
+        public virtual AbstractWebProfile GetWebProfile() {
             return null;
         }
 

@@ -16,25 +16,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Generic;
-using DMOLibrary.Database.Context;
-using System.Linq;
-using DMOLibrary.Database.Entity;
-using System;
-using DMOLibrary.Profiles.Joymax;
-using DMOLibrary.Profiles.Korea;
-using DMOLibrary.Database;
-
 namespace DMOLibrary {
 
     public class Test {
 
         public static void DoTest() {
+            /*Tamer t = MainContext.Instance.Tamers.First();
+            Digimon d = MainContext.Instance.Digimons.First();
+            DigimonType dt = d.Type;
             Server server = MainContext.Instance.Servers.First(i => i.Type == Server.ServerType.KDMO && i.Name == "Lucemon");
-            Guild guild = new KoreaWebProfile().GetGuild(server, "VirusBusters", false);
-            MergeHelper.Merge(guild);
-            guild = new KoreaWebProfile().GetGuild(server, "VirusBusters", true);
-            MergeHelper.Merge(guild);
+            Guild guild = new KoreaWebProfile().GetGuild(server, "VirusBusters", true);
+            MergeHelper.Merge(guild);*/
             int i1 = 0;
             i1++;
         }

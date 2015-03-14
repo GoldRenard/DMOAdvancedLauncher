@@ -19,13 +19,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Korea {
+
     public class KoreaWebProfile : AbstractWebProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(KoreaWebProfile));
         private static string STR_GUILD_ID_REGEX = "(main_sub\\.aspx\\?v=)(\\d+)(&o=)(\\d+)";
@@ -45,7 +45,7 @@ namespace DMOLibrary.Profiles.Korea {
             OnStarted();
             Guild guild = new Guild() {
                 Server = server,
-                IsDetailed = isDetailed                 
+                IsDetailed = isDetailed
             };
             HtmlDocument doc = new HtmlDocument();
             OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);

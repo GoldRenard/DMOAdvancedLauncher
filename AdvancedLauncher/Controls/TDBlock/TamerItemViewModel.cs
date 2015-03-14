@@ -19,7 +19,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Media;
-using DMOLibrary;
+using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
@@ -96,9 +96,9 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private TamerOld _Tamer;
+        private Tamer _Tamer;
 
-        public TamerOld Tamer {
+        public Tamer Tamer {
             get {
                 return _Tamer;
             }

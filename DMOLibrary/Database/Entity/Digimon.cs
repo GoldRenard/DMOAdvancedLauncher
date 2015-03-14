@@ -16,14 +16,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 
 namespace DMOLibrary.Database.Entity {
+
     public class Digimon : BaseEntity {
 
         [Required]
@@ -45,8 +42,12 @@ namespace DMOLibrary.Database.Entity {
             set;
         }
 
-        [Required]
-        public DigimonType Type {
+        public long TypeId {
+            get;
+            set;
+        }
+
+        public virtual DigimonType Type {
             get;
             set;
         }

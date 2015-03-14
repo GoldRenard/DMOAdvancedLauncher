@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -32,9 +33,9 @@ namespace AdvancedLauncher.Pages {
 
         private delegate void DoOneText(string text);
 
-        private DMOWebProfile webProfile;
+        private AbstractWebProfile webProfile;
 
-        private GuildOld CURRENT_GUILD = new GuildOld() {
+        private Guild CURRENT_GUILD = new Guild() {
             Id = -1
         };
 
@@ -56,7 +57,7 @@ namespace AdvancedLauncher.Pages {
             ComboBoxServer.ItemsSource = LauncherEnv.Settings.CurrentProfile.DMOProfile.ServerList;
 
             //Активируем новый профиль
-            webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.WebProfile;
+            webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
 
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Rotation.Guild)) {
@@ -94,7 +95,7 @@ namespace AdvancedLauncher.Pages {
 
         private void OnDigimonTabClick(object sender, RoutedEventArgs e) {
             if (CURRENT_GUILD.Id != -1) {
-                TDBlock_.ShowDigimons(CURRENT_GUILD.Members);
+                TDBlock_.ShowDigimons(CURRENT_GUILD.Tamers);
             }
         }
 
@@ -113,7 +114,7 @@ namespace AdvancedLauncher.Pages {
             LoadProgressBar.Value = status.Progress;
         }
 
-        private void OnDownloadCompleted(object sender, DMODownloadResultCode code, GuildOld result) {
+        private void OnDownloadCompleted(object sender, DMODownloadResultCode code, Guild result) {
             BlockControls(false);
 
             webProfile.DownloadStarted -= OnDownloadStarted;
@@ -125,7 +126,7 @@ namespace AdvancedLauncher.Pages {
                 case DMODownloadResultCode.OK: {
                         CURRENT_GUILD = result;
                         UpdateInfo(CURRENT_GUILD);
-                        TDBlock_.ShowTamers(CURRENT_GUILD.Members);
+                        TDBlock_.ShowTamers(CURRENT_GUILD.Tamers);
                         break;
                     }
                 case DMODownloadResultCode.CANT_GET: {
@@ -160,7 +161,13 @@ namespace AdvancedLauncher.Pages {
                 webProfile.DownloadStarted += OnDownloadStarted;
                 webProfile.DownloadCompleted += OnDownloadCompleted;
                 webProfile.StatusChanged += OnStatusChanged;
-                webProfile.GetGuildAsync(this.Dispatcher, GuildNameTextBox.Text, (Server)ComboBoxServer.SelectedValue, (bool)chkbox_IsDetailed.IsChecked, 1);
+
+                AbstractWebProfile.GetActualGuildAsync(this.Dispatcher,
+                    webProfile,
+                    (Server)ComboBoxServer.SelectedValue,
+                    GuildNameTextBox.Text,
+                    (bool)chkbox_IsDetailed.IsChecked,
+                    1);
             }
         }
 
@@ -172,27 +179,15 @@ namespace AdvancedLauncher.Pages {
             chkbox_IsDetailed.IsEnabled = !block;
         }
 
-        public void UpdateInfo(GuildOld g) {
-            GMaster.Text = g.MasterName;
+        public void UpdateInfo(Guild g) {
+            GMaster.Text = g.Master.Name;
             GRank.Text = g.Rank.ToString();
             GRep.Text = g.Rep.ToString();
-            //calculating top tamer in guild
-            long max = long.MaxValue;
-            int index = -1;
-            for (int i = 0; i < g.Members.Count; i++) {
-                if (g.Members[i].Rank < max) {
-                    max = g.Members[i].Rank;
-                    index = i;
-                }
-            }
-            GTop.Text = g.Members[index].Name;
-            //calc total digimons
-            int count = 0;
-            foreach (TamerOld t in g.Members) {
-                count += t.Digimons.Count;
-            }
+            Tamer bestTamer = g.Tamers.Aggregate((t1, t2) => (t1.Rank > t2.Rank ? t1 : t2));
+            GTop.Text = bestTamer.Name;
+            int count = g.Tamers.Select(o => o.Digimons.Count).Aggregate((x, y) => x + y);
             GDCnt.Text = count.ToString();
-            GTCnt.Text = g.Members.Count.ToString();
+            GTCnt.Text = g.Tamers.Count.ToString();
         }
 
         #region Обработка поля ввода имени гильдии

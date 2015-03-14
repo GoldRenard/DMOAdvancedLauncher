@@ -107,8 +107,8 @@ namespace DMOLibrary.Profiles.Korea {
             }
         }
 
-        protected override DMOWebProfile GetWebProfile() {
-            return new KoreaWebInfo(Database);
+        public override AbstractWebProfile GetWebProfile() {
+            return new KoreaWebProfile();
         }
 
         public override string GetGameStartArgs(string args) {

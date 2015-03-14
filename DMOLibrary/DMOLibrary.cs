@@ -16,54 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
-
 namespace DMOLibrary {
 
     #region Structs
-
-    public struct GuildOld {
-        public int Id;
-        public int ServId;
-        public string Name;
-        public long Rep;
-        public long MasterId;
-        public string MasterName;
-        public long Rank;
-        public DateTime UpdateTime;
-        public bool IsDetailed;
-        public List<TamerOld> Members;
-    }
-
-    public class DigimonOld {
-        public int Key;
-        public int TypeId;
-        public int ServId;
-        public int TamerId;
-        public string CustomTamerName;
-        public int CustomTamerlvl;
-        public string Name;
-        public long Rank;
-        public int Lvl;
-        public double SizeCm;
-        public int SizePc;
-        public int SizeRank;
-    }
-
-    public struct TamerOld {
-        public int Key;
-        public int Id;
-        public int TypeId;
-        public int ServId;
-        public int GuildId;
-        public int PartnerKey;
-        public string PartnerName;
-        public string Name;
-        public long Rank;
-        public int Lvl;
-        public List<DigimonOld> Digimons;
-    }
 
     public struct DownloadStatus {
         public DMODownloadStatusCode Code;

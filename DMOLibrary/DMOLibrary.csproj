@@ -93,23 +93,18 @@
     <Compile Include="Database\Entity\TamerType.cs" />
     <Compile Include="Database\Entity\Tamer.cs" />
     <Compile Include="Database\Migrations\Configuration.cs" />
-    <Compile Include="DispatcherHelper.cs" />
     <Compile Include="Profiles\AbstractWebProfile.cs" />
     <Compile Include="Profiles\Joymax\JMNews.cs" />
     <Compile Include="Profiles\DMONewsProfile.cs" />
-    <Compile Include="Profiles\DMOWebProfile.cs" />
     <Compile Include="Profiles\Joymax\JoymaxWebProfile.cs" />
     <Compile Include="Profiles\Korea\DMOKorea.cs" />
     <Compile Include="Profiles\Korea\DMOKoreaIMBC.cs" />
     <Compile Include="Profiles\Korea\KoreaWebProfile.cs" />
-    <Compile Include="Profiles\Korea\KoreaWebInfo.cs" />
     <Compile Include="Profiles\Aeria\DMOAeria.cs" />
     <Compile Include="Profiles\DMOProfile.cs" />
     <Compile Include="Profiles\Joymax\DMOJoymax.cs" />
     <Compile Include="DMOLibrary.cs" />
-    <Compile Include="DMOLibrary.DMODatabase.cs" />
     <Compile Include="DMOLibrary.DMOFileSystem.cs" />
-    <Compile Include="Profiles\Joymax\JMWebInfo.cs" />
     <Compile Include="DMOLibrary.WebDownload.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -38,8 +38,8 @@ namespace DMOLibrary.Profiles.Joymax {
             return new JMNews();
         }
 
-        protected override DMOWebProfile GetWebProfile() {
-            return new JMWebInfo(Database);
+        public override AbstractWebProfile GetWebProfile() {
+            return new JoymaxWebProfile();
         }
 
         public override string GetGameStartArgs(string args) {

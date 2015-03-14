@@ -23,7 +23,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using AdvancedLauncher.Environment;
-using DMOLibrary;
+using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
@@ -97,7 +97,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowTamers(List<TamerOld> tamers) {
+        public void ShowTamers(ICollection<Tamer> tamers) {
             OnChanged(1);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -121,7 +121,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowDigimons(TamerOld tamer) {
+        public void ShowDigimons(Tamer tamer) {
             OnChanged(2);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -148,7 +148,7 @@ namespace AdvancedLauncher.Controls {
             sb.Begin();
         }
 
-        public void ShowDigimons(List<TamerOld> tamers) {
+        public void ShowDigimons(ICollection<Tamer> tamers) {
             OnChanged(2);
             //Скрываем старую панель
             Storyboard sb = new Storyboard();
@@ -191,7 +191,7 @@ namespace AdvancedLauncher.Controls {
         private void OnTamerHeaderClick(object sender, RoutedEventArgs e) {
             if (sender != null) {
                 if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type) {
-                    TamerModel.Sort(i => i.Tamer.TypeId);
+                    TamerModel.Sort(i => i.Tamer.Type.Code);
                 } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name) {
                     TamerModel.Sort(i => i.TName);
                 } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Level) {

@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DMOLibrary.Database.Entity {
@@ -31,6 +32,11 @@ namespace DMOLibrary.Database.Entity {
         [Required]
         [StringLength(50)]
         public string Name {
+            get;
+            set;
+        }
+
+        public virtual ICollection<Tamer> Tamers {
             get;
             set;
         }

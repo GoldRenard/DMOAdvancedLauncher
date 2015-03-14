@@ -19,13 +19,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Joymax {
+
     public class JoymaxWebProfile : AbstractWebProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(JoymaxWebProfile));
         private static string STR_RANKING_NODE = "//div[@class='list bbs-ranking']";
@@ -120,7 +120,7 @@ namespace DMOLibrary.Profiles.Joymax {
 
             HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
-            for (int i = 0; i < tlist.Count - 1; i++) {
+            for (int i = 0; i < /*tlist.Count - 1*/10; i++) {
                 Tamer tamer = new Tamer() {
                     Guild = guild,
                     Name = ClearStr(ranking.SelectNodes("//td[@class='guild']")[i].InnerText),

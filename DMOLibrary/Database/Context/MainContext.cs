@@ -123,7 +123,7 @@ namespace DMOLibrary.Database.Context {
                 .FirstOrDefault(g => g.Server.Id == server.Id && g.Name == name);
         }
 
-        #endregion
+        #endregion Guild operations
 
         #region Digimon operations
 

@@ -119,7 +119,7 @@ namespace DMOLibrary.Profiles {
         protected abstract bool GetMercenaryInfo(ref Digimon digimon, Tamer tamer);
 
         public static Guild GetActualGuild(AbstractWebProfile webProfile, Server server, string guildName, bool isDetailed, int actualInterval) {
-            using (MainContext context = new MainContext(false)) {
+            using (MainContext context = new MainContext()) {
                 Guild storedGuild = context.FetchGuild(server, guildName);
                 if (storedGuild != null && !(isDetailed && !storedGuild.IsDetailed) && storedGuild.UpdateTime != null) {
                     TimeSpan timeDiff = (TimeSpan)(DateTime.Now - storedGuild.UpdateTime);
@@ -134,12 +134,13 @@ namespace DMOLibrary.Profiles {
 
         public static void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, AbstractWebProfile webProfile,
             Server server, string guildName, bool isDetailed, int actualInterval) {
-            using (MainContext context = new MainContext(false)) {
+            using (MainContext context = new MainContext()) {
                 Guild storedGuild = context.FetchGuild(server, guildName);
                 if (storedGuild != null && !(isDetailed && !storedGuild.IsDetailed) && storedGuild.UpdateTime != null) {
                     TimeSpan timeDiff = (TimeSpan)(DateTime.Now - storedGuild.UpdateTime);
                     if (timeDiff.Days < actualInterval) {
                         webProfile.OnCompleted(DMODownloadResultCode.OK, storedGuild);
+                        return;
                     }
                 }
             }

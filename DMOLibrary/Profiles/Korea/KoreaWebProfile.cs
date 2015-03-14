@@ -187,15 +187,25 @@ namespace DMOLibrary.Profiles.Korea {
             try {
                 partner = new Digimon() {
                     Tamer = tamer,
-                    Name = ClearStr(doc.DocumentNode.SelectSingleNode("//div[1]//div[2]//div[2]//table[1]//tr[1]//td[2]//table[1]//tr[3]//td[2]//b").InnerText)
+                    Name = ClearStr(doc.DocumentNode.SelectSingleNode("//div[1]//div[2]//div[2]//table[1]//tr[1]//td[2]//table[1]//tr[3]//td[2]//b").InnerText),
+                    SizePc = 100
                 };
             } catch {
                 return digimonList;
             }
-            if (GetStarterInfo(ref partner, tamer)) {
-                digimonList.Add(partner);
-            } else {
-                LOGGER.ErrorFormat("Unable to obtain starter digimon \"{0}\" for tamer \"{1}\"", partner.Name, tamer.Name);
+
+            DigimonType type = null;
+            using (MainContext context = new MainContext()) {
+                type = context.FindDigimonTypeBySearchKDMO(MainContext.PrepareDigimonSearch(partner.Name));
+            }
+            if (type != null) {
+                partner.Type = type;
+                partner.Name = type.Name;
+                partner.SizeCm = type.SizeCm;
+            }
+            digimonList.Add(partner);
+            if (!GetStarterInfo(ref partner, tamer)) {
+                LOGGER.ErrorFormat("Unable to obtain info about starter digimon \"{0}\" for tamer \"{1}\"", partner.Name, tamer.Name);
             }
 
             HtmlNode mercList = doc.DocumentNode.SelectNodes("//table[@class='list']")[1];
@@ -259,17 +269,6 @@ namespace DMOLibrary.Profiles.Korea {
             }
 
             if (partnerNode != null) {
-                DigimonType type = null;
-                using (MainContext context = new MainContext()) {
-                    type = context.FindDigimonTypeBySearchKDMO(MainContext.PrepareDigimonSearch(digimon.Name));
-                }
-                if (type != null) {
-                    digimon.Type = type;
-                    digimon.Name = type.Name;
-                    digimon.SizeCm = type.SizeCm;
-                    digimon.SizePc = 100;
-                }
-
                 digimon.Rank = CheckRankNode(partnerNode.SelectSingleNode(".//td[1]"));
                 digimon.Name = ClearStr(partnerNode.SelectSingleNode(".//td[2]//label").InnerText);
                 digimon.Level = Convert.ToByte(ClearStr(partnerNode.SelectSingleNode(".//td[3]").InnerText));

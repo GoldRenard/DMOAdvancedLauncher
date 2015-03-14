@@ -36,11 +36,6 @@ namespace DMOLibrary.Database.Context {
             // default constructor
         }
 
-        public MainContext(bool lazyFetch) {
-            Configuration.ProxyCreationEnabled = lazyFetch;
-            //Configuration.LazyLoadingEnabled = lazyFetch;
-        }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Entity<Guild>()
                 .HasRequired(r => r.Server)

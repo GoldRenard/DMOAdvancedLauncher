@@ -123,7 +123,7 @@ namespace DMOLibrary.Profiles.Joymax {
             HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
             using (MainContext context = new MainContext()) {
-                for (int i = 0; i < tlist.Count - 1; i++) {
+                for (int i = 0; i < tlist.Count; i++) {
                     Tamer tamer = new Tamer() {
                         Guild = guild,
                         Name = ClearStr(ranking.SelectNodes("//td[@class='guild']")[i].InnerText),
@@ -174,13 +174,16 @@ namespace DMOLibrary.Profiles.Joymax {
             using (MainContext context = new MainContext()) {
                 //getting starter
                 HtmlNode tamerInfo = doc.DocumentNode.SelectNodes("//div[@class='tamer-area']")[0];
-                Digimon partner = new Digimon();
-                partner.Name = ClearStr(tamerInfo.SelectNodes("//ul/li[@class='partner']/span")[0].InnerText);
+                Digimon partner = new Digimon() {
+                    Tamer = tamer,
+                    SizePc = 100,
+                    Name = ClearStr(tamerInfo.SelectNodes("//ul/li[@class='partner']/span")[0].InnerText)
+                };
                 partner.Type = context.FindDigimonTypeBySearchGDMO(MainContext.PrepareDigimonSearch(partner.Name));
-                if (GetStarterInfo(ref partner, tamer)) {
-                    digimonList.Add(partner);
-                } else {
-                    LOGGER.ErrorFormat("Unable to obtain starter digimon \"{0}\" for tamer \"{1}\"", partner.Name, tamer.Name);
+                partner.SizeCm = partner.Type.SizeCm;
+                digimonList.Add(partner);
+                if (!GetStarterInfo(ref partner, tamer)) {
+                    LOGGER.ErrorFormat("Unable to obtain info about starter digimon \"{0}\" for tamer \"{1}\"", partner.Name, tamer.Name);
                 }
 
                 HtmlNode mercenaryList = doc.DocumentNode.SelectNodes("//div[@id='rankingscroll']")[0];
@@ -221,8 +224,6 @@ namespace DMOLibrary.Profiles.Joymax {
             }
             LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
             HtmlDocument doc = new HtmlDocument();
-            digimon.SizePc = 100;
-            digimon.SizeCm = digimon.Type.SizeCm;
 
             string html = WebDownload.GetHTML(string.Format(STR_URL_STARTER_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier));
             if (html == string.Empty) {

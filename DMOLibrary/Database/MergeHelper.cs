@@ -40,7 +40,15 @@ namespace DMOLibrary.Database {
 
                     // If we don't have this guild yet, add it
                     if (storedGuild == null) {
-                        context.Servers.Attach(guild.Server);
+                        guild.Server = context.Servers.First(e => e.Id == guild.Server.Id);
+                        foreach (Tamer tamer in guild.Tamers) {
+                            if (tamer.Type != null) {
+                                tamer.Type = context.TamerTypes.First(e => e.Id == tamer.Type.Id);
+                            }
+                            foreach (Digimon digimon in tamer.Digimons) {
+                                digimon.Type = context.DigimonTypes.First(e => e.Id == digimon.Type.Id);
+                            }
+                        }
                         context.Guilds.Add(guild);
                         context.SaveChanges();
                         return true;
@@ -91,6 +99,9 @@ namespace DMOLibrary.Database {
 
         private static bool MergeTamer(MainContext context, Tamer mergeTamer, Tamer storedTamer) {
             MergeEntity(mergeTamer, storedTamer, false, "Level", "Rank", "Type", "IsMaster");
+            if (storedTamer.Type != null) {
+                storedTamer.Type = context.TamerTypes.First(t => t.Id == storedTamer.Type.Id);
+            }
 
             // Syncronize the digimon sets by digimon type (one digimon per-type limitation)
             List<Digimon> digimonsToDelete = storedTamer.Digimons.Where(d1 => mergeTamer.Digimons.FirstOrDefault(d2 => d2.Type.Id == d1.Type.Id) == null).ToList();

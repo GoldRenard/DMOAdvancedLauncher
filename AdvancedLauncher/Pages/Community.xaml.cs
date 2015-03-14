@@ -64,7 +64,7 @@ namespace AdvancedLauncher.Pages {
             if (!string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {
                     //Ищем сервер с нужным идентификатором и выбираем его
-                    if (serv.Id == LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1) {
+                    if (serv.Identifier == LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1) {
                         ComboBoxServer.SelectedValue = serv;
                         break;
                     }
@@ -185,7 +185,7 @@ namespace AdvancedLauncher.Pages {
             GMaster.Text = g.Master.Name;
             GRank.Text = g.Rank.ToString();
             GRep.Text = g.Rep.ToString();
-            Tamer bestTamer = g.Tamers.Aggregate((t1, t2) => (t1.Rank > t2.Rank ? t1 : t2));
+            Tamer bestTamer = g.Tamers.Aggregate((t1, t2) => (t1.Rank > t2.Rank ? t2 : t1));
             GTop.Text = bestTamer.Name;
             int count = g.Tamers.Select(o => o.Digimons.Count).Aggregate((x, y) => x + y);
             GDCnt.Text = count.ToString();

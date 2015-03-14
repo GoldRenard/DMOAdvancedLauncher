@@ -23,8 +23,8 @@ namespace DMOLibrary.Database.Context {
 
     public class ContextInitializer
 #if DEBUG
- : DropCreateDatabaseAlways<MainContext> {
-        //: CreateDatabaseIfNotExists<MainContext> {
+        //: DropCreateDatabaseAlways<MainContext> {
+        : CreateDatabaseIfNotExists<MainContext> {
 #endif
 #if RELEASE
         : CreateDatabaseIfNotExists<MainContext> {

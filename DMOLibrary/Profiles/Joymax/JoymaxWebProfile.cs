@@ -123,7 +123,7 @@ namespace DMOLibrary.Profiles.Joymax {
             HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
             using (MainContext context = new MainContext()) {
-                for (int i = 0; i < /*tlist.Count - 1*/2; i++) {
+                for (int i = 0; i < tlist.Count - 1; i++) {
                     Tamer tamer = new Tamer() {
                         Guild = guild,
                         Name = ClearStr(ranking.SelectNodes("//td[@class='guild']")[i].InnerText),

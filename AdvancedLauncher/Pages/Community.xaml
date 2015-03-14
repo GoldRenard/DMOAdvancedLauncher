@@ -182,7 +182,7 @@
             </ControlTemplate>
         </ResourceDictionary>
     </pages:AbstractPage.Resources>
-    <Grid x:Name="LayoutRoot" Margin="0,30,0,0">
+    <Grid x:Name="LayoutRoot">
         <Grid Margin="0,25,0,0">
             <Border Width="250" HorizontalAlignment="Left" Margin="20,0,0,45" CornerRadius="10" Background="{StaticResource MainFrameBrush}">
                 <StackPanel>

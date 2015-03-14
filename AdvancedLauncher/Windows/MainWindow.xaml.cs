@@ -22,10 +22,11 @@ using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Pages;
+using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Windows {
 
-    public partial class MainWindow : Window {
+    public partial class MainWindow : MetroWindow {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));
         private const int SC_CLOSE = 0xF060;
         private const int MF_ENABLED = 0x0000;

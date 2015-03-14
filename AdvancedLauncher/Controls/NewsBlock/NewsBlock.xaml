@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Service:IntConverter x:Key="WidthConverter" />
             <Style x:Key="SpoilerButton" TargetType="{x:Type Button}">
@@ -31,34 +31,16 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="NewsItemContainer" TargetType="{x:Type ListBoxItem}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <Border x:Name="IconBorder" CornerRadius="5" Margin="0,5,0,0">
-                                <ContentPresenter />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter TargetName="IconBorder" Property="Background" Value="#50CCEBF6" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot">
-        <Border x:Name="NewsRoot" CornerRadius="10" Background="{StaticResource MainFrameBrush}">
+        <Border x:Name="NewsRoot">
             <Grid>
-                <ScrollViewer x:Name="NewsScroll" Style="{StaticResource RoundedSV}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Loaded="OnNewsScrollLoaded"
+                <ScrollViewer x:Name="NewsScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Loaded="OnNewsScrollLoaded"
                             Width="{Binding ElementName = NewsRoot, Path=ActualWidth}">
                     <Grid x:Name="NewsWrap" HorizontalAlignment="Left" Width="{Binding ElementName=NewsScroll, Path=ActualWidth, Converter={StaticResource WidthConverter}}">
-                        <ListBox Visibility="Collapsed" Opacity="0" x:Name="TwitterNewsList" BorderThickness="0"
-                                     d:DataContext="{d:DesignData TwitterViewModelSampleData.xaml}"
-                                     ItemContainerStyle="{StaticResource NewsItemContainer}"
-                                     Background="Transparent" ItemsSource="{Binding Items}">
+                        <ListBox Visibility="Collapsed" Opacity="0" x:Name="TwitterNewsList"
+                                     d:DataContext="{d:DesignData TwitterViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" x:Name="stackPanel2">
@@ -68,8 +50,8 @@
                                             </Border.Background>
                                         </Border>
                                         <StackPanel x:Name="new_texts" Margin="5,0,-62,0" Width="{Binding ElementName = NewsScroll, Path=ActualWidth}">
-                                            <TextBlock Margin="0,0,60,0" Loaded="ParseTextBlock" Text="{Binding Title}" TextWrapping="Wrap" Foreground="Black" />
-                                            <TextBlock Text="{Binding Date}" TextWrapping="Wrap" Foreground="#AA000000" Margin="1,0,12,0" />
+                                            <TextBlock Margin="0,0,60,0" Loaded="ParseTextBlock" Text="{Binding Title}" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding Date}" TextWrapping="Wrap" Margin="1,0,12,0" />
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
@@ -77,7 +59,6 @@
                         </ListBox>
                         <ListBox Visibility="Collapsed" Opacity="0" x:Name="JoymaxNewsList" BorderThickness="0"
                                      d:DataContext="{d:DesignData JoymaxViewModelSampleData.xaml}"
-                                     ItemContainerStyle="{StaticResource NewsItemContainer}"
                                      Background="Transparent" ItemsSource="{Binding Items}" d:Visibility="Collapsed">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -127,7 +108,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" Margin="0,-1,0,0" Text="{Binding Type}" VerticalAlignment="Center" TextAlignment="Center" Foreground="#FFF" />
                                                 <TextBlock Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="Black">
-                                                        <Hyperlink NavigateUri="{Binding Link}" Style="{StaticResource BlueHyperLink}" RequestNavigate="OnRequestNavigate">
+                                                        <Hyperlink NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
                                                             <TextBlock Text="{Binding Title}" />
                                                         </Hyperlink>
                                                     </TextBlock>
@@ -163,7 +144,7 @@
                                             <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,0,0" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate}" TextWrapping="Wrap" Foreground="#ff000000" />
                                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date}" TextWrapping="Wrap" Foreground="#ff000000" />
                                             <TextBlock Grid.Row="1" Grid.Column="2" Padding="0,0,5,0" TextWrapping="Wrap" TextAlignment="Right" FontWeight="Bold" Foreground="#AA000000">
-                                                    <Hyperlink NavigateUri="{Binding Link}" Style="{StaticResource BlueHyperLink}" RequestNavigate="OnRequestNavigate"><Run Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsReadMore}" /></Hyperlink>
+                                                    <Hyperlink NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate"><Run Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsReadMore}" /></Hyperlink>
                                             </TextBlock>
                                         </Grid>
                                     </StackPanel>

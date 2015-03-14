@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </pages:AbstractPage.Resources>
-    <Grid x:Name="LayoutRoot" Margin="0,30,0,0">
+    <Grid x:Name="LayoutRoot">
         <Grid.Resources>
             <Storyboard x:Key="ShowLoginForm">
                 <DoubleAnimation Duration="0:0:0.15"
@@ -49,18 +49,15 @@
                 </ObjectAnimationUsingKeyFrames>
             </Storyboard>
         </Grid.Resources>
-        <Grid Margin="0,25,0,0">
-            <Grid Width="360" Margin="0,0,0,45" HorizontalAlignment="Left">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <controls:DigiRotation Grid.Row="0" x:Name="DigiRotator" Width="300" />
-                <controls:GameControl Grid.Row="2" Width="330" VerticalAlignment="Bottom" />
-            </Grid>
-            <controls:NewsBlock x:Name="NewsBlock_" Margin="360,3,20,40" />
-            <controls:Footer x:Name="Footer_" Height="40" VerticalAlignment="Bottom" />
+        <Grid Width="360" Margin="0,0,0,45" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <controls:DigiRotation Grid.Row="0" x:Name="DigiRotator" Width="300" />
+            <controls:GameControl Grid.Row="2" Width="330" VerticalAlignment="Bottom" />
         </Grid>
+        <controls:NewsBlock x:Name="NewsBlock_" Margin="360,5,5,5" />
         <StackPanel Margin="160,0,0,0" Orientation="Horizontal">
             <TextBlock Style="{StaticResource SubNavText}" Text="{Binding News}" />
             <Button x:Name="Twitter" Content="TWITTER" Style="{StaticResource SubNavButton}" />

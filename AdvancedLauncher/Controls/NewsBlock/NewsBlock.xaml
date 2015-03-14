@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Service:IntConverter x:Key="WidthConverter" />
             <Style x:Key="SpoilerButton" TargetType="{x:Type Button}">
@@ -35,11 +36,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot">
-        <TabControl SelectionChanged="TabControl_SelectionChanged">
-            <TabItem Controls:ControlsHelper.HeaderFontSize="12" x:Name="NavMain" Header="TWITTER">
+        <TabControl x:Name="NewsTabControl" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem x:Name="NavTwitter" Controls:ControlsHelper.HeaderFontSize="12" Header="TWITTER">
                 <Grid Margin="360,5,5,5">
                     <GroupBox Header="Twitter">
-                        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"  x:Name="TwitterNewsList" Opacity="1" d:DataContext="{d:DesignData TwitterViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
+                        <ListBox x:Name="TwitterNewsList" Margin="-5,-5,0,-5" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Opacity="0"
+                                 d:DataContext="{d:DesignData TwitterViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -67,10 +69,11 @@
                     <Controls:ProgressRing x:Name="TwitterProgressRing" Height="70" Width="70" IsActive="False" />
                 </Grid>
             </TabItem>
-            <TabItem Controls:ControlsHelper.HeaderFontSize="12" x:Name="NavGallery" Header="JOYMAX">
+            <TabItem x:Name="NavJoymax" Controls:ControlsHelper.HeaderFontSize="12" Header="JOYMAX">
                 <Grid Margin="360,5,5,5">
-                    <ScrollViewer x:Name="JoymaxScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Loaded="OnJoymaxScrollLoaded">
-                        <ListBox x:Name="JoymaxNewsList" Opacity="0" d:DataContext="{d:DesignData JoymaxViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
+                    <GroupBox Header="Joymax">
+                        <ListBox Margin="-5,-5,0,-5" x:Name="JoymaxNewsList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible" Opacity="1"
+                             d:DataContext="{d:DesignData JoymaxViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
@@ -106,7 +109,7 @@
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </StackPanel.Resources>
-                                        <Grid x:Name="JoyMax_New_Header">
+                                        <Grid Height="25" x:Name="JoyMax_New_Header" Margin="-5,5,0,0">
                                             <Grid.Background>
                                                 <ImageBrush ImageSource="images\bbs_mode.png" Viewbox="{Binding ImgVB}" Viewport="0,0,90,18" ViewboxUnits="Absolute" ViewportUnits="Absolute" Stretch="None" TileMode="None" />
                                             </Grid.Background>
@@ -117,27 +120,47 @@
                                                     <ColumnDefinition Width="100*" />
                                                     <ColumnDefinition Width="20" />
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Margin="0,-1,0,0" Text="{Binding Type}" VerticalAlignment="Center" TextAlignment="Center" Foreground="#FFF" />
-                                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="Black">
-                                                        <Hyperlink NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
-                                                            <TextBlock Text="{Binding Title}" />
-                                                        </Hyperlink>
-                                                    </TextBlock>
-                                                <Button Grid.Column="3" x:Name="btn_OpenContent" Style="{StaticResource SpoilerButton}" Cursor="Hand" Width="20" HorizontalAlignment="Right">
+                                                <TextBlock Grid.Column="0" Margin="0,-1,0,0" Text="{Binding Type}" TextAlignment="Center" Foreground="#FFF" />
+                                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap">
+                                                    <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
+                                                        <TextBlock Text="{Binding Title}" />
+                                                    </Hyperlink>
+                                                </TextBlock>
+                                                <Button Grid.Column="3" Width="20" Margin="0,-5,0,0" x:Name="btn_OpenContent" Style="{StaticResource SpoilerButton}" Cursor="Hand" HorizontalAlignment="Right">
+                                                    <Button.Resources>
+                                                        <ResourceDictionary>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="{DynamicResource AccentColor}" />
+                                                        </ResourceDictionary>
+                                                    </Button.Resources>
                                                     <Button.Triggers>
                                                         <EventTrigger RoutedEvent="Button.Click">
                                                             <BeginStoryboard Storyboard="{StaticResource OpenContent}" />
                                                         </EventTrigger>
                                                     </Button.Triggers>
-                                                    <Image Source="images\plus.png" Stretch="None" Width="16" Height="16" />
+                                                    <Button.Content>
+                                                        <Rectangle Width="12" Height="10">
+                                                            <Rectangle.Fill>
+                                                                <VisualBrush Visual="{StaticResource appbar_chevron_down}" />
+                                                            </Rectangle.Fill>
+                                                        </Rectangle>
+                                                    </Button.Content>
                                                 </Button>
-                                                <Button Grid.Column="3" x:Name="btn_CloseContent" Style="{StaticResource SpoilerButton}" Cursor="Hand" Width="20" HorizontalAlignment="Right" Visibility="Collapsed">
+                                                <Button Grid.Column="3" Width="20" Margin="0,-5,0,0" x:Name="btn_CloseContent" Style="{StaticResource SpoilerButton}" Cursor="Hand" HorizontalAlignment="Right" Visibility="Collapsed">
+                                                    <Button.Resources>
+                                                        <ResourceDictionary>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="{DynamicResource AccentColor}" />
+                                                        </ResourceDictionary>
+                                                    </Button.Resources>
                                                     <Button.Triggers>
                                                         <EventTrigger RoutedEvent="Button.Click">
                                                             <BeginStoryboard Storyboard="{StaticResource CloseContent}" />
                                                         </EventTrigger>
                                                     </Button.Triggers>
-                                                    <Image Source="images\minus.png" Stretch="None" Width="16" Height="16" />
+                                                    <Rectangle Width="10" Height="10">
+                                                        <Rectangle.Fill>
+                                                            <VisualBrush Visual="{StaticResource appbar_close}" />
+                                                        </Rectangle.Fill>
+                                                    </Rectangle>
                                                 </Button>
                                             </Grid>
                                         </Grid>
@@ -151,18 +174,20 @@
                                                 <ColumnDefinition Width="33*" />
                                                 <ColumnDefinition Width="33*" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Width="350" Padding="5" Text="{Binding Content}" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#AA000000" />
-                                            <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,0,0" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate}" TextWrapping="Wrap" Foreground="#ff000000" />
-                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date}" TextWrapping="Wrap" Foreground="#ff000000" />
-                                            <TextBlock Grid.Row="1" Grid.Column="2" Padding="0,0,5,0" TextWrapping="Wrap" TextAlignment="Right" FontWeight="Bold" Foreground="#AA000000">
-                                                    <Hyperlink NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate"><Run Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsReadMore}" /></Hyperlink>
+                                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Width="350" Padding="5" Text="{Binding Content}" HorizontalAlignment="Left" TextWrapping="Wrap" />
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,0,0" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate}" TextWrapping="Wrap" />
+                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date}" TextWrapping="Wrap" />
+                                            <TextBlock Grid.Row="1" Grid.Column="2" Padding="0,0,5,0" TextWrapping="Wrap" TextAlignment="Right" FontWeight="Bold">
+                                                 <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
+                                                     <Run Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsReadMore}" />
+                                                 </Hyperlink>
                                             </TextBlock>
                                         </Grid>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                    </ScrollViewer>
+                    </GroupBox>
                     <Controls:ProgressRing x:Name="JoymaxProgressRing" Height="70" Width="70" IsActive="False" />
                 </Grid>
             </TabItem>

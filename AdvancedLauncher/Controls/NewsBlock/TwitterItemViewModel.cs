@@ -23,7 +23,6 @@ using System.Windows.Media;
 namespace AdvancedLauncher.Controls {
 
     public class TwitterItemViewModel : INotifyPropertyChanged {
-
         private string _UserName;
 
         public string UserName {

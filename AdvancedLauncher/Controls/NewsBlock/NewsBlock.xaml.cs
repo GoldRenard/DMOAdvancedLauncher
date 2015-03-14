@@ -26,7 +26,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -41,15 +40,10 @@ namespace AdvancedLauncher.Controls {
         private BackgroundWorker bwLoadTwitter = new BackgroundWorker();
         private BackgroundWorker bwLoadJoymax = new BackgroundWorker();
 
-
         private Storyboard ShowTwitter = new Storyboard();
         private Storyboard ShowJoymax = new Storyboard();
 
         private int AnimSpeed = 100;
-
-        private bool _IsTwitterLoading = false;
-
-        private bool _IsJoymaxLoading = false;
 
         private TwitterViewModel TwitterVM = new TwitterViewModel();
         private List<TwitterItemViewModel> TwitterStatuses = new List<TwitterItemViewModel>();
@@ -97,9 +91,11 @@ namespace AdvancedLauncher.Controls {
                 bwLoadTwitter.DoWork += (s1, e1) => {
                     if (!TwitterVM.IsDataLoaded || _jsonUrlLoaded != _jsonUrl) {
                         IsTwitterLoadingAnim(true);
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
+                            TwitterVM.UnLoadData();
+                        }));
                         GetTwitterNewsAPI11(_jsonUrl);
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadTwitter((list) => {
-                            TwitterVM.UnLoadData();
                             TwitterVM.LoadData(list);
                         }), TwitterStatuses);
                         _jsonUrlLoaded = _jsonUrl;
@@ -134,20 +130,22 @@ namespace AdvancedLauncher.Controls {
             if (_jsonUrl != LauncherEnv.Settings.CurrentProfile.News.TwitterUrl) {
                 _jsonUrl = LauncherEnv.Settings.CurrentProfile.News.TwitterUrl;
             }
-            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsNewsAvailable) {
-                ShowTab(LauncherEnv.Settings.CurrentProfile.News.FirstTab);
-            } else {
-                ShowTab(0);
-            }
+
+            bool newsSupported = LauncherEnv.Settings.CurrentProfile.DMOProfile.IsNewsAvailable;
+            NavJoymax.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
+            NavTwitter.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
+            byte index = newsSupported ? LauncherEnv.Settings.CurrentProfile.News.FirstTab : (byte)0;
+            NewsTabControl.SelectedIndex = index;
+            ShowTab(index);
         }
 
         public void ShowTab(int tab) {
             if (tab < 0) {
                 return;
             }
-            if (tab == 0 && !_IsTwitterLoading) {
+            if (tab == 0 && !bwLoadTwitter.IsBusy) {
                 bwLoadTwitter.RunWorkerAsync();
-            } else if (!_IsJoymaxLoading) {
+            } else if (!bwLoadJoymax.IsBusy) {
                 bwLoadJoymax.RunWorkerAsync();
             }
         }
@@ -477,28 +475,14 @@ namespace AdvancedLauncher.Controls {
 
         private void IsTwitterLoadingAnim(bool state) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                _IsTwitterLoading = state;
-                TwitterProgressRing.IsActive = _IsTwitterLoading;
+                TwitterProgressRing.IsActive = state;
             }));
         }
 
         private void IsJoymaxLoadingAnim(bool state) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                _IsJoymaxLoading = state;
-                JoymaxProgressRing.IsActive = _IsJoymaxLoading;
+                JoymaxProgressRing.IsActive = state;
             }));
-        }
-
-        //Добавляет хэндлер колеса мыши
-        private void OnJoymaxScrollLoaded(object sender, RoutedEventArgs e) {
-            JoymaxNewsList.AddHandler(MouseWheelEvent, new RoutedEventHandler(JoymaxMouseWheelH), true);
-        }
-
-        private void JoymaxMouseWheelH(object sender, RoutedEventArgs e) {
-            MouseWheelEventArgs eargs = (MouseWheelEventArgs)e;
-            double x = (double)eargs.Delta;
-            double y = JoymaxScroll.VerticalOffset;
-            JoymaxScroll.ScrollToVerticalOffset(y - x);
         }
 
         #endregion Interface processing

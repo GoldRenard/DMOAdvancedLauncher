@@ -16,8 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows;
-using AdvancedLauncher.Environment;
 using log4net;
 
 namespace AdvancedLauncher.Pages {

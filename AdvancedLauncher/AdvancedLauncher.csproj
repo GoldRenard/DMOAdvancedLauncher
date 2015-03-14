@@ -877,10 +877,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Controls\NewsBlock\Images\bbs_mode.png" />
-    <Resource Include="Controls\NewsBlock\Images\joymax_news.png" />
-    <Resource Include="Controls\NewsBlock\Images\minus.png" />
-    <Resource Include="Controls\NewsBlock\Images\plus.png" />
-    <Resource Include="Controls\NewsBlock\Images\twitter_news.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Controls\DigiRotation\Images\bronze.png" />

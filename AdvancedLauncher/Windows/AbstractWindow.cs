@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using AdvancedLauncher.Environment;
@@ -6,15 +7,16 @@ using AdvancedLauncher.Environment;
 namespace AdvancedLauncher.Windows {
 
     public abstract class AbstractWindow : UserControl {
-        protected Storyboard ShowWindow, HideWindow;
 
         protected abstract void InitializeAbstractWindow();
+
+        public delegate void CloseEventHandler(object sender, EventArgs e);
+
+        public event CloseEventHandler WindowClosed;
 
         public AbstractWindow() {
             InitializeAbstractWindow();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
-                HideWindow = ((Storyboard)this.FindResource("HideWindow"));
                 LanguageEnv.Languagechanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
@@ -23,11 +25,12 @@ namespace AdvancedLauncher.Windows {
 
         public virtual void Show() {
             this.Visibility = Visibility.Visible;
-            ShowWindow.Begin();
         }
 
         public virtual void Close() {
-            HideWindow.Begin();
+            if (WindowClosed != null) {
+                WindowClosed(this, new EventArgs());
+            }
         }
 
         protected virtual void OnCloseClick(object sender, RoutedEventArgs e) {

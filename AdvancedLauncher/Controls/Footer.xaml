@@ -3,31 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
              mc:Ignorable="d"
-             d:DesignHeight="42" d:DesignWidth="850">
+             d:DesignHeight="50" d:DesignWidth="850">
     <UserControl.Resources>
         <Style TargetType="TextBlock" x:Key="CopyrightText">
             <Setter Property="FontSize" Value="9" />
             <Setter Property="FontFamily" Value="Arial" />
-            <Setter Property="Foreground" Value="#86C0E0" />
-            <Setter Property="Margin" Value="0,10,0,0" />
             <Setter Property="TextWrapping" Value="WrapWithOverflow" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <MultiBinding Converter="{x:Static Converters:BackgroundToForegroundConverter.Instance}">
+                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"
+                                         Path="Background"
+                                         Mode="OneWay" />
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/footer.png" Stretch="None" TileMode="FlipX" Viewbox="0,0,19,42" Viewport="0,0,19,42" ViewboxUnits="Absolute" ViewportUnits="Absolute" />
-        </Grid.Background>
+    <Grid Background="{DynamicResource AccentColorBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" Source="/AdvancedLauncher;component/Resources/copy_icons.png" Stretch="None" Margin="0,10,0,0" />
-        <TextBlock x:Name="VersionBlock" Grid.Column="1" Width="200" Style="{StaticResource CopyrightText}" Text="Advanced DMO Launcher v{0}. Developer: GoldRenard. Design help: DragonVs." />
-        <TextBlock Grid.Column="2" Width="200" Style="{StaticResource CopyrightText}" Text="WeMade Entertainment. All rights reserved. JOYMAX.CO LTD. All rights reserved." />
-        <TextBlock Grid.Column="3" Width="200" Style="{StaticResource CopyrightText}" Text="Akiyoshi Hongo, Toei Animation, MoveGames CO. LTD. All rights reserved." />
+        <Image Grid.Column="0" Source="/AdvancedLauncher;component/Resources/copy_icons.png" Stretch="None"/>
+        <TextBlock x:Name="VersionBlock" Grid.Column="1" Style="{StaticResource CopyrightText}" Text="Advanced DMO Launcher v{0}. Developer: GoldRenard. Design help: DragonVs." />
+        <TextBlock Grid.Column="2" Style="{StaticResource CopyrightText}" Text="WeMade Entertainment. All rights reserved. JOYMAX.CO LTD. All rights reserved." />
+        <TextBlock Grid.Column="3" Style="{StaticResource CopyrightText}" Text="Akiyoshi Hongo, Toei Animation, MoveGames CO. LTD. All rights reserved." />
     </Grid>
 </UserControl>

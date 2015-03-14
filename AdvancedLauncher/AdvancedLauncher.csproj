@@ -873,7 +873,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\copy_icons.png" />
-    <Resource Include="Resources\footer.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Controls\NewsBlock\Images\bbs_mode.png" />

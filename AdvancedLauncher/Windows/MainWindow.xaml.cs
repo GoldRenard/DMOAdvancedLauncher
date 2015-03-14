@@ -51,9 +51,9 @@ namespace AdvancedLauncher.Windows {
             // force initialize default profile in current thread
             var profile = LauncherEnv.Settings.CurrentProfile;
             InitializeComponent();
-            if (!LayoutRoot.Children.Contains(Logger.Instance)) {
-                LayoutRoot.Children.Add(Logger.Instance);
-            }
+            Logger.Instance.WindowClosed += (s, e1) => {
+                transitionLayout.Content = null;
+            };
             AdvancedLauncher.Service.UpdateChecker.Check();
             LanguageEnv.Languagechanged += delegate() {
                 this.DataContext = LanguageEnv.Strings;
@@ -142,23 +142,27 @@ namespace AdvancedLauncher.Windows {
         private void OnSettingsClick(object sender, RoutedEventArgs e) {
             if (SettingsWindow == null) {
                 SettingsWindow = new Settings();
-                LayoutRoot.Children.Add(SettingsWindow);
+                SettingsWindow.WindowClosed += (s, e1) => {
+                    transitionLayout.Content = null;
+                };
             }
+            transitionLayout.Content = SettingsWindow;
             SettingsWindow.Show();
         }
 
         private void OnAboutClick(object sender, RoutedEventArgs e) {
             if (AboutWindow == null) {
                 AboutWindow = new About();
-                LayoutRoot.Children.Add(AboutWindow);
+                AboutWindow.WindowClosed += (s, e1) => {
+                    transitionLayout.Content = null;
+                };
             }
+            transitionLayout.Content = AboutWindow;
             AboutWindow.Show();
         }
 
         private void OnLoggerClick(object sender, RoutedEventArgs e) {
-            if (!LayoutRoot.Children.Contains(Logger.Instance)) {
-                LayoutRoot.Children.Add(Logger.Instance);
-            }
+            transitionLayout.Content = Logger.Instance;
             Logger.Instance.Show();
         }
     }

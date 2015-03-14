@@ -24,7 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
-using DMOLibrary;
+using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
@@ -44,18 +44,18 @@ namespace AdvancedLauncher.Controls {
             private set;
         }
 
-        public void LoadData(List<Tamer> List) {
+        public void LoadData(ICollection<Tamer> List) {
             this.IsDataLoaded = true;
             foreach (Tamer item in List) {
                 this.Items.Add(new TamerItemViewModel {
                     TName = item.Name,
-                    TType = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.FindTamerTypeById(item.TypeId).Name,
-                    Level = item.Lvl,
-                    PName = item.PartnerName,
+                    TType = item.Type != null ? item.Type.Name : "N/A",
+                    Level = item.Level,
+                    PName = item.Partner.Name,
                     Rank = item.Rank,
                     DCnt = item.Digimons.Count,
                     Tamer = item,
-                    Image = GetImage(item.TypeId)
+                    Image = item.Type != null ? GetImage(item.Type.Code) : null
                 });
             }
         }

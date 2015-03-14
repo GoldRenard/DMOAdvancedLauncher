@@ -16,38 +16,40 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using DMOLibrary.Database.Entity;
+using System.ComponentModel.DataAnnotations;
 
-namespace DMOLibrary.Profiles.Joymax {
+namespace DMOLibrary.Database.Entity {
 
-    public class DMOJoymax : DMOProfile {
+    public abstract class BaseEntity {
 
-        public DMOJoymax()
-            : base(Server.ServerType.GDMO, "Joymax") {
+        [Key]
+        public long Id {
+            get;
+            set;
         }
 
-        #region Getting user login commandline
-
-        public override void TryLogin(string UserId, System.Security.SecureString Password) {
-            OnCompleted(LoginCode.SUCCESS, "true");
+        public override int GetHashCode() {
+            int prime = 31;
+            int result = 1;
+            result = prime * result + Id.GetHashCode();
+            return result;
         }
 
-        #endregion Getting user login commandline
-
-        protected override DMONewsProfile GetNewsProfile() {
-            return new JMNews();
-        }
-
-        public override AbstractWebProfile GetWebProfile() {
-            return new JoymaxWebProfile();
-        }
-
-        public override string GetGameStartArgs(string args) {
-            return "true";
-        }
-
-        public override string GetLauncherStartArgs(string args) {
-            return string.Empty;
+        public override bool Equals(object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (!this.GetType().IsAssignableFrom(obj.GetType())) {
+                return false;
+            }
+            BaseEntity other = (BaseEntity)obj;
+            if (!Id.Equals(other.Id)) {
+                return false;
+            }
+            return this.GetHashCode() == obj.GetHashCode();
         }
     }
 }

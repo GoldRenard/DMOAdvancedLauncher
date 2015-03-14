@@ -32,7 +32,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
-using DMOLibrary;
+using DMOLibrary.Profiles;
 using Newtonsoft.Json.Linq;
 
 namespace AdvancedLauncher.Controls {
@@ -67,7 +67,7 @@ namespace AdvancedLauncher.Controls {
         private JoymaxViewModel JoymaxVM = new JoymaxViewModel();
         private List<JoymaxItemViewModel> JoymaxNews = new List<JoymaxItemViewModel>();
 
-        private delegate void DoAddJoyNews(List<NewsItem> news);
+        private delegate void DoAddJoyNews(List<DMONewsProfile.NewsItem> news);
 
         private delegate void DoLoadJoymax(List<JoymaxItemViewModel> news);
 
@@ -488,11 +488,11 @@ namespace AdvancedLauncher.Controls {
 
         private void GetJoymaxNews() {
             if (LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile != null) {
-                List<NewsItem> news = LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile.GetNews();
+                List<DMONewsProfile.NewsItem> news = LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile.GetNews();
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) => {
                     Rect viewbox;
                     string mode;
-                    foreach (NewsItem n in news) {
+                    foreach (DMONewsProfile.NewsItem n in news) {
                         mode = n.Mode;
                         if (mode == "NOTICE") {
                             viewbox = new Rect(215, 54, 90, 18);

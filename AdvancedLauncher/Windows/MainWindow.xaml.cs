@@ -63,9 +63,6 @@ namespace AdvancedLauncher.Windows {
             LauncherEnv.Settings.FileSystemLocked += OnFileSystemLocked;
             this.Closing += (s, e) => {
                 e.Cancel = IsCloseLocked;
-                if (!IsCloseLocked && LauncherEnv.Settings.CurrentProfile.DMOProfile.Database != null) {
-                    LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.CloseConnection();
-                }
             };
             MainMenu.AboutClick += OnAboutClick;
             MainMenu.SettingsClick += OnSettingsClick;

@@ -16,20 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Generic;
+using System.Data.Entity;
 
-namespace DMOLibrary.Profiles {
+namespace DMOLibrary.Database.Context {
 
-    public abstract class DMONewsProfile {
-
-        public struct NewsItem {
-            public string Mode;
-            public string Subject;
-            public string Date;
-            public string Content;
-            public string Url;
-        }
-
-        public abstract List<NewsItem> GetNews();
+    public abstract class BaseContext : DbContext {
     }
 }

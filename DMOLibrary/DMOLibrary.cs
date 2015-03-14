@@ -16,94 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
-
 namespace DMOLibrary {
 
     #region Structs
-
-    public class Server {
-
-        public int Id {
-            set;
-            get;
-        }
-
-        public string Name {
-            set;
-            get;
-        }
-    }
-
-    public struct Guild {
-        public int Key;
-        public int Id;
-        public int ServId;
-        public string Name;
-        public long Rep;
-        public long MasterId;
-        public string MasterName;
-        public long Rank;
-        public DateTime UpdateTime;
-        public bool IsDetailed;
-        public List<Tamer> Members;
-    }
-
-    public struct DigimonType {
-        public int Id;
-        public string Name;
-        public string NameAlt;
-        public string SearchGDMO;
-        public string SearchKDMO;
-
-        public override string ToString() {
-            return string.Format("DigimonType [Id={0}, Name={1}, NameAlt={2}, SearchGDMO={3}, SearchKDMO={4}",
-                Id, Name, NameAlt, SearchGDMO, SearchKDMO);
-        }
-    }
-
-    public class Digimon {
-        public int Key;
-        public int TypeId;
-        public int ServId;
-        public int TamerId;
-        public string CustomTamerName;
-        public int CustomTamerlvl;
-        public string Name;
-        public long Rank;
-        public int Lvl;
-        public double SizeCm;
-        public int SizePc;
-        public int SizeRank;
-    }
-
-    public struct TamerType {
-        public int Id;
-        public string Name;
-    }
-
-    public struct Tamer {
-        public int Key;
-        public int Id;
-        public int TypeId;
-        public int ServId;
-        public int GuildId;
-        public int PartnerKey;
-        public string PartnerName;
-        public string Name;
-        public long Rank;
-        public int Lvl;
-        public List<Digimon> Digimons;
-    }
-
-    public struct NewsItem {
-        public string Mode;
-        public string Subject;
-        public string Date;
-        public string Content;
-        public string Url;
-    }
 
     public struct DownloadStatus {
         public DMODownloadStatusCode Code;

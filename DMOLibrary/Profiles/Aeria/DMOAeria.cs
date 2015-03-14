@@ -18,36 +18,16 @@
 
 using System.Security;
 using System.Web;
-using DMOLibrary.Profiles.Joymax;
+using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Profiles.Aeria {
 
     public class DMOAeria : DMOProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOAeria));
 
-        private void InitVars() {
-            typeName = "Aeria";
-            Database = new DMODatabase(GetDatabasePath(), "INSERT INTO Servers([name]) VALUES ('Seraphimon');");
-            if (Database.OpenConnection()) {
-                _ServerList = Database.FindServers();
-                Database.CloseConnection();
-            }
-            _IsLoginRequired = true;
-            _NewsProfile = new JMNews();
+        public DMOAeria()
+            : base(Server.ServerType.ADMO, "Aeria") {
         }
-
-        #region Constructors
-
-        public DMOAeria() {
-            InitVars();
-        }
-
-        public DMOAeria(System.Windows.Threading.Dispatcher ownerDispatcher) {
-            this.OwnerDispatcher = ownerDispatcher;
-            InitVars();
-        }
-
-        #endregion Constructors
 
         #region Getting user login commandline
 
@@ -121,6 +101,12 @@ namespace DMOLibrary.Profiles.Aeria {
         }
 
         #endregion Getting user login commandline
+
+        public override bool IsLoginRequired {
+            get {
+                return true;
+            }
+        }
 
         public override string GetGameStartArgs(string args) {
             return args;

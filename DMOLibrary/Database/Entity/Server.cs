@@ -16,38 +16,43 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using DMOLibrary.Database.Entity;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace DMOLibrary.Profiles.Joymax {
+namespace DMOLibrary.Database.Entity {
 
-    public class DMOJoymax : DMOProfile {
+    public class Server : BaseEntity {
 
-        public DMOJoymax()
-            : base(Server.ServerType.GDMO, "Joymax") {
+        public Server() {
+            Guilds = new List<Guild>();
         }
 
-        #region Getting user login commandline
-
-        public override void TryLogin(string UserId, System.Security.SecureString Password) {
-            OnCompleted(LoginCode.SUCCESS, "true");
+        public enum ServerType {
+            KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
         }
 
-        #endregion Getting user login commandline
-
-        protected override DMONewsProfile GetNewsProfile() {
-            return new JMNews();
+        [Required]
+        public byte Identifier {
+            get;
+            set;
         }
 
-        public override AbstractWebProfile GetWebProfile() {
-            return new JoymaxWebProfile();
+        [Required]
+        [StringLength(25)]
+        public string Name {
+            get;
+            set;
         }
 
-        public override string GetGameStartArgs(string args) {
-            return "true";
+        [Required]
+        public ServerType Type {
+            get;
+            set;
         }
 
-        public override string GetLauncherStartArgs(string args) {
-            return string.Empty;
+        public virtual ICollection<Guild> Guilds {
+            get;
+            set;
         }
     }
 }

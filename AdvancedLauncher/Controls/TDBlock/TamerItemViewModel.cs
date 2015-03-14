@@ -19,7 +19,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Media;
-using DMOLibrary;
+using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 

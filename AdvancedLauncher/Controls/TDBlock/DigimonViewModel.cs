@@ -21,8 +21,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using AdvancedLauncher.Environment;
-using DMOLibrary;
+using DMOLibrary.Database.Context;
+using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
@@ -46,22 +46,24 @@ namespace AdvancedLauncher.Controls {
         private void LoadDigimonList(Tamer tamer) {
             string typeName;
             DigimonType dtype;
-            foreach (Digimon item in tamer.Digimons) {
-                dtype = LauncherEnv.Settings.CurrentProfile.DMOProfile.Database.FindDigimonTypeById(item.TypeId).GetValueOrDefault();
-                typeName = dtype.Name;
-                if (dtype.NameAlt != null) {
-                    typeName += " (" + dtype.NameAlt + ")";
+            using (MainContext context = new MainContext()) {
+                foreach (Digimon item in tamer.Digimons) {
+                    dtype = context.FindDigimonTypeByCode(item.Type.Code);
+                    typeName = dtype.Name;
+                    if (dtype.NameAlt != null) {
+                        typeName += " (" + dtype.NameAlt + ")";
+                    }
+                    this.Items.Add(new DigimonItemViewModel {
+                        DName = item.Name,
+                        DType = typeName,
+                        Image = IconHolder.GetImage(item.Type.Code),
+                        TName = tamer.Name,
+                        Level = item.Level,
+                        SizePC = item.SizePc,
+                        Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
+                        Rank = item.Rank
+                    });
                 }
-                this.Items.Add(new DigimonItemViewModel {
-                    DName = item.Name,
-                    DType = typeName,
-                    Image = IconHolder.GetImage(item.TypeId),
-                    TName = tamer.Name,
-                    Level = item.Lvl,
-                    SizePC = item.SizePc,
-                    Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
-                    Rank = item.Rank
-                });
             }
         }
 
@@ -70,7 +72,7 @@ namespace AdvancedLauncher.Controls {
             LoadDigimonList(tamer);
         }
 
-        public void LoadData(List<Tamer> tamers) {
+        public void LoadData(ICollection<Tamer> tamers) {
             this.IsDataLoaded = true;
             foreach (Tamer tamer in tamers) {
                 LoadDigimonList(tamer);
@@ -89,11 +91,11 @@ namespace AdvancedLauncher.Controls {
         }
 
         private bool _sortASC;
-        private Type last_type;
+        private Type _lastType;
 
         public void Sort<TType>(Func<DigimonItemViewModel, TType> keySelector) {
             List<DigimonItemViewModel> sortedList;
-            if (last_type != typeof(TType)) {
+            if (_lastType != typeof(TType)) {
                 _sortASC = true;
             }
 
@@ -103,7 +105,7 @@ namespace AdvancedLauncher.Controls {
                 sortedList = Items.OrderByDescending(keySelector).ToList();
             }
 
-            last_type = typeof(TType);
+            _lastType = typeof(TType);
             _sortASC = !_sortASC;
 
             this.Items.Clear();

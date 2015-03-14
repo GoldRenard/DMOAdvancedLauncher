@@ -26,16 +26,21 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact">
+      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net40\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -50,15 +55,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.96.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.96.0\lib\net40\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.96.0\lib\net40\System.Data.SQLite.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.96.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
@@ -72,20 +71,30 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DispatcherHelper.cs" />
+    <Compile Include="Database\Context\BaseContext.cs" />
+    <Compile Include="Database\Context\ContextInitializer.cs" />
+    <Compile Include="Database\MergeHelper.cs" />
+    <Compile Include="Database\Entity\Digimon.cs" />
+    <Compile Include="Database\Entity\DigimonType.cs" />
+    <Compile Include="Database\Entity\BaseEntity.cs" />
+    <Compile Include="Database\Entity\Guild.cs" />
+    <Compile Include="Database\Entity\Server.cs" />
+    <Compile Include="Database\Context\MainContext.cs" />
+    <Compile Include="Database\Entity\TamerType.cs" />
+    <Compile Include="Database\Entity\Tamer.cs" />
+    <Compile Include="Database\Migrations\Configuration.cs" />
+    <Compile Include="Profiles\AbstractWebProfile.cs" />
     <Compile Include="Profiles\Joymax\JMNews.cs" />
     <Compile Include="Profiles\DMONewsProfile.cs" />
-    <Compile Include="Profiles\DMOWebProfile.cs" />
+    <Compile Include="Profiles\Joymax\JoymaxWebProfile.cs" />
     <Compile Include="Profiles\Korea\DMOKorea.cs" />
     <Compile Include="Profiles\Korea\DMOKoreaIMBC.cs" />
-    <Compile Include="Profiles\Korea\KoreaWebInfo.cs" />
+    <Compile Include="Profiles\Korea\KoreaWebProfile.cs" />
     <Compile Include="Profiles\Aeria\DMOAeria.cs" />
     <Compile Include="Profiles\DMOProfile.cs" />
     <Compile Include="Profiles\Joymax\DMOJoymax.cs" />
     <Compile Include="DMOLibrary.cs" />
-    <Compile Include="DMOLibrary.DMODatabase.cs" />
     <Compile Include="DMOLibrary.DMOFileSystem.cs" />
-    <Compile Include="Profiles\Joymax\JMWebInfo.cs" />
     <Compile Include="DMOLibrary.WebDownload.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -97,13 +106,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.96.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.96.0\build\net40\System.Data.SQLite.Core.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Включите восстановление пакетов NuGet, чтобы загрузить их. Дополнительные сведения см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.96.0\build\net40\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.96.0\build\net40\System.Data.SQLite.Core.targets'))" />
-  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

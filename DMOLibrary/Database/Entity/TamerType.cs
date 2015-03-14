@@ -16,38 +16,29 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using DMOLibrary.Database.Entity;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace DMOLibrary.Profiles.Joymax {
+namespace DMOLibrary.Database.Entity {
 
-    public class DMOJoymax : DMOProfile {
+    public class TamerType : BaseEntity {
 
-        public DMOJoymax()
-            : base(Server.ServerType.GDMO, "Joymax") {
+        [Required]
+        public int Code {
+            get;
+            set;
         }
 
-        #region Getting user login commandline
-
-        public override void TryLogin(string UserId, System.Security.SecureString Password) {
-            OnCompleted(LoginCode.SUCCESS, "true");
+        [Required]
+        [StringLength(50)]
+        public string Name {
+            get;
+            set;
         }
 
-        #endregion Getting user login commandline
-
-        protected override DMONewsProfile GetNewsProfile() {
-            return new JMNews();
-        }
-
-        public override AbstractWebProfile GetWebProfile() {
-            return new JoymaxWebProfile();
-        }
-
-        public override string GetGameStartArgs(string args) {
-            return "true";
-        }
-
-        public override string GetLauncherStartArgs(string args) {
-            return string.Empty;
+        public virtual ICollection<Tamer> Tamers {
+            get;
+            set;
         }
     }
 }

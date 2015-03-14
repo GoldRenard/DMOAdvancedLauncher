@@ -19,15 +19,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using DMOLibrary.Database.Context;
+using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Profiles {
 
-    public abstract class DMOWebProfile {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOWebProfile));
-        protected static int[] STARTER_IDS = { 31003, 31002, 31004, 31001 };
-        protected DMODatabase Database = null;
+    public abstract class AbstractWebProfile {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(AbstractWebProfile));
         protected DownloadStatus downloadStatus = new DownloadStatus();
-        protected bool IsBusy = false;
 
         #region EVENTS
 
@@ -56,7 +55,6 @@ namespace DMOLibrary.Profiles {
 
         protected virtual void OnStarted() {
             LOGGER.Info("GuildInfo obtaining started.");
-            IsBusy = true;
             if (DownloadStarted != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
                     OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadHandler((sender) => {
@@ -78,7 +76,6 @@ namespace DMOLibrary.Profiles {
                 } else
                     DownloadCompleted(this, code, result);
             }
-            IsBusy = false;
         }
 
         protected virtual void OnStatusChanged(DMODownloadStatusCode code, string info, int p, int pm) {
@@ -100,37 +97,54 @@ namespace DMOLibrary.Profiles {
 
         #endregion EVENTS
 
-        public void GetGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, string guildName, Server serv, bool isDetailed, int actualDays) {
+        public void GetGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, Server server, string guildName, bool isDetailed) {
             this.OwnerDispatcher = ownerDispatcher;
             BackgroundWorker bw = new BackgroundWorker();
             bw.DoWork += (s1, e2) => {
-                GetGuild(guildName, serv, isDetailed, actualDays);
+                GetGuild(server, guildName, isDetailed);
             };
             bw.RunWorkerAsync();
         }
 
-        public Digimon GetRandomDigimon(Server serv, string guildName, int minlvl) {
-            return Database.FindRandomDigimon(serv, guildName, minlvl);
-        }
-
-        public Digimon GetRandomDigimon(Server serv, string guildName, string tamerName, int minlvl) {
-            return Database.FindRandonDigimon(serv, guildName, tamerName, minlvl);
-        }
-
-        public DigimonType GetRandomDigimonType() {
-            return Database.FindRandomDigimonType();
-        }
-
         public abstract List<DigimonType> GetDigimonTypes();
 
-        public abstract Guild GetGuild(string guildName, Server serv, bool isDetailed, int actualDays);
+        public abstract Guild GetGuild(Server server, string guildName, bool isDetailed);
 
-        protected abstract bool GetGuildInfo(ref Guild g, bool isDetailed);
+        protected abstract bool GetGuildInfo(ref Guild guild, bool isDetailed);
 
         protected abstract List<Digimon> GetDigimons(Tamer tamer, bool isDetailed);
 
-        protected abstract bool StarterInfo(ref Digimon digimon, string tamerName);
+        protected abstract bool GetStarterInfo(ref Digimon digimon, Tamer tamer);
 
-        protected abstract bool DigimonInfo(ref Digimon digimon, string tamerName);
+        protected abstract bool GetMercenaryInfo(ref Digimon digimon, Tamer tamer);
+
+        public static Guild GetActualGuild(AbstractWebProfile webProfile, Server server, string guildName, bool isDetailed, int actualInterval) {
+            using (MainContext context = new MainContext()) {
+                Guild storedGuild = context.FetchGuild(server, guildName);
+                if (storedGuild != null && !(isDetailed && !storedGuild.IsDetailed) && storedGuild.UpdateTime != null) {
+                    TimeSpan timeDiff = (TimeSpan)(DateTime.Now - storedGuild.UpdateTime);
+                    if (timeDiff.Days < actualInterval) {
+                        webProfile.OnCompleted(DMODownloadResultCode.OK, storedGuild);
+                        return storedGuild;
+                    }
+                }
+            }
+            return webProfile.GetGuild(server, guildName, isDetailed);
+        }
+
+        public static void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, AbstractWebProfile webProfile,
+            Server server, string guildName, bool isDetailed, int actualInterval) {
+            using (MainContext context = new MainContext()) {
+                Guild storedGuild = context.FetchGuild(server, guildName);
+                if (storedGuild != null && !(isDetailed && !storedGuild.IsDetailed) && storedGuild.UpdateTime != null) {
+                    TimeSpan timeDiff = (TimeSpan)(DateTime.Now - storedGuild.UpdateTime);
+                    if (timeDiff.Days < actualInterval) {
+                        webProfile.OnCompleted(DMODownloadResultCode.OK, storedGuild);
+                        return;
+                    }
+                }
+            }
+            webProfile.GetGuildAsync(ownerDispatcher, server, guildName, isDetailed);
+        }
     }
 }

@@ -22,6 +22,8 @@ using System.Net;
 namespace DMOLibrary {
 
     public class WebDownload : WebClient {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(WebDownload));
+
         private int _timeout;
 
         /// <summary>
@@ -60,7 +62,8 @@ namespace DMOLibrary {
                 wd.Timeout = 3000;
                 try {
                     html = wd.DownloadString(url);
-                } catch {
+                } catch (WebException e) {
+                    LOGGER.WarnFormat("Web request for \"{0}\" caused the error: {1}", url, e.Message);
                 };
                 if (html != string.Empty && html != null) {
                     return html;

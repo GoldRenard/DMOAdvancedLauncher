@@ -31,7 +31,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Image Source="{Binding Image}" Stretch="Uniform" Margin="10,10,10,40" />
+        <Image Source="{Binding Image}" Stretch="Uniform" Margin="10,10,10,35" />
         <Viewbox Margin="20,20,20,80">
             <Viewbox.Resources>
                 <ResourceDictionary>
@@ -44,7 +44,7 @@
                 </Rectangle.Fill>
             </Rectangle>
         </Viewbox>
-        <Grid Height="60" VerticalAlignment="Bottom" Visibility="{Binding ShowInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid Height="50" VerticalAlignment="Bottom" Visibility="{Binding ShowInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid x:Name="BlockBackground" Background="{DynamicResource AccentColorBrush3}" Margin="-100,0" />
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -52,11 +52,11 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                    <TextBlock FontSize="37" Height="35" Text="{Binding Level}" Style="{DynamicResource LevelText}" />
+                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,-5,0,0">
+                    <TextBlock FontSize="30" Height="30" Text="{Binding Level}" Style="{DynamicResource LevelText}" />
                     <TextBlock FontSize="10" Text="{Binding LevelText, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource LevelText}" />
                 </StackPanel>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,-5,0,0">
                     <TextBlock FontSize="18" Text="{Binding DType, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource NameText}" />
                     <TextBlock FontSize="11" Text="{Binding TName, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource NameText}" />
                 </StackPanel>

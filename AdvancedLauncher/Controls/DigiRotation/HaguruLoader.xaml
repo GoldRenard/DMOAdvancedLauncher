@@ -46,7 +46,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Viewbox Margin="15,0,15,30" Stretch="Uniform">
+        <Viewbox Margin="10,0,10,20" Stretch="Uniform">
             <Grid Width="500" Height="500">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -157,11 +157,11 @@
             </Grid>
         </Viewbox>
 
-        <Grid Height="60" VerticalAlignment="Bottom">
+        <Grid Height="50" VerticalAlignment="Bottom">
             <Grid x:Name="BlockBackground" Background="{DynamicResource AccentColorBrush3}" Margin="-100,0" />
             <Controls:MetroProgressBar x:Name="Progress" Value="{Binding Value}" Maximum="{Binding Maximum}" Height="60" VerticalAlignment="Bottom"
                                        Foreground="{DynamicResource AccentColorBrush4}" Background="{x:Null}" />
-            <StackPanel VerticalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" Margin="0,-5,0,0">
                 <TextBlock x:Name="TitleTextBlock" FontSize="18" Text="{Binding Title, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource NameText}" />
                 <TextBlock x:Name="SummaryTextBlock" FontSize="11" Text="{Binding Summary, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource NameText}" />
             </StackPanel>

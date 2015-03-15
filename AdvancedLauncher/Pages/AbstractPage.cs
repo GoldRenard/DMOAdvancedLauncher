@@ -6,14 +6,12 @@ using AdvancedLauncher.Environment;
 namespace AdvancedLauncher.Pages {
 
     public abstract class AbstractPage : UserControl {
-        private Storyboard ShowWindow;
 
         protected abstract void InitializeAbstractPage();
 
         public AbstractPage() {
             InitializeAbstractPage();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ShowWindow = ((Storyboard)this.FindResource("ShowWindow"));
                 LauncherEnv.Settings.ProfileChanged += ProfileChanged;
                 ProfileChanged();
                 LanguageEnv.Languagechanged += delegate() {
@@ -23,7 +21,6 @@ namespace AdvancedLauncher.Pages {
         }
 
         public virtual void PageActivate() {
-            ShowWindow.Begin();
         }
 
         public virtual void PageClose() {

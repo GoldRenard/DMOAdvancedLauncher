@@ -9,13 +9,6 @@
              mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
-    <pages:AbstractPage.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </pages:AbstractPage.Resources>
     <Grid x:Name="LayoutRoot">
         <Grid Width="360" HorizontalAlignment="Left">
             <Grid.RowDefinitions>

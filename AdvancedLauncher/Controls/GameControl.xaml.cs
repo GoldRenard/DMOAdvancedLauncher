@@ -69,13 +69,13 @@ namespace AdvancedLauncher.Controls {
 
         public GameControl() {
             InitializeComponent();
-            ElementHolder.RemoveChild(StartButton);
-            ElementHolder.RemoveChild(UpdateBlock);
-            WrapElement.Content = StartButton;
             UpdateTask = new TaskManager.Task() {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                ElementHolder.RemoveChild(StartButton);
+                ElementHolder.RemoveChild(UpdateBlock);
+                WrapElement.Content = StartButton;
                 Application.Current.MainWindow.TaskbarItemInfo = TaskBar;
                 LanguageEnv.Languagechanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;

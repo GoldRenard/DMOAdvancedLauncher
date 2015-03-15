@@ -16,9 +16,9 @@
                     Icon="/AdvancedLauncher;component/app_icon.ico"
                     Title="Digimon Masters Online"
                     Width="900"
-                    Height="550"
+                    Height="500"
                     MinWidth="900"
-                    MinHeight="550"
+                    MinHeight="500"
                     WindowStartupLocation="CenterScreen"
                     ResizeMode="CanResizeWithGrip"
                     DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">

@@ -16,9 +16,9 @@
                     Icon="/AdvancedLauncher;component/app_icon.ico"
                     Title="Digimon Masters Online"
                     Width="900"
-                    Height="470"
+                    Height="480"
                     MinWidth="900"
-                    MinHeight="470"
+                    MinHeight="480"
                     WindowStartupLocation="CenterScreen"
                     ResizeMode="CanResizeWithGrip"
                     BorderBrush="{DynamicResource AccentColorBrush}"
@@ -34,16 +34,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid x:Name="LayoutRoot">
-        <!--<Grid.Background>
-            <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/background.jpg"
-                    Stretch="None"
-                    TileMode="FlipY"
-                    Viewbox="0,0,333,800"
-                    ViewboxUnits="Absolute"
-                    Viewport="0,0,333,800"
-                    ViewportUnits="Absolute" />
-        </Grid.Background>-->
-        <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged" Margin="0,0,0,40">
+        <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged" Margin="0,0,0,30">
             <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
                 <Page:MainPage x:Name="MainPage" />
             </TabItem>
@@ -59,6 +50,6 @@
         </TabControl>
         <Menu:MainMenu x:Name="MainMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Width="170" />
         <ALControls:Footer x:Name="Footer_" Height="30" VerticalAlignment="Bottom" />
-        <Controls:TransitioningContentControl x:Name="transitionLayout" Transition="LeftReplace" />
+        <Controls:TransitioningContentControl x:Name="transitionLayer" Transition="Down" />
     </Grid>
 </Controls:MetroWindow>

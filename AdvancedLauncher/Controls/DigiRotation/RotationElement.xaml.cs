@@ -18,12 +18,20 @@
 
 using System;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Controls {
 
-    public class DInfoItemViewModel : INotifyPropertyChanged {
+    public partial class RotationElement : UserControl, INotifyPropertyChanged {
+
+        public RotationElement() {
+            InitializeComponent();
+            (this.Content as FrameworkElement).DataContext = this;
+        }
+
         private string _DType;
 
         public string DType {
@@ -88,6 +96,12 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
+        public bool IsUnknownImage {
+            get {
+                return _Image == null;
+            }
+        }
+
         private ImageSource _Image;
 
         public ImageSource Image {
@@ -98,6 +112,7 @@ namespace AdvancedLauncher.Controls {
                 if (value != _Image) {
                     _Image = value;
                     NotifyPropertyChanged("Image");
+                    NotifyPropertyChanged("IsUnknownImage");
                 }
             }
         }
@@ -112,6 +127,20 @@ namespace AdvancedLauncher.Controls {
                 if (value != _Medal) {
                     _Medal = value;
                     NotifyPropertyChanged("Medal");
+                }
+            }
+        }
+
+        private bool _ShowInfo = true;
+
+        public bool ShowInfo {
+            get {
+                return _ShowInfo;
+            }
+            set {
+                if (value != _ShowInfo) {
+                    _ShowInfo = value;
+                    NotifyPropertyChanged("ShowInfo");
                 }
             }
         }

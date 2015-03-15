@@ -10,7 +10,6 @@
     <UserControl.Resources>
         <Style TargetType="TextBlock" x:Key="CopyrightText">
             <Setter Property="FontSize" Value="9" />
-            <Setter Property="FontFamily" Value="Arial" />
             <Setter Property="TextWrapping" Value="WrapWithOverflow" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Width" Value="200" />
@@ -42,7 +41,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" Source="/AdvancedLauncher;component/Resources/copy_icons.png" Stretch="None"/>
+        <Image Grid.Column="0" Source="/AdvancedLauncher;component/Resources/copy_icons.png" Stretch="None" />
         <TextBlock x:Name="VersionBlock" Grid.Column="1" Style="{StaticResource CopyrightText}" Text="Advanced DMO Launcher v{0}. Developer: GoldRenard. Design help: DragonVs." />
         <TextBlock Grid.Column="2" Style="{StaticResource CopyrightText}" Text="WeMade Entertainment. All rights reserved. JOYMAX.CO LTD. All rights reserved." />
         <TextBlock Grid.Column="3" Style="{StaticResource CopyrightText}" Text="Akiyoshi Hongo, Toei Animation, MoveGames CO. LTD. All rights reserved." />

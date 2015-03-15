@@ -52,7 +52,7 @@ namespace AdvancedLauncher.Windows {
             var profile = LauncherEnv.Settings.CurrentProfile;
             InitializeComponent();
             Logger.Instance.WindowClosed += (s, e1) => {
-                transitionLayout.Content = null;
+                transitionLayer.Content = null;
             };
             AdvancedLauncher.Service.UpdateChecker.Check();
             LanguageEnv.Languagechanged += delegate() {
@@ -143,10 +143,10 @@ namespace AdvancedLauncher.Windows {
             if (SettingsWindow == null) {
                 SettingsWindow = new Settings();
                 SettingsWindow.WindowClosed += (s, e1) => {
-                    transitionLayout.Content = null;
+                    transitionLayer.Content = null;
                 };
             }
-            transitionLayout.Content = SettingsWindow;
+            transitionLayer.Content = SettingsWindow;
             SettingsWindow.Show();
         }
 
@@ -154,15 +154,15 @@ namespace AdvancedLauncher.Windows {
             if (AboutWindow == null) {
                 AboutWindow = new About();
                 AboutWindow.WindowClosed += (s, e1) => {
-                    transitionLayout.Content = null;
+                    transitionLayer.Content = null;
                 };
             }
-            transitionLayout.Content = AboutWindow;
+            transitionLayer.Content = AboutWindow;
             AboutWindow.Show();
         }
 
         private void OnLoggerClick(object sender, RoutedEventArgs e) {
-            transitionLayout.Content = Logger.Instance;
+            transitionLayer.Content = Logger.Instance;
             Logger.Instance.Show();
         }
     }

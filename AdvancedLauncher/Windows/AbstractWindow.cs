@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Windows {

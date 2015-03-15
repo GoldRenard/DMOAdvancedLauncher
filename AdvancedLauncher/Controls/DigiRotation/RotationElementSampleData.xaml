@@ -1,0 +1,7 @@
+﻿<Local:RotationElement
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Local="clr-namespace:AdvancedLauncher.Controls;assembly=AdvancedLauncher"
+    LevelText="уровень" Level="99" DType="Renamon" TName="GoldRenard" TLevel="99" ShowInfo="True"
+    Image="/AdvancedLauncher;component/Resources/DigiRotation/31006.png" Medal="/AdvancedLauncher;component/Controls/DigiRotation/Images/gold.png">
+</Local:RotationElement>

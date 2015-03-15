@@ -102,6 +102,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\AutoScrollBehavior.cs" />
+    <Compile Include="Controls\DigiRotation\HaguruLoader.xaml.cs">
+      <DependentUpon>HaguruLoader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DigiRotation\RotationElement.xaml.cs">
+      <DependentUpon>RotationElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TDBlock\IconHolder.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
@@ -110,7 +116,6 @@
     <Compile Include="Controls\DigiRotation\DigiRotation.xaml.cs">
       <DependentUpon>DigiRotation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DigiRotation\DInfoItemViewModel.cs" />
     <Compile Include="Controls\Footer.xaml.cs">
       <DependentUpon>Footer.xaml</DependentUpon>
     </Compile>
@@ -196,6 +201,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DigiRotation\HaguruLoader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DigiRotation\RotationElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <DesignData Include="Controls\DigiRotation\RotationElementSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
     <Page Include="Controls\Footer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -880,10 +897,7 @@
   <ItemGroup>
     <Resource Include="Controls\DigiRotation\Images\bronze.png" />
     <Resource Include="Controls\DigiRotation\Images\gold.png" />
-    <Resource Include="Controls\DigiRotation\Images\Hagurumon.png" />
-    <Resource Include="Controls\DigiRotation\Images\Haguru_gear.png" />
     <Resource Include="Controls\DigiRotation\Images\silver.png" />
-    <Resource Include="Controls\DigiRotation\Images\unknown.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\save.png" />

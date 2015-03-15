@@ -17,45 +17,17 @@
         </ResourceDictionary>
     </pages:AbstractPage.Resources>
     <Grid x:Name="LayoutRoot">
-        <Grid.Resources>
-            <Storyboard x:Key="ShowLoginForm">
-                <DoubleAnimation Duration="0:0:0.15"
-                         From="0"
-                         Storyboard.TargetName="LoginForm"
-                         Storyboard.TargetProperty="Opacity"
-                         To="1" />
-                <DoubleAnimation Duration="0:0:0.15"
-                         From="0"
-                         Storyboard.TargetName="DigiRotator"
-                         Storyboard.TargetProperty="(UIElement.Effect).(BlurEffect.Radius)"
-                         To="25" />
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
-                </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
-            <Storyboard x:Key="HideLoginForm">
-                <DoubleAnimation Duration="0:0:0.15"
-                         From="1"
-                         Storyboard.TargetName="LoginForm"
-                         Storyboard.TargetProperty="Opacity"
-                         To="0" />
-                <DoubleAnimation Duration="0:0:0.15"
-                         From="25"
-                         Storyboard.TargetName="DigiRotator"
-                         Storyboard.TargetProperty="(UIElement.Effect).(BlurEffect.Radius)"
-                         To="0" />
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginForm" Storyboard.TargetProperty="(UIElement.Visibility)">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Collapsed}" />
-                </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
-        </Grid.Resources>
-        <Grid Width="360" Margin="0,45" HorizontalAlignment="Left">
+        <Grid Width="360" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="10" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <controls:DigiRotation Grid.Row="0" x:Name="DigiRotator" Width="300" />
-            <controls:GameControl Grid.Row="2" Width="330" VerticalAlignment="Bottom" />
+            <GroupBox Background="{DynamicResource AccentColorBrush2}" BorderBrush="{DynamicResource AccentColorBrush2}"
+                      Header="Digirotation" Grid.Row="0" Margin="10,26,0,0" ClipToBounds="True">
+                <controls:DigiRotation x:Name="DigiRotator" Margin="-5" />
+            </GroupBox>
+            <controls:GameControl Grid.Row="3" Width="330" VerticalAlignment="Bottom" />
         </Grid>
         <controls:NewsBlock x:Name="NewsBlock_" Margin="0,-10,0,0" />
     </Grid>

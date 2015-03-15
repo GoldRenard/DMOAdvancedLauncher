@@ -509,7 +509,11 @@ namespace AdvancedLauncher.Controls {
         private void SetUpdateEnabled(bool IsEnabled) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 //Убираем задачу обновления
-                TaskManager.Tasks.Remove(UpdateTask);
+                try {
+                    TaskManager.Tasks.Remove(UpdateTask);
+                } catch (ArgumentOutOfRangeException e) {
+                    // TODO Wtf this happening here?
+                }
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
                 LauncherEnv.Settings.OnProfileLocked(false);
                 LauncherEnv.Settings.OnFileSystemLocked(false);

@@ -23,8 +23,8 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media.Animation;
 using System.Windows.Shell;
+using AdvancedLauncher.Controls.Dialogs;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using DMOLibrary.DMOFileSystem;
@@ -36,9 +36,6 @@ namespace AdvancedLauncher.Controls {
     public partial class GameControl : UserControl {
         private TaskManager.Task UpdateTask;
         private bool UpdateRequired = false;
-        private Storyboard ShowLoginBlockFirst, ShowLoginBlock;
-        private Storyboard ShowWaitingBlockFirst, ShowWaitingBlock;
-        private Storyboard HideLogin;
 
         private TaskbarItemInfo TaskBar = new TaskbarItemInfo();
         private WebClient webClient = new WebClient();
@@ -76,16 +73,11 @@ namespace AdvancedLauncher.Controls {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                HideLogin = ((Storyboard)this.FindResource("HideLogin"));
-                ShowLoginBlockFirst = ((Storyboard)this.FindResource("ShowLoginBlockFirst"));
-                ShowLoginBlock = ((Storyboard)this.FindResource("ShowLoginBlock"));
-                ShowWaitingBlockFirst = ((Storyboard)this.FindResource("ShowWaitingBlockFirst"));
-                ShowWaitingBlock = ((Storyboard)this.FindResource("ShowWaitingBlock"));
-
                 Application.Current.MainWindow.TaskbarItemInfo = TaskBar;
                 LanguageEnv.Languagechanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
+                LoginManager.Instance.LoginCompleted += OnGameStartCompleted;
                 LauncherEnv.Settings.ProfileChanged += OnProfileChanged;
                 webClient.DownloadProgressChanged += OnDownloadProgressChanged;
                 webClient.DownloadFileCompleted += OnDownloadFileCompleted;
@@ -95,14 +87,8 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void OnProfileChanged() {
-            InitLoginBlock();
             StartButton.IsEnabled = false;
             StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
-            LastSession.IsChecked = false;
-            LastSession.Visibility = Visibility.Collapsed;
-            if (LauncherEnv.Settings.CurrentProfile.GameEnv.IsLastSessionAvailable() && !string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs)) {
-                LastSession.Visibility = Visibility.Visible;
-            }
             CheckWorker.RunWorkerAsync();
         }
 
@@ -397,46 +383,17 @@ namespace AdvancedLauncher.Controls {
         #region Game Start/Login Section
 
         private void StartGame(string args) {
-            //Применить все ссылки
-            LauncherEnv.Settings.CurrentProfile.GameEnv.SetRegistryPaths();
-
-            if (ApplicationLauncher.Execute(
-                UpdateRequired ? LauncherEnv.Settings.CurrentProfile.GameEnv.GetDefLauncherEXE() : LauncherEnv.Settings.CurrentProfile.GameEnv.GetGameEXE(),
-                UpdateRequired ? LauncherEnv.Settings.CurrentProfile.DMOProfile.GetLauncherStartArgs(args) : LauncherEnv.Settings.CurrentProfile.DMOProfile.GetGameStartArgs(args),
-                LauncherEnv.Settings.CurrentProfile.AppLocaleEnabled,
-                LauncherEnv.Settings.CurrentProfile.KBLCServiceEnabled)) {
+            if (ApplicationLauncher.StartGame(args, UpdateRequired)) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
-                TaskManager.CloseApp(); //Если удалось, закрываем приложение.
-            } else {                         //Если не удалось, разрешаем повторный запуск и смену профиля.
+                TaskManager.CloseApp();
+            } else {
                 LauncherEnv.Settings.OnProfileLocked(false);
                 LauncherEnv.Settings.OnFileSystemLocked(false);
                 StartButton.IsEnabled = true;
             }
         }
 
-        private void StartLogin() {
-            StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
-            LauncherEnv.Settings.CurrentProfile.DMOProfile.LoginStateChanged += OnLoginStateChanged;
-            LauncherEnv.Settings.CurrentProfile.DMOProfile.LoginCompleted += OnGameStartCompleted;
-            LauncherEnv.Settings.CurrentProfile.DMOProfile.TryLogin(Login.Text, Password.SecurePassword);
-        }
-
-        private void OnLoginStateChanged(object sender, DMOLibrary.LoginState state, int tryNum, int lastError) {
-            ShowWaitingFunc();
-            if (state == DMOLibrary.LoginState.LOGINNING) {
-                LoginStatus2.Text = LanguageEnv.Strings.LoginLogIn;
-            } else if (state == DMOLibrary.LoginState.GETTING_DATA) {
-                LoginStatus2.Text = LanguageEnv.Strings.LoginGettingData;
-            }
-            LoginStatus1.Text = string.Format(LanguageEnv.Strings.LoginTry, tryNum);
-            if (lastError != -1) {
-                LoginStatus1.Text += string.Format(" ({0} {1})", LanguageEnv.Strings.LoginWasError, lastError);
-            }
-        }
-
         private void OnGameStartCompleted(object sender, DMOLibrary.LoginCode code, string result) {
-            LauncherEnv.Settings.CurrentProfile.DMOProfile.LoginStateChanged -= OnLoginStateChanged;
-            LauncherEnv.Settings.CurrentProfile.DMOProfile.LoginCompleted -= OnGameStartCompleted;
             //Если результат НЕУСПЕШЕН, возвращаем кнопку старта и возможность смены профиля
             if (code != DMOLibrary.LoginCode.SUCCESS) {
                 StartButton.IsEnabled = true;
@@ -453,23 +410,11 @@ namespace AdvancedLauncher.Controls {
                 case DMOLibrary.LoginCode.SUCCESS: {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
                         LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs = result;
                         LauncherEnv.Save();
-                        InitLoginBlock();
                         StartGame(result);
                         break;
                     }
-                case DMOLibrary.LoginCode.WRONG_USER: {    //Если получен результат неправильного пользователя, отображаем сообщение и форму ввода
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                            //Показываем сообщение только, когда блок открыт
-                            if (LoginBlock.Height != 0) {
-                                MessageBox.Show(LanguageEnv.Strings.LoginBadAccount, LanguageEnv.Strings.LoginLogIn, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                            }
-                        }));
-                        ShowLoginFunc();
-                        break;
-                    }
-                case DMOLibrary.LoginCode.WRONG_PAGE:     //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
-                case DMOLibrary.LoginCode.UNKNOWN_URL: {     //И возвращаем в форму ввода
-                        ShowLoginFunc();
+                case DMOLibrary.LoginCode.WRONG_PAGE:       //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
+                case DMOLibrary.LoginCode.UNKNOWN_URL: {    //И возвращаем в форму ввода
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                             MessageBox.Show(LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", code), LanguageEnv.Strings.LoginLogIn, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }));
@@ -538,18 +483,7 @@ namespace AdvancedLauncher.Controls {
             StartButton.IsEnabled = false;
             //Проверяем, требуется ли логин
             if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsLoginRequired) {
-                //Проверяем, отмечена ли галка последней сессии. Если отмечена - запускаем посл. сессию, иначе логинимся
-                if ((bool)LastSession.IsChecked) {
-                    StartGame(LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs);
-                } else {
-                    //Иначе - заполняем поля нужными нам данными (только в первый раз) и логинимся
-                    if (!IsLoginDataLoaded) {
-                        Login.Text = LauncherEnv.Settings.CurrentProfile.Login.User;
-                        Password.Password = PassEncrypt.ConvertToUnsecureString(LauncherEnv.Settings.CurrentProfile.Login.SecurePassword);
-                        IsLoginDataLoaded = true;
-                    }
-                    StartLogin();
-                }
+                LoginManager.Instance.Login();
             } else { //Логин не требуется, запускаем игру как есть
                 StartGame(string.Empty);
             }
@@ -635,55 +569,6 @@ namespace AdvancedLauncher.Controls {
         }
 
         #endregion ProgressBar
-
-        #region LoginBlock
-
-        private bool IsLoginDataLoaded = false;
-
-        private void InitLoginBlock() {
-            IsLoginDataLoaded = false;
-            Login.Text = Password.Password = string.Empty;
-            HideLogin.Stop();
-            ShowLoginBlockFirst.Stop();
-            ShowLoginBlock.Stop();
-            ShowWaitingBlockFirst.Stop();
-            ShowWaitingBlock.Stop();
-            HideLogin.Begin();
-        }
-
-        private void ShowLoginFunc() {
-            if (LoginBlock.Height == 0) {
-                ShowLoginBlockFirst.Begin();
-            } else {
-                ShowLoginBlock.Begin();
-            }
-        }
-
-        private void ShowWaitingFunc() {
-            if (LoginBlock.Height == 0) {
-                ShowWaitingBlockFirst.Begin();
-            } else {
-                ShowWaitingBlock.Begin();
-            }
-        }
-
-        private void PasswordChanged(object sender, RoutedEventArgs e) {
-            if (Password.Password.Length == 0) {
-                PassWatermark.Visibility = System.Windows.Visibility.Visible;
-            } else {
-                PassWatermark.Visibility = System.Windows.Visibility.Collapsed;
-            }
-        }
-
-        private void OnLoginKeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
-            if (e.Key != System.Windows.Input.Key.Return && e.Key != System.Windows.Input.Key.Enter) {
-                return;
-            }
-            e.Handled = true;
-            OnStartButtonClick(this, null);
-        }
-
-        #endregion LoginBlock
 
         #endregion Interface Section
     }

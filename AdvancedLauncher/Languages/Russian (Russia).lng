@@ -2,6 +2,8 @@
 <Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <CantOpenLink>Не удается открыть ссылку. Попробуйте изменить браузер по-умолчанию. Ошибка: </CantOpenLink>
+  <Yes>Да</Yes>
+  <No>Нет</No>
   <Error>Ошибка</Error>
   <Console>Консоль</Console>
   <CreateButton>Создать</CreateButton>
@@ -9,6 +11,7 @@
   <BrowseButton>Обзор</BrowseButton>
   <ApplyButton>Применить</ApplyButton>
   <SendButton>Отправить</SendButton>
+  <LogInButton>Войти</LogInButton>
   <CancelButton>Отмена</CancelButton>
   <CloseButton>Закрыть</CloseButton>
   <StartButton>Начать игру</StartButton>
@@ -91,7 +94,7 @@
   <UpdateDownloading>Загрузка обновления {0} из {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
   <UpdateExtracting>Распаковка обновления {0} из {1}... [{2} / {3}]</UpdateExtracting>
   <UpdateInstalling>Установка обновлений... [{0} / {1}]</UpdateInstalling>
-  <UseLastSession>Использовать последнюю сессию</UseLastSession>
+  <UseLastSession>Вы хотите использовать последнюю успешную сессию?</UseLastSession>
   
   <LoginTry>Попытка {0}...</LoginTry>
   <LoginGettingData>Получение данных...</LoginGettingData>

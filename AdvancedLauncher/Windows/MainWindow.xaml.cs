@@ -47,7 +47,16 @@ namespace AdvancedLauncher.Windows {
         private About AboutWindow = null;
         private AbstractPage currentTab;
 
+        private static MainWindow _Instance;
+
+        public static MainWindow Instance {
+            get {
+                return _Instance;
+            }
+        }
+
         public MainWindow() {
+            _Instance = this;
             // force initialize default profile in current thread
             var profile = LauncherEnv.Settings.CurrentProfile;
             InitializeComponent();

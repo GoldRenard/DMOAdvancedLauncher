@@ -45,7 +45,8 @@ namespace DMOLibrary {
         WRONG_USER = 1,
         WRONG_PAGE = 2,
         UNKNOWN_URL = 3,
-        EXECUTE_ERROR = 4
+        EXECUTE_ERROR = 4,
+        CANCELLED = 5
     }
 
     public enum LoginState {

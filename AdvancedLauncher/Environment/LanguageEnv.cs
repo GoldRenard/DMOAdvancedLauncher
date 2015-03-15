@@ -58,6 +58,28 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
+        private string _Yes = "Yes";
+
+        public string Yes {
+            set {
+                _Yes = value; NotifyPropertyChanged("Yes");
+            }
+            get {
+                return _Yes;
+            }
+        }
+
+        private string _No = "No";
+
+        public string No {
+            set {
+                _No = value; NotifyPropertyChanged("No");
+            }
+            get {
+                return _No;
+            }
+        }
+
         private string _Console = "Console";
 
         public string Console {
@@ -132,6 +154,17 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 return _SendButton;
+            }
+        }
+
+        private string _LogInButton = "LogIn";
+
+        public string LogInButton {
+            set {
+                _LogInButton = value; NotifyPropertyChanged("LogInButton");
+            }
+            get {
+                return _LogInButton;
             }
         }
 

@@ -110,6 +110,7 @@
     <Compile Include="Controls\DigiRotation\RotationElement.xaml.cs">
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\LoginManager.cs" />
     <Compile Include="Controls\TDBlock\IconHolder.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>

@@ -2,6 +2,8 @@
 <Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <CantOpenLink>Can't open link. Try to change the default browser. Error: </CantOpenLink>
+  <Yes>Yes</Yes>
+  <No>No</No>
   <Error>Error</Error>
   <Console>Console</Console>
   <CreateButton>Create</CreateButton>
@@ -9,6 +11,7 @@
   <BrowseButton>Browse</BrowseButton>
   <ApplyButton>Apply</ApplyButton>
   <SendButton>Send</SendButton>
+  <LogInButton>logIn</LogInButton>
   <CancelButton>Cancel</CancelButton>
   <CloseButton>Close</CloseButton>
   <StartButton>GAME START</StartButton>
@@ -91,7 +94,7 @@
   <UpdateDownloading>Downloading update {0} of {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
   <UpdateExtracting>Unpacking update {0} of {1}... [{2} / {3}]</UpdateExtracting>
   <UpdateInstalling>Installing updates... [{0} / {1}]</UpdateInstalling>
-  <UseLastSession>Use last session</UseLastSession>
+  <UseLastSession>Do you want to use last successful session?</UseLastSession>
   
   <LoginTry>Try {0}...</LoginTry>
   <LoginGettingData>Obtaining data...</LoginGettingData>

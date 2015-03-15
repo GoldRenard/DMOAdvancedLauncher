@@ -159,7 +159,7 @@
 
         <Grid Height="60" VerticalAlignment="Bottom">
             <Grid x:Name="BlockBackground" Background="{DynamicResource AccentColorBrush3}" Margin="-100,0" />
-            <Controls:MetroProgressBar x:Name="Progress" Value="0" Height="60" VerticalAlignment="Bottom"
+            <Controls:MetroProgressBar x:Name="Progress" Value="{Binding Value}" Maximum="{Binding Maximum}" Height="60" VerticalAlignment="Bottom"
                                        Foreground="{DynamicResource AccentColorBrush4}" Background="{x:Null}" />
             <StackPanel VerticalAlignment="Center">
                 <TextBlock x:Name="TitleTextBlock" FontSize="18" Text="{Binding Title, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource NameText}" />

@@ -58,8 +58,12 @@ namespace AdvancedLauncher {
             if (IsAdministrator()) {
                 splash.Show(false);
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
-                    MainWindow mw = new MainWindow();
-                    mw.Show();
+                    //MainWindow mw = new MainWindow();
+                    //mw.Show();
+                    TestWindow tw = new TestWindow() {
+                        WindowStyle = WindowStyle.ToolWindow
+                    };
+                    tw.Show();
                     WpfBugWindow.Close();
                 } else {
                     Application.Current.Shutdown();

@@ -69,6 +69,9 @@ namespace AdvancedLauncher.Controls {
 
         public GameControl() {
             InitializeComponent();
+            ElementHolder.RemoveChild(StartButton);
+            ElementHolder.RemoveChild(UpdateBlock);
+            WrapElement.Content = StartButton;
             UpdateTask = new TaskManager.Task() {
                 Owner = this
             };
@@ -104,7 +107,6 @@ namespace AdvancedLauncher.Controls {
                 UpdateRequired = false;
                 StartButton.IsEnabled = false;
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
-                UpdateBlock.Visibility = Visibility.Collapsed;
             }));
             GameFS = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
 
@@ -383,6 +385,7 @@ namespace AdvancedLauncher.Controls {
         #region Game Start/Login Section
 
         private void StartGame(string args) {
+            StartButton.IsEnabled = false;
             if (ApplicationLauncher.StartGame(args, UpdateRequired)) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
                 TaskManager.CloseApp();
@@ -438,8 +441,7 @@ namespace AdvancedLauncher.Controls {
                 LauncherEnv.Settings.OnClosingLocked(false);
                 LauncherEnv.Settings.OnFileSystemLocked(false);
                 UpdateRequired = false;
-                UpdateBlock.Visibility = System.Windows.Visibility.Collapsed;
-                StartBlock.Visibility = System.Windows.Visibility.Visible;
+                WrapElement.Content = StartButton;
                 StartButton.SetBinding(Button.ContentProperty, StartButtonBinding);
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
@@ -464,8 +466,7 @@ namespace AdvancedLauncher.Controls {
                 LauncherEnv.Settings.OnFileSystemLocked(false);
                 LauncherEnv.Settings.OnClosingLocked(false);
                 UpdateRequired = true;
-                UpdateBlock.Visibility = System.Windows.Visibility.Collapsed;
-                StartBlock.Visibility = System.Windows.Visibility.Visible;
+                WrapElement.Content = StartButton;
                 StartButton.SetBinding(Button.ContentProperty, UpdateButtonBinding);
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
@@ -480,7 +481,6 @@ namespace AdvancedLauncher.Controls {
         private void OnStartButtonClick(object sender, RoutedEventArgs e) {
             LauncherEnv.Settings.OnProfileLocked(true);
             LauncherEnv.Settings.OnFileSystemLocked(true);
-            StartButton.IsEnabled = false;
             //Проверяем, требуется ли логин
             if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsLoginRequired) {
                 LoginManager.Instance.Login();
@@ -495,8 +495,7 @@ namespace AdvancedLauncher.Controls {
 
         private void ShowProgressBar() {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                StartBlock.Visibility = System.Windows.Visibility.Collapsed;
-                UpdateBlock.Visibility = System.Windows.Visibility.Visible;
+                WrapElement.Content = UpdateBlock;
                 UpdateText.Text = string.Empty;
                 UpdateMainProgressBar(0, 100);
                 UpdateSubProgressBar(0, 100);

@@ -4,90 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d"
-             d:DesignHeight="50" d:DesignWidth="330"
+             d:DesignHeight="60" d:DesignWidth="330"
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
-                <Setter Property="Margin" Value="0,2,0,0" />
-                <Setter Property="Height" Value="10" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ProgressBar}">
-                            <Grid MinWidth="200">
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Determinate" />
-                                        <VisualState x:Name="Indeterminate">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Duration="00:00:00" Storyboard.TargetName="Indicator" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                                                        <DiscreteObjectKeyFrame.Value>
-                                                            <SolidColorBrush>Transparent</SolidColorBrush>
-                                                        </DiscreteObjectKeyFrame.Value>
-                                                    </DiscreteObjectKeyFrame>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Duration="00:00:00" Storyboard.TargetName="Indicator" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                                                        <DiscreteObjectKeyFrame.Value>
-                                                            <SolidColorBrush>Transparent</SolidColorBrush>
-                                                        </DiscreteObjectKeyFrame.Value>
-                                                    </DiscreteObjectKeyFrame>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Duration="00:00:00" Storyboard.TargetName="ValueBorderInner" Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                                                        <DiscreteObjectKeyFrame.Value>
-                                                            <Visibility>Collapsed</Visibility>
-                                                        </DiscreteObjectKeyFrame.Value>
-                                                    </DiscreteObjectKeyFrame>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                                <Border Name="PART_Track" CornerRadius="4" BorderBrush="#15A5F9" BorderThickness="1">
-                                    <Border.Background>
-                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#00FFFFFF" />
-                                            <GradientStop Color="#60FFFFFF" Offset="1" />
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                </Border>
-                                <Border Name="PART_Indicator" HorizontalAlignment="Left">
-                                    <Grid>
-                                        <Border x:Name="Indicator"  CornerRadius="4" BorderBrush="Transparent" BorderThickness="1">
-                                            <Border.Background>
-                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                    <GradientStop Color="#45B7F9" />
-                                                    <GradientStop Color="#1392DB" Offset="1" />
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-                                        </Border>
-                                        <Grid ClipToBounds="True" x:Name="Animation">
-                                            <Border x:Name="PART_GlowRect" Width="100" HorizontalAlignment="Left" Margin="-100,0,0,0">
-                                                <Border.Background>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                        <GradientStop Color="Transparent" Offset="0" />
-                                                        <GradientStop Color="#30FFFFFF" Offset="0.4" />
-                                                        <GradientStop Color="#30FFFFFF" Offset="0.6" />
-                                                        <GradientStop Color="Transparent" Offset="1" />
-                                                    </LinearGradientBrush>
-                                                </Border.Background>
-                                            </Border>
-                                        </Grid>
-                                    </Grid>
-                                </Border>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
             <Style x:Key="UpdateText" TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="White" />
                 <Setter Property="TextAlignment" Value="Center" />
                 <Setter Property="Margin" Value="5,0,0,0" />
                 <Setter Property="FontFamily" Value="Tahoma" />
@@ -95,24 +18,32 @@
                 <Setter Property="FontWeight" Value="Normal" />
                 <Setter Property="FontSize" Value="12" />
             </Style>
+            <Style TargetType="{x:Type Controls:MetroProgressBar}">
+                <Setter Property="Foreground" Value="{DynamicResource HighlightBrush}" />
+                <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                <Setter Property="Height" Value="15" />
+            </Style>
+            <Style x:Key="ProgressBarBorder" TargetType="{x:Type Border}">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="0,5,0,0" />
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel>
-        <Grid Height="50" VerticalAlignment="Bottom">
-            <StackPanel x:Name="StartBlock" Width="225" VerticalAlignment="Top">
-                <Button x:Name="StartButton"
-                Height="30"
-                VerticalAlignment="Top"
-                Click="OnStartButtonClick"
-                Content="{Binding GameButton_Waiting}"
-                IsEnabled="False"
-                Style="{StaticResource BlueButton}" />
-            </StackPanel>
-            <StackPanel x:Name="UpdateBlock" Visibility="Collapsed">
-                <TextBlock x:Name="UpdateText" Style="{StaticResource UpdateText}" />
-                <ProgressBar x:Name="MainProgressBar" Value="0" />
-                <ProgressBar x:Name="SubProgressBar" Value="0" />
+
+    <Grid>
+        <Grid x:Name="ElementHolder" Visibility="Collapsed">
+            <Button x:Name="StartButton" FontSize="24" Content="{Binding GameButton_Waiting}" Click="OnStartButtonClick" IsEnabled="False" />
+            <StackPanel x:Name="UpdateBlock" VerticalAlignment="Bottom">
+                <TextBlock x:Name="UpdateText" Style="{StaticResource UpdateText}" TextTrimming="CharacterEllipsis" />
+                <Border Style="{DynamicResource ProgressBarBorder}">
+                    <Controls:MetroProgressBar x:Name="MainProgressBar" />
+                </Border>
+                <Border Style="{DynamicResource ProgressBarBorder}">
+                    <Controls:MetroProgressBar x:Name="SubProgressBar" />
+                </Border>
             </StackPanel>
         </Grid>
-    </StackPanel>
+        <Controls:TransitioningContentControl x:Name="WrapElement" Transition="Left" />
+    </Grid>
 </UserControl>

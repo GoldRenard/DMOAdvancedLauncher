@@ -16,13 +16,11 @@
                     Icon="/AdvancedLauncher;component/app_icon.ico"
                     Title="Digimon Masters Online"
                     Width="900"
-                    Height="480"
+                    Height="550"
                     MinWidth="900"
-                    MinHeight="480"
+                    MinHeight="550"
                     WindowStartupLocation="CenterScreen"
                     ResizeMode="CanResizeWithGrip"
-                    BorderBrush="{DynamicResource AccentColorBrush}"
-                    BorderThickness="1"
                     DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <Window.Resources>
         <ResourceDictionary>

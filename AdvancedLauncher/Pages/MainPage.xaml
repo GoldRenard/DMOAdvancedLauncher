@@ -27,7 +27,7 @@
                       Header="Digirotation" Grid.Row="0" Margin="10,26,0,0" ClipToBounds="True">
                 <controls:DigiRotation x:Name="DigiRotator" Margin="-5" />
             </GroupBox>
-            <controls:GameControl Grid.Row="3" Width="330" VerticalAlignment="Bottom" />
+            <controls:GameControl Grid.Row="3" Height="60" Margin="10,0,0,12" VerticalAlignment="Bottom" />
         </Grid>
         <controls:NewsBlock x:Name="NewsBlock_" Margin="0,-10,0,0" />
     </Grid>

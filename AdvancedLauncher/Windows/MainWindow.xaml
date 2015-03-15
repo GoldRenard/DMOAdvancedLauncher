@@ -21,8 +21,23 @@
                     MinHeight="500"
                     WindowStartupLocation="CenterScreen"
                     ResizeMode="CanResizeWithGrip"
+                    BorderBrush="{DynamicResource AccentColorBrush}"
+                    BorderThickness="1"
                     DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
-    <Window.Resources>
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Border Background="{DynamicResource HighlightBrush}">
+                <Controls:MultiFrameImage Margin="2" 
+                    Width="{TemplateBinding Width}"
+                    Height="{TemplateBinding Height}"
+                    Source="{TemplateBinding Content}"
+                    RenderOptions.EdgeMode="{Binding IconEdgeMode, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}"
+                    RenderOptions.BitmapScalingMode="{Binding IconBitmapScalingMode, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}" />
+            </Border>
+
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
+    <Controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
@@ -30,7 +45,21 @@
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>
+        </Controls:MetroWindow.Resources>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_user}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Korea (Korea IMBC)" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid x:Name="LayoutRoot">
         <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged" Margin="0,0,0,30">
             <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">

@@ -30,7 +30,6 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-
     <Grid>
         <Grid x:Name="ElementHolder" Visibility="Collapsed">
             <Button x:Name="StartButton" FontSize="24" Content="{Binding GameButton_Waiting}" Click="OnStartButtonClick" IsEnabled="False" />

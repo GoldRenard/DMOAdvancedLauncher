@@ -36,6 +36,9 @@ using MahApps.Metro.Controls;
 namespace AdvancedLauncher.Controls {
 
     public partial class DigiRotation : TransitioningContentControl {
+
+        private static int MIN_LVL = 41;
+
         private static int ROTATION_INTERVAL = 5000;
         private const string TAMER_NAME_FORMAT = "{0}: {1} (Lv. {2})";
 
@@ -187,14 +190,21 @@ namespace AdvancedLauncher.Controls {
                         tamer = context.FindTamerByGuildAndName(Guild, TamerName.Trim());
                     }
                     if (tamer != null) {
-                        d = context.FindRandomDigimon(tamer, 70);
+                        d = context.FindRandomDigimon(tamer, MIN_LVL);
                     }
                     if (d == null) {
-                        d = context.FindRandomDigimon(Guild, 70);
+                        d = context.FindRandomDigimon(Guild, MIN_LVL);
+                    }
+
+                    if (d == null) {
+                        // если у нас нет вообще такого дигимона, тогда переключаемся на статику
+                        IsStatic = true;
+                        UpdateModel();
+                        return;
                     }
 
                     //Устанавливаем медали в зависимости от уровня
-                    if (d.Level >= 70 && d.Level < 75) {
+                    if (d.Level < 75) {
                         Medal = medalBronze;
                     } else if (d.Level >= 75 && d.Level < 80) {
                         Medal = medalSilver;
@@ -218,7 +228,8 @@ namespace AdvancedLauncher.Controls {
                             vmodel.TLevel = TLevel_;
                             vmodel.Image = Image_;
                             vmodel.Medal = Medal_;
-                            Content = vmodel;
+                            vmodel.ShowInfo = true;
+                            this.Content = vmodel;
                         }), d.Name, d.Level, d.Tamer.Name, d.Tamer.Level, GetDigimonImage(d.Type.Code), Medal);
                 } else {
                     DigimonType dType = context.FindRandomDigimonType();

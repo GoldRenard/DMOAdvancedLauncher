@@ -83,7 +83,7 @@ namespace DMOLibrary.Profiles.Joymax {
                                 guildMaster = ranking.SelectNodes("//td[@class='master']")[i].InnerText;
                                 guildMaster = guildMaster.Substring(0, guildMaster.IndexOf(' '));
                                 guild.Name = guildName;
-                                guild.Rank = Convert.ToInt32(ranking.SelectNodes("//td[@class='ranking']")[i].InnerText);
+                                guild.Rank = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='ranking']")[i].InnerText));
                                 guild.Rep = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='reputation']")[i].InnerText));
                                 isFound = true;
                                 break;

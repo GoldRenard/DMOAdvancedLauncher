@@ -56,8 +56,8 @@ namespace AdvancedLauncher {
         private void Application_Startup(object sender, StartupEventArgs e) {
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
-                splash.Show(false);
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
+                    splash.Show(false);
                     MainWindow mw = new MainWindow();
                     mw.Show();
                     WpfBugWindow.Close();

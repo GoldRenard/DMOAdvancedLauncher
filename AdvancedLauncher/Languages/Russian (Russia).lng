@@ -15,6 +15,7 @@
   <CancelButton>Отмена</CancelButton>
   <CloseButton>Закрыть</CloseButton>
   <StartButton>Начать игру</StartButton>
+  <DigiRotation>ДигиРотация</DigiRotation>
   <WaitForComplete>Пожалуйста, дождитесь завершения текущей операции</WaitForComplete>
   <PleaseWait>Пожалуйста, подождите</PleaseWait>
   <ErrorOccured>Произошла ошибка!</ErrorOccured>

@@ -36,163 +36,158 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot">
-        <TabControl x:Name="NewsTabControl" SelectionChanged="TabControl_SelectionChanged">
+        <GroupBox Margin="365,25,10,10" Background="{DynamicResource AccentColorBrush2}" BorderBrush="{DynamicResource AccentColorBrush2}" Header="{Binding News}">
+            <Grid Margin="-5" Background="{DynamicResource WhiteBrush}" />
+        </GroupBox>
+        <TabControl x:Name="NewsTabControl" SelectionChanged="TabControl_SelectionChanged" Controls:TabControlHelper.Transition="Default">
             <TabItem x:Name="NavTwitter" Controls:ControlsHelper.HeaderFontSize="12" Header="TWITTER">
-                <Grid Margin="360,5,5,5">
-                    <GroupBox Background="{DynamicResource AccentColorBrush2}" BorderBrush="{DynamicResource AccentColorBrush2}" Header="Twitter">
-                        <Grid Margin="-5" Background="{DynamicResource WhiteBrush}">
-                            <ListBox x:Name="TwitterNewsList" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Opacity="0"
-                                 d:DataContext="{d:DesignData TwitterViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <StackPanel>
-                                                <TextBlock Loaded="ParseTextBlock" Text="{Binding Title}" TextWrapping="Wrap" />
-                                                <Separator Margin="0,5,0,0" Opacity="0.5" />
-                                                <Grid Height="18" Opacity="0.7">
-                                                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate}">
-                                                    <Run Text="{Binding Date}" />
-                                                    </TextBlock>
-                                                    <TextBlock Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                    <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding UserLink}" RequestNavigate="OnRequestNavigate">
-                                                        <Image Margin="0,3,0,-3" Height="15" Width="15" Source="{Binding Image}" Stretch="UniformToFill" />
-                                                        <Run Text="{Binding UserName}" />
-                                                    </Hyperlink>
-                                                    </TextBlock>
-                                                </Grid>
-                                                <Separator Margin="0,8,0,0" Opacity="0.8" />
-                                            </StackPanel>
+                <Grid Margin="365,30,10,10">
+                    <ListBox x:Name="TwitterNewsList" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Opacity="0"
+                                d:DataContext="{d:DesignData TwitterViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <StackPanel>
+                                        <TextBlock Loaded="ParseTextBlock" Text="{Binding Title}" TextWrapping="Wrap" />
+                                        <Separator Margin="0,5,0,0" Opacity="0.5" />
+                                        <Grid Height="18" Opacity="0.7">
+                                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate}">
+                                                <Run Text="{Binding Date}" />
+                                            </TextBlock>
+                                            <TextBlock Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding UserLink}" RequestNavigate="OnRequestNavigate">
+                                                    <Image Margin="0,3,0,-3" Height="15" Width="15" Source="{Binding Image}" Stretch="UniformToFill" />
+                                                    <Run Text="{Binding UserName}" />
+                                                </Hyperlink>
+                                            </TextBlock>
                                         </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                            <Controls:ProgressRing x:Name="TwitterProgressRing" Height="70" Width="70" IsActive="False" />
-                        </Grid>
-                    </GroupBox>
+                                        <Separator Margin="0,8,0,0" Opacity="0.8" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Controls:ProgressRing x:Name="TwitterProgressRing" Height="70" Width="70" IsActive="False" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="NavJoymax" Controls:ControlsHelper.HeaderFontSize="12" Header="JOYMAX">
-                <Grid Margin="360,5,5,5">
-                    <GroupBox Background="{DynamicResource AccentColorBrush2}" BorderBrush="{DynamicResource AccentColorBrush2}" Header="Joymax">
-                        <Grid Margin="-5" Background="{DynamicResource WhiteBrush}">
-                            <ListBox x:Name="JoymaxNewsList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible" Opacity="0"
-                             d:DataContext="{d:DesignData JoymaxViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <StackPanel.Resources>
-                                                <Storyboard x:Key="OpenContent">
-                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="JoyMax_New_Content">
-                                                        <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
-                                                    </DoubleAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="JoyMax_New_Content" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btn_CloseContent" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btn_OpenContent" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                                <Storyboard x:Key="CloseContent">
-                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="JoyMax_New_Content">
-                                                        <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
-                                                    </DoubleAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="JoyMax_New_Content" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Collapsed}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btn_CloseContent" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btn_OpenContent" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </StackPanel.Resources>
-                                            <Grid Height="25" x:Name="JoyMax_New_Header" Margin="-5,5,0,0">
-                                                <Grid.Background>
-                                                    <ImageBrush ImageSource="images\bbs_mode.png" Viewbox="{Binding ImgVB}" Viewport="0,0,90,18" ViewboxUnits="Absolute" ViewportUnits="Absolute" Stretch="None" TileMode="None" />
-                                                </Grid.Background>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="80" />
-                                                        <ColumnDefinition Width="10" />
-                                                        <ColumnDefinition Width="100*" />
-                                                        <ColumnDefinition Width="20" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" Margin="0,-1,0,0" Text="{Binding Type}" TextAlignment="Center" Foreground="#FFF" />
-                                                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap">
-                                                    <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
-                                                        <TextBlock Text="{Binding Title}" />
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                                    <Button Grid.Column="3" Width="20" Margin="0,-5,0,0" x:Name="btn_OpenContent" Style="{StaticResource SpoilerButton}" Cursor="Hand" HorizontalAlignment="Right">
-                                                        <Button.Resources>
-                                                            <ResourceDictionary>
-                                                                <SolidColorBrush x:Key="BlackBrush" Color="{DynamicResource AccentColor}" />
-                                                            </ResourceDictionary>
-                                                        </Button.Resources>
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="Button.Click">
-                                                                <BeginStoryboard Storyboard="{StaticResource OpenContent}" />
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
-                                                        <Button.Content>
-                                                            <Rectangle Width="12" Height="10">
-                                                                <Rectangle.Fill>
-                                                                    <VisualBrush Visual="{StaticResource appbar_chevron_down}" />
-                                                                </Rectangle.Fill>
-                                                            </Rectangle>
-                                                        </Button.Content>
-                                                    </Button>
-                                                    <Button Grid.Column="3" Width="20" Margin="0,-5,0,0" x:Name="btn_CloseContent" Style="{StaticResource SpoilerButton}" Cursor="Hand" HorizontalAlignment="Right" Visibility="Collapsed">
-                                                        <Button.Resources>
-                                                            <ResourceDictionary>
-                                                                <SolidColorBrush x:Key="BlackBrush" Color="{DynamicResource AccentColor}" />
-                                                            </ResourceDictionary>
-                                                        </Button.Resources>
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="Button.Click">
-                                                                <BeginStoryboard Storyboard="{StaticResource CloseContent}" />
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
-                                                        <Rectangle Width="10" Height="10">
-                                                            <Rectangle.Fill>
-                                                                <VisualBrush Visual="{StaticResource appbar_close}" />
-                                                            </Rectangle.Fill>
-                                                        </Rectangle>
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid x:Name="JoyMax_New_Content" Visibility="Collapsed">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto" />
-                                                    <RowDefinition Height="20" />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto" />
-                                                    <ColumnDefinition Width="33*" />
-                                                    <ColumnDefinition Width="33*" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Width="350" Padding="5" Text="{Binding Content}" HorizontalAlignment="Left" TextWrapping="Wrap" />
-                                                <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,0,0" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate}" TextWrapping="Wrap" />
-                                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date}" TextWrapping="Wrap" />
-                                                <TextBlock Grid.Row="1" Grid.Column="2" Padding="0,0,5,0" TextWrapping="Wrap" TextAlignment="Right" FontWeight="Bold">
-                                                 <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
-                                                     <Run Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsReadMore}" />
-                                                 </Hyperlink>
-                                                </TextBlock>
-                                            </Grid>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                            <Controls:ProgressRing x:Name="JoymaxProgressRing" Height="70" Width="70" IsActive="False" />
-                        </Grid>
-                    </GroupBox>
+                <Grid Margin="365,30,10,10">
+                    <ListBox x:Name="JoymaxNewsList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible" Opacity="0"
+                        d:DataContext="{d:DesignData JoymaxViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <StackPanel.Resources>
+                                        <Storyboard x:Key="OpenContent">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="JoyMax_New_Content">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="JoyMax_New_Content" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btn_CloseContent" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btn_OpenContent" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <Storyboard x:Key="CloseContent">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="JoyMax_New_Content">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="JoyMax_New_Content" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Collapsed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btn_CloseContent" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btn_OpenContent" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </StackPanel.Resources>
+                                    <Grid Height="25" x:Name="JoyMax_New_Header" Margin="-5,5,0,0">
+                                        <Grid.Background>
+                                            <ImageBrush ImageSource="images\bbs_mode.png" Viewbox="{Binding ImgVB}" Viewport="0,0,90,18" ViewboxUnits="Absolute" ViewportUnits="Absolute" Stretch="None" TileMode="None" />
+                                        </Grid.Background>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition Width="100*" />
+                                                <ColumnDefinition Width="20" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Margin="0,-1,0,0" Text="{Binding Type}" TextAlignment="Center" Foreground="#FFF" />
+                                            <TextBlock Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap">
+                                            <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
+                                                <TextBlock Text="{Binding Title}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                            <Button Grid.Column="3" Width="20" Margin="0,-5,0,0" x:Name="btn_OpenContent" Style="{StaticResource SpoilerButton}" Cursor="Hand" HorizontalAlignment="Right">
+                                                <Button.Resources>
+                                                    <ResourceDictionary>
+                                                        <SolidColorBrush x:Key="BlackBrush" Color="{DynamicResource AccentColor}" />
+                                                    </ResourceDictionary>
+                                                </Button.Resources>
+                                                <Button.Triggers>
+                                                    <EventTrigger RoutedEvent="Button.Click">
+                                                        <BeginStoryboard Storyboard="{StaticResource OpenContent}" />
+                                                    </EventTrigger>
+                                                </Button.Triggers>
+                                                <Button.Content>
+                                                    <Rectangle Width="12" Height="10">
+                                                        <Rectangle.Fill>
+                                                            <VisualBrush Visual="{StaticResource appbar_chevron_down}" />
+                                                        </Rectangle.Fill>
+                                                    </Rectangle>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Grid.Column="3" Width="20" Margin="0,-5,0,0" x:Name="btn_CloseContent" Style="{StaticResource SpoilerButton}" Cursor="Hand" HorizontalAlignment="Right" Visibility="Collapsed">
+                                                <Button.Resources>
+                                                    <ResourceDictionary>
+                                                        <SolidColorBrush x:Key="BlackBrush" Color="{DynamicResource AccentColor}" />
+                                                    </ResourceDictionary>
+                                                </Button.Resources>
+                                                <Button.Triggers>
+                                                    <EventTrigger RoutedEvent="Button.Click">
+                                                        <BeginStoryboard Storyboard="{StaticResource CloseContent}" />
+                                                    </EventTrigger>
+                                                </Button.Triggers>
+                                                <Rectangle Width="10" Height="10">
+                                                    <Rectangle.Fill>
+                                                        <VisualBrush Visual="{StaticResource appbar_close}" />
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid x:Name="JoyMax_New_Content" Visibility="Collapsed">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="20" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="33*" />
+                                            <ColumnDefinition Width="33*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Width="350" Padding="5" Text="{Binding Content}" HorizontalAlignment="Left" TextWrapping="Wrap" />
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,0,0" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate}" TextWrapping="Wrap" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date}" TextWrapping="Wrap" />
+                                        <TextBlock Grid.Row="1" Grid.Column="2" Padding="0,0,5,0" TextWrapping="Wrap" TextAlignment="Right" FontWeight="Bold">
+                                            <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
+                                                <Run Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsReadMore}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Controls:ProgressRing x:Name="JoymaxProgressRing" Height="70" Width="70" IsActive="False" />
                 </Grid>
             </TabItem>
         </TabControl>

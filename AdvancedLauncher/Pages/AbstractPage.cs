@@ -9,6 +9,8 @@ namespace AdvancedLauncher.Pages {
 
         protected abstract void InitializeAbstractPage();
 
+        protected bool IsPageActivated = false;
+
         public AbstractPage() {
             InitializeAbstractPage();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
@@ -21,6 +23,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public virtual void PageActivate() {
+            IsPageActivated = true;
         }
 
         public virtual void PageClose() {

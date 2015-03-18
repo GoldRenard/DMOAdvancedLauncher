@@ -102,7 +102,7 @@ namespace AdvancedLauncher.Controls {
                     //Добавляем задачу загрузки
                     TaskManager.Tasks.Add(LoadingTask);
                     //Показываем анимацию загрузки
-                    IsLoadingAnim(true);
+                    IsLoadingAnim(true, true);
                     IsStatic = false;
                     IsErrorOccured = false;
                     //Получаем информацию, необходимую для ротации
@@ -178,6 +178,7 @@ namespace AdvancedLauncher.Controls {
         #region Utils
 
         private void UpdateModel() {
+            IsLoadingAnim(true);
             using (MainContext context = new MainContext()) {
                 if (!IsStatic && Guild != null) {
                     //Если не статическое, получаем рандомного дигимона из базы данных
@@ -247,6 +248,7 @@ namespace AdvancedLauncher.Controls {
                     }), string.Empty, 0, string.Empty, 0, GetDigimonImage(dType.Code), null);
                 }
             }
+            IsLoadingAnim(false);
         }
 
         public BitmapImage GetDigimonImage(int digi_id) {
@@ -287,14 +289,16 @@ namespace AdvancedLauncher.Controls {
             return null;
         }
 
-        private void IsLoadingAnim(bool state) {
+        private void IsLoadingAnim(bool state, bool transition = false) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 loader.IsEnabled = state;
                 if (state) {
                     loader.SetBinding(HaguruLoader.TitleProperty, LoadingTitleBinding);
                     loader.SetBinding(HaguruLoader.SummaryProperty, LoadingSummaryBinding);
                     loader.Value = 0;
-                    this.Content = loader;
+                    if (transition) {
+                        this.Content = loader;
+                    }
                 }
             }));
         }

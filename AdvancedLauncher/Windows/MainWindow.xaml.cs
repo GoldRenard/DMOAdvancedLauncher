@@ -53,6 +53,7 @@ namespace AdvancedLauncher.Windows {
         private Settings SettingsWindow = null;
         private About AboutWindow = null;
         private AbstractPage currentTab;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private static MainWindow _Instance;
@@ -69,7 +70,8 @@ namespace AdvancedLauncher.Windows {
             var profile = LauncherEnv.Settings.CurrentProfile;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+                //Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 60 });
+                RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
                 Logger.Instance.WindowClosed += (s, e1) => {
                     transitionLayer.Content = null;
                 };

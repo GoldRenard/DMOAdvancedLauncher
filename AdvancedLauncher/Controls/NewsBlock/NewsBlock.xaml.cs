@@ -43,7 +43,7 @@ namespace AdvancedLauncher.Controls {
         private Storyboard ShowTwitter = new Storyboard();
         private Storyboard ShowJoymax = new Storyboard();
 
-        private int AnimSpeed = 100;
+        private int AnimSpeed = 300;
 
         private TwitterViewModel TwitterVM = new TwitterViewModel();
         private List<TwitterItemViewModel> TwitterStatuses = new List<TwitterItemViewModel>();

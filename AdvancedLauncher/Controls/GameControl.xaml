@@ -43,6 +43,6 @@
                 </Border>
             </StackPanel>
         </Grid>
-        <Controls:TransitioningContentControl x:Name="WrapElement" Transition="Left" />
+        <Controls:TransitioningContentControl x:Name="WrapElement" Transition="Default" />
     </Grid>
 </UserControl>

@@ -12,6 +12,7 @@
   <CancelButton>Abbrechen</CancelButton>
   <CloseButton>Schliessen</CloseButton>
   <StartButton>SPIEL STARTEN</StartButton>
+  <DigiRotation>Digi-Rotation</DigiRotation>
   <WaitForComplete>Bitte warten Sie bis der Vorgang abgeschlossen wurde.</WaitForComplete>
   <PleaseWait>Bitte warten...</PleaseWait>
   <ErrorOccured>Ein Fehler ist aufgetreten.</ErrorOccured>

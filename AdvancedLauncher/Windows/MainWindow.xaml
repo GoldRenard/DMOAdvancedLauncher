@@ -49,7 +49,7 @@
         <Controls:WindowCommands>
             <Button x:Name="ProfileSwitcher" Click="ShowSettings">
                 <StackPanel Orientation="Horizontal">
-                    <Border Width="20" Height="20" Visibility="{Binding HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Border Width="25" Height="25" Visibility="{Binding HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Border.Background>
                             <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
                         </Border.Background>

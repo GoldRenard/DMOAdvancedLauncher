@@ -12,6 +12,7 @@
   <CancelButton>Відміна</CancelButton>
   <CloseButton>Закрити</CloseButton>
   <StartButton>Почати гру</StartButton>
+  <DigiRotation>ДігіРотація</DigiRotation>
   <WaitForComplete>Будь ласка, дочекайтеся завершення поточної операції</WaitForComplete>
   <PleaseWait>Будь ласка, почекайте</PleaseWait>
   <ErrorOccured>Сталася помилка!</ErrorOccured>

@@ -190,6 +190,17 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
+        private string _DigiRotation = "GAME START";
+
+        public string DigiRotation {
+            set {
+                _DigiRotation = value; NotifyPropertyChanged("DigiRotation");
+            }
+            get {
+                return _DigiRotation;
+            }
+        }
+
         private string _WaitForComplete = "Please wait completion of the current operation";
 
         public string WaitForComplete {
@@ -887,7 +898,7 @@ namespace AdvancedLauncher.Environment {
                 _News = value; NotifyPropertyChanged("News");
             }
             get {
-                return _News.ToUpper() + sep;
+                return _News;
             }
         }
 

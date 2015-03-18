@@ -49,17 +49,25 @@ namespace AdvancedLauncher.Pages {
         }
 
         protected override void ProfileChanged() {
-            //Очищаем все поля и списки
             GMaster.Text = GRank.Text = GRep.Text = GTop.Text = GDCnt.Text = GTCnt.Text = "-";
             TDBlock_.ClearAll();
             chkbox_IsDetailed.IsChecked = false;
+            webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
+            // use lazy ServerList initialization to prevent first long EF6 database
+            // init causes the long app start time
+            if (IsPageActivated) {
+                LoadServerList();
+            }
+        }
 
+        public override void PageActivate() {
+            base.PageActivate();
+            LoadServerList();
+        }
+
+        private void LoadServerList() {
             //Загружаем новый список серверов
             ComboBoxServer.ItemsSource = LauncherEnv.Settings.CurrentProfile.DMOProfile.ServerList;
-
-            //Активируем новый профиль
-            webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
-
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {

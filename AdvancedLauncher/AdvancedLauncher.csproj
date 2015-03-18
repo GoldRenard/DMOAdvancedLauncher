@@ -111,6 +111,9 @@
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\LoginManager.cs" />
+    <Compile Include="Controls\MenuFlyout.xaml.cs">
+      <DependentUpon>MenuFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TDBlock\IconHolder.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
@@ -130,9 +133,6 @@
     </Compile>
     <Compile Include="Controls\NewsBlock\JoymaxViewModel.cs" />
     <Compile Include="Controls\NewsBlock\JoymaxItemViewModel.cs" />
-    <Compile Include="Controls\MainMenu.xaml.cs">
-      <DependentUpon>MainMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\NewsBlock\TwitterItemViewModel.cs" />
     <Compile Include="Controls\NewsBlock\TwitterViewModel.cs" />
     <Compile Include="Controls\TDBlock\DigimonViewModel.cs" />
@@ -229,14 +229,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MainMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <DesignData Include="Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Controls\MenuFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\NewsBlock\NewsBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -389,10 +389,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\NoAvatar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Configuration.png" />
-    <Resource Include="Resources\Icons\Info.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\background_dark.jpg" />
@@ -910,9 +906,6 @@
     <None Include="Languages\Template_for_translation.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Console.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Community\31052.png">

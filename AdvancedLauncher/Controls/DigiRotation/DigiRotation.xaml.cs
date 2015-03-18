@@ -82,7 +82,7 @@ namespace AdvancedLauncher.Controls {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageEnv.Languagechanged += delegate() {
+                LanguageEnv.LanguageChanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
                 LauncherEnv.Settings.ProfileChanged += delegate() {
@@ -172,8 +172,7 @@ namespace AdvancedLauncher.Controls {
                 }));
                 return;
             }
-            MergeHelper.Merge(result);
-            Guild = result;
+            Guild = MergeHelper.Merge(result);
         }
 
         #region Utils

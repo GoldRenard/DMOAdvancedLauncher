@@ -125,8 +125,7 @@ namespace AdvancedLauncher.Pages {
             ProgressBlock.Opacity = 0;
             switch (code) {
                 case DMODownloadResultCode.OK: {
-                        MergeHelper.Merge(result);
-                        CURRENT_GUILD = result;
+                        CURRENT_GUILD = MergeHelper.Merge(result);
                         UpdateInfo(CURRENT_GUILD);
                         TDBlock_.ShowTamers(CURRENT_GUILD.Tamers);
                         break;

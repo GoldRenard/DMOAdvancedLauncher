@@ -14,7 +14,7 @@ namespace AdvancedLauncher.Pages {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 LauncherEnv.Settings.ProfileChanged += ProfileChanged;
                 ProfileChanged();
-                LanguageEnv.Languagechanged += delegate() {
+                LanguageEnv.LanguageChanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
             }

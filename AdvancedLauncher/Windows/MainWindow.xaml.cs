@@ -17,16 +17,21 @@
 // ======================================================================
 
 using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Pages;
 using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Windows {
 
     public partial class MainWindow : MetroWindow {
+        private static int FLYOUT_WIDTH_MIN = 100;
+
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));
         private const int SC_CLOSE = 0xF060;
         private const int MF_ENABLED = 0x0000;
@@ -43,9 +48,12 @@ namespace AdvancedLauncher.Windows {
 
         private bool IsCloseLocked = true;
 
+        private int FlyoutWidth = FLYOUT_WIDTH_MIN;
+
         private Settings SettingsWindow = null;
         private About AboutWindow = null;
         private AbstractPage currentTab;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private static MainWindow _Instance;
 
@@ -60,32 +68,43 @@ namespace AdvancedLauncher.Windows {
             // force initialize default profile in current thread
             var profile = LauncherEnv.Settings.CurrentProfile;
             InitializeComponent();
-            Logger.Instance.WindowClosed += (s, e1) => {
-                transitionLayer.Content = null;
-            };
-            AdvancedLauncher.Service.UpdateChecker.Check();
-            LanguageEnv.Languagechanged += delegate() {
-                this.DataContext = LanguageEnv.Strings;
-            };
-            LauncherEnv.Settings.ProfileChanged += ReloadTabs;
-            LauncherEnv.Settings.ProfileLocked += OnProfileLocked;
-            LauncherEnv.Settings.ClosingLocked += OnClosingLocked;
-            LauncherEnv.Settings.FileSystemLocked += OnFileSystemLocked;
-            this.Closing += (s, e) => {
-                e.Cancel = IsCloseLocked;
-            };
-            MainMenu.AboutClick += OnAboutClick;
-            MainMenu.SettingsClick += OnSettingsClick;
-            MainMenu.LoggerClick += OnLoggerClick;
-            ReloadTabs();
-            try {
-                App.splash.Close(TimeSpan.FromSeconds(1));
-            } catch {
-            }
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+                Logger.Instance.WindowClosed += (s, e1) => {
+                    transitionLayer.Content = null;
+                };
+                AdvancedLauncher.Service.UpdateChecker.Check();
+                LanguageEnv.LanguageChanged += delegate() {
+                    this.DataContext = LanguageEnv.Strings;
+                };
+                LauncherEnv.Settings.ProfileChanged += OnProfileChanged;
+                LauncherEnv.Settings.ClosingLocked += OnClosingLocked;
+                LauncherEnv.Settings.FileSystemLocked += OnFileSystemLocked;
+                this.Closing += (s, e) => {
+                    e.Cancel = IsCloseLocked;
+                };
+                this.MouseDown += MainWindow_MouseDown;
+
+                MenuFlyout.AboutClick += OnAboutClick;
+                MenuFlyout.SettingsClick += OnSettingsClick;
+                MenuFlyout.LoggerClick += OnLoggerClick;
+                OnProfileChanged();
+                try {
+                    App.splash.Close(TimeSpan.FromSeconds(1));
+                } catch {
+                }
 #if DEBUG
-            this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
+                this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
-            LOGGER.Info(this.Title + " initialized");
+                LOGGER.Info(this.Title + " initialized");
+            }
+        }
+
+        private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            Point p = e.GetPosition(this);
+            if (MenuFlyout.IsOpen && this.Width - p.X > MenuFlyout.Width) {
+                MenuFlyout.IsOpen = false;
+            }
         }
 
         private void OnFileSystemLocked(bool IsLocked) {
@@ -106,12 +125,9 @@ namespace AdvancedLauncher.Windows {
                 hWnd = new System.Windows.Interop.WindowInteropHelper(Application.Current.MainWindow).Handle;
             //Заблокировать закрытие окна
             IsCloseLocked = IsLocked;
+            this.IsCloseButtonEnabled = !IsLocked;
             //Отключим кнопку "Х"
             EnableMenuItem(GetSystemMenu(hWnd, false), SC_CLOSE, IsLocked ? MF_DISABLED | MF_GRAYED : MF_ENABLED);
-        }
-
-        private void OnProfileLocked(bool IsLocked) {
-            MainMenu.IsChangeEnabled = !IsLocked;
         }
 
         public void ReloadTabs() {
@@ -130,6 +146,19 @@ namespace AdvancedLauncher.Windows {
             if (LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame()) {
                 NavGallery.IsEnabled = true;
                 NavPersonalization.IsEnabled = true;
+            }
+        }
+
+        private void OnProfileChanged() {
+            ReloadTabs();
+            MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
+            //NotifyPropertyChanged("CurrentProfile");
+            ProfileSwitcher.DataContext = LauncherEnv.Settings.CurrentProfile;
+        }
+
+        public Profile CurrentProfile {
+            get {
+                return LauncherEnv.Settings.CurrentProfile;
             }
         }
 
@@ -173,6 +202,11 @@ namespace AdvancedLauncher.Windows {
         private void OnLoggerClick(object sender, RoutedEventArgs e) {
             transitionLayer.Content = Logger.Instance;
             Logger.Instance.Show();
+        }
+
+        private void ShowSettings(object sender, RoutedEventArgs e) {
+            MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
+            MenuFlyout.IsOpen = !MenuFlyout.IsOpen;
         }
     }
 }

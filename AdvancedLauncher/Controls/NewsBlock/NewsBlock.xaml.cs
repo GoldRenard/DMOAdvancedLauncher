@@ -66,7 +66,7 @@ namespace AdvancedLauncher.Controls {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 LauncherEnv.Settings.ProfileChanged += ReloadNews;
-                LanguageEnv.Languagechanged += delegate() {
+                LanguageEnv.LanguageChanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
                 TwitterNewsList.DataContext = TwitterVM;

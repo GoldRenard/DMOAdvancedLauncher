@@ -77,7 +77,7 @@ namespace AdvancedLauncher.Controls {
                 ElementHolder.RemoveChild(UpdateBlock);
                 WrapElement.Content = StartButton;
                 Application.Current.MainWindow.TaskbarItemInfo = TaskBar;
-                LanguageEnv.Languagechanged += delegate() {
+                LanguageEnv.LanguageChanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
                 LoginManager.Instance.LoginCompleted += OnGameStartCompleted;

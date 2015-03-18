@@ -47,7 +47,7 @@ namespace AdvancedLauncher.Controls {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 Tamers.DataContext = TamerModel;
                 Digimons.DataContext = DigimonModel;
-                LanguageEnv.Languagechanged += delegate() {
+                LanguageEnv.LanguageChanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
             }

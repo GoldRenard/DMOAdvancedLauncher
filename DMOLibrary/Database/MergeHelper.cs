@@ -28,15 +28,14 @@ namespace DMOLibrary.Database {
     public static class MergeHelper {
         private static object MERGE_LOCKER = new object();
 
-        public static bool Merge(Guild guild) {
+        public static Guild Merge(Guild guild) {
             lock (MERGE_LOCKER) {
                 if (guild == null) {
-                    return false;
+                    return null;
                 }
 
                 using (MainContext context = new MainContext()) {
-                    Guild storedGuild = context.Guilds.FirstOrDefault(g =>
-                        g.Server.Id == guild.Server.Id && g.Name == guild.Name);
+                    Guild storedGuild = context.FetchGuild(guild.Server, guild.Name);
 
                     // If we don't have this guild yet, add it
                     if (storedGuild == null) {
@@ -51,21 +50,22 @@ namespace DMOLibrary.Database {
                         }
                         context.Guilds.Add(guild);
                         context.SaveChanges();
-                        return true;
+                        return guild;
                     }
 
                     // of we have two guilds with the same time - do nothing
                     if (storedGuild.UpdateTime != null) {
                         if (storedGuild.UpdateTime.Equals(guild.UpdateTime)) {
-                            return true;
+                            return storedGuild;
                         }
                     }
 
                     bool result = MergeGuild(context, guild, storedGuild);
                     if (result) {
                         context.SaveChanges();
+                        return storedGuild;
                     }
-                    return result;
+                    return null;
                 }
             }
         }

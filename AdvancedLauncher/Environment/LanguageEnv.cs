@@ -1680,11 +1680,11 @@ namespace AdvancedLauncher.Environment {
 
         public delegate void ChangedEventHandler();
 
-        public static event ChangedEventHandler Languagechanged;
+        public static event ChangedEventHandler LanguageChanged;
 
         public static void OnChanged() {
-            if (Languagechanged != null)
-                Languagechanged();
+            if (LanguageChanged != null)
+                LanguageChanged();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -40,27 +40,52 @@
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-                <ResourceDictionary>
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button>
+            <Button x:Name="ProfileSwitcher" Click="ShowSettings">
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Border Width="20" Height="20" Visibility="{Binding HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
+                        </Border.Background>
+                    </Border>
+                    <Rectangle Width="20" Height="20" 
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                                Visibility="{Binding NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_user}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Korea (Korea IMBC)" />
+                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding FullName}" />
                 </StackPanel>
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <ALControls:MenuFlyout x:Name="MenuFlyout" />
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
     <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <VisualBrush Visual="{StaticResource digi_background}"
+                    Stretch="None"
+                    TileMode="Tile"
+                    Viewbox="0,0,750,5000"
+                    ViewboxUnits="Absolute"
+                    Viewport="0,0,750,5000"
+                    ViewportUnits="Absolute">
+                <VisualBrush.Transform>
+                    <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                </VisualBrush.Transform>
+            </VisualBrush>
+        </Grid.Background>
+
         <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged" Margin="0,0,0,30">
             <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
                 <Page:MainPage x:Name="MainPage" />
@@ -75,8 +100,7 @@
                 <Page:Personalization x:Name="Personalization" />
             </TabItem>
         </TabControl>
-        <Menu:MainMenu x:Name="MainMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Width="170" />
         <ALControls:Footer x:Name="Footer_" Height="30" VerticalAlignment="Bottom" />
-        <Controls:TransitioningContentControl x:Name="transitionLayer" Transition="Down" />
+        <Controls:TransitioningContentControl x:Name="transitionLayer" Transition="RightReplace" />
     </Grid>
 </Controls:MetroWindow>

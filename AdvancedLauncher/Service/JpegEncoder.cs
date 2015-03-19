@@ -32,7 +32,7 @@ namespace AdvancedLauncher.Service {
             fs.Close();
 
             Size size = new Size();
-            size.Height = 100;
+            size.Height = 140;
             size.Width = -1;
             resizedImage = resizeImage(originalImage, size);
 

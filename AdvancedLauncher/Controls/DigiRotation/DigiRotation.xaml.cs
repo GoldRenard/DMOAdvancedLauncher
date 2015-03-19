@@ -36,7 +36,6 @@ using MahApps.Metro.Controls;
 namespace AdvancedLauncher.Controls {
 
     public partial class DigiRotation : TransitioningContentControl {
-
         private static int MIN_LVL = 41;
 
         private static int ROTATION_INTERVAL = 5000;

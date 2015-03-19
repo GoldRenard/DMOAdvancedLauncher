@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace AdvancedLauncher.Service {
+
     public static class RemoveChildHelper {
+
         public static void RemoveChild(this DependencyObject parent, UIElement child) {
             var panel = parent as Panel;
             if (panel != null) {

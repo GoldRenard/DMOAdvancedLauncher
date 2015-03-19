@@ -103,6 +103,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public override void PageClose() {
+            base.PageClose();
             if (FileSystem != null) {
                 if (FileSystem.IsOpened) {
                     FileSystem.Close();

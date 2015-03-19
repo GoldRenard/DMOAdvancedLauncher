@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Pages {
@@ -10,6 +9,8 @@ namespace AdvancedLauncher.Pages {
         protected abstract void InitializeAbstractPage();
 
         protected bool IsPageActivated = false;
+
+        protected bool IsPageVisible = false;
 
         public AbstractPage() {
             InitializeAbstractPage();
@@ -24,9 +25,11 @@ namespace AdvancedLauncher.Pages {
 
         public virtual void PageActivate() {
             IsPageActivated = true;
+            IsPageVisible = true;
         }
 
         public virtual void PageClose() {
+            IsPageVisible = false;
         }
 
         protected abstract void ProfileChanged();

@@ -114,6 +114,7 @@
     <Compile Include="Controls\MenuFlyout.xaml.cs">
       <DependentUpon>MenuFlyout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ModelCommand.cs" />
     <Compile Include="Controls\TDBlock\IconHolder.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>

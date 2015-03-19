@@ -57,36 +57,6 @@ namespace AdvancedLauncher.Controls {
 
         private List<MenuItem> Commands = new List<MenuItem>();
 
-        public class ModelCommand : ICommand {
-
-            public event EventHandler CanExecuteChanged;
-
-            private readonly Action<object> _execute = null;
-            private readonly Predicate<object> _canExecute = null;
-
-            public ModelCommand(Action<object> execute)
-                : this(execute, null) {
-            }
-
-            public ModelCommand(Action<object> execute, Predicate<object> canExecute) {
-                _execute = execute;
-                _canExecute = canExecute;
-            }
-
-            public bool CanExecute(object parameter) {
-                return _canExecute != null ? _canExecute(parameter) : true;
-            }
-
-            public void Execute(object parameter) {
-                if (_execute != null)
-                    _execute(parameter);
-            }
-
-            public void OnCanExecuteChanged() {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
-        }
-
         public class MenuItem : INotifyPropertyChanged {
 
             public event PropertyChangedEventHandler PropertyChanged;

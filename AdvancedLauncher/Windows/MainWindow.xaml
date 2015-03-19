@@ -27,14 +27,13 @@
     <Controls:MetroWindow.IconTemplate>
         <DataTemplate>
             <Border Background="{DynamicResource HighlightBrush}">
-                <Controls:MultiFrameImage Margin="2" 
+                <Controls:MultiFrameImage Margin="2"
                     Width="{TemplateBinding Width}"
                     Height="{TemplateBinding Height}"
                     Source="{TemplateBinding Content}"
                     RenderOptions.EdgeMode="{Binding IconEdgeMode, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}"
                     RenderOptions.BitmapScalingMode="{Binding IconBitmapScalingMode, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}" />
             </Border>
-
         </DataTemplate>
     </Controls:MetroWindow.IconTemplate>
     <Controls:MetroWindow.Resources>
@@ -44,7 +43,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        </Controls:MetroWindow.Resources>
+    </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button x:Name="ProfileSwitcher" Click="ShowSettings">
@@ -54,7 +53,7 @@
                             <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
                         </Border.Background>
                     </Border>
-                    <Rectangle Width="20" Height="20" 
+                    <Rectangle Width="20" Height="20"
                                Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                                 Visibility="{Binding NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Rectangle.OpacityMask>

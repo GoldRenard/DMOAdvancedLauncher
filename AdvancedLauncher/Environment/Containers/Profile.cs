@@ -48,7 +48,7 @@ namespace AdvancedLauncher.Environment.Containers {
         [XmlAttribute("Name")]
         public string Name {
             set {
-                _Name = value; 
+                _Name = value;
                 NotifyPropertyChanged("Name");
                 NotifyPropertyChanged("FullName");
             }

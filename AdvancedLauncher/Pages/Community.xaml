@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
-             xmlns:Controls="clr-namespace:AdvancedLauncher.Controls"
+             xmlns:ALControls="clr-namespace:AdvancedLauncher.Controls"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:Validators="clr-namespace:AdvancedLauncher.Validators"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:pages="clr-namespace:AdvancedLauncher.Pages"
@@ -12,13 +13,6 @@
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <pages:AbstractPage.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
-            <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
-            <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" />
-
             <Style x:Key="LoadingPB" TargetType="{x:Type ProgressBar}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -38,24 +32,17 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <ControlTemplate x:Key="TextBoxErrorTemplate">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <AdornedElementPlaceholder x:Name="Holder" />
-                    </StackPanel>
-                </StackPanel>
-            </ControlTemplate>
         </ResourceDictionary>
     </pages:AbstractPage.Resources>
     <Grid x:Name="LayoutRoot">
-        <GroupBox Width="250" Header="{Binding CommSelect_Guild}" HorizontalAlignment="Left" Margin="10,0,0,10">
+        <GroupBox Width="270" Header="{Binding CommSelect_Guild}" HorizontalAlignment="Right" Margin="10,0,10,10">
             <StackPanel>
-                <Grid Margin="10,0">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="90" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" x:Name="GuildNameTextBox" Height="20" Foreground="Gray" GotFocus="OnNameGotFocus" LostFocus="OnNameLostFocus" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}">
+                    <TextBox Grid.Column="0" x:Name="GuildNameTextBox" Controls:TextBoxHelper.Watermark="{Binding CommGuildName}">
                         <TextBox.Text>
                             <Binding RelativeSource="{RelativeSource Self}" Path="Tag" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -66,63 +53,30 @@
                     </TextBox>
                     <ComboBox Grid.Column="1" x:Name="ComboBoxServer" DisplayMemberPath="Name" Height="20" SelectedIndex="0" />
                 </Grid>
-                <CheckBox x:Name="chkbox_IsDetailed" Content="{Binding CommCheckBox_Detailed}" Margin="10,4,10,0" IsChecked="False" />
-                <Button x:Name="button_getinfo" FontSize="14" Content="{Binding CommButton_Search}" Margin="10,8,10,0" Click="OnGetInfoClick" />
-                <Grid x:Name="ProgressBlock" Opacity="0" Margin="10,10,10,0" VerticalAlignment="Bottom">
+                <CheckBox x:Name="IsDetailedCheckbox" Content="{Binding CommCheckBox_Detailed}" Margin="0,4,0,0" IsChecked="False" />
+                <Button x:Name="SearchButton" FontSize="14" Content="{Binding CommButton_Search}" Margin="0,8,0,0" Click="OnGetInfoClick" />
+                <Grid x:Name="ProgressBlock" Visibility="Collapsed" Margin="0,10,0,0">
                     <ProgressBar x:Name="LoadProgressBar" Style="{StaticResource LoadingPB}" Height="20" Value="0" />
                     <TextBlock x:Name="LoadProgressStatus" Margin="0,0,0,2" VerticalAlignment="Center" TextAlignment="Center" FontSize="11" FontFamily="Tahoma" FontStyle="Normal" FontWeight="Normal" HorizontalAlignment="Center" />
                 </Grid>
-                <TextBlock Text="{Binding CommInformation}" HorizontalAlignment="Center" Margin="20,7" />
-                <Grid Margin="10,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGMaster}" />
-                    <TextBlock Margin="2" x:Name="GMaster" Grid.Column="1" Text="-" />
-                </Grid>
-                <Grid Margin="10,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGBest}" />
-                    <TextBlock Margin="2" x:Name="GTop" Grid.Column="1" Text="-" />
-                </Grid>
-                <Grid Margin="10,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGRank}" />
-                    <TextBlock Margin="2" x:Name="GRank" Grid.Column="1" Text="-" />
-                </Grid>
-                <Grid Margin="10,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGRep}" />
-                    <TextBlock Margin="2" x:Name="GRep" Grid.Column="1" Text="-" />
-                </Grid>
-                <Grid Margin="10,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGTCnt}" />
-                    <TextBlock Margin="2" x:Name="GTCnt" Grid.Column="1" Text="-" />
-                </Grid>
-                <Grid Margin="10,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGDCnt}" />
-                    <TextBlock Margin="2" x:Name="GDCnt" Grid.Column="1" Text="-" />
-                </Grid>
+                <DataGrid 
+                    x:Name="GuildInfo" 
+                    IsReadOnly="True" 
+                    Background="Transparent" 
+                    ItemsSource="{Binding Items}"
+                    HeadersVisibility="None"
+                    SelectionMode="Single"
+                    Margin="0,5,0,0">
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                            <Setter Property="Margin" Value="0,0,0,0" />
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
             </StackPanel>
         </GroupBox>
-        <Controls:TDBlock x:Name="TDBlock_" Margin="270,0,10,10" />
+        <ALControls:TDBlock x:Name="TDBlock_" Margin="10,0,290,10" />
     </Grid>
 </pages:AbstractPage>

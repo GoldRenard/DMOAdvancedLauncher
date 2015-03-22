@@ -116,6 +116,7 @@
       <DependentUpon>MenuFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ModelCommand.cs" />
+    <Compile Include="Controls\TDBlock\GuildInfoItemViewModel.cs" />
     <Compile Include="Controls\TDBlock\IconHolder.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
@@ -140,6 +141,7 @@
     <Compile Include="Controls\TDBlock\DigimonViewModel.cs" />
     <Compile Include="Controls\TDBlock\TamerItemViewModel.cs" />
     <Compile Include="Controls\TDBlock\TamerViewModel.cs" />
+    <Compile Include="Controls\TDBlock\GuildInfoViewModel.cs" />
     <Compile Include="Environment\Commands\CommandHandler.cs" />
     <Compile Include="Environment\Commands\Command.cs" />
     <Compile Include="Environment\Commands\HelpCommand.cs" />

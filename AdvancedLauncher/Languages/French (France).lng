@@ -121,7 +121,6 @@
   <CommSearchingGuild>Recherche de la guilde</CommSearchingGuild>
   <CommGettingTamer>Obtention du Tamer: {0}</CommGettingTamer>
   
-  <CommShowTab>VOIR</CommShowTab>
   <CommTamersTab>TAMERS</CommTamersTab>
   <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
   
@@ -129,7 +128,6 @@
   <CommCheckBox_Detailed>Recevoir les données détaillées (long)</CommCheckBox_Detailed>
   <CommButton_Search>Chercher une guilde</CommButton_Search>
   
-  <CommInformation>Information</CommInformation>
   <CommGMaster>Maître</CommGMaster>
   <CommGBest>Meilleur</CommGBest>
   <CommGRank>Rang</CommGRank>

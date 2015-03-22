@@ -121,7 +121,6 @@
   <CommSearchingGuild>Gilde wird gesucht...</CommSearchingGuild>
   <CommGettingTamer>Tamer werden empfangen: {0}</CommGettingTamer>
   
-  <CommShowTab>ANZEIGE</CommShowTab>
   <CommTamersTab>TAMER</CommTamersTab>
   <CommDigimonsTab>DIGIMON</CommDigimonsTab>
   
@@ -129,7 +128,6 @@
   <CommCheckBox_Detailed>Umfangreiche Informationen herunterladen</CommCheckBox_Detailed>
   <CommButton_Search>Gilde suchen</CommButton_Search>
   
-  <CommInformation>Informationen</CommInformation>
   <CommGMaster>Gilden-Meister</CommGMaster>
   <CommGBest>Bestes Mitglied</CommGBest>
   <CommGRank>Gilden-Rang</CommGRank>

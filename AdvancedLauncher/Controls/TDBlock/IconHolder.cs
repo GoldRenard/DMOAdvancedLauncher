@@ -39,7 +39,6 @@ namespace AdvancedLauncher.Controls {
         private static Dictionary<int, BitmapImage> Dictionary = new Dictionary<int, BitmapImage>();
 
         public static BitmapImage GetImage(int code, bool webResource = true) {
-
             BitmapImage image = null;
             if (Dictionary.TryGetValue(code, out image)) {
                 return image;

@@ -27,15 +27,11 @@ namespace AdvancedLauncher.Controls {
 
     public class DigimonViewModel : AbstractContainerViewModel<Tamer, DigimonItemViewModel> {
 
+        private static string SIZE_FORMAT = "{0}cm ({1}%)";
+
         public DigimonViewModel(Dispatcher OwnerDispatcher)
             : base(OwnerDispatcher) {
         }
-
-        public DigimonViewModel()
-            : base(null) {
-        }
-
-        private static string SIZE_FORMAT = "{0}cm ({1}%)";
 
         private ICollection<DigimonItemViewModel> LoadDigimonList(Tamer tamer) {
             string typeName;

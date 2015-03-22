@@ -121,15 +121,13 @@
   <CommSearchingGuild>Пошук гільдії</CommSearchingGuild>
   <CommGettingTamer>Отримання теймера: {0}</CommGettingTamer>
   
-  <CommShowTab>ПОКАЗАТИ</CommShowTab>
-  <CommTamersTab>ТЕЙМЕРОВ</CommTamersTab>
-  <CommDigimonsTab>ДІГІМОНІВ</CommDigimonsTab>
+  <CommTamersTab>ТЕЙМЕРI</CommTamersTab>
+  <CommDigimonsTab>ДІГІМОНІ</CommDigimonsTab>
 
   <CommSelect_Guild>Яку гільдію шукаємо</CommSelect_Guild>
   <CommCheckBox_Detailed>Отримувати докладні дані (довго)</CommCheckBox_Detailed>
   <CommButton_Search>Знайти гільдію</CommButton_Search>
 
-  <CommInformation>Інформація</CommInformation>
   <CommGMaster>Майстер</CommGMaster>
   <CommGBest>Кращий</CommGBest>
   <CommGRank>Ранг</CommGRank>

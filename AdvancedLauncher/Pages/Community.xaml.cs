@@ -20,6 +20,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using AdvancedLauncher.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Validators;
@@ -36,18 +37,21 @@ namespace AdvancedLauncher.Pages {
 
         private AbstractWebProfile webProfile;
 
+        private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
+
         private Guild CURRENT_GUILD = new Guild() {
             Id = -1
         };
 
         protected override void InitializeAbstractPage() {
             InitializeComponent();
+            GuildInfo.DataContext = GuildInfoModel;
         }
 
         protected override void ProfileChanged() {
-            GMaster.Text = GRank.Text = GRep.Text = GTop.Text = GDCnt.Text = GTCnt.Text = "-";
+            GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
-            chkbox_IsDetailed.IsChecked = false;
+            IsDetailedCheckbox.IsChecked = false;
             webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
             // use lazy ServerList initialization to prevent first long EF6 database
             // init causes the long app start time
@@ -104,11 +108,11 @@ namespace AdvancedLauncher.Pages {
             webProfile.DownloadCompleted -= OnDownloadCompleted;
             webProfile.StatusChanged -= OnStatusChanged;
 
-            ProgressBlock.Opacity = 0;
+            ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
             switch (code) {
                 case DMODownloadResultCode.OK: {
                         CURRENT_GUILD = MergeHelper.Merge(result);
-                        UpdateInfo(CURRENT_GUILD);
+                        GuildInfoModel.LoadData(CURRENT_GUILD);
                         TDBlock_.SetGuild(CURRENT_GUILD);
                         break;
                     }
@@ -136,7 +140,7 @@ namespace AdvancedLauncher.Pages {
             LoadProgressBar.Value = 0;
             LoadProgressBar.Maximum = 100;
             LoadProgressStatus.Text = string.Empty;
-            ProgressBlock.Opacity = 1;
+            ProgressBlock.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void OnGetInfoClick(object sender, RoutedEventArgs e) {
@@ -149,7 +153,7 @@ namespace AdvancedLauncher.Pages {
                     webProfile,
                     (Server)ComboBoxServer.SelectedValue,
                     GuildNameTextBox.Text,
-                    (bool)chkbox_IsDetailed.IsChecked,
+                    (bool)IsDetailedCheckbox.IsChecked,
                     1);
             }
         }
@@ -158,36 +162,11 @@ namespace AdvancedLauncher.Pages {
             LauncherEnv.Settings.OnProfileLocked(block);
             GuildNameTextBox.IsEnabled = !block;
             ComboBoxServer.IsEnabled = !block;
-            button_getinfo.IsEnabled = !block;
-            chkbox_IsDetailed.IsEnabled = !block;
-        }
-
-        public void UpdateInfo(Guild g) {
-            GMaster.Text = g.Master.Name;
-            GRank.Text = g.Rank.ToString();
-            GRep.Text = g.Rep.ToString();
-            Tamer bestTamer = g.Tamers.Aggregate((t1, t2) => (t1.Rank > t2.Rank ? t2 : t1));
-            GTop.Text = bestTamer.Name;
-            int count = g.Tamers.Select(o => o.Digimons.Count).Aggregate((x, y) => x + y);
-            GDCnt.Text = count.ToString();
-            GTCnt.Text = g.Tamers.Count.ToString();
+            SearchButton.IsEnabled = !block;
+            IsDetailedCheckbox.IsEnabled = !block;
         }
 
         #region Обработка поля ввода имени гильдии
-
-        private void OnNameGotFocus(object sender, RoutedEventArgs e) {
-            if (GuildNameTextBox.Text == LanguageEnv.Strings.CommGuildName) {
-                GuildNameTextBox.Foreground = Brushes.Black;
-                GuildNameTextBox.Text = string.Empty;
-            }
-        }
-
-        private void OnNameLostFocus(object sender, RoutedEventArgs e) {
-            if (string.IsNullOrEmpty(GuildNameTextBox.Text)) {
-                GuildNameTextBox.Foreground = Brushes.Gray;
-                GuildNameTextBox.Text = LanguageEnv.Strings.CommGuildName;
-            }
-        }
 
         public static bool IsValidName(string name) {
             if (name == LanguageEnv.Strings.CommGuildName) {

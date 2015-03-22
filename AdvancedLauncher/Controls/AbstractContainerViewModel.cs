@@ -17,9 +17,9 @@
 // ======================================================================
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Threading;
@@ -27,7 +27,6 @@ using System.Windows.Threading;
 namespace AdvancedLauncher.Controls {
 
     public abstract class AbstractContainerViewModel<SourceType, ItemViewModel> : INotifyPropertyChanged {
-
         private readonly Dispatcher OwnerDispatcher;
 
         protected object _stocksLock = new object();
@@ -71,7 +70,7 @@ namespace AdvancedLauncher.Controls {
             protected set;
         }
 
-        public void UnLoadData() {
+        public virtual void UnLoadData() {
             this.IsDataLoaded = false;
             this.Items.Clear();
         }

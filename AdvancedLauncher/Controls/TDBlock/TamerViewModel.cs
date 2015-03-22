@@ -16,26 +16,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using AdvancedLauncher.Environment;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
     public class TamerViewModel : AbstractContainerViewModel<Tamer, TamerItemViewModel> {
-        
+
         public TamerViewModel(Dispatcher OwnerDispatcher)
             : base(OwnerDispatcher) {
-        }
-
-        public TamerViewModel()
-            : base(null) {
         }
 
         public override void LoadData(ICollection<Tamer> List) {

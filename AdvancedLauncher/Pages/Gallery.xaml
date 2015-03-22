@@ -13,7 +13,7 @@
     <Grid x:Name="LayoutRoot">
         <TextBlock x:Name="EmptyText" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding GalleryNoScreenshots}" />
         <ListBox x:Name="Templates"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  IsSynchronizedWithCurrentItem="True"
                  ItemsSource="{Binding Items}"

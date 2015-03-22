@@ -121,7 +121,6 @@
   <CommSearchingGuild>Procurando a Guild</CommSearchingGuild>
   <CommGettingTamer>Obtendo Tamer: {0}</CommGettingTamer>
   
-  <CommShowTab>Mostrar</CommShowTab>
   <CommTamersTab>Tamers</CommTamersTab>
   <CommDigimonsTab>Digimons</CommDigimonsTab>
   
@@ -129,7 +128,6 @@
   <CommCheckBox_Detailed>Receber Data detalhada (longa)</CommCheckBox_Detailed>
   <CommButton_Search>Procurar Guild</CommButton_Search>
   
-  <CommInformation>Informacao</CommInformation>
   <CommGMaster>Master</CommGMaster>
   <CommGBest>Best</CommGBest>
   <CommGRank>Ranking</CommGRank>

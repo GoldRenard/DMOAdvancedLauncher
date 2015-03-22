@@ -19,112 +19,6 @@
             <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
             <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" />
 
-            <!-- ComboBox -->
-            <ControlTemplate x:Key="BlueComboBoxToggleButton" TargetType="ToggleButton">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="20" />
-                    </Grid.ColumnDefinitions>
-                    <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="0,3,3,0" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="1" />
-                    <Border Grid.Column="0"  Margin="0,1,1,1"  Background="{StaticResource WindowBackgroundBrush}"  BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="0,0,1,0" />
-                    <Path x:Name="Arrow" Grid.Column="1" Fill="{StaticResource GlyphBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z" />
-                </Grid>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                        <Setter TargetName="Border" Property="Background" Value="{StaticResource LightBrush}" />
-                    </Trigger>
-                    <Trigger Property="ToggleButton.IsChecked" Value="true">
-                        <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
-                        <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
-                        <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-                        <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource DisabledForegroundBrush}" />
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-            <ControlTemplate x:Key="BlueComboBoxTextBox" TargetType="TextBox">
-                <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
-            </ControlTemplate>
-            <Style x:Key="BlueComboBoxItem" TargetType="ComboBoxItem">
-                <Setter Property="SnapsToDevicePixels" Value="true" />
-                <Setter Property="OverridesDefaultStyle" Value="true" />
-                <Setter Property="Foreground" Value="Black" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ComboBoxItem">
-                            <Border Name="Border" Padding="2" CornerRadius="3" SnapsToDevicePixels="true">
-                                <TextBlock Name="Text" Foreground="Black"><ContentPresenter /></TextBlock>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsHighlighted" Value="true">
-                                    <Setter TargetName="Border" Property="Background" Value="#6DC6E8" />
-                                    <Setter TargetName="Text" Property="Foreground" Value="White" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style x:Key="BlueComboBox" TargetType="ComboBox">
-                <Setter Property="SnapsToDevicePixels" Value="true" />
-                <Setter Property="OverridesDefaultStyle" Value="true" />
-                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-                <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
-                <Setter Property="MinWidth" Value="40" />
-                <Setter Property="MinHeight" Value="20" />
-                <Setter Property="ItemContainerStyle" Value="{StaticResource BlueComboBoxItem}" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ComboBox">
-                            <Grid>
-                                <ToggleButton Name="ToggleButton" Template="{StaticResource BlueComboBoxToggleButton}" Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press" />
-                                <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3,2,23,3" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource BlueComboBoxTextBox}" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                Margin="3,3,23,3" Focusable="True" Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" />
-                                <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
-                                    <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                        <Border x:Name="DropDownBorder" Background="White" BorderThickness="1" BorderBrush="Gray" />
-                                        <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
-                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-                                        </ScrollViewer>
-                                    </Grid>
-                                </Popup>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="HasItems" Value="false">
-                                    <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Foreground" Value="Gray" />
-                                </Trigger>
-                                <Trigger Property="IsGrouping" Value="true">
-                                    <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
-                                </Trigger>
-                                <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
-                                    <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4" />
-                                    <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
-                                </Trigger>
-                                <Trigger Property="IsEditable" Value="true">
-                                    <Setter Property="IsTabStop" Value="false" />
-                                    <Setter TargetName="PART_EditableTextBox" Property="Visibility"    Value="Visible" />
-                                    <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                </Style.Triggers>
-            </Style>
-
             <Style x:Key="LoadingPB" TargetType="{x:Type ProgressBar}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -144,35 +38,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-            <Style x:Key="SearchTextBox" TargetType="TextBox">
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="OverridesDefaultStyle" Value="True" />
-                <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                <Setter Property="MinWidth" Value="120" />
-                <Setter Property="MinHeight" Value="20" />
-                <Setter Property="AllowDrop" Value="true" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                            <Border Name="Border" CornerRadius="2,0,0,2"  Background="{StaticResource WindowBackgroundBrush}"  BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="1">
-                                <ScrollViewer x:Name="PART_ContentHost" />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="Validation.HasError" Value="true">
-                                    <Setter TargetName="Border" Property="Background" Value="#FFF0F0" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
-                                    <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
             <ControlTemplate x:Key="TextBoxErrorTemplate">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -183,89 +48,81 @@
         </ResourceDictionary>
     </pages:AbstractPage.Resources>
     <Grid x:Name="LayoutRoot">
-        <Grid Margin="0,25,0,0">
-            <Border Width="250" HorizontalAlignment="Left" Margin="20,0,0,45" CornerRadius="10" Background="{StaticResource MainFrameBrush}">
-                <StackPanel>
-                    <TextBlock Text="{Binding CommSelect_Guild}" HorizontalAlignment="Center" FontSize="13" FontFamily="Tahoma" Margin="20,7" />
-                    <Grid Margin="10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="90" />
-                        </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Style="{StaticResource SearchTextBox}" x:Name="GuildNameTextBox" Height="20" Foreground="Gray" GotFocus="OnNameGotFocus" LostFocus="OnNameLostFocus" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}">
-                            <TextBox.Text>
-                                <Binding RelativeSource="{RelativeSource Self}" Path="Tag" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <Validators:GuildNameValidationRule />
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <ComboBox Grid.Column="1" x:Name="ComboBoxServer" Style="{StaticResource BlueComboBox}" DisplayMemberPath="Name" Height="20" SelectedIndex="0" />
-                    </Grid>
-                    <CheckBox Style="{StaticResource BlueCheckBox}" Foreground="Black" x:Name="chkbox_IsDetailed" Content="{Binding CommCheckBox_Detailed}" Margin="10,4,10,0" IsChecked="False" />
-                    <Button x:Name="button_getinfo" Style="{StaticResource BlueButtonSmall}" FontSize="14" Content="{Binding CommButton_Search}" Margin="10,8,10,0" Click="OnGetInfoClick" />
-                    <Grid x:Name="ProgressBlock" Opacity="0" Margin="10,10,10,0" VerticalAlignment="Bottom">
-                        <ProgressBar x:Name="LoadProgressBar" Style="{StaticResource LoadingPB}" Height="20" Value="0" />
-                        <TextBlock x:Name="LoadProgressStatus" Margin="0,0,0,2" VerticalAlignment="Center" TextAlignment="Center" FontSize="11" FontFamily="Tahoma" FontStyle="Normal" FontWeight="Normal" HorizontalAlignment="Center" />
-                    </Grid>
-                    <TextBlock Text="{Binding CommInformation}" HorizontalAlignment="Center" FontSize="13" FontFamily="Tahoma" Margin="20,7" />
-                    <Grid Margin="10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGMaster}" />
-                        <TextBlock Margin="2" x:Name="GMaster" Grid.Column="1" Text="-" />
-                    </Grid>
-                    <Grid Margin="10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGBest}" />
-                        <TextBlock Margin="2" x:Name="GTop" Grid.Column="1" Text="-" />
-                    </Grid>
-                    <Grid Margin="10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGRank}" />
-                        <TextBlock Margin="2" x:Name="GRank" Grid.Column="1" Text="-" />
-                    </Grid>
-                    <Grid Margin="10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGRep}" />
-                        <TextBlock Margin="2" x:Name="GRep" Grid.Column="1" Text="-" />
-                    </Grid>
-                    <Grid Margin="10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGTCnt}" />
-                        <TextBlock Margin="2" x:Name="GTCnt" Grid.Column="1" Text="-" />
-                    </Grid>
-                    <Grid Margin="10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGDCnt}" />
-                        <TextBlock Margin="2" x:Name="GDCnt" Grid.Column="1" Text="-" />
-                    </Grid>
-                </StackPanel>
-            </Border>
-            <Controls:TDBlock x:Name="TDBlock_" Margin="290,0,20,40" />
-        </Grid>
-        <StackPanel Margin="160,0,0,0" Orientation="Horizontal">
-            <TextBlock Text="{Binding CommShowTab}" Style="{StaticResource SubNavText}" />
-            <Button x:Name="TamerTab" Content="{Binding CommTamersTab}" Style="{StaticResource SubNavButton}" Click="OnTamerTabClick" />
-            <Button x:Name="DigimonTab" Content="{Binding CommDigimonsTab}" Style="{StaticResource SubNavButton}" Click="OnDigimonTabClick" />
-        </StackPanel>
+        <GroupBox Width="250" Header="{Binding CommSelect_Guild}" HorizontalAlignment="Left" Margin="10,0,0,10">
+            <StackPanel>
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="90" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" x:Name="GuildNameTextBox" Height="20" Foreground="Gray" GotFocus="OnNameGotFocus" LostFocus="OnNameLostFocus" Validation.ErrorTemplate="{StaticResource TextBoxErrorTemplate}">
+                        <TextBox.Text>
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Tag" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <Validators:GuildNameValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <ComboBox Grid.Column="1" x:Name="ComboBoxServer" DisplayMemberPath="Name" Height="20" SelectedIndex="0" />
+                </Grid>
+                <CheckBox x:Name="chkbox_IsDetailed" Content="{Binding CommCheckBox_Detailed}" Margin="10,4,10,0" IsChecked="False" />
+                <Button x:Name="button_getinfo" FontSize="14" Content="{Binding CommButton_Search}" Margin="10,8,10,0" Click="OnGetInfoClick" />
+                <Grid x:Name="ProgressBlock" Opacity="0" Margin="10,10,10,0" VerticalAlignment="Bottom">
+                    <ProgressBar x:Name="LoadProgressBar" Style="{StaticResource LoadingPB}" Height="20" Value="0" />
+                    <TextBlock x:Name="LoadProgressStatus" Margin="0,0,0,2" VerticalAlignment="Center" TextAlignment="Center" FontSize="11" FontFamily="Tahoma" FontStyle="Normal" FontWeight="Normal" HorizontalAlignment="Center" />
+                </Grid>
+                <TextBlock Text="{Binding CommInformation}" HorizontalAlignment="Center" Margin="20,7" />
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGMaster}" />
+                    <TextBlock Margin="2" x:Name="GMaster" Grid.Column="1" Text="-" />
+                </Grid>
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGBest}" />
+                    <TextBlock Margin="2" x:Name="GTop" Grid.Column="1" Text="-" />
+                </Grid>
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGRank}" />
+                    <TextBlock Margin="2" x:Name="GRank" Grid.Column="1" Text="-" />
+                </Grid>
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGRep}" />
+                    <TextBlock Margin="2" x:Name="GRep" Grid.Column="1" Text="-" />
+                </Grid>
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGTCnt}" />
+                    <TextBlock Margin="2" x:Name="GTCnt" Grid.Column="1" Text="-" />
+                </Grid>
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="2" Grid.Column="0" Text="{Binding CommGDCnt}" />
+                    <TextBlock Margin="2" x:Name="GDCnt" Grid.Column="1" Text="-" />
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <Controls:TDBlock x:Name="TDBlock_" Margin="270,0,10,10" />
     </Grid>
 </pages:AbstractPage>

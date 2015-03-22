@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\AbstractContainerViewModel.cs" />
     <Compile Include="Controls\AutoScrollBehavior.cs" />
     <Compile Include="Controls\DigiRotation\HaguruLoader.xaml.cs">
       <DependentUpon>HaguruLoader.xaml</DependentUpon>

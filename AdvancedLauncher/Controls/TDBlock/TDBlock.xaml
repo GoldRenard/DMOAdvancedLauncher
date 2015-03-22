@@ -2,8 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
-             xmlns:srv="clr-namespace:AdvancedLauncher.Service"
-             xmlns:Controls="clr-namespace:AdvancedLauncher.Controls"
+             xmlns:ALControls="clr-namespace:AdvancedLauncher.Controls"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
@@ -11,167 +11,114 @@
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <srv:IntConverter x:Key="WidthConverter"></srv:IntConverter>
-            <Style x:Key="DigimonsItemContainer" TargetType="{x:Type ListBoxItem}">
+            <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource MetroTabItem}">
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <Border x:Name="MainBorder" CornerRadius="2" Margin="0,5,0,0">
-                                <ContentPresenter />
+                        <ControlTemplate TargetType="TabItem">
+                            <Border x:Name="Border" HorizontalAlignment="Stretch"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Background="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <ContentPresenter x:Name="ContentSite"
+                                              Margin="0,0,10,0"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              TextElement.FontSize="12"
+                                              TextElement.FontStretch="{TemplateBinding Controls:ControlsHelper.HeaderFontStretch}"
+                                              TextElement.FontWeight="{TemplateBinding Controls:ControlsHelper.HeaderFontWeight}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True"
+                                              DockPanel.Dock="Top"/>
+                                    <Rectangle x:Name="Underline" 
+                                               Margin="0,0,10,0"
+                                               Height="2" 
+                                               HorizontalAlignment="Stretch" 
+                                               Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}, 
+                                                   Path=(Controls:TabControlHelper.IsUnderlined), Converter={StaticResource BooleanToVisibilityConverter}}"
+                                               DockPanel.Dock="Bottom"/>
+                                </DockPanel>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter TargetName="MainBorder" Property="Background" Value="#50CCEBF6" />
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="{DynamicResource AccentSelectedColorBrush}" />
+                                    <Setter Property="Fill" TargetName="Underline" Value="{DynamicResource AccentSelectedColorBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="false">
+                                    <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="{DynamicResource GrayHoverBrush}" />
+                                    <Setter Property="Fill" TargetName="Underline" Value="{DynamicResource GrayHoverBrush}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>
-            <Style x:Key="TamersItemContainer" TargetType="{x:Type ListBoxItem}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <Border x:Name="MainBorder" Cursor="Hand" CornerRadius="2" Margin="0,5,0,0">
-                                <ContentPresenter />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter TargetName="MainBorder" Property="Background" Value="#50CCEBF6" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="ListBoxHeader" TargetType="{x:Type TextBlock}">
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-                <Setter Property="TextWrapping" Value="Wrap" />
-                <Setter Property="Foreground" Value="Black" />
-                <Setter Property="TextDecorations" Value="Underline" />
-                <Setter Property="Cursor" Value="Hand" />
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid x:Name="LayoutRoot">
-        <Border x:Name="CommRoot" CornerRadius="10" Background="{StaticResource MainFrameBrush}">
-            <Grid>
-                <ScrollViewer x:Name="CommScroll" Style="{StaticResource RoundedSV}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left"
-                            Width="{Binding ElementName = CommRoot, Path=ActualWidth}">
-                    <Grid x:Name="NewsWrap" HorizontalAlignment="Left" Width="{Binding ElementName=CommScroll, Path=ActualWidth, Converter={StaticResource WidthConverter}}">
-                        <ListBox x:Name="Tamers" Visibility="Collapsed" Opacity="0" BorderThickness="0"
-                                     ItemContainerStyle="{StaticResource TamersItemContainer}"
-                                     Background="Transparent" ItemsSource="{Binding Items}"
-                                     IsSynchronizedWithCurrentItem="True"
-                                     SelectionMode="Single"
-                                     MouseLeftButtonUp="OnTamersShow">
-                            <ListBox.Template>
-                                <ControlTemplate>
-                                    <StackPanel>
-                                        <Grid Height="20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="40" />
-                                                <ColumnDefinition Width="0.8*" />
-                                                <ColumnDefinition Width="0.4*" />
-                                                <ColumnDefinition Width="0.6*" />
-                                                <ColumnDefinition Width="0.8*" />
-                                                <ColumnDefinition Width="70" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding DataContext.CommHeader_Type, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
-                                            <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnTamerHeaderLoaded" />
-                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
-                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
-                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Partner, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnTamerHeaderLoaded" />
-                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Mercenary, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnTamerHeaderLoaded" />
-                                        </Grid>
-                                        <ItemsPresenter />
-                                    </StackPanel>
-                                </ControlTemplate>
-                            </ListBox.Template>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="40" />
-                                            <ColumnDefinition Width="0.8*" />
-                                            <ColumnDefinition Width="0.4*" />
-                                            <ColumnDefinition Width="0.6*" />
-                                            <ColumnDefinition Width="0.8*" />
-                                            <ColumnDefinition Width="70" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0" ToolTip="{Binding TType}">
-                                            <!-- Rectangle is needed for showing ToolTip with empty content (image) -->
-                                            <Rectangle Fill="Transparent" />
-                                            <Image Source="{Binding Image}" Stretch="None" />
-                                        </Grid>
-                                        <TextBlock Grid.Column="1" Text="{Binding TName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
-                                        <TextBlock Grid.Column="2" Text="{Binding Level}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" />
-                                        <TextBlock Grid.Column="3" Text="{Binding Rank}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
-                                        <TextBlock Grid.Column="4" Text="{Binding PName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
-                                        <TextBlock Grid.Column="5" Text="{Binding DCnt}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <ListBox x:Name="Digimons" Visibility="Collapsed" Opacity="0" BorderThickness="0"
-                                     ItemContainerStyle="{StaticResource DigimonsItemContainer}"
-                                     Background="Transparent" ItemsSource="{Binding Items}">
-                            <ListBox.Template>
-                                <ControlTemplate>
-                                    <StackPanel>
-                                        <Grid Height="20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="40" />
-                                                <ColumnDefinition Width="0.8*" />
-                                                <ColumnDefinition Width="0.4*" />
-                                                <ColumnDefinition Width="0.6*" />
-                                                <ColumnDefinition Width="0.8*" />
-                                                <ColumnDefinition Width="0.68*" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding DataContext.CommHeader_Type, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
-                                            <TextBlock Grid.Column="1" Text="{Binding DataContext.CommHeader_Name, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnDigimonHeaderLoaded" />
-                                            <TextBlock Grid.Column="2" Text="{Binding DataContext.CommHeader_Level, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
-                                            <TextBlock Grid.Column="3" Text="{Binding DataContext.CommHeader_Ranking, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
-                                            <TextBlock Grid.Column="4" Text="{Binding DataContext.CommHeader_Tamer, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Loaded="OnDigimonHeaderLoaded" />
-                                            <TextBlock Grid.Column="5" Text="{Binding DataContext.CommHeader_Size, RelativeSource={RelativeSource AncestorType={x:Type Controls:TDBlock}}}" Style="{StaticResource ListBoxHeader}" Loaded="OnDigimonHeaderLoaded" />
-                                        </Grid>
-                                        <ItemsPresenter />
-                                    </StackPanel>
-                                </ControlTemplate>
-                            </ListBox.Template>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="40" />
-                                            <ColumnDefinition Width="0.8*" />
-                                            <ColumnDefinition Width="0.4*" />
-                                            <ColumnDefinition Width="0.6*" />
-                                            <ColumnDefinition Width="0.8*" />
-                                            <ColumnDefinition Width="0.68*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0" ToolTip="{Binding DType}">
-                                            <!-- Rectangle is needed for showing ToolTip with empty content (image) -->
-                                            <Rectangle Fill="Transparent" />
-                                            <Image Source="{Binding Image}" Stretch="None" />
-                                        </Grid>
-                                        <TextBlock Grid.Column="1" Text="{Binding DName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
-                                        <TextBlock Grid.Column="2" Text="{Binding Level}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
-                                        <TextBlock Grid.Column="3" Text="{Binding Rank}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
-                                        <TextBlock Grid.Column="4" Text="{Binding TName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
-                                        <TextBlock Grid.Column="5" Text="{Binding Size}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Grid>
-                </ScrollViewer>
-            </Grid>
-        </Border>
-    </Grid>
+    <GroupBox x:Name="CommRoot" Header=" " Margin="0">
+        <Grid>
+            <TabControl x:Name="MainTabControl" Margin="0,-30,0,0" SelectionChanged="MainTabControl_SelectionChanged" Controls:TabControlHelper.IsUnderlined="True"  Controls:TabControlHelper.Transition="Default" IsEnabled="False">
+                <TabItem Foreground="White" Header="{Binding CommTamersTab}">
+                    <DataGrid x:Name="Tamers"
+                              ItemsSource="{Binding Items}" 
+                              AutoGenerateColumns="False" 
+                              SelectionMode="Single" 
+                              IsReadOnly="True"
+                              MouseLeftButtonUp="OnTamersShow"
+                              Margin="-7,0,-7,-7">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn SortMemberPath="TType" Header="{Binding CommHeader_Type, Source={x:Static env:LanguageEnv.Strings}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" ToolTip="{Binding TType}" Stretch="None" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Binding="{Binding Path=TName}" 
+                                            Header="{Binding CommHeader_Name, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <DataGridTextColumn Binding="{Binding Path=Level}" 
+                                            Header="{Binding CommHeader_Level, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <DataGridTextColumn Binding="{Binding Path=Rank}" 
+                                            Header="{Binding CommHeader_Ranking, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <DataGridTextColumn Binding="{Binding Path=PName}" 
+                                            Header="{Binding CommHeader_Partner, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <DataGridTextColumn Binding="{Binding Path=DCnt}" 
+                                            Header="{Binding CommHeader_Mercenary, Source={x:Static env:LanguageEnv.Strings}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Foreground="White" Header="{Binding CommDigimonsTab}">
+                    <DataGrid x:Name="Digimons"
+                              ItemsSource="{Binding Items}" 
+                              AutoGenerateColumns="False"
+                              SelectionMode="Single" 
+                              IsReadOnly="True"
+                              Margin="-7,0,-7,-7">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn SortMemberPath="DType" Header="{Binding CommHeader_Type, Source={x:Static env:LanguageEnv.Strings}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" ToolTip="{Binding DType}" Stretch="None" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Binding="{Binding Path=DName}" 
+                                            Header="{Binding CommHeader_Name, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <DataGridTextColumn Binding="{Binding Path=Level}" 
+                                            Header="{Binding CommHeader_Level, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <DataGridTextColumn Binding="{Binding Path=Rank}" 
+                                            Header="{Binding CommHeader_Ranking, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <DataGridTextColumn Binding="{Binding Path=TName}" 
+                                            Header="{Binding CommHeader_Tamer, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <DataGridTextColumn Binding="{Binding Path=Size}" 
+                                            Header="{Binding CommHeader_Size, Source={x:Static env:LanguageEnv.Strings}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+            <Controls:ProgressRing x:Name="LoaderRing" Height="70" Width="70" IsActive="False" />
+        </Grid>
+    </GroupBox>
 </UserControl>

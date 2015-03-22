@@ -21,6 +21,7 @@ using System.Windows;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
+using DMOLibrary.Database.Context;
 using log4net.Config;
 
 namespace AdvancedLauncher {
@@ -58,6 +59,11 @@ namespace AdvancedLauncher {
             if (IsAdministrator()) {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
                     splash.Show(false);
+#if DEBUG
+                    using (MainContext context = new MainContext()) {
+                        context.Database.Initialize(false);
+                    }
+#endif
                     MainWindow mw = new MainWindow();
                     mw.Show();
                     WpfBugWindow.Close();

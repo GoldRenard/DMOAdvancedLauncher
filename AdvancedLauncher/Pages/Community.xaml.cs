@@ -44,10 +44,6 @@ namespace AdvancedLauncher.Pages {
             InitializeComponent();
         }
 
-        public Community() {
-            TDBlock_.TabChanged += OnTabChanged;
-        }
-
         protected override void ProfileChanged() {
             GMaster.Text = GRank.Text = GRep.Text = GTop.Text = GDCnt.Text = GTCnt.Text = "-";
             TDBlock_.ClearAll();
@@ -86,28 +82,6 @@ namespace AdvancedLauncher.Pages {
             }
         }
 
-        private void OnTabChanged(object sender, int tabNum) {
-            if (tabNum == 1) {
-                TamerTab.IsEnabled = false;
-                DigimonTab.IsEnabled = true;
-            } else {
-                TamerTab.IsEnabled = true;
-                DigimonTab.IsEnabled = false;
-            }
-        }
-
-        private void OnTamerTabClick(object sender, RoutedEventArgs e) {
-            if (CURRENT_GUILD.Id != -1) {
-                TDBlock_.ShowTamers();
-            }
-        }
-
-        private void OnDigimonTabClick(object sender, RoutedEventArgs e) {
-            if (CURRENT_GUILD.Id != -1) {
-                TDBlock_.ShowDigimons(CURRENT_GUILD.Tamers);
-            }
-        }
-
         private void OnStatusChanged(object sender, DownloadStatus status) {
             switch (status.Code) {
                 case DMODownloadStatusCode.GETTING_GUILD: {
@@ -135,7 +109,7 @@ namespace AdvancedLauncher.Pages {
                 case DMODownloadResultCode.OK: {
                         CURRENT_GUILD = MergeHelper.Merge(result);
                         UpdateInfo(CURRENT_GUILD);
-                        TDBlock_.ShowTamers(CURRENT_GUILD.Tamers);
+                        TDBlock_.SetGuild(CURRENT_GUILD);
                         break;
                     }
                 case DMODownloadResultCode.CANT_GET: {

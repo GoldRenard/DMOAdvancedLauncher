@@ -16,36 +16,36 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
+using System.Windows.Data;
+using System.Windows.Threading;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
-    public class DigimonViewModel : INotifyPropertyChanged {
+    public class DigimonViewModel : AbstractContainerViewModel<Tamer, DigimonItemViewModel> {
+
+        public DigimonViewModel(Dispatcher OwnerDispatcher)
+            : base(OwnerDispatcher) {
+        }
+
+        public DigimonViewModel()
+            : base(null) {
+        }
+
         private static string SIZE_FORMAT = "{0}cm ({1}%)";
 
-        public DigimonViewModel() {
-            this.Items = new ObservableCollection<DigimonItemViewModel>();
-        }
-
-        public ObservableCollection<DigimonItemViewModel> Items {
-            get;
-            private set;
-        }
-
-        public bool IsDataLoaded {
-            get;
-            private set;
-        }
-
-        private void LoadDigimonList(Tamer tamer) {
+        private ICollection<DigimonItemViewModel> LoadDigimonList(Tamer tamer) {
             string typeName;
             DigimonType dtype;
+            ICollection<DigimonItemViewModel> items = null;
+            if (ItemsCache.TryGetValue(tamer, out items)) {
+                return items;
+            }
+            items = new List<DigimonItemViewModel>();
+            BindingOperations.EnableCollectionSynchronization(items, _stocksLock);
             using (MainContext context = new MainContext()) {
                 foreach (Digimon item in tamer.Digimons) {
                     dtype = context.FindDigimonTypeByCode(item.Type.Code);
@@ -53,7 +53,7 @@ namespace AdvancedLauncher.Controls {
                     if (dtype.NameAlt != null) {
                         typeName += " (" + dtype.NameAlt + ")";
                     }
-                    this.Items.Add(new DigimonItemViewModel {
+                    items.Add(new DigimonItemViewModel {
                         DName = item.Name,
                         DType = typeName,
                         Image = IconHolder.GetImage(item.Type.Code),
@@ -65,62 +65,22 @@ namespace AdvancedLauncher.Controls {
                     });
                 }
             }
+            ItemsCache.TryAdd(tamer, items);
+            return items;
         }
 
-        public void LoadData(Tamer tamer) {
+        public override void LoadData(Tamer tamer) {
             this.IsDataLoaded = true;
-            LoadDigimonList(tamer);
+            this.Items = new ObservableCollection<DigimonItemViewModel>(LoadDigimonList(tamer));
         }
 
-        public void LoadData(ICollection<Tamer> tamers) {
+        public override void LoadData(ICollection<Tamer> tamers) {
             this.IsDataLoaded = true;
+            List<DigimonItemViewModel> items = new List<DigimonItemViewModel>();
             foreach (Tamer tamer in tamers) {
-                LoadDigimonList(tamer);
+                items.AddRange(LoadDigimonList(tamer));
             }
-        }
-
-        public void RemoveAt(int index) {
-            if (this.IsDataLoaded && index < this.Items.Count) {
-                this.Items.RemoveAt(index);
-            }
-        }
-
-        public void UnLoadData() {
-            this.IsDataLoaded = false;
-            this.Items.Clear();
-        }
-
-        private bool _sortASC;
-        private Type _lastType;
-
-        public void Sort<TType>(Func<DigimonItemViewModel, TType> keySelector) {
-            List<DigimonItemViewModel> sortedList;
-            if (_lastType != typeof(TType)) {
-                _sortASC = true;
-            }
-
-            if (_sortASC) {
-                sortedList = Items.OrderBy(keySelector).ToList();
-            } else {
-                sortedList = Items.OrderByDescending(keySelector).ToList();
-            }
-
-            _lastType = typeof(TType);
-            _sortASC = !_sortASC;
-
-            this.Items.Clear();
-            foreach (var sortedItem in sortedList) {
-                this.Items.Add(sortedItem);
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            this.Items = new ObservableCollection<DigimonItemViewModel>(items);
         }
     }
 }

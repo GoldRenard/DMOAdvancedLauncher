@@ -26,7 +26,6 @@ using DMOLibrary.Database.Entity;
 namespace AdvancedLauncher.Controls {
 
     public class DigimonViewModel : AbstractContainerViewModel<Tamer, DigimonItemViewModel> {
-
         private static string SIZE_FORMAT = "{0}cm ({1}%)";
 
         public DigimonViewModel(Dispatcher OwnerDispatcher)

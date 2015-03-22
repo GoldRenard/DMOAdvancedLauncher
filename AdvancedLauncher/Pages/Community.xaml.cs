@@ -16,10 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using AdvancedLauncher.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;

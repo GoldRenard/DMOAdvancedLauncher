@@ -17,24 +17,22 @@
 // ======================================================================
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
-using System.Windows.Threading;
 using AdvancedLauncher.Environment;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
     public class GuildInfoViewModel : AbstractContainerViewModel<Guild, GuildInfoItemViewModel> {
-
         private static object NO_DATA_CHAR = "-";
 
         public GuildInfoViewModel()
             : base(null) {
-                LanguageEnv.LanguageChanged += () => {
-                    NotifyPropertyChanged("Items");
-                };
+            LanguageEnv.LanguageChanged += () => {
+                NotifyPropertyChanged("Items");
+            };
         }
 
         public virtual void UnLoadData() {

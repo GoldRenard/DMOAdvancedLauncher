@@ -19,6 +19,7 @@
 using System;
 using System.ComponentModel;
 using AdvancedLauncher.Environment;
+
 namespace AdvancedLauncher.Controls {
 
     public class GuildInfoItemViewModel : INotifyPropertyChanged {

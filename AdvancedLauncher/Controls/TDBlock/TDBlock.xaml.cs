@@ -117,6 +117,7 @@ namespace AdvancedLauncher.Controls {
                         MainTabControl.SelectedIndex = 0;
                     }
                     break;
+
                 default:
                     break;
             }

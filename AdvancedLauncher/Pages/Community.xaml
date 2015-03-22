@@ -56,13 +56,24 @@
                 <CheckBox x:Name="IsDetailedCheckbox" Content="{Binding CommCheckBox_Detailed}" Margin="0,4,0,0" IsChecked="False" />
                 <Button x:Name="SearchButton" FontSize="14" Content="{Binding CommButton_Search}" Margin="0,8,0,0" Click="OnGetInfoClick" />
                 <Grid x:Name="ProgressBlock" Visibility="Collapsed" Margin="0,10,0,0">
-                    <ProgressBar x:Name="LoadProgressBar" Style="{StaticResource LoadingPB}" Height="20" Value="0" />
-                    <TextBlock x:Name="LoadProgressStatus" Margin="0,0,0,2" VerticalAlignment="Center" TextAlignment="Center" FontSize="11" FontFamily="Tahoma" FontStyle="Normal" FontWeight="Normal" HorizontalAlignment="Center" />
+                    <Border BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="1">
+                        <Controls:MetroProgressBar x:Name="LoadProgressBar" Height="20" Value="50" Foreground="{DynamicResource AccentColorBrush2}" Background="Transparent" />
+                    </Border>
+                    <TextBlock x:Name="LoadProgressStatus"
+                               Margin="0,0,0,2"
+                               Text="sdfgdfgsdfgh"
+                               VerticalAlignment="Center"
+                               TextAlignment="Center"
+                               FontSize="11"
+                               FontFamily="Tahoma"
+                               FontStyle="Normal"
+                               FontWeight="Normal"
+                               HorizontalAlignment="Center" />
                 </Grid>
-                <DataGrid 
-                    x:Name="GuildInfo" 
-                    IsReadOnly="True" 
-                    Background="Transparent" 
+                <DataGrid
+                    x:Name="GuildInfo"
+                    IsReadOnly="True"
+                    Background="Transparent"
                     ItemsSource="{Binding Items}"
                     HeadersVisibility="None"
                     SelectionMode="Single"

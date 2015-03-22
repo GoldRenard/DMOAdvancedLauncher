@@ -14,6 +14,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
             <Style x:Key="MetroListBoxItemNoSelected" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
                 <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
@@ -101,13 +102,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <Grid Width="25" Height="25">
-                                <Rectangle Fill="{Binding IconBrush}" Margin="{Binding IconMargin}">
-                                    <Rectangle.Resources>
-                                        <ResourceDictionary>
-                                            <SolidColorBrush x:Key="BlackBrush" Color="White" />
-                                        </ResourceDictionary>
-                                    </Rectangle.Resources>
-                                </Rectangle>
+                                <Rectangle Fill="{Binding IconBrush}" Margin="{Binding IconMargin}" />
                             </Grid>
                             <StackPanel VerticalAlignment="Center" Margin="2,0,0,0">
                                 <TextBlock FontSize="12" Text="{Binding Name}" />

@@ -112,6 +112,9 @@
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\LoginManager.cs" />
+    <Compile Include="Controls\LogoControl.xaml.cs">
+      <DependentUpon>LogoControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MenuFlyout.xaml.cs">
       <DependentUpon>MenuFlyout.xaml</DependentUpon>
     </Compile>
@@ -237,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Controls\LogoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MenuFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -376,7 +383,6 @@
     <Resource Include="Resources\Icons\User.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>

@@ -84,7 +84,7 @@
                 </VisualBrush.Transform>
             </VisualBrush>
         </Grid.Background>
-
+        
         <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged" Margin="0,0,0,30">
             <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
                 <Page:MainPage x:Name="MainPage" />

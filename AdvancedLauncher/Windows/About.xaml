@@ -3,96 +3,81 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:ALControls="clr-namespace:AdvancedLauncher.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:win="clr-namespace:AdvancedLauncher.Windows"
              mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
+             Background="{DynamicResource WhiteBrush}"
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <win:AbstractWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Shared.xaml" />
-                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/MagicoUI.xaml" />
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="TextBlock">
-                <Setter Property="FontFamily" Value="Arial" />
-                <Setter Property="FontSize" Value="12" />
-                <Setter Property="TextWrapping" Value="WrapWithOverflow" />
-                <Setter Property="TextAlignment" Value="Left" />
-                <Setter Property="Foreground" Value="White" />
-            </Style>
-
-            <Style TargetType="{x:Type Hyperlink}">
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="true">
-                        <Setter Property="Foreground" Value="#8BD5FF" />
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="true">
-                        <Setter Property="Cursor" Value="Hand" />
-                    </Trigger>
-                </Style.Triggers>
-                <Setter Property="Foreground" Value="#A1DBFE" />
-                <Setter Property="TextDecorations" Value="None" />
-            </Style>
         </ResourceDictionary>
     </win:AbstractWindow.Resources>
-    <Grid x:Name="LayoutRoot" d:Visibility="Collapsed" Background="#524885">
-        <Grid>
-            <Grid.Background>
-                <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/background_dark.jpg"
+    <Grid x:Name="LayoutRoot" d:Visibility="Collapsed">
+        <Grid.Background>
+            <VisualBrush Visual="{StaticResource digi_background}"
                     Stretch="None"
-                    TileMode="FlipY"
-                    Viewbox="0,0,333,800"
+                    TileMode="Tile"
+                    Viewbox="0,0,750,5000"
                     ViewboxUnits="Absolute"
-                    Viewport="0,0,333,800"
-                    ViewportUnits="Absolute" />
-            </Grid.Background>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="340" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                    Viewport="0,0,750,5000"
+                    ViewportUnits="Absolute">
+                <VisualBrush.Transform>
+                    <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                </VisualBrush.Transform>
+            </VisualBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="340" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="0,0,0,0">
-                <Image Source="/AdvancedLauncher;component/Resources/logo.png" Stretch="None" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="100" Width="360" />
-                <TextBlock Width="300" TextAlignment="Center" Text="{Binding About_Version}" x:Name="VersionBlock" />
-                <Grid Margin="25,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" MaxWidth="140" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding About_Developer}" HorizontalAlignment="Left" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left">
-                                <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" RequestNavigate="OnRequestNavigate">GoldRenard (Egorov Ilya)</Hyperlink>
-                    </TextBlock>
+        <StackPanel Margin="0,0,0,0">
+            <ALControls:LogoControl Margin="10"/>
+            <TextBlock Margin="0,-15,0,0" Width="300" TextAlignment="Center" Text="{Binding About_Version}" x:Name="VersionBlock" />
+            <Grid Margin="25,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MaxWidth="140" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding About_Developer}" HorizontalAlignment="Left" />
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left">
+                    <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" Style="{DynamicResource HyperLinkAccent}" RequestNavigate="OnRequestNavigate">GoldRenard (Egorov Ilya)</Hyperlink>
+                </TextBlock>
 
-                    <TextBlock Grid.Row="1" Text="{Binding About_DesignHelp}" HorizontalAlignment="Left" />
-                    <TextBlock  Grid.Row="1"  Grid.Column="1" HorizontalAlignment="Left">
-                                <Hyperlink NavigateUri="mailto:dragon_vs@live.ru" RequestNavigate="OnRequestNavigate">DragonVs (Savinskiy Vladislav)</Hyperlink>
-                    </TextBlock>
-                </Grid>
-                <StackPanel Margin="25,10,0,0">
-                    <TextBlock Text="{Binding About_Acknowledgments}" />
-                    <TextBlock Margin="0,10,0,0" Text="Plüss Roland (DMO Pack Manager)" />
-                    <TextBlock Text="David Polomis (TargaImage)" />
-                    <TextBlock Text="Html Agility Pack Team" />
-                    <TextBlock Text="SQLite library" />
-                    <TextBlock Text="SharpZipLib" />
-                </StackPanel>
-                <StackPanel Margin="25,10,0,0">
-                    <TextBlock Text="{Binding About_Translators}" />
-                    <TextBlock Margin="0,10,0,0" Text="English - GoldRenard (Egorov Ilya)" />
-                    <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
-                    <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
-                    <TextBlock Text="French - Rei Ayanami" />
-                    <!--<TextBlock Text="Polish - Czip from digimonrpgonline.net" />-->
-                </StackPanel>
+                <TextBlock Grid.Row="1" Text="{Binding About_DesignHelp}" HorizontalAlignment="Left" />
+                <TextBlock  Grid.Row="1"  Grid.Column="1" HorizontalAlignment="Left">
+                    <Hyperlink NavigateUri="mailto:dragon_vs@live.ru" Style="{DynamicResource HyperLinkAccent}" RequestNavigate="OnRequestNavigate">DragonVs (Savinskiy Vladislav)</Hyperlink>
+                </TextBlock>
+            </Grid>
+            <StackPanel Margin="25,10,0,0">
+                <TextBlock Text="{Binding About_Acknowledgments}" />
+                <TextBlock Margin="0,10,0,0" Text="Plüss Roland (DMO Pack Manager)" />
+                <TextBlock Text="David Polomis (TargaImage)" />
+                <TextBlock Text="Html Agility Pack Team" />
+                <TextBlock Text="SQLite library" />
+                <TextBlock Text="SharpZipLib" />
             </StackPanel>
-            <Grid Margin="20" Grid.Column="1" x:Name="LicenceRoot">
-                <TextBox x:Name="Licence"
+            <StackPanel Margin="25,10,0,0">
+                <TextBlock Text="{Binding About_Translators}" />
+                <TextBlock Margin="0,10,0,0" Text="English - GoldRenard (Egorov Ilya)" />
+                <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
+                <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
+                <TextBlock Text="French - Rei Ayanami" />
+                <!--<TextBlock Text="Polish - Czip from digimonrpgonline.net" />-->
+            </StackPanel>
+        </StackPanel>
+        <Grid Margin="20" Grid.Column="1" x:Name="LicenceRoot">
+            <TextBox x:Name="Licence"
                      Height="{Binding Path=ActualHeight, ElementName=LicenceRoot}"
                      IsReadOnly="True"
                      FontSize="11"
@@ -101,8 +86,7 @@
                      AcceptsReturn="True"
                      VerticalAlignment="Top"
                      ScrollViewer.VerticalScrollBarVisibility="Auto" />
-            </Grid>
-            <Button x:Name="BtnClose" Margin="20,10,0,10" Height="30" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="OnCloseClick" />
         </Grid>
+        <Button x:Name="BtnClose" Margin="20,10,0,20" Height="30" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="OnCloseClick" />
     </Grid>
 </win:AbstractWindow>

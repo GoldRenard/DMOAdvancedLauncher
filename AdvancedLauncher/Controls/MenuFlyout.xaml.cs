@@ -63,10 +63,13 @@ namespace AdvancedLauncher.Controls {
 
             private readonly string bindingName;
 
+            private static SolidColorBrush Brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+
             public MenuItem(string bindingName, Canvas icon, Thickness iconMargin, ICommand command) {
                 this.bindingName = bindingName;
                 Command = command;
                 IconMargin = iconMargin;
+                icon.Resources.Add("BlackBrush", Brush);
                 IconBrush = new VisualBrush(icon);
                 LanguageEnv.LanguageChanged += () => {
                     this.NotifyPropertyChanged("Name");

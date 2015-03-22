@@ -358,7 +358,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Entypo.ttf" />
     <None Include="Resources\ResourceList_Aeria.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -377,8 +376,6 @@
     <Resource Include="Resources\Icons\User.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\background.jpg" />
-    <Resource Include="Resources\loading.png" />
     <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\SplashScreen.png" />
   </ItemGroup>
@@ -390,9 +387,6 @@
       <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
       <Name>DMOLibrary</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\NoAvatar.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\background_dark.jpg" />
@@ -904,9 +898,6 @@
     <Resource Include="Controls\DigiRotation\Images\silver.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\save.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Languages\Template_for_translation.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1048,10 +1039,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
+    <None Include="Docs\WindowsIcons-license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

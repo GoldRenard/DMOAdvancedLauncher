@@ -48,7 +48,7 @@ namespace AdvancedLauncher.Pages {
         };
 
         private const string RES_LIST_FILE = "\\ResourceList_{0}.cfg";
-        private bool isGameImageLoaded = false;
+        private bool IsGameImageLoaded = false;
 
         protected override void InitializeAbstractPage() {
             InitializeComponent();
@@ -90,7 +90,7 @@ namespace AdvancedLauncher.Pages {
             base.PageActivate();
             try {
                 FileSystem.Open(FileAccess.ReadWrite, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
-                if (!isGameImageLoaded && ItemsComboBox.Items.Count > 0) {
+                if (!IsGameImageLoaded && ItemsComboBox.Items.Count > 0) {
                     if (ItemsComboBox.SelectedIndex == 0) {
                         OnSelectionChanged(ItemsComboBox, null);
                     } else {
@@ -166,9 +166,9 @@ namespace AdvancedLauncher.Pages {
 
                 if (isSuccess) {                                                       //Если успешно открыли, скрываем строку помощи и показываем картинку
                     SelecterHelp.Visibility = Visibility.Collapsed;
-                    Selected_Image.Source = SelectedImage;
+                    SelectedImageControl.Source = SelectedImage;
 
-                    if (isGameImageLoaded) {                  //Если картинка из игры была загружена (что подтверждает доступность ресурсов игры)
+                    if (IsGameImageLoaded) {                  //Если картинка из игры была загружена (что подтверждает доступность ресурсов игры)
                         BtnApply.IsEnabled = true;            //Разрешаем запись этой картинки в игру
                     }
 
@@ -184,7 +184,7 @@ namespace AdvancedLauncher.Pages {
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры события</param>
         private void OnSaveClick(object sender, RoutedEventArgs e) {
-            if (isGameImageLoaded) {   //Сохраняем только если картинка загружена
+            if (IsGameImageLoaded) {   //Сохраняем только если картинка загружена
                 ResourceItemViewModel item = (ResourceItemViewModel)ItemsComboBox.SelectedValue;
                 if (item.RID == 0) {                                         //Если ID = 0, считаем, то у нас есть путь ресурса, откуда берем имя файла
                     sFileDialog.FileName = Path.GetFileName(item.RPath);
@@ -212,7 +212,7 @@ namespace AdvancedLauncher.Pages {
             if (this.IsLoaded) {
                 ResetCurrent();
                 ResetSelect();
-                isGameImageLoaded = LoadGameImage((ResourceItemViewModel)ItemsComboBox.SelectedValue);
+                IsGameImageLoaded = LoadGameImage((ResourceItemViewModel)ItemsComboBox.SelectedValue);
             }
         }
 
@@ -228,11 +228,11 @@ namespace AdvancedLauncher.Pages {
             if (FileSystem.IsOpened) {
                 Stream file = item.RID != 0 ? FileSystem.ReadFile(item.RID) : FileSystem.ReadFile(item.RPath);
                 if (file != null) {
-                    isGameImageLoaded = true;
+                    IsGameImageLoaded = true;
                     MemoryStream ms = new MemoryStream();
                     file.CopyTo(ms);
                     CurrentImageBytes = ms.ToArray();
-                    Current_Image.Source = LoadTGA(CurrentImageBytes);
+                    CurrentImageControl.Source = LoadTGA(CurrentImageBytes);
                     SaveBtn.Visibility = Visibility.Visible;
                     ms.Close();
                     return true;
@@ -258,7 +258,7 @@ namespace AdvancedLauncher.Pages {
             if (!writeResult) {
                 Utils.MSG_ERROR(LanguageEnv.Strings.PersonalizationCantWrite);
             } else {
-                isGameImageLoaded = LoadGameImage(selectedResource);
+                IsGameImageLoaded = LoadGameImage(selectedResource);
             }
         }
 
@@ -266,14 +266,14 @@ namespace AdvancedLauncher.Pages {
 
         private void ResetSelect() {
             SelecterHelp.Visibility = Visibility.Visible;
-            Selected_Image.ClearValue(Image.SourceProperty);
+            SelectedImageControl.ClearValue(Image.SourceProperty);
             BtnApply.IsEnabled = false;
         }
 
         private void ResetCurrent() {
             SaveBtn.Visibility = Visibility.Collapsed;
-            isGameImageLoaded = false;
-            Current_Image.ClearValue(Image.SourceProperty);
+            IsGameImageLoaded = false;
+            CurrentImageControl.ClearValue(Image.SourceProperty);
         }
 
         private BitmapSource LoadTGA(string file) {

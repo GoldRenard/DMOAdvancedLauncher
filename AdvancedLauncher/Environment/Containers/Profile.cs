@@ -165,7 +165,11 @@ namespace AdvancedLauncher.Environment.Containers {
 
         public string ImagePath {
             set {
-                _ImagePath = value; NotifyPropertyChanged("ImagePath"); NotifyPropertyChanged("Image");
+                _ImagePath = value;
+                NotifyPropertyChanged("ImagePath");
+                NotifyPropertyChanged("Image");
+                NotifyPropertyChanged("HasImage");
+                NotifyPropertyChanged("NoImage");
             }
             get {
                 return _ImagePath;

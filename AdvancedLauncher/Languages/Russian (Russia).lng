@@ -50,7 +50,7 @@
   <Settings_GameGroup>Игра</Settings_GameGroup>
   <Settings_AccountGroup>Учетная запись</Settings_AccountGroup>
   <Settings_ProfileNameHint>Введите имя профиля</Settings_ProfileNameHint>
-  <Settings_SetAsDefaultButton>Назначить профилем по-умолчанию</Settings_SetAsDefaultButton>
+  <Settings_SetAsDefaultButton>Назначить по-умолчанию</Settings_SetAsDefaultButton>
   <Settings_RotationGuildHint>Гильдия для ротации</Settings_RotationGuildHint>
   <Settings_RotationTamerHint>Теймер для ротации (опционально)</Settings_RotationTamerHint>
   <Settings_RotationUpdateFREQ>Частота обновления (в днях)</Settings_RotationUpdateFREQ>

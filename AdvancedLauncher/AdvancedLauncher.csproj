@@ -232,10 +232,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\HintPasswordBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <DesignData Include="Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -280,23 +276,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Shared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\HintPasswordBox.xaml.cs">
-      <DependentUpon>HintPasswordBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\HintTextBox.cs" />
-    <Compile Include="Controls\Trigger.cs" />
-    <Page Include="Resources\MagicoUI.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Resources\SharedLite.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -379,10 +362,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\Password.png" />
-    <Resource Include="Resources\Icons\User.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
@@ -393,9 +372,6 @@
       <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
       <Name>DMOLibrary</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\background_dark.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Docs\Changelog.txt">
@@ -410,9 +386,6 @@
     <None Include="Docs\README_RUS.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\twitter.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Community\21134.png">

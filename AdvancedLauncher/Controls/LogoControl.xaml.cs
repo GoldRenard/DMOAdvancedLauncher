@@ -38,7 +38,6 @@ namespace AdvancedLauncher.Controls {
         }
 
         public class HeightToFontSizeConverter : IValueConverter {
-
             private readonly double Ratio = 1;
 
             public HeightToFontSizeConverter(double ratio) {

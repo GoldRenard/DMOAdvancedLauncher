@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="MetroListBoxItemNoSelected" TargetType="{x:Type ListBoxItem}">
@@ -71,13 +72,8 @@
                                 </Border.Background>
                             </Border>
                             <Rectangle Margin="3" Visibility="{Binding NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <Rectangle.Resources>
-                                    <ResourceDictionary>
-                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                    </ResourceDictionary>
-                                </Rectangle.Resources>
                                 <Rectangle.Fill>
-                                    <VisualBrush Visual="{StaticResource appbar_user}" />
+                                    <VisualBrush Visual="{StaticResource appbar_user_black}" />
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Grid>

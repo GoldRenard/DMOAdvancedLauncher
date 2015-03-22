@@ -47,7 +47,7 @@
   <Settings_GameGroup>Гра</Settings_GameGroup>
   <Settings_AccountGroup>Обліковий запис</Settings_AccountGroup>
   <Settings_ProfileNameHint>Введіть ім'я профіля</Settings_ProfileNameHint>
-  <Settings_SetAsDefaultButton>Призначити профілем за замовчуванням</Settings_SetAsDefaultButton>
+  <Settings_SetAsDefaultButton>Призначити за замовчуванням</Settings_SetAsDefaultButton>
   <Settings_RotationGuildHint>Гільдія для ротації</Settings_RotationGuildHint>
   <Settings_RotationTamerHint>Теймер для ротації (опціонально)</Settings_RotationTamerHint>
   <Settings_RotationUpdateFREQ>Частота оновлення (у днях)</Settings_RotationUpdateFREQ>

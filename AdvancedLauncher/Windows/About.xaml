@@ -38,7 +38,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Margin="0,0,0,0">
-            <ALControls:LogoControl Margin="10"/>
+            <ALControls:LogoControl Margin="10" />
             <TextBlock Margin="0,-15,0,0" Width="300" TextAlignment="Center" Text="{Binding About_Version}" x:Name="VersionBlock" />
             <Grid Margin="25,10,0,0">
                 <Grid.ColumnDefinitions>

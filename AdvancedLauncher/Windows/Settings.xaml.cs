@@ -45,6 +45,7 @@ namespace AdvancedLauncher.Windows {
 
         private AdvancedLauncher.Environment.Containers.Settings settingsContainer;
         private int currentLangIndex;
+        private bool IsPreventPassChange = false;
 
         protected override void InitializeAbstractWindow() {
             InitializeComponent();
@@ -86,6 +87,14 @@ namespace AdvancedLauncher.Windows {
             SelectedProfile = (Profile)ProfileList.SelectedItem;
             ValidatePaths();
             NotifyPropertyChanged("IsSelectedNotDefault");
+
+            IsPreventPassChange = true;
+            if (SelectedProfile.Login.SecurePassword != null) {
+                pbPass.Password = "empty_pass";
+            } else {
+                pbPass.Clear();
+            }
+            IsPreventPassChange = false;
         }
 
         private void OnTypeSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -268,5 +277,12 @@ namespace AdvancedLauncher.Windows {
         }
 
         #endregion Validation
+
+        private void PasswordChanged(object sender, RoutedEventArgs e) {
+            if (IsPreventPassChange) {
+                return;
+            }
+            SelectedProfile.Login.SecurePassword = pbPass.SecurePassword;
+        }
     }
 }

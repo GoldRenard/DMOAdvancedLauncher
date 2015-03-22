@@ -103,7 +103,6 @@
   <LoginEmptyPassword>Будь ласка, введіть пароль!</LoginEmptyPassword>
   <LoginWrongPage>Віддалена сторінка авторизації зіпсована або змінена. Будь ласка, повідомте розробнику про цю помилку.</LoginWrongPage>
 
-  <GalleryHint>Клацніть двічі по скриншоту для відкриття</GalleryHint>
   <GalleryNoScreenshots>Скріншоти не знайдені</GalleryNoScreenshots>
   <GalleryCantOpenImage>Не вдалося відкрити зображення. Помилка: </GalleryCantOpenImage>
 

@@ -102,8 +102,7 @@
   <LoginEmptyBenutzername>Bitte geben Sie einen Benutzernamen ein!</LoginEmptyBenutzername>
   <LoginEmptyPassword>Bitte geben Sie Ihr Passwort ein!</LoginEmptyPassword>
   <LoginWrongPage>Die Login-Seite ist inkorrekt oder wurde veraendert. Bitte kontaktieren Sie den Programmierer dieses Launchers.</LoginWrongPage>
-  
-  <GalleryHint>DOPPELKLICKEN SIE AUF EIN BILD UM ES ANZUSEHEN</GalleryHint>
+
   <GalleryNoScreenshots>KEINE SCREENSHOTS VORHANDEN</GalleryNoScreenshots>
   <GalleryCantOpenImage>Fehler! Konnte die Bilddatei nicht oeffnen. Moegliche Ursachen:</GalleryCantOpenImage>
   

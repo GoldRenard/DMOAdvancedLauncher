@@ -105,8 +105,7 @@
   <LoginEmptyUsername>Please type your username!</LoginEmptyUsername>
   <LoginEmptyPassword>Please type your password!</LoginEmptyPassword>
   <LoginWrongPage>Login page is incorrect or has been changed. Please contact the developer of launcher.</LoginWrongPage>
-  
-  <GalleryHint>CLICK TWICE ON THE SCREENSHOT FOR OPENING</GalleryHint>
+
   <GalleryNoScreenshots>THERE IS NO SCREENSHOTS</GalleryNoScreenshots>
   <GalleryCantOpenImage>Can't open the image. Error: </GalleryCantOpenImage>
   

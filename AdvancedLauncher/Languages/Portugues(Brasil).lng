@@ -102,8 +102,7 @@
   <LoginEmptyUsername>Por favor, digite seu nome de usuario!</LoginEmptyUsername>
   <LoginEmptyPassword>Por favor, digite a sua senha!</LoginEmptyPassword>
   <LoginWrongPage>Pagina de entrada esta incorreta ou foi alterado. Entre em contato com o desenvolvedor do launcher.</LoginWrongPage>
-  
-  <GalleryHint>Clique duas vezes sobre a imagem para abrir</GalleryHint>
+
   <GalleryNoScreenshots>Nao ha ScreenShots</GalleryNoScreenshots>
   <GalleryCantOpenImage>Nao e possível abrir a imagem. Erro: </GalleryCantOpenImage>
   

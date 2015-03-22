@@ -102,8 +102,7 @@
   <LoginEmptyUsername>Veuillez taper votre nom d'utilisateur!</LoginEmptyUsername>
   <LoginEmptyPassword>Veuillez taper votre mot de passe!</LoginEmptyPassword>
   <LoginWrongPage>La page d'identification est incorrecte. Veuillez contacter le développeur du lanceur.</LoginWrongPage>
-  
-  <GalleryHint>CLIQUER DEUX FOIS SUR LA CAPTURE D'ECRAN POUR L'OUVRIR</GalleryHint>
+
   <GalleryNoScreenshots>IL N'Y A AUCUNE CAPTURE D'ECRAN</GalleryNoScreenshots>
   <GalleryCantOpenImage>Ne peut ouvrir l'image. Erreur: </GalleryCantOpenImage>
   

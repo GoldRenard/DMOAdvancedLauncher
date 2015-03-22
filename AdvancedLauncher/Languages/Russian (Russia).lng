@@ -106,7 +106,6 @@
   <LoginEmptyPassword>Пожалуйста, введите пароль!</LoginEmptyPassword>
   <LoginWrongPage>Удаленная страница авторизации испорчена или изменена. Пожалуйста, сообщите разработчику об этой ошибке.</LoginWrongPage>
 
-  <GalleryHint>Кликните дважды по скриншоту для открытия</GalleryHint>
   <GalleryNoScreenshots>Скриншоты не найдены</GalleryNoScreenshots>
   <GalleryCantOpenImage>Не удается открыть изображение. Ошибка: </GalleryCantOpenImage>
 

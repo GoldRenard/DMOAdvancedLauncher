@@ -20,6 +20,7 @@ using System;
 using System.ComponentModel;
 using System.Net;
 using AdvancedLauncher.Environment;
+using DMOLibrary;
 
 namespace AdvancedLauncher.Service {
 
@@ -30,14 +31,13 @@ namespace AdvancedLauncher.Service {
             updateWorker.DoWork += async (s1, e2) => {
                 string[] resArr = null;
 
-                WebClient client = new WebClient();
-                client.Proxy = (IWebProxy)null;
-
-                try {
-                    string result = client.DownloadString(new Uri(LauncherEnv.REMOTE_PATH + "check_updates.php"));
-                    resArr = result.Split('|');
-                } catch {
-                    return;
+                using (WebClient webClient = new WebClientEx()) {
+                    try {
+                        string result = webClient.DownloadString(new Uri(LauncherEnv.REMOTE_PATH + "check_updates.php"));
+                        resArr = result.Split('|');
+                    } catch {
+                        return;
+                    }
                 }
 
                 if (resArr != null)

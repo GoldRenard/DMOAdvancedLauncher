@@ -97,8 +97,8 @@
     <Compile Include="Profiles\DMOProfile.cs" />
     <Compile Include="Profiles\Joymax\DMOJoymax.cs" />
     <Compile Include="DMOLibrary.cs" />
-    <Compile Include="DMOLibrary.DMOFileSystem.cs" />
-    <Compile Include="DMOLibrary.WebDownload.cs">
+    <Compile Include="DMOFileSystem.cs" />
+    <Compile Include="WebClientEx.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

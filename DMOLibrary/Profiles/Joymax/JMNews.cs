@@ -33,7 +33,7 @@ namespace DMOLibrary.Profiles.Joymax {
             HtmlDocument doc = new HtmlDocument();
             List<NewsItem> news = new List<NewsItem>();
 
-            string html = WebDownload.GetHTML("http://dmocp.joymax.com/Main/HomeMain.aspx");
+            string html = WebClientEx.DownloadContent("http://dmocp.joymax.com/Main/HomeMain.aspx");
             if (html == string.Empty) {
                 return null;
             }

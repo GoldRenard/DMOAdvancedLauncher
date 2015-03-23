@@ -36,7 +36,6 @@ namespace AdvancedLauncher.Environment {
         public const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         public const string REMOTE_PATH = "http://renamon.ru/launcher/";
         public static Settings Settings;
-        public static System.Net.WebClient WebClient = new System.Net.WebClient();
 
         public static string AppPath {
             get {

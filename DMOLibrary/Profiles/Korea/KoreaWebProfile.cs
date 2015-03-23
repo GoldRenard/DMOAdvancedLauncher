@@ -50,7 +50,7 @@ namespace DMOLibrary.Profiles.Korea {
             HtmlDocument doc = new HtmlDocument();
             OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
 
-            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, guildName, server.Identifier));
+            string html = WebClientEx.DownloadContent(string.Format(STR_URL_GUILD_RANK, guildName, server.Identifier));
             if (html == string.Empty) {
                 OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
                 return guild;
@@ -108,7 +108,7 @@ namespace DMOLibrary.Profiles.Korea {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlDocument doc = new HtmlDocument();
             LOGGER.InfoFormat("Obtaining info of {0}", guild.Name);
-            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
+            string html = WebClientEx.DownloadContent(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
             if (html == string.Empty) {
                 return false;
             }
@@ -175,7 +175,7 @@ namespace DMOLibrary.Profiles.Korea {
             List<Digimon> digimonList = new List<Digimon>();
             HtmlDocument doc = new HtmlDocument();
 
-            string html = WebDownload.GetHTML(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, tamer.Guild.Server.Identifier));
+            string html = WebClientEx.DownloadContent(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, tamer.Guild.Server.Identifier));
             if (html == string.Empty) {
                 LOGGER.ErrorFormat("Obtaining digimons for tamer \"{0}\" failed", tamer.Name);
                 return digimonList;
@@ -254,7 +254,7 @@ namespace DMOLibrary.Profiles.Korea {
         protected override bool GetStarterInfo(ref Digimon digimon, Tamer tamer) {
             LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
             HtmlDocument doc = new HtmlDocument();
-            string html = WebDownload.GetHTML(string.Format(STR_URL_STARTER_RANK, tamer.Name, tamer.Guild.Server.Identifier));
+            string html = WebClientEx.DownloadContent(string.Format(STR_URL_STARTER_RANK, tamer.Name, tamer.Guild.Server.Identifier));
             if (html == string.Empty) {
                 LOGGER.ErrorFormat("Obtaining starter digimon for tamer \"{0}\" failed", tamer.Name);
                 return false;
@@ -283,7 +283,7 @@ namespace DMOLibrary.Profiles.Korea {
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
 
-            string html = WebDownload.GetHTML(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, tamer.Guild.Server.Identifier, digimon.Type.Code));
+            string html = WebClientEx.DownloadContent(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, tamer.Guild.Server.Identifier, digimon.Type.Code));
             if (html == string.Empty) {
                 return false;
             }
@@ -336,7 +336,7 @@ namespace DMOLibrary.Profiles.Korea {
         public override List<DigimonType> GetDigimonTypes() {
             List<DigimonType> dTypes = new List<DigimonType>();
 
-            string html = WebDownload.GetHTML(STR_URL_MERC_SIZE_RANK_MAIN);
+            string html = WebClientEx.DownloadContent(STR_URL_MERC_SIZE_RANK_MAIN);
             if (html == string.Empty) {
                 return dTypes;
             }

@@ -21,8 +21,10 @@ using System.Net;
 
 namespace DMOLibrary {
 
-    public class WebDownload : WebClient {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(WebDownload));
+    public class WebClientEx : WebClient {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(WebClientEx));
+
+        public const int DEFAULT_TIMEOUT = 3000;
 
         private int _timeout;
 
@@ -38,12 +40,14 @@ namespace DMOLibrary {
             }
         }
 
-        public WebDownload() {
-            this._timeout = 60000;
+        public WebClientEx()
+            : this(DEFAULT_TIMEOUT) {
         }
 
-        public WebDownload(int timeout) {
+        public WebClientEx(int timeout) {
             this._timeout = timeout;
+            this.Encoding = System.Text.Encoding.UTF8;
+            this.Proxy = (IWebProxy)null;
         }
 
         protected override WebRequest GetWebRequest(Uri address) {
@@ -52,24 +56,31 @@ namespace DMOLibrary {
             return result;
         }
 
-        public static string GetHTML(string url) {
-            string html = string.Empty;
-            for (int i = 1; i < 100; i++) {
-                html = string.Empty;
-                WebDownload wd = new WebDownload();
-                wd.Encoding = System.Text.Encoding.UTF8;
-                wd.Proxy = (IWebProxy)null;
-                wd.Timeout = 3000;
-                try {
-                    html = wd.DownloadString(url);
-                } catch (WebException e) {
-                    LOGGER.WarnFormat("Web request for \"{0}\" caused the error: {1}", url, e.Message);
-                };
-                if (html != string.Empty && html != null) {
-                    return html;
+        public static WebRequest CreateHTTPRequest(Uri url) {
+            WebRequest req = HttpWebRequest.Create(url);
+            req.Timeout = DEFAULT_TIMEOUT;
+            return req;
+        }
+
+        public static string DownloadContent(string url) {
+            return DownloadContent(url, 100);
+        }
+
+        public static string DownloadContent(string url, int tryAttempts) {
+            string html = null;
+            for (int i = 0; i < tryAttempts; i++) {
+                using (WebClientEx webClient = new WebClientEx()) {
+                    try {
+                        html = webClient.DownloadString(url);
+                    } catch (WebException e) {
+                        LOGGER.WarnFormat("Web request for \"{0}\" caused the error: {1}", url, e.Message);
+                    };
+                    if (html != string.Empty && html != null) {
+                        return html;
+                    }
                 }
             }
-            return string.Empty;
+            return html;
         }
     }
 }

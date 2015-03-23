@@ -29,6 +29,7 @@ using AdvancedLauncher.Controls.Dialogs;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
+using DMOLibrary;
 using DMOLibrary.DMOFileSystem;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
@@ -41,7 +42,6 @@ namespace AdvancedLauncher.Controls {
         private bool UpdateRequired = false;
 
         private TaskbarItemInfo TaskBar = new TaskbarItemInfo();
-        private WebClient webClient = new WebClient();
         private DMOFileSystem GameFS = null;
         private BackgroundWorker CheckWorker = new BackgroundWorker();
 
@@ -85,8 +85,6 @@ namespace AdvancedLauncher.Controls {
                 };
                 LoginManager.Instance.LoginCompleted += OnGameStartCompleted;
                 LauncherEnv.Settings.ProfileChanged += OnProfileChanged;
-                webClient.DownloadProgressChanged += OnDownloadProgressChanged;
-                webClient.DownloadFileCompleted += OnDownloadFileCompleted;
                 CheckWorker.DoWork += CheckWorker_DoWork;
                 OnProfileChanged();
             }
@@ -213,22 +211,26 @@ namespace AdvancedLauncher.Controls {
                 verCurrent = GetVersion(streamReader.ReadToEnd());
                 streamReader.Close();
 
-                try {
-                    //Получаем и парсим удаленную версию
-                    string result = LauncherEnv.WebClient.DownloadString(LauncherEnv.Settings.CurrentProfile.GameEnv.GetRemoteVerURL());
-                    verRemote = GetVersion(result);
+                using (WebClientEx webClient = new WebClientEx()) {
+                    string result;
+                    try {
+                        //Получаем и парсим удаленную версию
+                        result = webClient.DownloadString(LauncherEnv.Settings.CurrentProfile.GameEnv.GetRemoteVerURL());
+                        verRemote = GetVersion(result);
+                    } catch {
+                        return null;
+                    }
 
                     //Если хоть одна не спарсилась, возвращаем нулл
-                    if (verRemote < 0 || verCurrent < 0)
+                    if (verRemote < 0 || verCurrent < 0) {
                         return null;
+                    }
 
                     //Возвращаем нормальное значение
                     return new CheckResult() {
                         LocalVer = verCurrent,
                         RemoteVer = verRemote
                     };
-                } catch {
-                    return null;
                 }
             }
             //локального файла нет - возвращаем нулл
@@ -280,13 +282,20 @@ namespace AdvancedLauncher.Controls {
 
                 //downloading
                 double CurrentContentLength = GetFileLength(new Uri(string.Format(LauncherEnv.Settings.CurrentProfile.GameEnv.GetPatchURL(), i)));
-                try {
-                    webClient.DownloadFileAsync(new Uri(string.Format(LauncherEnv.Settings.CurrentProfile.GameEnv.GetPatchURL(), i)), packageFile);
-                    while (webClient.IsBusy) {
-                        System.Threading.Thread.Sleep(100);
+
+                using (WebClientEx webClient = new WebClientEx()) {
+                    webClient.DownloadProgressChanged += OnDownloadProgressChanged;
+                    webClient.DownloadFileCompleted += OnDownloadFileCompleted;
+                    try {
+                        webClient.DownloadFileAsync(new Uri(string.Format(LauncherEnv.Settings.CurrentProfile.GameEnv.GetPatchURL(), i)), packageFile);
+                        while (webClient.IsBusy) {
+                            System.Threading.Thread.Sleep(100);
+                        }
+                    } catch {
+                        updateSuccess = false;
                     }
-                } catch {
-                    updateSuccess = false;
+                    webClient.DownloadProgressChanged -= OnDownloadProgressChanged;
+                    webClient.DownloadFileCompleted -= OnDownloadFileCompleted;
                 }
 
                 if (updateSuccess) {
@@ -394,7 +403,7 @@ namespace AdvancedLauncher.Controls {
         /// <param name="url">Remote file Uri</param>
         /// <returns> ength of remote file </returns>
         public static double GetFileLength(Uri url) {
-            System.Net.WebRequest req = System.Net.HttpWebRequest.Create(url);
+            System.Net.WebRequest req = WebClientEx.CreateHTTPRequest(url);
             req.Method = "HEAD";
             double ContentLength = 0;
             using (System.Net.WebResponse resp = req.GetResponse()) {

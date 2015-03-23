@@ -18,8 +18,10 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
+using DMOLibrary;
 
 namespace AdvancedLauncher.Controls {
 
@@ -48,31 +50,33 @@ namespace AdvancedLauncher.Controls {
             string ImageFile = string.Format(IMAGES_FILE, LauncherEnv.GetResourcesPath(), code);
             string ImageFile3rd = string.Format(IMAGES_3RDPARTY_FILE, Image3rdDirectory, code);
 
-            //If we don't have image, try to download it from author's resource
-            if (!File.Exists(ImageFile)) {
-                try {
-                    LauncherEnv.WebClient.DownloadFile(string.Format(IMAGES_REMOTE_OWN, LauncherEnv.REMOTE_PATH, code), ImageFile);
-                } catch {
-                }
-            }
-
-            if (webResource) {
-                //If we don't have image yet, try to download it from joymsx
-                if (!File.Exists(ImageFile) && !File.Exists(ImageFile3rd)) {
+            using (WebClient webClient = new WebClientEx()) {
+                //If we don't have image, try to download it from author's resource
+                if (!File.Exists(ImageFile)) {
                     try {
-                        if (!Directory.Exists(Image3rdDirectory)) {
-                            Directory.CreateDirectory(Image3rdDirectory);
-                        }
-                        LauncherEnv.WebClient.DownloadFile(string.Format(IMAGES_REMOTE_JOYMAX, code), ImageFile3rd);
+                        webClient.DownloadFile(string.Format(IMAGES_REMOTE_OWN, LauncherEnv.REMOTE_PATH, code), ImageFile);
                     } catch {
                     }
                 }
 
-                //If we don't have image yet, try to download it from IMBC
-                if (!File.Exists(ImageFile) && !File.Exists(ImageFile3rd)) {
-                    try {
-                        LauncherEnv.WebClient.DownloadFile(string.Format(IMAGES_REMOTE_IMBC, code), ImageFile3rd);
-                    } catch {
+                if (webResource) {
+                    //If we don't have image yet, try to download it from joymsx
+                    if (!File.Exists(ImageFile) && !File.Exists(ImageFile3rd)) {
+                        try {
+                            if (!Directory.Exists(Image3rdDirectory)) {
+                                Directory.CreateDirectory(Image3rdDirectory);
+                            }
+                            webClient.DownloadFile(string.Format(IMAGES_REMOTE_JOYMAX, code), ImageFile3rd);
+                        } catch {
+                        }
+                    }
+
+                    //If we don't have image yet, try to download it from IMBC
+                    if (!File.Exists(ImageFile) && !File.Exists(ImageFile3rd)) {
+                        try {
+                            webClient.DownloadFile(string.Format(IMAGES_REMOTE_IMBC, code), ImageFile3rd);
+                        } catch {
+                        }
                     }
                 }
             }

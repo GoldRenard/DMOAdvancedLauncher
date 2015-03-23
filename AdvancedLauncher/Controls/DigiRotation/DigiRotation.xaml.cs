@@ -258,11 +258,13 @@ namespace AdvancedLauncher.Controls {
 
             string ImageFile = string.Format("{0}\\DigiRotation\\{1}.png", LauncherEnv.GetResourcesPath(), digi_id);
 
-            //If we don't have image, try to download it
-            if (!File.Exists(ImageFile)) {
-                try {
-                    LauncherEnv.WebClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.REMOTE_PATH, digi_id), ImageFile);
-                } catch {
+            using (WebClientEx webClient = new WebClientEx()) {
+                //If we don't have image, try to download it
+                if (!File.Exists(ImageFile)) {
+                    try {
+                        webClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.REMOTE_PATH, digi_id), ImageFile);
+                    } catch {
+                    }
                 }
             }
 

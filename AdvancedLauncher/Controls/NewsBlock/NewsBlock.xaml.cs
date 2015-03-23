@@ -31,6 +31,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
+using DMOLibrary;
 using DMOLibrary.Profiles;
 using Newtonsoft.Json.Linq;
 
@@ -186,18 +187,18 @@ namespace AdvancedLauncher.Controls {
         }
 
         public void GetTwitterNewsAPI11(string url) {
-            WebClient wc = new WebClient();
-            wc.Proxy = (IWebProxy)null;
             Uri link = new Uri(url);
             TwitterStatuses.Clear();
             string response;
-            try {
-                response = wc.DownloadString(link);
-            } catch (Exception e) {
-                TwitterStatuses.Add(new TwitterItemViewModel {
-                    Title = LanguageEnv.Strings.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]"
-                });
-                return;
+            using (WebClient wc = new WebClientEx()) {
+                try {
+                    response = wc.DownloadString(link);
+                } catch (Exception e) {
+                    TwitterStatuses.Add(new TwitterItemViewModel {
+                        Title = LanguageEnv.Strings.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]"
+                    });
+                    return;
+                }
             }
 
             JArray tList;
@@ -266,25 +267,24 @@ namespace AdvancedLauncher.Controls {
         }
 
         private BitmapImage GetImage(string url) {
-            WebClient wc = new WebClient();
-            wc.Proxy = (IWebProxy)null;
+            using (WebClient wc = new WebClientEx()) {
+                Uri uri = new Uri(url);
+                byte[] image_bytes;
+                try {
+                    image_bytes = wc.DownloadData(uri);
+                } catch {
+                    return null;
+                }
 
-            Uri uri = new Uri(url);
-            byte[] image_bytes;
-            try {
-                image_bytes = wc.DownloadData(uri);
-            } catch {
-                return null;
+                MemoryStream img_stream = new MemoryStream(image_bytes, 0, image_bytes.Length);
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = img_stream;
+                bitmap.EndInit();
+                bitmap.Freeze();
+
+                return bitmap;
             }
-
-            MemoryStream img_stream = new MemoryStream(image_bytes, 0, image_bytes.Length);
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.StreamSource = img_stream;
-            bitmap.EndInit();
-            bitmap.Freeze();
-
-            return bitmap;
         }
 
         //парсинг строки времени

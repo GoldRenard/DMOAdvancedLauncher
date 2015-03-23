@@ -37,7 +37,8 @@
   <About_Acknowledgments>Acknowledgments</About_Acknowledgments>
   <About_Translators>Translators</About_Translators>
   <About_Licence404>Licence file "{0}" not found.</About_Licence404>
-  
+
+  <ManageProfiles>Configurar perfis</ManageProfiles>
   <Settings>Configuracoes</Settings>
   <Settings_Language>Idioma</Settings_Language>
   <Settings_LastProfile>E impossivel eliminar o ultimo perfil. O Launcher tem que ter pelo menos, um perfil.</Settings_LastProfile>

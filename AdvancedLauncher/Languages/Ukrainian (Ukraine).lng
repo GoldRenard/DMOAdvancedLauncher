@@ -38,6 +38,7 @@
   <About_Translators>Переклади</About_Translators>
   <About_Licence404>Файл тексту ліцензії "{0}" не знайдено.</About_Licence404>
 
+  <ManageProfiles>Налаштувати профілі</ManageProfiles>
   <Settings>Налаштування</Settings>
   <Settings_Language>Мова</Settings_Language>
   <Settings_LastProfile>Неможливо видалити останній профіль. Лаунчер повинен мати як мінімум один.</Settings_LastProfile>

@@ -41,6 +41,7 @@
   <About_Translators>Translators</About_Translators>
   <About_Licence404>Licence file "{0}" not found.</About_Licence404>
   
+  <ManageProfiles>Manage profiles</ManageProfiles>
   <Settings>Settings</Settings>
   <Settings_Language>Language</Settings_Language>
   <Settings_LastProfile>It is impossible to delete the latest profile. Launcher must has at least one profile.</Settings_LastProfile>

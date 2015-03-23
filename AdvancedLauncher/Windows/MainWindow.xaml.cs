@@ -88,7 +88,7 @@ namespace AdvancedLauncher.Windows {
                 this.MouseDown += MainWindow_MouseDown;
 
                 MenuFlyout.AboutClick += OnAboutClick;
-                MenuFlyout.SettingsClick += OnSettingsClick;
+                MenuFlyout.ProfileSettingsClick += OnProfileSettingsClick;
                 MenuFlyout.LoggerClick += OnLoggerClick;
                 OnProfileChanged();
                 try {
@@ -179,7 +179,7 @@ namespace AdvancedLauncher.Windows {
             selectedTab.Focus();
         }
 
-        private void OnSettingsClick(object sender, RoutedEventArgs e) {
+        private void OnProfileSettingsClick(object sender, RoutedEventArgs e) {
             if (SettingsWindow == null) {
                 SettingsWindow = new Settings();
                 SettingsWindow.WindowClosed += (s, e1) => {

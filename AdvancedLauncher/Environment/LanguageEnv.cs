@@ -459,6 +459,17 @@ namespace AdvancedLauncher.Environment {
 
         #region Settings Window
 
+        private string _ManageProfiles = "Manage profiles";
+
+        public string ManageProfiles {
+            set {
+                _ManageProfiles = value; NotifyPropertyChanged("ManageProfiles");
+            }
+            get {
+                return _ManageProfiles;
+            }
+        }
+
         private string _Settings = "Settings";
 
         public string Settings {

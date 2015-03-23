@@ -37,7 +37,8 @@
   <About_Acknowledgments>Danke an</About_Acknowledgments>
   <About_Translators>Uebersetzer</About_Translators>
   <About_Licence404>Lizenz Datei "{0}" wurde nicht gefunden.</About_Licence404>
-  
+
+  <ManageProfiles>Profile einrichten</ManageProfiles>
   <Settings>Einstellungen</Settings>
   <Settings_Language>Sprache</Settings_Language>
   <Settings_LastProfile>Sie muessen mindestens ein Profil haben. Es ist nicht moeglich das Letzte zu entfernen.</Settings_LastProfile>

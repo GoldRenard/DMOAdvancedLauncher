@@ -37,7 +37,8 @@
   <About_Acknowledgments>Remerciements</About_Acknowledgments>
   <About_Translators>Traducteurs</About_Translators>
   <About_Licence404>Fichier de licence "{0}" non trouvé.</About_Licence404>
-  
+
+  <ManageProfiles>Configurer des profils</ManageProfiles>
   <Settings>Réglages</Settings>
   <Settings_Language>Langue</Settings_Language>
   <Settings_LastProfile>Il et impossible de supprimer le dernier profil. Le lanceur doit avoir au moins un profil.</Settings_LastProfile>

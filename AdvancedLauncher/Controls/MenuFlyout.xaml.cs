@@ -38,6 +38,7 @@ namespace AdvancedLauncher.Controls {
         public MenuFlyout() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                ProfileSettings.ItemsSource = new List<object>() { new object() };
                 this.SizeChanged += (s, e) => {
                     ProfileList.MaxHeight = e.NewSize.Height - CommandsHolder.ActualHeight - 50;
                 };
@@ -117,20 +118,12 @@ namespace AdvancedLauncher.Controls {
 
         public event RoutedEventHandler AboutClick;
 
-        public event RoutedEventHandler SettingsClick;
+        public event RoutedEventHandler ProfileSettingsClick;
 
         public event RoutedEventHandler LoggerClick;
 
         private void BuildCommands() {
             Commands.Clear();
-            Commands.Add(new MenuItem("Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
-                if (SettingsClick != null) {
-                    SettingsClick(this, null);
-                }
-                this.IsOpen = false;
-            }, (p) => {
-                return IsChangeEnabled;
-            })));
             Commands.Add(new MenuItem("Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
                 if (LoggerClick != null) {
                     LoggerClick(this, null);
@@ -214,5 +207,16 @@ namespace AdvancedLauncher.Controls {
         }
 
         #endregion Service
+
+        private void ProfileSettings_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (ProfileSettings.SelectedIndex == -1) {
+                return;
+            }
+            ProfileSettings.SelectedIndex = -1;
+            if (ProfileSettingsClick != null) {
+                ProfileSettingsClick(this, null);
+            }
+            this.IsOpen = false;
+        }
     }
 }

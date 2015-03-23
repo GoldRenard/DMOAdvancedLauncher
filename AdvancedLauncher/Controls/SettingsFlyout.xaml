@@ -32,6 +32,7 @@
                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
                             <Border x:Name="Border"
                                     Background="{Binding ColorBrush, Mode=OneWay}"
+                                    ToolTip="{Binding Name, Mode=OneWay}"
                                     Width="24"
                                     Height="24"
                                     Margin="2"

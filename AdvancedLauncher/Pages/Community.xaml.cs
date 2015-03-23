@@ -51,6 +51,7 @@ namespace AdvancedLauncher.Pages {
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;
             webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
+            webProfile.SetDispatcher(this.Dispatcher);
             // use lazy ServerList initialization to prevent first long EF6 database
             // init causes the long app start time
             if (IsPageActivated) {

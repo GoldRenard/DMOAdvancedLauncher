@@ -118,6 +118,11 @@ namespace DMOLibrary.Database.Context {
                 .FirstOrDefault(g => g.Server.Id == server.Id && g.Name == name);
         }
 
+        public Guild FindGuild(Server server, string name) {
+            return Guilds
+                .FirstOrDefault(g => g.Server.Id == server.Id && g.Name == name);
+        }
+
         #endregion Guild operations
 
         #region Digimon operations

@@ -24,7 +24,9 @@ using AdvancedLauncher.Windows;
 using log4net.Config;
 
 #if DEBUG
+
 using DMOLibrary.Database.Context;
+
 #endif
 
 namespace AdvancedLauncher {

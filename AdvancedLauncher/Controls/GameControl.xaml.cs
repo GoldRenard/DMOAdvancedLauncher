@@ -20,6 +20,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -27,9 +28,11 @@ using System.Windows.Shell;
 using AdvancedLauncher.Controls.Dialogs;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
+using AdvancedLauncher.Windows;
 using DMOLibrary.DMOFileSystem;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace AdvancedLauncher.Controls {
 
@@ -105,7 +108,7 @@ namespace AdvancedLauncher.Controls {
 
         #region Update Section
 
-        private void CheckWorker_DoWork(object sender, DoWorkEventArgs e) {
+        private async void CheckWorker_DoWork(object sender, DoWorkEventArgs e) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 //Добавляем задачу обновления
                 TaskManager.Tasks.Add(UpdateTask);
@@ -125,7 +128,7 @@ namespace AdvancedLauncher.Controls {
             }
 
             //Проверяем наличие обновления Pack01 файлами. Возвражающее значение говорит, можно ли проходить далее по алгоритму
-            if (!ImportPackage()) {
+            if (!await ImportPackage()) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                     RemoveTask();
                     LauncherEnv.Settings.OnProfileLocked(false);
@@ -143,8 +146,7 @@ namespace AdvancedLauncher.Controls {
                 if (cRes.IsUpdateRequired) {
                     //Если включен интегрированных движок обновления, пытаемся обновиться
                     if (LauncherEnv.Settings.CurrentProfile.UpdateEngineEnabled) {
-                        bool UpdateRes = BeginUpdate(cRes.LocalVer, cRes.RemoteVer);
-                        SetStartEnabled(UpdateRes);
+                        SetStartEnabled(await BeginUpdate(cRes.LocalVer, cRes.RemoteVer));
                     } else { //Если интегрированный движок отключен - показываем кнопку "Обновить игру"
                         SetUpdateEnabled(true);
                     }
@@ -154,17 +156,14 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private bool ImportPackage() {
+        private async Task<bool> ImportPackage() {
             //Необходимо импортировать директорию (Pack01), если имеется. Проверяем наличие этой папки
             if (Directory.Exists(LauncherEnv.Settings.CurrentProfile.GameEnv.GetImportPath())) {
                 //Если включен интегрированных движок обновления, пытаемся импортировать
                 if (LauncherEnv.Settings.CurrentProfile.UpdateEngineEnabled) {
                     //Проверяем наличие доступа к игре
-                    while (!LauncherEnv.Settings.CurrentProfile.GameEnv.CheckUpdateAccess()) {
-                        MessageBoxResult mRes = MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OKCancel, MessageBoxImage.Asterisk);
-                        if (mRes == MessageBoxResult.Cancel) {
-                            return false;
-                        }
+                    if (!await CheckGameAccessLoop()) {
+                        return false;
                     }
 
                     //Если есть, показываем, вызываем ивент начала и показываем блок с прогрессбарами
@@ -185,13 +184,13 @@ namespace AdvancedLauncher.Controls {
                         //Если сфейлилось, отправляем соответствующий ивент и сообщение
                         if (!IsSuccess) {
                             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                                Utils.MSG_ERROR(LanguageEnv.Strings.GameFilesInUse);
+                                Utils.ShowErrorDialog(LanguageEnv.Strings.GameFilesInUse);
                             }));
                         }
                         GameFS.Close();
                         return IsSuccess;
                     } else {    //Файл не открылся, false
-                        MessageBoxResult mRes = MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                        await CheckGameAccessMessage();
                         SetUpdateEnabled(false);
                         return false;
                     }
@@ -236,16 +235,35 @@ namespace AdvancedLauncher.Controls {
             return null;
         }
 
-        private bool BeginUpdate(int local, int remote) {
+        private async Task<bool> CheckGameAccessMessage() {
+            return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
+                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(LanguageEnv.Strings.PleaseCloseGame, LanguageEnv.Strings.GameFilesInUse,
+                    MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
+                        AffirmativeButtonText = "OK",
+                        NegativeButtonText = LanguageEnv.Strings.CancelButton,
+                        ColorScheme = MetroDialogColorScheme.Accented
+                    });
+                return result == MessageDialogResult.Negative;
+            }));
+        }
+
+        private async Task<bool> CheckGameAccessLoop() {
+            //Проверяем наличие доступа к игре
+            while (!LauncherEnv.Settings.CurrentProfile.GameEnv.CheckUpdateAccess()) {
+                if (await CheckGameAccessMessage()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private async Task<bool> BeginUpdate(int local, int remote) {
             ShowProgressBar();
             bool updateSuccess = true;
             string packageFile;
 
-            //Проверяем наличие доступа к игре
-            while (!LauncherEnv.Settings.CurrentProfile.GameEnv.CheckUpdateAccess()) {
-                MessageBoxResult mRes = MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OKCancel, MessageBoxImage.Asterisk);
-                if (mRes == MessageBoxResult.Cancel)
-                    return false;
+            if (!await CheckGameAccessLoop()) {
+                return false;
             }
 
             double WholeContentLength = 0;
@@ -280,11 +298,8 @@ namespace AdvancedLauncher.Controls {
             }
 
             //Проверяем наличие доступа к игре еще раз
-            while (!LauncherEnv.Settings.CurrentProfile.GameEnv.CheckUpdateAccess()) {
-                MessageBoxResult mRes = MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OKCancel, MessageBoxImage.Asterisk);
-                if (mRes == MessageBoxResult.Cancel) {
-                    return false;
-                }
+            if (!await CheckGameAccessLoop()) {
+                return false;
             }
 
             if (Directory.Exists(LauncherEnv.Settings.CurrentProfile.GameEnv.GetImportPath())) {
@@ -304,12 +319,12 @@ namespace AdvancedLauncher.Controls {
                     //Если сфейлилось, отправляем соответствующее сообщение
                     if (!IsSuccess) {
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                            Utils.MSG_ERROR(LanguageEnv.Strings.GameFilesInUse);
+                            Utils.ShowErrorDialog(LanguageEnv.Strings.GameFilesInUse);
                         }));
                     }
                     GameFS.Close();
                 } else {
-                    MessageBoxResult mRes = MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    await CheckGameAccessMessage();
                     SetUpdateEnabled(false);
                     return false;
                 }
@@ -426,9 +441,8 @@ namespace AdvancedLauncher.Controls {
                     }
                 case DMOLibrary.LoginCode.WRONG_PAGE:       //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
                 case DMOLibrary.LoginCode.UNKNOWN_URL: {    //И возвращаем в форму ввода
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                            MessageBox.Show(LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", code), LanguageEnv.Strings.LoginLogIn, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        }));
+                        Utils.ShowMessageDialog(LanguageEnv.Strings.LoginLogIn,
+                                    LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", code));
                         break;
                     }
             }
@@ -454,7 +468,7 @@ namespace AdvancedLauncher.Controls {
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
                 if (!LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame()) {
-                    MessageBox.Show(LanguageEnv.Strings.PleaseSelectGamePath, LanguageEnv.Strings.Error, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    Utils.ShowErrorDialog(LanguageEnv.Strings.PleaseSelectGamePath);
                     return;
                 }
                 StartButton.IsEnabled = IsEnabled;
@@ -475,7 +489,7 @@ namespace AdvancedLauncher.Controls {
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
                 if (!LauncherEnv.Settings.CurrentProfile.GameEnv.CheckDefLauncher()) {
-                    MessageBox.Show(LanguageEnv.Strings.PleaseSelectLauncherPath, LanguageEnv.Strings.Error, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    Utils.ShowErrorDialog(LanguageEnv.Strings.PleaseSelectLauncherPath);
                     return;
                 }
                 StartButton.IsEnabled = IsEnabled;

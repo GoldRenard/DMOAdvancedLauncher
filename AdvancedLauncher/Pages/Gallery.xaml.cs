@@ -201,7 +201,7 @@ namespace AdvancedLauncher.Pages {
                     try {
                         Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + FullPath);
                     } catch (Exception ex) {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message);
                     }
                 });
             }

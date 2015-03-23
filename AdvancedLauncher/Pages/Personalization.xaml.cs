@@ -98,7 +98,7 @@ namespace AdvancedLauncher.Pages {
                     }
                 }
             } catch {
-                MessageBox.Show(LanguageEnv.Strings.GameFilesInUse, LanguageEnv.Strings.PleaseCloseGame, MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                Utils.ShowMessageDialog(LanguageEnv.Strings.PleaseCloseGame, LanguageEnv.Strings.GameFilesInUse);
             }
         }
 
@@ -174,7 +174,7 @@ namespace AdvancedLauncher.Pages {
 
                     return;
                 }
-                Utils.MSG_ERROR(LanguageEnv.Strings.PersonalizationWrongTGA);       //Иначе говорим, что это не ТГА-картинка.
+                Utils.ShowErrorDialog(LanguageEnv.Strings.PersonalizationWrongTGA);       //Иначе говорим, что это не ТГА-картинка.
             }
         }
 
@@ -197,7 +197,7 @@ namespace AdvancedLauncher.Pages {
                     try {
                         File.WriteAllBytes(sFileDialog.FileName, CurrentImageBytes);
                     } catch (Exception ex) {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.PersonalizationCantSave + " " + ex.Message);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.PersonalizationCantSave + " " + ex.Message);
                     }
                 }
             }
@@ -256,7 +256,7 @@ namespace AdvancedLauncher.Pages {
             }
 
             if (!writeResult) {
-                Utils.MSG_ERROR(LanguageEnv.Strings.PersonalizationCantWrite);
+                Utils.ShowErrorDialog(LanguageEnv.Strings.PersonalizationCantWrite);
             } else {
                 IsGameImageLoaded = LoadGameImage(selectedResource);
             }

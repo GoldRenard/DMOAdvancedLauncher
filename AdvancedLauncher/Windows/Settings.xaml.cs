@@ -109,7 +109,7 @@ namespace AdvancedLauncher.Windows {
 
         private void OnRemoveClick(object sender, RoutedEventArgs e) {
             if (ProfileList.Items.Count == 1) {
-                Utils.MSG_ERROR(LanguageEnv.Strings.Settings_LastProfile);
+                Utils.ShowErrorDialog(LanguageEnv.Strings.Settings_LastProfile);
                 return;
             }
             Profile profile = SelectedProfile;
@@ -134,7 +134,7 @@ namespace AdvancedLauncher.Windows {
 
         #region Path Browse Section
 
-        private void OnGameBrowse(object sender, RoutedEventArgs e) {
+        private async void OnGameBrowse(object sender, RoutedEventArgs e) {
             Folderdialog.Description = LanguageEnv.Strings.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -142,8 +142,8 @@ namespace AdvancedLauncher.Windows {
                         SelectedProfile.GameEnv.GamePath = Folderdialog.SelectedPath;
                         break;
                     } else {
-                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectGameDirError,
-                            LanguageEnv.Strings.Settings_GamePath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        await Utils.ShowMessageDialogAsync(LanguageEnv.Strings.Settings_GamePath,
+                            LanguageEnv.Strings.Settings_SelectGameDirError);
                     }
                 } else {
                     break;
@@ -151,7 +151,7 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private void OnLauncherBrowse(object sender, RoutedEventArgs e) {
+        private async void OnLauncherBrowse(object sender, RoutedEventArgs e) {
             Folderdialog.Description = LanguageEnv.Strings.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -159,8 +159,8 @@ namespace AdvancedLauncher.Windows {
                         SelectedProfile.GameEnv.DefLauncherPath = Folderdialog.SelectedPath;
                         break;
                     } else {
-                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectLauncherDirError,
-                            LanguageEnv.Strings.Settings_LauncherPath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        await Utils.ShowMessageDialogAsync(LanguageEnv.Strings.Settings_LauncherPath,
+                            LanguageEnv.Strings.Settings_SelectLauncherDirError);
                     }
                 } else {
                     break;
@@ -188,7 +188,7 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private void OnAppLocaleHelpClick(object sender, RoutedEventArgs e) {
+        private async void OnAppLocaleHelpClick(object sender, RoutedEventArgs e) {
             if (Service.ApplicationLauncher.IsALSupported) {
                 return;
             }
@@ -202,7 +202,7 @@ namespace AdvancedLauncher.Windows {
             }
             message += System.Environment.NewLine + System.Environment.NewLine + LanguageEnv.Strings.AppLocale_FixQuestion;
 
-            if (MessageBoxResult.Yes == MessageBox.Show(message, LanguageEnv.Strings.AppLocale_Error, MessageBoxButton.YesNo, MessageBoxImage.Question)) {
+            if (await Utils.ShowYesNoDialog(LanguageEnv.Strings.AppLocale_Error, message)) {
                 if (!Service.ApplicationLauncher.IsALInstalled) {
                     System.Diagnostics.Process.Start(LINK_MS_APPLOCALE);
                 }

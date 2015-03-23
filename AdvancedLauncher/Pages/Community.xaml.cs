@@ -76,7 +76,9 @@ namespace AdvancedLauncher.Pages {
                         break;
                     }
                 }
-                GuildNameTextBox.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
+                if (string.IsNullOrEmpty(GuildNameTextBox.Text)) {
+                    GuildNameTextBox.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
+                }
             } else {
                 GuildNameTextBox.Clear();
                 if (ComboBoxServer.Items.Count > 0) {
@@ -116,19 +118,19 @@ namespace AdvancedLauncher.Pages {
                         break;
                     }
                 case DMODownloadResultCode.CANT_GET: {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.CantGetError);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.CantGetError);
                         break;
                     }
                 case DMODownloadResultCode.DB_CONNECT_ERROR: {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.DBConnectionError);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.DBConnectionError);
                         break;
                     }
                 case DMODownloadResultCode.NOT_FOUND: {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.GuildNotFoundError);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.GuildNotFoundError);
                         break;
                     }
                 case DMODownloadResultCode.WEB_ACCESS_ERROR: {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.ConnectionError);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.ConnectionError);
                         break;
                     }
             }
@@ -169,13 +171,13 @@ namespace AdvancedLauncher.Pages {
 
         public static bool IsValidName(string name) {
             if (name == LanguageEnv.Strings.CommGuildName) {
-                Utils.MSG_ERROR(LanguageEnv.Strings.CommGuildNameEmpty);
+                Utils.ShowErrorDialog(LanguageEnv.Strings.CommGuildNameEmpty);
                 return false;
             }
             GuildNameValidationRule validationRule = new GuildNameValidationRule();
             ValidationResult result = validationRule.Validate(name, new System.Globalization.CultureInfo(1, false));
             if (!result.IsValid) {
-                Utils.MSG_ERROR(result.ErrorContent.ToString());
+                Utils.ShowErrorDialog(result.ErrorContent.ToString());
             }
             return result.IsValid;
         }

@@ -68,6 +68,7 @@
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
             <ALControls:MenuFlyout x:Name="MenuFlyout" />
+            <ALControls:SettingsFlyout x:Name="SettingsFlyout" />
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
     <Grid x:Name="LayoutRoot">

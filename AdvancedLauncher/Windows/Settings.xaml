@@ -320,10 +320,5 @@
                 <Button x:Name="BtnClose" Width="85" Content="{Binding CancelButton}" Click="OnCloseClick" />
             </StackPanel>
         </Grid>
-
-        <StackPanel Visibility="Collapsed" Height="30" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <TextBlock Text="{Binding Settings_Language}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" />
-            <ComboBox x:Name="ComboBoxLanguage" Height="30" Width="150" SelectedIndex="0" SelectionChanged="OnLanguageSelectionChanged"  IsSynchronizedWithCurrentItem="True" />
-        </StackPanel>
     </Grid>
 </win:AbstractWindow>

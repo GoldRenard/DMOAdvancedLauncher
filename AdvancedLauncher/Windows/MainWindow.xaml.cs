@@ -30,7 +30,7 @@ using MahApps.Metro.Controls;
 namespace AdvancedLauncher.Windows {
 
     public partial class MainWindow : MetroWindow {
-        private static int FLYOUT_WIDTH_MIN = 100;
+        public static int FLYOUT_WIDTH_MIN = 100;
 
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));
         private const int SC_CLOSE = 0xF060;
@@ -47,8 +47,6 @@ namespace AdvancedLauncher.Windows {
         private IntPtr hWnd = IntPtr.Zero;
 
         private bool IsCloseLocked = true;
-
-        private int FlyoutWidth = FLYOUT_WIDTH_MIN;
 
         private Settings SettingsWindow = null;
         private About AboutWindow = null;
@@ -107,6 +105,9 @@ namespace AdvancedLauncher.Windows {
             if (MenuFlyout.IsOpen && this.Width - p.X > MenuFlyout.Width) {
                 MenuFlyout.IsOpen = false;
             }
+            if (SettingsFlyout.IsOpen && this.Width - p.X > SettingsFlyout.Width) {
+                SettingsFlyout.IsOpen = false;
+            }
         }
 
         private void OnFileSystemLocked(bool IsLocked) {
@@ -154,6 +155,7 @@ namespace AdvancedLauncher.Windows {
         private void OnProfileChanged() {
             ReloadTabs();
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
+            SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             //NotifyPropertyChanged("CurrentProfile");
             ProfileSwitcher.DataContext = LauncherEnv.Settings.CurrentProfile;
         }
@@ -209,6 +211,9 @@ namespace AdvancedLauncher.Windows {
         private void ShowSettings(object sender, RoutedEventArgs e) {
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             MenuFlyout.IsOpen = !MenuFlyout.IsOpen;
+            if (MenuFlyout.IsOpen == false) {
+                SettingsFlyout.IsOpen = false;
+            }
         }
     }
 }

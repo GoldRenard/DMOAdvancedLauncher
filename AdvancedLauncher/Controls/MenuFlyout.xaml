@@ -101,7 +101,7 @@
                             </Rectangle>
                         </Grid>
                         <StackPanel VerticalAlignment="Center" Margin="5,0,0,0">
-                            <TextBlock FontSize="12" Text="{Binding ManageProfiles, Source={x:Static env:LanguageEnv.Strings}}" />
+                            <TextBlock FontSize="12" Text="{Binding DataContext.ManageProfiles, RelativeSource={RelativeSource AncestorType={x:Type ALControls:MenuFlyout}}}" />
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

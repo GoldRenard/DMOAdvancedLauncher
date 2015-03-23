@@ -25,6 +25,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Windows;
 using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Controls {
@@ -124,6 +125,10 @@ namespace AdvancedLauncher.Controls {
 
         private void BuildCommands() {
             Commands.Clear();
+            Commands.Add(new MenuItem("Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
+                MainWindow.Instance.SettingsFlyout.Width = MainWindow.Instance.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
+                MainWindow.Instance.SettingsFlyout.IsOpen = true;
+            })));
             Commands.Add(new MenuItem("Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
                 if (LoggerClick != null) {
                     LoggerClick(this, null);

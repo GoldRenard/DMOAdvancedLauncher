@@ -19,7 +19,6 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -61,18 +60,6 @@ namespace AdvancedLauncher.Windows {
                 foreach (Profile p in ((AdvancedLauncher.Environment.Containers.Settings)ProfileList.DataContext).Profiles) {
                     if (p.Id == LauncherEnv.Settings.CurrentProfile.Id) {
                         ProfileList.SelectedItem = p;
-                        break;
-                    }
-                }
-
-                //Load language list
-                ComboBoxLanguage.Items.Add(LanguageEnv.DefaultName);
-                foreach (string lang in LanguageEnv.GetTranslations()) {
-                    ComboBoxLanguage.Items.Add(Path.GetFileNameWithoutExtension(lang));
-                }
-                for (int i = 0; i < ComboBoxLanguage.Items.Count; i++) {
-                    if (ComboBoxLanguage.Items[i].ToString() == LauncherEnv.Settings.LanguageFile) {
-                        ComboBoxLanguage.SelectedIndex = currentLangIndex = i;
                         break;
                     }
                 }
@@ -232,22 +219,13 @@ namespace AdvancedLauncher.Windows {
         #region Global Actions Section
 
         protected override void OnCloseClick(object sender, RoutedEventArgs e) {
-            ComboBoxLanguage.SelectedIndex = currentLangIndex;
             base.OnCloseClick(sender, e);
         }
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
-            currentLangIndex = ComboBoxLanguage.SelectedIndex;
-            settingsContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
             LauncherEnv.Settings.Merge(settingsContainer);
             LauncherEnv.Save();
             Close();
-        }
-
-        private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (this.IsLoaded) {
-                LanguageEnv.Load(ComboBoxLanguage.SelectedValue.ToString());
-            }
         }
 
         #endregion Global Actions Section

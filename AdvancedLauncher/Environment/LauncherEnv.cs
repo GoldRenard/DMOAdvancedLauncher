@@ -16,11 +16,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
+using System.Windows;
 using System.Xml.Serialization;
 using AdvancedLauncher.Environment.Containers;
+using MahApps.Metro;
 
 namespace AdvancedLauncher.Environment {
 
@@ -72,6 +75,30 @@ namespace AdvancedLauncher.Environment {
             if (!File.Exists(GetSettingsFile())) {
                 Save();
             }
+        }
+
+        public static void LoadTheme() {
+            Tuple<AppTheme, Accent> currentTheme = ThemeManager.DetectAppStyle(Application.Current);
+            if (currentTheme == null) {
+                return;
+            }
+            AppTheme appTheme = null;
+            Accent themeAccent = null;
+            if (Settings.AppTheme != null) {
+                appTheme = ThemeManager.GetAppTheme(Settings.AppTheme);
+            }
+            if (appTheme == null) {
+                appTheme = currentTheme.Item1;
+            }
+            if (Settings.ThemeAccent != null) {
+                themeAccent = ThemeManager.GetAccent(Settings.ThemeAccent);
+            }
+            if (themeAccent == null) {
+                themeAccent = currentTheme.Item2;
+            }
+            Settings.AppTheme = appTheme.Name;
+            Settings.ThemeAccent = themeAccent.Name;
+            ThemeManager.ChangeAppStyle(Application.Current, themeAccent, appTheme);
         }
 
         public static Settings DeSerialize(string filepath) {

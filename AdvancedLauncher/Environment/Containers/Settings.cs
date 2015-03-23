@@ -30,6 +30,12 @@ namespace AdvancedLauncher.Environment.Containers {
         [XmlElement("Language")]
         public string LanguageFile;
 
+        [XmlElement("AppTheme")]
+        public string AppTheme;
+
+        [XmlElement("ThemeAccent")]
+        public string ThemeAccent;
+
         [XmlElement("DefaultProfile")]
         public int DefaultProfile;
 
@@ -57,6 +63,8 @@ namespace AdvancedLauncher.Environment.Containers {
         public void Merge(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.DefaultProfile = source.DefaultProfile;
+            this.AppTheme = source.AppTheme;
+            this.ThemeAccent = source.ThemeAccent;
             this.Profiles = new ObservableCollection<Profile>();
 
             //Add clones of instances

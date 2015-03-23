@@ -64,6 +64,7 @@ namespace AdvancedLauncher {
                         context.Database.Initialize(false);
                     }
 #endif
+                    LauncherEnv.LoadTheme();
                     MainWindow mw = new MainWindow();
                     mw.Show();
                     WpfBugWindow.Close();

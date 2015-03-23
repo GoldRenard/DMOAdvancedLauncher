@@ -119,6 +119,10 @@
       <DependentUpon>MenuFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ModelCommand.cs" />
+    <Compile Include="Controls\SettingsFlyout.xaml.cs">
+      <DependentUpon>SettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SimpleCommand.cs" />
     <Compile Include="Controls\TDBlock\GuildInfoItemViewModel.cs" />
     <Compile Include="Controls\TDBlock\IconHolder.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
@@ -252,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Controls\SettingsFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TDBlock\TDBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

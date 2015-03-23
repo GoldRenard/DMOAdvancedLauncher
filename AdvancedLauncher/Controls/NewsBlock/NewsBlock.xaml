@@ -97,8 +97,14 @@
             </TabItem>
             <TabItem x:Name="NavJoymax" Controls:ControlsHelper.HeaderFontSize="12" Header="JOYMAX">
                 <Grid Margin="365,30,10,10">
-                    <ListBox x:Name="JoymaxNewsList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible" Opacity="0"
-                        d:DataContext="{d:DesignData JoymaxViewModelSampleData.xaml}" ItemsSource="{Binding Items}">
+                    <ListBox x:Name="JoymaxNewsList" 
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                             ScrollViewer.CanContentScroll="False" 
+                             ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                             Opacity="0"
+                             ItemContainerStyle="{DynamicResource MetroListBoxItem}"
+                             d:DataContext="{d:DesignData JoymaxViewModelSampleData.xaml}" 
+                             ItemsSource="{Binding Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>

@@ -97,7 +97,7 @@ namespace AdvancedLauncher.Windows {
 
         public void AddEntry(LoggingEvent logEvent) {
             if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
+                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
                     AddEntry(_logEvent);
                 }), logEvent);
                 return;
@@ -108,7 +108,7 @@ namespace AdvancedLauncher.Windows {
 
         public void AddFilteredEntry(LoggingEvent logEvent) {
             if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
+                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
                     AddFilteredEntry(_logEvent);
                 }), logEvent);
                 return;

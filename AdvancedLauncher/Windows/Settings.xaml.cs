@@ -53,11 +53,10 @@ namespace AdvancedLauncher.Windows {
         public Settings() {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-
                 //Copying settings object and set it as DataContext
                 ProfileList.DataContext = settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings);
                 //Search and set current profile
-                foreach (Profile p in ((AdvancedLauncher.Environment.Containers.Settings)ProfileList.DataContext).Profiles) {
+                foreach (Profile p in settingsContainer.Profiles) {
                     if (p.Id == LauncherEnv.Settings.CurrentProfile.Id) {
                         ProfileList.SelectedItem = p;
                         break;
@@ -72,6 +71,9 @@ namespace AdvancedLauncher.Windows {
 
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
             SelectedProfile = (Profile)ProfileList.SelectedItem;
+            if (SelectedProfile == null) {
+                return;
+            }
             ValidatePaths();
             NotifyPropertyChanged("IsSelectedNotDefault");
 
@@ -223,7 +225,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
-            LauncherEnv.Settings.Merge(settingsContainer);
+            LauncherEnv.Settings.MergeProfiles(settingsContainer);
             LauncherEnv.Save();
             Close();
         }

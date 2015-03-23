@@ -27,7 +27,7 @@ namespace DMOLibrary.Database.Context {
         : CreateDatabaseIfNotExists<MainContext> {
 #endif
 #if RELEASE
-        : CreateDatabaseIfNotExists<MainContext> {
+ : CreateDatabaseIfNotExists<MainContext> {
 #endif
 
         protected override void Seed(MainContext context) {

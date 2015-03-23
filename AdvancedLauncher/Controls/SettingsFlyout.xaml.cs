@@ -50,7 +50,7 @@ namespace AdvancedLauncher.Controls {
                     ExecuteDelegate = x => this.ResetAll()
                 };
 
-                settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings);
+                settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings, true);
                 InitializeColorTheme();
 
                 //Load language list
@@ -79,7 +79,7 @@ namespace AdvancedLauncher.Controls {
             settingsContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
             settingsContainer.AppTheme = CurrentAppTheme.Name;
             settingsContainer.ThemeAccent = CurrentAccent.Name;
-            LauncherEnv.Settings.Merge(settingsContainer);
+            LauncherEnv.Settings.MergeConfig(settingsContainer);
             LauncherEnv.Save();
             this.IsOpen = false;
         }

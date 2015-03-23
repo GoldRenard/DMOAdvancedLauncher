@@ -11,112 +11,6 @@
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource MetroDataGrid}">
-                <Setter Property="RowStyle">
-                    <Setter.Value>
-                        <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MetroDataGridRow}">
-                            <Setter Property="Background" Value="Transparent" />
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="ColumnHeaderStyle">
-                    <Setter.Value>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="SnapsToDevicePixels" Value="True" />
-                            <Setter Property="MinWidth" Value="0" />
-                            <Setter Property="MinHeight" Value="25" />
-                            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
-                            <Setter Property="Cursor" Value="Hand" />
-                            <Setter Property="HorizontalContentAlignment" Value="Left" />
-                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Padding" Value="10,4,4,7" />
-                            <Setter Property="Margin" Value="0,0,0,0" />
-                            <Setter Property="BorderThickness" Value="0,0,0,3" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource GrayBrush5}" />
-                            <Setter Property="Background" Value="Transparent" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border x:Name="BackgroundBorder"
-                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                    Grid.ColumnSpan="2"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}" />
-
-                                            <ContentPresenter x:Name="HeaderContent"
-                                                              Content="{TemplateBinding Content}"
-                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                              Margin="{TemplateBinding Padding}"
-                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                              RecognizesAccessKey="True"
-                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
-                                            <Path x:Name="SortArrow"
-                                                  Visibility="Collapsed"
-                                                  Stretch="Fill"
-                                                  Grid.Column="1"
-                                                  Width="8"
-                                                  Height="10"
-                                                  Margin="0,0,8,2"
-                                                  VerticalAlignment="Center"
-                                                  RenderTransformOrigin="0.5,0.5"
-                                                  Fill="{DynamicResource GrayBrush2}" />
-
-                                            <Thumb x:Name="PART_LeftHeaderGripper"
-                                                   HorizontalAlignment="Left"
-                                                   HorizontalContentAlignment="Left"
-                                                   Background="Transparent"
-                                                   Style="{StaticResource MetroColumnHeaderGripperStyle}" />
-
-                                            <Thumb x:Name="PART_RightHeaderGripper"
-                                                   HorizontalAlignment="Right"
-                                                   HorizontalContentAlignment="Right"
-                                                   Style="{StaticResource MetroColumnHeaderGripperStyle}"
-                                                   Grid.Column="1" />
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource AccentColorBrush2}" />
-                                            </Trigger>
-
-                                            <Trigger Property="SortDirection" Value="Ascending">
-                                                <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
-                                                <Setter TargetName="SortArrow" Property="Data"
-                                                        Value="F1 M 34,57L 42,57L 42,32.25L 52,42.25L 52,31.75L 38,17.75L 24,31.75L 24,42.25L 34,32.25L 34,57 Z " />
-                                            </Trigger>
-                                            <Trigger Property="SortDirection" Value="Descending">
-                                                <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
-                                                <Setter TargetName="SortArrow" Property="Data"
-                                                        Value="F1 M 42,19.0002L 34,19.0002L 34,43.7502L 24,33.7502L 24,44.2502L 38,58.2502L 52,44.2502L 52,33.7502L 42,43.7502L 42,19.0002 Z " />
-                                                <Setter TargetName="SortArrow" Property="Margin" Value="0,0,8,0" />
-                                            </Trigger>
-                                            <Trigger Property="DisplayIndex" Value="0">
-                                                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_LeftHeaderGripper" />
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="ContentTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <TextBlock FontWeight="SemiBold" Text="{Binding Converter={StaticResource ToUpperConverter}}" />
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-            </Style>
             <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource MetroTabItem}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -168,8 +62,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <GroupBox x:Name="CommRoot" Header="" Margin="0">
-        <Grid>
-            <TabControl x:Name="MainTabControl" Margin="-10,-30,0,0" SelectionChanged="MainTabControl_SelectionChanged" Controls:TabControlHelper.Transition="Default" IsEnabled="False">
+        <Grid Margin="-5" Background="{DynamicResource WhiteBrush}">
+            <TabControl x:Name="MainTabControl" Margin="-5,-25,5,5" SelectionChanged="MainTabControl_SelectionChanged" Controls:TabControlHelper.Transition="Default" IsEnabled="False">
                 <TabItem Foreground="White" Header="{Binding CommTamersTab}">
                     <DataGrid x:Name="Tamers"
                               ItemsSource="{Binding Items}"
@@ -177,7 +71,6 @@
                               SelectionMode="Single"
                               IsReadOnly="True"
                               MouseLeftButtonUp="OnTamersShow"
-                              Background="Transparent"
                               Margin="3,3,-7,-7">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn SortMemberPath="TType" Header="{Binding CommHeader_Type, Source={x:Static env:LanguageEnv.Strings}}">
@@ -206,7 +99,6 @@
                               AutoGenerateColumns="False"
                               SelectionMode="Single"
                               IsReadOnly="True"
-                              Background="Transparent"
                               Margin="3,3,-7,-7">
                         <DataGrid.RowStyle>
                             <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MetroDataGridRow}">

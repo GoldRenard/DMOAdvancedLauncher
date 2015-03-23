@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Windows;
 
@@ -33,10 +33,10 @@ namespace AdvancedLauncher.Service {
         }
 
         /// <summary> Список задач </summary>
-        private static List<Task> _Tasks = new List<Task>();
+        private static ConcurrentBag<Task> _Tasks = new ConcurrentBag<Task>();
 
         /// <summary> Предоставляет ссылку на список задач </summary>
-        public static List<Task> Tasks {
+        public static ConcurrentBag<Task> Tasks {
             get {
                 return _Tasks;
             }

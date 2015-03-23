@@ -51,20 +51,25 @@ namespace AdvancedLauncher.Environment.Containers {
             this.Profiles = new ObservableCollection<Profile>();
         }
 
-        public Settings(Settings source) {
+        public Settings(Settings source)
+            : this(source, false) {
+        }
+
+        public Settings(Settings source, bool copyConfigOnly) {
             this.LanguageFile = source.LanguageFile;
-            this.DefaultProfile = source.DefaultProfile;
-            this.Profiles = new ObservableCollection<Profile>();
-            foreach (Profile p in source.Profiles) {
-                Profiles.Add(new Profile(p));
+            this.AppTheme = source.AppTheme;
+            this.ThemeAccent = source.ThemeAccent;
+            if (!copyConfigOnly) {
+                this.DefaultProfile = source.DefaultProfile;
+                this.Profiles = new ObservableCollection<Profile>();
+                foreach (Profile p in source.Profiles) {
+                    Profiles.Add(new Profile(p));
+                }
             }
         }
 
-        public void Merge(Settings source) {
-            this.LanguageFile = source.LanguageFile;
+        public void MergeProfiles(Settings source) {
             this.DefaultProfile = source.DefaultProfile;
-            this.AppTheme = source.AppTheme;
-            this.ThemeAccent = source.ThemeAccent;
             this.Profiles = new ObservableCollection<Profile>();
 
             //Add clones of instances
@@ -73,13 +78,19 @@ namespace AdvancedLauncher.Environment.Containers {
             }
             OnCollectionChanged();
 
-            //Updations corrent Profile
+            // Update currentProfiles
             Profile prof = Profiles.FirstOrDefault(i => i.Id == CurrentProfile.Id);
             if (prof == null) {
                 CurrentProfile = Profiles[0];
             } else {
                 CurrentProfile = prof;
             }
+        }
+
+        public void MergeConfig(Settings source) {
+            this.LanguageFile = source.LanguageFile;
+            this.AppTheme = source.AppTheme;
+            this.ThemeAccent = source.ThemeAccent;
         }
 
         #endregion Constructors

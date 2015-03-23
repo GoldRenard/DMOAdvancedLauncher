@@ -95,6 +95,14 @@ namespace AdvancedLauncher.Controls {
             CheckWorker.RunWorkerAsync();
         }
 
+        private void RemoveTask() {
+            try {
+                TaskManager.Tasks.TryTake(out UpdateTask);
+            } catch (ArgumentOutOfRangeException e) {
+                // TODO Wtf this happening here?
+            }
+        }
+
         #region Update Section
 
         private void CheckWorker_DoWork(object sender, DoWorkEventArgs e) {
@@ -119,7 +127,7 @@ namespace AdvancedLauncher.Controls {
             //Проверяем наличие обновления Pack01 файлами. Возвражающее значение говорит, можно ли проходить далее по алгоритму
             if (!ImportPackage()) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                    TaskManager.Tasks.Remove(UpdateTask);
+                    RemoveTask();
                     LauncherEnv.Settings.OnProfileLocked(false);
                     LauncherEnv.Settings.OnFileSystemLocked(false);
                     LauncherEnv.Settings.OnClosingLocked(false);
@@ -435,7 +443,7 @@ namespace AdvancedLauncher.Controls {
         private void SetStartEnabled(bool IsEnabled) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 //Убираем задачу обновления
-                TaskManager.Tasks.Remove(UpdateTask);
+                RemoveTask();
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
                 LauncherEnv.Settings.OnProfileLocked(false);
                 LauncherEnv.Settings.OnClosingLocked(false);
@@ -456,11 +464,7 @@ namespace AdvancedLauncher.Controls {
         private void SetUpdateEnabled(bool IsEnabled) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
                 //Убираем задачу обновления
-                try {
-                    TaskManager.Tasks.Remove(UpdateTask);
-                } catch (ArgumentOutOfRangeException e) {
-                    // TODO Wtf this happening here?
-                }
+                RemoveTask();
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
                 LauncherEnv.Settings.OnProfileLocked(false);
                 LauncherEnv.Settings.OnFileSystemLocked(false);

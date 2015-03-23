@@ -89,12 +89,12 @@
             <TextBlock Text="{Binding Settings_Language}" Style="{DynamicResource TitleText}" />
             <ComboBox Margin="0,5" x:Name="ComboBoxLanguage" Height="30" SelectedIndex="0" SelectionChanged="OnLanguageSelectionChanged" IsSynchronizedWithCurrentItem="True" />
 
-            <TextBlock Text="Тема:" Style="{DynamicResource TitleText}" />
+            <TextBlock Text="Theme:" Style="{DynamicResource TitleText}" />
             <ListBox x:Name="BaseColorsList"
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />
 
-            <TextBlock Text="Цветовая схема:" Style="{DynamicResource TitleText}" />
+            <TextBlock Text="Color scheme:" Style="{DynamicResource TitleText}" />
             <ListBox x:Name="AccentColorsList"
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />

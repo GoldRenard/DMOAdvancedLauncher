@@ -127,7 +127,7 @@ namespace AdvancedLauncher.Controls {
                         //Закрываем анимацию, устанавливаем флаг загрузки
                         IsLoadingAnim(false);
                     }
-                    TaskManager.Tasks.Remove(LoadingTask);
+                    TaskManager.Tasks.TryTake(out LoadingTask);
                     IsSourceLoaded = true;
                 }
 

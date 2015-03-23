@@ -78,6 +78,8 @@ namespace AdvancedLauncher {
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
             BugWindow bw = new BugWindow(sender, e);
             bw.ShowDialog();
+            e.Handled = true;
+            Application.Current.Shutdown();
         }
     }
 }

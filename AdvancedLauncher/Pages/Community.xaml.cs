@@ -77,7 +77,7 @@ namespace AdvancedLauncher.Pages {
                 }
                 GuildNameTextBox.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
             } else {
-                GuildNameTextBox.Text = LanguageEnv.Strings.CommGuildName;
+                GuildNameTextBox.Clear();
                 if (ComboBoxServer.Items.Count > 0) {
                     ComboBoxServer.SelectedIndex = 0;
                 }

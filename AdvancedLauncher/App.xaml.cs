@@ -21,8 +21,11 @@ using System.Windows;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
-using DMOLibrary.Database.Context;
 using log4net.Config;
+
+#if DEBUG
+using DMOLibrary.Database.Context;
+#endif
 
 namespace AdvancedLauncher {
 

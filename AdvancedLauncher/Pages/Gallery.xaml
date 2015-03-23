@@ -10,6 +10,49 @@
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="800"
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
+    <pages:AbstractPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type Controls:Tile}" BasedOn="{StaticResource {x:Type Controls:Tile}}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Controls:Tile">
+                            <Grid x:Name="TileRoot" Background="{TemplateBinding Background}">
+                                <StackPanel VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    Orientation="Horizontal">
+                                    <ContentPresenter RecognizesAccessKey="True" />
+                                    <TextBlock Text="{TemplateBinding Count}"
+                                       FontSize="{Binding CountFontSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                       VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <Label HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       Background="#70000000"
+                                       Width="{Binding ElementName=TileRoot, Path=ActualWidth}"
+                                       Foreground="{TemplateBinding Foreground}">
+                                    <AccessText Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        TextWrapping="Wrap"
+                                        FontSize="{Binding TitleFontSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Margin="-1" />
+                                </Label>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="0.95" ScaleY="0.95" CenterX="0.5" CenterY="0.5" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </pages:AbstractPage.Resources>
     <Grid x:Name="LayoutRoot">
         <TextBlock x:Name="EmptyText" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding GalleryNoScreenshots}" />
         <ListBox x:Name="Templates"
@@ -26,7 +69,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <Controls:Tile Title="{Binding Date}" TitleFontSize="12" Width="140" Height="140">
+                                <Controls:Tile Margin="4" Title="{Binding Date}" TitleFontSize="11" Width="{Binding ThumbWidth}" Height="{Binding ThumbHeight}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Command}" />

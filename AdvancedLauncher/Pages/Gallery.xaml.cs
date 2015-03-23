@@ -102,20 +102,19 @@ namespace AdvancedLauncher.Pages {
                         bitmap = ReadBitmapFromFile(fileList[i]);
                     }
 
-                    DateTime? result = null;
+                    DateTime result;
                     try {
                         result = DateTime.ParseExact(Path.GetFileNameWithoutExtension(fileList[i]), "yyMMdd_HHmmss", CultureInfo.InvariantCulture);
                     } catch (FormatException) {
-                        result = null;
+                        result = File.GetCreationTime(fileList[i]);
                     }
-
                     this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddThumb((bitmap_, path_, date_) => {
                         GalleryModel.Add(new GalleryItemViewModel() {
                             Thumb = bitmap_,
                             FullPath = path_,
                             Date = date_
                         });
-                    }), bitmap, fileList[i], result != null ? result.Value.ToString() : string.Empty);
+                    }), bitmap, fileList[i], result.ToString());
                 }
             };
             bw.RunWorkerCompleted += (s, e) => {
@@ -148,6 +147,8 @@ namespace AdvancedLauncher.Pages {
     }
 
     public class GalleryItemViewModel : INotifyPropertyChanged {
+        private double SCALE_CONSTANT = 0.75;
+
         private ModelCommand _Command;
 
         private ImageSource _Thumb;
@@ -176,7 +177,21 @@ namespace AdvancedLauncher.Pages {
                 if (value != _Thumb) {
                     _Thumb = value;
                     NotifyPropertyChanged("Thumb");
+                    NotifyPropertyChanged("ThumbWidth");
+                    NotifyPropertyChanged("ThumbHeight");
                 }
+            }
+        }
+
+        public double ThumbWidth {
+            get {
+                return Thumb.Width * SCALE_CONSTANT;
+            }
+        }
+
+        public double ThumbHeight {
+            get {
+                return Thumb.Height * SCALE_CONSTANT;
             }
         }
 

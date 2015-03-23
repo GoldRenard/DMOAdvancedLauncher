@@ -8,7 +8,6 @@
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:ALControls="clr-namespace:AdvancedLauncher.Controls"
                     xmlns:local="clr-namespace:AdvancedLauncher"
-                    xmlns:Menu="clr-namespace:AdvancedLauncher.Controls"
                     xmlns:Page="clr-namespace:AdvancedLauncher.Pages"
                     xmlns:env="clr-namespace:AdvancedLauncher.Environment"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -53,7 +52,7 @@
                             <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
                         </Border.Background>
                     </Border>
-                    <Rectangle Width="20" Height="20"
+                    <Rectangle Width="17" Height="17"
                                Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                                 Visibility="{Binding NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Rectangle.OpacityMask>

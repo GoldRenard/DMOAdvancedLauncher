@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DMOLibrary
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -115,6 +115,11 @@ namespace DMOLibrary.Database.Context {
                 .Include(g => g.Tamers.Select(t => t.Digimons))
                 .Include(g => g.Tamers.Select(t => t.Digimons.Select(d => d.Tamer)))
                 .Include(g => g.Tamers.Select(t => t.Digimons.Select(d => d.Type)))
+                .FirstOrDefault(g => g.Server.Id == server.Id && g.Name == name);
+        }
+
+        public Guild FindGuild(Server server, string name) {
+            return Guilds
                 .FirstOrDefault(g => g.Server.Id == server.Id && g.Name == name);
         }
 

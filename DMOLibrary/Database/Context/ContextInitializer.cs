@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DMOLibrary
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ namespace DMOLibrary.Database.Context {
         : CreateDatabaseIfNotExists<MainContext> {
 #endif
 #if RELEASE
-        : CreateDatabaseIfNotExists<MainContext> {
+ : CreateDatabaseIfNotExists<MainContext> {
 #endif
 
         protected override void Seed(MainContext context) {

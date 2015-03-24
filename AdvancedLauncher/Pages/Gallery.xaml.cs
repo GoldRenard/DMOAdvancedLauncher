@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,39 +21,27 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using AdvancedLauncher.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 
 namespace AdvancedLauncher.Pages {
 
     public partial class Gallery : AbstractPage {
+        private const string SCREENSHOTS_DIR = "\\ScreenShot";
+        private const string THUMBS_DIR = "\\ScreenShot\\thumbnails";
+
         private bool IsGalleryInitialized = false;
 
-        private delegate void DoAddThumb(BitmapImage bitmap, string path);
+        private delegate void DoAddThumb(BitmapImage bitmap, string path, string dateTime);
 
         private GalleryViewModel GalleryModel = new GalleryViewModel();
 
-        private Binding GalleryHint = new Binding("GalleryHint");
-        private Binding GalleryNoScreenshots = new Binding("GalleryNoScreenshots");
-        private Binding GalleryCantOpenImage = new Binding("GalleryCantOpenImage");
-
-        private string gamePath = string.Empty;
-        private string screenshotPath = "\\ScreenShot";
-        private string thumbsPath = "\\ScreenShot\\thumbnails";
-        private static string thumbPath;
         private JpegEncoder ImageEncoder = new JpegEncoder();
-
-        private Storyboard AnimShow = new Storyboard();
-        private Storyboard AnimHide = new Storyboard();
-        private bool IsAnimInitialized = false;
 
         protected override void InitializeAbstractPage() {
             InitializeComponent();
@@ -65,39 +53,37 @@ namespace AdvancedLauncher.Pages {
 
         public override void PageActivate() {
             base.PageActivate();
-            gamePath = LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath;
-            if (Directory.Exists(gamePath + screenshotPath)) {
-                if (Directory.GetFiles(gamePath + screenshotPath, "*.jpg").Length == 0) {
-                    Info.SetBinding(TextBlock.TextProperty, GalleryNoScreenshots);
+            string gamePath = LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath;
+            if (Directory.Exists(gamePath + SCREENSHOTS_DIR)) {
+                if (Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length > 0) {
+                    if (!IsGalleryInitialized || GalleryModel.Count() != Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length) {
+                        UpdateThumbs(gamePath);
+                        EmptyText.Visibility = System.Windows.Visibility.Hidden;
+                    }
                     return;
-                } else {
-                    Info.SetBinding(TextBlock.TextProperty, GalleryHint);
                 }
-            } else {
-                Info.SetBinding(TextBlock.TextProperty, GalleryNoScreenshots);
-                return;
             }
-
-            if (!IsGalleryInitialized || GalleryModel.Count() != Directory.GetFiles(gamePath + screenshotPath, "*.jpg").Length) {
-                UpdateThumbs();
-            }
+            EmptyText.Visibility = System.Windows.Visibility.Visible;
         }
 
         protected override void ProfileChanged() {
             GalleryModel.UnLoadData();
             IsGalleryInitialized = false;
+            if (IsPageVisible) {
+                PageActivate();
+            }
         }
 
-        private void UpdateThumbs() {
+        private void UpdateThumbs(string gamePath) {
             BackgroundWorker bw = new BackgroundWorker();
             GalleryModel.UnLoadData();
             IsLoading(true);
 
             bw.DoWork += (s, e) => {
-                string[] fileList = Directory.GetFiles(gamePath + screenshotPath, "*.jpg");
-                if (!Directory.Exists(gamePath + thumbsPath)) {
+                string[] fileList = Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg");
+                if (!Directory.Exists(gamePath + THUMBS_DIR)) {
                     try {
-                        Directory.CreateDirectory(gamePath + thumbsPath);
+                        Directory.CreateDirectory(gamePath + THUMBS_DIR);
                     } catch {
                         return;
                     }
@@ -105,7 +91,7 @@ namespace AdvancedLauncher.Pages {
 
                 for (int i = 0; i < fileList.Length; i++) {
                     BitmapImage bitmap;
-                    thumbPath = gamePath + thumbsPath + "\\" + Path.GetFileName(fileList[i]);
+                    string thumbPath = gamePath + THUMBS_DIR + "\\" + Path.GetFileName(fileList[i]);
                     if (!File.Exists(thumbPath)) {
                         ImageEncoder.ResizeScreenShot(fileList[i], thumbPath);
                     }
@@ -116,12 +102,19 @@ namespace AdvancedLauncher.Pages {
                         bitmap = ReadBitmapFromFile(fileList[i]);
                     }
 
-                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddThumb((bitmap_, path_) => {
+                    DateTime result;
+                    try {
+                        result = DateTime.ParseExact(Path.GetFileNameWithoutExtension(fileList[i]), "yyMMdd_HHmmss", CultureInfo.InvariantCulture);
+                    } catch (FormatException) {
+                        result = File.GetCreationTime(fileList[i]);
+                    }
+                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddThumb((bitmap_, path_, date_) => {
                         GalleryModel.Add(new GalleryItemViewModel() {
                             Thumb = bitmap_,
-                            FullPath = path_
+                            FullPath = path_,
+                            Date = date_
                         });
-                    }), bitmap, fileList[i]);
+                    }), bitmap, fileList[i], result.ToString());
                 }
             };
             bw.RunWorkerCompleted += (s, e) => {
@@ -131,55 +124,9 @@ namespace AdvancedLauncher.Pages {
             bw.RunWorkerAsync();
         }
 
-        private void OnShowScreenshot(object sender, MouseButtonEventArgs e) {
-            string file = ((GalleryItemViewModel)Templates.SelectedItem).FullPath;
-            if (!File.Exists(file)) {
-                GalleryModel.RemoveAt(Templates.SelectedIndex);
-                return;
-            }
-            try {
-                Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + file);
-            } catch (Exception ex) {
-                Utils.MSG_ERROR(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message);
-            }
-        }
-
-        private void InitializeAnim() {
-            if (IsAnimInitialized) {
-                return;
-            }
-
-            DoubleAnimation dblAnimShow = new DoubleAnimation();
-            dblAnimShow.To = 1;
-            dblAnimShow.Duration = new Duration(TimeSpan.FromMilliseconds(300));
-
-            DoubleAnimation dblAnimHide = new DoubleAnimation();
-            dblAnimHide.To = 0;
-            dblAnimHide.Duration = new Duration(TimeSpan.FromMilliseconds(300));
-
-            Storyboard.SetTarget(dblAnimShow, LoaderIcon);
-            Storyboard.SetTarget(dblAnimHide, LoaderIcon);
-            Storyboard.SetTargetProperty(dblAnimShow, new PropertyPath(OpacityProperty));
-            Storyboard.SetTargetProperty(dblAnimHide, new PropertyPath(OpacityProperty));
-
-            AnimShow.Children.Add(dblAnimShow);
-            AnimHide.Children.Add(dblAnimHide);
-
-            AnimHide.Completed += (s, e) => {
-                LoaderIcon.Visibility = Visibility.Collapsed; LoaderIcon.IsEnabled = false;
-            };
-        }
-
         private void IsLoading(bool _IsLoading) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
-                InitializeAnim();
-                if (_IsLoading) {
-                    LoaderIcon.IsEnabled = true;
-                    LoaderIcon.Visibility = Visibility.Visible;
-                    AnimShow.Begin();
-                } else {
-                    AnimHide.Begin();
-                }
+                ProgressRing.IsActive = _IsLoading;
             }));
         }
 
@@ -200,7 +147,27 @@ namespace AdvancedLauncher.Pages {
     }
 
     public class GalleryItemViewModel : INotifyPropertyChanged {
+        private double SCALE_CONSTANT = 0.75;
+
+        private ModelCommand _Command;
+
         private ImageSource _Thumb;
+
+        private string _FullPath;
+
+        private string _Date;
+
+        public string Date {
+            get {
+                return _Date;
+            }
+            set {
+                if (value != _Date) {
+                    _Date = value;
+                    NotifyPropertyChanged("Date");
+                }
+            }
+        }
 
         public ImageSource Thumb {
             get {
@@ -210,11 +177,35 @@ namespace AdvancedLauncher.Pages {
                 if (value != _Thumb) {
                     _Thumb = value;
                     NotifyPropertyChanged("Thumb");
+                    NotifyPropertyChanged("ThumbWidth");
+                    NotifyPropertyChanged("ThumbHeight");
                 }
             }
         }
 
-        private string _FullPath;
+        public double ThumbWidth {
+            get {
+                return Thumb.Width * SCALE_CONSTANT;
+            }
+        }
+
+        public double ThumbHeight {
+            get {
+                return Thumb.Height * SCALE_CONSTANT;
+            }
+        }
+
+        public ModelCommand Command {
+            get {
+                return new ModelCommand((p) => {
+                    try {
+                        Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + FullPath);
+                    } catch (Exception ex) {
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message);
+                    }
+                });
+            }
+        }
 
         public string FullPath {
             get {

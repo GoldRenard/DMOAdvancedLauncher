@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -45,6 +44,7 @@ namespace AdvancedLauncher.Windows {
 
         private AdvancedLauncher.Environment.Containers.Settings settingsContainer;
         private int currentLangIndex;
+        private bool IsPreventPassChange = false;
 
         protected override void InitializeAbstractWindow() {
             InitializeComponent();
@@ -53,25 +53,12 @@ namespace AdvancedLauncher.Windows {
         public Settings() {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-
                 //Copying settings object and set it as DataContext
                 ProfileList.DataContext = settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings);
                 //Search and set current profile
-                foreach (Profile p in ((AdvancedLauncher.Environment.Containers.Settings)ProfileList.DataContext).Profiles) {
+                foreach (Profile p in settingsContainer.Profiles) {
                     if (p.Id == LauncherEnv.Settings.CurrentProfile.Id) {
                         ProfileList.SelectedItem = p;
-                        break;
-                    }
-                }
-
-                //Load language list
-                ComboBoxLanguage.Items.Add(LanguageEnv.DefaultName);
-                foreach (string lang in LanguageEnv.GetTranslations()) {
-                    ComboBoxLanguage.Items.Add(Path.GetFileNameWithoutExtension(lang));
-                }
-                for (int i = 0; i < ComboBoxLanguage.Items.Count; i++) {
-                    if (ComboBoxLanguage.Items[i].ToString() == LauncherEnv.Settings.LanguageFile) {
-                        ComboBoxLanguage.SelectedIndex = currentLangIndex = i;
                         break;
                     }
                 }
@@ -84,8 +71,19 @@ namespace AdvancedLauncher.Windows {
 
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
             SelectedProfile = (Profile)ProfileList.SelectedItem;
+            if (SelectedProfile == null) {
+                return;
+            }
             ValidatePaths();
             NotifyPropertyChanged("IsSelectedNotDefault");
+
+            IsPreventPassChange = true;
+            if (SelectedProfile.Login.SecurePassword != null) {
+                pbPass.Password = "empty_pass";
+            } else {
+                pbPass.Clear();
+            }
+            IsPreventPassChange = false;
         }
 
         private void OnTypeSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -111,7 +109,7 @@ namespace AdvancedLauncher.Windows {
 
         private void OnRemoveClick(object sender, RoutedEventArgs e) {
             if (ProfileList.Items.Count == 1) {
-                Utils.MSG_ERROR(LanguageEnv.Strings.Settings_LastProfile);
+                Utils.ShowErrorDialog(LanguageEnv.Strings.Settings_LastProfile);
                 return;
             }
             Profile profile = SelectedProfile;
@@ -136,7 +134,7 @@ namespace AdvancedLauncher.Windows {
 
         #region Path Browse Section
 
-        private void OnGameBrowse(object sender, RoutedEventArgs e) {
+        private async void OnGameBrowse(object sender, RoutedEventArgs e) {
             Folderdialog.Description = LanguageEnv.Strings.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -144,8 +142,8 @@ namespace AdvancedLauncher.Windows {
                         SelectedProfile.GameEnv.GamePath = Folderdialog.SelectedPath;
                         break;
                     } else {
-                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectGameDirError,
-                            LanguageEnv.Strings.Settings_GamePath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        await Utils.ShowMessageDialogAsync(LanguageEnv.Strings.Settings_GamePath,
+                            LanguageEnv.Strings.Settings_SelectGameDirError);
                     }
                 } else {
                     break;
@@ -153,7 +151,7 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private void OnLauncherBrowse(object sender, RoutedEventArgs e) {
+        private async void OnLauncherBrowse(object sender, RoutedEventArgs e) {
             Folderdialog.Description = LanguageEnv.Strings.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -161,8 +159,8 @@ namespace AdvancedLauncher.Windows {
                         SelectedProfile.GameEnv.DefLauncherPath = Folderdialog.SelectedPath;
                         break;
                     } else {
-                        MessageBox.Show(LanguageEnv.Strings.Settings_SelectLauncherDirError,
-                            LanguageEnv.Strings.Settings_LauncherPath, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        await Utils.ShowMessageDialogAsync(LanguageEnv.Strings.Settings_LauncherPath,
+                            LanguageEnv.Strings.Settings_SelectLauncherDirError);
                     }
                 } else {
                     break;
@@ -190,7 +188,7 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private void OnAppLocaleHelpClick(object sender, RoutedEventArgs e) {
+        private async void OnAppLocaleHelpClick(object sender, RoutedEventArgs e) {
             if (Service.ApplicationLauncher.IsALSupported) {
                 return;
             }
@@ -204,7 +202,7 @@ namespace AdvancedLauncher.Windows {
             }
             message += System.Environment.NewLine + System.Environment.NewLine + LanguageEnv.Strings.AppLocale_FixQuestion;
 
-            if (MessageBoxResult.Yes == MessageBox.Show(message, LanguageEnv.Strings.AppLocale_Error, MessageBoxButton.YesNo, MessageBoxImage.Question)) {
+            if (await Utils.ShowYesNoDialog(LanguageEnv.Strings.AppLocale_Error, message)) {
                 if (!Service.ApplicationLauncher.IsALInstalled) {
                     System.Diagnostics.Process.Start(LINK_MS_APPLOCALE);
                 }
@@ -223,22 +221,13 @@ namespace AdvancedLauncher.Windows {
         #region Global Actions Section
 
         protected override void OnCloseClick(object sender, RoutedEventArgs e) {
-            ComboBoxLanguage.SelectedIndex = currentLangIndex;
             base.OnCloseClick(sender, e);
         }
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
-            currentLangIndex = ComboBoxLanguage.SelectedIndex;
-            settingsContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
-            LauncherEnv.Settings.Merge(settingsContainer);
+            LauncherEnv.Settings.MergeProfiles(settingsContainer);
             LauncherEnv.Save();
             Close();
-        }
-
-        private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (this.IsLoaded) {
-                LanguageEnv.Load(ComboBoxLanguage.SelectedValue.ToString());
-            }
         }
 
         #endregion Global Actions Section
@@ -268,5 +257,12 @@ namespace AdvancedLauncher.Windows {
         }
 
         #endregion Validation
+
+        private void PasswordChanged(object sender, RoutedEventArgs e) {
+            if (IsPreventPassChange) {
+                return;
+            }
+            SelectedProfile.Login.SecurePassword = pbPass.SecurePassword;
+        }
     }
 }

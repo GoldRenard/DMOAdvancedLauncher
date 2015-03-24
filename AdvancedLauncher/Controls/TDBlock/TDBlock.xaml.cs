@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,213 +17,110 @@
 // ======================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using AdvancedLauncher.Environment;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
     public partial class TDBlock : UserControl {
-        private TamerViewModel TamerModel = new TamerViewModel();
-        private DigimonViewModel DigimonModel = new DigimonViewModel();
-        private bool isFullDList = false;
-        private byte CurrentTab = 1;
+        private TamerViewModel TamerModel;
+        private DigimonViewModel DigimonModel;
+        private bool IsFullDigimonList = true;
+        private int CurrentTabIndex = 0;
 
-        public delegate void ChangedEventHandler(object sender, int tab_num);
-
-        public event ChangedEventHandler TabChanged;
-
-        protected virtual void OnChanged(int tab_num) {
-            if (TabChanged != null)
-                TabChanged(this, tab_num);
-        }
+        private Guild CURRENT_GUILD = new Guild() {
+            Id = -1
+        };
 
         public TDBlock() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                TamerModel = new TamerViewModel(this.Dispatcher);
+                DigimonModel = new DigimonViewModel(this.Dispatcher);
                 Tamers.DataContext = TamerModel;
                 Digimons.DataContext = DigimonModel;
-                LanguageEnv.Languagechanged += delegate() {
+                TamerModel.LoadStarted += TamersLoadStarted;
+                TamerModel.LoadCompleted += TamersLoadCompleted;
+                DigimonModel.LoadStarted += DigimonsLoadStarted;
+                DigimonModel.LoadCompleted += DigimonsLoadCompleted;
+                LanguageEnv.LanguageChanged += delegate() {
                     this.DataContext = LanguageEnv.Strings;
                 };
             }
         }
 
+        private void TamersLoadStarted(object sender, EventArgs e) {
+            LoaderRing.IsActive = true;
+            MainTabControl.IsEnabled = false;
+            TamerModel.UnLoadData();
+        }
+
+        private void TamersLoadCompleted(object sender, EventArgs e) {
+            MainTabControl.IsEnabled = true;
+            LoaderRing.IsActive = false;
+            MainTabControl.SelectedIndex = 0;
+        }
+
+        private void DigimonsLoadStarted(object sender, EventArgs e) {
+            LoaderRing.IsActive = true;
+            MainTabControl.IsEnabled = false;
+            DigimonModel.UnLoadData();
+        }
+
+        private void DigimonsLoadCompleted(object sender, EventArgs e) {
+            MainTabControl.IsEnabled = true;
+            LoaderRing.IsActive = false;
+            IsFullDigimonList = false;
+            MainTabControl.SelectedIndex = 1;
+            IsFullDigimonList = true;
+        }
+
         public void ClearAll() {
             TamerModel.UnLoadData();
             DigimonModel.UnLoadData();
-
-            Tamers.Visibility = Visibility.Collapsed;
-            Digimons.Visibility = Visibility.Collapsed;
-            Tamers.Opacity = 0;
-            Digimons.Opacity = 0;
-
-            isFullDList = false;
+            IsFullDigimonList = true;
+            MainTabControl.SelectedIndex = 0;
+            MainTabControl.IsEnabled = false;
         }
 
         #region Showing tabs
 
         private void OnTamersShow(object sender, MouseButtonEventArgs e) {
             if (TamerModel.IsDataLoaded && Tamers.SelectedIndex >= 0) {
-                TamerItemViewModel selected_item = (TamerItemViewModel)Tamers.SelectedItem;
-                Tamers.SelectedIndex = -1;
-                ShowDigimons(selected_item.Tamer);
+                TamerItemViewModel selectedItem = (TamerItemViewModel)Tamers.SelectedItem;
+                if (selectedItem != null) {
+                    DigimonModel.LoadDataAsync(selectedItem.Tamer);
+                }
             }
         }
 
-        public void ShowTamers() {
-            OnChanged(1);
-            //Скрываем старую панель
-            Storyboard sb = new Storyboard();
-            DoubleAnimation dbl_anim = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(150)));
-            Storyboard.SetTarget(dbl_anim, (CurrentTab == 1) ? Tamers : Digimons);
-            Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
-            sb.Children.Add(dbl_anim);
-            sb.Completed += (s, e) => {
-                Tamers.Visibility = Visibility.Visible;
-                Digimons.Visibility = Visibility.Collapsed;
-                CurrentTab = 1;
-                sb = new Storyboard();
-                dbl_anim = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(150)));
-                Storyboard.SetTarget(dbl_anim, Tamers);
-                Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
-                sb.Children.Add(dbl_anim);
-                sb.Begin();
-            };
-            sb.Begin();
-        }
-
-        public void ShowTamers(ICollection<Tamer> tamers) {
-            OnChanged(1);
-            //Скрываем старую панель
-            Storyboard sb = new Storyboard();
-            DoubleAnimation dbl_anim = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(150)));
-            Storyboard.SetTarget(dbl_anim, (CurrentTab == 1) ? Tamers : Digimons);
-            Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
-            sb.Children.Add(dbl_anim);
-            sb.Completed += (s, e) => {
-                Tamers.Visibility = Visibility.Visible;
-                Digimons.Visibility = Visibility.Collapsed;
-                CurrentTab = 1;
-                TamerModel.UnLoadData();
-                TamerModel.LoadData(tamers);
-                sb = new Storyboard();
-                dbl_anim = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(150)));
-                Storyboard.SetTarget(dbl_anim, Tamers);
-                Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
-                sb.Children.Add(dbl_anim);
-                sb.Begin();
-            };
-            sb.Begin();
-        }
-
-        public void ShowDigimons(Tamer tamer) {
-            OnChanged(2);
-            //Скрываем старую панель
-            Storyboard sb = new Storyboard();
-            DoubleAnimation dbl_anim = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(150)));
-            Storyboard.SetTarget(dbl_anim, (CurrentTab == 1) ? Tamers : Digimons);
-            Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
-            sb.Children.Add(dbl_anim);
-            sb.Completed += (s, e) => {
-                Tamers.Visibility = Visibility.Collapsed;
-                Digimons.Visibility = Visibility.Visible;
-
-                DigimonModel.UnLoadData();
-                DigimonModel.LoadData(tamer);
-                isFullDList = false;
-
-                CurrentTab = 2;
-                sb = new Storyboard();
-                dbl_anim = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(150)));
-                Storyboard.SetTarget(dbl_anim, Digimons);
-                Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
-                sb.Children.Add(dbl_anim);
-                sb.Begin();
-            };
-            sb.Begin();
-        }
-
-        public void ShowDigimons(ICollection<Tamer> tamers) {
-            OnChanged(2);
-            //Скрываем старую панель
-            Storyboard sb = new Storyboard();
-            DoubleAnimation dbl_anim = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(150)));
-            Storyboard.SetTarget(dbl_anim, (CurrentTab == 1) ? Tamers : Digimons);
-            Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
-            sb.Children.Add(dbl_anim);
-            sb.Completed += (s, e) => {
-                Tamers.Visibility = Visibility.Collapsed;
-                Digimons.Visibility = Visibility.Visible;
-
-                if (!isFullDList) {
-                    DigimonModel.UnLoadData();
-                    DigimonModel.LoadData(tamers);
-                    isFullDList = true;
-                }
-                CurrentTab = 2;
-                sb = new Storyboard();
-                dbl_anim = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(150)));
-                Storyboard.SetTarget(dbl_anim, Digimons);
-                Storyboard.SetTargetProperty(dbl_anim, new PropertyPath(OpacityProperty));
-                sb.Children.Add(dbl_anim);
-                sb.Begin();
-            };
-            sb.Begin();
+        public void SetGuild(Guild guild) {
+            CURRENT_GUILD = guild;
+            TamerModel.LoadDataAsync(guild.Tamers);
         }
 
         #endregion Showing tabs
 
-        #region List Header Processing and translation
+        private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            TabControl control = (TabControl)sender;
+            if (CURRENT_GUILD.Id == -1 || control.SelectedIndex == CurrentTabIndex) {
+                return;
+            }
+            CurrentTabIndex = control.SelectedIndex;
+            switch (CurrentTabIndex) {
+                case 1:
+                    if (IsFullDigimonList) {
+                        DigimonModel.LoadDataAsync(CURRENT_GUILD.Tamers);
+                        MainTabControl.SelectedIndex = 0;
+                    }
+                    break;
 
-        private void OnTamerHeaderLoaded(object sender, RoutedEventArgs e) {
-            ((TextBlock)sender).MouseLeftButtonUp += OnTamerHeaderClick;
-        }
-
-        private void OnDigimonHeaderLoaded(object sender, RoutedEventArgs e) {
-            ((TextBlock)sender).MouseLeftButtonUp += OnDigimonHeaderClick;
-        }
-
-        private void OnTamerHeaderClick(object sender, RoutedEventArgs e) {
-            if (sender != null) {
-                if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type) {
-                    TamerModel.Sort(i => i.Tamer.Type.Code);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name) {
-                    TamerModel.Sort(i => i.TName);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Level) {
-                    TamerModel.Sort(i => i.Level);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Ranking) {
-                    TamerModel.Sort(i => i.Rank);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Partner) {
-                    TamerModel.Sort(i => i.PName);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Mercenary) {
-                    TamerModel.Sort(i => i.DCnt);
-                }
+                default:
+                    break;
             }
         }
-
-        private void OnDigimonHeaderClick(object sender, RoutedEventArgs e) {
-            if (sender != null) {
-                if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Type) {
-                    DigimonModel.Sort(i => i.DType);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Name) {
-                    DigimonModel.Sort(i => i.DName);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Level) {
-                    DigimonModel.Sort(i => i.Level);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Ranking) {
-                    DigimonModel.Sort(i => i.Rank);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Tamer) {
-                    DigimonModel.Sort(i => i.TName);
-                } else if (((TextBlock)sender).Text == LanguageEnv.Strings.CommHeader_Size) {
-                    DigimonModel.Sort(i => i.SizePC);
-                }
-            }
-        }
-
-        #endregion List Header Processing and translation
     }
 }

@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DMOLibrary
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,13 +31,13 @@ namespace DMOLibrary.Profiles {
         protected DMONewsProfile _NewsProfile = null;
         protected ObservableCollection<Server> _ServerList;
 
-        private readonly string typeName;
+        private readonly string TypeName;
+
+        private readonly Server.ServerType ServerType;
 
         public DMOProfile(Server.ServerType serverType, string typeName) {
-            this.typeName = typeName;
-            using (MainContext context = new MainContext()) {
-                _ServerList = new ObservableCollection<Server>(context.Servers.Where(i => i.Type == serverType).ToList());
-            }
+            this.TypeName = typeName;
+            this.ServerType = serverType;
         }
 
         #region Game start
@@ -108,7 +108,7 @@ namespace DMOLibrary.Profiles {
         #region Database Section
 
         public Server GetServerById(int serverId) {
-            return _ServerList.Where(i => i.Identifier == serverId).FirstOrDefault();
+            return ServerList.Where(i => i.Identifier == serverId).FirstOrDefault();
         }
 
         public DMONewsProfile NewsProfile {
@@ -122,6 +122,11 @@ namespace DMOLibrary.Profiles {
 
         public ObservableCollection<Server> ServerList {
             get {
+                if (_ServerList == null) {
+                    using (MainContext context = new MainContext()) {
+                        _ServerList = new ObservableCollection<Server>(context.Servers.Where(i => i.Type == ServerType).ToList());
+                    }
+                }
                 return _ServerList;
             }
         }
@@ -153,7 +158,7 @@ namespace DMOLibrary.Profiles {
         public abstract string GetLauncherStartArgs(string args);
 
         public string GetTypeName() {
-            return typeName;
+            return TypeName;
         }
 
         public virtual AbstractWebProfile GetWebProfile() {

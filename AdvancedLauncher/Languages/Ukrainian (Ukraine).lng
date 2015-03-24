@@ -12,6 +12,7 @@
   <CancelButton>Відміна</CancelButton>
   <CloseButton>Закрити</CloseButton>
   <StartButton>Почати гру</StartButton>
+  <DigiRotation>ДігіРотація</DigiRotation>
   <WaitForComplete>Будь ласка, дочекайтеся завершення поточної операції</WaitForComplete>
   <PleaseWait>Будь ласка, почекайте</PleaseWait>
   <ErrorOccured>Сталася помилка!</ErrorOccured>
@@ -37,6 +38,7 @@
   <About_Translators>Переклади</About_Translators>
   <About_Licence404>Файл тексту ліцензії "{0}" не знайдено.</About_Licence404>
 
+  <ManageProfiles>Налаштувати профілі</ManageProfiles>
   <Settings>Налаштування</Settings>
   <Settings_Language>Мова</Settings_Language>
   <Settings_LastProfile>Неможливо видалити останній профіль. Лаунчер повинен мати як мінімум один.</Settings_LastProfile>
@@ -46,7 +48,7 @@
   <Settings_GameGroup>Гра</Settings_GameGroup>
   <Settings_AccountGroup>Обліковий запис</Settings_AccountGroup>
   <Settings_ProfileNameHint>Введіть ім'я профіля</Settings_ProfileNameHint>
-  <Settings_SetAsDefaultButton>Призначити профілем за замовчуванням</Settings_SetAsDefaultButton>
+  <Settings_SetAsDefaultButton>Призначити за замовчуванням</Settings_SetAsDefaultButton>
   <Settings_RotationGuildHint>Гільдія для ротації</Settings_RotationGuildHint>
   <Settings_RotationTamerHint>Теймер для ротації (опціонально)</Settings_RotationTamerHint>
   <Settings_RotationUpdateFREQ>Частота оновлення (у днях)</Settings_RotationUpdateFREQ>
@@ -65,6 +67,13 @@
   <Settings_SelectGameDirError>Ви повинні вказати правильну папку з грою</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Будь ласка, вкажіть папку зі стандартним лаунчером</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Ви повинні вказати правильну папку зі стандартним лаунчером</Settings_SelectLauncherDirError>
+  <Settings_ThemeGroup>Тема оформлення</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Колірна схема</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>З'єднання</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Проксі сервер</Settings_ProxyGroup>
+  <Settings_Proxy_Default>Системні налаштування</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Аутентифікація</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Хост і порт</Settings_Proxy_HostWatermark>
 
   <AppLocale_FailReasons>Неможливо використати AppLocale з наступних причин:</AppLocale_FailReasons>
   <AppLocale_Error>Помилка Microsoft AppLocale</AppLocale_Error>
@@ -102,7 +111,6 @@
   <LoginEmptyPassword>Будь ласка, введіть пароль!</LoginEmptyPassword>
   <LoginWrongPage>Віддалена сторінка авторизації зіпсована або змінена. Будь ласка, повідомте розробнику про цю помилку.</LoginWrongPage>
 
-  <GalleryHint>Клацніть двічі по скриншоту для відкриття</GalleryHint>
   <GalleryNoScreenshots>Скріншоти не знайдені</GalleryNoScreenshots>
   <GalleryCantOpenImage>Не вдалося відкрити зображення. Помилка: </GalleryCantOpenImage>
 
@@ -121,15 +129,13 @@
   <CommSearchingGuild>Пошук гільдії</CommSearchingGuild>
   <CommGettingTamer>Отримання теймера: {0}</CommGettingTamer>
   
-  <CommShowTab>ПОКАЗАТИ</CommShowTab>
-  <CommTamersTab>ТЕЙМЕРОВ</CommTamersTab>
-  <CommDigimonsTab>ДІГІМОНІВ</CommDigimonsTab>
+  <CommTamersTab>ТЕЙМЕРI</CommTamersTab>
+  <CommDigimonsTab>ДІГІМОНІ</CommDigimonsTab>
 
   <CommSelect_Guild>Яку гільдію шукаємо</CommSelect_Guild>
   <CommCheckBox_Detailed>Отримувати докладні дані (довго)</CommCheckBox_Detailed>
   <CommButton_Search>Знайти гільдію</CommButton_Search>
 
-  <CommInformation>Інформація</CommInformation>
   <CommGMaster>Майстер</CommGMaster>
   <CommGBest>Кращий</CommGBest>
   <CommGRank>Ранг</CommGRank>

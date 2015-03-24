@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,11 +23,16 @@ using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
 using log4net.Config;
 
+#if DEBUG
+
+using DMOLibrary.Database.Context;
+
+#endif
+
 namespace AdvancedLauncher {
 
     public partial class App : Application {
         public static SplashScreen splash = new SplashScreen("Resources/SplashScreen.png");
-        public static char subVersion = 'a';
 
         private Window WpfBugWindow = new Window() {
             AllowsTransparency = true,
@@ -56,8 +61,14 @@ namespace AdvancedLauncher {
         private void Application_Startup(object sender, StartupEventArgs e) {
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
-                splash.Show(false);
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
+                    splash.Show(false);
+#if DEBUG
+                    using (MainContext context = new MainContext()) {
+                        context.Database.Initialize(false);
+                    }
+#endif
+                    LauncherEnv.LoadTheme();
                     MainWindow mw = new MainWindow();
                     mw.Show();
                     WpfBugWindow.Close();
@@ -71,6 +82,8 @@ namespace AdvancedLauncher {
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
             BugWindow bw = new BugWindow(sender, e);
             bw.ShowDialog();
+            e.Handled = true;
+            Application.Current.Shutdown();
         }
     }
 }

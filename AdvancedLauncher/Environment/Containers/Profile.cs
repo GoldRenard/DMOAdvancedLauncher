@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,10 +48,19 @@ namespace AdvancedLauncher.Environment.Containers {
         [XmlAttribute("Name")]
         public string Name {
             set {
-                _Name = value; NotifyPropertyChanged("Name");
+                _Name = value;
+                NotifyPropertyChanged("Name");
+                NotifyPropertyChanged("FullName");
             }
             get {
                 return _Name;
+            }
+        }
+
+        [XmlIgnore]
+        public string FullName {
+            get {
+                return string.Format("{0} ({1})", Name, GameType);
             }
         }
 
@@ -156,7 +165,11 @@ namespace AdvancedLauncher.Environment.Containers {
 
         public string ImagePath {
             set {
-                _ImagePath = value; NotifyPropertyChanged("ImagePath"); NotifyPropertyChanged("Image");
+                _ImagePath = value;
+                NotifyPropertyChanged("ImagePath");
+                NotifyPropertyChanged("Image");
+                NotifyPropertyChanged("HasImage");
+                NotifyPropertyChanged("NoImage");
             }
             get {
                 return _ImagePath;
@@ -164,7 +177,7 @@ namespace AdvancedLauncher.Environment.Containers {
         }
 
         private string _ImagePathLoaded;
-        private ImageSource _Image = new BitmapImage(new Uri("pack://application:,,,/Resources/Icons/NoAvatar.png"));
+        private ImageSource _Image;
 
         [XmlIgnore]
         public ImageSource Image {
@@ -172,6 +185,8 @@ namespace AdvancedLauncher.Environment.Containers {
                 if (_Image != value) {
                     _Image = value;
                     NotifyPropertyChanged("Image");
+                    NotifyPropertyChanged("HasImage");
+                    NotifyPropertyChanged("NoImage");
                 }
             }
             get {
@@ -187,6 +202,20 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
+        [XmlIgnore]
+        public bool HasImage {
+            get {
+                return Image != null;
+            }
+        }
+
+        [XmlIgnore]
+        public bool NoImage {
+            get {
+                return Image == null;
+            }
+        }
+
         #endregion Image
 
         #region Game Environment
@@ -195,7 +224,9 @@ namespace AdvancedLauncher.Environment.Containers {
 
         public GameEnv GameEnv {
             set {
-                _GameEnv = value; NotifyPropertyChanged("GameEnv");
+                _GameEnv = value;
+                NotifyPropertyChanged("GameEnv");
+                NotifyPropertyChanged("FullName");
             }
             get {
                 if (!_GameEnv.IsInitialized) {

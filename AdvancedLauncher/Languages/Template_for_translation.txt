@@ -2,6 +2,8 @@
 <Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <CantOpenLink>Can't open link. Try to change the default browser. Error: </CantOpenLink>
+  <Yes>Yes</Yes>
+  <No>No</No>
   <Error>Error</Error>
   <Console>Console</Console>
   <CreateButton>Create</CreateButton>
@@ -9,9 +11,11 @@
   <BrowseButton>Browse</BrowseButton>
   <ApplyButton>Apply</ApplyButton>
   <SendButton>Send</SendButton>
+  <LogInButton>logIn</LogInButton>
   <CancelButton>Cancel</CancelButton>
   <CloseButton>Close</CloseButton>
   <StartButton>GAME START</StartButton>
+  <DigiRotation>DigiRotation</DigiRotation>
   <WaitForComplete>Please wait completion of the current operation</WaitForComplete>
   <PleaseWait>Please wait</PleaseWait>
   <ErrorOccured>An error has occurred!</ErrorOccured>
@@ -37,6 +41,7 @@
   <About_Translators>Translators</About_Translators>
   <About_Licence404>Licence file "{0}" not found.</About_Licence404>
   
+  <ManageProfiles>Manage profiles</ManageProfiles>
   <Settings>Settings</Settings>
   <Settings_Language>Language</Settings_Language>
   <Settings_LastProfile>It is impossible to delete the latest profile. Launcher must has at least one profile.</Settings_LastProfile>
@@ -65,7 +70,14 @@
   <Settings_SelectGameDirError>You must specify the correct folder of the game.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Please specify the directory where the default launcher is located</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>You must specify the correct folder of the default launcher.</Settings_SelectLauncherDirError>
-  
+  <Settings_ThemeGroup>Theme</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Color scheme</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Proxy</Settings_ProxyGroup>
+  <Settings_Proxy_Default>System default</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Authentication</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Host and port</Settings_Proxy_HostWatermark>
+
   <AppLocale_FailReasons>Can't run the game through AppLocale for the following reasons:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Error</AppLocale_Error>
   <AppLocale_NotInstalled> - Microsoft AppLocale Utility is not installed</AppLocale_NotInstalled>
@@ -91,7 +103,7 @@
   <UpdateDownloading>Downloading update {0} of {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
   <UpdateExtracting>Unpacking update {0} of {1}... [{2} / {3}]</UpdateExtracting>
   <UpdateInstalling>Installing updates... [{0} / {1}]</UpdateInstalling>
-  <UseLastSession>Use last session</UseLastSession>
+  <UseLastSession>Do you want to use last successful session?</UseLastSession>
   
   <LoginTry>Try {0}...</LoginTry>
   <LoginGettingData>Obtaining data...</LoginGettingData>
@@ -101,8 +113,7 @@
   <LoginEmptyUsername>Please type your username!</LoginEmptyUsername>
   <LoginEmptyPassword>Please type your password!</LoginEmptyPassword>
   <LoginWrongPage>Login page is incorrect or has been changed. Please contact the developer of launcher.</LoginWrongPage>
-  
-  <GalleryHint>CLICK TWICE ON THE SCREENSHOT FOR OPENING</GalleryHint>
+
   <GalleryNoScreenshots>THERE IS NO SCREENSHOTS</GalleryNoScreenshots>
   <GalleryCantOpenImage>Can't open the image. Error: </GalleryCantOpenImage>
   
@@ -120,8 +131,7 @@
   
   <CommSearchingGuild>Searching the guild</CommSearchingGuild>
   <CommGettingTamer>Obtaining Tamer: {0}</CommGettingTamer>
-  
-  <CommShowTab>SHOW</CommShowTab>
+
   <CommTamersTab>TAMERS</CommTamersTab>
   <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
   
@@ -129,7 +139,6 @@
   <CommCheckBox_Detailed>Receive detailed data (long)</CommCheckBox_Detailed>
   <CommButton_Search>Search a guild</CommButton_Search>
   
-  <CommInformation>Information</CommInformation>
   <CommGMaster>Master</CommGMaster>
   <CommGBest>Best</CommGBest>
   <CommGRank>Ranking</CommGRank>

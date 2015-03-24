@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,14 +16,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.ComponentModel;
 using System.Windows.Media;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
-    public class TamerItemViewModel : INotifyPropertyChanged {
+    public class TamerItemViewModel : AbstractItemViewModel<Tamer> {
         private string _TName;
 
         public string TName {
@@ -119,15 +117,6 @@ namespace AdvancedLauncher.Controls {
                     _Image = value;
                     NotifyPropertyChanged("Image");
                 }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

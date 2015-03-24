@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DMOLibrary
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
@@ -49,57 +50,57 @@ namespace DMOLibrary.Profiles.Korea {
             };
             HtmlDocument doc = new HtmlDocument();
             OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
-
-            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_RANK, guildName, server.Identifier));
-            if (html == string.Empty) {
-                OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
-                return guild;
-            }
-            doc.LoadHtml(html);
-
-            bool isFound = false;
-            HtmlNode ranking = doc.DocumentNode;
-
-            string guildMaster = null;
-
             try {
-                ranking = doc.DocumentNode.SelectNodes("//div[@id='body']//table[@class='forum_list'][1]//tbody//tr[not(@onmouseover)]")[4];
-                guild.Rank = CheckRankNode(ranking.SelectSingleNode(".//td[1]"));
-                guild.Name = ClearStr(ranking.SelectSingleNode(".//td[2]").InnerText);
-                guild.Rep = Convert.ToInt32(ClearStr(ranking.SelectSingleNode(".//td[4]").InnerText));
-                guildMaster = ClearStr(ranking.SelectSingleNode(".//td[5]").InnerText);
+                string html = DownloadContent(string.Format(STR_URL_GUILD_RANK, guildName, server.Identifier));
+                doc.LoadHtml(html);
 
-                Regex r1 = new Regex(STR_GUILD_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                string link = ranking.SelectSingleNode(".//td[7]").InnerHtml;
-                Match m1 = r1.Match(link);
-                if (m1.Success) {
-                    guild.Identifier = Convert.ToInt32(m1.Groups[4].ToString());
-                    isFound = true;
+                bool isFound = false;
+                HtmlNode ranking = doc.DocumentNode;
+
+                string guildMaster = null;
+
+                try {
+                    ranking = doc.DocumentNode.SelectNodes("//div[@id='body']//table[@class='forum_list'][1]//tbody//tr[not(@onmouseover)]")[4];
+                    guild.Rank = CheckRankNode(ranking.SelectSingleNode(".//td[1]"));
+                    guild.Name = ClearStr(ranking.SelectSingleNode(".//td[2]").InnerText);
+                    guild.Rep = Convert.ToInt32(ClearStr(ranking.SelectSingleNode(".//td[4]").InnerText));
+                    guildMaster = ClearStr(ranking.SelectSingleNode(".//td[5]").InnerText);
+
+                    Regex r1 = new Regex(STR_GUILD_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                    string link = ranking.SelectSingleNode(".//td[7]").InnerHtml;
+                    Match m1 = r1.Match(link);
+                    if (m1.Success) {
+                        guild.Identifier = Convert.ToInt32(m1.Groups[4].ToString());
+                        isFound = true;
+                    }
+                } catch {
+                    isFound = false;
                 }
-            } catch {
-                isFound = false;
-            }
 
-            if (!isFound) {
-                OnCompleted(DMODownloadResultCode.NOT_FOUND, guild); // guild not found
-                return guild;
-            }
-
-            List<DigimonType> types = GetDigimonTypes();
-            using (MainContext context = new MainContext()) {
-                foreach (DigimonType type in types) {
-                    context.AddOrUpdateDigimonType(type, true);
+                if (!isFound) {
+                    OnCompleted(DMODownloadResultCode.NOT_FOUND, guild); // guild not found
+                    return guild;
                 }
-                context.SaveChanges();
-            }
 
-            if (GetGuildInfo(ref guild, isDetailed)) {
-                guild.Tamers.First(t => t.Name == guildMaster).IsMaster = true;
-                guild.UpdateTime = DateTime.Now;
-                OnCompleted(DMODownloadResultCode.OK, guild);
-                return guild;
-            } else {
-                OnCompleted(DMODownloadResultCode.CANT_GET, guild); // can't get guild info
+                List<DigimonType> types = GetDigimonTypes();
+                using (MainContext context = new MainContext()) {
+                    foreach (DigimonType type in types) {
+                        context.AddOrUpdateDigimonType(type, true);
+                    }
+                    context.SaveChanges();
+                }
+
+                if (GetGuildInfo(ref guild, isDetailed)) {
+                    guild.Tamers.First(t => t.Name == guildMaster).IsMaster = true;
+                    guild.UpdateTime = DateTime.Now;
+                    OnCompleted(DMODownloadResultCode.OK, guild);
+                    return guild;
+                } else {
+                    OnCompleted(DMODownloadResultCode.CANT_GET, guild); // can't get guild info
+                    return guild;
+                }
+            } catch (WebException e) {
+                OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
                 return guild;
             }
         }
@@ -108,10 +109,7 @@ namespace DMOLibrary.Profiles.Korea {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlDocument doc = new HtmlDocument();
             LOGGER.InfoFormat("Obtaining info of {0}", guild.Name);
-            string html = WebDownload.GetHTML(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
-            if (html == string.Empty) {
-                return false;
-            }
+            string html = DownloadContent(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
             doc.LoadHtml(html);
 
             HtmlNode ranking = doc.DocumentNode.SelectNodes("//table[@class='forum_list']//tbody")[1];
@@ -175,11 +173,7 @@ namespace DMOLibrary.Profiles.Korea {
             List<Digimon> digimonList = new List<Digimon>();
             HtmlDocument doc = new HtmlDocument();
 
-            string html = WebDownload.GetHTML(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, tamer.Guild.Server.Identifier));
-            if (html == string.Empty) {
-                LOGGER.ErrorFormat("Obtaining digimons for tamer \"{0}\" failed", tamer.Name);
-                return digimonList;
-            }
+            string html = DownloadContent(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, tamer.Guild.Server.Identifier));
             doc.LoadHtml(html);
 
             //getting starter
@@ -254,11 +248,7 @@ namespace DMOLibrary.Profiles.Korea {
         protected override bool GetStarterInfo(ref Digimon digimon, Tamer tamer) {
             LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
             HtmlDocument doc = new HtmlDocument();
-            string html = WebDownload.GetHTML(string.Format(STR_URL_STARTER_RANK, tamer.Name, tamer.Guild.Server.Identifier));
-            if (html == string.Empty) {
-                LOGGER.ErrorFormat("Obtaining starter digimon for tamer \"{0}\" failed", tamer.Name);
-                return false;
-            }
+            string html = DownloadContent(string.Format(STR_URL_STARTER_RANK, tamer.Name, tamer.Guild.Server.Identifier));
             doc.LoadHtml(html);
 
             HtmlNode partnerNode;
@@ -283,10 +273,7 @@ namespace DMOLibrary.Profiles.Korea {
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
 
-            string html = WebDownload.GetHTML(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, tamer.Guild.Server.Identifier, digimon.Type.Code));
-            if (html == string.Empty) {
-                return false;
-            }
+            string html = DownloadContent(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, tamer.Guild.Server.Identifier, digimon.Type.Code));
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
 
@@ -336,10 +323,7 @@ namespace DMOLibrary.Profiles.Korea {
         public override List<DigimonType> GetDigimonTypes() {
             List<DigimonType> dTypes = new List<DigimonType>();
 
-            string html = WebDownload.GetHTML(STR_URL_MERC_SIZE_RANK_MAIN);
-            if (html == string.Empty) {
-                return dTypes;
-            }
+            string html = DownloadContent(STR_URL_MERC_SIZE_RANK_MAIN);
             HtmlDocument doc = new HtmlDocument();
             HtmlNode.ElementsFlags.Remove("option");
             doc.LoadHtml(html);

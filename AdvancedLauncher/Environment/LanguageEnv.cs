@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Environment {
@@ -55,6 +57,28 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 return _Error;
+            }
+        }
+
+        private string _Yes = "Yes";
+
+        public string Yes {
+            set {
+                _Yes = value; NotifyPropertyChanged("Yes");
+            }
+            get {
+                return _Yes;
+            }
+        }
+
+        private string _No = "No";
+
+        public string No {
+            set {
+                _No = value; NotifyPropertyChanged("No");
+            }
+            get {
+                return _No;
             }
         }
 
@@ -135,6 +159,17 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
+        private string _LogInButton = "LogIn";
+
+        public string LogInButton {
+            set {
+                _LogInButton = value; NotifyPropertyChanged("LogInButton");
+            }
+            get {
+                return _LogInButton;
+            }
+        }
+
         private string _CloseButton = "Close";
 
         public string CloseButton {
@@ -154,6 +189,17 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 return _StartButton.ToUpper();
+            }
+        }
+
+        private string _DigiRotation = "GAME START";
+
+        public string DigiRotation {
+            set {
+                _DigiRotation = value; NotifyPropertyChanged("DigiRotation");
+            }
+            get {
+                return _DigiRotation;
             }
         }
 
@@ -349,10 +395,7 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                string ver = string.Empty;
-                if (App.subVersion != ' ')
-                    ver += App.subVersion;
-                return string.Format("{0}: {1}.{2}{3} (build {4})", _About_Version, version.Major, version.Minor, ver, version.Build);
+                return string.Format("{0}: {1}.{2} (build {3})", _About_Version, version.Major, version.Minor, version.Build);
             }
         }
 
@@ -414,6 +457,17 @@ namespace AdvancedLauncher.Environment {
         #endregion About Window
 
         #region Settings Window
+
+        private string _ManageProfiles = "Manage profiles";
+
+        public string ManageProfiles {
+            set {
+                _ManageProfiles = value; NotifyPropertyChanged("ManageProfiles");
+            }
+            get {
+                return _ManageProfiles;
+            }
+        }
 
         private string _Settings = "Settings";
 
@@ -502,6 +556,50 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 return _Settings_AccountGroup;
+            }
+        }
+
+        private string _Settings_ThemeGroup = "Theme";
+
+        public string Settings_ThemeGroup {
+            set {
+                _Settings_ThemeGroup = value; NotifyPropertyChanged("Settings_ThemeGroup");
+            }
+            get {
+                return _Settings_ThemeGroup + sep;
+            }
+        }
+
+        private string _Settings_ColorSchemeGroup = "Color scheme";
+
+        public string Settings_ColorSchemeGroup {
+            set {
+                _Settings_ColorSchemeGroup = value; NotifyPropertyChanged("Settings_ColorSchemeGroup");
+            }
+            get {
+                return _Settings_ColorSchemeGroup + sep;
+            }
+        }
+
+        private string _Settings_ConnectionGroup = "Connection";
+
+        public string Settings_ConnectionGroup {
+            set {
+                _Settings_ConnectionGroup = value; NotifyPropertyChanged("Settings_ConnectionGroup");
+            }
+            get {
+                return _Settings_ConnectionGroup + sep;
+            }
+        }
+
+        private string _Settings_ProxyGroup = "Proxy";
+
+        public string Settings_ProxyGroup {
+            set {
+                _Settings_ProxyGroup = value; NotifyPropertyChanged("Settings_ProxyGroup");
+            }
+            get {
+                return _Settings_ProxyGroup + sep;
             }
         }
 
@@ -747,6 +845,43 @@ namespace AdvancedLauncher.Environment {
 
         #endregion Browse Messages
 
+        #region Proxy Settings
+
+        private string _Settings_Proxy_Default = "System default";
+
+        public string Settings_Proxy_Default {
+            set {
+                _Settings_Proxy_Default = value; NotifyPropertyChanged("Settings_Proxy_Default");
+            }
+            get {
+                return _Settings_Proxy_Default;
+            }
+        }
+
+        private string _Settings_Proxy_Authentication = "Authentication";
+
+        public string Settings_Proxy_Authentication {
+            set {
+                _Settings_Proxy_Authentication = value; NotifyPropertyChanged("Settings_Proxy_Authentication");
+            }
+            get {
+                return _Settings_Proxy_Authentication + sep;
+            }
+        }
+
+        private string _Settings_Proxy_HostWatermark = "Host and port";
+
+        public string Settings_Proxy_HostWatermark {
+            set {
+                _Settings_Proxy_HostWatermark = value; NotifyPropertyChanged("Settings_Proxy_HostWatermark");
+            }
+            get {
+                return _Settings_Proxy_HostWatermark;
+            }
+        }
+
+        #endregion Proxy Settings
+
         #endregion Settings Window
 
         #region AppLocale
@@ -854,7 +989,7 @@ namespace AdvancedLauncher.Environment {
                 _News = value; NotifyPropertyChanged("News");
             }
             get {
-                return _News.ToUpper() + sep;
+                return _News;
             }
         }
 
@@ -1584,6 +1719,36 @@ namespace AdvancedLauncher.Environment {
         private LanguageEnv() {
         }
 
+        /// <summary>
+        /// Returns property value by its string representation as key
+        /// </summary>
+        /// <param name="key">Property name</param>
+        /// <returns>Property value</returns>
+        public string this[string key] {
+            get {
+                PropertyInfo property = GetType().GetProperty(key);
+                if (property == null) {
+                    return null;
+                }
+                return property.GetValue(this, null) as string;
+            }
+        }
+
+        /// <summary>
+        /// Returns string representation of property by lambda expression
+        /// </summary>
+        /// <param name="expression">Property lambda expression</param>
+        /// <returns></returns>
+        public string this[Expression<Func<LanguageEnv, object>> expression] {
+            get {
+                var body = expression.Body as MemberExpression;
+                if (body == null) {
+                    body = ((UnaryExpression)expression.Body).Operand as MemberExpression;
+                }
+                return body.Member.Name;
+            }
+        }
+
         #region Save/Read/Load
 
         public static void Save(string filename, LanguageEnv t_object) {
@@ -1647,11 +1812,11 @@ namespace AdvancedLauncher.Environment {
 
         public delegate void ChangedEventHandler();
 
-        public static event ChangedEventHandler Languagechanged;
+        public static event ChangedEventHandler LanguageChanged;
 
         public static void OnChanged() {
-            if (Languagechanged != null)
-                Languagechanged();
+            if (LanguageChanged != null)
+                LanguageChanged();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AdvancedLauncher</RootNamespace>
     <AssemblyName>AdvancedLauncher</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -24,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -44,14 +47,15 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServerCompact">
-      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net40\EntityFramework.SqlServerCompact.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -61,25 +65,26 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.1.2.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -98,7 +103,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\AbstractContainerViewModel.cs" />
+    <Compile Include="Controls\AbstractItemViewModel.cs" />
     <Compile Include="Controls\AutoScrollBehavior.cs" />
+    <Compile Include="Controls\BindingProxy.cs" />
+    <Compile Include="Controls\DigiRotation\HaguruLoader.xaml.cs">
+      <DependentUpon>HaguruLoader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DigiRotation\RotationElement.xaml.cs">
+      <DependentUpon>RotationElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\LoginManager.cs" />
+    <Compile Include="Controls\LogoControl.xaml.cs">
+      <DependentUpon>LogoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MenuFlyout.xaml.cs">
+      <DependentUpon>MenuFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ModelCommand.cs" />
+    <Compile Include="Controls\SettingsFlyout.xaml.cs">
+      <DependentUpon>SettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SimpleCommand.cs" />
+    <Compile Include="Controls\TDBlock\GuildInfoItemViewModel.cs" />
     <Compile Include="Controls\TDBlock\IconHolder.cs" />
     <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
@@ -107,7 +134,6 @@
     <Compile Include="Controls\DigiRotation\DigiRotation.xaml.cs">
       <DependentUpon>DigiRotation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DigiRotation\DInfoItemViewModel.cs" />
     <Compile Include="Controls\Footer.xaml.cs">
       <DependentUpon>Footer.xaml</DependentUpon>
     </Compile>
@@ -119,21 +145,21 @@
     </Compile>
     <Compile Include="Controls\NewsBlock\JoymaxViewModel.cs" />
     <Compile Include="Controls\NewsBlock\JoymaxItemViewModel.cs" />
-    <Compile Include="Controls\MainMenu.xaml.cs">
-      <DependentUpon>MainMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\NewsBlock\TwitterItemViewModel.cs" />
     <Compile Include="Controls\NewsBlock\TwitterViewModel.cs" />
     <Compile Include="Controls\TDBlock\DigimonViewModel.cs" />
     <Compile Include="Controls\TDBlock\TamerItemViewModel.cs" />
     <Compile Include="Controls\TDBlock\TamerViewModel.cs" />
+    <Compile Include="Controls\TDBlock\GuildInfoViewModel.cs" />
     <Compile Include="Environment\Commands\CommandHandler.cs" />
     <Compile Include="Environment\Commands\Command.cs" />
     <Compile Include="Environment\Commands\HelpCommand.cs" />
     <Compile Include="Environment\Commands\EchoCommand.cs" />
     <Compile Include="Environment\Commands\ExecCommand.cs" />
     <Compile Include="Environment\Commands\ExitCommand.cs" />
+    <Compile Include="Environment\Commands\LicenceCommand.cs" />
     <Compile Include="Environment\Containers\NewsData.cs" />
+    <Compile Include="Environment\Containers\ProxySetting.cs" />
     <Compile Include="Environment\Containers\RotationData.cs" />
     <Compile Include="Environment\GameEnv.cs" />
     <Compile Include="Environment\Containers\LoginData.cs" />
@@ -163,6 +189,7 @@
     <Compile Include="Service\JpegEncoder.cs" />
     <Compile Include="Service\ParentProcessUtilities.cs" />
     <Compile Include="Service\PassEncrypt.cs" />
+    <Compile Include="Service\RemoveChildHelper.cs" />
     <Compile Include="Service\TargaImage.cs" />
     <Compile Include="Service\TaskManager.cs" />
     <Compile Include="Service\UpdateChecker.cs" />
@@ -193,6 +220,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DigiRotation\HaguruLoader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DigiRotation\RotationElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <DesignData Include="Controls\DigiRotation\RotationElementSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
     <Page Include="Controls\Footer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -201,18 +240,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\HintPasswordBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MainMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <DesignData Include="Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Controls\LogoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MenuFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\NewsBlock\NewsBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -221,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Controls\SettingsFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TDBlock\TDBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -241,7 +284,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Shared.xaml">
+    <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -249,14 +292,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\HintPasswordBox.xaml.cs">
-      <DependentUpon>HintPasswordBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\HintTextBox.cs" />
-    <Compile Include="Controls\Trigger.cs" />
-    <Page Include="Resources\MagicoUI.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Resources\SharedLite.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\About.xaml">
       <SubType>Designer</SubType>
@@ -336,13 +374,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\Password.png" />
-    <Resource Include="Resources\Icons\User.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\background.jpg" />
-    <Resource Include="Resources\loading.png" />
-    <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
@@ -355,31 +386,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\NoAvatar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Configuration.png" />
-    <Resource Include="Resources\Icons\Info.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\background_dark.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Docs\Changelog.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Docs\LICENSE.txt">
+    <EmbeddedResource Include="Docs\LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
     <None Include="Docs\README_ENG.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Docs\README_RUS.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\twitter.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Community\21134.png">
@@ -861,33 +879,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\copy_icons.png" />
-    <Resource Include="Resources\footer.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Controls\NewsBlock\Images\bbs_mode.png" />
-    <Resource Include="Controls\NewsBlock\Images\joymax_news.png" />
-    <Resource Include="Controls\NewsBlock\Images\minus.png" />
-    <Resource Include="Controls\NewsBlock\Images\plus.png" />
-    <Resource Include="Controls\NewsBlock\Images\twitter_news.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Controls\DigiRotation\Images\bronze.png" />
-    <Resource Include="Controls\DigiRotation\Images\gold.png" />
-    <Resource Include="Controls\DigiRotation\Images\Hagurumon.png" />
-    <Resource Include="Controls\DigiRotation\Images\Haguru_gear.png" />
-    <Resource Include="Controls\DigiRotation\Images\silver.png" />
-    <Resource Include="Controls\DigiRotation\Images\unknown.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\save.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Languages\Template_for_translation.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Console.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Community\31052.png">
@@ -1022,6 +1021,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\DigiRotation\71087.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Docs\WindowsIcons-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

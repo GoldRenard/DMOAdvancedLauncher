@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DMOLibrary
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,10 +33,7 @@ namespace DMOLibrary.Profiles.Joymax {
             HtmlDocument doc = new HtmlDocument();
             List<NewsItem> news = new List<NewsItem>();
 
-            string html = WebDownload.GetHTML("http://dmocp.joymax.com/Main/HomeMain.aspx");
-            if (html == string.Empty) {
-                return null;
-            }
+            string html = WebClientEx.DownloadContent("http://dmocp.joymax.com/Main/HomeMain.aspx", 5000);
             doc.LoadHtml(html);
 
             HtmlNode newsWrap = doc.DocumentNode.SelectNodes("//div[@class='news-list']/ul/li")[0];

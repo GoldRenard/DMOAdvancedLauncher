@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GoldRenard")]
 [assembly: AssemblyProduct("DMO Keyboard Layout Changer Service")]
-[assembly: AssemblyCopyright("GoldRenard ©  2014")]
+[assembly: AssemblyCopyright("GoldRenard ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -46,4 +46,4 @@ using System.Windows;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию,
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.3.*")]
+[assembly: AssemblyVersion("3.0.*")]

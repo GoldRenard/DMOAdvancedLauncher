@@ -12,6 +12,7 @@
   <CancelButton>Abbrechen</CancelButton>
   <CloseButton>Schliessen</CloseButton>
   <StartButton>SPIEL STARTEN</StartButton>
+  <DigiRotation>Digi-Rotation</DigiRotation>
   <WaitForComplete>Bitte warten Sie bis der Vorgang abgeschlossen wurde.</WaitForComplete>
   <PleaseWait>Bitte warten...</PleaseWait>
   <ErrorOccured>Ein Fehler ist aufgetreten.</ErrorOccured>
@@ -36,7 +37,8 @@
   <About_Acknowledgments>Danke an</About_Acknowledgments>
   <About_Translators>Uebersetzer</About_Translators>
   <About_Licence404>Lizenz Datei "{0}" wurde nicht gefunden.</About_Licence404>
-  
+
+  <ManageProfiles>Profile einrichten</ManageProfiles>
   <Settings>Einstellungen</Settings>
   <Settings_Language>Sprache</Settings_Language>
   <Settings_LastProfile>Sie muessen mindestens ein Profil haben. Es ist nicht moeglich das Letzte zu entfernen.</Settings_LastProfile>
@@ -65,6 +67,13 @@
   <Settings_SelectGameDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem Spielverzeichnis an.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Bitte geben Sie einen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDirError>
+  <Settings_ThemeGroup>Thema</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Farbschema</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Internetverbindung</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Vermittlungsserver</Settings_ProxyGroup>
+  <Settings_Proxy_Default>Systemstandard</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Beglaubigung</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Server / port</Settings_Proxy_HostWatermark>
   
   <AppLocale_FailReasons>Das Spiel konnte nicht durch AppLocale gestartet werden. Moegliche Ursachen:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Fehler</AppLocale_Error>
@@ -101,8 +110,7 @@
   <LoginEmptyBenutzername>Bitte geben Sie einen Benutzernamen ein!</LoginEmptyBenutzername>
   <LoginEmptyPassword>Bitte geben Sie Ihr Passwort ein!</LoginEmptyPassword>
   <LoginWrongPage>Die Login-Seite ist inkorrekt oder wurde veraendert. Bitte kontaktieren Sie den Programmierer dieses Launchers.</LoginWrongPage>
-  
-  <GalleryHint>DOPPELKLICKEN SIE AUF EIN BILD UM ES ANZUSEHEN</GalleryHint>
+
   <GalleryNoScreenshots>KEINE SCREENSHOTS VORHANDEN</GalleryNoScreenshots>
   <GalleryCantOpenImage>Fehler! Konnte die Bilddatei nicht oeffnen. Moegliche Ursachen:</GalleryCantOpenImage>
   
@@ -121,7 +129,6 @@
   <CommSearchingGuild>Gilde wird gesucht...</CommSearchingGuild>
   <CommGettingTamer>Tamer werden empfangen: {0}</CommGettingTamer>
   
-  <CommShowTab>ANZEIGE</CommShowTab>
   <CommTamersTab>TAMER</CommTamersTab>
   <CommDigimonsTab>DIGIMON</CommDigimonsTab>
   
@@ -129,7 +136,6 @@
   <CommCheckBox_Detailed>Umfangreiche Informationen herunterladen</CommCheckBox_Detailed>
   <CommButton_Search>Gilde suchen</CommButton_Search>
   
-  <CommInformation>Informationen</CommInformation>
   <CommGMaster>Gilden-Meister</CommGMaster>
   <CommGBest>Bestes Mitglied</CommGBest>
   <CommGRank>Gilden-Rang</CommGRank>

@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,8 +30,27 @@ namespace AdvancedLauncher.Environment.Containers {
         [XmlElement("Language")]
         public string LanguageFile;
 
+        [XmlElement("AppTheme")]
+        public string AppTheme;
+
+        [XmlElement("ThemeAccent")]
+        public string ThemeAccent;
+
         [XmlElement("DefaultProfile")]
         public int DefaultProfile;
+
+        private ProxySetting _Proxy = new ProxySetting();
+
+        [XmlElement("Proxy")]
+        public ProxySetting Proxy {
+            set {
+                _Proxy = value;
+                NotifyPropertyChanged("Proxy");
+            }
+            get {
+                return _Proxy;
+            }
+        }
 
         [XmlArray("Profiles"), XmlArrayItem(typeof(Profile), ElementName = "Profile")]
         public ObservableCollection<Profile> Profiles {
@@ -45,17 +64,25 @@ namespace AdvancedLauncher.Environment.Containers {
             this.Profiles = new ObservableCollection<Profile>();
         }
 
-        public Settings(Settings source) {
+        public Settings(Settings source)
+            : this(source, false) {
+        }
+
+        public Settings(Settings source, bool copyConfigOnly) {
             this.LanguageFile = source.LanguageFile;
-            this.DefaultProfile = source.DefaultProfile;
-            this.Profiles = new ObservableCollection<Profile>();
-            foreach (Profile p in source.Profiles) {
-                Profiles.Add(new Profile(p));
+            this.AppTheme = source.AppTheme;
+            this.ThemeAccent = source.ThemeAccent;
+            this.Proxy = new ProxySetting(source.Proxy);
+            if (!copyConfigOnly) {
+                this.DefaultProfile = source.DefaultProfile;
+                this.Profiles = new ObservableCollection<Profile>();
+                foreach (Profile p in source.Profiles) {
+                    Profiles.Add(new Profile(p));
+                }
             }
         }
 
-        public void Merge(Settings source) {
-            this.LanguageFile = source.LanguageFile;
+        public void MergeProfiles(Settings source) {
             this.DefaultProfile = source.DefaultProfile;
             this.Profiles = new ObservableCollection<Profile>();
 
@@ -65,13 +92,21 @@ namespace AdvancedLauncher.Environment.Containers {
             }
             OnCollectionChanged();
 
-            //Updations corrent Profile
+            // Update currentProfiles
             Profile prof = Profiles.FirstOrDefault(i => i.Id == CurrentProfile.Id);
             if (prof == null) {
                 CurrentProfile = Profiles[0];
             } else {
                 CurrentProfile = prof;
             }
+        }
+
+        public void MergeConfig(Settings source) {
+            this.LanguageFile = source.LanguageFile;
+            this.AppTheme = source.AppTheme;
+            this.ThemeAccent = source.ThemeAccent;
+            this.Proxy = new ProxySetting(source.Proxy);
+            OnConfigurationChanged(this, null);
         }
 
         #endregion Constructors
@@ -129,6 +164,16 @@ namespace AdvancedLauncher.Environment.Containers {
         #endregion Collection Manipulating Section
 
         #region Events Section
+
+        public delegate void ConfigurationChangedEventHandler(object sender, EventArgs args);
+
+        public event ConfigurationChangedEventHandler ConfigurationChanged;
+
+        public void OnConfigurationChanged(object sender, EventArgs args) {
+            if (ConfigurationChanged != null) {
+                ConfigurationChanged(sender, args);
+            }
+        }
 
         public delegate void ProfileLockedChangedHandler(bool IsLocked);
 

@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DMOLibrary
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,13 +45,20 @@ namespace DMOLibrary {
         WRONG_USER = 1,
         WRONG_PAGE = 2,
         UNKNOWN_URL = 3,
-        EXECUTE_ERROR = 4
+        EXECUTE_ERROR = 4,
+        CANCELLED = 5
     }
 
     public enum LoginState {
         LOGINNING = 0,
         GETTING_DATA = 1,
         WAS_ERROR = 2
+    }
+
+    public enum ProxyMode {
+        Default = 0,
+        HTTP = 1,
+        HTTPS = 2
     }
 
     #endregion Structs

@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,10 +27,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using log4net;
 using log4net.Appender;
+using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Windows {
 
-    public partial class BugWindow : Window {
+    public partial class BugWindow : MetroWindow {
         private static readonly log4net.ILog LOGGER = LogManager.GetLogger(typeof(BugWindow));
 
         private Exception _Exception;

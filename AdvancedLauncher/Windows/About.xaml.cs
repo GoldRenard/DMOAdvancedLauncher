@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.IO;
 using System.Windows.Navigation;
 using AdvancedLauncher.Service;
 
@@ -27,14 +26,6 @@ namespace AdvancedLauncher.Windows {
 
         protected override void InitializeAbstractWindow() {
             InitializeComponent();
-        }
-
-        public About() {
-            if (File.Exists(LICENSE_FILE)) {
-                Licence.Text = File.ReadAllText(LICENSE_FILE);
-            } else {
-                Licence.Text = string.Format(AdvancedLauncher.Environment.LanguageEnv.Strings.About_Licence404, LICENSE_FILE);
-            }
         }
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {

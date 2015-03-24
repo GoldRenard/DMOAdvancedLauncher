@@ -12,6 +12,7 @@
   <CancelButton>Cancelar</CancelButton>
   <CloseButton>Fechar</CloseButton>
   <StartButton>GAME START</StartButton>
+  <DigiRotation>DigiRotation</DigiRotation>
   <WaitForComplete>Por favor, aguarde a conclusao da operacao atual</WaitForComplete>
   <PleaseWait>Por Favor, Aguarde...</PleaseWait>
   <ErrorOccured>Ocorreu um Erro!</ErrorOccured>
@@ -36,7 +37,8 @@
   <About_Acknowledgments>Acknowledgments</About_Acknowledgments>
   <About_Translators>Translators</About_Translators>
   <About_Licence404>Licence file "{0}" not found.</About_Licence404>
-  
+
+  <ManageProfiles>Configurar perfis</ManageProfiles>
   <Settings>Configuracoes</Settings>
   <Settings_Language>Idioma</Settings_Language>
   <Settings_LastProfile>E impossivel eliminar o ultimo perfil. O Launcher tem que ter pelo menos, um perfil.</Settings_LastProfile>
@@ -65,6 +67,13 @@
   <Settings_SelectGameDirError>Voce deve especificar a pasta correta do jogo.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Por favor, especifique o diretorio onde o launcher padrao esta localizado</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Voce deve especificar a pasta correta do launcher padrao.</Settings_SelectLauncherDirError>
+  <Settings_ThemeGroup>Tema</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Esquema de cores</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Conexão</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Servidor Proxy</Settings_ProxyGroup>
+  <Settings_Proxy_Default>Padrão do sistema</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Autenticação</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Host e porta</Settings_Proxy_HostWatermark>
   
   <AppLocale_FailReasons>Nao e possivel executar o jogo atraves AppLocale pelas seguintes razoes:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Erro</AppLocale_Error>
@@ -101,8 +110,7 @@
   <LoginEmptyUsername>Por favor, digite seu nome de usuario!</LoginEmptyUsername>
   <LoginEmptyPassword>Por favor, digite a sua senha!</LoginEmptyPassword>
   <LoginWrongPage>Pagina de entrada esta incorreta ou foi alterado. Entre em contato com o desenvolvedor do launcher.</LoginWrongPage>
-  
-  <GalleryHint>Clique duas vezes sobre a imagem para abrir</GalleryHint>
+
   <GalleryNoScreenshots>Nao ha ScreenShots</GalleryNoScreenshots>
   <GalleryCantOpenImage>Nao e possível abrir a imagem. Erro: </GalleryCantOpenImage>
   
@@ -121,7 +129,6 @@
   <CommSearchingGuild>Procurando a Guild</CommSearchingGuild>
   <CommGettingTamer>Obtendo Tamer: {0}</CommGettingTamer>
   
-  <CommShowTab>Mostrar</CommShowTab>
   <CommTamersTab>Tamers</CommTamersTab>
   <CommDigimonsTab>Digimons</CommDigimonsTab>
   
@@ -129,7 +136,6 @@
   <CommCheckBox_Detailed>Receber Data detalhada (longa)</CommCheckBox_Detailed>
   <CommButton_Search>Procurar Guild</CommButton_Search>
   
-  <CommInformation>Informacao</CommInformation>
   <CommGMaster>Master</CommGMaster>
   <CommGBest>Best</CommGBest>
   <CommGRank>Ranking</CommGRank>

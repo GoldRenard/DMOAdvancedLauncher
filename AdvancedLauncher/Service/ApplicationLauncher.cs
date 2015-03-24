@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -156,6 +156,20 @@ namespace AdvancedLauncher.Service {
                         break;
                     }
                 return IsALInstalled && IsKoreanSupported;
+            }
+        }
+
+        public static bool StartGame(string args, bool runLauncher) {
+            //Применить все ссылки
+            LauncherEnv.Settings.CurrentProfile.GameEnv.SetRegistryPaths();
+            if (Execute(
+                runLauncher ? LauncherEnv.Settings.CurrentProfile.GameEnv.GetDefLauncherEXE() : LauncherEnv.Settings.CurrentProfile.GameEnv.GetGameEXE(),
+                runLauncher ? LauncherEnv.Settings.CurrentProfile.DMOProfile.GetLauncherStartArgs(args) : LauncherEnv.Settings.CurrentProfile.DMOProfile.GetGameStartArgs(args),
+                LauncherEnv.Settings.CurrentProfile.AppLocaleEnabled,
+                LauncherEnv.Settings.CurrentProfile.KBLCServiceEnabled)) {
+                return true;
+            } else {
+                return false;
             }
         }
     }

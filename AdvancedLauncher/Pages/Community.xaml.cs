@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,10 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using AdvancedLauncher.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Validators;
@@ -36,30 +35,40 @@ namespace AdvancedLauncher.Pages {
 
         private AbstractWebProfile webProfile;
 
+        private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
+
         private Guild CURRENT_GUILD = new Guild() {
             Id = -1
         };
 
         protected override void InitializeAbstractPage() {
             InitializeComponent();
-        }
-
-        public Community() {
-            TDBlock_.TabChanged += OnTabChanged;
+            GuildInfo.DataContext = GuildInfoModel;
         }
 
         protected override void ProfileChanged() {
-            //Очищаем все поля и списки
-            GMaster.Text = GRank.Text = GRep.Text = GTop.Text = GDCnt.Text = GTCnt.Text = "-";
+            GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
-            chkbox_IsDetailed.IsChecked = false;
+            IsDetailedCheckbox.IsChecked = false;
+            webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
+            if (webProfile != null) {
+                webProfile.SetDispatcher(this.Dispatcher);
+            }
+            // use lazy ServerList initialization to prevent first long EF6 database
+            // init causes the long app start time
+            if (IsPageActivated) {
+                LoadServerList();
+            }
+        }
 
+        public override void PageActivate() {
+            base.PageActivate();
+            LoadServerList();
+        }
+
+        private void LoadServerList() {
             //Загружаем новый список серверов
             ComboBoxServer.ItemsSource = LauncherEnv.Settings.CurrentProfile.DMOProfile.ServerList;
-
-            //Активируем новый профиль
-            webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
-
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {
@@ -69,34 +78,14 @@ namespace AdvancedLauncher.Pages {
                         break;
                     }
                 }
-                GuildNameTextBox.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
+                if (string.IsNullOrEmpty(GuildNameTextBox.Text)) {
+                    GuildNameTextBox.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
+                }
             } else {
-                GuildNameTextBox.Text = LanguageEnv.Strings.CommGuildName;
+                GuildNameTextBox.Clear();
                 if (ComboBoxServer.Items.Count > 0) {
                     ComboBoxServer.SelectedIndex = 0;
                 }
-            }
-        }
-
-        private void OnTabChanged(object sender, int tabNum) {
-            if (tabNum == 1) {
-                TamerTab.IsEnabled = false;
-                DigimonTab.IsEnabled = true;
-            } else {
-                TamerTab.IsEnabled = true;
-                DigimonTab.IsEnabled = false;
-            }
-        }
-
-        private void OnTamerTabClick(object sender, RoutedEventArgs e) {
-            if (CURRENT_GUILD.Id != -1) {
-                TDBlock_.ShowTamers();
-            }
-        }
-
-        private void OnDigimonTabClick(object sender, RoutedEventArgs e) {
-            if (CURRENT_GUILD.Id != -1) {
-                TDBlock_.ShowDigimons(CURRENT_GUILD.Tamers);
             }
         }
 
@@ -122,29 +111,28 @@ namespace AdvancedLauncher.Pages {
             webProfile.DownloadCompleted -= OnDownloadCompleted;
             webProfile.StatusChanged -= OnStatusChanged;
 
-            ProgressBlock.Opacity = 0;
+            ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
             switch (code) {
                 case DMODownloadResultCode.OK: {
-                        MergeHelper.Merge(result);
-                        CURRENT_GUILD = result;
-                        UpdateInfo(CURRENT_GUILD);
-                        TDBlock_.ShowTamers(CURRENT_GUILD.Tamers);
+                        CURRENT_GUILD = MergeHelper.Merge(result);
+                        GuildInfoModel.LoadData(CURRENT_GUILD);
+                        TDBlock_.SetGuild(CURRENT_GUILD);
                         break;
                     }
                 case DMODownloadResultCode.CANT_GET: {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.CantGetError);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.CantGetError);
                         break;
                     }
                 case DMODownloadResultCode.DB_CONNECT_ERROR: {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.DBConnectionError);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.DBConnectionError);
                         break;
                     }
                 case DMODownloadResultCode.NOT_FOUND: {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.GuildNotFoundError);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.GuildNotFoundError);
                         break;
                     }
                 case DMODownloadResultCode.WEB_ACCESS_ERROR: {
-                        Utils.MSG_ERROR(LanguageEnv.Strings.ConnectionError);
+                        Utils.ShowErrorDialog(LanguageEnv.Strings.ConnectionError);
                         break;
                     }
             }
@@ -155,7 +143,7 @@ namespace AdvancedLauncher.Pages {
             LoadProgressBar.Value = 0;
             LoadProgressBar.Maximum = 100;
             LoadProgressStatus.Text = string.Empty;
-            ProgressBlock.Opacity = 1;
+            ProgressBlock.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void OnGetInfoClick(object sender, RoutedEventArgs e) {
@@ -168,7 +156,7 @@ namespace AdvancedLauncher.Pages {
                     webProfile,
                     (Server)ComboBoxServer.SelectedValue,
                     GuildNameTextBox.Text,
-                    (bool)chkbox_IsDetailed.IsChecked,
+                    (bool)IsDetailedCheckbox.IsChecked,
                     1);
             }
         }
@@ -177,46 +165,21 @@ namespace AdvancedLauncher.Pages {
             LauncherEnv.Settings.OnProfileLocked(block);
             GuildNameTextBox.IsEnabled = !block;
             ComboBoxServer.IsEnabled = !block;
-            button_getinfo.IsEnabled = !block;
-            chkbox_IsDetailed.IsEnabled = !block;
-        }
-
-        public void UpdateInfo(Guild g) {
-            GMaster.Text = g.Master.Name;
-            GRank.Text = g.Rank.ToString();
-            GRep.Text = g.Rep.ToString();
-            Tamer bestTamer = g.Tamers.Aggregate((t1, t2) => (t1.Rank > t2.Rank ? t2 : t1));
-            GTop.Text = bestTamer.Name;
-            int count = g.Tamers.Select(o => o.Digimons.Count).Aggregate((x, y) => x + y);
-            GDCnt.Text = count.ToString();
-            GTCnt.Text = g.Tamers.Count.ToString();
+            SearchButton.IsEnabled = !block;
+            IsDetailedCheckbox.IsEnabled = !block;
         }
 
         #region Обработка поля ввода имени гильдии
 
-        private void OnNameGotFocus(object sender, RoutedEventArgs e) {
-            if (GuildNameTextBox.Text == LanguageEnv.Strings.CommGuildName) {
-                GuildNameTextBox.Foreground = Brushes.Black;
-                GuildNameTextBox.Text = string.Empty;
-            }
-        }
-
-        private void OnNameLostFocus(object sender, RoutedEventArgs e) {
-            if (string.IsNullOrEmpty(GuildNameTextBox.Text)) {
-                GuildNameTextBox.Foreground = Brushes.Gray;
-                GuildNameTextBox.Text = LanguageEnv.Strings.CommGuildName;
-            }
-        }
-
         public static bool IsValidName(string name) {
             if (name == LanguageEnv.Strings.CommGuildName) {
-                Utils.MSG_ERROR(LanguageEnv.Strings.CommGuildNameEmpty);
+                Utils.ShowErrorDialog(LanguageEnv.Strings.CommGuildNameEmpty);
                 return false;
             }
             GuildNameValidationRule validationRule = new GuildNameValidationRule();
             ValidationResult result = validationRule.Validate(name, new System.Globalization.CultureInfo(1, false));
             if (!result.IsValid) {
-                Utils.MSG_ERROR(result.ErrorContent.ToString());
+                Utils.ShowErrorDialog(result.ErrorContent.ToString());
             }
             return result.IsValid;
         }

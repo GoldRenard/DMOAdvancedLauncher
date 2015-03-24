@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,9 +27,6 @@ namespace AdvancedLauncher.Controls {
             InitializeComponent();
             Version v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             string ver = v.Major.ToString() + "." + v.Minor.ToString();
-            if (App.subVersion != ' ') {
-                ver += App.subVersion;
-            }
             ver += " (build " + v.Build.ToString() + ")";
             VersionBlock.Text = string.Format(VersionBlock.Text, ver);
         }

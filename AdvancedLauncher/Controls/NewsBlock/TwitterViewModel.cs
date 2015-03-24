@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,11 +42,7 @@ namespace AdvancedLauncher.Controls {
         public void LoadData(List<TwitterItemViewModel> List) {
             this.IsDataLoaded = true;
             foreach (TwitterItemViewModel item in List) {
-                this.Items.Add(new TwitterItemViewModel {
-                    Title = item.Title,
-                    Date = item.Date,
-                    Image = item.Image
-                });
+                this.Items.Add(item);
             }
         }
 

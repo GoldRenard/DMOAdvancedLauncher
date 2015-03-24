@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -27,6 +28,7 @@ using log4net.Core;
 namespace AdvancedLauncher.Windows {
 
     public partial class Logger : AbstractWindow {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(Logger));
 
         private delegate void AddLogHandler(LoggingEvent logEvent);
 
@@ -86,6 +88,14 @@ namespace AdvancedLauncher.Windows {
         private Logger() {
             this.Items.ItemsSource = LogEntriesFiltered;
             CommandHandler.RegisterCommand(new ClearCommand(this));
+            Task.Factory.StartNew(() => PrintHeader());
+        }
+
+        public void PrintHeader() {
+            LOGGER.Info("Digimon Masters Online Advanced Launcher, Copyright (C) 2015 Egorov Ilya" + System.Environment.NewLine +
+                "This program comes with ABSOLUTELY NO WARRANTY; for details type `licence'." + System.Environment.NewLine +
+                "This is free software, and you are welcome to redistribute it" + System.Environment.NewLine +
+                "under certain conditions; type `licence' for details." + System.Environment.NewLine);
         }
 
         public override void Show() {
@@ -97,7 +107,7 @@ namespace AdvancedLauncher.Windows {
 
         public void AddEntry(LoggingEvent logEvent) {
             if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
+                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
                     AddEntry(_logEvent);
                 }), logEvent);
                 return;
@@ -108,7 +118,7 @@ namespace AdvancedLauncher.Windows {
 
         public void AddFilteredEntry(LoggingEvent logEvent) {
             if (this.Dispatcher != null && !this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
+                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, new AddLogHandler((_logEvent) => {
                     AddFilteredEntry(_logEvent);
                 }), logEvent);
                 return;
@@ -219,6 +229,7 @@ namespace AdvancedLauncher.Windows {
             public override void DoCommand(string[] args) {
                 loggerInstance._LogEntries.Clear();
                 loggerInstance._LogEntriesFiltered.Clear();
+                loggerInstance.PrintHeader();
             }
         }
 

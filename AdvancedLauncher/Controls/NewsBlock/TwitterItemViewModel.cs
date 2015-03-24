@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,13 +16,59 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.ComponentModel;
 using System.Windows.Media;
+using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Controls {
 
-    public class TwitterItemViewModel : INotifyPropertyChanged {
+    public class TwitterItemViewModel : AbstractItemViewModel<NewsBlock.UserStatus> {
+
+        protected override void LanguageChanged() {
+            NotifyPropertyChanged("Date");
+        }
+
+        private string _UserName;
+
+        public string UserName {
+            get {
+                return _UserName;
+            }
+            set {
+                if (value != _UserName) {
+                    _UserName = value;
+                    NotifyPropertyChanged("UserName");
+                }
+            }
+        }
+
+        private string _UserLink;
+
+        public string UserLink {
+            get {
+                return _UserLink;
+            }
+            set {
+                if (value != _UserLink) {
+                    _UserLink = value;
+                    NotifyPropertyChanged("UserLink");
+                }
+            }
+        }
+
+        private string _StatusLink;
+
+        public string StatusLink {
+            get {
+                return _StatusLink;
+            }
+            set {
+                if (value != _StatusLink) {
+                    _StatusLink = value;
+                    NotifyPropertyChanged("StatusLink");
+                }
+            }
+        }
+
         private string _Title;
 
         public string Title {
@@ -41,7 +87,7 @@ namespace AdvancedLauncher.Controls {
 
         public string Date {
             get {
-                return _Date;
+                return LanguageEnv.Strings.NewsPubDate + _Date;
             }
             set {
                 if (value != _Date) {
@@ -62,15 +108,6 @@ namespace AdvancedLauncher.Controls {
                     _Image = value;
                     NotifyPropertyChanged("Image");
                 }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

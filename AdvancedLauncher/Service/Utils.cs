@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,8 +18,10 @@
 
 using System;
 using System.IO;
-using System.Windows;
+using System.Threading.Tasks;
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Windows;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace AdvancedLauncher.Service {
 
@@ -27,8 +29,74 @@ namespace AdvancedLauncher.Service {
 
         /// <summary> Error MessageBox </summary>
         /// <param name="text">Content of error</param>
-        public static void MSG_ERROR(string text) {
-            MessageBox.Show(text, LanguageEnv.Strings.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+        public static void ShowErrorDialog(string text) {
+            ShowMessageDialog(LanguageEnv.Strings.Error, text);
+        }
+
+        /// <summary>
+        /// Shows Metro MessageBox Dialog
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        public static void ShowMessageDialog(string title, string message) {
+            if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
+                MainWindow.Instance.Dispatcher.BeginInvoke(new Func<string, string, bool>((t, m) => {
+                    ShowMessageDialog(t, m);
+                    return true;
+                }), title, message);
+                return;
+            }
+            MainWindow.Instance.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings() {
+                AffirmativeButtonText = "OK",
+                ColorScheme = MetroDialogColorScheme.Accented
+            });
+        }
+
+        /// <summary> Error MessageBox Async </summary>
+        /// <param name="text">Content of error</param>
+        /// <returns>Dummy True to able wait the return</returns>
+        public async static Task<bool> ShowErrorDialogAsync(string text) {
+            return await ShowMessageDialogAsync(LanguageEnv.Strings.Error, text);
+        }
+
+        /// <summary>
+        /// Shows Metro MessageBox Dialog Async
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        /// <returns>True if Yes clicked</returns>
+        public async static Task<bool> ShowMessageDialogAsync(string title, string message) {
+            if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
+                return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
+                    return await ShowMessageDialogAsync(title, message);
+                }));
+            }
+            await MainWindow.Instance.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings() {
+                AffirmativeButtonText = "OK",
+                ColorScheme = MetroDialogColorScheme.Accented
+            });
+            return true;
+        }
+
+        /// <summary>
+        /// Shows Metro MessageBox Dialog with Yes/No buttons
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        /// <returns>True if yes clicked</returns>
+        public async static Task<bool> ShowYesNoDialog(string title, string message) {
+            if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
+                return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
+                    return await ShowYesNoDialog(title, message);
+                }));
+            }
+            MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(title, message,
+                MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
+                    AffirmativeButtonText = LanguageEnv.Strings.Yes,
+                    NegativeButtonText = LanguageEnv.Strings.No,
+                    ColorScheme = MetroDialogColorScheme.Accented
+                });
+            return result == MessageDialogResult.Affirmative;
         }
 
         /// <summary> Opens URL with default browser </summary>
@@ -37,7 +105,7 @@ namespace AdvancedLauncher.Service {
             try {
                 System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url));
             } catch (Exception ex) {
-                MSG_ERROR(LanguageEnv.Strings.CantOpenLink + ex.Message);
+                ShowErrorDialog(LanguageEnv.Strings.CantOpenLink + ex.Message);
             }
         }
 
@@ -47,7 +115,7 @@ namespace AdvancedLauncher.Service {
             try {
                 System.Diagnostics.Process.Start(url);
             } catch (Exception ex) {
-                MSG_ERROR(LanguageEnv.Strings.CantOpenLink + ex.Message);
+                ShowErrorDialog(LanguageEnv.Strings.CantOpenLink + ex.Message);
             }
         }
 

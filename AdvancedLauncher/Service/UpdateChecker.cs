@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
 using System;
 using System.ComponentModel;
 using System.Net;
-using System.Windows;
 using AdvancedLauncher.Environment;
+using DMOLibrary;
 
 namespace AdvancedLauncher.Service {
 
@@ -28,17 +28,16 @@ namespace AdvancedLauncher.Service {
 
         public static void Check() {
             BackgroundWorker updateWorker = new BackgroundWorker();
-            updateWorker.DoWork += (s1, e2) => {
+            updateWorker.DoWork += async (s1, e2) => {
                 string[] resArr = null;
 
-                WebClient client = new WebClient();
-                client.Proxy = (IWebProxy)null;
-
-                try {
-                    string result = client.DownloadString(new Uri(LauncherEnv.REMOTE_PATH + "check_updates.php"));
-                    resArr = result.Split('|');
-                } catch {
-                    return;
+                using (WebClient webClient = new WebClientEx()) {
+                    try {
+                        string result = webClient.DownloadString(new Uri(LauncherEnv.REMOTE_PATH + "check_updates.php"));
+                        resArr = result.Split('|');
+                    } catch {
+                        return;
+                    }
                 }
 
                 if (resArr != null)
@@ -46,13 +45,15 @@ namespace AdvancedLauncher.Service {
                         Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         Version remoteVersion = new Version(resArr[0]);
                         if (remoteVersion.CompareTo(currentVersion) > 0) {
-                            if (MessageBoxResult.Yes == MessageBox.Show(string.Format(LanguageEnv.Strings.UpdateAvailableText, resArr[0]) + System.Environment.NewLine + resArr[2] +
-                                System.Environment.NewLine + LanguageEnv.Strings.UpdateDownloadQuestion, string.Format(LanguageEnv.Strings.UpdateAvailableCaption, resArr[0]), MessageBoxButton.YesNo, MessageBoxImage.Question))
+                            string content = string.Format(LanguageEnv.Strings.UpdateAvailableText, resArr[0]) + System.Environment.NewLine + resArr[2] +
+                                System.Environment.NewLine + LanguageEnv.Strings.UpdateDownloadQuestion;
+                            string caption = string.Format(LanguageEnv.Strings.UpdateAvailableCaption, resArr[0]);
+                            if (await Utils.ShowYesNoDialog(caption, content)) {
                                 Utils.OpenSite(resArr[1]);
+                            }
                         }
                     }
             };
-
             updateWorker.RunWorkerAsync();
         }
     }

@@ -12,6 +12,7 @@
   <CancelButton>Annuler</CancelButton>
   <CloseButton>Fermer</CloseButton>
   <StartButton>DEMARRAGE JEU</StartButton>
+  <DigiRotation>DigiRotation</DigiRotation>
   <WaitForComplete>Veuillez attendre que l'opération actuelle se termine</WaitForComplete>
   <PleaseWait>Veuillez attendre</PleaseWait>
   <ErrorOccured>Une erreur s'est produite!</ErrorOccured>
@@ -36,7 +37,8 @@
   <About_Acknowledgments>Remerciements</About_Acknowledgments>
   <About_Translators>Traducteurs</About_Translators>
   <About_Licence404>Fichier de licence "{0}" non trouvé.</About_Licence404>
-  
+
+  <ManageProfiles>Configurer des profils</ManageProfiles>
   <Settings>Réglages</Settings>
   <Settings_Language>Langue</Settings_Language>
   <Settings_LastProfile>Il et impossible de supprimer le dernier profil. Le lanceur doit avoir au moins un profil.</Settings_LastProfile>
@@ -65,6 +67,13 @@
   <Settings_SelectGameDirError>Vous devez indiquer le dossier correct où se trouve le jeu.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Veuillez indiquer le dossier où se trouve le lanceur par défaut</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Vous devez indiquer le dossier correct où se trouve le lanceur par défaut.</Settings_SelectLauncherDirError>uncherDirError>
+  <Settings_ThemeGroup>Thème</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Jeu de couleurs</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Serveur proxy</Settings_ProxyGroup>
+  <Settings_Proxy_Default>Par défaut du système</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Authentication</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Serveur / port</Settings_Proxy_HostWatermark>
   
   <AppLocale_FailReasons>Ne peut lancer le jeu par AppLocale pour les raisons suivantes:</AppLocale_FailReasons>
   <AppLocale_Error>Erreur Microsoft AppLocale</AppLocale_Error>
@@ -101,8 +110,7 @@
   <LoginEmptyUsername>Veuillez taper votre nom d'utilisateur!</LoginEmptyUsername>
   <LoginEmptyPassword>Veuillez taper votre mot de passe!</LoginEmptyPassword>
   <LoginWrongPage>La page d'identification est incorrecte. Veuillez contacter le développeur du lanceur.</LoginWrongPage>
-  
-  <GalleryHint>CLIQUER DEUX FOIS SUR LA CAPTURE D'ECRAN POUR L'OUVRIR</GalleryHint>
+
   <GalleryNoScreenshots>IL N'Y A AUCUNE CAPTURE D'ECRAN</GalleryNoScreenshots>
   <GalleryCantOpenImage>Ne peut ouvrir l'image. Erreur: </GalleryCantOpenImage>
   
@@ -121,7 +129,6 @@
   <CommSearchingGuild>Recherche de la guilde</CommSearchingGuild>
   <CommGettingTamer>Obtention du Tamer: {0}</CommGettingTamer>
   
-  <CommShowTab>VOIR</CommShowTab>
   <CommTamersTab>TAMERS</CommTamersTab>
   <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
   
@@ -129,7 +136,6 @@
   <CommCheckBox_Detailed>Recevoir les données détaillées (long)</CommCheckBox_Detailed>
   <CommButton_Search>Chercher une guilde</CommButton_Search>
   
-  <CommInformation>Information</CommInformation>
   <CommGMaster>Maître</CommGMaster>
   <CommGBest>Meilleur</CommGBest>
   <CommGRank>Rang</CommGRank>

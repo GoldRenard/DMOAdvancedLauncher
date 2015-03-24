@@ -138,19 +138,21 @@ namespace AdvancedLauncher.Controls {
 
             //Проверяем наличие новых обновлений
             CheckResult cRes = CheckUpdates();
-            //Если версии получили успешно
-            if (cRes != null) {
-                //Если обновление требуется
-                if (cRes.IsUpdateRequired) {
-                    //Если включен интегрированных движок обновления, пытаемся обновиться
-                    if (LauncherEnv.Settings.CurrentProfile.UpdateEngineEnabled) {
-                        SetStartEnabled(await BeginUpdate(cRes.LocalVer, cRes.RemoteVer));
-                    } else { //Если интегрированный движок отключен - показываем кнопку "Обновить игру"
-                        SetUpdateEnabled(true);
-                    }
-                } else { //Если обновление не требуется, показываем кнопку "Начать игру".
-                    SetStartEnabled(true);
+            if (cRes == null) {
+                SetStartEnabled(false);
+                Utils.ShowMessageDialog(LanguageEnv.Strings.ErrorOccured, LanguageEnv.Strings.ConnectionError);
+                return;
+            }
+            //Если обновление требуется
+            if (cRes.IsUpdateRequired) {
+                //Если включен интегрированных движок обновления, пытаемся обновиться
+                if (LauncherEnv.Settings.CurrentProfile.UpdateEngineEnabled) {
+                    SetStartEnabled(await BeginUpdate(cRes.LocalVer, cRes.RemoteVer));
+                } else { //Если интегрированный движок отключен - показываем кнопку "Обновить игру"
+                    SetUpdateEnabled(true);
                 }
+            } else { //Если обновление не требуется, показываем кнопку "Начать игру".
+                SetStartEnabled(true);
             }
         }
 
@@ -276,7 +278,6 @@ namespace AdvancedLauncher.Controls {
 
             for (int i = local + 1; i <= remote; i++) {
                 verCurrent = i;
-                updateSuccess = true;
                 packageFile = LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath + string.Format("\\UPDATE{0}.zip", i);
                 UpdateSubProgressBar(0, 100);
 
@@ -298,12 +299,17 @@ namespace AdvancedLauncher.Controls {
                     webClient.DownloadFileCompleted -= OnDownloadFileCompleted;
                 }
 
-                if (updateSuccess) {
-                    ExtractUpdate(verCurrent, verRemote, packageFile, LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath, true);
+                if (!updateSuccess) {
+                    break;
                 }
-                MainPBValue += CurrentContentLength;
 
+                ExtractUpdate(verCurrent, verRemote, packageFile, LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath, true);
+                MainPBValue += CurrentContentLength;
                 File.WriteAllLines(LauncherEnv.Settings.CurrentProfile.GameEnv.GetLocalVerFile(), new string[] { "[VERSION]", "version=" + verCurrent.ToString() });
+            }
+
+            if (!updateSuccess) {
+                Utils.ShowMessageDialog(LanguageEnv.Strings.ErrorOccured, LanguageEnv.Strings.ConnectionError);
             }
 
             //Проверяем наличие доступа к игре еще раз
@@ -338,7 +344,7 @@ namespace AdvancedLauncher.Controls {
                     return false;
                 }
             }
-            return true;
+            return updateSuccess;
         }
 
         private void ExtractUpdate(int upd_num, int upd_num_of, string archiveFilenameIn, string outFolder, bool DeleteAfterExtract) {

@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
@@ -47,65 +48,65 @@ namespace DMOLibrary.Profiles.Joymax {
             };
             HtmlDocument doc = new HtmlDocument();
             OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
+            try {
+                string html = DownloadContent(string.Format(STR_URL_GUILD_RANK, guildName, "srv" + server.Identifier));
+                doc.LoadHtml(html);
 
-            string html = WebClientEx.DownloadContent(string.Format(STR_URL_GUILD_RANK, guildName, "srv" + server.Identifier));
-            if (html == string.Empty) {
-                OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
-                return guild;
-            }
-            doc.LoadHtml(html);
-
-            HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
-            HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='guild']");
-            bool isFound = false;
-            if (tlist != null) {
-                List<DigimonType> types = GetDigimonTypes();
-                using (MainContext context = new MainContext()) {
-                    foreach (DigimonType type in types) {
-                        context.AddOrUpdateDigimonType(type, false);
-                    }
-                    context.SaveChanges();
-                }
-
-                HtmlNode e = null;
-                string guildMaster = null;
-                for (int i = 0; i < tlist.Count - 1; i++) {
-                    try {
-                        e = ranking.SelectNodes("//td[@class='guild']")[i];
-                    } catch {
-                    };
-                    if (e != null)
-                        if (ClearStr(e.InnerText) == guildName) {
-                            Regex r = new Regex(STR_GUILD_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                            Match m = r.Match(ranking.SelectNodes("//td[@class='detail']")[i].InnerHtml);
-                            if (m.Success) {
-                                guild.Identifier = Convert.ToInt32(m.Groups[2].ToString());
-                                guildMaster = ranking.SelectNodes("//td[@class='master']")[i].InnerText;
-                                guildMaster = guildMaster.Substring(0, guildMaster.IndexOf(' '));
-                                guild.Name = guildName;
-                                guild.Rank = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='ranking']")[i].InnerText));
-                                guild.Rep = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='reputation']")[i].InnerText));
-                                isFound = true;
-                                break;
-                            }
+                HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
+                HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='guild']");
+                bool isFound = false;
+                if (tlist != null) {
+                    List<DigimonType> types = GetDigimonTypes();
+                    using (MainContext context = new MainContext()) {
+                        foreach (DigimonType type in types) {
+                            context.AddOrUpdateDigimonType(type, false);
                         }
-                }
-                if (!isFound) {
-                    OnCompleted(DMODownloadResultCode.NOT_FOUND, guild); // guild not found
-                    return guild;
-                }
+                        context.SaveChanges();
+                    }
 
-                if (GetGuildInfo(ref guild, isDetailed)) {
-                    guild.Tamers.First(t => t.Name == guildMaster).IsMaster = true;
-                    guild.UpdateTime = DateTime.Now;
-                    OnCompleted(DMODownloadResultCode.OK, guild);
-                    return guild;
+                    HtmlNode e = null;
+                    string guildMaster = null;
+                    for (int i = 0; i < tlist.Count - 1; i++) {
+                        try {
+                            e = ranking.SelectNodes("//td[@class='guild']")[i];
+                        } catch {
+                        };
+                        if (e != null)
+                            if (ClearStr(e.InnerText) == guildName) {
+                                Regex r = new Regex(STR_GUILD_ID_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                                Match m = r.Match(ranking.SelectNodes("//td[@class='detail']")[i].InnerHtml);
+                                if (m.Success) {
+                                    guild.Identifier = Convert.ToInt32(m.Groups[2].ToString());
+                                    guildMaster = ranking.SelectNodes("//td[@class='master']")[i].InnerText;
+                                    guildMaster = guildMaster.Substring(0, guildMaster.IndexOf(' '));
+                                    guild.Name = guildName;
+                                    guild.Rank = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='ranking']")[i].InnerText));
+                                    guild.Rep = Convert.ToInt32(ClearStr(ranking.SelectNodes("//td[@class='reputation']")[i].InnerText));
+                                    isFound = true;
+                                    break;
+                                }
+                            }
+                    }
+                    if (!isFound) {
+                        OnCompleted(DMODownloadResultCode.NOT_FOUND, guild); // guild not found
+                        return guild;
+                    }
+
+                    if (GetGuildInfo(ref guild, isDetailed)) {
+                        guild.Tamers.First(t => t.Name == guildMaster).IsMaster = true;
+                        guild.UpdateTime = DateTime.Now;
+                        OnCompleted(DMODownloadResultCode.OK, guild);
+                        return guild;
+                    } else {
+                        OnCompleted(DMODownloadResultCode.CANT_GET, guild); // can't get guild info
+                        return guild;
+                    }
                 } else {
-                    OnCompleted(DMODownloadResultCode.CANT_GET, guild); // can't get guild info
+                    OnCompleted(DMODownloadResultCode.NOT_FOUND, guild);//wrong web page
                     return guild;
                 }
-            } else {
-                OnCompleted(DMODownloadResultCode.NOT_FOUND, guild);//wrong web page
+            } catch (WebException e) {
+                OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
                 return guild;
             }
         }
@@ -114,10 +115,7 @@ namespace DMOLibrary.Profiles.Joymax {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlDocument doc = new HtmlDocument();
             LOGGER.InfoFormat("Obtaining info of {0}", guild.Name);
-            string html = WebClientEx.DownloadContent(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
-            if (html == string.Empty) {
-                return false;
-            }
+            string html = DownloadContent(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
             doc.LoadHtml(html);
 
             HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
@@ -164,11 +162,7 @@ namespace DMOLibrary.Profiles.Joymax {
             List<Digimon> digimonList = new List<Digimon>();
             HtmlDocument doc = new HtmlDocument();
 
-            string html = WebClientEx.DownloadContent(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, "srv" + tamer.Guild.Server.Identifier));
-            if (html == string.Empty) {
-                LOGGER.ErrorFormat("Obtaining digimons for tamer \"{0}\" failed", tamer.Name);
-                return digimonList;
-            }
+            string html = DownloadContent(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, "srv" + tamer.Guild.Server.Identifier));
             doc.LoadHtml(html);
 
             using (MainContext context = new MainContext()) {
@@ -225,11 +219,7 @@ namespace DMOLibrary.Profiles.Joymax {
             LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
             HtmlDocument doc = new HtmlDocument();
 
-            string html = WebClientEx.DownloadContent(string.Format(STR_URL_STARTER_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier));
-            if (html == string.Empty) {
-                LOGGER.ErrorFormat("Obtaining starter digimon for tamer \"{0}\" failed", tamer.Name);
-                return false;
-            }
+            string html = DownloadContent(string.Format(STR_URL_STARTER_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier));
             doc.LoadHtml(html);
 
             HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
@@ -255,10 +245,7 @@ namespace DMOLibrary.Profiles.Joymax {
             }
             LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
 
-            string html = WebClientEx.DownloadContent(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier.ToString(), digimon.Type.Code));
-            if (html == string.Empty) {
-                return false;
-            }
+            string html = DownloadContent(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier.ToString(), digimon.Type.Code));
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
 
@@ -290,10 +277,7 @@ namespace DMOLibrary.Profiles.Joymax {
         public override List<DigimonType> GetDigimonTypes() {
             List<DigimonType> dTypes = new List<DigimonType>();
 
-            string html = WebClientEx.DownloadContent(STR_URL_MERC_SIZE_RANK_MAIN);
-            if (html == string.Empty) {
-                return dTypes;
-            }
+            string html = DownloadContent(STR_URL_MERC_SIZE_RANK_MAIN);
             HtmlDocument doc = new HtmlDocument();
             HtmlNode.ElementsFlags.Remove("option");
             doc.LoadHtml(html);

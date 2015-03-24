@@ -36,6 +36,8 @@ namespace AdvancedLauncher.Controls {
         private AppThemeMenuData CurrentAppTheme;
         private AccentColorMenuData CurrentAccent;
 
+        private bool IsPreventPassChange = false;
+
         private Settings settingsContainer;
 
         public SettingsFlyout() {
@@ -50,7 +52,16 @@ namespace AdvancedLauncher.Controls {
                     ExecuteDelegate = x => this.ResetAll()
                 };
 
-                settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings, true);
+                ResetAll();
+
+                IsPreventPassChange = true;
+                if (settingsContainer.Proxy.Credentials.SecurePassword != null) {
+                    ProxyPassword.Password = "empty_pass";
+                } else {
+                    ProxyPassword.Clear();
+                }
+                IsPreventPassChange = false;
+
                 InitializeColorTheme();
 
                 //Load language list
@@ -91,6 +102,8 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void ResetAll() {
+            settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings, true);
+            ProxySettings.DataContext = settingsContainer.Proxy;
             ComboBoxLanguage.SelectedIndex = CurrentLangIndex;
             BaseColorsList.SelectedItem = CurrentAppTheme;
             AccentColorsList.SelectedItem = CurrentAccent;
@@ -177,5 +190,12 @@ namespace AdvancedLauncher.Controls {
         }
 
         #endregion Theme/Accent changing
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e) {
+            if (IsPreventPassChange) {
+                return;
+            }
+            settingsContainer.Proxy.Credentials.SecurePassword = ProxyPassword.SecurePassword;
+        }
     }
 }

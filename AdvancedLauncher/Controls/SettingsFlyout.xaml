@@ -7,7 +7,7 @@
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
              mc:Ignorable="d"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="700" d:DesignWidth="300"
              Position="Right" Width="200"
              DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}"
              Header="{Binding Settings}">
@@ -86,20 +86,63 @@
         </ResourceDictionary>
     </Controls:Flyout.Resources>
     <Grid x:Name="LayoutRoot">
-        <StackPanel Margin="10,0,10,50">
-            <TextBlock Text="{Binding Settings_Language}" Style="{DynamicResource TitleText}" />
-            <ComboBox Margin="0,5" x:Name="ComboBoxLanguage" Height="30" SelectedIndex="0" SelectionChanged="OnLanguageSelectionChanged" IsSynchronizedWithCurrentItem="True" />
+        <ScrollViewer Margin="10,0,5,50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="0,0,5,0">
+                <TextBlock Text="{Binding Settings_Language}" Style="{DynamicResource TitleText}" />
+                <ComboBox Margin="0,5" x:Name="ComboBoxLanguage" Height="30" SelectedIndex="0" SelectionChanged="OnLanguageSelectionChanged" IsSynchronizedWithCurrentItem="True" />
 
-            <TextBlock Text="Theme:" Style="{DynamicResource TitleText}" />
-            <ListBox x:Name="BaseColorsList"
+                <TextBlock Text="Theme:" Style="{DynamicResource TitleText}" />
+                <ListBox x:Name="BaseColorsList"
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />
 
-            <TextBlock Text="Color scheme:" Style="{DynamicResource TitleText}" />
-            <ListBox x:Name="AccentColorsList"
+                <TextBlock Text="Color scheme:" Style="{DynamicResource TitleText}" />
+                <ListBox x:Name="AccentColorsList"
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />
-        </StackPanel>
+
+
+                <TextBlock Text="Connection:" Style="{DynamicResource TitleText}" />
+                <StackPanel x:Name="ProxySettings">
+                    <Controls:ToggleSwitch x:Name="ProxyEnabled" Margin="0,0,0,5" Content="Proxy:" IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                    <StackPanel Visibility="{Binding ElementName=ProxyEnabled, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ComboBox Margin="0,5" Height="30" SelectedIndex="{Binding Mode, Mode=TwoWay}" IsSynchronizedWithCurrentItem="true">
+                            <ComboBoxItem Content="System Default" />
+                            <ComboBoxItem Content="HTTP" />
+                            <ComboBoxItem Content="HTTPS" />
+                        </ComboBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="70" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding Host}" Controls:TextBoxHelper.Watermark="Host and port" />
+                            <Controls:NumericUpDown Grid.Column="2"
+                                                Value="{Binding Port}"
+                                                Minimum="1"
+                                                Maximum="65535"
+                                                HideUpDownButtons="True" />
+                        </Grid>
+                        <Controls:ToggleSwitch Margin="0,10,0,5" x:Name="ProxyAuthEnabled" Content="Authentication:" IsChecked="{Binding Authentication, Mode=TwoWay}" />
+                        <Grid Visibility="{Binding ElementName=ProxyAuthEnabled, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding Credentials.User}"
+                                     Controls:TextBoxHelper.Watermark="{Binding Settings_Account_User, Source={x:Static env:LanguageEnv.Strings}}"
+                                     Controls:TextBoxHelper.UseFloatingWatermark="True" />
+                            <PasswordBox x:Name="ProxyPassword" Grid.Column="2"
+                                         Controls:TextBoxHelper.Watermark="{Binding Settings_Account_Password, Source={x:Static env:LanguageEnv.Strings}}"
+                                         Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                         PasswordChanged="PasswordBox_PasswordChanged" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
         <Grid Height="40" VerticalAlignment="Bottom" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

@@ -434,7 +434,19 @@ namespace AdvancedLauncher.Controls {
 
         private void GetJoymaxNews() {
             if (LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile != null) {
-                List<DMONewsProfile.NewsItem> news = LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile.GetNews();
+                List<DMONewsProfile.NewsItem> news;
+                try {
+                    news = LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile.GetNews();
+                } catch (WebException e) {
+                    news = new List<DMONewsProfile.NewsItem>();
+                    news.Add(new DMONewsProfile.NewsItem() {
+                        Subject = e.Message,
+                        Content = e.Message,
+                        Date = DateTime.Now.ToString(),
+                        Mode = "NOTICE"
+                    });
+                }
+
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) => {
                     Rect viewbox;
                     string mode;

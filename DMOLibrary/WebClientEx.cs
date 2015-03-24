@@ -26,12 +26,17 @@ namespace DMOLibrary {
 
         public const int DEFAULT_TIMEOUT = 3000;
 
-        private int _timeout;
+        private int? _timeout;
+
+        public static ProxyConfiguration ProxyConfig {
+            set;
+            get;
+        }
 
         /// <summary>
         /// Time in milliseconds
         /// </summary>
-        public int Timeout {
+        public int? Timeout {
             get {
                 return _timeout;
             }
@@ -41,46 +46,58 @@ namespace DMOLibrary {
         }
 
         public WebClientEx()
-            : this(DEFAULT_TIMEOUT) {
+            : this(null) {
         }
 
-        public WebClientEx(int timeout) {
+        public WebClientEx(int? timeout) {
             this._timeout = timeout;
             this.Encoding = System.Text.Encoding.UTF8;
-            this.Proxy = (IWebProxy)null;
+            if (ProxyConfig == null) {
+                this.Proxy = (IWebProxy)null;
+            } else if (!ProxyConfig.IsDefault) {
+                this.Proxy = ProxyConfig.GetProxy();
+            }
         }
 
         protected override WebRequest GetWebRequest(Uri address) {
             var result = base.GetWebRequest(address);
-            result.Timeout = this._timeout;
+            if (_timeout != null) {
+                result.Timeout = this._timeout.Value;
+            }
             return result;
         }
 
-        public static WebRequest CreateHTTPRequest(Uri url) {
+        public static WebRequest CreateHTTPRequest(Uri url, int? timeOut = null) {
             WebRequest req = HttpWebRequest.Create(url);
-            req.Timeout = DEFAULT_TIMEOUT;
+            if (timeOut != null) {
+                req.Timeout = timeOut.Value;
+            }
+            if (ProxyConfig == null) {
+                req.Proxy = (IWebProxy)null;
+            } else if (!ProxyConfig.IsDefault) {
+                req.Proxy = ProxyConfig.GetProxy();
+            }
             return req;
         }
 
-        public static string DownloadContent(string url) {
-            return DownloadContent(url, 100);
+        public static string DownloadContent(string url, int? timeOut = null) {
+            return DownloadContent(url, 100, timeOut);
         }
 
-        public static string DownloadContent(string url, int tryAttempts) {
+        public static string DownloadContent(string url, int tryAttempts, int? timeOut) {
             string html = null;
+            Exception exception = null;
             for (int i = 0; i < tryAttempts; i++) {
-                using (WebClientEx webClient = new WebClientEx()) {
+                using (WebClientEx webClient = timeOut != null ? new WebClientEx(timeOut.Value) : new WebClientEx()) {
                     try {
-                        html = webClient.DownloadString(url);
+                        return webClient.DownloadString(url);
                     } catch (WebException e) {
+                        exception = e;
                         LOGGER.WarnFormat("Web request for \"{0}\" caused the error: {1}", url, e.Message);
                     };
-                    if (html != string.Empty && html != null) {
-                        return html;
-                    }
                 }
             }
-            return html;
+            throw exception;
         }
     }
 }

@@ -156,6 +156,7 @@
     <Compile Include="Environment\Commands\ExecCommand.cs" />
     <Compile Include="Environment\Commands\ExitCommand.cs" />
     <Compile Include="Environment\Containers\NewsData.cs" />
+    <Compile Include="Environment\Containers\ProxySetting.cs" />
     <Compile Include="Environment\Containers\RotationData.cs" />
     <Compile Include="Environment\GameEnv.cs" />
     <Compile Include="Environment\Containers\LoginData.cs" />

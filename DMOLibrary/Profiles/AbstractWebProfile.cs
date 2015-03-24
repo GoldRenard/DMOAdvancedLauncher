@@ -169,5 +169,9 @@ namespace DMOLibrary.Profiles {
             }
             webProfile.GetGuildAsync(ownerDispatcher, server, guildName, isDetailed);
         }
+
+        public static string DownloadContent(string url) {
+            return WebClientEx.DownloadContent(url, 5, 15000);
+        }
     }
 }

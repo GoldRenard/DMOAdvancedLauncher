@@ -55,5 +55,11 @@ namespace DMOLibrary {
         WAS_ERROR = 2
     }
 
+    public enum ProxyMode {
+        Default = 0,
+        HTTP = 1,
+        HTTPS = 2
+    }
+
     #endregion Structs
 }

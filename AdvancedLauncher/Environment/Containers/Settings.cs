@@ -39,6 +39,19 @@ namespace AdvancedLauncher.Environment.Containers {
         [XmlElement("DefaultProfile")]
         public int DefaultProfile;
 
+        private ProxySetting _Proxy = new ProxySetting();
+
+        [XmlElement("Proxy")]
+        public ProxySetting Proxy {
+            set {
+                _Proxy = value;
+                NotifyPropertyChanged("Proxy");
+            }
+            get {
+                return _Proxy;
+            }
+        }
+
         [XmlArray("Profiles"), XmlArrayItem(typeof(Profile), ElementName = "Profile")]
         public ObservableCollection<Profile> Profiles {
             get;
@@ -59,6 +72,7 @@ namespace AdvancedLauncher.Environment.Containers {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
+            this.Proxy = new ProxySetting(source.Proxy);
             if (!copyConfigOnly) {
                 this.DefaultProfile = source.DefaultProfile;
                 this.Profiles = new ObservableCollection<Profile>();
@@ -91,6 +105,8 @@ namespace AdvancedLauncher.Environment.Containers {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
+            this.Proxy = new ProxySetting(source.Proxy);
+            OnConfigurationChanged(this, null);
         }
 
         #endregion Constructors
@@ -148,6 +164,16 @@ namespace AdvancedLauncher.Environment.Containers {
         #endregion Collection Manipulating Section
 
         #region Events Section
+
+        public delegate void ConfigurationChangedEventHandler(object sender, EventArgs args);
+
+        public event ConfigurationChangedEventHandler ConfigurationChanged;
+
+        public void OnConfigurationChanged(object sender, EventArgs args) {
+            if (ConfigurationChanged != null) {
+                ConfigurationChanged(sender, args);
+            }
+        }
 
         public delegate void ProfileLockedChangedHandler(bool IsLocked);
 

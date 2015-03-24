@@ -23,6 +23,7 @@ using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
 using AdvancedLauncher.Environment.Containers;
+using DMOLibrary;
 using MahApps.Metro;
 
 namespace AdvancedLauncher.Environment {
@@ -52,6 +53,9 @@ namespace AdvancedLauncher.Environment {
                 Settings = new Settings();
             }
 
+            ApplyProxySettings(Settings);
+            Settings.ConfigurationChanged += Settings_ConfigurationChanged;
+
             if (string.IsNullOrEmpty(Settings.LanguageFile)) {
                 if (LanguageEnv.Load(CultureInfo.CurrentCulture.EnglishName)) {
                     LauncherEnv.Settings.LanguageFile = CultureInfo.CurrentCulture.EnglishName;
@@ -73,6 +77,25 @@ namespace AdvancedLauncher.Environment {
 
             if (!File.Exists(GetSettingsFile())) {
                 Save();
+            }
+        }
+
+        private static void Settings_ConfigurationChanged(object sender, EventArgs args) {
+            ApplyProxySettings((Settings)sender);
+        }
+
+        private static void ApplyProxySettings(Settings settings) {
+            ProxySetting proxy = settings.Proxy;
+            if (!proxy.IsEnabled) {
+                WebClientEx.ProxyConfig = null;
+                return;
+            }
+            ProxyMode mode = (ProxyMode)proxy.Mode;
+            if (proxy.Authentication && proxy.Credentials.IsCorrect) {
+                WebClientEx.ProxyConfig = new ProxyConfiguration(mode, proxy.Host, proxy.Port,
+                    proxy.Credentials.User, proxy.Credentials.SecurePassword);
+            } else {
+                WebClientEx.ProxyConfig = new ProxyConfiguration(mode, proxy.Host, proxy.Port);
             }
         }
 

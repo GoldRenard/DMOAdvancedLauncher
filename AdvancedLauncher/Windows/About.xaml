@@ -64,7 +64,7 @@
                 <TextBlock Margin="0,10,0,0" Text="Plüss Roland (DMO Pack Manager)" />
                 <TextBlock Text="David Polomis (TargaImage)" />
                 <TextBlock Text="Html Agility Pack Team" />
-                <TextBlock Text="SQLite library" />
+                <TextBlock Text="MahApps.Metro" />
                 <TextBlock Text="SharpZipLib" />
             </StackPanel>
             <StackPanel Margin="25,10,0,0">

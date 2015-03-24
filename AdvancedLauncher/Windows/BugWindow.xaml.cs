@@ -27,10 +27,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using log4net;
 using log4net.Appender;
+using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Windows {
 
-    public partial class BugWindow : Window {
+    public partial class BugWindow : MetroWindow {
         private static readonly log4net.ILog LOGGER = LogManager.GetLogger(typeof(BugWindow));
 
         private Exception _Exception;

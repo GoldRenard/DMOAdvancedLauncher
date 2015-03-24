@@ -16,24 +16,28 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Windows.Controls;
+using System.IO;
+using System.Reflection;
 
-namespace AdvancedLauncher.Validators {
+namespace AdvancedLauncher.Environment.Commands {
 
-    internal class NameValidationRule : ValidationRule {
+    public class LicenceCommand : Command {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(LicenceCommand));
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {
-                return new ValidationResult(false, null);
-            }
+        public LicenceCommand()
+            : base("licence", "Shows licence") {
+        }
 
-            foreach (char chr in value.ToString()) {
-                if (Char.IsWhiteSpace(chr) || Char.IsControl(chr)) {
-                    return new ValidationResult(false, null);
+        public override void DoCommand(string[] args) {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "AdvancedLauncher.Docs.LICENSE.txt";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream)) {
+                while (!reader.EndOfStream) {
+                    LOGGER.Info(reader.ReadLine());
                 }
             }
-            return new ValidationResult(true, null);
         }
     }
 }

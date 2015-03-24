@@ -157,6 +157,7 @@
     <Compile Include="Environment\Commands\EchoCommand.cs" />
     <Compile Include="Environment\Commands\ExecCommand.cs" />
     <Compile Include="Environment\Commands\ExitCommand.cs" />
+    <Compile Include="Environment\Commands\LicenceCommand.cs" />
     <Compile Include="Environment\Containers\NewsData.cs" />
     <Compile Include="Environment\Containers\ProxySetting.cs" />
     <Compile Include="Environment\Containers\RotationData.cs" />
@@ -388,9 +389,9 @@
     <None Include="Docs\Changelog.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Docs\LICENSE.txt">
+    <EmbeddedResource Include="Docs\LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
     <None Include="Docs\README_ENG.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // DMOLibrary
-// Copyright (C) 2014 Ilya Egorov (goldrenard@gmail.com)
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -84,6 +84,10 @@ namespace DMOLibrary.Database.Entity {
         public virtual ICollection<Tamer> Tamers {
             get;
             set;
+        }
+
+        public override string ToString() {
+            return string.Format("Guild [Identifier={0}, Name={1}]", Identifier, Name);
         }
     }
 }

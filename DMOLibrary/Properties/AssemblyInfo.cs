@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DMOLibrary")]
-[assembly: AssemblyCopyright("Goldrenard © 2013")]
+[assembly: AssemblyCopyright("Goldrenard © 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,5 +49,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию,
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.*")]
+[assembly: AssemblyVersion("3.0.*")]
 //[assembly: AssemblyFileVersion("1.0.0.0")]

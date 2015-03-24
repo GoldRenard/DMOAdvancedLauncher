@@ -27,9 +27,6 @@ namespace AdvancedLauncher.Controls {
             InitializeComponent();
             Version v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             string ver = v.Major.ToString() + "." + v.Minor.ToString();
-            if (App.subVersion != ' ') {
-                ver += App.subVersion;
-            }
             ver += " (build " + v.Build.ToString() + ")";
             VersionBlock.Text = string.Format(VersionBlock.Text, ver);
         }

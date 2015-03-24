@@ -33,7 +33,6 @@ namespace AdvancedLauncher {
 
     public partial class App : Application {
         public static SplashScreen splash = new SplashScreen("Resources/SplashScreen.png");
-        public static char subVersion = 'a';
 
         private Window WpfBugWindow = new Window() {
             AllowsTransparency = true,

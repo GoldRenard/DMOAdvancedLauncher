@@ -395,10 +395,7 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                string ver = string.Empty;
-                if (App.subVersion != ' ')
-                    ver += App.subVersion;
-                return string.Format("{0}: {1}.{2}{3} (build {4})", _About_Version, version.Major, version.Minor, ver, version.Build);
+                return string.Format("{0}: {1}.{2} (build {3})", _About_Version, version.Major, version.Minor, version.Build);
             }
         }
 

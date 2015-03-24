@@ -67,6 +67,13 @@
   <Settings_SelectGameDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem Spielverzeichnis an.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Bitte geben Sie einen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDirError>
+  <Settings_ThemeGroup>Thema</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Farbschema</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Internetverbindung</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Vermittlungsserver</Settings_ProxyGroup>
+  <Settings_Proxy_Default>Systemstandard</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Beglaubigung</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Server / port</Settings_Proxy_HostWatermark>
   
   <AppLocale_FailReasons>Das Spiel konnte nicht durch AppLocale gestartet werden. Moegliche Ursachen:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Fehler</AppLocale_Error>

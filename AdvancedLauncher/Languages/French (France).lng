@@ -67,6 +67,13 @@
   <Settings_SelectGameDirError>Vous devez indiquer le dossier correct où se trouve le jeu.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Veuillez indiquer le dossier où se trouve le lanceur par défaut</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Vous devez indiquer le dossier correct où se trouve le lanceur par défaut.</Settings_SelectLauncherDirError>uncherDirError>
+  <Settings_ThemeGroup>Thème</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Jeu de couleurs</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Serveur proxy</Settings_ProxyGroup>
+  <Settings_Proxy_Default>Par défaut du système</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Authentication</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Serveur / port</Settings_Proxy_HostWatermark>
   
   <AppLocale_FailReasons>Ne peut lancer le jeu par AppLocale pour les raisons suivantes:</AppLocale_FailReasons>
   <AppLocale_Error>Erreur Microsoft AppLocale</AppLocale_Error>

@@ -67,6 +67,13 @@
   <Settings_SelectGameDirError>Voce deve especificar a pasta correta do jogo.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Por favor, especifique o diretorio onde o launcher padrao esta localizado</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Voce deve especificar a pasta correta do launcher padrao.</Settings_SelectLauncherDirError>
+  <Settings_ThemeGroup>Tema</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Esquema de cores</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Conexão</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Servidor Proxy</Settings_ProxyGroup>
+  <Settings_Proxy_Default>Padrão do sistema</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Autenticação</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Host e porta</Settings_Proxy_HostWatermark>
   
   <AppLocale_FailReasons>Nao e possivel executar o jogo atraves AppLocale pelas seguintes razoes:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Erro</AppLocale_Error>

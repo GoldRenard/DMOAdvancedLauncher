@@ -560,6 +560,50 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
+        private string _Settings_ThemeGroup = "Theme";
+
+        public string Settings_ThemeGroup {
+            set {
+                _Settings_ThemeGroup = value; NotifyPropertyChanged("Settings_ThemeGroup");
+            }
+            get {
+                return _Settings_ThemeGroup + sep;
+            }
+        }
+
+        private string _Settings_ColorSchemeGroup = "Color scheme";
+
+        public string Settings_ColorSchemeGroup {
+            set {
+                _Settings_ColorSchemeGroup = value; NotifyPropertyChanged("Settings_ColorSchemeGroup");
+            }
+            get {
+                return _Settings_ColorSchemeGroup + sep;
+            }
+        }
+
+        private string _Settings_ConnectionGroup = "Connection";
+
+        public string Settings_ConnectionGroup {
+            set {
+                _Settings_ConnectionGroup = value; NotifyPropertyChanged("Settings_ConnectionGroup");
+            }
+            get {
+                return _Settings_ConnectionGroup + sep;
+            }
+        }
+
+        private string _Settings_ProxyGroup = "Proxy";
+
+        public string Settings_ProxyGroup {
+            set {
+                _Settings_ProxyGroup = value; NotifyPropertyChanged("Settings_ProxyGroup");
+            }
+            get {
+                return _Settings_ProxyGroup + sep;
+            }
+        }
+
         #endregion Group Names
 
         #region Profile
@@ -801,6 +845,43 @@ namespace AdvancedLauncher.Environment {
         }
 
         #endregion Browse Messages
+
+        #region Proxy Settings
+
+        private string _Settings_Proxy_Default = "System default";
+
+        public string Settings_Proxy_Default {
+            set {
+                _Settings_Proxy_Default = value; NotifyPropertyChanged("Settings_Proxy_Default");
+            }
+            get {
+                return _Settings_Proxy_Default;
+            }
+        }
+
+        private string _Settings_Proxy_Authentication = "Authentication";
+
+        public string Settings_Proxy_Authentication {
+            set {
+                _Settings_Proxy_Authentication = value; NotifyPropertyChanged("Settings_Proxy_Authentication");
+            }
+            get {
+                return _Settings_Proxy_Authentication + sep;
+            }
+        }
+
+        private string _Settings_Proxy_HostWatermark = "Host and port";
+
+        public string Settings_Proxy_HostWatermark {
+            set {
+                _Settings_Proxy_HostWatermark = value; NotifyPropertyChanged("Settings_Proxy_HostWatermark");
+            }
+            get {
+                return _Settings_Proxy_HostWatermark;
+            }
+        }
+
+        #endregion
 
         #endregion Settings Window
 

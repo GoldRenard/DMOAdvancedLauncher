@@ -67,6 +67,13 @@
   <Settings_SelectGameDirError>Ви повинні вказати правильну папку з грою</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Будь ласка, вкажіть папку зі стандартним лаунчером</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Ви повинні вказати правильну папку зі стандартним лаунчером</Settings_SelectLauncherDirError>
+  <Settings_ThemeGroup>Тема оформлення</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Колірна схема</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>З'єднання</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Проксі сервер</Settings_ProxyGroup>
+  <Settings_Proxy_Default>Системні налаштування</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Аутентифікація</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Хост і порт</Settings_Proxy_HostWatermark>
 
   <AppLocale_FailReasons>Неможливо використати AppLocale з наступних причин:</AppLocale_FailReasons>
   <AppLocale_Error>Помилка Microsoft AppLocale</AppLocale_Error>

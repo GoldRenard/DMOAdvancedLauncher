@@ -70,7 +70,14 @@
   <Settings_SelectGameDirError>You must specify the correct folder of the game.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Please specify the directory where the default launcher is located</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>You must specify the correct folder of the default launcher.</Settings_SelectLauncherDirError>
-  
+  <Settings_ThemeGroup>Theme</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Color scheme</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Proxy</Settings_ProxyGroup>
+  <Settings_Proxy_Default>System default</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Authentication</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Host and port</Settings_Proxy_HostWatermark>
+
   <AppLocale_FailReasons>Can't run the game through AppLocale for the following reasons:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Error</AppLocale_Error>
   <AppLocale_NotInstalled> - Microsoft AppLocale Utility is not installed</AppLocale_NotInstalled>

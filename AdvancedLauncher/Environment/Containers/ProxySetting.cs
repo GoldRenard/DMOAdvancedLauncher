@@ -78,6 +78,7 @@ namespace AdvancedLauncher.Environment.Containers {
 
         public ProxySetting() {
             Credentials = new ProxyCredentials();
+            Port = 8080;
         }
 
         public ProxySetting(ProxySetting source) {

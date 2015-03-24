@@ -91,23 +91,26 @@
                 <TextBlock Text="{Binding Settings_Language}" Style="{DynamicResource TitleText}" />
                 <ComboBox Margin="0,5" x:Name="ComboBoxLanguage" Height="30" SelectedIndex="0" SelectionChanged="OnLanguageSelectionChanged" IsSynchronizedWithCurrentItem="True" />
 
-                <TextBlock Text="Theme:" Style="{DynamicResource TitleText}" />
+                <TextBlock Text="{Binding Settings_ThemeGroup}" Style="{DynamicResource TitleText}" />
                 <ListBox x:Name="BaseColorsList"
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />
 
-                <TextBlock Text="Color scheme:" Style="{DynamicResource TitleText}" />
+                <TextBlock Text="{Binding Settings_ColorSchemeGroup}" Style="{DynamicResource TitleText}" />
                 <ListBox x:Name="AccentColorsList"
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />
 
 
-                <TextBlock Text="Connection:" Style="{DynamicResource TitleText}" />
+                <TextBlock Text="{Binding Settings_ConnectionGroup}" Style="{DynamicResource TitleText}" />
                 <StackPanel x:Name="ProxySettings">
-                    <Controls:ToggleSwitch x:Name="ProxyEnabled" Margin="0,0,0,5" Content="Proxy:" IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                    <Controls:ToggleSwitch x:Name="ProxyEnabled" 
+                                           Margin="0,0,0,5" 
+                                           Content="{Binding Path=DataContext.Settings_ProxyGroup, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
+                                           IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
                     <StackPanel Visibility="{Binding ElementName=ProxyEnabled, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <ComboBox Margin="0,5" Height="30" SelectedIndex="{Binding Mode, Mode=TwoWay}" IsSynchronizedWithCurrentItem="true">
-                            <ComboBoxItem Content="System Default" />
+                            <ComboBoxItem Content="{Binding Path=DataContext.Settings_Proxy_Default, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" />
                             <ComboBoxItem Content="HTTP" />
                             <ComboBoxItem Content="HTTPS" />
                         </ComboBox>
@@ -117,14 +120,18 @@
                                 <ColumnDefinition Width="4" />
                                 <ColumnDefinition Width="70" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Text="{Binding Host}" Controls:TextBoxHelper.Watermark="Host and port" />
+                            <TextBox Text="{Binding Host}" 
+                                     Controls:TextBoxHelper.Watermark="{Binding Path=DataContext.Settings_Proxy_HostWatermark, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" />
                             <Controls:NumericUpDown Grid.Column="2"
                                                 Value="{Binding Port}"
                                                 Minimum="1"
                                                 Maximum="65535"
                                                 HideUpDownButtons="True" />
                         </Grid>
-                        <Controls:ToggleSwitch Margin="0,10,0,5" x:Name="ProxyAuthEnabled" Content="Authentication:" IsChecked="{Binding Authentication, Mode=TwoWay}" />
+                        <Controls:ToggleSwitch x:Name="ProxyAuthEnabled"
+                                               Margin="0,10,0,5"
+                                               Content="{Binding Path=DataContext.Settings_Proxy_Authentication, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" 
+                                               IsChecked="{Binding Authentication, Mode=TwoWay}" />
                         <Grid Visibility="{Binding ElementName=ProxyAuthEnabled, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -132,10 +139,10 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBox Text="{Binding Credentials.User}"
-                                     Controls:TextBoxHelper.Watermark="{Binding Settings_Account_User, Source={x:Static env:LanguageEnv.Strings}}"
+                                     Controls:TextBoxHelper.Watermark="{Binding Path=DataContext.Settings_Account_User, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
                                      Controls:TextBoxHelper.UseFloatingWatermark="True" />
                             <PasswordBox x:Name="ProxyPassword" Grid.Column="2"
-                                         Controls:TextBoxHelper.Watermark="{Binding Settings_Account_Password, Source={x:Static env:LanguageEnv.Strings}}"
+                                         Controls:TextBoxHelper.Watermark="{Binding Path=DataContext.Settings_Account_Password, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
                                          Controls:TextBoxHelper.UseFloatingWatermark="True"
                                          PasswordChanged="PasswordBox_PasswordChanged" />
                         </Grid>

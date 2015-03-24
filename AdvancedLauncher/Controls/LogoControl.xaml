@@ -66,34 +66,40 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" />
-            <TextBlock Style="{StaticResource GlowTitle2}" Foreground="{DynamicResource HighlightBrush}" />
+            <Canvas>
+                <Canvas.CacheMode>
+                    <BitmapCache EnableClearType="True" RenderAtScale="1" SnapsToDevicePixels="False" />
+                </Canvas.CacheMode>
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
+                <TextBlock Style="{StaticResource GlowTitle2}" />
 
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
-            <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+                <TextBlock Style="{StaticResource GlowTitle}" />
+            </Canvas>
+
+            <TextBlock Style="{StaticResource GlowTitle2}" Foreground="{DynamicResource HighlightBrush}" />
             <TextBlock Style="{StaticResource GlowTitle}" Foreground="{DynamicResource HighlightBrush}" />
         </Canvas>
     </Viewbox>

@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.IO;
 using System.Windows.Navigation;
 using AdvancedLauncher.Service;
 
@@ -27,14 +26,6 @@ namespace AdvancedLauncher.Windows {
 
         protected override void InitializeAbstractWindow() {
             InitializeComponent();
-        }
-
-        public About() {
-            if (File.Exists(LICENSE_FILE)) {
-                Licence.Text = File.ReadAllText(LICENSE_FILE);
-            } else {
-                Licence.Text = string.Format(AdvancedLauncher.Environment.LanguageEnv.Strings.About_Licence404, LICENSE_FILE);
-            }
         }
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {

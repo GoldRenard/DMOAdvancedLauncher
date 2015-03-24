@@ -52,15 +52,15 @@
                 </VisualBrush.Transform>
             </VisualBrush>
         </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="340" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Margin="0,0,0,0">
-            <ALControls:LogoControl Margin="10" />
-            <TextBlock Margin="0,-15,0,0" Width="300" TextAlignment="Center" Text="{Binding About_Version}" x:Name="VersionBlock" />
-            <Grid Margin="25,10,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <ALControls:LogoControl HorizontalAlignment="Center" Margin="50,20,50,0" />
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+            <TextBlock Margin="0,0,0,0" Width="300" TextAlignment="Center" Text="{Binding About_Version}" x:Name="VersionBlock" />
+            <Grid Margin="25,10,0,0" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MaxWidth="140" />
                     <ColumnDefinition Width="*" />
@@ -69,44 +69,39 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding About_Developer}" HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding About_Developer}" HorizontalAlignment="Left" Margin="0,0,5,0" />
                 <TextBlock Grid.Column="1" HorizontalAlignment="Left">
                     <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" Style="{DynamicResource HyperLinkAccent}" RequestNavigate="OnRequestNavigate">GoldRenard (Egorov Ilya)</Hyperlink>
                 </TextBlock>
 
-                <TextBlock Grid.Row="1" Text="{Binding About_DesignHelp}" HorizontalAlignment="Left" />
+                <TextBlock Grid.Row="1" Text="{Binding About_DesignHelp}" HorizontalAlignment="Left" Margin="0,0,5,0" />
                 <TextBlock  Grid.Row="1"  Grid.Column="1" HorizontalAlignment="Left">
                     <Hyperlink NavigateUri="mailto:dragon_vs@live.ru" Style="{DynamicResource HyperLinkAccent}" RequestNavigate="OnRequestNavigate">DragonVs (Savinskiy Vladislav)</Hyperlink>
                 </TextBlock>
             </Grid>
-            <StackPanel Margin="25,10,0,0">
-                <TextBlock Text="{Binding About_Acknowledgments}" />
-                <TextBlock Margin="0,10,0,0" Text="Plüss Roland (DMO Pack Manager)" />
-                <TextBlock Text="David Polomis (TargaImage)" />
-                <TextBlock Text="Html Agility Pack Team" />
-                <TextBlock Text="MahApps.Metro" />
-                <TextBlock Text="SharpZipLib" />
-            </StackPanel>
-            <StackPanel Margin="25,10,0,0">
-                <TextBlock Text="{Binding About_Translators}" />
-                <TextBlock Margin="0,10,0,0" Text="English - GoldRenard (Egorov Ilya)" />
-                <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
-                <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
-                <TextBlock Text="French - Rei Ayanami" />
-                <!--<TextBlock Text="Polish - Czip from digimonrpgonline.net" />-->
-            </StackPanel>
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <TextBlock Text="{Binding About_Acknowledgments}" />
+                    <TextBlock Margin="0,10,0,0" Text="Plüss Roland (DMO Pack Manager)" />
+                    <TextBlock Text="David Polomis (TargaImage)" />
+                    <TextBlock Text="Html Agility Pack Team" />
+                    <TextBlock Text="MahApps.Metro" />
+                    <TextBlock Text="SharpZipLib" />
+                </StackPanel>
+                <StackPanel Margin="10,00,0,0" Grid.Column="1" VerticalAlignment="Top">
+                    <TextBlock Text="{Binding About_Translators}" />
+                    <TextBlock Margin="0,10,0,0" Text="English - GoldRenard (Egorov Ilya)" />
+                    <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
+                    <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
+                    <TextBlock Text="French - Rei Ayanami" />
+                </StackPanel>
+            </Grid>
         </StackPanel>
-        <Grid Margin="20" Grid.Column="1" x:Name="LicenceRoot">
-            <TextBox x:Name="Licence"
-                     Height="{Binding Path=ActualHeight, ElementName=LicenceRoot}"
-                     IsReadOnly="True"
-                     FontSize="11"
-                     FontFamily="Courier New"
-                     TextWrapping="Wrap"
-                     AcceptsReturn="True"
-                     VerticalAlignment="Top"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto" />
-        </Grid>
-        <Button x:Name="BtnClose" Margin="20,10,0,20" Height="30" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="OnCloseClick" />
+        <Button x:Name="BtnClose" Grid.Row="2" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="OnCloseClick" />
     </Grid>
 </win:AbstractWindow>

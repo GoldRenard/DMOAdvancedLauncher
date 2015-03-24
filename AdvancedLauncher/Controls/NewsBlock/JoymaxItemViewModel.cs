@@ -16,13 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.ComponentModel;
 using System.Windows;
+using AdvancedLauncher.Environment;
+using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Controls {
 
-    public class JoymaxItemViewModel : INotifyPropertyChanged {
+    public class JoymaxItemViewModel : AbstractItemViewModel<DMONewsProfile.NewsItem> {
+
+        protected override void LanguageChanged() {
+            NotifyPropertyChanged("Type");
+        }
+
         private string _Title;
 
         public string Title {
@@ -69,12 +74,19 @@ namespace AdvancedLauncher.Controls {
 
         public string Type {
             get {
+                return LanguageEnv.Strings[_Type];
+            }
+        }
+
+        public string TypeName {
+            get {
                 return _Type;
             }
             set {
                 if (value != _Type) {
                     _Type = value;
                     NotifyPropertyChanged("Type");
+                    NotifyPropertyChanged("TypeName");
                 }
             }
         }
@@ -104,15 +116,6 @@ namespace AdvancedLauncher.Controls {
                     _Link = value;
                     NotifyPropertyChanged("Link");
                 }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

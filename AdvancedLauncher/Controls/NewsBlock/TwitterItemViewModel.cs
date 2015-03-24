@@ -16,13 +16,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.ComponentModel;
 using System.Windows.Media;
+using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Controls {
 
-    public class TwitterItemViewModel : INotifyPropertyChanged {
+    public class TwitterItemViewModel : AbstractItemViewModel<NewsBlock.UserStatus> {
+
+        protected override void LanguageChanged() {
+            NotifyPropertyChanged("Date");
+        }
+
         private string _UserName;
 
         public string UserName {
@@ -83,7 +87,7 @@ namespace AdvancedLauncher.Controls {
 
         public string Date {
             get {
-                return _Date;
+                return LanguageEnv.Strings.NewsPubDate + _Date;
             }
             set {
                 if (value != _Date) {
@@ -104,15 +108,6 @@ namespace AdvancedLauncher.Controls {
                     _Image = value;
                     NotifyPropertyChanged("Image");
                 }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

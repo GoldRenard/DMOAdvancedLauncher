@@ -46,7 +46,7 @@ namespace AdvancedLauncher.Controls {
                     Title = item.Title,
                     Content = item.Content,
                     Link = item.Link,
-                    Type = item.Type,
+                    TypeName = item.TypeName,
                     Date = item.Date,
                     ImgVB = item.ImgVB
                 });

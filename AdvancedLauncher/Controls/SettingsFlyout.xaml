@@ -101,11 +101,10 @@
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />
 
-
                 <TextBlock Text="{Binding Settings_ConnectionGroup}" Style="{DynamicResource TitleText}" />
                 <StackPanel x:Name="ProxySettings">
-                    <Controls:ToggleSwitch x:Name="ProxyEnabled" 
-                                           Margin="0,0,0,5" 
+                    <Controls:ToggleSwitch x:Name="ProxyEnabled"
+                                           Margin="0,0,0,5"
                                            Content="{Binding Path=DataContext.Settings_ProxyGroup, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
                                            IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
                     <StackPanel Visibility="{Binding ElementName=ProxyEnabled, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -120,7 +119,7 @@
                                 <ColumnDefinition Width="4" />
                                 <ColumnDefinition Width="70" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Text="{Binding Host}" 
+                            <TextBox Text="{Binding Host}"
                                      Controls:TextBoxHelper.Watermark="{Binding Path=DataContext.Settings_Proxy_HostWatermark, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" />
                             <Controls:NumericUpDown Grid.Column="2"
                                                 Value="{Binding Port}"
@@ -130,7 +129,7 @@
                         </Grid>
                         <Controls:ToggleSwitch x:Name="ProxyAuthEnabled"
                                                Margin="0,10,0,5"
-                                               Content="{Binding Path=DataContext.Settings_Proxy_Authentication, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" 
+                                               Content="{Binding Path=DataContext.Settings_Proxy_Authentication, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
                                                IsChecked="{Binding Authentication, Mode=TwoWay}" />
                         <Grid Visibility="{Binding ElementName=ProxyAuthEnabled, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>

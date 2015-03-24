@@ -16,13 +16,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.ComponentModel;
 using System.Windows.Media;
+using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
-    public class DigimonItemViewModel : INotifyPropertyChanged {
+    public class DigimonItemViewModel : AbstractItemViewModel<Digimon> {
         private string _DName;
 
         public string DName {
@@ -146,15 +145,6 @@ namespace AdvancedLauncher.Controls {
                     _Image = value;
                     NotifyPropertyChanged("Image");
                 }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

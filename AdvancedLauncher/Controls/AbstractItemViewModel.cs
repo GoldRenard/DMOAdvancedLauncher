@@ -16,42 +16,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
+using System.ComponentModel;
 using AdvancedLauncher.Environment;
-using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
 
-    public class GuildInfoItemViewModel : AbstractItemViewModel<Guild> {
+    public abstract class AbstractItemViewModel<T> : INotifyPropertyChanged {
 
-        protected override void LanguageChanged() {
-            NotifyPropertyChanged("Name");
+        protected virtual void LanguageChanged() {
+            // nothing to do here
         }
 
-        private string _Name;
-
-        public string Name {
-            get {
-                return LanguageEnv.Strings[_Name];
-            }
-            set {
-                if (value != _Name) {
-                    _Name = value;
-                    NotifyPropertyChanged("Name");
-                }
-            }
+        public AbstractItemViewModel() {
+            LanguageEnv.LanguageChanged += () => {
+                LanguageChanged();
+            };
         }
 
-        private object _Value;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public object Value {
-            get {
-                return _Value;
-            }
-            set {
-                if (value != _Value) {
-                    _Value = value;
-                    NotifyPropertyChanged("Value");
-                }
+        protected void NotifyPropertyChanged(String propertyName) {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler) {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

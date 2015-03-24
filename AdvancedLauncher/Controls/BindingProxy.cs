@@ -16,43 +16,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.Environment;
-using DMOLibrary.Database.Entity;
+using System.Windows;
 
 namespace AdvancedLauncher.Controls {
 
-    public class GuildInfoItemViewModel : AbstractItemViewModel<Guild> {
+    public class BindingProxy : Freezable {
 
-        protected override void LanguageChanged() {
-            NotifyPropertyChanged("Name");
+        protected override Freezable CreateInstanceCore() {
+            return new BindingProxy();
         }
 
-        private string _Name;
-
-        public string Name {
+        public object Data {
             get {
-                return LanguageEnv.Strings[_Name];
+                return (object)GetValue(DataProperty);
             }
             set {
-                if (value != _Name) {
-                    _Name = value;
-                    NotifyPropertyChanged("Name");
-                }
+                SetValue(DataProperty, value);
             }
         }
 
-        private object _Value;
-
-        public object Value {
-            get {
-                return _Value;
-            }
-            set {
-                if (value != _Value) {
-                    _Value = value;
-                    NotifyPropertyChanged("Value");
-                }
-            }
-        }
+        public static readonly DependencyProperty DataProperty =
+            DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy), new UIPropertyMetadata(null));
     }
 }

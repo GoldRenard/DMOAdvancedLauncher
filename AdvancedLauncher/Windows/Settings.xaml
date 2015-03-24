@@ -259,20 +259,17 @@
                         <Controls:ToggleSwitch x:Name="Chk_UseUpdateEngine"
                                                Margin="0,5,0,0"
                                                FontSize="12"
-                                               OnLabel="{Binding Settings_UpdateEngine}"
-                                               OffLabel="{Binding Settings_UpdateEngine}"
+                                               Content="{Binding Settings_UpdateEngine}"
                                                IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.UpdateEngineEnabled, Mode=TwoWay}" />
 
                         <Controls:ToggleSwitch x:Name="Chk_UseKBLCService"
                                                FontSize="12"
-                                               OnLabel="{Binding Settings_KBLCService}"
-                                               OffLabel="{Binding Settings_KBLCService}"
+                                               Content="{Binding Settings_KBLCService}"
                                                IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.KBLCServiceEnabled, Mode=TwoWay}" />
 
                         <Controls:ToggleSwitch x:Name="Chk_UseAppLoc"
                                                FontSize="12"
-                                               OnLabel="{Binding Settings_AppLocale}"
-                                               OffLabel="{Binding Settings_AppLocale}"
+                                               Content="{Binding Settings_AppLocale}"
                                                IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.AppLocaleEnabled, Mode=TwoWay}"
                                                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsALSupported, Mode=TwoWay}" />
                         <TextBlock x:Name="AL_Helper" HorizontalAlignment="Right" Margin="0,0,5,0"
@@ -286,7 +283,6 @@
                 <GroupBox Margin="0,5" Header="{Binding Settings_AccountGroup}"
                           IsEnabled="{Binding ElementName=ProfileList, Path=SelectedValue.DMOProfile.IsLoginRequired}">
                     <StackPanel Margin="3,3,3,4">
-
                         <TextBox Controls:TextBoxHelper.Watermark="{Binding Settings_Account_User}"
                                  Style="{DynamicResource MetroButtonTextBox}"
                                  Text="{Binding ElementName=ProfileList, Path=SelectedValue.Login.User, Mode=TwoWay}">

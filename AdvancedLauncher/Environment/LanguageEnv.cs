@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Environment {
@@ -881,7 +883,7 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #endregion
+        #endregion Proxy Settings
 
         #endregion Settings Window
 
@@ -1718,6 +1720,36 @@ namespace AdvancedLauncher.Environment {
         }
 
         private LanguageEnv() {
+        }
+
+        /// <summary>
+        /// Returns property value by its string representation as key
+        /// </summary>
+        /// <param name="key">Property name</param>
+        /// <returns>Property value</returns>
+        public string this[string key] {
+            get {
+                PropertyInfo property = GetType().GetProperty(key);
+                if (property == null) {
+                    return null;
+                }
+                return property.GetValue(this, null) as string;
+            }
+        }
+
+        /// <summary>
+        /// Returns string representation of property by lambda expression
+        /// </summary>
+        /// <param name="expression">Property lambda expression</param>
+        /// <returns></returns>
+        public string this[Expression<Func<LanguageEnv, object>> expression] {
+            get {
+                var body = expression.Body as MemberExpression;
+                if (body == null) {
+                    body = ((UnaryExpression)expression.Body).Operand as MemberExpression;
+                }
+                return body.Member.Name;
+            }
         }
 
         #region Save/Read/Load

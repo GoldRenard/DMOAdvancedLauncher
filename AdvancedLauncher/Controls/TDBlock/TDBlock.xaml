@@ -140,8 +140,11 @@
                               IsReadOnly="True"
                               MouseLeftButtonUp="OnTamersShow"
                               Margin="3,3,-7,-7">
+                        <DataGrid.Resources>
+                            <ALControls:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ALControls:TDBlock}}}" />
+                        </DataGrid.Resources>
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn SortMemberPath="TType" Header="{Binding CommHeader_Type, Source={x:Static env:LanguageEnv.Strings}}">
+                            <DataGridTemplateColumn SortMemberPath="TType" Header="{Binding Data.CommHeader_Type, Source={StaticResource proxy}}">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Image Source="{Binding Image}" ToolTip="{Binding TType}" Stretch="None" />
@@ -149,15 +152,15 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Binding="{Binding Path=TName}"
-                                            Header="{Binding CommHeader_Name, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Name, Source={StaticResource proxy}}" />
                             <DataGridTextColumn Binding="{Binding Path=Level}"
-                                            Header="{Binding CommHeader_Level, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Level, Source={StaticResource proxy}}" />
                             <DataGridTextColumn Binding="{Binding Path=Rank}"
-                                            Header="{Binding CommHeader_Ranking, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Ranking, Source={StaticResource proxy}}" />
                             <DataGridTextColumn Binding="{Binding Path=PName}"
-                                            Header="{Binding CommHeader_Partner, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Partner, Source={StaticResource proxy}}" />
                             <DataGridTextColumn Binding="{Binding Path=DCnt}"
-                                            Header="{Binding CommHeader_Mercenary, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Mercenary, Source={StaticResource proxy}}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
@@ -168,13 +171,16 @@
                               SelectionMode="Single"
                               IsReadOnly="True"
                               Margin="3,3,-7,-7">
+                        <DataGrid.Resources>
+                            <ALControls:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ALControls:TDBlock}}}" />
+                        </DataGrid.Resources>
                         <DataGrid.RowStyle>
                             <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MetroDataGridRow}">
                                 <Setter Property="Background" Value="Transparent" />
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn SortMemberPath="DType" Header="{Binding CommHeader_Type, Source={x:Static env:LanguageEnv.Strings}}">
+                            <DataGridTemplateColumn SortMemberPath="DType" Header="{Binding Data.CommHeader_Type, Source={StaticResource proxy}}">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Image Source="{Binding Image}" ToolTip="{Binding DType}" Stretch="None" />
@@ -182,15 +188,15 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Binding="{Binding Path=DName}"
-                                            Header="{Binding CommHeader_Name, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Name, Source={StaticResource proxy}}" />
                             <DataGridTextColumn Binding="{Binding Path=Level}"
-                                            Header="{Binding CommHeader_Level, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Level, Source={StaticResource proxy}}" />
                             <DataGridTextColumn Binding="{Binding Path=Rank}"
-                                            Header="{Binding CommHeader_Ranking, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Ranking, Source={StaticResource proxy}}" />
                             <DataGridTextColumn Binding="{Binding Path=TName}"
-                                            Header="{Binding CommHeader_Tamer, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Tamer, Source={StaticResource proxy}}" />
                             <DataGridTextColumn Binding="{Binding Path=Size}"
-                                            Header="{Binding CommHeader_Size, Source={x:Static env:LanguageEnv.Strings}}" />
+                                            Header="{Binding Data.CommHeader_Size, Source={StaticResource proxy}}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

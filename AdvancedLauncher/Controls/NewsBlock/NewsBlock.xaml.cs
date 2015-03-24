@@ -454,13 +454,13 @@ namespace AdvancedLauncher.Controls {
                         mode = n.Mode;
                         if (mode == "NOTICE") {
                             viewbox = new Rect(215, 54, 90, 18);
-                            mode = LanguageEnv.Strings.NewsType_Notice;
+                            mode = LanguageEnv.Strings[e => e.NewsType_Notice];
                         } else if (mode == "EVENT") {
                             viewbox = new Rect(215, 36, 90, 18);
-                            mode = LanguageEnv.Strings.NewsType_Event;
+                            mode = LanguageEnv.Strings[e => e.NewsType_Event];
                         } else if (mode == "PATCH") {
                             viewbox = new Rect(215, 0, 90, 18);
-                            mode = LanguageEnv.Strings.NewsType_Patch;
+                            mode = LanguageEnv.Strings[e => e.NewsType_Patch];
                         } else {
                             viewbox = new Rect(215, 0, 90, 18);
                         }
@@ -468,7 +468,7 @@ namespace AdvancedLauncher.Controls {
                             Title = n.Subject,
                             Content = n.Content,
                             Date = n.Date,
-                            Type = mode,
+                            TypeName = mode,
                             Link = n.Url,
                             ImgVB = viewbox
                         });

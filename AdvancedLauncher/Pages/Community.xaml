@@ -51,6 +51,7 @@
                     <DataGrid x:Name="GuildInfo"
                               IsReadOnly="True"
                               Background="Transparent"
+                              AutoGenerateColumns="False"
                               ItemsSource="{Binding Items}"
                               HeadersVisibility="None"
                               SelectionMode="Single"
@@ -62,6 +63,10 @@
                                 <Setter Property="Background" Value="Transparent" />
                             </Style>
                         </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Path=Name}" />
+                            <DataGridTextColumn Binding="{Binding Path=Value}" />
+                        </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </Grid>

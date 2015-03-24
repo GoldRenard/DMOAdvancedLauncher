@@ -28,7 +28,6 @@ using log4net.Core;
 namespace AdvancedLauncher.Windows {
 
     public partial class Logger : AbstractWindow {
-
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(Logger));
 
         private delegate void AddLogHandler(LoggingEvent logEvent);

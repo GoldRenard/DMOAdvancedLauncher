@@ -883,11 +883,6 @@
     <Resource Include="Controls\NewsBlock\Images\bbs_mode.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\DigiRotation\Images\bronze.png" />
-    <Resource Include="Controls\DigiRotation\Images\gold.png" />
-    <Resource Include="Controls\DigiRotation\Images\silver.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Languages\Template_for_translation.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

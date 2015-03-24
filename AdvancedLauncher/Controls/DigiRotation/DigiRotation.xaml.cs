@@ -53,9 +53,9 @@ namespace AdvancedLauncher.Controls {
         private static Binding LoadingTitleBinding = new Binding("RotationDownloading");
         private static Binding LoadingSummaryBinding = new Binding("PleaseWait");
 
-        private static BitmapImage medalGold = new BitmapImage(new Uri(@"images/gold.png", UriKind.Relative));
-        private static BitmapImage medalSilver = new BitmapImage(new Uri(@"images/silver.png", UriKind.Relative));
-        private static BitmapImage medalBronze = new BitmapImage(new Uri(@"images/bronze.png", UriKind.Relative));
+        private static Brush medalGold = new SolidColorBrush(Color.FromRgb(230, 230, 0));
+        private static Brush medalSilver = new SolidColorBrush(Color.FromRgb(180, 180, 180));
+        private static Brush medalBronze = new SolidColorBrush(Color.FromRgb(250, 180, 110));
 
         private TaskManager.Task LoadingTask;
         private BackgroundWorker MainWorker = new BackgroundWorker();
@@ -66,7 +66,7 @@ namespace AdvancedLauncher.Controls {
             IsEnabled = false
         };
 
-        private delegate void UpdateInfo(string dType, int lvl, string tamerName, int tamerLevel, ImageSource image, ImageSource medal);
+        private delegate void UpdateInfo(string dType, int lvl, string tamerName, int tamerLevel, ImageSource image, Brush medal);
 
         private List<DigiImage> ImagesCollection = new List<DigiImage>();
 
@@ -181,7 +181,7 @@ namespace AdvancedLauncher.Controls {
             using (MainContext context = new MainContext()) {
                 if (!IsStatic && Guild != null) {
                     //Если не статическое, получаем рандомного дигимона из базы данных
-                    BitmapImage Medal = null;
+                    Brush MedalColor = null;
                     Digimon d = null;
 
                     Tamer tamer = null;
@@ -204,11 +204,11 @@ namespace AdvancedLauncher.Controls {
 
                     //Устанавливаем медали в зависимости от уровня
                     if (d.Level < 75) {
-                        Medal = medalBronze;
+                        MedalColor = medalBronze;
                     } else if (d.Level >= 75 && d.Level < 80) {
-                        Medal = medalSilver;
+                        MedalColor = medalSilver;
                     } else if (d.Level >= 80) {
-                        Medal = medalGold;
+                        MedalColor = medalGold;
                     }
 
                     this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
@@ -229,7 +229,7 @@ namespace AdvancedLauncher.Controls {
                             vmodel.Medal = Medal_;
                             vmodel.ShowInfo = true;
                             this.Content = vmodel;
-                        }), d.Name, d.Level, d.Tamer.Name, d.Tamer.Level, GetDigimonImage(d.Type.Code), Medal);
+                        }), d.Name, d.Level, d.Tamer.Name, d.Tamer.Level, GetDigimonImage(d.Type.Code), MedalColor);
                 } else {
                     DigimonType dType = context.FindRandomDigimonType();
                     this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateInfo((DType_, Level_, TName_, TLevel_, Image_, Medal_) => {

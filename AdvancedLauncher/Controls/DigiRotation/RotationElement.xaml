@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
                 <ResourceDictionary>
                     <Style x:Key="LevelText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                         <Setter Property="VerticalAlignment" Value="Center" />
@@ -52,15 +53,32 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,-5,0,0">
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
                     <TextBlock FontSize="30" Height="30" Text="{Binding Level}" Style="{DynamicResource LevelText}" />
                     <TextBlock FontSize="10" Text="{Binding LevelText, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource LevelText}" />
                 </StackPanel>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,-5,0,0">
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock FontSize="18" Text="{Binding DType, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource NameText}" />
                     <TextBlock FontSize="11" Text="{Binding TName, Converter={StaticResource ToUpperConverter}}" Style="{DynamicResource NameText}" />
                 </StackPanel>
-                <Image Source="{Binding Medal}" Grid.Column="2" Stretch="None" />
+                <Grid Grid.Column="2">
+                    <Rectangle Height="30" Width="30">
+                        <Rectangle.Fill>
+                            <VisualBrush>
+                                <VisualBrush.Visual>
+                                    <Canvas Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+                                        <Path Width="41.1667" Height="38" Canvas.Left="17.4167" Canvas.Top="18" Stretch="Fill" Fill="{Binding Medal}"
+                                              Data="F1 M 17.4167,32.25L 32.9107,32.25L 38,18L 43.0893,32.25L 58.5833,32.25L 45.6798,41.4944L
+                                              51.4583,56L 38,48.0833L 26.125,56L 30.5979,41.7104L 17.4167,32.25 Z " />
+                                    </Canvas>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.Fill>
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="0" />
+                        </Rectangle.Effect>
+                    </Rectangle>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

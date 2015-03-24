@@ -120,9 +120,9 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private ImageSource _Medal;
+        private Brush _Medal = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 
-        public ImageSource Medal {
+        public Brush Medal {
             get {
                 return _Medal;
             }

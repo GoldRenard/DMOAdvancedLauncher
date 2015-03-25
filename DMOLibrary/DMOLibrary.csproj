@@ -85,6 +85,10 @@
     <Compile Include="Database\Context\MainContext.cs" />
     <Compile Include="Database\Entity\TamerType.cs" />
     <Compile Include="Database\Entity\Tamer.cs" />
+    <Compile Include="Database\Migrations\201503251143011_InitialMigration.cs" />
+    <Compile Include="Database\Migrations\201503251143011_InitialMigration.Designer.cs">
+      <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Events\DownloadCompleteEventArgs.cs" />
     <Compile Include="Events\DownloadStatusEventArgs.cs" />
@@ -114,7 +118,11 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Database\Migrations\201503251143011_InitialMigration.resx">
+      <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -124,6 +124,7 @@ namespace AdvancedLauncher.Controls {
             }
             ComboBoxLanguage.ItemsSource = Langs;
             ComboBoxLanguage.SelectedItem = Langs.FirstOrDefault(e => e.Code == LauncherEnv.Settings.LanguageFile);
+            CurrentLangIndex = Langs.IndexOf((LanguageEntry)ComboBoxLanguage.SelectedItem);
         }
 
         private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {

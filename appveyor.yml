@@ -15,6 +15,16 @@ after_build:
 - echo "Running Inno Setup:"
 - iscc Shared\setup_project.iss
 - dir Shared\Installer
+test: off
 artifacts:
 - path: '\Shared\Installer\DMOAdvancedLauncher_install.exe'
   name: DMOAdvancedLauncher_install
+deploy:
+- provider: GitHub
+  tag: v$(appveyor_build_version)
+  release: DMO Advanced Launcher v$(appveyor_build_version)
+  auth_token:
+    secure: n5D3B3H3/G24ynE9Nkuta8a5Oeyzh+f2W05DKaoFgBpQaubZTIz6YWmOeI917fnc
+  artifact: DMOAdvancedLauncher_install
+  draft: true
+  prerelease: true

@@ -25,14 +25,11 @@ namespace AdvancedLauncher.Windows {
 
     public abstract class AbstractWindow : UserControl {
 
-        protected abstract void InitializeAbstractWindow();
-
         public delegate void CloseEventHandler(object sender, EventArgs e);
 
         public event CloseEventHandler WindowClosed;
 
         public AbstractWindow() {
-            InitializeAbstractWindow();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;

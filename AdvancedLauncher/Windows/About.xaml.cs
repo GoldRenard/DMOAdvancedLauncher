@@ -24,7 +24,7 @@ namespace AdvancedLauncher.Windows {
     public partial class About : AbstractWindow {
         private const string LICENSE_FILE = "Docs\\LICENSE.txt";
 
-        protected override void InitializeAbstractWindow() {
+        public About() {
             InitializeComponent();
         }
 

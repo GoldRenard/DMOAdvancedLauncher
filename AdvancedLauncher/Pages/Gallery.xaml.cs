@@ -43,11 +43,8 @@ namespace AdvancedLauncher.Pages {
 
         private JpegEncoder ImageEncoder = new JpegEncoder();
 
-        protected override void InitializeAbstractPage() {
-            InitializeComponent();
-        }
-
         public Gallery() {
+            InitializeComponent();
             Templates.DataContext = GalleryModel;
         }
 

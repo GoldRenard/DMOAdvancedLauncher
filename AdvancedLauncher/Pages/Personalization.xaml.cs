@@ -50,11 +50,8 @@ namespace AdvancedLauncher.Pages {
         private const string RES_LIST_FILE = "\\ResourceList_{0}.cfg";
         private bool IsGameImageLoaded = false;
 
-        protected override void InitializeAbstractPage() {
-            InitializeComponent();
-        }
-
         public Personalization() {
+            InitializeComponent();
             ItemsComboBox.ItemsSource = ResourceModel.Items;
             this.Loaded += OnLoaded;
         }

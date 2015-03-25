@@ -81,11 +81,8 @@ namespace AdvancedLauncher.Windows {
 
         #endregion Properties and structs
 
-        protected override void InitializeAbstractWindow() {
-            InitializeComponent();
-        }
-
         private Logger() {
+            InitializeComponent();
             this.Items.ItemsSource = LogEntriesFiltered;
             CommandHandler.RegisterCommand(new ClearCommand(this));
             Task.Factory.StartNew(() => PrintHeader());

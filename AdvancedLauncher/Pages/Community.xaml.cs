@@ -42,7 +42,7 @@ namespace AdvancedLauncher.Pages {
             Id = -1
         };
 
-        protected override void InitializeAbstractPage() {
+        public Community() {
             InitializeComponent();
             GuildInfo.DataContext = GuildInfoModel;
         }

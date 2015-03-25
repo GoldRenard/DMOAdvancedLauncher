@@ -26,7 +26,7 @@ namespace AdvancedLauncher.Pages {
 
         private delegate void DoChangeTextNBool(string text, bool bool_);
 
-        protected override void InitializeAbstractPage() {
+        public MainPage() {
             InitializeComponent();
         }
 

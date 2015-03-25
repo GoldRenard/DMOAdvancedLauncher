@@ -182,11 +182,9 @@
       <DependentUpon>Personalization.xaml</DependentUpon>
     </Compile>
     <Compile Include="Service\ApplicationLauncher.cs" />
-    <Compile Include="Service\DispatcherHelper.cs" />
     <Compile Include="Service\FingerPrint.cs" />
     <Compile Include="Service\InstanceChecker.cs" />
     <Compile Include="Environment\LauncherEnv.cs" />
-    <Compile Include="Service\IntConverter.cs" />
     <Compile Include="Service\JpegEncoder.cs" />
     <Compile Include="Service\NativeMethods.cs" />
     <Compile Include="Service\ParentProcessUtilities.cs" />

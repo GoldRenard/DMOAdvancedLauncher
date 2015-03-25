@@ -20,11 +20,13 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using DMOLibrary;
 
 namespace AdvancedLauncher.Environment.Containers {
 
     [XmlType(TypeName = "RemoteVersion")]
     public class RemoteVersion {
+        private const string REMOTE_VERSION_FILE = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/github-as-remote/version.xml";
 
         [XmlElement("Version")]
         public string VersionString {
@@ -79,21 +81,18 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        public static RemoteVersion DeSerialize(string filepath) {
-            RemoteVersion db = new RemoteVersion();
-            if (File.Exists(filepath)) {
-                XmlSerializer reader = new XmlSerializer(typeof(RemoteVersion));
-                using (var file = new StreamReader(filepath)) {
-                    db = (RemoteVersion)reader.Deserialize(file);
+        public static RemoteVersion Instance {
+            get {
+                string xmlContent;
+                try {
+                    xmlContent = WebClientEx.DownloadContent(REMOTE_VERSION_FILE, 5000);
+                    XmlSerializer serializer = new XmlSerializer(typeof(RemoteVersion));
+                    using (TextReader reader = new StringReader(xmlContent)) {
+                        return serializer.Deserialize(reader) as RemoteVersion;
+                    }
+                } catch {
+                    return null;
                 }
-            }
-            return db;
-        }
-
-        public static void Save(RemoteVersion instance) {
-            XmlSerializer writer = new XmlSerializer(typeof(RemoteVersion));
-            using (var file = new StreamWriter(@"D:\version.xml")) {
-                writer.Serialize(file, instance);
             }
         }
     }

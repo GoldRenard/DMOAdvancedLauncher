@@ -23,12 +23,9 @@ using System.Text;
 namespace KBLCService {
 
     /// <summary>
-    /// Функции WinAPI
+    /// WinAPI NativeMethods
     /// </summary>
-    public static class WinAPI {
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr LoadKeyboardLayout(string pwszKLID, uint Flags);
+    internal static class NativeMethods {
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern IntPtr ActivateKeyboardLayout(IntPtr hkl, int uFlags);
@@ -39,14 +36,11 @@ namespace KBLCService {
         [DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr FindWindow(string className, string windowText);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindowEx(IntPtr parentHwnd, IntPtr childAfterHwnd, IntPtr className, string windowText);
 
         [DllImport("user32.dll")]
         public static extern int ShowWindow(IntPtr hwnd, int command);

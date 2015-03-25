@@ -34,10 +34,6 @@ namespace KBLCService {
 
             public event EventHandler<HotKeyEventArgs> KeyPressed;
 
-            public HookWindow() {
-                this.CreateHandle(new CreateParams());
-            }
-
             protected override void WndProc(ref Message m) {
                 base.WndProc(ref m);
                 if (m.Msg == WM_HOTKEY) {
@@ -66,7 +62,8 @@ namespace KBLCService {
         public event EventHandler<HotKeyEventArgs> KeyPressed;
 
         public HotkeyHook() {
-            // регистрируем ивент внутри окна
+            _window = new HookWindow();
+            _window.CreateHandle(new CreateParams());
             _window.KeyPressed += (sender, args) => {
                 if (KeyPressed != null) {
                     KeyPressed(this, args);
@@ -81,7 +78,7 @@ namespace KBLCService {
         /// <param name="key">Клавиша хоткея.</param>
         public void RegisterHotKey(ModifierKeys modifier, Keys key) {
             _currentId = _currentId + 1;
-            if (!WinAPI.RegisterHotKey(_window.Handle, _currentId, (uint)modifier, (uint)key)) {
+            if (!NativeMethods.RegisterHotKey(_window.Handle, _currentId, (uint)modifier, (uint)key)) {
                 throw new InvalidOperationException("Couldn’t register the hot key.");
             }
         }
@@ -91,7 +88,7 @@ namespace KBLCService {
         /// </summary>
         public void UnregisterHotKeys() {
             for (int i = _currentId; i > 0; i--) {
-                WinAPI.UnregisterHotKey(_window.Handle, i);
+                NativeMethods.UnregisterHotKey(_window.Handle, i);
             }
         }
 

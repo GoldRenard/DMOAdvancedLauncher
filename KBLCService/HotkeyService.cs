@@ -27,12 +27,12 @@ namespace KBLCService {
     /// <summary>
     /// Служба хоткея
     /// </summary>
-    public class HotkeyService {
+    public sealed class HotkeyService : IDisposable {
         private HotkeyHook Hook = new HotkeyHook();
 
         private static string[] WindowTitles = new string[] { "DMO", "DigimonMastersOnline" };
 
-        public event Action Detached;
+        public event EventHandler Detached;
 
         private Window HookWindow = new Window() {
             Width = 0,
@@ -78,7 +78,7 @@ namespace KBLCService {
 
                     IntPtr hWnd = IntPtr.Zero;
                     foreach (string title in WindowTitles) {
-                        hWnd = WinAPI.FindWindow(null, title);
+                        hWnd = NativeMethods.FindWindow(null, title);
                         if (hWnd != IntPtr.Zero) {
                             windowTitle = title;
                             break;
@@ -106,7 +106,7 @@ namespace KBLCService {
                         return;
                     }
 
-                    if (WinAPI.FindWindow(null, windowTitle) == IntPtr.Zero) {
+                    if (NativeMethods.FindWindow(null, windowTitle) == IntPtr.Zero) {
                         break;
                     }
                     Thread.Sleep(checkInterval);
@@ -125,7 +125,7 @@ namespace KBLCService {
         private void WorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
             if (IsAttach) {
                 if (Detached != null) {
-                    Detached();
+                    Detached(sender, e);
                 }
             }
         }
@@ -159,10 +159,10 @@ namespace KBLCService {
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Параметры</param>
         private void HotkeyHandler(object sender, HotKeyEventArgs e) {
-            IntPtr hWnd = WinAPI.GetForegroundWindow();
+            IntPtr hWnd = NativeMethods.GetForegroundWindow();
 
             // Check window titles
-            if (!WindowTitles.Contains(WinAPI.GetWindowTitle(hWnd))) {
+            if (!WindowTitles.Contains(NativeMethods.GetWindowTitle(hWnd))) {
                 return;
             }
 
@@ -170,10 +170,10 @@ namespace KBLCService {
                 // Если 8ка, то меняем раскладку костылём с окном, если ниже, то PostMessage нужному окну с WM_INPUTLANGCHANGEREQUEST
                 if (Utils.IsWindows8OrNewer()) {
                     // посылаем ивент смены раскладки в активное окно
-                    WinAPI.ActivateKeyboardLayout(WinAPI.HKL_NEXT, 0);
+                    NativeMethods.ActivateKeyboardLayout(NativeMethods.HKL_NEXT, 0);
 
                     // скрываем таскбар
-                    WinAPI.ShowWindow(WinAPI.TaskBarHandle, WinAPI.SW_HIDE);
+                    NativeMethods.ShowWindow(NativeMethods.TaskBarHandle, NativeMethods.SW_HIDE);
                     System.Threading.Thread.Sleep(50);
 
                     // отображаем окно хука
@@ -182,17 +182,17 @@ namespace KBLCService {
                     System.Threading.Thread.Sleep(50);
 
                     // посылаем ивент смены раскладки
-                    WinAPI.ActivateKeyboardLayout(WinAPI.HKL_NEXT, 0);
+                    NativeMethods.ActivateKeyboardLayout(NativeMethods.HKL_NEXT, 0);
 
                     //скрываем окно хука и отображаем обратно таскбар
                     HookWindow.Hide();
                     System.Threading.Thread.Sleep(50);
-                    WinAPI.ShowWindow(WinAPI.TaskBarHandle, WinAPI.SW_SHOW);
+                    NativeMethods.ShowWindow(NativeMethods.TaskBarHandle, NativeMethods.SW_SHOW);
 
                     // Возвращаем фокус окну
-                    WinAPI.SetForegroundWindow(hWnd);
+                    NativeMethods.SetForegroundWindow(hWnd);
                 } else {
-                    WinAPI.PostMessage(hWnd, WinAPI.WM_INPUTLANGCHANGEREQUEST, IntPtr.Zero, WinAPI.ActivateKeyboardLayout(WinAPI.HKL_NEXT, 0));
+                    NativeMethods.PostMessage(hWnd, NativeMethods.WM_INPUTLANGCHANGEREQUEST, IntPtr.Zero, NativeMethods.ActivateKeyboardLayout(NativeMethods.HKL_NEXT, 0));
                 }
             }
         }
@@ -224,6 +224,10 @@ namespace KBLCService {
                     SetMode(IsControl);
                 })));
             }
+        }
+
+        public void Dispose() {
+            Hook.Dispose();
         }
     }
 }

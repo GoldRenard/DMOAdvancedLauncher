@@ -25,6 +25,9 @@ using Microsoft.Win32;
 
 namespace KBLCService {
 
+    /// <summary>
+    /// Utility functions
+    /// </summary>
     internal static class Utils {
 
         /// <summary>

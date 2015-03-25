@@ -22,9 +22,10 @@ using System.Windows;
 
 namespace KBLCService {
 
-    public partial class App : Application {
+    public sealed partial class App : Application, IDisposable {
         private System.Windows.Forms.NotifyIcon TrayIcon;
-        private System.Windows.Forms.MenuItem ControlItem, AltItem;
+        private System.Windows.Forms.MenuItem ControlItem, AltItem, mExit;
+        private System.Windows.Forms.ContextMenu cMenu;
         private static HotkeyService Service = new HotkeyService();
 
         private Mutex AppMutex;
@@ -52,7 +53,7 @@ namespace KBLCService {
                 }
 
                 if (IsAttach) {
-                    Service.Detached += () => {
+                    Service.Detached += (s, e) => {
                         Utils.CloseApp();
                     };
                 }
@@ -69,13 +70,7 @@ namespace KBLCService {
         /// Построение иконки трея
         /// </summary>
         private void BuildIcon() {
-            TrayIcon = new System.Windows.Forms.NotifyIcon();
-            TrayIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/KBLCService;component/app_icon.ico")).Stream);
-            TrayIcon.Visible = true;
-
-            System.Windows.Forms.ContextMenu cMenu = new System.Windows.Forms.ContextMenu();
-
-            System.Windows.Forms.MenuItem mExit = new System.Windows.Forms.MenuItem();
+            mExit = new System.Windows.Forms.MenuItem();
             mExit.Text = "Exit";
 
             ControlItem = new System.Windows.Forms.MenuItem();
@@ -86,11 +81,15 @@ namespace KBLCService {
             AltItem.Text = "ALT + SHIFT";
             AltItem.RadioCheck = true;
 
+            cMenu = new System.Windows.Forms.ContextMenu();
             cMenu.MenuItems.Add(ControlItem);
             cMenu.MenuItems.Add(AltItem);
             cMenu.MenuItems.Add("-");
             cMenu.MenuItems.Add(mExit);
 
+            TrayIcon = new System.Windows.Forms.NotifyIcon();
+            TrayIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/KBLCService;component/app_icon.ico")).Stream);
+            TrayIcon.Visible = true;
             TrayIcon.Text = "Keyboard Layout Changer Service";
             TrayIcon.ContextMenu = cMenu;
 
@@ -118,6 +117,14 @@ namespace KBLCService {
             if (AltItem != null) {
                 AltItem.Checked = !IsControl;
             }
+        }
+
+        public void Dispose() {
+            ControlItem.Dispose();
+            AltItem.Dispose();
+            mExit.Dispose();
+            cMenu.Dispose();
+            TrayIcon.Dispose();
         }
     }
 }

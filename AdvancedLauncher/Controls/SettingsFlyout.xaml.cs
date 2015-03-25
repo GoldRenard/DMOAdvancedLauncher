@@ -53,6 +53,10 @@ namespace AdvancedLauncher.Controls {
                     ExecuteDelegate = x => this.ResetAll()
                 };
 
+                this.ClosingFinished += (s, e) => {
+                    ResetAll();
+                };
+
                 ResetAll();
 
                 IsPreventPassChange = true;

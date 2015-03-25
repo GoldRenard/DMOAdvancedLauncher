@@ -6,8 +6,8 @@ AppPublisher=GoldRenard & DragonVs
 DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no
 DefaultGroupName=Digimon Masters Online
-OutputDir=.\Setups\
-OutputBaseFilename=DMOLauncher_Setup_3.0
+OutputDir=.\Installer\
+OutputBaseFilename=DMOAdvancedLauncher_install
 SetupIconFile=..\AdvancedLauncher\app_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -49,7 +49,6 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Digimon Masters On
 function InitializeSetup: Boolean;
 var
   Version: TWindowsVersion;
-  S: String;
 begin
   GetWindowsVersionEx(Version);
 
@@ -105,7 +104,6 @@ var
     key: string;
     install, release, serviceCount: cardinal;
     check45, success: boolean;
-var reqNetVer : string;
 begin
     // .NET 4.5 installs as update to .NET 4.0 Full
     if version = 'v4.5' then begin

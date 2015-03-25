@@ -18,9 +18,8 @@
 
 using System;
 using System.ComponentModel;
-using System.Net;
 using AdvancedLauncher.Environment;
-using DMOLibrary;
+using AdvancedLauncher.Environment.Containers;
 
 namespace AdvancedLauncher.Service {
 
@@ -29,30 +28,23 @@ namespace AdvancedLauncher.Service {
         public static void Check() {
             BackgroundWorker updateWorker = new BackgroundWorker();
             updateWorker.DoWork += async (s1, e2) => {
-                string[] resArr = null;
-
-                using (WebClient webClient = new WebClientEx()) {
-                    try {
-                        string result = webClient.DownloadString(new Uri(LauncherEnv.REMOTE_PATH + "check_updates.php"));
-                        resArr = result.Split('|');
-                    } catch {
-                        return;
-                    }
-                }
-
-                if (resArr != null)
-                    if (resArr.Length == 3) {
-                        Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                        Version remoteVersion = new Version(resArr[0]);
-                        if (remoteVersion.CompareTo(currentVersion) > 0) {
-                            string content = string.Format(LanguageEnv.Strings.UpdateAvailableText, resArr[0]) + System.Environment.NewLine + resArr[2] +
-                                System.Environment.NewLine + LanguageEnv.Strings.UpdateDownloadQuestion;
-                            string caption = string.Format(LanguageEnv.Strings.UpdateAvailableCaption, resArr[0]);
-                            if (await Utils.ShowYesNoDialog(caption, content)) {
-                                Utils.OpenSite(resArr[1]);
-                            }
+                RemoteVersion remote = RemoteVersion.Instance;
+                if (remote != null) {
+                    Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                    if (remote.Version.CompareTo(currentVersion) > -10) {
+                        string content = string.Format(LanguageEnv.Strings.UpdateAvailableText, remote.Version)
+                            + System.Environment.NewLine
+                            + System.Environment.NewLine
+                            + remote.ChangeLog
+                            + System.Environment.NewLine
+                            + System.Environment.NewLine
+                            + LanguageEnv.Strings.UpdateDownloadQuestion;
+                        string caption = string.Format(LanguageEnv.Strings.UpdateAvailableCaption, remote.Version);
+                        if (await Utils.ShowYesNoDialog(caption, content)) {
+                            Utils.OpenSite(remote.DownloadUrl);
                         }
                     }
+                }
             };
             updateWorker.RunWorkerAsync();
         }

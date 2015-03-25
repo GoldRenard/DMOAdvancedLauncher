@@ -21,11 +21,11 @@ using System.Reflection;
 
 namespace AdvancedLauncher.Environment.Commands {
 
-    public class LicenceCommand : Command {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(LicenceCommand));
+    public class LicenseCommand : Command {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(LicenseCommand));
 
-        public LicenceCommand()
-            : base("licence", "Shows licence") {
+        public LicenseCommand()
+            : base("license", "Shows license") {
         }
 
         public override void DoCommand(string[] args) {

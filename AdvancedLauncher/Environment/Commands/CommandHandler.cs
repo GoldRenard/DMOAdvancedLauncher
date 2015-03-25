@@ -35,7 +35,7 @@ namespace AdvancedLauncher.Environment.Commands {
             RegisterCommand(new EchoCommand());
             RegisterCommand(new ExecCommand());
             RegisterCommand(new ExitCommand());
-            RegisterCommand(new LicenceCommand());
+            RegisterCommand(new LicenseCommand());
         }
 
         public static void Send(string input) {

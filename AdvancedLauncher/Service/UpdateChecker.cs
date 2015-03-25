@@ -31,7 +31,7 @@ namespace AdvancedLauncher.Service {
                 RemoteVersion remote = RemoteVersion.Instance;
                 if (remote != null) {
                     Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                    if (remote.Version.CompareTo(currentVersion) > -10) {
+                    if (remote.Version.CompareTo(currentVersion) > 0) {
                         string content = string.Format(LanguageEnv.Strings.UpdateAvailableText, remote.Version)
                             + System.Environment.NewLine
                             + System.Environment.NewLine

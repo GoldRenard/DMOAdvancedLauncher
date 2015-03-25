@@ -35,9 +35,8 @@ namespace AdvancedLauncher.Controls {
             };
         }
 
-        public virtual void UnLoadData() {
+        public override void UnLoadData() {
             base.UnLoadData();
-            this.IsDataLoaded = false;
             LoadGuildData(null);
         }
 
@@ -56,7 +55,6 @@ namespace AdvancedLauncher.Controls {
             LoadGuildData(item);
         }
 
-        [Obsolete("We don't need the collection in this case")]
         public override void LoadData(ICollection<Guild> List) {
             // deprecated
         }

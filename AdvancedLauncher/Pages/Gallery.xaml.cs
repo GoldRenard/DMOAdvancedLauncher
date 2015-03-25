@@ -146,8 +146,6 @@ namespace AdvancedLauncher.Pages {
     public class GalleryItemViewModel : INotifyPropertyChanged {
         private double SCALE_CONSTANT = 0.75;
 
-        private ModelCommand _Command;
-
         private ImageSource _Thumb;
 
         private string _FullPath;

@@ -100,7 +100,7 @@ namespace AdvancedLauncher.Controls {
         private void RemoveTask() {
             try {
                 TaskManager.Tasks.TryTake(out UpdateTask);
-            } catch (ArgumentOutOfRangeException e) {
+            } catch (ArgumentOutOfRangeException) {
                 // TODO Wtf this happening here?
             }
         }

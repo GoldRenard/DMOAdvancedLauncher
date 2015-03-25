@@ -469,7 +469,7 @@ namespace AdvancedLauncher.Service {
                         // this is not an ORIGINAL targa file.
                         this.eTGAFormat = TGAFormat.ORIGINAL_TGA;
                     }
-                } catch (Exception ex) {
+                } catch {
                     // clear all
                     this.ClearAll();
                     throw;
@@ -529,7 +529,7 @@ namespace AdvancedLauncher.Service {
                         byte[] ImageIDValueBytes = binReader.ReadBytes(this.objTargaHeader.ImageIDLength);
                         this.objTargaHeader.SetImageIDValue(System.Text.Encoding.ASCII.GetString(ImageIDValueBytes).TrimEnd('\0'));
                     }
-                } catch (Exception ex) {
+                } catch {
                     this.ClearAll();
                     throw;
                 }
@@ -582,7 +582,7 @@ namespace AdvancedLauncher.Service {
                                             throw new Exception("TargaImage only supports ColorMap Entry Sizes of 15, 16, 24 or 32 bits.");
                                     }
                                 }
-                            } catch (Exception ex) {
+                            } catch {
                                 this.ClearAll();
                                 throw;
                             }
@@ -687,7 +687,7 @@ namespace AdvancedLauncher.Service {
                                 this.objTargaExtensionArea.ColorCorrectionTable.Add(Color.FromArgb(a, r, g, b));
                             }
                         }
-                    } catch (Exception ex) {
+                    } catch {
                         this.ClearAll();
                         throw;
                     }

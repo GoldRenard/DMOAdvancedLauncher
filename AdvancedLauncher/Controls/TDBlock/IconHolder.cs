@@ -31,11 +31,6 @@ namespace AdvancedLauncher.Controls {
         private const string IMAGES_REMOTE_JOYMAX = "http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/{0}.gif";
         private const string IMAGES_REMOTE_IMBC = "http://dm.imbc.com/images/ranking/icon/{0}.gif";
 
-        private struct DigiImage {
-            public int Id;
-            public BitmapImage Image;
-        }
-
         private static Dictionary<int, BitmapImage> Dictionary = new Dictionary<int, BitmapImage>();
 
         public static BitmapImage GetImage(int code, bool webResource = true) {

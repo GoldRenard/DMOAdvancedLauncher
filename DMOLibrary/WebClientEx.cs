@@ -85,7 +85,6 @@ namespace DMOLibrary {
         }
 
         public static string DownloadContent(string url, int tryAttempts, int? timeOut) {
-            string html = null;
             Exception exception = null;
             for (int i = 0; i < tryAttempts; i++) {
                 using (WebClientEx webClient = timeOut != null ? new WebClientEx(timeOut.Value) : new WebClientEx()) {

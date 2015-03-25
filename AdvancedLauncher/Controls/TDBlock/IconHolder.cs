@@ -28,7 +28,6 @@ namespace AdvancedLauncher.Controls {
     public static class IconHolder {
         private const string COMMUNITY_DIR = "Community";
         private const string PNG_FORMAT = "{0}.png";
-        private const string IMAGES_REMOTE_OWN = "{0}Community/{1}.png";
         private const string IMAGES_REMOTE_JOYMAX = "http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/{0}.gif";
         private const string IMAGES_REMOTE_IMBC = "http://dm.imbc.com/images/ranking/icon/{0}.gif";
 
@@ -52,7 +51,7 @@ namespace AdvancedLauncher.Controls {
                 if (!File.Exists(ImageFile3rd)) {
                     using (WebClient webClient = new WebClientEx()) {
                         try {
-                            webClient.DownloadFile(string.Format(IMAGES_REMOTE_OWN, LauncherEnv.REMOTE_PATH, code), ImageFile3rd);
+                            webClient.DownloadFile(string.Format(LauncherEnv.COMMUNITY_IMAGE_REMOTE_FORMAT, code), ImageFile3rd);
                         } catch {
                             // fall down and try to download from other source
                         }

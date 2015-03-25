@@ -34,8 +34,11 @@ namespace AdvancedLauncher.Environment {
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
         public const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
-        public const string REMOTE_PATH = "http://renamon.ru/launcher/";
         public static Settings Settings;
+
+        public const string REMOTE_VERSION_FILE = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/version.xml";
+        public const string COMMUNITY_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/Community/{0}.png";
+        public const string DIGIROTATION_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/DigiRotation/{0}.png";
 
         public static string AppPath {
             get {

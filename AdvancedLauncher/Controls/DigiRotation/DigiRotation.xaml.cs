@@ -253,7 +253,6 @@ namespace AdvancedLauncher.Controls {
 
         private const string DIGIROTATION_DIR = "DigiRotation";
         private const string PNG_FORMAT = "{0}.png";
-        private const string REMOTE_FILE_PATH_FORMAT = "{0}DigiRotation/{1}.png";
 
         public BitmapImage GetDigimonImage(int digi_id) {
             DigiImage image = ImagesCollection.Find(i => i.Id == digi_id);
@@ -269,7 +268,7 @@ namespace AdvancedLauncher.Controls {
                 if (!File.Exists(ImageFile3rd)) {
                     using (WebClientEx webClient = new WebClientEx()) {
                         try {
-                            webClient.DownloadFile(string.Format(REMOTE_FILE_PATH_FORMAT, LauncherEnv.REMOTE_PATH, digi_id), ImageFile3rd);
+                            webClient.DownloadFile(string.Format(LauncherEnv.DIGIROTATION_IMAGE_REMOTE_FORMAT, digi_id), ImageFile3rd);
                         } catch {
                             // fall down
                         }

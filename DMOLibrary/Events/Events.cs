@@ -26,6 +26,13 @@ namespace DMOLibrary.Events {
     public delegate void LoginCompleteEventHandler(object sender, LoginCompleteEventArgs e);
 
     /// <summary>
+    /// Login state event handler
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Event arguments</param>
+    public delegate void LoginStateEventHandler(object sender, LoginStateEventArgs e);
+
+    /// <summary>
     /// WebProfile Download Complete event handler
     /// </summary>
     /// <param name="sender">Sender</param>

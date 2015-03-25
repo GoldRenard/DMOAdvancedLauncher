@@ -55,9 +55,7 @@ namespace DMOLibrary.Profiles {
 
         public event LoginCompleteEventHandler LoginCompleted;
 
-        public delegate void LoginStateHandler(object sender, LoginStateEventArgs e);
-
-        public event LoginStateHandler LoginStateChanged;
+        public event LoginStateEventHandler LoginStateChanged;
 
         protected virtual void OnCompleted(LoginCode code, string arguments) {
             LoginCompleteEventArgs args = new LoginCompleteEventArgs(code, arguments);

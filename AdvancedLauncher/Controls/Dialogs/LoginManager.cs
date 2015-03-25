@@ -37,8 +37,6 @@ namespace AdvancedLauncher.Controls.Dialogs {
 
         public event LoginCompleteEventHandler LoginCompleted;
 
-        public event DMOProfile.LoginStateHandler LoginStateChanged;
-
         private LoginManager() {
             // hide the constructod
         }

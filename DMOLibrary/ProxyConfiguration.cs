@@ -23,6 +23,13 @@ using System.Security;
 namespace DMOLibrary {
 
     public class ProxyConfiguration {
+
+        public enum ProxyMode {
+            Default = 0,
+            HTTP = 1,
+            HTTPS = 2
+        }
+
         private const string HTTP_FORMAT = "http://{0}:{1}/";
 
         private readonly ProxyMode Mode;

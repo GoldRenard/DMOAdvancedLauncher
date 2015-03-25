@@ -90,7 +90,7 @@ namespace AdvancedLauncher.Environment {
                 WebClientEx.ProxyConfig = null;
                 return;
             }
-            ProxyMode mode = (ProxyMode)proxy.Mode;
+            ProxyConfiguration.ProxyMode mode = (ProxyConfiguration.ProxyMode)proxy.Mode;
             if (proxy.Authentication && proxy.Credentials.IsCorrect) {
                 WebClientEx.ProxyConfig = new ProxyConfiguration(mode, proxy.Host, proxy.Port,
                     proxy.Credentials.User, proxy.Credentials.SecurePassword);

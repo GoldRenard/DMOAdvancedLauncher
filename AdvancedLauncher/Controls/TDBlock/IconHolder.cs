@@ -26,9 +26,8 @@ using DMOLibrary;
 namespace AdvancedLauncher.Controls {
 
     public static class IconHolder {
-        private const string IMAGES_3RDPARTY_DIR = "{0}\\Community\\3rd";
-        private const string IMAGES_FILE = "{0}\\Community\\{1}.png";
-        private const string IMAGES_3RDPARTY_FILE = "{0}\\{1}.png";
+        private const string COMMUNITY_DIR = "Community";
+        private const string PNG_FORMAT = "{0}.png";
         private const string IMAGES_REMOTE_OWN = "{0}Community/{1}.png";
         private const string IMAGES_REMOTE_JOYMAX = "http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/{0}.gif";
         private const string IMAGES_REMOTE_IMBC = "http://dm.imbc.com/images/ranking/icon/{0}.gif";
@@ -46,43 +45,39 @@ namespace AdvancedLauncher.Controls {
                 return image;
             }
 
-            string Image3rdDirectory = string.Format(IMAGES_3RDPARTY_DIR, LauncherEnv.GetResourcesPath());
-            string ImageFile = string.Format(IMAGES_FILE, LauncherEnv.GetResourcesPath(), code);
-            string ImageFile3rd = string.Format(IMAGES_3RDPARTY_FILE, Image3rdDirectory, code);
+            string ImageFile = Path.Combine(LauncherEnv.InitFolder(LauncherEnv.GetResourcesPath(), COMMUNITY_DIR), string.Format(PNG_FORMAT, code));
+            string ImageFile3rd = Path.Combine(LauncherEnv.InitFolder(LauncherEnv.Get3rdResourcesPath(), COMMUNITY_DIR), string.Format(PNG_FORMAT, code));
 
-            using (WebClient webClient = new WebClientEx()) {
-                //If we don't have image, try to download it from author's resource
-                if (!File.Exists(ImageFile)) {
-                    try {
-                        webClient.DownloadFile(string.Format(IMAGES_REMOTE_OWN, LauncherEnv.REMOTE_PATH, code), ImageFile);
-                    } catch {
-                    }
-                }
-
-                if (webResource) {
-                    //If we don't have image yet, try to download it from joymsx
-                    if (!File.Exists(ImageFile) && !File.Exists(ImageFile3rd)) {
+            if (!File.Exists(ImageFile)) {
+                if (!File.Exists(ImageFile3rd)) {
+                    using (WebClient webClient = new WebClientEx()) {
                         try {
-                            if (!Directory.Exists(Image3rdDirectory)) {
-                                Directory.CreateDirectory(Image3rdDirectory);
+                            webClient.DownloadFile(string.Format(IMAGES_REMOTE_OWN, LauncherEnv.REMOTE_PATH, code), ImageFile3rd);
+                        } catch {
+                            // fall down and try to download from other source
+                        }
+
+                        if (webResource) {
+                            //If we don't have image yet, try to download it from joymsx
+                            if (!File.Exists(ImageFile3rd)) {
+                                try {
+                                    webClient.DownloadFile(string.Format(IMAGES_REMOTE_JOYMAX, code), ImageFile3rd);
+                                } catch {
+                                    // fall down and try to download from other source
+                                }
                             }
-                            webClient.DownloadFile(string.Format(IMAGES_REMOTE_JOYMAX, code), ImageFile3rd);
-                        } catch {
-                        }
-                    }
 
-                    //If we don't have image yet, try to download it from IMBC
-                    if (!File.Exists(ImageFile) && !File.Exists(ImageFile3rd)) {
-                        try {
-                            webClient.DownloadFile(string.Format(IMAGES_REMOTE_IMBC, code), ImageFile3rd);
-                        } catch {
+                            //If we don't have image yet, try to download it from IMBC
+                            if (!File.Exists(ImageFile3rd)) {
+                                try {
+                                    webClient.DownloadFile(string.Format(IMAGES_REMOTE_IMBC, code), ImageFile3rd);
+                                } catch {
+                                    // fall down
+                                }
+                            }
                         }
                     }
                 }
-            }
-
-            //If we don't have our own image but downloaded 3rd one, use it
-            if (!File.Exists(ImageFile) && File.Exists(ImageFile3rd)) {
                 ImageFile = ImageFile3rd;
             }
 

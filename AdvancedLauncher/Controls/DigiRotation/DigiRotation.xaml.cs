@@ -251,22 +251,31 @@ namespace AdvancedLauncher.Controls {
             IsLoadingAnim(false);
         }
 
+        private const string DIGIROTATION_DIR = "DigiRotation";
+        private const string PNG_FORMAT = "{0}.png";
+        private const string REMOTE_FILE_PATH_FORMAT = "{0}DigiRotation/{1}.png";
+
         public BitmapImage GetDigimonImage(int digi_id) {
             DigiImage image = ImagesCollection.Find(i => i.Id == digi_id);
             if (image.Image != null) {
                 return image.Image;
             }
 
-            string ImageFile = string.Format("{0}\\DigiRotation\\{1}.png", LauncherEnv.GetResourcesPath(), digi_id);
+            string ImageFile = Path.Combine(LauncherEnv.InitFolder(LauncherEnv.GetResourcesPath(), DIGIROTATION_DIR), string.Format(PNG_FORMAT, digi_id));
+            string ImageFile3rd = Path.Combine(LauncherEnv.InitFolder(LauncherEnv.Get3rdResourcesPath(), DIGIROTATION_DIR), string.Format(PNG_FORMAT, digi_id));
 
-            using (WebClientEx webClient = new WebClientEx()) {
-                //If we don't have image, try to download it
-                if (!File.Exists(ImageFile)) {
-                    try {
-                        webClient.DownloadFile(string.Format("{0}DigiRotation/{1}.png", LauncherEnv.REMOTE_PATH, digi_id), ImageFile);
-                    } catch {
+            //If we don't have image, try to download it
+            if (!File.Exists(ImageFile)) {
+                if (!File.Exists(ImageFile3rd)) {
+                    using (WebClientEx webClient = new WebClientEx()) {
+                        try {
+                            webClient.DownloadFile(string.Format(REMOTE_FILE_PATH_FORMAT, LauncherEnv.REMOTE_PATH, digi_id), ImageFile3rd);
+                        } catch {
+                            // fall down
+                        }
                     }
                 }
+                ImageFile = ImageFile3rd;
             }
 
             if (File.Exists(ImageFile)) {

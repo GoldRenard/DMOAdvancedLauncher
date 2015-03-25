@@ -31,7 +31,6 @@ namespace AdvancedLauncher.Environment {
     public static class LauncherEnv {
         private static string _AppPath = null;
         private const string SETTINGS_FILE = "Settings.xml";
-        private const string CONFIG_DIR = "Configs";
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
         public const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
@@ -44,8 +43,16 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
+        public static string AppDataPath {
+            get {
+                return InitFolder(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData),
+                    Path.Combine("GoldRenard", "AdvancedLauncher"));
+            }
+        }
+
         public static void Load() {
             _AppPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            AppDomain.CurrentDomain.SetData("DataDirectory", AppDataPath);
             if (File.Exists(GetSettingsFile())) {
                 Settings = DeSerialize(GetSettingsFile());
             }
@@ -142,31 +149,31 @@ namespace AdvancedLauncher.Environment {
         }
 
         public static string GetSettingsFile() {
-            return Path.Combine(GetConfigsPath(), SETTINGS_FILE);
+            return Path.Combine(AppDataPath, SETTINGS_FILE);
         }
 
         public static string GetKBLCFile() {
             return Path.Combine(AppPath, KBLC_SERVICE_EXECUTABLE);
         }
 
-        public static string GetConfigsPath() {
-            return InitDir(CONFIG_DIR);
+        public static string GetLangsPath() {
+            return InitFolder(AppPath, LOCALE_DIR);
         }
 
-        public static string GetLangsPath() {
-            return InitDir(LOCALE_DIR);
+        public static string Get3rdResourcesPath() {
+            return InitFolder(AppDataPath, RESOURCE_DIR);
         }
 
         public static string GetResourcesPath() {
-            return InitDir(RESOURCE_DIR);
+            return InitFolder(AppPath, RESOURCE_DIR);
         }
 
-        private static string InitDir(string source) {
-            string dir = Path.Combine(AppPath, source);
-            if (!Directory.Exists(dir)) {
-                Directory.CreateDirectory(dir);
+        public static string InitFolder(string root, string name) {
+            string folder = Path.Combine(root, name);
+            if (!Directory.Exists(folder)) {
+                Directory.CreateDirectory(folder);
             }
-            return dir;
+            return folder;
         }
     }
 }

@@ -46,11 +46,8 @@ namespace AdvancedLauncher.Windows {
         private int currentLangIndex;
         private bool IsPreventPassChange = false;
 
-        protected override void InitializeAbstractWindow() {
-            InitializeComponent();
-        }
-
         public Settings() {
+            InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
                 //Copying settings object and set it as DataContext

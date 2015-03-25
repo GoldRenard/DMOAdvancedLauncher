@@ -19,6 +19,7 @@
 using System.Security;
 using System.Web;
 using DMOLibrary.Database.Entity;
+using DMOLibrary.Events;
 
 namespace DMOLibrary.Profiles.Aeria {
 
@@ -36,11 +37,11 @@ namespace DMOLibrary.Profiles.Aeria {
             switch (e.Url.AbsolutePath) {
                 //loginning
                 case "/dialog/oauth": {
-                        if (loginTryNum >= 1) {
+                        if (LoginTryNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
                         }
-                        loginTryNum++;
+                        LoginTryNum++;
 
                         bool isFound = true;
                         try {
@@ -94,7 +95,7 @@ namespace DMOLibrary.Profiles.Aeria {
                 return;
             }
 
-            loginTryNum = 0;
+            LoginTryNum = 0;
             wb.DocumentCompleted += LoginDocumentCompleted;
             wb.Navigate("http://www.aeriagames.com/dialog/oauth?response_type=code&client_id=f24233f2506681f0ba2022418e6a5b44050b5216f&https://agoa-dmo.joymax.com/code2token.html&&state=xyz");
             OnChanged(LoginState.LOGINNING);

@@ -31,71 +31,44 @@ namespace AdvancedLauncher.Service {
         private const int keysize = 256;
 
         public static string Encrypt(string plainText, string passPhrase) {
-            if (string.IsNullOrEmpty(plainText))
+            if (string.IsNullOrEmpty(plainText)) {
                 return null;
-            MemoryStream memoryStream = null;
-            CryptoStream cryptoStream = null;
-            try {
-                byte[] initVectorBytes = Encoding.UTF8.GetBytes(getInitVector());
-                byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-                PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
-                byte[] keyBytes = password.GetBytes(keysize / 8);
-                RijndaelManaged symmetricKey = new RijndaelManaged();
-                symmetricKey.Mode = CipherMode.CBC;
-                ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
-                memoryStream = new MemoryStream();
-                cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
+            }
+
+            byte[] initVectorBytes = Encoding.UTF8.GetBytes(getInitVector());
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
+            byte[] keyBytes = password.GetBytes(keysize / 8);
+            RijndaelManaged symmetricKey = new RijndaelManaged();
+            symmetricKey.Mode = CipherMode.CBC;
+            ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
+
+            MemoryStream memoryStream = new MemoryStream();
+            using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write)) {
                 cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
                 cryptoStream.FlushFinalBlock();
-                byte[] cipherTextBytes = memoryStream.ToArray();
-                memoryStream.Close();
-                cryptoStream.Close();
-                return Convert.ToBase64String(cipherTextBytes);
-            } catch {
-            } finally {
-                try {
-                    if (memoryStream != null)
-                        memoryStream.Close();
-                    if (cryptoStream != null)
-                        cryptoStream.Close();
-                } catch {
-                }
+                return Convert.ToBase64String(memoryStream.ToArray());
             }
-            return null;
         }
 
         public static string Decrypt(string cipherText, string passPhrase) {
-            if (string.IsNullOrEmpty(cipherText))
+            if (string.IsNullOrEmpty(cipherText)) {
                 return null;
+            }
+            byte[] initVectorBytes = Encoding.ASCII.GetBytes(getInitVector());
+            byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
+            byte[] keyBytes = password.GetBytes(keysize / 8);
+            RijndaelManaged symmetricKey = new RijndaelManaged();
+            symmetricKey.Mode = CipherMode.CBC;
+            ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
+            MemoryStream memoryStream = new MemoryStream(cipherTextBytes);
 
-            MemoryStream memoryStream = null;
-            CryptoStream cryptoStream = null;
-            try {
-                byte[] initVectorBytes = Encoding.ASCII.GetBytes(getInitVector());
-                byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
-                PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
-                byte[] keyBytes = password.GetBytes(keysize / 8);
-                RijndaelManaged symmetricKey = new RijndaelManaged();
-                symmetricKey.Mode = CipherMode.CBC;
-                ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
-                memoryStream = new MemoryStream(cipherTextBytes);
-                cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read)) {
                 byte[] plainTextBytes = new byte[cipherTextBytes.Length];
                 int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-                memoryStream.Close();
-                cryptoStream.Close();
                 return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
-            } catch {
-            } finally {
-                try {
-                    if (memoryStream != null)
-                        memoryStream.Close();
-                    if (cryptoStream != null)
-                        cryptoStream.Close();
-                } catch {
-                }
             }
-            return null;
         }
 
         public static string ConvertToUnsecureString(this SecureString securePassword) {

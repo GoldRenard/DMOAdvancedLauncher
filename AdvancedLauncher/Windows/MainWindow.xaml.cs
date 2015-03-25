@@ -17,14 +17,13 @@
 // ======================================================================
 
 using System;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Pages;
+using AdvancedLauncher.Service;
 using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Windows {
@@ -33,16 +32,6 @@ namespace AdvancedLauncher.Windows {
         public static int FLYOUT_WIDTH_MIN = 100;
 
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainWindow));
-        private const int SC_CLOSE = 0xF060;
-        private const int MF_ENABLED = 0x0000;
-        private const int MF_GRAYED = 0x0001;
-        private const int MF_DISABLED = 0x0002;
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-
-        [DllImport("user32.dll")]
-        private static extern int EnableMenuItem(IntPtr hMenu, int wIDEnableItem, int wEnable);
 
         private IntPtr hWnd = IntPtr.Zero;
 
@@ -51,8 +40,6 @@ namespace AdvancedLauncher.Windows {
         private Settings SettingsWindow = null;
         private About AboutWindow = null;
         private AbstractPage currentTab;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private static MainWindow _Instance;
 
@@ -74,7 +61,7 @@ namespace AdvancedLauncher.Windows {
                     transitionLayer.Content = null;
                 };
                 AdvancedLauncher.Service.UpdateChecker.Check();
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
                 LauncherEnv.Settings.ProfileChanged += OnProfileChanged;
@@ -88,7 +75,7 @@ namespace AdvancedLauncher.Windows {
                 MenuFlyout.AboutClick += OnAboutClick;
                 MenuFlyout.ProfileSettingsClick += OnProfileSettingsClick;
                 MenuFlyout.LoggerClick += OnLoggerClick;
-                OnProfileChanged();
+                OnProfileChanged(this, EventArgs.Empty);
                 try {
                     App.splash.Close(TimeSpan.FromSeconds(1));
                 } catch {
@@ -109,8 +96,8 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private void OnFileSystemLocked(bool IsLocked) {
-            if (IsLocked) {
+        private void OnFileSystemLocked(object sender, LockedEventArgs e) {
+            if (e.IsLocked) {
                 //Выбираем первую вкладку и отключаем персонализацию (на всякий случай)
                 NavControl.SelectedIndex = 0;
                 NavPersonalization.IsEnabled = false;
@@ -122,14 +109,17 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private void OnClosingLocked(bool IsLocked) {
-            if (hWnd == IntPtr.Zero)
+        private void OnClosingLocked(object sender, LockedEventArgs e) {
+            if (hWnd == IntPtr.Zero) {
                 hWnd = new System.Windows.Interop.WindowInteropHelper(Application.Current.MainWindow).Handle;
+            }
             //Заблокировать закрытие окна
-            IsCloseLocked = IsLocked;
-            this.IsCloseButtonEnabled = !IsLocked;
+            IsCloseLocked = e.IsLocked;
+            this.IsCloseButtonEnabled = !e.IsLocked;
             //Отключим кнопку "Х"
-            EnableMenuItem(GetSystemMenu(hWnd, false), SC_CLOSE, IsLocked ? MF_DISABLED | MF_GRAYED : MF_ENABLED);
+            NativeMethods.EnableMenuItem(NativeMethods.GetSystemMenu(hWnd, false),
+                NativeMethods.SC_CLOSE,
+                e.IsLocked ? NativeMethods.MF_DISABLED | NativeMethods.MF_GRAYED : NativeMethods.MF_ENABLED);
         }
 
         public void ReloadTabs() {
@@ -151,7 +141,7 @@ namespace AdvancedLauncher.Windows {
             }
         }
 
-        private void OnProfileChanged() {
+        private void OnProfileChanged(object sender, EventArgs e) {
             ReloadTabs();
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;

@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DMOLibrary
 // Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -18,18 +18,32 @@
 
 using System;
 
-namespace AdvancedLauncher.Service {
+namespace DMOLibrary.Events {
 
-    public class IntConverter : System.Windows.Data.IValueConverter {
+    /// <summary>
+    /// Write directory status change event args
+    /// </summary>
+    public class WriteDirectoryEventArgs : EventArgs {
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            if (value is double)
-                return ((double)value - 18);
-            return null;
+        /// <summary>
+        /// Current file number
+        /// </summary>
+        public int FileNumber {
+            get;
+            private set;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            return null;
+        /// <summary>
+        /// Files count
+        /// </summary>
+        public int FileCount {
+            get;
+            private set;
+        }
+
+        public WriteDirectoryEventArgs(int FileNumber, int FileCount) {
+            this.FileNumber = FileNumber;
+            this.FileCount = FileCount;
         }
     }
 }

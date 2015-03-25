@@ -46,7 +46,7 @@ namespace AdvancedLauncher.Controls {
                 TamerModel.LoadCompleted += TamersLoadCompleted;
                 DigimonModel.LoadStarted += DigimonsLoadStarted;
                 DigimonModel.LoadCompleted += DigimonsLoadCompleted;
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
             }
@@ -99,6 +99,8 @@ namespace AdvancedLauncher.Controls {
 
         public void SetGuild(Guild guild) {
             CURRENT_GUILD = guild;
+            DigimonModel.ClearCache();
+            TamerModel.ClearCache();
             TamerModel.LoadDataAsync(guild.Tamers);
         }
 

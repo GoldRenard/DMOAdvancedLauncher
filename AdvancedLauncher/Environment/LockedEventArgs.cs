@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// DMOLibrary
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -16,45 +16,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+using System;
 
-namespace DMOLibrary.Database.Entity {
+namespace AdvancedLauncher.Environment {
 
-    public class Server : BaseEntity {
+    public class LockedEventArgs : EventArgs {
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Server() {
-            Guilds = new List<Guild>();
-        }
-
-        public enum ServerType {
-            KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
-        }
-
-        [Required]
-        public byte Identifier {
+        public bool IsLocked {
             get;
-            set;
+            private set;
         }
 
-        [Required]
-        [StringLength(25)]
-        public string Name {
-            get;
-            set;
-        }
-
-        [Required]
-        public ServerType Type {
-            get;
-            set;
-        }
-
-        public virtual ICollection<Guild> Guilds {
-            get;
-            set;
+        public LockedEventArgs(bool IsLocked) {
+            this.IsLocked = IsLocked;
         }
     }
 }

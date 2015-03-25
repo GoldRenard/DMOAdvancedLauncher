@@ -37,9 +37,6 @@ namespace AdvancedLauncher.Service {
         internal IntPtr UniqueProcessId;
         internal IntPtr InheritedFromUniqueProcessId;
 
-        [DllImport("ntdll.dll")]
-        private static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass, ref ParentProcessUtilities processInformation, int processInformationLength, out int returnLength);
-
         /// <summary>
         /// Gets the parent process of the current process.
         /// </summary>
@@ -66,7 +63,7 @@ namespace AdvancedLauncher.Service {
         public static Process GetParentProcess(IntPtr handle) {
             ParentProcessUtilities pbi = new ParentProcessUtilities();
             int returnLength;
-            int status = NtQueryInformationProcess(handle, 0, ref pbi, Marshal.SizeOf(pbi), out returnLength);
+            int status = NativeMethods.NtQueryInformationProcess(handle, 0, ref pbi, Marshal.SizeOf(pbi), out returnLength);
             if (status != 0) {
                 // maybe we aren't allowed to do that, so just return null
                 return null;

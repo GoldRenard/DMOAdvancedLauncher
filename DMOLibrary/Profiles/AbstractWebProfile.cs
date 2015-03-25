@@ -22,12 +22,12 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
+using DMOLibrary.Events;
 
 namespace DMOLibrary.Profiles {
 
     public abstract class AbstractWebProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(AbstractWebProfile));
-        protected DownloadStatus downloadStatus = new DownloadStatus();
 
         #region EVENTS
 
@@ -42,57 +42,48 @@ namespace DMOLibrary.Profiles {
 
         protected System.Windows.Threading.Dispatcher OwnerDispatcher;
 
-        public delegate void DownloadHandler(object sender);
+        public event EventHandler DownloadStarted;
 
-        public delegate void DownloadCompleteHandler(object sender, DMODownloadResultCode code, Guild result);
+        public event DownloadCompleteEventHandler DownloadCompleted;
 
-        public delegate void DownloadStatusChangedHandler(object sender, DownloadStatus status);
-
-        public event DownloadHandler DownloadStarted;
-
-        public event DownloadCompleteHandler DownloadCompleted;
-
-        public event DownloadStatusChangedHandler StatusChanged;
+        public event DownloadStatusChangedEventHandler StatusChanged;
 
         protected virtual void OnStarted() {
             LOGGER.Info("GuildInfo obtaining started.");
             if (DownloadStarted != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadHandler((sender) => {
-                        DownloadStarted(sender);
-                    }), this);
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new EventHandler((s, e) => {
+                        DownloadStarted(s, e);
+                    }), this, EventArgs.Empty);
                 } else {
-                    DownloadStarted(this);
+                    DownloadStarted(this, EventArgs.Empty);
                 }
             }
         }
 
         protected virtual void OnCompleted(DMODownloadResultCode code, Guild result) {
+            DownloadCompleteEventArgs args = new DownloadCompleteEventArgs(code, result);
             LOGGER.Info(String.Format("GuildInfo obtaining completed: code={0}, result={1}", code, result));
             if (DownloadCompleted != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteHandler((sender, code_, result_) => {
-                        DownloadCompleted(sender, code_, result_);
-                    }), this, code, result);
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e) => {
+                        DownloadCompleted(s, e);
+                    }), this, args);
                 } else
-                    DownloadCompleted(this, code, result);
+                    DownloadCompleted(this, args);
             }
         }
 
         protected virtual void OnStatusChanged(DMODownloadStatusCode code, string info, int p, int pm) {
             LOGGER.Info(String.Format("GuildInfo obtaining status changed: code={0}, info={1}, p={2}, pm={3}", code, info, p, pm));
-            downloadStatus.Code = code;
-            downloadStatus.Info = info;
-            downloadStatus.Progress = p;
-            downloadStatus.MaxProgress = pm;
-
+            DownloadStatusEventArgs args = new DownloadStatusEventArgs(code, info, p, pm);
             if (StatusChanged != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedHandler((sender, status_) => {
-                        StatusChanged(sender, status_);
-                    }), this, downloadStatus);
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e) => {
+                        StatusChanged(s, e);
+                    }), this, args);
                 } else
-                    StatusChanged(this, downloadStatus);
+                    StatusChanged(this, args);
             }
         }
 

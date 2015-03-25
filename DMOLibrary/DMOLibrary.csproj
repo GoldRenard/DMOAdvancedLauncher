@@ -86,6 +86,12 @@
     <Compile Include="Database\Entity\TamerType.cs" />
     <Compile Include="Database\Entity\Tamer.cs" />
     <Compile Include="Database\Migrations\Configuration.cs" />
+    <Compile Include="Events\DownloadCompleteEventArgs.cs" />
+    <Compile Include="Events\DownloadStatusEventArgs.cs" />
+    <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\WriteDirectoryEventArgs.cs" />
+    <Compile Include="Events\LoginCompleteEventArgs.cs" />
+    <Compile Include="Events\LoginStateEventArgs.cs" />
     <Compile Include="Profiles\AbstractWebProfile.cs" />
     <Compile Include="Profiles\Joymax\JMNews.cs" />
     <Compile Include="Profiles\DMONewsProfile.cs" />
@@ -96,7 +102,6 @@
     <Compile Include="Profiles\Aeria\DMOAeria.cs" />
     <Compile Include="Profiles\DMOProfile.cs" />
     <Compile Include="Profiles\Joymax\DMOJoymax.cs" />
-    <Compile Include="DMOLibrary.cs" />
     <Compile Include="DMOFileSystem.cs" />
     <Compile Include="WebClientEx.cs">
       <SubType>Component</SubType>
@@ -109,6 +114,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -26,7 +26,7 @@ using Microsoft.Win32;
 
 namespace AdvancedLauncher.Environment {
 
-    public class GameEnv : INotifyPropertyChanged {
+    public class GameEnv : INotifyPropertyChanged, IDisposable {
 
         public enum GameType {
             ADMO = 0,
@@ -319,5 +319,18 @@ namespace AdvancedLauncher.Environment {
         }
 
         #endregion Registry
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose) {
+            if (dispose) {
+                if (_GameFS != null) {
+                    _GameFS.Dispose();
+                }
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using log4net;
 
 namespace AdvancedLauncher.Pages {
@@ -25,11 +26,11 @@ namespace AdvancedLauncher.Pages {
 
         private delegate void DoChangeTextNBool(string text, bool bool_);
 
-        protected override void InitializeAbstractPage() {
+        public MainPage() {
             InitializeComponent();
         }
 
-        protected override void ProfileChanged() {
+        protected override void ProfileChanged(object sender, EventArgs e) {
             // nothing to do
         }
     }

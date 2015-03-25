@@ -16,50 +16,52 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace DMOLibrary {
+using System;
 
-    #region Structs
+namespace DMOLibrary.Events {
 
-    public struct DownloadStatus {
-        public DMODownloadStatusCode Code;
-        public string Info;
-        public int Progress;
-        public int MaxProgress;
-    }
-
-    public enum DMODownloadStatusCode {
-        GETTING_GUILD = 0,
-        GETTING_TAMER = 1
-    }
-
-    public enum DMODownloadResultCode {
-        OK = 0,
-        DB_CONNECT_ERROR = 1,
-        WEB_ACCESS_ERROR = 2,
-        NOT_FOUND = 404,
-        CANT_GET = 3
-    }
-
-    public enum LoginCode {
-        SUCCESS = 0,
-        WRONG_USER = 1,
-        WRONG_PAGE = 2,
-        UNKNOWN_URL = 3,
-        EXECUTE_ERROR = 4,
-        CANCELLED = 5
-    }
-
+    /// <summary>
+    /// Login state
+    /// </summary>
     public enum LoginState {
         LOGINNING = 0,
         GETTING_DATA = 1,
         WAS_ERROR = 2
     }
 
-    public enum ProxyMode {
-        Default = 0,
-        HTTP = 1,
-        HTTPS = 2
-    }
+    /// <summary>
+    /// Login state event arguments
+    /// </summary>
+    public class LoginStateEventArgs : EventArgs {
 
-    #endregion Structs
+        /// <summary>
+        /// Login state code
+        /// </summary>
+        public LoginState Code {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Login try number
+        /// </summary>
+        public int TryNumber {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Login last error code
+        /// </summary>
+        public int LastError {
+            get;
+            private set;
+        }
+
+        public LoginStateEventArgs(LoginState Code, int TryNumber, int LastError) {
+            this.Code = Code;
+            this.TryNumber = TryNumber;
+            this.LastError = LastError;
+        }
+    }
 }

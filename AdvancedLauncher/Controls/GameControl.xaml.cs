@@ -31,19 +31,20 @@ using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
 using DMOLibrary;
 using DMOLibrary.DMOFileSystem;
+using DMOLibrary.Events;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace AdvancedLauncher.Controls {
 
-    public partial class GameControl : UserControl {
+    public partial class GameControl : UserControl, IDisposable {
         private TaskManager.Task UpdateTask;
         private bool UpdateRequired = false;
 
         private TaskbarItemInfo TaskBar = new TaskbarItemInfo();
         private DMOFileSystem GameFS = null;
-        private BackgroundWorker CheckWorker = new BackgroundWorker();
+        private readonly BackgroundWorker CheckWorker = new BackgroundWorker();
 
         private Binding StartButtonBinding = new Binding("StartButton");
         private Binding WaitingButtonBinding = new Binding("GameButton_Waiting");
@@ -80,17 +81,17 @@ namespace AdvancedLauncher.Controls {
                 ElementHolder.RemoveChild(UpdateBlock);
                 WrapElement.Content = StartButton;
                 Application.Current.MainWindow.TaskbarItemInfo = TaskBar;
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
                 LoginManager.Instance.LoginCompleted += OnGameStartCompleted;
                 LauncherEnv.Settings.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
-                OnProfileChanged();
+                OnProfileChanged(this, EventArgs.Empty);
             }
         }
 
-        private void OnProfileChanged() {
+        private void OnProfileChanged(object sender, EventArgs e) {
             StartButton.IsEnabled = false;
             StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             CheckWorker.RunWorkerAsync();
@@ -347,17 +348,12 @@ namespace AdvancedLauncher.Controls {
             return updateSuccess;
         }
 
-        private void ExtractUpdate(int upd_num, int upd_num_of, string archiveFilenameIn, string outFolder, bool DeleteAfterExtract) {
-            ZipFile zf = null;
-            FileStream fs = null;
-            try {
-                fs = File.OpenRead(archiveFilenameIn);
-                zf = new ZipFile(fs);
-
+        private void ExtractUpdate(int updateNumber, int updateMaxNumber, string archiveFilenameIn, string outFolder, bool DeleteAfterExtract) {
+            using (var zf = new ZipFile(archiveFilenameIn)) {
                 UpdateSubProgressBar(0, (int)zf.Count);
-                int z_num = 1;
+                int zEntryNumber = 1;
                 foreach (ZipEntry zipEntry in zf) {
-                    UpdateInfoText(1, upd_num, upd_num_of, z_num, zf.Count);
+                    UpdateInfoText(1, updateNumber, updateMaxNumber, zEntryNumber, zf.Count);
                     if (!zipEntry.IsFile) {
                         continue;
                     }
@@ -371,16 +367,8 @@ namespace AdvancedLauncher.Controls {
                     using (FileStream streamWriter = File.Create(fullZipToPath)) {
                         StreamUtils.Copy(zipStream, streamWriter, buffer);
                     }
-                    UpdateSubProgressBar(z_num, (int)zf.Count);
-                    z_num++;
-                }
-            } finally {
-                if (zf != null) {
-                    zf.IsStreamOwner = true;
-                    zf.Close();
-                }
-                if (fs != null) {
-                    fs.Close();
+                    UpdateSubProgressBar(zEntryNumber, (int)zf.Count);
+                    zEntryNumber++;
                 }
             }
 
@@ -434,9 +422,9 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private void OnGameStartCompleted(object sender, DMOLibrary.LoginCode code, string result) {
+        private void OnGameStartCompleted(object sender, LoginCompleteEventArgs e) {
             //Если результат НЕУСПЕШЕН, возвращаем кнопку старта и возможность смены профиля
-            if (code != DMOLibrary.LoginCode.SUCCESS) {
+            if (e.Code != LoginCode.SUCCESS) {
                 StartButton.IsEnabled = true;
                 if (UpdateRequired) {
                     StartButton.SetBinding(Button.ContentProperty, UpdateButtonBinding);
@@ -447,17 +435,17 @@ namespace AdvancedLauncher.Controls {
             }
 
             //Получаем результат логина
-            switch (code) {
-                case DMOLibrary.LoginCode.SUCCESS: {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
-                        LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs = result;
+            switch (e.Code) {
+                case LoginCode.SUCCESS: {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
+                        LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs = e.Arguments;
                         LauncherEnv.Save();
-                        StartGame(result);
+                        StartGame(e.Arguments);
                         break;
                     }
-                case DMOLibrary.LoginCode.WRONG_PAGE:       //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
-                case DMOLibrary.LoginCode.UNKNOWN_URL: {    //И возвращаем в форму ввода
+                case LoginCode.WRONG_PAGE:       //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
+                case LoginCode.UNKNOWN_URL: {    //И возвращаем в форму ввода
                         Utils.ShowMessageDialog(LanguageEnv.Strings.LoginLogIn,
-                                    LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", code));
+                                    LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", e.Code));
                         break;
                     }
             }
@@ -536,9 +524,9 @@ namespace AdvancedLauncher.Controls {
             }));
         }
 
-        private void OnWriteStatusChanged(object sender, int file_num, int file_count) {
-            UpdateInfoText(2, file_num, file_count, null, null);
-            UpdateMainProgressBar(file_num, file_count);
+        private void OnWriteStatusChanged(object sender, WriteDirectoryEventArgs e) {
+            UpdateInfoText(2, e.FileNumber, e.FileCount, null, null);
+            UpdateMainProgressBar(e.FileNumber, e.FileCount);
         }
 
         private void OnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
@@ -603,5 +591,16 @@ namespace AdvancedLauncher.Controls {
         #endregion ProgressBar
 
         #endregion Interface Section
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose) {
+            if (dispose) {
+                CheckWorker.Dispose();
+            }
+        }
     }
 }

@@ -1759,25 +1759,18 @@ namespace AdvancedLauncher.Environment {
         }
 
         private static LanguageEnv Read(string tFile) {
-            foreach (LanguageEnv l in lCollection)
-                if (l.FileName == tFile)
-                    return l;
-
+            foreach (LanguageEnv lang in lCollection) {
+                if (lang.FileName == tFile) {
+                    return lang;
+                }
+            }
             if (File.Exists(tFile)) {
-                StreamReader file = null;
-                try {
-                    XmlSerializer reader = new XmlSerializer(typeof(LanguageEnv));
-                    file = new StreamReader(tFile);
+                XmlSerializer reader = new XmlSerializer(typeof(LanguageEnv));
+                using (var file = new StreamReader(tFile)) {
                     LanguageEnv lang = (LanguageEnv)reader.Deserialize(file);
                     lang.FileName = tFile;
                     lCollection.Add(lang);
-                    file.Close();
                     return lang;
-                } catch {
-                    file.Close();
-                } finally {
-                    if (file != null)
-                        file.Close();
                 }
             }
             return null;
@@ -1810,13 +1803,12 @@ namespace AdvancedLauncher.Environment {
 
         #region Event Handlers
 
-        public delegate void ChangedEventHandler();
-
-        public static event ChangedEventHandler LanguageChanged;
+        public static event EventHandler LanguageChanged;
 
         public static void OnChanged() {
-            if (LanguageChanged != null)
-                LanguageChanged();
+            if (LanguageChanged != null) {
+                LanguageChanged(LanguageEnv.Strings, EventArgs.Empty);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

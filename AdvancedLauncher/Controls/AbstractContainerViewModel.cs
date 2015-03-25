@@ -81,6 +81,10 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
+        public void ClearCache() {
+            this.ItemsCache.Clear();
+        }
+
         public abstract void LoadData(ICollection<SourceType> items);
 
         public virtual void LoadData(SourceType item) {

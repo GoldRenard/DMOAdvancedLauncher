@@ -30,7 +30,7 @@ namespace AdvancedLauncher.Controls {
 
         public GuildInfoViewModel()
             : base(null) {
-            LanguageEnv.LanguageChanged += () => {
+            LanguageEnv.LanguageChanged += (s, e) => {
                 NotifyPropertyChanged("Items");
             };
         }

@@ -43,11 +43,8 @@ namespace AdvancedLauncher.Pages {
 
         private JpegEncoder ImageEncoder = new JpegEncoder();
 
-        protected override void InitializeAbstractPage() {
-            InitializeComponent();
-        }
-
         public Gallery() {
+            InitializeComponent();
             Templates.DataContext = GalleryModel;
         }
 
@@ -66,7 +63,7 @@ namespace AdvancedLauncher.Pages {
             EmptyText.Visibility = System.Windows.Visibility.Visible;
         }
 
-        protected override void ProfileChanged() {
+        protected override void ProfileChanged(object sender, EventArgs e) {
             GalleryModel.UnLoadData();
             IsGalleryInitialized = false;
             if (IsPageVisible) {

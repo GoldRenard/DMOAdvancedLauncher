@@ -22,10 +22,11 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Text;
 using System.Windows.Threading;
+using DMOLibrary.Events;
 
 namespace DMOLibrary.DMOFileSystem {
 
-    public class DMOFileSystem {
+    public class DMOFileSystem : IDisposable {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOFileSystem));
 
         public class DMOFileEntry {
@@ -60,19 +61,18 @@ namespace DMOLibrary.DMOFileSystem {
 
         #region EVENTS
 
-        public delegate void WriteDirectoryStatusChange(object sender, int fileNum, int fileCount);
-
-        public event WriteDirectoryStatusChange WriteStatusChanged;
+        public event WriteStatusChangedEventHandler WriteStatusChanged;
 
         protected virtual void OnFileWrited(int fileNum, int fileCount) {
             LOGGER.DebugFormat("OnFileWrited: fileNum={0}, fileCount={1}", fileNum, fileCount);
+            WriteDirectoryEventArgs args = new WriteDirectoryEventArgs(fileNum, fileCount);
             if (WriteStatusChanged != null) {
                 if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new WriteDirectoryStatusChange((sender, num, cnt) => {
-                        WriteStatusChanged(sender, num, cnt);
-                    }), this, fileNum, fileCount);
+                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new WriteStatusChangedEventHandler((s, e) => {
+                        WriteStatusChanged(s, e);
+                    }), this, args);
                 } else
-                    WriteStatusChanged(this, fileNum, fileCount);
+                    WriteStatusChanged(this, args);
             }
         }
 
@@ -110,37 +110,30 @@ namespace DMOLibrary.DMOFileSystem {
             this.PackageFile = packageFile;
             this.ArchiveEntries.Clear();
 
-            BinaryReader binr = null;
-            try {
-                binr = new BinaryReader(File.OpenRead(headerFile), Encoding.Default);
-            } catch {
-                if (binr != null) binr.Close(); throw;
-            }
-
-            if (binr.ReadUInt32() != archiveHeader) {
-                LOGGER.Error("FileSystem open failed (FileFormatException)");
-                throw new FileFormatException();
-            }
-
-            uint entryCount = binr.ReadUInt32();
-            DMOFileEntry entry;
-
-            for (uint e = 0; e < entryCount; e++) {
-                entry = new DMOFileEntry();
-                if (binr.ReadUInt32() != 1) {
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(headerFile), Encoding.Default)) {
+                if (reader.ReadUInt32() != archiveHeader) {
                     LOGGER.Error("FileSystem open failed (FileFormatException)");
                     throw new FileFormatException();
                 }
 
-                entry.SizeCurrent = binr.ReadUInt32();
-                entry.SizeAvailable = binr.ReadUInt32();
-                entry.Id = binr.ReadUInt32();
-                entry.Offset = binr.ReadInt64();
+                uint entryCount = reader.ReadUInt32();
+                DMOFileEntry entry;
 
-                ArchiveEntries.Add(entry);
+                for (uint e = 0; e < entryCount; e++) {
+                    entry = new DMOFileEntry();
+                    if (reader.ReadUInt32() != 1) {
+                        LOGGER.Error("FileSystem open failed (FileFormatException)");
+                        throw new FileFormatException();
+                    }
+
+                    entry.SizeCurrent = reader.ReadUInt32();
+                    entry.SizeAvailable = reader.ReadUInt32();
+                    entry.Id = reader.ReadUInt32();
+                    entry.Offset = reader.ReadInt64();
+
+                    ArchiveEntries.Add(entry);
+                }
             }
-            binr.Close();
-            binr.Dispose();
 
             if (access == FileAccess.ReadWrite || access == FileAccess.Write) {
                 try {
@@ -156,7 +149,16 @@ namespace DMOLibrary.DMOFileSystem {
         }
 
         public void Close() {
-            if (_IsOpened) {
+            this.Dispose();
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) {
+            if (_IsOpened && disposing) {
                 if (MapWriter != null) {
                     MapWriter.Close();
                     MapWriter.Dispose();
@@ -333,14 +335,11 @@ namespace DMOLibrary.DMOFileSystem {
                 if (importFile[0] == '\\') {
                     importFile = importFile.Substring(1);
                 }
-
-                FileStream fStream = new FileStream(file, FileMode.Open, FileAccess.Read);
-                if (!_WriteStream(fStream, FileHash(importFile))) {
-                    return false;
+                using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read)) {
+                    if (!_WriteStream(fs, FileHash(importFile))) {
+                        return false;
+                    }
                 }
-                fStream.Close();
-                fStream.Dispose();
-
                 OnFileWrited(fNum, files.Length);
                 fNum++;
             }

@@ -22,6 +22,7 @@ using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
+using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -34,9 +35,7 @@ namespace AdvancedLauncher.Controls.Dialogs {
 
         private ProgressDialogController controller;
 
-        public event DMOProfile.LoginCompleteHandler LoginCompleted;
-
-        public event DMOProfile.LoginStateHandler LoginStateChanged;
+        public event LoginCompleteEventHandler LoginCompleted;
 
         private LoginManager() {
             // hide the constructod
@@ -85,7 +84,7 @@ namespace AdvancedLauncher.Controls.Dialogs {
                 return;
             }
             if (LoginCompleted != null) {
-                LoginCompleted(this, DMOLibrary.LoginCode.CANCELLED, null);
+                LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.CANCELLED));
             }
         }
 
@@ -110,21 +109,21 @@ namespace AdvancedLauncher.Controls.Dialogs {
 
             if (result == MessageDialogResult.Affirmative) {
                 if (LoginCompleted != null) {
-                    LoginCompleted(this, DMOLibrary.LoginCode.SUCCESS,
-                        LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs);
+                    LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.SUCCESS,
+                        LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs));
                 }
                 return;
             }
             ShowLoginDialog(LanguageEnv.Strings.LoginLogIn, String.Empty);
         }
 
-        private async void OnLoginCompleted(object sender, DMOLibrary.LoginCode code, string result) {
+        private async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
             await controller.CloseAsync();
             DMOProfile profile = (DMOProfile)sender;
             profile.LoginStateChanged -= OnLoginStateChanged;
             profile.LoginCompleted -= OnLoginCompleted;
 
-            if (code == DMOLibrary.LoginCode.WRONG_USER) {
+            if (e.Code == LoginCode.WRONG_USER) {
                 if (!failedLogin.Contains(profile)) {
                     failedLogin.Add(profile);
                 }
@@ -132,19 +131,19 @@ namespace AdvancedLauncher.Controls.Dialogs {
                 return;
             }
             if (LoginCompleted != null) {
-                LoginCompleted(sender, code, result);
+                LoginCompleted(sender, e);
             }
         }
 
-        private void OnLoginStateChanged(object sender, DMOLibrary.LoginState state, int tryNum, int lastError) {
-            if (state == DMOLibrary.LoginState.LOGINNING) {
+        private void OnLoginStateChanged(object sender, LoginStateEventArgs e) {
+            if (e.Code == LoginState.LOGINNING) {
                 controller.SetTitle(LanguageEnv.Strings.LoginLogIn);
-            } else if (state == DMOLibrary.LoginState.GETTING_DATA) {
+            } else if (e.Code == LoginState.GETTING_DATA) {
                 controller.SetTitle(LanguageEnv.Strings.LoginGettingData);
             }
-            string message = string.Format(LanguageEnv.Strings.LoginTry, tryNum);
-            if (lastError != -1) {
-                message += string.Format(" ({0} {1})", LanguageEnv.Strings.LoginWasError, lastError);
+            string message = string.Format(LanguageEnv.Strings.LoginTry, e.TryNumber);
+            if (e.LastError != -1) {
+                message += string.Format(" ({0} {1})", LanguageEnv.Strings.LoginWasError, e.LastError);
             }
             controller.SetMessage(message);
         }

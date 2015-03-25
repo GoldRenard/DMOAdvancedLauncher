@@ -18,22 +18,12 @@
 
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace AdvancedLauncher.Service {
 
     internal class InstanceChecker {
         private static Mutex mutex;
-
-        [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
-        private static extern bool IsIconic(IntPtr hWnd);
 
         public static bool AlreadyRunning(string mutexName) {
             long runningId = 50000;
@@ -60,9 +50,10 @@ namespace AdvancedLauncher.Service {
                 mutex.ReleaseMutex();
             } else {
                 IntPtr hWnd = Process.GetProcessById((int)runningId).MainWindowHandle;
-                if (IsIconic(hWnd))
-                    ShowWindowAsync(hWnd, 9);
-                SetForegroundWindow(hWnd);
+                if (NativeMethods.IsIconic(hWnd)) {
+                    NativeMethods.ShowWindowAsync(hWnd, 9);
+                }
+                NativeMethods.SetForegroundWindow(hWnd);
             }
 
             return InstanceRunning;

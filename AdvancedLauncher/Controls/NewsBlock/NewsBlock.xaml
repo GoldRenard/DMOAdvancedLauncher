@@ -35,7 +35,6 @@
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Service:IntConverter x:Key="WidthConverter" />
             <Style x:Key="SpoilerButton" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderThickness" Value="1" />

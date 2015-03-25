@@ -99,6 +99,8 @@ namespace AdvancedLauncher.Controls {
 
         public void SetGuild(Guild guild) {
             CURRENT_GUILD = guild;
+            DigimonModel.ClearCache();
+            TamerModel.ClearCache();
             TamerModel.LoadDataAsync(guild.Tamers);
         }
 

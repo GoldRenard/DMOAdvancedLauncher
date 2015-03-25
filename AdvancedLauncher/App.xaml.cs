@@ -26,7 +26,6 @@ using log4net.Config;
 #if DEBUG
 
 using DMOLibrary.Database.Context;
-using AdvancedLauncher.Environment.Containers;
 
 #endif
 
@@ -54,12 +53,8 @@ namespace AdvancedLauncher {
 
         public App() {
             if (IsAdministrator()) {
-
-                RemoteVersion version = RemoteVersion.Instance;
-
                 WpfBugWindow.Show();
                 LauncherEnv.Load();
-
             }
         }
 

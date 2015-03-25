@@ -26,7 +26,7 @@ namespace AdvancedLauncher.Environment.Containers {
 
     [XmlType(TypeName = "RemoteVersion")]
     public class RemoteVersion {
-        private const string REMOTE_VERSION_FILE = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/github-as-remote/version.xml";
+        private const string REMOTE_VERSION_FILE = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/version.xml";
 
         [XmlElement("Version")]
         public string VersionString {
@@ -85,7 +85,7 @@ namespace AdvancedLauncher.Environment.Containers {
             get {
                 string xmlContent;
                 try {
-                    xmlContent = WebClientEx.DownloadContent(REMOTE_VERSION_FILE, 5000);
+                    xmlContent = WebClientEx.DownloadContent(REMOTE_VERSION_FILE + "?" + Guid.NewGuid().ToString(), 5000);
                     XmlSerializer serializer = new XmlSerializer(typeof(RemoteVersion));
                     using (TextReader reader = new StringReader(xmlContent)) {
                         return serializer.Deserialize(reader) as RemoteVersion;

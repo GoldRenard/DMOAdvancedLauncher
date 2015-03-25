@@ -31,6 +31,7 @@ using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
 using DMOLibrary;
 using DMOLibrary.DMOFileSystem;
+using DMOLibrary.Events;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using MahApps.Metro.Controls.Dialogs;
@@ -434,9 +435,9 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private void OnGameStartCompleted(object sender, DMOLibrary.LoginCode code, string result) {
+        private void OnGameStartCompleted(object sender, LoginCompleteEventArgs e) {
             //Если результат НЕУСПЕШЕН, возвращаем кнопку старта и возможность смены профиля
-            if (code != DMOLibrary.LoginCode.SUCCESS) {
+            if (e.Code != LoginCode.SUCCESS) {
                 StartButton.IsEnabled = true;
                 if (UpdateRequired) {
                     StartButton.SetBinding(Button.ContentProperty, UpdateButtonBinding);
@@ -447,17 +448,17 @@ namespace AdvancedLauncher.Controls {
             }
 
             //Получаем результат логина
-            switch (code) {
-                case DMOLibrary.LoginCode.SUCCESS: {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
-                        LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs = result;
+            switch (e.Code) {
+                case LoginCode.SUCCESS: {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
+                        LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs = e.Arguments;
                         LauncherEnv.Save();
-                        StartGame(result);
+                        StartGame(e.Arguments);
                         break;
                     }
-                case DMOLibrary.LoginCode.WRONG_PAGE:       //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
-                case DMOLibrary.LoginCode.UNKNOWN_URL: {    //И возвращаем в форму ввода
+                case LoginCode.WRONG_PAGE:       //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
+                case LoginCode.UNKNOWN_URL: {    //И возвращаем в форму ввода
                         Utils.ShowMessageDialog(LanguageEnv.Strings.LoginLogIn,
-                                    LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", code));
+                                    LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", e.Code));
                         break;
                     }
             }
@@ -536,9 +537,9 @@ namespace AdvancedLauncher.Controls {
             }));
         }
 
-        private void OnWriteStatusChanged(object sender, int file_num, int file_count) {
-            UpdateInfoText(2, file_num, file_count, null, null);
-            UpdateMainProgressBar(file_num, file_count);
+        private void OnWriteStatusChanged(object sender, WriteDirectoryEventArgs e) {
+            UpdateInfoText(2, e.FileNumber, e.FileCount, null, null);
+            UpdateMainProgressBar(e.FileNumber, e.FileCount);
         }
 
         private void OnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {

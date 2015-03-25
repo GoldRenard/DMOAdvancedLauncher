@@ -18,6 +18,7 @@
 
 using System.Security;
 using DMOLibrary.Database.Entity;
+using DMOLibrary.Events;
 
 namespace DMOLibrary.Profiles.Korea {
 
@@ -39,11 +40,11 @@ namespace DMOLibrary.Profiles.Korea {
             switch (e.Url.AbsolutePath) {
                 //loginning
                 case "/help/Login/MemberLogin.aspx": {
-                        if (loginTryNum >= 1) {
+                        if (LoginTryNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
                         }
-                        loginTryNum++;
+                        LoginTryNum++;
 
                         bool isFound = true;
                         try {
@@ -88,7 +89,7 @@ namespace DMOLibrary.Profiles.Korea {
                 return;
             }
 
-            loginTryNum = 0;
+            LoginTryNum = 0;
             if (wb != null)
                 wb.Dispose();
             wb = new System.Windows.Forms.WebBrowser() {

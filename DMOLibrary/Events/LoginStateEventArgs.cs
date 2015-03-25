@@ -16,45 +16,52 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+using System;
 
-namespace DMOLibrary.Database.Entity {
+namespace DMOLibrary.Events {
 
-    public class Server : BaseEntity {
+    /// <summary>
+    /// Login state
+    /// </summary>
+    public enum LoginState {
+        LOGINNING = 0,
+        GETTING_DATA = 1,
+        WAS_ERROR = 2
+    }
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Server() {
-            Guilds = new List<Guild>();
-        }
+    /// <summary>
+    /// Login state event arguments
+    /// </summary>
+    public class LoginStateEventArgs : EventArgs {
 
-        public enum ServerType {
-            KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
-        }
-
-        [Required]
-        public byte Identifier {
+        /// <summary>
+        /// Login state code
+        /// </summary>
+        public LoginState Code {
             get;
-            set;
+            private set;
         }
 
-        [Required]
-        [StringLength(25)]
-        public string Name {
+        /// <summary>
+        /// Login try number
+        /// </summary>
+        public int TryNumber {
             get;
-            set;
+            private set;
         }
 
-        [Required]
-        public ServerType Type {
+        /// <summary>
+        /// Login last error code
+        /// </summary>
+        public int LastError {
             get;
-            set;
+            private set;
         }
 
-        public virtual ICollection<Guild> Guilds {
-            get;
-            set;
+        public LoginStateEventArgs(LoginState Code, int TryNumber, int LastError) {
+            this.Code = Code;
+            this.TryNumber = TryNumber;
+            this.LastError = LastError;
         }
     }
 }

@@ -17,6 +17,7 @@
 // ======================================================================
 
 using DMOLibrary.Database.Entity;
+using DMOLibrary.Events;
 
 namespace DMOLibrary.Profiles.Joymax {
 

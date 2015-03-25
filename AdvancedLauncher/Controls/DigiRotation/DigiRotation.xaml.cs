@@ -30,6 +30,7 @@ using DMOLibrary;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
+using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls;
 
@@ -138,18 +139,18 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private void OnStatusChange(object sender, DownloadStatus status) {
+        private void OnStatusChange(object sender, DownloadStatusEventArgs e) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
-                loader.Maximum = status.MaxProgress;
-                loader.Value = status.Progress;
+                loader.Maximum = e.MaxProgress;
+                loader.Value = e.Progress;
             }));
         }
 
-        private void OnDownloadComplete(object sender, DMODownloadResultCode code, Guild result) {
-            if (code != DMODownloadResultCode.OK) {
+        private void OnDownloadComplete(object sender, DownloadCompleteEventArgs e) {
+            if (e.Code != DMODownloadResultCode.OK) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
-                    loader.Title = LanguageEnv.Strings.ErrorOccured + " [" + code + "]";
-                    switch (code) {
+                    loader.Title = LanguageEnv.Strings.ErrorOccured + " [" + e.Code + "]";
+                    switch (e.Code) {
                         case DMODownloadResultCode.CANT_GET: {
                                 loader.Summary = LanguageEnv.Strings.CantGetError;
                                 break;
@@ -171,7 +172,7 @@ namespace AdvancedLauncher.Controls {
                 }));
                 return;
             }
-            Guild = MergeHelper.Merge(result);
+            Guild = MergeHelper.Merge(e.Guild);
         }
 
         #region Utils

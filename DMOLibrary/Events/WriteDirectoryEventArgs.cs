@@ -16,45 +16,34 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+using System;
 
-namespace DMOLibrary.Database.Entity {
+namespace DMOLibrary.Events {
 
-    public class Server : BaseEntity {
+    /// <summary>
+    /// Write directory status change event args
+    /// </summary>
+    public class WriteDirectoryEventArgs : EventArgs {
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Server() {
-            Guilds = new List<Guild>();
-        }
-
-        public enum ServerType {
-            KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
-        }
-
-        [Required]
-        public byte Identifier {
+        /// <summary>
+        /// Current file number
+        /// </summary>
+        public int FileNumber {
             get;
-            set;
+            private set;
         }
 
-        [Required]
-        [StringLength(25)]
-        public string Name {
+        /// <summary>
+        /// Files count
+        /// </summary>
+        public int FileCount {
             get;
-            set;
+            private set;
         }
 
-        [Required]
-        public ServerType Type {
-            get;
-            set;
-        }
-
-        public virtual ICollection<Guild> Guilds {
-            get;
-            set;
+        public WriteDirectoryEventArgs(int FileNumber, int FileCount) {
+            this.FileNumber = FileNumber;
+            this.FileCount = FileCount;
         }
     }
 }

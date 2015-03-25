@@ -16,45 +16,46 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+using System;
+using DMOLibrary.Database.Entity;
 
-namespace DMOLibrary.Database.Entity {
+namespace DMOLibrary.Events {
 
-    public class Server : BaseEntity {
+    /// <summary>
+    /// Result of downloading
+    /// </summary>
+    public enum DMODownloadResultCode {
+        OK = 0,
+        DB_CONNECT_ERROR = 1,
+        WEB_ACCESS_ERROR = 2,
+        NOT_FOUND = 404,
+        CANT_GET = 3
+    }
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Server() {
-            Guilds = new List<Guild>();
-        }
+    /// <summary>
+    /// Downloading event arguments
+    /// </summary>
+    public class DownloadCompleteEventArgs : EventArgs {
 
-        public enum ServerType {
-            KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
-        }
-
-        [Required]
-        public byte Identifier {
+        /// <summary>
+        /// Download Code
+        /// </summary>
+        public DMODownloadResultCode Code {
             get;
-            set;
+            private set;
         }
 
-        [Required]
-        [StringLength(25)]
-        public string Name {
+        /// <summary>
+        /// Target guild
+        /// </summary>
+        public Guild Guild {
             get;
-            set;
+            private set;
         }
 
-        [Required]
-        public ServerType Type {
-            get;
-            set;
-        }
-
-        public virtual ICollection<Guild> Guilds {
-            get;
-            set;
+        public DownloadCompleteEventArgs(DMODownloadResultCode Code, Guild Guild) {
+            this.Code = Code;
+            this.Guild = Guild;
         }
     }
 }

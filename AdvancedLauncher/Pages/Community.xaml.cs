@@ -16,15 +16,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Validators;
-using DMOLibrary;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Entity;
+using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Pages {
@@ -89,22 +90,22 @@ namespace AdvancedLauncher.Pages {
             }
         }
 
-        private void OnStatusChanged(object sender, DownloadStatus status) {
-            switch (status.Code) {
+        private void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
+            switch (e.Code) {
                 case DMODownloadStatusCode.GETTING_GUILD: {
                         LoadProgressStatus.Text = LanguageEnv.Strings.CommSearchingGuild;
                         break;
                     }
                 case DMODownloadStatusCode.GETTING_TAMER: {
-                        LoadProgressStatus.Text = string.Format(LanguageEnv.Strings.CommGettingTamer, status.Info);
+                        LoadProgressStatus.Text = string.Format(LanguageEnv.Strings.CommGettingTamer, e.Info);
                         break;
                     }
             }
-            LoadProgressBar.Maximum = status.MaxProgress;
-            LoadProgressBar.Value = status.Progress;
+            LoadProgressBar.Maximum = e.MaxProgress;
+            LoadProgressBar.Value = e.Progress;
         }
 
-        private void OnDownloadCompleted(object sender, DMODownloadResultCode code, Guild result) {
+        private void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
             BlockControls(false);
 
             webProfile.DownloadStarted -= OnDownloadStarted;
@@ -112,9 +113,9 @@ namespace AdvancedLauncher.Pages {
             webProfile.StatusChanged -= OnStatusChanged;
 
             ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
-            switch (code) {
+            switch (e.Code) {
                 case DMODownloadResultCode.OK: {
-                        CURRENT_GUILD = MergeHelper.Merge(result);
+                        CURRENT_GUILD = MergeHelper.Merge(e.Guild);
                         GuildInfoModel.LoadData(CURRENT_GUILD);
                         TDBlock_.SetGuild(CURRENT_GUILD);
                         break;
@@ -138,7 +139,7 @@ namespace AdvancedLauncher.Pages {
             }
         }
 
-        private void OnDownloadStarted(object sender) {
+        private void OnDownloadStarted(object sender, EventArgs e) {
             BlockControls(true);
             LoadProgressBar.Value = 0;
             LoadProgressBar.Maximum = 100;

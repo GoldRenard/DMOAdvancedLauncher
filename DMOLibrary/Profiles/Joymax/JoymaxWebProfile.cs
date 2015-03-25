@@ -23,6 +23,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
+using DMOLibrary.Events;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Joymax {

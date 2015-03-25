@@ -22,6 +22,7 @@ using System.Linq;
 using System.Security;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
+using DMOLibrary.Events;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles {
@@ -44,7 +45,7 @@ namespace DMOLibrary.Profiles {
 
         protected string UserId;
         protected SecureString Password;
-        protected int loginTryNum, start_try = 0, last_error = -1;
+        protected int LoginTryNum, StartTry = 0, LastError = -1;
 
         protected System.Windows.Forms.WebBrowser wb = new System.Windows.Forms.WebBrowser() {
             ScriptErrorsSuppressed = true
@@ -52,25 +53,24 @@ namespace DMOLibrary.Profiles {
 
         public abstract void TryLogin(string UserId, SecureString Password);
 
-        public delegate void LoginCompleteHandler(object sender, LoginCode code, string result);
+        public event LoginCompleteEventHandler LoginCompleted;
 
-        public event LoginCompleteHandler LoginCompleted;
-
-        public delegate void LoginStateHandler(object sender, LoginState state, int try_num, int last_error);
+        public delegate void LoginStateHandler(object sender, LoginStateEventArgs e);
 
         public event LoginStateHandler LoginStateChanged;
 
-        protected virtual void OnCompleted(LoginCode code, string result) {
-            LOGGER.InfoFormat("Logging in completed: code={0}, result=\"{1}\"", code, result);
+        protected virtual void OnCompleted(LoginCode code, string arguments) {
+            LoginCompleteEventArgs args = new LoginCompleteEventArgs(code, arguments);
+            LOGGER.InfoFormat("Logging in completed: code={0}, result=\"{1}\"", code, arguments);
             if (LoginCompleted != null) {
-                LoginCompleted(this, code, result);
+                LoginCompleted(this, args);
             }
         }
 
         protected virtual void OnChanged(LoginState state) {
             LOGGER.InfoFormat("Logging state changed: state={0}", state);
             if (LoginStateChanged != null) {
-                LoginStateChanged(this, state, start_try + 1, last_error);
+                LoginStateChanged(this, new LoginStateEventArgs(state, StartTry + 1, LastError));
             }
         }
 
@@ -97,8 +97,8 @@ namespace DMOLibrary.Profiles {
                 }
                 OnCompleted(LoginCode.SUCCESS, Args);
             } else {
-                last_error = res_code;
-                start_try++;
+                LastError = res_code;
+                StartTry++;
                 TryLogin(UserId, Password);
             }
         }

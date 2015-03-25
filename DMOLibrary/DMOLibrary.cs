@@ -20,41 +20,6 @@ namespace DMOLibrary {
 
     #region Structs
 
-    public struct DownloadStatus {
-        public DMODownloadStatusCode Code;
-        public string Info;
-        public int Progress;
-        public int MaxProgress;
-    }
-
-    public enum DMODownloadStatusCode {
-        GETTING_GUILD = 0,
-        GETTING_TAMER = 1
-    }
-
-    public enum DMODownloadResultCode {
-        OK = 0,
-        DB_CONNECT_ERROR = 1,
-        WEB_ACCESS_ERROR = 2,
-        NOT_FOUND = 404,
-        CANT_GET = 3
-    }
-
-    public enum LoginCode {
-        SUCCESS = 0,
-        WRONG_USER = 1,
-        WRONG_PAGE = 2,
-        UNKNOWN_URL = 3,
-        EXECUTE_ERROR = 4,
-        CANCELLED = 5
-    }
-
-    public enum LoginState {
-        LOGINNING = 0,
-        GETTING_DATA = 1,
-        WAS_ERROR = 2
-    }
-
     public enum ProxyMode {
         Default = 0,
         HTTP = 1,

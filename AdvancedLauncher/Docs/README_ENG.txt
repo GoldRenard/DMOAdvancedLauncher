@@ -39,8 +39,8 @@ Main features:
 With disabled option checking updates still works, but will be used default launcher for updating.
 
 2. System requiremets:
-● Windows® XP (SP3) / Vista (SP1+) / 7 / 8
-● Microsoft .NET Framework 4.0
+● Windows Vista SP2 / Windows 7 SP1 / Windows 8 / Windows 8.1
+● Microsoft .NET Framework 4.5
 
 3. Installing:
 1. Download and install the latest version of launcher: https://sourceforge.net/projects/gdmolauncher/

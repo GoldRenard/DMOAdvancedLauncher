@@ -40,8 +40,8 @@ DMO Advanced Launcher поддерживает ADMO (Aeria), GDMO (Joymax), KDMO
 С выключенной опцией проверка обновлений будет работать, но для обновления будет использоваться стандартный лаунчер.
 
 2. Системные требования:
-● Windows® XP (SP3) / Vista (SP1+) / 7 / 8
-● Microsoft .NET Framework 4.0
+● Windows Vista SP2 / Windows 7 SP1 / Windows 8 / Windows 8.1
+● Microsoft .NET Framework 4.5
 
 3. Установка:
 1. Скачиваем и устанавливаем лаунчер со страницы https://sourceforge.net/projects/gdmolauncher/

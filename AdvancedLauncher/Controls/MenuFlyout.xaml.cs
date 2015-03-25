@@ -44,13 +44,13 @@ namespace AdvancedLauncher.Controls {
                     ProfileList.MaxHeight = e.NewSize.Height - CommandsHolder.ActualHeight - 50;
                 };
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
                 LauncherEnv.Settings.ProfileChanged += ReloadCurrentProfile;
                 LauncherEnv.Settings.ProfileLocked += OnProfileLocked;
                 LauncherEnv.Settings.CollectionChanged += ReloadProfiles;
-                ReloadProfiles();
+                ReloadProfiles(this, EventArgs.Empty);
                 BuildCommands();
             }
         }
@@ -73,7 +73,7 @@ namespace AdvancedLauncher.Controls {
                 IconMargin = iconMargin;
                 icon.Resources.Add("BlackBrush", Brush);
                 IconBrush = new VisualBrush(icon);
-                LanguageEnv.LanguageChanged += () => {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.NotifyPropertyChanged("Name");
                 };
             }
@@ -152,23 +152,23 @@ namespace AdvancedLauncher.Controls {
 
         #region Profile Selection
 
-        private void OnProfileLocked(bool IsLocked) {
-            IsChangeEnabled = !IsLocked;
-            Commands.ForEach(e => e.NotifyEnabled());
+        private void OnProfileLocked(object sender, LockedEventArgs e) {
+            IsChangeEnabled = !e.IsLocked;
+            Commands.ForEach(c => c.NotifyEnabled());
         }
 
         /* We must prevent updating current profile in ProfileList_SelectionChanged by updating
          * ProfileList.ItemsSource or ProfileList.SelectedItem by outside profiles reloading */
         private bool IsPreventChange = false;
 
-        private void ReloadProfiles() {
+        private void ReloadProfiles(object sender, EventArgs e) {
             IsPreventChange = true;
             ProfileList.ItemsSource = LauncherEnv.Settings.Profiles;
             ProfileList.SelectedItem = LauncherEnv.Settings.CurrentProfile;
             IsPreventChange = false;
         }
 
-        private void ReloadCurrentProfile() {
+        private void ReloadCurrentProfile(object sender, EventArgs e) {
             IsPreventChange = true;
             ProfileList.SelectedItem = LauncherEnv.Settings.CurrentProfile;
             IsPreventChange = false;

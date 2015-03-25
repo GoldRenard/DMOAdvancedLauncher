@@ -46,7 +46,7 @@ namespace AdvancedLauncher.Controls {
                 TamerModel.LoadCompleted += TamersLoadCompleted;
                 DigimonModel.LoadStarted += DigimonsLoadStarted;
                 DigimonModel.LoadCompleted += DigimonsLoadCompleted;
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
             }

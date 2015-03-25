@@ -166,6 +166,7 @@
     <Compile Include="Environment\Containers\Profile.cs" />
     <Compile Include="Environment\Containers\Settings.cs" />
     <Compile Include="Environment\LanguageEnv.cs" />
+    <Compile Include="Environment\LockedEventArgs.cs" />
     <Compile Include="Environment\LogAppender.cs" />
     <Compile Include="Pages\AbstractPage.cs" />
     <Compile Include="Pages\Community.xaml.cs">
@@ -187,6 +188,7 @@
     <Compile Include="Environment\LauncherEnv.cs" />
     <Compile Include="Service\IntConverter.cs" />
     <Compile Include="Service\JpegEncoder.cs" />
+    <Compile Include="Service\NativeMethods.cs" />
     <Compile Include="Service\ParentProcessUtilities.cs" />
     <Compile Include="Service\PassEncrypt.cs" />
     <Compile Include="Service\RemoveChildHelper.cs" />

@@ -17,21 +17,18 @@
 // ======================================================================
 
 using System;
-using log4net;
 
-namespace AdvancedLauncher.Pages {
+namespace AdvancedLauncher.Environment {
 
-    public partial class MainPage : AbstractPage {
-        public static readonly ILog LOGGER = LogManager.GetLogger(typeof(MainPage));
+    public class LockedEventArgs : EventArgs {
 
-        private delegate void DoChangeTextNBool(string text, bool bool_);
-
-        protected override void InitializeAbstractPage() {
-            InitializeComponent();
+        public bool IsLocked {
+            get;
+            private set;
         }
 
-        protected override void ProfileChanged(object sender, EventArgs e) {
-            // nothing to do
+        public LockedEventArgs(bool IsLocked) {
+            this.IsLocked = IsLocked;
         }
     }
 }

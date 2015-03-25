@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -365,6 +366,7 @@ namespace AdvancedLauncher.Service {
         /// <summary>
         /// Creates a new instance of the TargaImage object with strFileName as the image loaded.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2202:Не ликвидировать объекты несколько раз")]
         public TargaImage(string strFileName)
             : this() {
             // make sure we have a .tga file
@@ -403,6 +405,7 @@ namespace AdvancedLauncher.Service {
         /// <summary>
         /// Creates a new instance of the TargaImage object with strFileName as the image loaded.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2202:Не ликвидировать объекты несколько раз")]
         public TargaImage(byte[] filebytes)
             : this() {
             MemoryStream filestream = null;
@@ -469,7 +472,7 @@ namespace AdvancedLauncher.Service {
                 } catch (Exception ex) {
                     // clear all
                     this.ClearAll();
-                    throw ex;
+                    throw;
                 }
             } else {
                 this.ClearAll();
@@ -528,7 +531,7 @@ namespace AdvancedLauncher.Service {
                     }
                 } catch (Exception ex) {
                     this.ClearAll();
-                    throw ex;
+                    throw;
                 }
 
                 // load color map if it's included and/or needed
@@ -581,7 +584,7 @@ namespace AdvancedLauncher.Service {
                                 }
                             } catch (Exception ex) {
                                 this.ClearAll();
-                                throw ex;
+                                throw;
                             }
                         } else {
                             this.ClearAll();
@@ -686,7 +689,7 @@ namespace AdvancedLauncher.Service {
                         }
                     } catch (Exception ex) {
                         this.ClearAll();
-                        throw ex;
+                        throw;
                     }
                 }
             } else {

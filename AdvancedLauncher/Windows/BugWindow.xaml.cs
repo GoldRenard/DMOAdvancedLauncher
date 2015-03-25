@@ -24,7 +24,6 @@ using System.Management;
 using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Resources;
 using log4net;
 using log4net.Appender;
 using MahApps.Metro.Controls;
@@ -50,18 +49,13 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void LoadIcon() {
-            StreamResourceInfo sri = Application.GetResourceStream(new Uri("pack://application:,,,/app_icon.ico"));
-            if (sri != null) {
-                using (Stream iconStream = sri.Stream) {
-                    using (System.Drawing.Icon icon = new System.Drawing.Icon(iconStream, 64, 64)) {
-                        using (System.Drawing.Bitmap bitmap = icon.ToBitmap()) {
-                            MemoryStream memoryStream = new MemoryStream();
-                            bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                            memoryStream.Seek(0, SeekOrigin.Begin);
-                            PngBitmapDecoder pbd = new PngBitmapDecoder(memoryStream, BitmapCreateOptions.None, BitmapCacheOption.Default);
-                            ErrorIcon.Source = pbd.Frames[0];
-                        }
-                    }
+            using (var icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/app_icon.ico")).Stream, 64, 64)) {
+                using (var bitmap = icon.ToBitmap()) {
+                    MemoryStream memoryStream = new MemoryStream();
+                    bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    PngBitmapDecoder pbd = new PngBitmapDecoder(memoryStream, BitmapCreateOptions.None, BitmapCacheOption.Default);
+                    ErrorIcon.Source = pbd.Frames[0];
                 }
             }
         }

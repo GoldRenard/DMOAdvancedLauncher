@@ -30,7 +30,7 @@ namespace AdvancedLauncher.Controls {
         public RotationElement() {
             InitializeComponent();
             (this.Content as FrameworkElement).DataContext = this;
-            LanguageEnv.LanguageChanged += () => {
+            LanguageEnv.LanguageChanged += (s, e) => {
                 NotifyPropertyChanged("LevelText");
             };
         }

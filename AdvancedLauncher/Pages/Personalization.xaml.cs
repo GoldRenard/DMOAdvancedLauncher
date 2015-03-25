@@ -31,7 +31,7 @@ using Microsoft.Win32;
 
 namespace AdvancedLauncher.Pages {
 
-    public partial class Personalization : AbstractPage {
+    public partial class Personalization : AbstractPage, IDisposable {
         private byte[] CurrentImageBytes, SelectedImageBytes;
         private BitmapSource SelectedImage;
         private ResourceViewModel ResourceModel = new ResourceViewModel();
@@ -75,7 +75,7 @@ namespace AdvancedLauncher.Pages {
         /// <summary>
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
-        protected override void ProfileChanged() {
+        protected override void ProfileChanged(object sender, EventArgs e) {
             FileSystem = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
             LoadResourceList();
             ResetCurrent();
@@ -290,6 +290,19 @@ namespace AdvancedLauncher.Pages {
                 IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
             bs.Freeze();
             return bs;
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose) {
+            if (dispose) {
+                if (TarImage != null) {
+                    TarImage.Dispose();
+                }
+            }
         }
 
         #endregion Utils

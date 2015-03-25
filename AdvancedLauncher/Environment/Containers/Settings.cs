@@ -165,9 +165,7 @@ namespace AdvancedLauncher.Environment.Containers {
 
         #region Events Section
 
-        public delegate void ConfigurationChangedEventHandler(object sender, EventArgs args);
-
-        public event ConfigurationChangedEventHandler ConfigurationChanged;
+        public event EventHandler ConfigurationChanged;
 
         public void OnConfigurationChanged(object sender, EventArgs args) {
             if (ConfigurationChanged != null) {
@@ -175,51 +173,45 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        public delegate void ProfileLockedChangedHandler(bool IsLocked);
+        public delegate void LockedChangedHandler(object sender, LockedEventArgs e);
 
-        public event ProfileLockedChangedHandler ProfileLocked;
+        public event LockedChangedHandler ProfileLocked;
+
+        public event LockedChangedHandler FileSystemLocked;
+
+        public event LockedChangedHandler ClosingLocked;
 
         public void OnProfileLocked(bool IsLocked) {
             if (ProfileLocked != null) {
-                ProfileLocked(IsLocked);
+                ProfileLocked(this, new LockedEventArgs(IsLocked));
             }
         }
-
-        public delegate void FileSystemLockedChangedHandler(bool IsLocked);
-
-        public event FileSystemLockedChangedHandler FileSystemLocked;
 
         public void OnFileSystemLocked(bool IsLocked) {
             if (FileSystemLocked != null) {
-                FileSystemLocked(IsLocked);
+                FileSystemLocked(this, new LockedEventArgs(IsLocked));
             }
         }
-
-        public delegate void ClosingLockedChangedHandler(bool IsLocked);
-
-        public event ClosingLockedChangedHandler ClosingLocked;
 
         public void OnClosingLocked(bool IsLocked) {
             if (ClosingLocked != null) {
-                ClosingLocked(IsLocked);
+                ClosingLocked(this, new LockedEventArgs(IsLocked));
             }
         }
 
-        public delegate void ProfileChangedHandler();
-
-        public event ProfileChangedHandler ProfileChanged;
+        public event EventHandler ProfileChanged;
 
         protected void OnCurrentChanged() {
             if (ProfileChanged != null) {
-                ProfileChanged();
+                ProfileChanged(this, EventArgs.Empty);
             }
         }
 
-        public event ProfileChangedHandler CollectionChanged;
+        public event EventHandler CollectionChanged;
 
         protected void OnCollectionChanged() {
             if (CollectionChanged != null) {
-                CollectionChanged();
+                CollectionChanged(this, EventArgs.Empty);
             }
         }
 

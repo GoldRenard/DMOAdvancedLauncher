@@ -28,7 +28,7 @@ using DMOLibrary.Profiles;
 namespace AdvancedLauncher.Environment.Containers {
 
     [XmlType(TypeName = "Profile")]
-    public class Profile : INotifyPropertyChanged {
+    public class Profile : INotifyPropertyChanged, IDisposable {
         private static string DEFAULT_TWITTER_SOURCE = "http://renamon.ru/launcher/dmor_timeline.php";
 
         private int _Id = 0;
@@ -255,7 +255,7 @@ namespace AdvancedLauncher.Environment.Containers {
                             return "Korea IMBC";
                         }
                     default:
-                        throw new NotImplementedException();
+                        return "Unknown";
                 }
             }
         }
@@ -309,7 +309,7 @@ namespace AdvancedLauncher.Environment.Containers {
                             break;
 
                         default:
-                            throw new NotImplementedException();
+                            return null;
                     }
                     profileCollection.Add(GameEnv.Type, profile);
                 }
@@ -335,6 +335,19 @@ namespace AdvancedLauncher.Environment.Containers {
             this._Rotation = new RotationData(p._Rotation);
             this._News = new NewsData(p._News);
             this.GameEnv = new GameEnv(p.GameEnv);
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose) {
+            if (dispose) {
+                if (_GameEnv != null) {
+                    _GameEnv.Dispose();
+                }
+            }
         }
 
         #endregion Constructors

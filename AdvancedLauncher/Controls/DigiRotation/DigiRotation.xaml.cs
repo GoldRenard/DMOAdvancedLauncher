@@ -36,7 +36,7 @@ using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Controls {
 
-    public partial class DigiRotation : TransitioningContentControl {
+    public partial class DigiRotation : TransitioningContentControl, IDisposable {
         private static int MIN_LVL = 41;
 
         private static int ROTATION_INTERVAL = 5000;
@@ -59,7 +59,7 @@ namespace AdvancedLauncher.Controls {
         private static Brush medalBronze = new SolidColorBrush(Color.FromRgb(250, 180, 110));
 
         private TaskManager.Task LoadingTask;
-        private BackgroundWorker MainWorker = new BackgroundWorker();
+        private readonly BackgroundWorker MainWorker = new BackgroundWorker();
         private AbstractWebProfile WebProfile = null;
         private RotationElement tempRotationElement = null;
 
@@ -82,10 +82,10 @@ namespace AdvancedLauncher.Controls {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
-                LauncherEnv.Settings.ProfileChanged += delegate() {
+                LauncherEnv.Settings.ProfileChanged += (s, e) => {
                     IsSourceLoaded = false;
                 };
 
@@ -306,5 +306,16 @@ namespace AdvancedLauncher.Controls {
         }
 
         #endregion Utils
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose) {
+            if (dispose) {
+                MainWorker.Dispose();
+            }
+        }
     }
 }

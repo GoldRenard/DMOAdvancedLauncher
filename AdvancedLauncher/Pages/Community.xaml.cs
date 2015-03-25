@@ -47,7 +47,7 @@ namespace AdvancedLauncher.Pages {
             GuildInfo.DataContext = GuildInfoModel;
         }
 
-        protected override void ProfileChanged() {
+        protected override void ProfileChanged(object sender, EventArgs e) {
             GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;

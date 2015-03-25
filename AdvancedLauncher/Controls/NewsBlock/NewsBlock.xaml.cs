@@ -37,9 +37,9 @@ using Newtonsoft.Json.Linq;
 
 namespace AdvancedLauncher.Controls {
 
-    public partial class NewsBlock : UserControl {
-        private BackgroundWorker bwLoadTwitter = new BackgroundWorker();
-        private BackgroundWorker bwLoadJoymax = new BackgroundWorker();
+    public partial class NewsBlock : UserControl, IDisposable {
+        private readonly BackgroundWorker bwLoadTwitter = new BackgroundWorker();
+        private readonly BackgroundWorker bwLoadJoymax = new BackgroundWorker();
 
         private Storyboard ShowTwitter = new Storyboard();
         private Storyboard ShowJoymax = new Storyboard();
@@ -67,7 +67,7 @@ namespace AdvancedLauncher.Controls {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 LauncherEnv.Settings.ProfileChanged += ReloadNews;
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
                 TwitterNewsList.DataContext = TwitterVM;
@@ -117,7 +117,7 @@ namespace AdvancedLauncher.Controls {
                         }), JoymaxNews);
                     }
                 };
-                ReloadNews();
+                ReloadNews(this, EventArgs.Empty);
             }
         }
 
@@ -127,7 +127,7 @@ namespace AdvancedLauncher.Controls {
             }
         }
 
-        private void ReloadNews() {
+        private void ReloadNews(object sender, EventArgs e) {
             if (_jsonUrl != LauncherEnv.Settings.CurrentProfile.News.TwitterUrl) {
                 _jsonUrl = LauncherEnv.Settings.CurrentProfile.News.TwitterUrl;
             }
@@ -498,5 +498,17 @@ namespace AdvancedLauncher.Controls {
         }
 
         #endregion Interface processing
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose) {
+            if (dispose) {
+                bwLoadTwitter.Dispose();
+                bwLoadJoymax.Dispose();
+            }
+        }
     }
 }

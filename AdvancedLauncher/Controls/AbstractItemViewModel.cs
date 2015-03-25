@@ -29,7 +29,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public AbstractItemViewModel() {
-            LanguageEnv.LanguageChanged += () => {
+            LanguageEnv.LanguageChanged += (s, e) => {
                 LanguageChanged();
             };
         }

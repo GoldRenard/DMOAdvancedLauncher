@@ -126,21 +126,9 @@ namespace AdvancedLauncher.Environment {
         public static Settings DeSerialize(string filepath) {
             Settings db = new Settings();
             if (File.Exists(filepath)) {
-                StreamReader file = null;
-                try {
-                    XmlSerializer reader = new XmlSerializer(typeof(Settings));
-                    file = new StreamReader(filepath);
+                XmlSerializer reader = new XmlSerializer(typeof(Settings));
+                using (var file = new StreamReader(filepath)) {
                     db = (Settings)reader.Deserialize(file);
-                    file.Close();
-                } catch {
-                    if (file != null) {
-                        file.Close();
-                    }
-                    return db;
-                } finally {
-                    if (file != null) {
-                        file.Close();
-                    }
                 }
             }
             return db;
@@ -148,9 +136,9 @@ namespace AdvancedLauncher.Environment {
 
         public static void Save() {
             XmlSerializer writer = new XmlSerializer(typeof(Settings));
-            StreamWriter file = new StreamWriter(GetSettingsFile());
-            writer.Serialize(file, Settings);
-            file.Close();
+            using (var file = new StreamWriter(GetSettingsFile())) {
+                writer.Serialize(file, Settings);
+            }
         }
 
         public static string GetSettingsFile() {

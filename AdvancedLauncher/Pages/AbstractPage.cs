@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Environment;
@@ -34,8 +35,8 @@ namespace AdvancedLauncher.Pages {
             InitializeAbstractPage();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 LauncherEnv.Settings.ProfileChanged += ProfileChanged;
-                ProfileChanged();
-                LanguageEnv.LanguageChanged += delegate() {
+                ProfileChanged(this, EventArgs.Empty);
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
             }
@@ -50,6 +51,6 @@ namespace AdvancedLauncher.Pages {
             IsPageVisible = false;
         }
 
-        protected abstract void ProfileChanged();
+        protected abstract void ProfileChanged(object sender, EventArgs e);
     }
 }

@@ -38,13 +38,13 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace AdvancedLauncher.Controls {
 
-    public partial class GameControl : UserControl {
+    public partial class GameControl : UserControl, IDisposable {
         private TaskManager.Task UpdateTask;
         private bool UpdateRequired = false;
 
         private TaskbarItemInfo TaskBar = new TaskbarItemInfo();
         private DMOFileSystem GameFS = null;
-        private BackgroundWorker CheckWorker = new BackgroundWorker();
+        private readonly BackgroundWorker CheckWorker = new BackgroundWorker();
 
         private Binding StartButtonBinding = new Binding("StartButton");
         private Binding WaitingButtonBinding = new Binding("GameButton_Waiting");
@@ -81,17 +81,17 @@ namespace AdvancedLauncher.Controls {
                 ElementHolder.RemoveChild(UpdateBlock);
                 WrapElement.Content = StartButton;
                 Application.Current.MainWindow.TaskbarItemInfo = TaskBar;
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
                 LoginManager.Instance.LoginCompleted += OnGameStartCompleted;
                 LauncherEnv.Settings.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
-                OnProfileChanged();
+                OnProfileChanged(this, EventArgs.Empty);
             }
         }
 
-        private void OnProfileChanged() {
+        private void OnProfileChanged(object sender, EventArgs e) {
             StartButton.IsEnabled = false;
             StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             CheckWorker.RunWorkerAsync();
@@ -348,17 +348,12 @@ namespace AdvancedLauncher.Controls {
             return updateSuccess;
         }
 
-        private void ExtractUpdate(int upd_num, int upd_num_of, string archiveFilenameIn, string outFolder, bool DeleteAfterExtract) {
-            ZipFile zf = null;
-            FileStream fs = null;
-            try {
-                fs = File.OpenRead(archiveFilenameIn);
-                zf = new ZipFile(fs);
-
+        private void ExtractUpdate(int updateNumber, int updateMaxNumber, string archiveFilenameIn, string outFolder, bool DeleteAfterExtract) {
+            using (var zf = new ZipFile(archiveFilenameIn)) {
                 UpdateSubProgressBar(0, (int)zf.Count);
-                int z_num = 1;
+                int zEntryNumber = 1;
                 foreach (ZipEntry zipEntry in zf) {
-                    UpdateInfoText(1, upd_num, upd_num_of, z_num, zf.Count);
+                    UpdateInfoText(1, updateNumber, updateMaxNumber, zEntryNumber, zf.Count);
                     if (!zipEntry.IsFile) {
                         continue;
                     }
@@ -372,16 +367,8 @@ namespace AdvancedLauncher.Controls {
                     using (FileStream streamWriter = File.Create(fullZipToPath)) {
                         StreamUtils.Copy(zipStream, streamWriter, buffer);
                     }
-                    UpdateSubProgressBar(z_num, (int)zf.Count);
-                    z_num++;
-                }
-            } finally {
-                if (zf != null) {
-                    zf.IsStreamOwner = true;
-                    zf.Close();
-                }
-                if (fs != null) {
-                    fs.Close();
+                    UpdateSubProgressBar(zEntryNumber, (int)zf.Count);
+                    zEntryNumber++;
                 }
             }
 
@@ -604,5 +591,16 @@ namespace AdvancedLauncher.Controls {
         #endregion ProgressBar
 
         #endregion Interface Section
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose) {
+            if (dispose) {
+                CheckWorker.Dispose();
+            }
+        }
     }
 }

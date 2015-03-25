@@ -29,11 +29,8 @@ namespace AdvancedLauncher.Environment.Commands {
         }
 
         public override void DoCommand(string[] args) {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "AdvancedLauncher.Docs.LICENSE.txt";
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream)) {
+            using (var reader = new StreamReader(Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("AdvancedLauncher.Docs.LICENSE.txt"))) {
                 while (!reader.EndOfStream) {
                     LOGGER.Info(reader.ReadLine());
                 }

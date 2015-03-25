@@ -34,7 +34,7 @@ namespace AdvancedLauncher.Windows {
         public AbstractWindow() {
             InitializeAbstractWindow();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageEnv.LanguageChanged += delegate() {
+                LanguageEnv.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageEnv.Strings;
                 };
             }

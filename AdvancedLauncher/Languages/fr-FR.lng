@@ -3,40 +3,40 @@
   <!-- Author: Rei Ayanami -->
   <CantOpenLink>Ne peut ouvrir le lien. Essayer de changer le navigateur par défaut. Erreur: </CantOpenLink>
   <Error>Erreur</Error>
+  <Yes>Oui</Yes>
+  <No>Aucun</No>
   <Console>Console</Console>
   <CreateButton>Créer</CreateButton>
   <DeleteButton>Supprimer</DeleteButton>
   <BrowseButton>Développer</BrowseButton>
   <ApplyButton>Appliquer</ApplyButton>
-  <SendButton>Envoyer</SendButton>
   <CancelButton>Annuler</CancelButton>
+  <SendButton>Envoyer</SendButton>
+  <LogInButton>S'identifier</LogInButton>
   <CloseButton>Fermer</CloseButton>
   <StartButton>DEMARRAGE JEU</StartButton>
   <DigiRotation>DigiRotation</DigiRotation>
-  <WaitForComplete>Veuillez attendre que l'opération actuelle se termine</WaitForComplete>
   <PleaseWait>Veuillez attendre</PleaseWait>
   <ErrorOccured>Une erreur s'est produite!</ErrorOccured>
   <ConnectionError>Vérifiez votre connection Internet.</ConnectionError>
-  <DBConnectionError>Erreur de connection à la base de données.</DBConnectionError>
   <CantGetError>Ne peut obtenir d'informations à distance</CantGetError>
   <GuildNotFoundError>Guilde non-trouvée. Vérifiez vos réglages.</GuildNotFoundError>
   <GameFilesInUse>Incapable d'accéder aux fichiers de jeu requis. Veuillez fermer tous les programmes les utilisant.</GameFilesInUse>
   <PleaseCloseGame>Veuillez fermer le jeu.</PleaseCloseGame>
   <PleaseSelectGamePath>Veuillez sélectionner le répertoire correct du jeu dans les réglages du lanceur.</PleaseSelectGamePath>
   <PleaseSelectLauncherPath>Veuillez sélectionner le répertoire correct du lanceur par défaut dans les réglages.</PleaseSelectLauncherPath>
-  
+
   <MainWindow_NewsTab>NEWS</MainWindow_NewsTab>
   <MainWindow_GalleryTab>GALLERIE</MainWindow_GalleryTab>
   <MainWindow_CommunityTab>COMMUNAUTE</MainWindow_CommunityTab>
   <MainWindow_PersonalizationTab>PERSONNALISATION</MainWindow_PersonalizationTab>
-  
+
   <About>A propos</About>
   <About_Version>Version</About_Version>
   <About_Developer>Développeur</About_Developer>
   <About_DesignHelp>Aide au design</About_DesignHelp>
   <About_Acknowledgments>Remerciements</About_Acknowledgments>
   <About_Translators>Traducteurs</About_Translators>
-  <About_Licence404>Fichier de licence "{0}" non trouvé.</About_Licence404>
 
   <ManageProfiles>Configurer des profils</ManageProfiles>
   <Settings>Réglages</Settings>
@@ -47,6 +47,10 @@
   <Settings_NewsGroup>News</Settings_NewsGroup>
   <Settings_GameGroup>Jeu</Settings_GameGroup>
   <Settings_AccountGroup>Compte</Settings_AccountGroup>
+  <Settings_ThemeGroup>Thème</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Jeu de couleurs</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Serveur proxy</Settings_ProxyGroup>
   <Settings_ProfileNameHint>Ecrire le nom du profil</Settings_ProfileNameHint>
   <Settings_SetAsDefaultButton>Sélectionner comme profil par défaut</Settings_SetAsDefaultButton>
   <Settings_RotationGuildHint>Guilde pour Rotation</Settings_RotationGuildHint>
@@ -67,32 +71,28 @@
   <Settings_SelectGameDirError>Vous devez indiquer le dossier correct où se trouve le jeu.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Veuillez indiquer le dossier où se trouve le lanceur par défaut</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Vous devez indiquer le dossier correct où se trouve le lanceur par défaut.</Settings_SelectLauncherDirError>uncherDirError>
-  <Settings_ThemeGroup>Thème</Settings_ThemeGroup>
-  <Settings_ColorSchemeGroup>Jeu de couleurs</Settings_ColorSchemeGroup>
-  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
-  <Settings_ProxyGroup>Serveur proxy</Settings_ProxyGroup>
   <Settings_Proxy_Default>Par défaut du système</Settings_Proxy_Default>
   <Settings_Proxy_Authentication>Authentication</Settings_Proxy_Authentication>
   <Settings_Proxy_HostWatermark>Serveur / port</Settings_Proxy_HostWatermark>
-  
+
   <AppLocale_FailReasons>Ne peut lancer le jeu par AppLocale pour les raisons suivantes:</AppLocale_FailReasons>
   <AppLocale_Error>Erreur Microsoft AppLocale</AppLocale_Error>
   <AppLocale_NotInstalled> - L'utilitaire Microsoft AppLocale n'est pas installé</AppLocale_NotInstalled>
   <AppLocale_EALNotInstalled> - Le support des langues d'Asie Orientale n'est pas installé</AppLocale_EALNotInstalled>
   <AppLocale_FixQuestion>Ouvrir la page de téléchargement et/ou réparer ces erreurs immédiatement?</AppLocale_FixQuestion>
-  
+
   <RotationLevelText>niveau</RotationLevelText>
   <RotationDownloading>Téléchargement des données...</RotationDownloading>
   <RotationTamer>Tamer</RotationTamer>
-  
-  <News>NEWS</News>
+
+  <News>News</News>
   <NewsPubDate>Date de publication</NewsPubDate>
   <NewsReadMore>Lire la suite...</NewsReadMore>
   <NewsTwitterError>Incapable d'obtenir une liste des tweets</NewsTwitterError>
   <NewsType_Notice>notice</NewsType_Notice>
   <NewsType_Event>évènement</NewsType_Event>
   <NewsType_Patch>patch</NewsType_Patch>
-  
+
   <GameButton_Waiting>EN ATTENTE</GameButton_Waiting>
   <GameButton_UpdateGame>MàJ JEU</GameButton_UpdateGame>
   <UpdateCantGetVersion>Incapable d'obtenir la version du jeu.</UpdateCantGetVersion>
@@ -100,8 +100,8 @@
   <UpdateDownloading>Téléchargement MàJ {0} sur {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
   <UpdateExtracting>Décompression MàJ {0} sur {1}... [{2} / {3}]</UpdateExtracting>
   <UpdateInstalling>Installation MàJ... [{0} / {1}]</UpdateInstalling>
-  <UseLastSession>Utiliser la dernière session</UseLastSession>
-  
+  <UseLastSession>Voulez-vous utiliser la dernière session réussie?</UseLastSession>
+
   <LoginTry>Essai {0}...</LoginTry>
   <LoginGettingData>Obtention des données...</LoginGettingData>
   <LoginLogIn>Identification...</LoginLogIn>
@@ -113,7 +113,7 @@
 
   <GalleryNoScreenshots>IL N'Y A AUCUNE CAPTURE D'ECRAN</GalleryNoScreenshots>
   <GalleryCantOpenImage>Ne peut ouvrir l'image. Erreur: </GalleryCantOpenImage>
-  
+
   <PersonalizationWrongTGA>Ce n'est pas une image TGA!</PersonalizationWrongTGA>
   <PersonalizationCantSave>Incapable de sauvegarder l'Image.</PersonalizationCantSave>
   <PersonalizationCantWrite>Incapable d'insérer l'Image dans le jeu!</PersonalizationCantWrite>
@@ -121,28 +121,28 @@
   <PersonalizationSelectMessage>Cliquez ici pour sélectionner l'Image</PersonalizationSelectMessage>
   <PersonalizationCurrentTitle>Image actuelle:</PersonalizationCurrentTitle>
   <PersonalizationSaveButton>Sauvegarder l'Image</PersonalizationSaveButton>
-  
+
   <CommGuildName>Nom de la guilde</CommGuildName>
   <CommGuildNameEmpty>Veuillez entrer le nom de la guilde!</CommGuildNameEmpty>
   <CommWrongGuildName>Le nom de la guilde contient des caractères invalides!</CommWrongGuildName>
-  
+
   <CommSearchingGuild>Recherche de la guilde</CommSearchingGuild>
   <CommGettingTamer>Obtention du Tamer: {0}</CommGettingTamer>
-  
+
   <CommTamersTab>TAMERS</CommTamersTab>
   <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
-  
+
   <CommSelect_Guild>Quelle guilde cherchez-vous</CommSelect_Guild>
   <CommCheckBox_Detailed>Recevoir les données détaillées (long)</CommCheckBox_Detailed>
   <CommButton_Search>Chercher une guilde</CommButton_Search>
-  
+
   <CommGMaster>Maître</CommGMaster>
   <CommGBest>Meilleur</CommGBest>
   <CommGRank>Rang</CommGRank>
   <CommGRep>Réputation</CommGRep>
   <CommGTCnt>Quantité de tamers</CommGTCnt>
   <CommGDCnt>Quantité de digimons</CommGDCnt>
-  
+
   <CommHeader_Type>Type</CommHeader_Type>
   <CommHeader_Level>Niveau</CommHeader_Level>
   <CommHeader_Ranking>Rang</CommHeader_Ranking>
@@ -151,7 +151,7 @@
   <CommHeader_Mercenary>Mercenaire</CommHeader_Mercenary>
   <CommHeader_Name>Nom</CommHeader_Name>
   <CommHeader_Size>Taille</CommHeader_Size>
-  
+
   <UpdateAvailableText>Nouvelle version {0} disponible. Changelog:</UpdateAvailableText>
   <UpdateAvailableCaption>Nouvelle version {0} disponible</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Voulez-vous la télécharger maintenant?</UpdateDownloadQuestion>

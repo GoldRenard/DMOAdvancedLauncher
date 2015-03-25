@@ -155,10 +155,6 @@ namespace AdvancedLauncher.Controls {
                                 loader.Summary = LanguageEnv.Strings.CantGetError;
                                 break;
                             }
-                        case DMODownloadResultCode.DB_CONNECT_ERROR: {
-                                loader.Summary = LanguageEnv.Strings.DBConnectionError;
-                                break;
-                            }
                         case DMODownloadResultCode.NOT_FOUND: {
                                 loader.Summary = LanguageEnv.Strings.GuildNotFoundError;
                                 break;

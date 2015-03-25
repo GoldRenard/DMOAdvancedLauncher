@@ -67,8 +67,8 @@ namespace AdvancedLauncher.Environment {
             Settings.ConfigurationChanged += Settings_ConfigurationChanged;
 
             if (string.IsNullOrEmpty(Settings.LanguageFile)) {
-                if (LanguageEnv.Load(CultureInfo.CurrentCulture.EnglishName)) {
-                    LauncherEnv.Settings.LanguageFile = CultureInfo.CurrentCulture.EnglishName;
+                if (LanguageEnv.Load(CultureInfo.CurrentCulture.Name)) {
+                    LauncherEnv.Settings.LanguageFile = CultureInfo.CurrentCulture.Name;
                 } else {
                     LanguageEnv.Load(LanguageEnv.DefaultName);
                     LauncherEnv.Settings.LanguageFile = LanguageEnv.DefaultName;

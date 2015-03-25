@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Language xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <CantOpenLink>Can't open link. Try to change the default browser. Error: </CantOpenLink>
+  <Error>Error</Error>
   <Yes>Yes</Yes>
   <No>No</No>
-  <Error>Error</Error>
   <Console>Console</Console>
   <CreateButton>Create</CreateButton>
   <DeleteButton>Delete</DeleteButton>
   <BrowseButton>Browse</BrowseButton>
   <ApplyButton>Apply</ApplyButton>
-  <SendButton>Send</SendButton>
-  <LogInButton>logIn</LogInButton>
   <CancelButton>Cancel</CancelButton>
+  <SendButton>Send</SendButton>
+  <LogInButton>LogIn</LogInButton>
   <CloseButton>Close</CloseButton>
   <StartButton>GAME START</StartButton>
   <DigiRotation>DigiRotation</DigiRotation>
-  <WaitForComplete>Please wait completion of the current operation</WaitForComplete>
   <PleaseWait>Please wait</PleaseWait>
   <ErrorOccured>An error has occurred!</ErrorOccured>
   <ConnectionError>Check your Internet connection.</ConnectionError>
-  <DBConnectionError>Database connection error.</DBConnectionError>
   <CantGetError>Can't get remote information</CantGetError>
   <GuildNotFoundError>Guild not found. Check your settings.</GuildNotFoundError>
   <GameFilesInUse>Unable to get access to the required game files. Please close all programs that use them.</GameFilesInUse>
@@ -39,7 +37,6 @@
   <About_DesignHelp>Design help</About_DesignHelp>
   <About_Acknowledgments>Acknowledgments</About_Acknowledgments>
   <About_Translators>Translators</About_Translators>
-  <About_Licence404>Licence file "{0}" not found.</About_Licence404>
   
   <ManageProfiles>Manage profiles</ManageProfiles>
   <Settings>Settings</Settings>
@@ -50,6 +47,10 @@
   <Settings_NewsGroup>News</Settings_NewsGroup>
   <Settings_GameGroup>Game</Settings_GameGroup>
   <Settings_AccountGroup>Account</Settings_AccountGroup>
+  <Settings_ThemeGroup>Theme</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Color scheme</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Proxy</Settings_ProxyGroup>
   <Settings_ProfileNameHint>Write profile name</Settings_ProfileNameHint>
   <Settings_SetAsDefaultButton>Set as default profile</Settings_SetAsDefaultButton>
   <Settings_RotationGuildHint>Guild for Rotation</Settings_RotationGuildHint>
@@ -70,14 +71,10 @@
   <Settings_SelectGameDirError>You must specify the correct folder of the game.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Please specify the directory where the default launcher is located</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>You must specify the correct folder of the default launcher.</Settings_SelectLauncherDirError>
-  <Settings_ThemeGroup>Theme</Settings_ThemeGroup>
-  <Settings_ColorSchemeGroup>Color scheme</Settings_ColorSchemeGroup>
-  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
-  <Settings_ProxyGroup>Proxy</Settings_ProxyGroup>
   <Settings_Proxy_Default>System default</Settings_Proxy_Default>
   <Settings_Proxy_Authentication>Authentication</Settings_Proxy_Authentication>
   <Settings_Proxy_HostWatermark>Host and port</Settings_Proxy_HostWatermark>
-
+  
   <AppLocale_FailReasons>Can't run the game through AppLocale for the following reasons:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Error</AppLocale_Error>
   <AppLocale_NotInstalled> - Microsoft AppLocale Utility is not installed</AppLocale_NotInstalled>
@@ -88,7 +85,7 @@
   <RotationDownloading>Downloading data...</RotationDownloading>
   <RotationTamer>Tamer</RotationTamer>
   
-  <News>NEWS</News>
+  <News>News</News>
   <NewsPubDate>Publication date</NewsPubDate>
   <NewsReadMore>Read more...</NewsReadMore>
   <NewsTwitterError>Unable to get a list of tweets</NewsTwitterError>
@@ -113,7 +110,7 @@
   <LoginEmptyUsername>Please type your username!</LoginEmptyUsername>
   <LoginEmptyPassword>Please type your password!</LoginEmptyPassword>
   <LoginWrongPage>Login page is incorrect or has been changed. Please contact the developer of launcher.</LoginWrongPage>
-
+  
   <GalleryNoScreenshots>THERE IS NO SCREENSHOTS</GalleryNoScreenshots>
   <GalleryCantOpenImage>Can't open the image. Error: </GalleryCantOpenImage>
   
@@ -131,7 +128,7 @@
   
   <CommSearchingGuild>Searching the guild</CommSearchingGuild>
   <CommGettingTamer>Obtaining Tamer: {0}</CommGettingTamer>
-
+  
   <CommTamersTab>TAMERS</CommTamersTab>
   <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
   

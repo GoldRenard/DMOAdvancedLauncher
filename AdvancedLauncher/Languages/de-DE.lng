@@ -3,40 +3,40 @@
 
   <CantOpenLink>Can't open link. Try to change the default browser. Error: </CantOpenLink>
   <Error>Fehler</Error>
+  <Yes>Ja</Yes>
+  <No>Nein</No>
   <Console>Konsole</Console>
   <CreateButton>Erstellen</CreateButton>
   <DeleteButton>Entfernen</DeleteButton>
   <BrowseButton>Durchsuchen</BrowseButton>
   <ApplyButton>Akzeptieren</ApplyButton>
-  <SendButton>Senden</SendButton>
   <CancelButton>Abbrechen</CancelButton>
+  <SendButton>Senden</SendButton>
+  <LogInButton>Anmelden</LogInButton>
   <CloseButton>Schliessen</CloseButton>
   <StartButton>SPIEL STARTEN</StartButton>
   <DigiRotation>Digi-Rotation</DigiRotation>
-  <WaitForComplete>Bitte warten Sie bis der Vorgang abgeschlossen wurde.</WaitForComplete>
   <PleaseWait>Bitte warten...</PleaseWait>
   <ErrorOccured>Ein Fehler ist aufgetreten.</ErrorOccured>
   <ConnectionError>Bitte kontrollieren Sie Ihre Internetverbindung.</ConnectionError>
-  <DBConnectionError>Keine Verbindung zur Datenbank.</DBConnectionError>
   <CantGetError>Konnte keine Informationen empfangen.</CantGetError>
   <GuildNotFoundError>Gilde wurde nicht gefunden. Bitte kontrollieren Sie Ihre Einstellungen.</GuildNotFoundError>
   <GameFilesInUse>Kein Zugriff auf die Spieldateien! Bitte schliessen Sie alle Digimon Masters Online Anwendungen und versuchen Sie es erneut.</GameFilesInUse>
   <PleaseCloseGame>Bitte schliessen Sie das Spiel.</PleaseCloseGame>
   <PleaseSelectGamePath>Bitte geben Sie einen Pfad zum Spielverzeichnis an.</PleaseSelectGamePath>
   <PleaseSelectLauncherPath>Bitte geben Sie einen Pfad zu Ihrem "Digimon Masters Online" Launcher an.</PleaseSelectLauncherPath>
-  
+
   <MainWindow_NewsTab>NEUIGKEITEN</MainWindow_NewsTab>
   <MainWindow_GalleryTab>GALLERIE</MainWindow_GalleryTab>
   <MainWindow_CommunityTab>COMMUNITY</MainWindow_CommunityTab>
   <MainWindow_PersonalizationTab>ANPASSUNG</MainWindow_PersonalizationTab>
-  
+
   <About>About</About>
   <About_Version>Version</About_Version>
   <About_Developer>Programmierer</About_Developer>
   <About_DesignHelp>Design Hilfe</About_DesignHelp>
   <About_Acknowledgments>Danke an</About_Acknowledgments>
   <About_Translators>Uebersetzer</About_Translators>
-  <About_Licence404>Lizenz Datei "{0}" wurde nicht gefunden.</About_Licence404>
 
   <ManageProfiles>Profile einrichten</ManageProfiles>
   <Settings>Einstellungen</Settings>
@@ -47,6 +47,10 @@
   <Settings_NewsGroup>Neuigkeiten</Settings_NewsGroup>
   <Settings_GameGroup>Spiel</Settings_GameGroup>
   <Settings_AccountGroup>Account</Settings_AccountGroup>
+  <Settings_ThemeGroup>Thema</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Farbschema</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Internetverbindung</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Vermittlungsserver</Settings_ProxyGroup>
   <Settings_ProfileNameHint>-Dein Profil Name-</Settings_ProfileNameHint>
   <Settings_SetAsDefaultButton>Als Standard festlegen</Settings_SetAsDefaultButton>
   <Settings_RotationGuildHint>Gilde in der Rotation</Settings_RotationGuildHint>
@@ -67,24 +71,20 @@
   <Settings_SelectGameDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem Spielverzeichnis an.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Bitte geben Sie einen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDirError>
-  <Settings_ThemeGroup>Thema</Settings_ThemeGroup>
-  <Settings_ColorSchemeGroup>Farbschema</Settings_ColorSchemeGroup>
-  <Settings_ConnectionGroup>Internetverbindung</Settings_ConnectionGroup>
-  <Settings_ProxyGroup>Vermittlungsserver</Settings_ProxyGroup>
   <Settings_Proxy_Default>Systemstandard</Settings_Proxy_Default>
   <Settings_Proxy_Authentication>Beglaubigung</Settings_Proxy_Authentication>
   <Settings_Proxy_HostWatermark>Server / port</Settings_Proxy_HostWatermark>
-  
+
   <AppLocale_FailReasons>Das Spiel konnte nicht durch AppLocale gestartet werden. Moegliche Ursachen:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Fehler</AppLocale_Error>
   <AppLocale_NotInstalled> - Microsoft AppLocale ist auf ihrem Computer nicht installiert.</AppLocale_NotInstalled>
   <AppLocale_EALNotInstalled> - Support der Ost-Asiatischen Sprachen wurde noch nicht installiert.</AppLocale_EALNotInstalled>
   <AppLocale_FixQuestion>Wollen Sie auf die Download Seite von AppLocale verlinkt werden und/oder Vorschlaege zur Fehlerbehebung einsehen?</AppLocale_FixQuestion>
-  
+
   <RotationLevelText>Level</RotationLevelText>
   <RotationDownloading>Informationen werden empfangen...</RotationDownloading>
   <RotationTamer>Tamer</RotationTamer>
-  
+
   <News>Neuigkeiten</News>
   <NewsPubDate>Veroeffentlichungs Datum</NewsPubDate>
   <NewsReadMore>Weiter lesen...</NewsReadMore>
@@ -92,7 +92,7 @@
   <NewsType_Notice>Meldung</NewsType_Notice>
   <NewsType_Event>Ereignis</NewsType_Event>
   <NewsType_Patch>Update</NewsType_Patch>
-  
+
   <GameButton_Waiting>BITTE WARTEN...</GameButton_Waiting>
   <GameButton_UpdateGame>SPIEL UPDATEN</GameButton_UpdateGame>
   <UpdateCantGetVersion>Empfangen der richtigen Version ist fehlgeschlagen.</UpdateCantGetVersion>
@@ -100,8 +100,8 @@
   <UpdateDownloading>Wird gedownloaded... {0} of {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
   <UpdateExtracting>Update wird entpackt... {0} of {1}... [{2} / {3}]</UpdateExtracting>
   <UpdateInstalling>Update wird installiert... [{0} / {1}]</UpdateInstalling>
-  <UseLastSession>Benutze die vorherige Sitzung</UseLastSession>
-  
+  <UseLastSession>Möchten Sie letzten erfolgreichen Sitzung verwenden?</UseLastSession>
+
   <LoginTry>Versuch {0}...</LoginTry>
   <LoginGettingData>Empfangen...</LoginGettingData>
   <LoginLogIn>Einloggen...</LoginLogIn>
@@ -113,7 +113,7 @@
 
   <GalleryNoScreenshots>KEINE SCREENSHOTS VORHANDEN</GalleryNoScreenshots>
   <GalleryCantOpenImage>Fehler! Konnte die Bilddatei nicht oeffnen. Moegliche Ursachen:</GalleryCantOpenImage>
-  
+
   <PersonalizationWrongTGA>Es ist keine gueltige TGA(TARGA) Bilddatei!</PersonalizationWrongTGA>
   <PersonalizationCantSave>Fehler beim abspeichern der Bilddatei.</PersonalizationCantSave>
   <PersonalizationCantWrite>Konnte die Bilddatei nicht in das Spiel kopieren!</PersonalizationCantWrite>
@@ -121,28 +121,28 @@
   <PersonalizationSelectMessage>Klicken Sie hier, um eine Bilddatei auszuwaehlen.</PersonalizationSelectMessage>
   <PersonalizationCurrentTitle>Aktuelles Bild:</PersonalizationCurrentTitle>
   <PersonalizationSaveButton>Bild speichern</PersonalizationSaveButton>
-  
+
   <CommGuildName>Name der Gilde</CommGuildName>
   <CommGuildNameEmpty>Bitte geben Sie einen Gildennamen ein!</CommGuildNameEmpty>
   <CommWrongGuildName>Der Gildenname beinhaltet unzulaessige Zeichen!</CommWrongGuildName>
-  
+
   <CommSearchingGuild>Gilde wird gesucht...</CommSearchingGuild>
   <CommGettingTamer>Tamer werden empfangen: {0}</CommGettingTamer>
-  
+
   <CommTamersTab>TAMER</CommTamersTab>
   <CommDigimonsTab>DIGIMON</CommDigimonsTab>
-  
+
   <CommSelect_Guild>Welche Gilde suchen Sie?</CommSelect_Guild>
   <CommCheckBox_Detailed>Umfangreiche Informationen herunterladen</CommCheckBox_Detailed>
   <CommButton_Search>Gilde suchen</CommButton_Search>
-  
+
   <CommGMaster>Gilden-Meister</CommGMaster>
   <CommGBest>Bestes Mitglied</CommGBest>
   <CommGRank>Gilden-Rang</CommGRank>
   <CommGRep>Ruf(Gilden-Punkte)</CommGRep>
   <CommGTCnt>Anzahl der Tamer</CommGTCnt>
   <CommGDCnt>Anzahl der Digimon</CommGDCnt>
-  
+
   <CommHeader_Type>Typ</CommHeader_Type>
   <CommHeader_Level>Level</CommHeader_Level>
   <CommHeader_Ranking>Rang</CommHeader_Ranking>
@@ -151,7 +151,7 @@
   <CommHeader_Mercenary>Digimon</CommHeader_Mercenary>
   <CommHeader_Name>Name</CommHeader_Name>
   <CommHeader_Size>Groesse</CommHeader_Size>
-  
+
   <UpdateAvailableText>Neue Version {0} ist verfuegbar. Changelog:</UpdateAvailableText>
   <UpdateAvailableCaption>Neue Version {0} ist verfuegbar</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Moechten Sie jetzt updaten?</UpdateDownloadQuestion>

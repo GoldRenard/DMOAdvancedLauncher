@@ -26,10 +26,9 @@ namespace DMOLibrary.Events {
     /// </summary>
     public enum DMODownloadResultCode {
         OK = 0,
-        DB_CONNECT_ERROR = 1,
-        WEB_ACCESS_ERROR = 2,
+        WEB_ACCESS_ERROR = 1,
         NOT_FOUND = 404,
-        CANT_GET = 3
+        CANT_GET = 2
     }
 
     /// <summary>

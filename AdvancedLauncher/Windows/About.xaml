@@ -99,6 +99,8 @@
                     <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
                     <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
                     <TextBlock Text="French - Rei Ayanami" />
+                    <TextBlock Text="Indonesian - Bayu Laksana" />
+                    <TextBlock Text="Portuguese, German - ??? :(" />
                 </StackPanel>
             </Grid>
         </StackPanel>

@@ -338,21 +338,24 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
-    <None Include="Languages\French %28France%29.lng">
+    <None Include="Languages\fr-FR.lng">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Languages\German %28Germany%29.lng">
+    <None Include="Languages\de-DE.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Languages\Portugues%28Brasil%29.lng">
+    <None Include="Languages\id-ID.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Languages\Russian %28Russia%29.lng">
+    <None Include="Languages\pt-BR.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Languages\ru-RU.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Languages\Ukrainian %28Ukraine%29.lng">
+    <None Include="Languages\uk-UA.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

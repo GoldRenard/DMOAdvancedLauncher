@@ -10,23 +10,21 @@
   <DeleteButton>Удалить</DeleteButton>
   <BrowseButton>Обзор</BrowseButton>
   <ApplyButton>Применить</ApplyButton>
+  <CancelButton>Отмена</CancelButton>
   <SendButton>Отправить</SendButton>
   <LogInButton>Войти</LogInButton>
-  <CancelButton>Отмена</CancelButton>
   <CloseButton>Закрыть</CloseButton>
   <StartButton>Начать игру</StartButton>
   <DigiRotation>ДигиРотация</DigiRotation>
-  <WaitForComplete>Пожалуйста, дождитесь завершения текущей операции</WaitForComplete>
   <PleaseWait>Пожалуйста, подождите</PleaseWait>
   <ErrorOccured>Произошла ошибка!</ErrorOccured>
   <ConnectionError>Проверьте Ваше соединение с интернетом.</ConnectionError>
-  <DBConnectionError>Ошибка соединения с базой данных.</DBConnectionError>
   <CantGetError>Не удается получить информацию.</CantGetError>
-  <GuildNotFoundError>Гильдия не найдена, проверьте настройки.</GuildNotFoundError>
-  <GameFilesInUse>Не удается получить доступ к файлам игры. Пожалуйста, закройте все программы, использующих их.</GameFilesInUse>
+  <GuildNotFoundError>Указанная гильдия не найдена.</GuildNotFoundError>
+  <GameFilesInUse>Не удается получить доступ к файлам игры. Для продолжения закройте игру.</GameFilesInUse>
   <PleaseCloseGame>Пожалуйста, закройте игру.</PleaseCloseGame>
-  <PleaseSelectGamePath>Пожалуйста, укажите правильный путь к папке с игрой в настройках лаунчера.</PleaseSelectGamePath>
-  <PleaseSelectLauncherPath>Пожалуйста, укажите правильный путь к папке со стандартным лаунчером в настройках.</PleaseSelectLauncherPath>
+  <PleaseSelectGamePath>Пожалуйста, укажите в настройках правильный путь к папке с игрой.</PleaseSelectGamePath>
+  <PleaseSelectLauncherPath>Пожалуйста, укажите в настройках правильный путь к папке со стандартным лаунчером.</PleaseSelectLauncherPath>
 
   <MainWindow_NewsTab>НОВОСТИ</MainWindow_NewsTab>
   <MainWindow_GalleryTab>ГАЛЕРЕЯ</MainWindow_GalleryTab>
@@ -38,9 +36,7 @@
   <About_Developer>Разработчик</About_Developer>
   <About_DesignHelp>Помощь по дизайну</About_DesignHelp>
   <About_Acknowledgments>Благодарности</About_Acknowledgments>
-  <About_Translators>Переводы</About_Translators>
-  <About_Licence404>Файл текста лицензии "{0}" не найден.</About_Licence404>
-
+  <About_Translators>Переводчики</About_Translators>
 
   <ManageProfiles>Настроить профили</ManageProfiles>
   <Settings>Настройки</Settings>
@@ -51,6 +47,10 @@
   <Settings_NewsGroup>Новости</Settings_NewsGroup>
   <Settings_GameGroup>Игра</Settings_GameGroup>
   <Settings_AccountGroup>Учетная запись</Settings_AccountGroup>
+  <Settings_ThemeGroup>Тема оформления</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Цветовая схема</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Соединение</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Прокси-сервер</Settings_ProxyGroup>
   <Settings_ProfileNameHint>Введите имя профиля</Settings_ProfileNameHint>
   <Settings_SetAsDefaultButton>Назначить по-умолчанию</Settings_SetAsDefaultButton>
   <Settings_RotationGuildHint>Гильдия для ротации</Settings_RotationGuildHint>
@@ -71,10 +71,6 @@
   <Settings_SelectGameDirError>Вы должны указать правильную папку с игрой</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Пожалуйста, укажите папку со стандартным лаунчером</Settings_SelectLauncherDir>
   <Settings_SelectLauncherDirError>Вы должны указать правильную папку со стандартным лаунчером</Settings_SelectLauncherDirError>
-  <Settings_ThemeGroup>Тема оформления</Settings_ThemeGroup>
-  <Settings_ColorSchemeGroup>Цветовая схема</Settings_ColorSchemeGroup>
-  <Settings_ConnectionGroup>Соединение</Settings_ConnectionGroup>
-  <Settings_ProxyGroup>Прокси-сервер</Settings_ProxyGroup>
   <Settings_Proxy_Default>Системные настройки</Settings_Proxy_Default>
   <Settings_Proxy_Authentication>Аутентификация</Settings_Proxy_Authentication>
   <Settings_Proxy_HostWatermark>Хост и порт</Settings_Proxy_HostWatermark>
@@ -84,7 +80,7 @@
   <AppLocale_NotInstalled> - Не установлена служебная программа Microsoft AppLocale</AppLocale_NotInstalled>
   <AppLocale_EALNotInstalled> - Не установлена поддержка языков с письмом иероглифами</AppLocale_EALNotInstalled>
   <AppLocale_FixQuestion>Перейти прямо сейчас к странице загрузки и/или инструкций по исправлению данных ошибок?</AppLocale_FixQuestion>
-  
+
   <RotationLevelText>уровень</RotationLevelText>
   <RotationDownloading>Загрузка данных...</RotationDownloading>
   <RotationTamer>Теймер</RotationTamer>
@@ -96,7 +92,7 @@
   <NewsType_Notice>уведомление</NewsType_Notice>
   <NewsType_Event>ивент</NewsType_Event>
   <NewsType_Patch>патч</NewsType_Patch>
-  
+
   <GameButton_Waiting>Ожидание</GameButton_Waiting>
   <GameButton_UpdateGame>Обновить игру</GameButton_UpdateGame>
   <UpdateCantGetVersion>Не удалось получить версию игры.</UpdateCantGetVersion>
@@ -105,7 +101,7 @@
   <UpdateExtracting>Распаковка обновления {0} из {1}... [{2} / {3}]</UpdateExtracting>
   <UpdateInstalling>Установка обновлений... [{0} / {1}]</UpdateInstalling>
   <UseLastSession>Вы хотите использовать последнюю успешную сессию?</UseLastSession>
-  
+
   <LoginTry>Попытка {0}...</LoginTry>
   <LoginGettingData>Получение данных...</LoginGettingData>
   <LoginLogIn>Вход в учетную запись...</LoginLogIn>
@@ -129,7 +125,7 @@
   <CommGuildName>Название гильдии</CommGuildName>
   <CommGuildNameEmpty>Введите название гильдии!</CommGuildNameEmpty>
   <CommWrongGuildName>Название гильдии содержит недопустимые символы!</CommWrongGuildName>
-  
+
   <CommSearchingGuild>Поиск гильдии</CommSearchingGuild>
   <CommGettingTamer>Получение теймера: {0}</CommGettingTamer>
 
@@ -155,7 +151,7 @@
   <CommHeader_Mercenary>Дигимонов</CommHeader_Mercenary>
   <CommHeader_Name>Имя</CommHeader_Name>
   <CommHeader_Size>Размер</CommHeader_Size>
-  
+
   <UpdateAvailableText>Доступна новая версия лаунчера - {0}. Список изменений:</UpdateAvailableText>
   <UpdateAvailableCaption>Доступна новая версия лаунчера - {0}</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Хотите перейти на страницу загрузки прямо сейчас?</UpdateDownloadQuestion>

@@ -109,7 +109,14 @@
         <ScrollViewer Margin="10,0,5,50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Margin="0,0,5,0">
                 <TextBlock Text="{Binding Settings_Language}" Style="{DynamicResource TitleText}" />
-                <ComboBox Margin="0,5" x:Name="ComboBoxLanguage" Height="30" SelectedIndex="0" SelectionChanged="OnLanguageSelectionChanged" IsSynchronizedWithCurrentItem="True" />
+                <ComboBox x:Name="ComboBoxLanguage"
+                          Margin="0,5"
+                          Height="30"
+                          SelectedIndex="0"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Code"
+                          SelectionChanged="OnLanguageSelectionChanged"
+                          IsSynchronizedWithCurrentItem="True" />
 
                 <TextBlock Text="{Binding Settings_ThemeGroup}" Style="{DynamicResource TitleText}" />
                 <ListBox x:Name="BaseColorsList"

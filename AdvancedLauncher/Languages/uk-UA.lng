@@ -3,21 +3,22 @@
 
   <CantOpenLink>Неможливо відкрити посилання. Спробуйте змінити браузер за замовчуванням. Помилка: </CantOpenLink>
   <Error>Помилка</Error>
+  <Yes>Так</Yes>
+  <No>Ні</No>
   <Console>Консоль</Console>
   <CreateButton>Створити</CreateButton>
   <DeleteButton>Видалити</DeleteButton>
   <BrowseButton>Огляд</BrowseButton>
   <ApplyButton>Застосувати</ApplyButton>
-  <SendButton>Відправити</SendButton>
   <CancelButton>Відміна</CancelButton>
+  <SendButton>Відправити</SendButton>
+  <LogInButton>Увійти</LogInButton>
   <CloseButton>Закрити</CloseButton>
   <StartButton>Почати гру</StartButton>
   <DigiRotation>ДігіРотація</DigiRotation>
-  <WaitForComplete>Будь ласка, дочекайтеся завершення поточної операції</WaitForComplete>
   <PleaseWait>Будь ласка, почекайте</PleaseWait>
   <ErrorOccured>Сталася помилка!</ErrorOccured>
   <ConnectionError>Перевірте Ваше з'єднання з інтернетом.</ConnectionError>
-  <DBConnectionError>Помилка з'єднання з базою даних.</DBConnectionError>
   <CantGetError>Не можна отримати інформацію.</CantGetError>
   <GuildNotFoundError>Гільдію не знайдено, перевірте налаштування.</GuildNotFoundError>
   <GameFilesInUse>Немає доступу до файлів гри. Будь ласка, закрийте всі програми, які використовують їх.</GameFilesInUse>
@@ -36,7 +37,6 @@
   <About_DesignHelp>Допомога по дизайну</About_DesignHelp>
   <About_Acknowledgments>Подяки</About_Acknowledgments>
   <About_Translators>Переклади</About_Translators>
-  <About_Licence404>Файл тексту ліцензії "{0}" не знайдено.</About_Licence404>
 
   <ManageProfiles>Налаштувати профілі</ManageProfiles>
   <Settings>Налаштування</Settings>
@@ -80,7 +80,7 @@
   <AppLocale_NotInstalled> - Не встановлена службова програма Microsoft AppLocale</AppLocale_NotInstalled>
   <AppLocale_EALNotInstalled> - Не встановлена підтримка мов з написанням ієрогліфами</AppLocale_EALNotInstalled>
   <AppLocale_FixQuestion>Перейти прямо зараз до сторінки завантаження та / або інструкцій щодо виправлення даних помилок?</AppLocale_FixQuestion>
-  
+
   <RotationLevelText>Рівень</RotationLevelText>
   <RotationDownloading>Завантаження даних ...</RotationDownloading>
   <RotationTamer>Теймер</RotationTamer>
@@ -92,7 +92,7 @@
   <NewsType_Notice>сповіщення</NewsType_Notice>
   <NewsType_Event>івент</NewsType_Event>
   <NewsType_Patch>патч</NewsType_Patch>
-  
+
   <GameButton_Waiting>Очікування</GameButton_Waiting>
   <GameButton_UpdateGame>Оновити гру</GameButton_UpdateGame>
   <UpdateCantGetVersion>Не вдалося отримати версію гри.</UpdateCantGetVersion>
@@ -100,8 +100,8 @@
   <UpdateDownloading>Завантаження оновлення {0} из {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
   <UpdateExtracting>Розпакування оновлення {0} из {1}... [{2} / {3}]</UpdateExtracting>
   <UpdateInstalling>Встановлення оновлень... [{0} / {1}]</UpdateInstalling>
-  <UseLastSession>Використовувати останню сесію</UseLastSession>
-  
+  <UseLastSession>Ви хочете використовувати останню успішну сесію?</UseLastSession>
+
   <LoginTry>Спроба {0}...</LoginTry>
   <LoginGettingData>Отримання даних...</LoginGettingData>
   <LoginLogIn>Вхід в обліковий запис...</LoginLogIn>
@@ -125,10 +125,10 @@
   <CommGuildName>Назва гільдії</CommGuildName>
   <CommGuildNameEmpty>Введіть назву гільдії!</CommGuildNameEmpty>
   <CommWrongGuildName>Назва гільдії містить неприпустимі символи!</CommWrongGuildName>
-  
+
   <CommSearchingGuild>Пошук гільдії</CommSearchingGuild>
   <CommGettingTamer>Отримання теймера: {0}</CommGettingTamer>
-  
+
   <CommTamersTab>ТЕЙМЕРI</CommTamersTab>
   <CommDigimonsTab>ДІГІМОНІ</CommDigimonsTab>
 
@@ -151,7 +151,7 @@
   <CommHeader_Mercenary>Дігімонів</CommHeader_Mercenary>
   <CommHeader_Name>Ім'я</CommHeader_Name>
   <CommHeader_Size>Розмір</CommHeader_Size>
-  
+
   <UpdateAvailableText>Доступна нова версія лаунчера - {0}. Список змін:</UpdateAvailableText>
   <UpdateAvailableCaption>Доступна нова версія лаунчера - {0}</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Хочете перейти на сторінку завантаження прямо зараз?</UpdateDownloadQuestion>

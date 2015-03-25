@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -63,18 +64,7 @@ namespace AdvancedLauncher.Controls {
                 IsPreventPassChange = false;
 
                 InitializeColorTheme();
-
-                //Load language list
-                ComboBoxLanguage.Items.Add(LanguageEnv.DefaultName);
-                foreach (string lang in LanguageEnv.GetTranslations()) {
-                    ComboBoxLanguage.Items.Add(Path.GetFileNameWithoutExtension(lang));
-                }
-                for (int i = 0; i < ComboBoxLanguage.Items.Count; i++) {
-                    if (ComboBoxLanguage.Items[i].ToString() == LauncherEnv.Settings.LanguageFile) {
-                        ComboBoxLanguage.SelectedIndex = CurrentLangIndex = i;
-                        break;
-                    }
-                }
+                InitializeLanguages();
             }
         }
 
@@ -95,12 +85,6 @@ namespace AdvancedLauncher.Controls {
             this.IsOpen = false;
         }
 
-        private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (this.IsLoaded) {
-                LanguageEnv.Load(ComboBoxLanguage.SelectedValue.ToString());
-            }
-        }
-
         private void ResetAll() {
             settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings, true);
             ProxySettings.DataContext = settingsContainer.Proxy;
@@ -108,6 +92,47 @@ namespace AdvancedLauncher.Controls {
             BaseColorsList.SelectedItem = CurrentAppTheme;
             AccentColorsList.SelectedItem = CurrentAccent;
         }
+
+        #region Language changing
+
+        public class LanguageEntry {
+
+            public string Code {
+                set;
+                get;
+            }
+
+            public string Name {
+                get {
+                    var culture = CultureInfo.GetCultureInfo(Code);
+                    if (culture != null) {
+                        return culture.NativeName;
+                    }
+                    return Code;
+                }
+            }
+        }
+
+        private void InitializeLanguages() {
+            List<LanguageEntry> Langs = new List<LanguageEntry>() { new LanguageEntry() {
+                Code = LanguageEnv.DefaultName
+            }};
+            foreach (string lang in LanguageEnv.GetTranslations()) {
+                Langs.Add(new LanguageEntry() {
+                    Code = Path.GetFileNameWithoutExtension(lang)
+                });
+            }
+            ComboBoxLanguage.ItemsSource = Langs;
+            ComboBoxLanguage.SelectedItem = Langs.FirstOrDefault(e => e.Code == LauncherEnv.Settings.LanguageFile);
+        }
+
+        private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (this.IsLoaded) {
+                LanguageEnv.Load(ComboBoxLanguage.SelectedValue.ToString());
+            }
+        }
+
+        #endregion Language changing
 
         #region Theme/Accent changing
 

@@ -124,10 +124,6 @@ namespace AdvancedLauncher.Pages {
                         Utils.ShowErrorDialog(LanguageEnv.Strings.CantGetError);
                         break;
                     }
-                case DMODownloadResultCode.DB_CONNECT_ERROR: {
-                        Utils.ShowErrorDialog(LanguageEnv.Strings.DBConnectionError);
-                        break;
-                    }
                 case DMODownloadResultCode.NOT_FOUND: {
                         Utils.ShowErrorDialog(LanguageEnv.Strings.GuildNotFoundError);
                         break;

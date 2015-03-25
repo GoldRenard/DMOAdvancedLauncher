@@ -31,7 +31,7 @@ namespace AdvancedLauncher.Environment {
         private static string sep = ": ";
 
         [XmlIgnore]
-        public const string DefaultName = "English (Default)";
+        public const string DefaultName = "en-US";
 
         [XmlIgnore]
         public string FileName = DefaultName;
@@ -192,7 +192,7 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        private string _DigiRotation = "GAME START";
+        private string _DigiRotation = "DigiRotation";
 
         public string DigiRotation {
             set {
@@ -200,17 +200,6 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 return _DigiRotation;
-            }
-        }
-
-        private string _WaitForComplete = "Please wait completion of the current operation";
-
-        public string WaitForComplete {
-            set {
-                _WaitForComplete = value; NotifyPropertyChanged("WaitForComplete");
-            }
-            get {
-                return _WaitForComplete;
             }
         }
 
@@ -244,17 +233,6 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 return _ConnectionError;
-            }
-        }
-
-        private string _DBConnectionError = "Database connection error.";
-
-        public string DBConnectionError {
-            set {
-                _DBConnectionError = value; NotifyPropertyChanged("DBConnectionError");
-            }
-            get {
-                return _DBConnectionError;
             }
         }
 
@@ -440,17 +418,6 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 return _About_Translators + sep;
-            }
-        }
-
-        private string _About_Licence404 = "Licence file \"{0}\" not found.";
-
-        public string About_Licence404 {
-            set {
-                _About_Licence404 = value; NotifyPropertyChanged("About_Licence404");
-            }
-            get {
-                return _About_Licence404;
             }
         }
 
@@ -1142,7 +1109,7 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        private string _UseLastSession = "Use last session";
+        private string _UseLastSession = "Do you want to use last successful session?";
 
         public string UseLastSession {
             set {
@@ -1250,17 +1217,6 @@ namespace AdvancedLauncher.Environment {
         #endregion Game control
 
         #region Gallery
-
-        private string _GalleryHint = "CLICK TWICE ON THE SCREENSHOT FOR OPENING";
-
-        public string GalleryHint {
-            set {
-                _GalleryHint = value; NotifyPropertyChanged("GalleryHint");
-            }
-            get {
-                return _GalleryHint.ToUpper();
-            }
-        }
 
         private string _GalleryNoScreenshots = "THERE IS NO SCREENSHOTS";
 
@@ -1426,17 +1382,6 @@ namespace AdvancedLauncher.Environment {
 
         #region Main DC
 
-        private string _CommShowTab = "SHOW";
-
-        public string CommShowTab {
-            set {
-                _CommShowTab = value; NotifyPropertyChanged("CommShowTab");
-            }
-            get {
-                return _CommShowTab.ToUpper() + sep;
-            }
-        }
-
         private string _CommTamersTab = "TAMERS";
 
         public string CommTamersTab {
@@ -1489,17 +1434,6 @@ namespace AdvancedLauncher.Environment {
             }
             get {
                 return _CommButton_Search;
-            }
-        }
-
-        private string _CommInformation = "Information";
-
-        public string CommInformation {
-            set {
-                _CommInformation = value; NotifyPropertyChanged("CommInformation");
-            }
-            get {
-                return _CommInformation + sep;
             }
         }
 

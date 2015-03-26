@@ -183,6 +183,7 @@
       <DependentUpon>Personalization.xaml</DependentUpon>
     </Compile>
     <Compile Include="Service\ApplicationLauncher.cs" />
+    <Compile Include="Service\DispatcherHelper.cs" />
     <Compile Include="Service\FingerPrint.cs" />
     <Compile Include="Service\InstanceChecker.cs" />
     <Compile Include="Environment\LauncherEnv.cs" />
@@ -216,6 +217,9 @@
     </Compile>
     <Compile Include="Windows\Logger.xaml.cs">
       <DependentUpon>Logger.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Splashscreen.xaml.cs">
+      <DependentUpon>Splashscreen.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\DigiRotation\DigiRotation.xaml">
       <SubType>Designer</SubType>
@@ -317,6 +321,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\Splashscreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -379,9 +387,6 @@
     <None Include="Resources\ResourceList_KoreaIMBC.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="app_icon.ico" />

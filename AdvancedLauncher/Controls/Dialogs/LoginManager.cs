@@ -50,7 +50,7 @@ namespace AdvancedLauncher.Controls.Dialogs {
             }
         }
 
-        public async void Login() {
+        public void Login() {
             Profile profile = LauncherEnv.Settings.CurrentProfile;
             if (!failedLogin.Contains(profile.DMOProfile)) {
                 if (profile.GameEnv.IsLastSessionAvailable() && !string.IsNullOrEmpty(profile.Login.LastSessionArgs)) {

@@ -32,18 +32,6 @@ using DMOLibrary.Database.Context;
 namespace AdvancedLauncher {
 
     public partial class App : Application {
-        public static SplashScreen splash = new SplashScreen("Resources/SplashScreen.png");
-
-        private Window WpfBugWindow = new Window() {
-            AllowsTransparency = true,
-            Background = System.Windows.Media.Brushes.Transparent,
-            WindowStyle = WindowStyle.None,
-            Top = 0,
-            Left = 0,
-            Width = 1,
-            Height = 1,
-            ShowInTaskbar = false
-        };
 
         public static bool IsAdministrator() {
             var identity = WindowsIdentity.GetCurrent();
@@ -53,7 +41,6 @@ namespace AdvancedLauncher {
 
         public App() {
             if (IsAdministrator()) {
-                WpfBugWindow.Show();
                 LauncherEnv.Load();
             }
         }
@@ -62,16 +49,16 @@ namespace AdvancedLauncher {
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
-                    splash.Show(false);
+                    LauncherEnv.LoadTheme();
+                    Splashscreen.ShowSplash();
 #if DEBUG
+                    Splashscreen.SetProgress("Initializing database...");
                     using (MainContext context = new MainContext()) {
                         context.Database.Initialize(false);
                     }
 #endif
-                    LauncherEnv.LoadTheme();
                     MainWindow mw = new MainWindow();
                     mw.Show();
-                    WpfBugWindow.Close();
                 } else {
                     Application.Current.Shutdown();
                 }

@@ -100,7 +100,7 @@ namespace DMOLibrary.Profiles.Korea {
                     OnCompleted(DMODownloadResultCode.CANT_GET, guild); // can't get guild info
                     return guild;
                 }
-            } catch (WebException e) {
+            } catch (WebException) {
                 OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
                 return guild;
             }

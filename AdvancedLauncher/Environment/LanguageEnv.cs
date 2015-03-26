@@ -20,8 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Environment {
@@ -1728,8 +1730,11 @@ namespace AdvancedLauncher.Environment {
 
         public static string[] GetTranslations() {
             string[] translations = null;
-            if (Directory.Exists(LauncherEnv.GetLangsPath()))
-                translations = Directory.GetFiles(LauncherEnv.GetLangsPath(), "*.lng");
+            Regex regex = new Regex(@"^[a-z]{2,3}(?:-[A-Z]{2,3}(?:-[a-zA-Z]{4})?)?$");
+            if (Directory.Exists(LauncherEnv.GetLangsPath())) {
+                translations = Directory.GetFiles(LauncherEnv.GetLangsPath(), "*.lng")
+                    .Where(path => regex.IsMatch(Path.GetFileNameWithoutExtension(path))).ToArray();
+            }
             return translations;
         }
 

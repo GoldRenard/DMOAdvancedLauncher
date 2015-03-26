@@ -106,7 +106,7 @@ namespace DMOLibrary.Profiles.Joymax {
                     OnCompleted(DMODownloadResultCode.NOT_FOUND, guild);//wrong web page
                     return guild;
                 }
-            } catch (WebException e) {
+            } catch (WebException) {
                 OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
                 return guild;
             }

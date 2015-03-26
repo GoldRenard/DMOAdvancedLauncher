@@ -51,11 +51,12 @@ namespace AdvancedLauncher.Windows {
 
         public MainWindow() {
             _Instance = this;
+            Splashscreen.SetProgress("Loading...");
+            Application.Current.MainWindow = _Instance;
             // force initialize default profile in current thread
             var profile = LauncherEnv.Settings.CurrentProfile;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                //Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 60 });
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
                 Logger.Instance.WindowClosed += (s, e1) => {
                     transitionLayer.Content = null;
@@ -76,13 +77,10 @@ namespace AdvancedLauncher.Windows {
                 MenuFlyout.ProfileSettingsClick += OnProfileSettingsClick;
                 MenuFlyout.LoggerClick += OnLoggerClick;
                 OnProfileChanged(this, EventArgs.Empty);
-                try {
-                    App.splash.Close(TimeSpan.FromSeconds(1));
-                } catch {
-                }
 #if DEBUG
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
+                Splashscreen.HideSplash();
             }
         }
 

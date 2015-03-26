@@ -90,9 +90,9 @@ namespace AdvancedLauncher.Windows {
 
         public void PrintHeader() {
             LOGGER.Info("Digimon Masters Online Advanced Launcher, Copyright (C) 2015 Egorov Ilya" + System.Environment.NewLine +
-                "This program comes with ABSOLUTELY NO WARRANTY; for details type `licence'." + System.Environment.NewLine +
+                "This program comes with ABSOLUTELY NO WARRANTY; for details type `license'." + System.Environment.NewLine +
                 "This is free software, and you are welcome to redistribute it" + System.Environment.NewLine +
-                "under certain conditions; type `licence' for details." + System.Environment.NewLine);
+                "under certain conditions; type `license' for details." + System.Environment.NewLine);
         }
 
         public override void Show() {

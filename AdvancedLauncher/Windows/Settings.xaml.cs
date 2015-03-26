@@ -43,7 +43,6 @@ namespace AdvancedLauncher.Windows {
         };
 
         private AdvancedLauncher.Environment.Containers.Settings settingsContainer;
-        private int currentLangIndex;
         private bool IsPreventPassChange = false;
 
         public Settings() {

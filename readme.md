@@ -5,7 +5,7 @@ Hello! We would like to present to you the custom Digimon Masters Online\* launc
 [![Build status](https://ci.appveyor.com/api/projects/status/7iucftekgn7frt25?svg=true)](https://ci.appveyor.com/project/GoldRenard/dmoadvancedlauncher)
 [![Release](https://img.shields.io/github/release/GoldRenard/DMOAdvancedLauncher.svg?style=flat-square)](https://github.com/GoldRenard/DMOAdvancedLauncher/releases/latest)
 
-![preview](https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/prerelease/Shared/Assets/preview.png)
+![preview](https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/Shared/Assets/preview.png)
 
 ### Overview and features
 **DMO Advanced Launcher** supports ADMO ([Aeria](http://www.aeriagames.com/playnow/dmus/)), GDMO ([Joymax](http://www.joymax.com/dmo/)), KDMO ([www.digimonmasters.com](www.digimonmasters.com) and [IMBC](http://dm.imbc.com/)) servers. Unfortunately, not all features are supported for all servers. For example, Digimon Rotation and Community page not available for ADMO.
@@ -43,6 +43,21 @@ Please [send an email](mailto:goldrenard@gmail.com) with your translations.
 - In additional, launcher can read only ONE digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of launcher. Usually it's a latest hatched Digimon.
 - Long logon process for KDMO IMBC. Error 705 is ok, you should just wait for successful login. If you're getting error 705 10 or more times, check your account data.
 
+## Changelog (Version 3.0)
+#### Common
+ - New interface based on great [MahApps.Metro](http://mahapps.com/).
+ - Appearance: dark/light themes with different color schemes (thanks to MahApps.Metro)
+ - Implemented proxy-server support
+ - Indonesian translation (thanks to Bayu Laksana)
+ - Global refactoring and clean up which means different bug fixes (and might also means new bugs o_O, but we'll fix them all!)
+
+#### Others
+ - Every third-party dependency was updated to actual version
+ - Migration to Entity Framework + SQLCE database management
+ - Migration to .NET Framework 4.5
+
+You can read the full changelog [here](https://github.com/GoldRenard/DMOAdvancedLauncher/blob/master/AdvancedLauncher/Docs/changelog.md).
+ 
 ### Licence
 [GNU GENERAL PUBLIC LICENSE](https://www.gnu.org/copyleft/gpl.html).
 

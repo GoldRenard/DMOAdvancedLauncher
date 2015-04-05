@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-	<script src="//j.maxmind.com/app/geoip.js"></script>
+	<script src="//js.maxmind.com/js/geoip.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="javascripts/main.js"></script>
 	<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -58,66 +58,55 @@
       <div class="inner clearfix">
 		<section id="main-content">
 			<h3>Welcome to DMO Advanced Launcher GitHub Page.</h3>
-			<p>Hello! We would like to present to you the custom Digimon Masters Online* launcher. We invested all our effort and soul into its creation. It doesn't look like a default launcher. It is: beautiful, comfortable, functional.</p>
+			<p>Hello! We would like to present to you the custom Digimon Masters Online Launcher. We invested all our effort and soul into its creation. It doesn't look like a default Launcher. It is: beautiful, comfortable, functional.</p>
 			
 			<h3>Overview and features</h3>
-			<p>DMO Advanced Launcher supports ADMO (Aeria), GDMO (Joymax), KDMO (www.digimonmasters.com and IMBC) servers. Unfortunately, not all features are supported for all servers. For example, Digimon Rotation and Community page not available for ADMO.<br/>
-			Let's make "marks" to define support features for a each server:
+			<p><strong>DMO Advanced Launcher</strong> supports ADMO (<a href="http://www.aeriagames.com/playnow/dmus/" target="_blank">Aeria</a>), GDMO (<a href="http://www.joymax.com/dmo/" target="_blank">Joymax</a>), KDMO (<a href="/GoldRenard/DMOAdvancedLauncher/blob/master/www.Digimonmasters.com" target="_blank">www.Digimonmasters.com</a> and <a href="http://dm.imbc.com/" target="_blank">IMBC</a>) servers. Unfortunately, not all features are supported for all servers. For example, Digimon Rotation and Community pages aren't available for ADMO.
+			Functionality is distributed into different categories:
 			<div style="margin:15px;">
-				<div class="mark mark-admo">A</div> - supported for <a href="http://www.aeriagames.com/playnow/dmus">Aeria</a> mode<br/>
-				<div class="mark mark-gdmo">G</div> - supported for <a href="http://www.joymax.com/dmo/">Joymax</a> mode<br/>
-				<div class="mark mark-kdmo">K</div> - supported for Korean mode (both <a href="http://www.digimonmasters.com">www.digimonmasters.com</a> and <a href="http://dm.imbc.com">IMBC</a>)<br/>
+				<div class="mark mark-admo">A</div> - supported for <a href="http://www.aeriagames.com/playnow/dmus" target="_blank">Aeria</a> mode<br/>
+				<div class="mark mark-gdmo">G</div> - supported for <a href="http://www.joymax.com/dmo/" target="_blank">Joymax</a> mode<br/>
+				<div class="mark mark-kdmo">K</div> - supported for Korean mode (both <a href="http://www.Digimonmasters.com" target="_blank">www.Digimonmasters.com</a> and <a href="http://dm.imbc.com" target="_blank">IMBC</a>)<br/>
 				<div class="mark mark-any">S</div> - supported for any mode
 			</div>
 			Main features:
 			<div style="margin:15px;">
 				<div class="mark mark-gdmo">G</div><div class="mark mark-kdmo">K</div> Rotation of top Digimons of your guild<br/>
-				<div class="mark mark-gdmo">G</div><div class="mark mark-kdmo">K</div> Stay Up-to-Date! Getting information about any guild (ranking, reputation, digimons, etc)<br/>
-				<div class="mark mark-gdmo">G</div><div class="mark mark-admo">A</div> Joymax news<br/>
+				<div class="mark mark-gdmo">G</div><div class="mark mark-kdmo">K</div> Stay Up-to-Date! Getting information about any guild (ranking, reputation, Digimons, etc)<br/>
+				<div class="mark mark-gdmo">G</div> Joymax news<br/>
 				<div class="mark mark-any">S</div> Twitter statuses powered by Twitter API 1.1 JSON user timeline<br/>
-				<div class="mark mark-any">S</div> Checking and installing game updates (beta)*<br/>
+				<div class="mark mark-any">S</div> Checking and installing game updates (disabled by default)<br/>
 				<div class="mark mark-any">S</div> Screenshot gallery<br/>
 				<div class="mark mark-any">S</div> Let the game meets. Possibility of change game resources like login background, dialogs, etc.<br/>
 				<div class="mark mark-any">S</div> Launching game through AppLocale (fixing codepage troubles like bad cyrillic at guild chat)<br/>
 				<div class="mark mark-any">S</div> Profile system. You can make many profiles for every server/account/etc.
 			</div>
-			* Update feature on the <span style="font-weight:bold;">BETA</span> stage and it is <span style="font-weight:bold;">DISABLED</span> by default. We aren't sure that we did everything absolutely correctly. Use that at your own risk.
-With disabled option checking updates still works, but default launcher will be used for updating.
 			</p>
 			
 			<h3>System requirements</h3>
 			<p>
 				<ul>
-					<li>Windows® XP (SP3) / Vista (SP1+) / 7 / 8</li>
-					<li>Microsoft .NET Framework 4.0</li>
-					<li>Microsoft Visual C++ 2010 SP1 Redistributable Package</li>
+					<li>Windows Vista SP2 / Windows 7 SP1 / Windows 8 / Windows 8.1</li>
+					<li>Microsoft .NET Framework 4.5</li>
 				</ul>
+				If you're still running dino-ancient operating system like Windows XP, use <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/releases/tag/v2.3a" target="_blank">this version</a> of Launcher. Moreover, if you have Windows XP and want use AppLocale, you MUST install East Asian Language support, then turn on the AppLocale in settings of Launcher.
 			</p>
-			
-			<h3>Installation</h3>
+
+			<h3>Help with translation</h3>
 			<p>
-				<ol>
-					<li>Download and install the <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/releases/latest" target="_blank">latest release</a>.</li>
-					<li>If you have Windows XP and want use AppLocale, you MUST install East Asian Language support (instruction), then turn on the AppLocale in options of launcher.</li>
-				</ol>
-			</p>
-			
-			<h3>Help with Translations</h3>
-			<p>
-				We'll glad to getting help in the translation of the launcher into other languages. Use <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/blob/master/AdvancedLauncher/Languages/Template_for_translation.txt">Template_for_translation.txt</a> as template.<br/><br/>Also you can correct our English translation. We know that current is bad :)<br/>
-				Please send <a href="mailto:goldrenard@gmail.com">an email</a> with new translations.<br/>
+			    We will be happy to get your help with translation the Launcher into other languages. Look at the <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/tree/master/AdvancedLauncher/Languages" target="_blank">Languages</a> folder of Launcher's root folder. Use <a href="https://github.com/GoldRenard/DMOAdvancedLauncher/blob/master/AdvancedLauncher/Languages/Template_for_translation.txt" target="_blank">Template_for_translation.txt</a> as template. Please send <a href="mailto:goldrenard@gmail.com">an email</a> with your translation.<br/>
 			</p>
 			
 			<h3>Known issues</h3>
 			<p>
 				<ul>
-					<li>Community page and DigiRotation uses information of game website. You know, not all digimons are provided at ranking or tamer's information pages (especially at Joymax). So not all digimons provided at our launcher</li>
-					<li>In additional, launcher can read only ONE digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of launcher. Usually it's a latest hatched Digimon</li>
-					<li>Long logon process for KDMO IMBC. Error 705 is normal, you must just wait for successful login. If you will get error 705 10 or more times, check your account data</li>
+					<li>Community page and DigiRotation uses information of game website. You know, not all Digimons are provided at ranking or Tamer's information pages (especially at <span class="del">Failmax</span> Joymax), so not all Digimons are provided at our Launcher.</li>
+					<li>Moreover, Launcher can get only ONE Digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of Launcher. Usually it's a latest hatched Digimon.</li>
+					<li>Logging in takes a long time for KDMO IMBC. Error 705 is ok, you should just wait for successful login. If you're getting error 705 10 or more times, check your account data.</li>
 				</ul>
 			</p>
 			
-			<h3>How to get Steam Overlay work with AdvancedLauncher</h3>
+			<!--<h3>How to get Steam Overlay work with AdvancedLauncher</h3>
 			<p>
 				There are two things that prevent game launching through Steam + AdvancedLauncher with working In-game status and Overlay.<br/>
 				<ul>
@@ -135,11 +124,11 @@ With disabled option checking updates still works, but default launcher will be 
 						</ol>
 					</li>
 				</ul>
-			</p>
+			</p>-->
 			
 			<h3>Source code</h3>
 			<p>
-				DMO Advanced Launcher is <span style="font-weight:bold;">Open Source project</span> under GNU GPL 3.0, so you can be sure that it doesn't include any malware, keyloggers, etc. It is safe to use, but keep in mind - <span style="color:red;font-weight:bold;">DO NOT</span> share any configuration files with untrusted persons.<br/><br/>
+				DMO Advanced Launcher is <span style="font-weight:bold;">Open Source project</span> under <a href="https://www.gnu.org/copyleft/gpl.html">GNU GPL 3.0</a>, so you can be sure that it doesn't include any malware, keyloggers, etc. It is safe to use, but keep in mind - <span style="color:red;font-weight:bold;">DO NOT</span> share any configuration files with untrusted persons.<br/><br/>
 				<span style="margin-top:20px;font-weight:bold;">Download source code:</span>
 				<pre><code>$ cd your_repo_root
 $ git clone https://github.com/GoldRenard/DMOAdvancedLauncher.git</code></pre>
@@ -188,8 +177,7 @@ $ git clone https://github.com/GoldRenard/DMOAdvancedLauncher.git</code></pre>
 		</div>
         </aside>
       </div>
-	  <p style="text-align: center;"><a href="https://github.com/GoldRenard/DMOAdvancedLauncher">Project</a> is maintained by <a href="https://github.com/GoldRenard">GoldRenard</a> and <a href="#">DragonVs</a>.<br/>
-	  * Trademarks belong to their respective owners. All rights reserved.</p>
+	  <p style="text-align: center; max-width: 940px; margin: 0 auto 20px auto;"><sup>Digimon: © Akiyoshi Hongo, Toei Animation. DIGIMON, DIGITAL MONSTER and all related logos, names and distinctive likenesses thereof are the property of Bandai/Toei Animation. DIGIMON is a registered trademark of Bandai. All other trademarks are the property of their respective owners.</sup></p>
     </div>
   </body>
 </html>

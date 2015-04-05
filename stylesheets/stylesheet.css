@@ -80,7 +80,7 @@ a:hover {
 
 header {
   padding-top: 20px;
-  background: #6DC6E8 url(../images/background.jpg) 0 0 repeat-x;
+  background: #FFFFFF url(../images/background.jpg) 0 0 repeat-x;
 }
 
 header h1 {
@@ -125,21 +125,21 @@ header h2 {
 
 div #logo {
 	width: 360px;
-	height: 100px;
+	height: 130px;
 	background: transparent url(../images/logo.png) 0 0 no-repeat;
 	margin: 0 auto;
 }
 
 #preview {
 	width: 940px;
-	height: 310px;
+	height: 313px;
 	background: transparent url(../images/logo-en.png) 0 0 no-repeat;
 	margin: 0 auto;
 }
 
 #preview_ru {
 	width: 940px;
-	height: 310px;
+	height: 313px;
 	background: transparent url(../images/logo-ru.png) 0 0 no-repeat;
 	margin: 0 auto;
 }
@@ -621,6 +621,17 @@ div.mark-any { background-color: #24C324; }
     padding-right: 0;
     margin-left: 0;
   }
+}
+
+.del {
+  text-decoration: line-through;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
 }
 
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */

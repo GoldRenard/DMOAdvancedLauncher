@@ -100,6 +100,7 @@
                     <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
                     <TextBlock Text="French - Rei Ayanami" />
                     <TextBlock Text="Indonesian - Bayu Laksana" />
+                    <TextBlock Text="Italian - Andrea Milano" />
                     <TextBlock Text="Portuguese, German - ??? :(" />
                 </StackPanel>
             </Grid>

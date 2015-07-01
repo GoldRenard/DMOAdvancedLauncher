@@ -359,6 +359,9 @@
     <None Include="Languages\id-ID.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Languages\it-IT.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Languages\pt-BR.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

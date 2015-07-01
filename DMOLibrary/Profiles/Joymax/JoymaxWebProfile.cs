@@ -53,7 +53,11 @@ namespace DMOLibrary.Profiles.Joymax {
                 string html = DownloadContent(string.Format(STR_URL_GUILD_RANK, guildName, "srv" + server.Identifier));
                 doc.LoadHtml(html);
 
-                HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
+                HtmlNodeCollection collection = doc.DocumentNode.SelectNodes(STR_RANKING_NODE);
+                if (collection == null) {
+                    throw new Exception("GetGuild -> Unable to find ranking node on the page");
+                }
+                HtmlNode ranking = collection[0];
                 HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='guild']");
                 bool isFound = false;
                 if (tlist != null) {
@@ -106,7 +110,8 @@ namespace DMOLibrary.Profiles.Joymax {
                     OnCompleted(DMODownloadResultCode.NOT_FOUND, guild);//wrong web page
                     return guild;
                 }
-            } catch (WebException) {
+            } catch (Exception e) {
+                LOGGER.Error("An error occured while guild info receiving", e);
                 OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
                 return guild;
             }
@@ -119,7 +124,11 @@ namespace DMOLibrary.Profiles.Joymax {
             string html = DownloadContent(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
             doc.LoadHtml(html);
 
-            HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
+            HtmlNodeCollection collection = doc.DocumentNode.SelectNodes(STR_RANKING_NODE);
+            if (collection == null) {
+                throw new Exception("GetGuildInfo -> Unable to find ranking node on the page");
+            }
+            HtmlNode ranking = collection[0];
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
             using (MainContext context = new MainContext()) {
                 for (int i = 0; i < tlist.Count; i++) {

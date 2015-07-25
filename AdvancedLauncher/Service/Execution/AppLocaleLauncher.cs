@@ -38,7 +38,6 @@ namespace AdvancedLauncher.Service.Execution {
 
         public static bool IsInstalled {
             get {
-                return false;
                 string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
                 return File.Exists(appLocalePath);
             }

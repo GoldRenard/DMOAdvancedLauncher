@@ -288,14 +288,13 @@
                                                IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.KBLCServiceEnabled, Mode=TwoWay}" />
 
                         <Grid>
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="105" />
                             </Grid.ColumnDefinitions>
                             <TextBlock 
                                 Text="Fix game locale" 
-                                FontFamily="{DynamicResource ToggleSwitchFontFamily}"
+                                FontFamily="Segoe UI Semibold, Segoe UI, Lucida Sans Unicode, Verdana"
                                 FontSize="12" 
                                 VerticalAlignment="Center" />
                             <ComboBox Grid.Column="1" x:Name="ComboBoxLauncher" Margin="0,5" Height="30"

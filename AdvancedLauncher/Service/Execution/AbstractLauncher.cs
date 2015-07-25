@@ -100,16 +100,5 @@ namespace AdvancedLauncher.Service.Execution {
             }
             return true;
         }
-
-        public override bool Equals(object obj) {
-            if (!obj.GetType().IsSubclassOf(typeof(AbstractLauncher))) {
-                return false;
-            }
-            AbstractLauncher another = obj as AbstractLauncher;
-            if (another.Mnemonic.Equals(Mnemonic)) {
-                return true;
-            }
-            return base.Equals(obj);
-        }
     }
 }

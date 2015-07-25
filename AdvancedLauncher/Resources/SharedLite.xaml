@@ -28,7 +28,6 @@
                     xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro">
     <PFControls:BooleanToVisibilityConverter x:Key="BoolToHiddenConverter" />
     <ADControls:BooleanToVisibilityConverter x:Key="NotBoolToHiddenConverter" True="Collapsed" False="Visible" />
-    <ADControls:BooleanInverseConverter x:Key="BooleanInverseConverter" />
 
     <!-- CUSTOM CONTROLS-->
 

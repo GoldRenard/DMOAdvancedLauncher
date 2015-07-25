@@ -709,17 +709,6 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        private string _Settings_AppLocale = "Run through Microsoft AppLocale";
-
-        public string Settings_AppLocale {
-            set {
-                _Settings_AppLocale = value; NotifyPropertyChanged("Settings_AppLocale");
-            }
-            get {
-                return _Settings_AppLocale;
-            }
-        }
-
         private string _Settings_AppLocale_Help = "Why inactive?";
 
         public string Settings_AppLocale_Help {

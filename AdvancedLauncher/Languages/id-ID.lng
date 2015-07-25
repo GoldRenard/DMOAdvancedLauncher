@@ -62,7 +62,6 @@
   <Settings_GamePath>Path ke permainan</Settings_GamePath>
   <Settings_LauncherPath>Path ke launcher default</Settings_LauncherPath>
   <Settings_UpdateEngine>Integrated Update Engine</Settings_UpdateEngine>
-  <Settings_AppLocale>Jalankan melalui Microsoft AppLocale</Settings_AppLocale>
   <Settings_AppLocale_Help>Mengapa tidak aktif?</Settings_AppLocale_Help>
   <Settings_KBLCService>Perbaiki perubahan tata letak keyboard</Settings_KBLCService>
   <Settings_Account_User>Nama Pengguna</Settings_Account_User>

@@ -22,10 +22,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:core="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:AdvancedLauncher"
+                    xmlns:ADControls="clr-namespace:AdvancedLauncher.Controls"
                     xmlns:PFControls="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro">
     <PFControls:BooleanToVisibilityConverter x:Key="BoolToHiddenConverter" />
+    <ADControls:BooleanToVisibilityConverter x:Key="NotBoolToHiddenConverter" True="Collapsed" False="Visible" />
+    <ADControls:BooleanInverseConverter x:Key="BooleanInverseConverter" />
 
     <!-- CUSTOM CONTROLS-->
 

@@ -62,7 +62,6 @@
   <Settings_GamePath>Pfad zum Spielverzeichnis</Settings_GamePath>
   <Settings_LauncherPath>Pfad zum DMO Launcher</Settings_LauncherPath>
   <Settings_UpdateEngine>Integrierte Update Funktion</Settings_UpdateEngine>
-  <Settings_AppLocale>Durch "Microsoft AppLocale" starten</Settings_AppLocale>
   <Settings_AppLocale_Help>Warum nicht aktiv?</Settings_AppLocale_Help>
   <Settings_KBLCService>Fix Tastaturlayout Wechsel</Settings_KBLCService>
   <Settings_Account_User>Benutzername</Settings_Account_User>

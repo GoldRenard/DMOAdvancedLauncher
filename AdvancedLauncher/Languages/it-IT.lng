@@ -62,7 +62,6 @@
   <Settings_GamePath>Percorso del gioco</Settings_GamePath>
   <Settings_LauncherPath>Percorso del launcher predefinito</Settings_LauncherPath>
   <Settings_UpdateEngine>Motore degli aggiornamenti integrato</Settings_UpdateEngine>
-  <Settings_AppLocale>Avvia tramite Microsoft AppLocale</Settings_AppLocale>
   <Settings_AppLocale_Help>Perchè inattivo?</Settings_AppLocale_Help>
   <Settings_KBLCService>Correggi la configurazione della tastiera</Settings_KBLCService>
   <Settings_Account_User>Nome utente</Settings_Account_User>

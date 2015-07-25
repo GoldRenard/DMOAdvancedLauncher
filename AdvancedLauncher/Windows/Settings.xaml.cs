@@ -21,11 +21,13 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Service;
+using AdvancedLauncher.Service.Execution;
 
 namespace AdvancedLauncher.Windows {
 
@@ -49,8 +51,10 @@ namespace AdvancedLauncher.Windows {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+                ComboBoxLauncher.ItemsSource = LauncherFactory.Instance;
                 //Copying settings object and set it as DataContext
                 ProfileList.DataContext = settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings);
+
                 //Search and set current profile
                 foreach (Profile p in settingsContainer.Profiles) {
                     if (p.Id == LauncherEnv.Settings.CurrentProfile.Id) {
@@ -169,40 +173,40 @@ namespace AdvancedLauncher.Windows {
         #region AppLocale Section
 
         public bool IsALSupported {
-            set {
-            }
             get {
-                return Service.ApplicationLauncher.IsALSupported;
+                return LauncherFactory.findByType<AppLocaleLauncher>(typeof(AppLocaleLauncher)).IsSupported;
             }
         }
 
         public bool IsALNotSupported {
-            set {
-            }
             get {
-                return !Service.ApplicationLauncher.IsALSupported;
+                return !IsALSupported;
             }
         }
 
         private async void OnAppLocaleHelpClick(object sender, RoutedEventArgs e) {
-            if (Service.ApplicationLauncher.IsALSupported) {
+            ComboBoxItem item = FindAncestorOrSelf<ComboBoxItem>((sender as Hyperlink).Parent);
+            AppLocaleLauncher launcher = item.Content as AppLocaleLauncher;
+
+            if (launcher == null || IsALSupported) {
                 return;
             }
+            
             string message = LanguageEnv.Strings.AppLocale_FailReasons + System.Environment.NewLine;
-            if (!Service.ApplicationLauncher.IsALInstalled) {
+            if (!AppLocaleLauncher.IsInstalled) {
                 message += System.Environment.NewLine + LanguageEnv.Strings.AppLocale_NotInstalled;
             }
 
-            if (!Service.ApplicationLauncher.IsKoreanSupported) {
+            if (!AppLocaleLauncher.IsKoreanSupported) {
                 message += System.Environment.NewLine + LanguageEnv.Strings.AppLocale_EALNotInstalled;
             }
             message += System.Environment.NewLine + System.Environment.NewLine + LanguageEnv.Strings.AppLocale_FixQuestion;
 
             if (await Utils.ShowYesNoDialog(LanguageEnv.Strings.AppLocale_Error, message)) {
-                if (!Service.ApplicationLauncher.IsALInstalled) {
+                if (!AppLocaleLauncher.IsInstalled) {
                     System.Diagnostics.Process.Start(LINK_MS_APPLOCALE);
                 }
-                if (!Service.ApplicationLauncher.IsKoreanSupported) {
+                if (!AppLocaleLauncher.IsKoreanSupported) {
                     if (CultureInfo.CurrentCulture.Name == "ru-RU") {
                         System.Diagnostics.Process.Start(LINK_EAL_INSTALLING_RUS);
                     } else {
@@ -259,6 +263,13 @@ namespace AdvancedLauncher.Windows {
                 return;
             }
             SelectedProfile.Login.SecurePassword = pbPass.SecurePassword;
+        }
+
+        private void Run_Loaded(object sender, RoutedEventArgs e) {
+            Run run = sender as Run;
+            LanguageEnv.LanguageChanged += (s, e2) => {
+                run.Text = LanguageEnv.Strings.Settings_AppLocale_Help;
+            };
         }
     }
 }

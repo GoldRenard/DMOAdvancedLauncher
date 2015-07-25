@@ -19,6 +19,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using AdvancedLauncher.Environment;
 
 namespace AdvancedLauncher.Windows {
@@ -49,6 +50,16 @@ namespace AdvancedLauncher.Windows {
 
         protected virtual void OnCloseClick(object sender, RoutedEventArgs e) {
             Close();
+        }
+
+        public static T FindAncestorOrSelf<T>(DependencyObject obj) where T : DependencyObject {
+            while (obj != null) {
+                T objTest = obj as T;
+                if (objTest != null)
+                    return objTest;
+                obj = VisualTreeHelper.GetParent(obj);
+            }
+            return null;
         }
     }
 }

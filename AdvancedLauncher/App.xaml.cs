@@ -22,6 +22,9 @@ using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
 using log4net.Config;
+using System.Windows.Controls;
+using System.Windows.Media;
+using AdvancedLauncher.Controls;
 
 #if DEBUG
 

@@ -62,7 +62,6 @@
   <Settings_GamePath>Path to game</Settings_GamePath>
   <Settings_LauncherPath>Path to default launcher</Settings_LauncherPath>
   <Settings_UpdateEngine>Integrated Update Engine</Settings_UpdateEngine>
-  <Settings_AppLocale>Run through Microsoft AppLocale</Settings_AppLocale>
   <Settings_AppLocale_Help>Why inactive?</Settings_AppLocale_Help>
   <Settings_KBLCService>Fix keyboard layout changing</Settings_KBLCService>
   <Settings_Account_User>Username</Settings_Account_User>

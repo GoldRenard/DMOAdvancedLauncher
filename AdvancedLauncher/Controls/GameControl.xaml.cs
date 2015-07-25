@@ -28,6 +28,7 @@ using System.Windows.Shell;
 using AdvancedLauncher.Controls.Dialogs;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
+using AdvancedLauncher.Service.Execution;
 using AdvancedLauncher.Windows;
 using DMOLibrary;
 using DMOLibrary.DMOFileSystem;
@@ -412,8 +413,24 @@ namespace AdvancedLauncher.Controls {
 
         private void StartGame(string args) {
             StartButton.IsEnabled = false;
-            if (ApplicationLauncher.StartGame(args, UpdateRequired)) {
+
+            //Применить все ссылки
+            LauncherEnv.Settings.CurrentProfile.GameEnv.SetRegistryPaths();
+
+            ILauncher launcher = LauncherFactory.findByMnemonic(LauncherEnv.Settings.CurrentProfile.LaunchMode);
+            bool executed = false;
+            if (launcher == null) {
+                executed = launcher.Execute(
+                UpdateRequired ? LauncherEnv.Settings.CurrentProfile.GameEnv.GetDefLauncherEXE() : LauncherEnv.Settings.CurrentProfile.GameEnv.GetGameEXE(),
+                UpdateRequired ? LauncherEnv.Settings.CurrentProfile.DMOProfile.GetLauncherStartArgs(args) : LauncherEnv.Settings.CurrentProfile.DMOProfile.GetGameStartArgs(args));
+            }
+
+            if (executed) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
+                if (LauncherEnv.Settings.CurrentProfile.KBLCServiceEnabled) {
+                    launcher = LauncherFactory.findByType<DirectLauncher>(typeof(DirectLauncher));
+                    launcher.Execute(LauncherEnv.GetKBLCFile(), "-attach -notray");
+                }
                 TaskManager.CloseApp();
             } else {
                 LauncherEnv.Settings.OnProfileLocked(false);

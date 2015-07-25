@@ -62,7 +62,6 @@
   <Settings_GamePath>Путь к игре</Settings_GamePath>
   <Settings_LauncherPath>Путь к стандартному лаунчеру</Settings_LauncherPath>
   <Settings_UpdateEngine>Интегрированная система обновления</Settings_UpdateEngine>
-  <Settings_AppLocale>Запускать через Microsoft AppLocale</Settings_AppLocale>
   <Settings_KBLCService>Исправить переключение раскладки</Settings_KBLCService>
   <Settings_AppLocale_Help>Почему неактивно?</Settings_AppLocale_Help>
   <Settings_Account_User>Имя пользователя</Settings_Account_User>

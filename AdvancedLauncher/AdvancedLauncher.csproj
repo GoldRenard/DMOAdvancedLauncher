@@ -107,6 +107,8 @@
     <Compile Include="Controls\AbstractItemViewModel.cs" />
     <Compile Include="Controls\AutoScrollBehavior.cs" />
     <Compile Include="Controls\BindingProxy.cs" />
+    <Compile Include="Controls\BooleanInverseConverter.cs" />
+    <Compile Include="Controls\BooleanToVisibilityConverter.cs" />
     <Compile Include="Controls\DigiRotation\HaguruLoader.xaml.cs">
       <DependentUpon>HaguruLoader.xaml</DependentUpon>
     </Compile>
@@ -114,6 +116,7 @@
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\LoginManager.cs" />
+    <Compile Include="Controls\EnabledTextBlock.cs" />
     <Compile Include="Controls\LogoControl.xaml.cs">
       <DependentUpon>LogoControl.xaml</DependentUpon>
     </Compile>
@@ -182,14 +185,21 @@
     <Compile Include="Pages\Personalization.xaml.cs">
       <DependentUpon>Personalization.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Service\ApplicationLauncher.cs" />
+    <Compile Include="Service\Execution\AbstractLauncher.cs" />
     <Compile Include="Service\DispatcherHelper.cs" />
+    <Compile Include="Service\Execution\LauncherFactory.cs" />
+    <Compile Include="Service\Execution\NTLeaLauncher.cs" />
+    <Compile Include="Service\Execution\AppLocaleLauncher.cs" />
+    <Compile Include="Service\Execution\DirectLauncher.cs" />
+    <Compile Include="Service\Execution\SteamSensitiveLauncher.cs" />
     <Compile Include="Service\FingerPrint.cs" />
-    <Compile Include="Service\InstanceChecker.cs" />
+    <Compile Include="Service\Execution\InstanceChecker.cs" />
     <Compile Include="Environment\LauncherEnv.cs" />
     <Compile Include="Service\JpegEncoder.cs" />
+    <Compile Include="Service\Execution\ILauncher.cs" />
     <Compile Include="Service\NativeMethods.cs" />
-    <Compile Include="Service\ParentProcessUtilities.cs" />
+    <Compile Include="Service\Execution\ParentProcessUtilities.cs" />
+    <Compile Include="Controls\BooleanConverter.cs" />
     <Compile Include="Service\PassEncrypt.cs" />
     <Compile Include="Service\RemoveChildHelper.cs" />
     <Compile Include="Service\TargaImage.cs" />
@@ -372,6 +382,8 @@
     <None Include="Languages\uk-UA.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="NTLea\COPYING.mhook" />
+    <None Include="NTLea\COPYING.minhook" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -1035,13 +1047,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="NTLea\ntleah.dll" />
+    <Content Include="NTLea\ntleai.dll" />
+    <Content Include="NTLea\ntleaj.dll" />
+    <Content Include="NTLea\ntleak.dll" />
+    <Content Include="NTLea\ntleas.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
-    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"
+    xcopy /s /y "$(ProjectDir)\NTLea\*.*" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

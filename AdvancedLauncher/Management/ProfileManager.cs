@@ -76,15 +76,16 @@ namespace AdvancedLauncher.Management {
             if (DefaultProfile == null) {
                 DefaultProfile = Profiles.First();
             }
-            if (CurrentProfile != null) {
-                CurrentProfile = Profiles.FirstOrDefault(i => i.Id == CurrentProfile.Id);
+            if (_CurrentProfile != null) {
+                _CurrentProfile = Profiles.FirstOrDefault(i => i.Id == _CurrentProfile.Id);
             }
-            if (CurrentProfile == null) {
-                CurrentProfile = DefaultProfile;
+            if (_CurrentProfile == null) {
+                _CurrentProfile = DefaultProfile;
             }
-            if (CurrentProfile == null) {
-                CurrentProfile = Profiles.First();
+            if (_CurrentProfile == null) {
+                _CurrentProfile = Profiles.First();
             }
+            OnCurrentChanged();
             OnCollectionChanged();
         }
 
@@ -99,15 +100,16 @@ namespace AdvancedLauncher.Management {
             if (DefaultProfile == null) {
                 DefaultProfile = Profiles.First();
             }
-            if (CurrentProfile != null) {
-                CurrentProfile = Profiles.FirstOrDefault(i => i.Id == CurrentProfile.Id);
+            if (_CurrentProfile != null) {
+                _CurrentProfile = Profiles.FirstOrDefault(i => i.Id == _CurrentProfile.Id);
             }
-            if (CurrentProfile == null) {
-                CurrentProfile = DefaultProfile;
+            if (_CurrentProfile == null) {
+                _CurrentProfile = DefaultProfile;
             }
-            if (CurrentProfile == null) {
-                CurrentProfile = Profiles.First();
+            if (_CurrentProfile == null) {
+                _CurrentProfile = Profiles.First();
             }
+            OnCurrentChanged();
             OnCollectionChanged();
         }
 

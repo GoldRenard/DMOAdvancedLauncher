@@ -30,6 +30,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Model;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Tools;
 using DMOLibrary;

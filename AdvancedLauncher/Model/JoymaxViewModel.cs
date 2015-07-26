@@ -17,26 +17,50 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
-    public abstract class AbstractItemViewModel<T> : INotifyPropertyChanged {
+    public class JoymaxViewModel : INotifyPropertyChanged {
 
-        protected virtual void LanguageChanged() {
-            // nothing to do here
+        public JoymaxViewModel() {
+            this.Items = new ObservableCollection<JoymaxItemViewModel>();
         }
 
-        public AbstractItemViewModel() {
-            LanguageManager.LanguageChanged += (s, e) => {
-                LanguageChanged();
-            };
+        public ObservableCollection<JoymaxItemViewModel> Items {
+            get;
+            private set;
+        }
+
+        public bool IsDataLoaded {
+            get;
+            private set;
+        }
+
+        public void LoadData(List<JoymaxItemViewModel> List) {
+            this.IsDataLoaded = true;
+            foreach (JoymaxItemViewModel item in List) {
+                this.Items.Add(new JoymaxItemViewModel {
+                    Title = item.Title,
+                    Content = item.Content,
+                    Link = item.Link,
+                    TypeName = item.TypeName,
+                    Date = item.Date,
+                    ImgVB = item.ImgVB
+                });
+            }
+        }
+
+        public void UnLoadData() {
+            this.IsDataLoaded = false;
+            this.Items.Clear();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(String propertyName) {
+        private void NotifyPropertyChanged(String propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));

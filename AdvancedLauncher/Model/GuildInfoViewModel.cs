@@ -21,10 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AdvancedLauncher.Management;
-using AdvancedLauncher.Model;
 using DMOLibrary.Database.Entity;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
     public class GuildInfoViewModel : AbstractContainerViewModel<Guild, GuildInfoItemViewModel> {
         private static object NO_DATA_CHAR = "-";

@@ -19,7 +19,7 @@
 using System.Windows.Media;
 using DMOLibrary.Database.Entity;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
     public class TamerItemViewModel : AbstractItemViewModel<Tamer> {
         private string _TName;

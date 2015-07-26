@@ -20,10 +20,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Threading;
+using AdvancedLauncher.Tools;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
     public class DigimonViewModel : AbstractContainerViewModel<Tamer, DigimonItemViewModel> {
         private static string SIZE_FORMAT = "{0}cm ({1}%)";

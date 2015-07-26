@@ -16,31 +16,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Generic;
-using System.Windows.Threading;
-using DMOLibrary.Database.Entity;
+using System;
+using System.ComponentModel;
+using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
-    public class TamerViewModel : AbstractContainerViewModel<Tamer, TamerItemViewModel> {
+    public abstract class AbstractItemViewModel<T> : INotifyPropertyChanged {
 
-        public TamerViewModel(Dispatcher OwnerDispatcher)
-            : base(OwnerDispatcher) {
+        protected virtual void LanguageChanged() {
+            // nothing to do here
         }
 
-        public override void LoadData(ICollection<Tamer> List) {
-            this.IsDataLoaded = true;
-            foreach (Tamer item in List) {
-                this.Items.Add(new TamerItemViewModel {
-                    TName = item.Name,
-                    TType = item.Type != null ? item.Type.Name : "N/A",
-                    Level = item.Level,
-                    PName = item.Partner.Name,
-                    Rank = item.Rank,
-                    DCnt = item.Digimons.Count,
-                    Tamer = item,
-                    Image = IconHolder.GetImage(item.Type.Code, false)
-                });
+        public AbstractItemViewModel() {
+            LanguageManager.LanguageChanged += (s, e) => {
+                LanguageChanged();
+            };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(String propertyName) {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler) {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

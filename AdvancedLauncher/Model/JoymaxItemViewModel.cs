@@ -20,7 +20,7 @@ using System.Windows;
 using AdvancedLauncher.Management;
 using DMOLibrary.Profiles;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
     public class JoymaxItemViewModel : AbstractItemViewModel<DMONewsProfile.NewsItem> {
 

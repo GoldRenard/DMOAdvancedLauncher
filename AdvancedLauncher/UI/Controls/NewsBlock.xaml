@@ -85,7 +85,7 @@
                              ScrollViewer.CanContentScroll="False"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              Opacity="0"
-                             d:DataContext="{d:DesignData TwitterViewModelSampleData.xaml}"
+                             d:DataContext="{d:DesignData /Model/TwitterViewModelSampleData.xaml}"
                              ItemContainerStyle="{DynamicResource MetroListBoxItem}"
                              ItemsSource="{Binding Items}">
                         <ListBox.ItemTemplate>
@@ -119,7 +119,7 @@
                              ScrollViewer.VerticalScrollBarVisibility="Visible"
                              Opacity="0"
                              ItemContainerStyle="{DynamicResource MetroListBoxItem}"
-                             d:DataContext="{d:DesignData JoymaxViewModelSampleData.xaml}"
+                             d:DataContext="{d:DesignData /Model/JoymaxViewModelSampleData.xaml}"
                              ItemsSource="{Binding Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -158,7 +158,7 @@
                                     </StackPanel.Resources>
                                     <Grid Height="25" x:Name="JoyMax_New_Header" Margin="-5,5,0,0">
                                         <Grid.Background>
-                                            <ImageBrush ImageSource="images\bbs_mode.png" Viewbox="{Binding ImgVB}" Viewport="0,0,90,18" ViewboxUnits="Absolute" ViewportUnits="Absolute" Stretch="None" TileMode="None" />
+                                            <ImageBrush ImageSource="/AdvancedLauncher;component/Resources/bbs_mode.png" Viewbox="{Binding ImgVB}" Viewport="0,0,90,18" ViewboxUnits="Absolute" ViewportUnits="Absolute" Stretch="None" TileMode="None" />
                                         </Grid.Background>
                                         <Grid>
                                             <Grid.ColumnDefinitions>

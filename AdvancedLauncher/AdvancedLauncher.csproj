@@ -103,18 +103,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UI\Controls\AbstractContainerViewModel.cs" />
-    <Compile Include="UI\Controls\AbstractItemViewModel.cs" />
+    <Compile Include="Model\AbstractContainerViewModel.cs" />
+    <Compile Include="Model\AbstractItemViewModel.cs" />
     <Compile Include="UI\Extension\AutoScrollBehavior.cs" />
     <Compile Include="Management\GameManager.cs" />
     <Compile Include="Management\LanguageManager.cs" />
     <Compile Include="Management\ProfileManager.cs" />
     <Compile Include="UI\Extension\BindingProxy.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="UI\Controls\DigiRotation\HaguruLoader.xaml.cs">
+    <Compile Include="UI\Controls\HaguruLoader.xaml.cs">
       <DependentUpon>HaguruLoader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\DigiRotation\RotationElement.xaml.cs">
+    <Compile Include="UI\Controls\RotationElement.xaml.cs">
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Management\LoginManager.cs" />
@@ -130,13 +130,13 @@
       <DependentUpon>SettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Commands\SimpleCommand.cs" />
-    <Compile Include="UI\Controls\TDBlock\GuildInfoItemViewModel.cs" />
-    <Compile Include="UI\Controls\TDBlock\IconHolder.cs" />
-    <Compile Include="UI\Controls\TDBlock\TDBlock.xaml.cs">
+    <Compile Include="Model\GuildInfoItemViewModel.cs" />
+    <Compile Include="Tools\IconHolder.cs" />
+    <Compile Include="UI\Controls\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\TDBlock\DigimonItemViewModel.cs" />
-    <Compile Include="UI\Controls\DigiRotation\DigiRotation.xaml.cs">
+    <Compile Include="Model\DigimonItemViewModel.cs" />
+    <Compile Include="UI\Controls\DigiRotation.xaml.cs">
       <DependentUpon>DigiRotation.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\Footer.xaml.cs">
@@ -145,17 +145,17 @@
     <Compile Include="UI\Controls\GameControl.xaml.cs">
       <DependentUpon>GameControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\NewsBlock\NewsBlock.xaml.cs">
+    <Compile Include="UI\Controls\NewsBlock.xaml.cs">
       <DependentUpon>NewsBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\NewsBlock\JoymaxViewModel.cs" />
-    <Compile Include="UI\Controls\NewsBlock\JoymaxItemViewModel.cs" />
-    <Compile Include="UI\Controls\NewsBlock\TwitterItemViewModel.cs" />
-    <Compile Include="UI\Controls\NewsBlock\TwitterViewModel.cs" />
-    <Compile Include="UI\Controls\TDBlock\DigimonViewModel.cs" />
-    <Compile Include="UI\Controls\TDBlock\TamerItemViewModel.cs" />
-    <Compile Include="UI\Controls\TDBlock\TamerViewModel.cs" />
-    <Compile Include="UI\Controls\TDBlock\GuildInfoViewModel.cs" />
+    <Compile Include="Model\JoymaxViewModel.cs" />
+    <Compile Include="Model\JoymaxItemViewModel.cs" />
+    <Compile Include="Model\TwitterItemViewModel.cs" />
+    <Compile Include="Model\TwitterViewModel.cs" />
+    <Compile Include="Model\DigimonViewModel.cs" />
+    <Compile Include="Model\TamerItemViewModel.cs" />
+    <Compile Include="Model\TamerViewModel.cs" />
+    <Compile Include="Model\GuildInfoViewModel.cs" />
     <Compile Include="Management\Commands\CommandHandler.cs" />
     <Compile Include="Management\Commands\Command.cs" />
     <Compile Include="Management\Commands\HelpCommand.cs" />
@@ -234,19 +234,19 @@
     <Compile Include="UI\Windows\Splashscreen.xaml.cs">
       <DependentUpon>Splashscreen.xaml</DependentUpon>
     </Compile>
-    <Page Include="UI\Controls\DigiRotation\DigiRotation.xaml">
+    <Page Include="UI\Controls\DigiRotation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controls\DigiRotation\HaguruLoader.xaml">
+    <Page Include="UI\Controls\HaguruLoader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controls\DigiRotation\RotationElement.xaml">
+    <Page Include="UI\Controls\RotationElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="UI\Controls\DigiRotation\RotationElementSampleData.xaml">
+    <DesignData Include="UI\Controls\RotationElementSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
@@ -258,7 +258,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="UI\Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
+    <DesignData Include="Model\JoymaxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
@@ -270,11 +270,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controls\NewsBlock\NewsBlock.xaml">
+    <Page Include="UI\Controls\NewsBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="UI\Controls\NewsBlock\TwitterViewModelSampleData.xaml">
+    <DesignData Include="Model\TwitterViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
@@ -282,7 +282,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controls\TDBlock\TDBlock.xaml">
+    <Page Include="UI\Controls\TDBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -906,7 +906,7 @@
     <Resource Include="Resources\copy_icons.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\Controls\NewsBlock\Images\bbs_mode.png" />
+    <Resource Include="Resources\bbs_mode.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Languages\Template_for_translation.txt">

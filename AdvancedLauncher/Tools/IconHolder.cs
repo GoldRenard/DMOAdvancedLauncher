@@ -21,7 +21,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Tools {
 
     public static class IconHolder {
         private const string COMMUNITY_DIR = "Community";

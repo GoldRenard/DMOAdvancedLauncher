@@ -19,7 +19,7 @@
 using AdvancedLauncher.Management;
 using DMOLibrary.Database.Entity;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
     public class GuildInfoItemViewModel : AbstractItemViewModel<Guild> {
 

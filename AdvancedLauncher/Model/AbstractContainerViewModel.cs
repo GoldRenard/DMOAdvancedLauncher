@@ -24,7 +24,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Threading;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
     public abstract class AbstractContainerViewModel<SourceType, ItemViewModel> : INotifyPropertyChanged {
         private readonly Dispatcher OwnerDispatcher;

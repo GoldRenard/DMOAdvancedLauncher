@@ -18,8 +18,9 @@
 
 using System.Windows.Media;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.UI.Controls;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Model {
 
     public class TwitterItemViewModel : AbstractItemViewModel<NewsBlock.UserStatus> {
 

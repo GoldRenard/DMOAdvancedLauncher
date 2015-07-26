@@ -109,7 +109,7 @@ namespace AdvancedLauncher.Controls {
         #region Update Section
 
         private async void CheckWorker_DoWork(object sender, DoWorkEventArgs e) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 //Добавляем задачу обновления
                 TaskManager.Tasks.Add(UpdateTask);
                 LauncherEnv.Settings.OnProfileLocked(true);
@@ -129,7 +129,7 @@ namespace AdvancedLauncher.Controls {
 
             //Проверяем наличие обновления Pack01 файлами. Возвражающее значение говорит, можно ли проходить далее по алгоритму
             if (!await ImportPackage()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                     RemoveTask();
                     LauncherEnv.Settings.OnProfileLocked(false);
                     LauncherEnv.Settings.OnFileSystemLocked(false);
@@ -185,7 +185,7 @@ namespace AdvancedLauncher.Controls {
                         GameFS.WriteStatusChanged -= OnWriteStatusChanged;
                         //Если сфейлилось, отправляем соответствующий ивент и сообщение
                         if (!IsSuccess) {
-                            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+                            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                                 Utils.ShowErrorDialog(LanguageEnv.Strings.GameFilesInUse);
                             }));
                         }
@@ -335,7 +335,7 @@ namespace AdvancedLauncher.Controls {
                     GameFS.WriteStatusChanged -= OnWriteStatusChanged;
                     //Если сфейлилось, отправляем соответствующее сообщение
                     if (!IsSuccess) {
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                             Utils.ShowErrorDialog(LanguageEnv.Strings.GameFilesInUse);
                         }));
                     }
@@ -417,13 +417,10 @@ namespace AdvancedLauncher.Controls {
             //Применить все ссылки
             LauncherEnv.Settings.CurrentProfile.GameEnv.SetRegistryPaths();
 
-            ILauncher launcher = LauncherFactory.findByMnemonic(LauncherEnv.Settings.CurrentProfile.LaunchMode);
-            bool executed = false;
-            if (launcher == null) {
-                executed = launcher.Execute(
+            ILauncher launcher = LauncherFactory.CurrentLauncher;
+            bool executed = launcher.Execute(
                 UpdateRequired ? LauncherEnv.Settings.CurrentProfile.GameEnv.GetDefLauncherEXE() : LauncherEnv.Settings.CurrentProfile.GameEnv.GetGameEXE(),
                 UpdateRequired ? LauncherEnv.Settings.CurrentProfile.DMOProfile.GetLauncherStartArgs(args) : LauncherEnv.Settings.CurrentProfile.DMOProfile.GetGameStartArgs(args));
-            }
 
             if (executed) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
@@ -453,14 +450,16 @@ namespace AdvancedLauncher.Controls {
 
             //Получаем результат логина
             switch (e.Code) {
-                case LoginCode.SUCCESS: {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
+                case LoginCode.SUCCESS:
+                    {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
                         LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs = e.Arguments;
                         LauncherEnv.Save();
                         StartGame(e.Arguments);
                         break;
                     }
                 case LoginCode.WRONG_PAGE:       //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
-                case LoginCode.UNKNOWN_URL: {    //И возвращаем в форму ввода
+                case LoginCode.UNKNOWN_URL:
+                    {    //И возвращаем в форму ввода
                         Utils.ShowMessageDialog(LanguageEnv.Strings.LoginLogIn,
                                     LanguageEnv.Strings.LoginWrongPage + string.Format(" [{0}]", e.Code));
                         break;
@@ -475,7 +474,7 @@ namespace AdvancedLauncher.Controls {
         #region Start Button
 
         private void SetStartEnabled(bool IsEnabled) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 //Убираем задачу обновления
                 RemoveTask();
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
@@ -496,7 +495,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void SetUpdateEnabled(bool IsEnabled) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 //Убираем задачу обновления
                 RemoveTask();
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
@@ -532,7 +531,7 @@ namespace AdvancedLauncher.Controls {
         #region ProgressBar
 
         private void ShowProgressBar() {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 WrapElement.Content = UpdateBlock;
                 UpdateText.Text = string.Empty;
                 UpdateMainProgressBar(0, 100);
@@ -587,15 +586,18 @@ namespace AdvancedLauncher.Controls {
         private void UpdateInfoText(int code, object arg1, object arg2, object arg3, object arg4) {
             string text = string.Empty;
             switch (code) {
-                case 0: {  //downloading
+                case 0:
+                    {  //downloading
                         text = string.Format(LanguageEnv.Strings.UpdateDownloading, arg1, arg2, arg3, arg4);
                         break;
                     }
-                case 1: {  //extracting
+                case 1:
+                    {  //extracting
                         text = string.Format(LanguageEnv.Strings.UpdateExtracting, arg1, arg2, arg3, arg4);
                         break;
                     }
-                case 2: {  //installing
+                case 2:
+                    {  //installing
                         text = string.Format(LanguageEnv.Strings.UpdateInstalling, arg1, arg2);
                         break;
                     }

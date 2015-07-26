@@ -185,13 +185,12 @@ namespace AdvancedLauncher.Windows {
         }
 
         private async void OnAppLocaleHelpClick(object sender, RoutedEventArgs e) {
-            ComboBoxItem item = FindAncestorOrSelf<ComboBoxItem>((sender as Hyperlink).Parent);
+            ComboBoxItem item = (sender as Hyperlink).Parent.FindAncestor<ComboBoxItem>();
             AppLocaleLauncher launcher = item.Content as AppLocaleLauncher;
-
             if (launcher == null || IsALSupported) {
                 return;
             }
-            
+
             string message = LanguageEnv.Strings.AppLocale_FailReasons + System.Environment.NewLine;
             if (!AppLocaleLauncher.IsInstalled) {
                 message += System.Environment.NewLine + LanguageEnv.Strings.AppLocale_NotInstalled;

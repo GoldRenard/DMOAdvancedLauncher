@@ -200,7 +200,7 @@
     <Compile Include="Service\Execution\ParentProcessUtilities.cs" />
     <Compile Include="Controls\BooleanConverter.cs" />
     <Compile Include="Service\PassEncrypt.cs" />
-    <Compile Include="Service\RemoveChildHelper.cs" />
+    <Compile Include="Service\DependencyObjectExt.cs" />
     <Compile Include="Service\TargaImage.cs" />
     <Compile Include="Service\TaskManager.cs" />
     <Compile Include="Service\UpdateChecker.cs" />

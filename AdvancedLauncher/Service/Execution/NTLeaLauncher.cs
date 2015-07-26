@@ -17,7 +17,6 @@
 // ======================================================================
 
 using System;
-using System.Globalization;
 using System.IO;
 using AdvancedLauncher.Environment;
 
@@ -55,9 +54,9 @@ namespace AdvancedLauncher.Service.Execution {
         public override bool ExecuteInternal(string application, string arguments) {
             string newArguments = String.Format("\"{0}\" C949 L1042", application);
             if (!string.IsNullOrEmpty(arguments)) {
-                newArguments += String.Format("\"A{0}\"", arguments);
+                newArguments += String.Format(" \"A{0}\"", arguments);
             }
-            return StartProcess(LauncherEnv.GetNTLEAFile(), arguments);
+            return StartProcess(LauncherEnv.GetNTLEAFile(), newArguments);
         }
     }
 }

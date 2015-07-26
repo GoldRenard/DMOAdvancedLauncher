@@ -34,7 +34,7 @@ namespace AdvancedLauncher.Service.Execution {
                 return "-";
             }
         }
-        
+
         /// <summary>
         /// Is current launcher supported in the envronment
         /// </summary>

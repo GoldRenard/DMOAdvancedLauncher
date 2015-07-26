@@ -88,8 +88,10 @@ namespace AdvancedLauncher.Service {
             if (string.IsNullOrEmpty(password))
                 return null;
 
-            unsafe {
-                fixed (char* passwordChars = password) {
+            unsafe
+            {
+                fixed (char* passwordChars = password)
+                {
                     var securePassword = new SecureString(passwordChars, password.Length);
                     securePassword.MakeReadOnly();
                     return securePassword;

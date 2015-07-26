@@ -39,7 +39,8 @@ namespace DMOLibrary.Profiles.Korea {
             LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             switch (e.Url.AbsolutePath) {
                 //loginning
-                case "/help/Login/MemberLogin.aspx": {
+                case "/help/Login/MemberLogin.aspx":
+                    {
                         if (LoginTryNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
@@ -66,13 +67,15 @@ namespace DMOLibrary.Profiles.Korea {
                         break;
                     }
                 //logged
-                case "/index.aspx": {
+                case "/index.aspx":
+                    {
                         OnChanged(LoginState.GETTING_DATA);
                         wb.Navigate("http://www.digimonmasters.com/inc/xml/launcher.aspx");
                         break;
                     }
                 //getting data
-                case "/inc/xml/launcher.aspx": {
+                case "/inc/xml/launcher.aspx":
+                    {
                         TryParseInfo(wb.DocumentText);
                         break;
                     }

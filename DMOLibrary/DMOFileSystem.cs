@@ -412,7 +412,7 @@ namespace DMOLibrary.DMOFileSystem {
 
         private int GetEntryIndex(uint fileId) {
             int entryIndex = -1;
-            entryIndex = ArchiveEntries.FindIndex(delegate(DMOFileEntry bk) {
+            entryIndex = ArchiveEntries.FindIndex(delegate (DMOFileEntry bk) {
                 return bk.Id == fileId;
             });
             return entryIndex;

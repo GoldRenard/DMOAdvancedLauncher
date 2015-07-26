@@ -17,9 +17,9 @@
 // ======================================================================
 
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
@@ -27,7 +27,6 @@ using AdvancedLauncher.Environment.Containers;
 namespace AdvancedLauncher.Service.Execution {
 
     public class LauncherFactory : IEnumerable, IEnumerable<ILauncher> {
-
         public readonly Dictionary<String, ILauncher> CollectionByMnemonic = new Dictionary<string, ILauncher>();
         private readonly Dictionary<Type, ILauncher> CollectionByType = new Dictionary<Type, ILauncher>();
 
@@ -56,7 +55,7 @@ namespace AdvancedLauncher.Service.Execution {
                 }
             }
         }
-        
+
         public static ILauncher CurrentLauncher {
             get {
                 return GetProfileLauncher(LauncherEnv.Settings.CurrentProfile);
@@ -117,10 +116,10 @@ namespace AdvancedLauncher.Service.Execution {
         public static T findByType<T>(Type type) where T : ILauncher {
             ILauncher result = null;
             if (type == null) {
-                return (T) result;
+                return (T)result;
             }
             Instance.CollectionByType.TryGetValue(type, out result);
-            return (T) result;
+            return (T)result;
         }
 
         public IEnumerator GetEnumerator() {

@@ -18,10 +18,11 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace AdvancedLauncher.Service {
 
-    public static class RemoveChildHelper {
+    public static class DependencyObjectExt {
 
         public static void RemoveChild(this DependencyObject parent, UIElement child) {
             var panel = parent as Panel;
@@ -53,6 +54,16 @@ namespace AdvancedLauncher.Service {
                 }
                 return;
             }
+        }
+
+        public static T FindAncestor<T>(this DependencyObject obj) where T : DependencyObject {
+            while (obj != null) {
+                T objTest = obj as T;
+                if (objTest != null)
+                    return objTest;
+                obj = VisualTreeHelper.GetParent(obj);
+            }
+            return null;
         }
     }
 }

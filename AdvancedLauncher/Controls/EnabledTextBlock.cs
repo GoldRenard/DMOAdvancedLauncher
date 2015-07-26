@@ -21,6 +21,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace AdvancedLauncher.Controls {
+
     public class EnabledTextBlock : TextBlock {
 
         static EnabledTextBlock() {

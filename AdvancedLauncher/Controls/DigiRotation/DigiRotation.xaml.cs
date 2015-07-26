@@ -151,15 +151,18 @@ namespace AdvancedLauncher.Controls {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
                     loader.Title = LanguageEnv.Strings.ErrorOccured + " [" + e.Code + "]";
                     switch (e.Code) {
-                        case DMODownloadResultCode.CANT_GET: {
+                        case DMODownloadResultCode.CANT_GET:
+                            {
                                 loader.Summary = LanguageEnv.Strings.CantGetError;
                                 break;
                             }
-                        case DMODownloadResultCode.NOT_FOUND: {
+                        case DMODownloadResultCode.NOT_FOUND:
+                            {
                                 loader.Summary = LanguageEnv.Strings.GuildNotFoundError;
                                 break;
                             }
-                        case DMODownloadResultCode.WEB_ACCESS_ERROR: {
+                        case DMODownloadResultCode.WEB_ACCESS_ERROR:
+                            {
                                 loader.Summary = LanguageEnv.Strings.ConnectionError;
                                 break;
                             }
@@ -296,7 +299,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void IsLoadingAnim(bool state, bool transition = false) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 loader.IsEnabled = state;
                 if (state) {
                     loader.SetBinding(HaguruLoader.TitleProperty, LoadingTitleBinding);

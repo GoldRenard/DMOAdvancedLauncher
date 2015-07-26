@@ -16,21 +16,24 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Windows;
 using System.Windows.Controls;
-using AdvancedLauncher.Management;
+using System.Windows.Media;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Controls {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public class EnabledTextBlock : TextBlock {
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
-            }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
-            }
-            return new ValidationResult(false, null);
+        static EnabledTextBlock() {
+            IsEnabledProperty.OverrideMetadata(typeof(EnabledTextBlock), new UIPropertyMetadata(true, (d, e) => {
+                var childrencount = VisualTreeHelper.GetChildrenCount(d);
+                for (int i = 0; i < childrencount; i++) {
+                    var child = VisualTreeHelper.GetChild(d, i);
+                    child.CoerceValue(IsEnabledProperty);
+                }
+            }, (d, basevalue) => {
+                return basevalue;
+            }));
         }
     }
 }

@@ -16,21 +16,31 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows.Controls;
+using System;
+using System.ComponentModel;
 using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Controls {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public abstract class AbstractItemViewModel<T> : INotifyPropertyChanged {
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
+        protected virtual void LanguageChanged() {
+            // nothing to do here
+        }
+
+        public AbstractItemViewModel() {
+            LanguageManager.LanguageChanged += (s, e) => {
+                LanguageChanged();
+            };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(String propertyName) {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler) {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
-            }
-            return new ValidationResult(false, null);
         }
     }
 }

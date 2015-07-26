@@ -16,21 +16,34 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows.Controls;
-using AdvancedLauncher.Management;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Windows.Data;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Converters {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public class BooleanConverter<T> : IValueConverter {
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
-            }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
-            }
-            return new ValidationResult(false, null);
+        public BooleanConverter(T trueValue, T falseValue) {
+            True = trueValue;
+            False = falseValue;
+        }
+
+        public T True {
+            get; set;
+        }
+
+        public T False {
+            get; set;
+        }
+
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            return value is bool && ((bool)value) ? True : False;
+        }
+
+        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            return value is T && EqualityComparer<T>.Default.Equals((T)value, True);
         }
     }
 }

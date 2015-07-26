@@ -103,59 +103,59 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\AbstractContainerViewModel.cs" />
-    <Compile Include="Controls\AbstractItemViewModel.cs" />
-    <Compile Include="Controls\AutoScrollBehavior.cs" />
+    <Compile Include="UI\Controls\AbstractContainerViewModel.cs" />
+    <Compile Include="UI\Controls\AbstractItemViewModel.cs" />
+    <Compile Include="UI\Extension\AutoScrollBehavior.cs" />
     <Compile Include="Management\GameManager.cs" />
     <Compile Include="Management\LanguageManager.cs" />
     <Compile Include="Management\ProfileManager.cs" />
     <Compile Include="UI\Extension\BindingProxy.cs" />
-    <Compile Include="Controls\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Controls\DigiRotation\HaguruLoader.xaml.cs">
+    <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\Controls\DigiRotation\HaguruLoader.xaml.cs">
       <DependentUpon>HaguruLoader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DigiRotation\RotationElement.xaml.cs">
+    <Compile Include="UI\Controls\DigiRotation\RotationElement.xaml.cs">
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Management\LoginManager.cs" />
-    <Compile Include="Controls\EnabledTextBlock.cs" />
-    <Compile Include="Controls\LogoControl.xaml.cs">
+    <Compile Include="UI\Controls\EnabledTextBlock.cs" />
+    <Compile Include="UI\Controls\LogoControl.xaml.cs">
       <DependentUpon>LogoControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MenuFlyout.xaml.cs">
+    <Compile Include="UI\Controls\MenuFlyout.xaml.cs">
       <DependentUpon>MenuFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ModelCommand.cs" />
-    <Compile Include="Controls\SettingsFlyout.xaml.cs">
+    <Compile Include="UI\Commands\ModelCommand.cs" />
+    <Compile Include="UI\Controls\SettingsFlyout.xaml.cs">
       <DependentUpon>SettingsFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SimpleCommand.cs" />
-    <Compile Include="Controls\TDBlock\GuildInfoItemViewModel.cs" />
-    <Compile Include="Controls\TDBlock\IconHolder.cs" />
-    <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
+    <Compile Include="UI\Commands\SimpleCommand.cs" />
+    <Compile Include="UI\Controls\TDBlock\GuildInfoItemViewModel.cs" />
+    <Compile Include="UI\Controls\TDBlock\IconHolder.cs" />
+    <Compile Include="UI\Controls\TDBlock\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TDBlock\DigimonItemViewModel.cs" />
-    <Compile Include="Controls\DigiRotation\DigiRotation.xaml.cs">
+    <Compile Include="UI\Controls\TDBlock\DigimonItemViewModel.cs" />
+    <Compile Include="UI\Controls\DigiRotation\DigiRotation.xaml.cs">
       <DependentUpon>DigiRotation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Footer.xaml.cs">
+    <Compile Include="UI\Controls\Footer.xaml.cs">
       <DependentUpon>Footer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GameControl.xaml.cs">
+    <Compile Include="UI\Controls\GameControl.xaml.cs">
       <DependentUpon>GameControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NewsBlock\NewsBlock.xaml.cs">
+    <Compile Include="UI\Controls\NewsBlock\NewsBlock.xaml.cs">
       <DependentUpon>NewsBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NewsBlock\JoymaxViewModel.cs" />
-    <Compile Include="Controls\NewsBlock\JoymaxItemViewModel.cs" />
-    <Compile Include="Controls\NewsBlock\TwitterItemViewModel.cs" />
-    <Compile Include="Controls\NewsBlock\TwitterViewModel.cs" />
-    <Compile Include="Controls\TDBlock\DigimonViewModel.cs" />
-    <Compile Include="Controls\TDBlock\TamerItemViewModel.cs" />
-    <Compile Include="Controls\TDBlock\TamerViewModel.cs" />
-    <Compile Include="Controls\TDBlock\GuildInfoViewModel.cs" />
+    <Compile Include="UI\Controls\NewsBlock\JoymaxViewModel.cs" />
+    <Compile Include="UI\Controls\NewsBlock\JoymaxItemViewModel.cs" />
+    <Compile Include="UI\Controls\NewsBlock\TwitterItemViewModel.cs" />
+    <Compile Include="UI\Controls\NewsBlock\TwitterViewModel.cs" />
+    <Compile Include="UI\Controls\TDBlock\DigimonViewModel.cs" />
+    <Compile Include="UI\Controls\TDBlock\TamerItemViewModel.cs" />
+    <Compile Include="UI\Controls\TDBlock\TamerViewModel.cs" />
+    <Compile Include="UI\Controls\TDBlock\GuildInfoViewModel.cs" />
     <Compile Include="Management\Commands\CommandHandler.cs" />
     <Compile Include="Management\Commands\Command.cs" />
     <Compile Include="Management\Commands\HelpCommand.cs" />
@@ -174,17 +174,17 @@
     <Compile Include="Model\LanguageModel.cs" />
     <Compile Include="Management\LockedEventArgs.cs" />
     <Compile Include="Management\LogAppender.cs" />
-    <Compile Include="Pages\AbstractPage.cs" />
-    <Compile Include="Pages\Community.xaml.cs">
+    <Compile Include="UI\Pages\AbstractPage.cs" />
+    <Compile Include="UI\Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Gallery.xaml.cs">
+    <Compile Include="UI\Pages\Gallery.xaml.cs">
       <DependentUpon>Gallery.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MainPage.xaml.cs">
+    <Compile Include="UI\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Personalization.xaml.cs">
+    <Compile Include="UI\Pages\Personalization.xaml.cs">
       <DependentUpon>Personalization.xaml</DependentUpon>
     </Compile>
     <Compile Include="Management\Execution\AbstractLauncher.cs" />
@@ -202,7 +202,7 @@
     <Compile Include="Management\Execution\ILauncher.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Management\Execution\ParentProcessUtilities.cs" />
-    <Compile Include="Controls\BooleanConverter.cs" />
+    <Compile Include="UI\Converters\BooleanConverter.cs" />
     <Compile Include="Management\Security\PassEncrypt.cs" />
     <Compile Include="UI\Extension\DependencyObjectExt.cs" />
     <Compile Include="UI\Extension\TargaImage.cs" />
@@ -215,90 +215,90 @@
     <Compile Include="UI\Validation\URLValidationRule.cs" />
     <Compile Include="UI\Validation\GamePathValidationRule.cs" />
     <Compile Include="UI\Validation\LauncherPathValidationRule.cs" />
-    <Compile Include="Windows\About.xaml.cs">
+    <Compile Include="UI\Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AbstractWindow.cs" />
-    <Compile Include="Windows\BugWindow.xaml.cs">
+    <Compile Include="UI\Windows\AbstractWindow.cs" />
+    <Compile Include="UI\Windows\BugWindow.xaml.cs">
       <DependentUpon>BugWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
+    <Compile Include="UI\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Settings.xaml.cs">
+    <Compile Include="UI\Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Logger.xaml.cs">
+    <Compile Include="UI\Windows\Logger.xaml.cs">
       <DependentUpon>Logger.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Splashscreen.xaml.cs">
+    <Compile Include="UI\Windows\Splashscreen.xaml.cs">
       <DependentUpon>Splashscreen.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\DigiRotation\DigiRotation.xaml">
+    <Page Include="UI\Controls\DigiRotation\DigiRotation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DigiRotation\HaguruLoader.xaml">
+    <Page Include="UI\Controls\DigiRotation\HaguruLoader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DigiRotation\RotationElement.xaml">
+    <Page Include="UI\Controls\DigiRotation\RotationElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Controls\DigiRotation\RotationElementSampleData.xaml">
+    <DesignData Include="UI\Controls\DigiRotation\RotationElementSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="Controls\Footer.xaml">
+    <Page Include="UI\Controls\Footer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\GameControl.xaml">
+    <Page Include="UI\Controls\GameControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
+    <DesignData Include="UI\Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="Controls\LogoControl.xaml">
+    <Page Include="UI\Controls\LogoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MenuFlyout.xaml">
+    <Page Include="UI\Controls\MenuFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\NewsBlock\NewsBlock.xaml">
+    <Page Include="UI\Controls\NewsBlock\NewsBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Controls\NewsBlock\TwitterViewModelSampleData.xaml">
+    <DesignData Include="UI\Controls\NewsBlock\TwitterViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="Controls\SettingsFlyout.xaml">
+    <Page Include="UI\Controls\SettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TDBlock\TDBlock.xaml">
+    <Page Include="UI\Controls\TDBlock\TDBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Community.xaml">
+    <Page Include="UI\Pages\Community.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Gallery.xaml">
+    <Page Include="UI\Pages\Gallery.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainPage.xaml">
+    <Page Include="UI\Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Personalization.xaml">
+    <Page Include="UI\Pages\Personalization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -314,27 +314,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\About.xaml">
+    <Page Include="UI\Windows\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\BugWindow.xaml">
+    <Page Include="UI\Windows\BugWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\MainWindow.xaml">
+    <Page Include="UI\Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Settings.xaml">
+    <Page Include="UI\Windows\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Logger.xaml">
+    <Page Include="UI\Windows\Logger.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Splashscreen.xaml">
+    <Page Include="UI\Windows\Splashscreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -906,7 +906,7 @@
     <Resource Include="Resources\copy_icons.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\NewsBlock\Images\bbs_mode.png" />
+    <Resource Include="UI\Controls\NewsBlock\Images\bbs_mode.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Languages\Template_for_translation.txt">

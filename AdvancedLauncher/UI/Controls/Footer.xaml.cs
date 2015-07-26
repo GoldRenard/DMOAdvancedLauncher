@@ -16,21 +16,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows.Controls;
-using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Controls {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public partial class Footer : UserControl {
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
-            }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
-            }
-            return new ValidationResult(false, null);
+        public Footer() {
+            InitializeComponent();
+            Version v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            string ver = v.Major.ToString() + "." + v.Minor.ToString();
+            ver += " (build " + v.Build.ToString() + ")";
+            VersionBlock.Text = string.Format(VersionBlock.Text, ver);
         }
     }
 }

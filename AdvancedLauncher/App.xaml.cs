@@ -18,7 +18,7 @@
 
 using System.Security.Principal;
 using System.Windows;
-using AdvancedLauncher.Windows;
+using AdvancedLauncher.UI.Windows;
 using log4net.Config;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;

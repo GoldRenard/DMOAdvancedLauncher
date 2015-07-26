@@ -16,21 +16,39 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
+using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Pages {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public abstract class AbstractPage : UserControl {
+        protected bool IsPageActivated = false;
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
+        protected bool IsPageVisible = false;
+
+        public AbstractPage() {
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                ProfileManager.Instance.ProfileChanged += ProfileChanged;
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.DataContext = LanguageManager.Model;
+                };
             }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
-            }
-            return new ValidationResult(false, null);
         }
+
+        public virtual void PageActivate() {
+            if (!IsPageActivated) {
+                ProfileChanged(this, EventArgs.Empty);
+            }
+            IsPageActivated = true;
+            IsPageVisible = true;
+        }
+
+        public virtual void PageClose() {
+            IsPageVisible = false;
+        }
+
+        protected abstract void ProfileChanged(object sender, EventArgs e);
     }
 }

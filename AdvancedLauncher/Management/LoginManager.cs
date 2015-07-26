@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using AdvancedLauncher.Management.Security;
 using AdvancedLauncher.Model.Config;
-using AdvancedLauncher.Windows;
+using AdvancedLauncher.UI.Windows;
 using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls.Dialogs;

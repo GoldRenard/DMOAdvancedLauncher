@@ -16,21 +16,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows.Controls;
+using System.Windows.Navigation;
 using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Windows {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public partial class About : AbstractWindow {
+        private const string LICENSE_FILE = "Docs\\LICENSE.txt";
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
-            }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
-            }
-            return new ValidationResult(false, null);
+        public About() {
+            InitializeComponent();
+        }
+
+        private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {
+            URLUtils.OpenSite(e.Uri.AbsoluteUri);
         }
     }
 }

@@ -1,0 +1,127 @@
+﻿<!--
+// ======================================================================
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see<http://www.gnu.org/licenses /> .
+// ======================================================================
+-->
+
+<pages:AbstractPage x:Class="AdvancedLauncher.UI.Pages.Personalization"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
+             xmlns:pages="clr-namespace:AdvancedLauncher.UI.Pages"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="850"
+             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
+    <pages:AbstractPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SelectButton" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid x:Name="Chrome" Cursor="Hand" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </pages:AbstractPage.Resources>
+    <Grid x:Name="LayoutRoot">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5,0">
+            <ComboBox x:Name="ItemsComboBox"
+                      Width="200"
+                      Height="20"
+                      SelectedIndex="0"
+                      ItemsSource="{Binding Items}"
+                      DisplayMemberPath="RName"
+                      SelectedValuePath="Item"
+                      SelectionChanged="OnSelectionChanged" />
+
+            <Button x:Name="SaveBtn"
+                    d:Visibility="Collapsed"
+                    Margin="5,0,0,0"
+                    Height="20"
+                    Click="OnSaveClick">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="14" Height="14"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding PersonalizationSaveButton}" />
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="BtnApply"
+                    d:Visibility="Collapsed"
+                    Margin="5,0,0,0"
+                    Height="20"
+                    MinWidth="80"
+                    Click="OnApplyClick">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="14" Height="14"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding ApplyButton}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <Grid Margin="0,30,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="{Binding PersonalizationSelectTitle}" Grid.Column="0">
+                <Button x:Name="SelectBtn" Style="{StaticResource SelectButton}" Click="OnSelectPicture">
+                    <Grid>
+                        <TextBlock x:Name="SelecterHelp"
+                                   Text="{Binding PersonalizationSelectMessage}"
+                                   Width="{Binding ElementName=SelectBtn, Path=ActualWidth}"
+                                   FontSize="24"
+                                   TextWrapping="WrapWithOverflow"
+                                   TextAlignment="Center" />
+                        <Image x:Name="SelectedImageControl" />
+                    </Grid>
+                </Button>
+            </GroupBox>
+            <GroupBox Header="{Binding PersonalizationCurrentTitle}" Grid.Column="1">
+                <Grid>
+                    <Image x:Name="CurrentImageControl" />
+                    <TextBlock x:Name="CurrentHelp"
+                               VerticalAlignment="Center"
+                               Width="{Binding ElementName=SelectBtn, Path=ActualWidth}"
+                               FontFamily="Tahoma"
+                               FontSize="24"
+                               TextWrapping="WrapWithOverflow"
+                               TextAlignment="Center" />
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</pages:AbstractPage>

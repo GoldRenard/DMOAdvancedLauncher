@@ -1,4 +1,5 @@
-﻿// ======================================================================
+﻿<!--
+// ======================================================================
 // DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
@@ -13,23 +14,14 @@
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with this program. If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see<http://www.gnu.org/licenses /> .
 // ======================================================================
+-->
 
-using AdvancedLauncher.UI.Windows;
-using log4net.Appender;
-using log4net.Core;
-
-namespace AdvancedLauncher.Management {
-
-    public class LogAppender : AppenderSkeleton {
-
-        protected override void Append(LoggingEvent loggingEvent) {
-            if (Logger.IsInstanceInitialized) {
-                lock (this) {
-                    Logger.Instance.AddEntry(loggingEvent);
-                }
-            }
-        }
-    }
-}
+<Local:RotationElement
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Local="clr-namespace:AdvancedLauncher.UI.Controls;assembly=AdvancedLauncher"
+    LevelText="уровень" Level="99" DType="Renamon" TName="GoldRenard" TLevel="99" ShowInfo="True"
+    Image="/AdvancedLauncher;component/Resources/DigiRotation/31006.png">
+</Local:RotationElement>

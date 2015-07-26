@@ -16,21 +16,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows.Controls;
-using AdvancedLauncher.Management;
+using System.Windows;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Converters {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public sealed class BooleanToVisibilityConverter : BooleanConverter<Visibility> {
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
-            }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
-            }
-            return new ValidationResult(false, null);
+        public BooleanToVisibilityConverter() :
+            base(Visibility.Visible, Visibility.Collapsed) {
         }
     }
 }

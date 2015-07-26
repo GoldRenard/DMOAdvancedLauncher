@@ -16,21 +16,22 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows.Controls;
-using AdvancedLauncher.Management;
+using System;
+using log4net;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Pages {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public partial class MainPage : AbstractPage {
+        public static readonly ILog LOGGER = LogManager.GetLogger(typeof(MainPage));
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
-            }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
-            }
-            return new ValidationResult(false, null);
+        private delegate void DoChangeTextNBool(string text, bool bool_);
+
+        public MainPage() {
+            InitializeComponent();
+        }
+
+        protected override void ProfileChanged(object sender, EventArgs e) {
+            // nothing to do
         }
     }
 }

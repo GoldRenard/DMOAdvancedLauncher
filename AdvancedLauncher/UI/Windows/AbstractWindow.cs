@@ -16,21 +16,39 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
+using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Windows {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public abstract class AbstractWindow : UserControl {
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
+        public delegate void CloseEventHandler(object sender, EventArgs e);
+
+        public event CloseEventHandler WindowClosed;
+
+        public AbstractWindow() {
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.DataContext = LanguageManager.Model;
+                };
             }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
+        }
+
+        public virtual void Show() {
+            this.Visibility = Visibility.Visible;
+        }
+
+        public virtual void Close() {
+            if (WindowClosed != null) {
+                WindowClosed(this, new EventArgs());
             }
-            return new ValidationResult(false, null);
+        }
+
+        protected virtual void OnCloseClick(object sender, RoutedEventArgs e) {
+            Close();
         }
     }
 }

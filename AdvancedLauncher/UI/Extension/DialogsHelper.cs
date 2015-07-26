@@ -19,7 +19,7 @@
 using System;
 using System.Threading.Tasks;
 using AdvancedLauncher.Management;
-using AdvancedLauncher.Windows;
+using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace AdvancedLauncher.UI.Extension {

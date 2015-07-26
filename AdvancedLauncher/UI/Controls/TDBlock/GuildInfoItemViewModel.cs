@@ -16,21 +16,43 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows.Controls;
 using AdvancedLauncher.Management;
+using DMOLibrary.Database.Entity;
 
-namespace AdvancedLauncher.UI.Validation {
+namespace AdvancedLauncher.UI.Controls {
 
-    internal class GamePathValidationRule : ValidationRule {
+    public class GuildInfoItemViewModel : AbstractItemViewModel<Guild> {
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
+        protected override void LanguageChanged() {
+            NotifyPropertyChanged("Name");
+        }
+
+        private string _Name;
+
+        public string Name {
+            get {
+                return LanguageManager.Model[_Name];
             }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
-                return new ValidationResult(true, null);
+            set {
+                if (value != _Name) {
+                    _Name = value;
+                    NotifyPropertyChanged("Name");
+                }
             }
-            return new ValidationResult(false, null);
+        }
+
+        private object _Value;
+
+        public object Value {
+            get {
+                return _Value;
+            }
+            set {
+                if (value != _Value) {
+                    _Value = value;
+                    NotifyPropertyChanged("Value");
+                }
+            }
         }
     }
 }

@@ -24,10 +24,10 @@ namespace AdvancedLauncher.UI.Validation {
     internal class LauncherPathValidationRule : ValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.Windows.Settings.SelectedProfile == null) {
+            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
                 return new ValidationResult(false, null);
             }
-            if (GameManager.Get(AdvancedLauncher.Windows.Settings.SelectedProfile.GameModel).CheckDefLauncher()) {
+            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckDefLauncher()) {
                 return new ValidationResult(true, null);
             }
             return new ValidationResult(false, null);

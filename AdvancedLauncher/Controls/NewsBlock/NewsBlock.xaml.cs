@@ -361,11 +361,13 @@ namespace AdvancedLauncher.Controls {
             tb.Inlines.Clear();
             foreach (TwitterTextPart part in Parts) {
                 switch (part.Type) {
-                    case TwitterTextType.Text: {
+                    case TwitterTextType.Text:
+                        {
                             tb.Inlines.Add(part.Data);
                             break;
                         }
-                    case TwitterTextType.Link: {
+                    case TwitterTextType.Link:
+                        {
                             Hyperlink hyperLink = new Hyperlink() {
                                 NavigateUri = new Uri(part.Data)
                             };
@@ -374,7 +376,8 @@ namespace AdvancedLauncher.Controls {
                             tb.Inlines.Add(hyperLink);
                             break;
                         }
-                    case TwitterTextType.HashTag: {
+                    case TwitterTextType.HashTag:
+                        {
                             Hyperlink hyperLink = new Hyperlink() {
                                 NavigateUri = new Uri(string.Format("https://twitter.com/search?q=%23{0}&src=hash", part.Data.Substring(1)))
                             };
@@ -383,7 +386,8 @@ namespace AdvancedLauncher.Controls {
                             tb.Inlines.Add(hyperLink);
                             break;
                         }
-                    case TwitterTextType.UserName: {
+                    case TwitterTextType.UserName:
+                        {
                             Hyperlink hyperLink = new Hyperlink() {
                                 NavigateUri = new Uri(string.Format("https://twitter.com/{0}/", part.Data.Substring(1)))
                             };
@@ -486,13 +490,13 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void IsTwitterLoadingAnim(bool state) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 TwitterProgressRing.IsActive = state;
             }));
         }
 
         private void IsJoymaxLoadingAnim(bool state) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 JoymaxProgressRing.IsActive = state;
             }));
         }

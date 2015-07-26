@@ -36,7 +36,8 @@ namespace DMOLibrary.Profiles.Aeria {
             LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             switch (e.Url.AbsolutePath) {
                 //loginning
-                case "/dialog/oauth": {
+                case "/dialog/oauth":
+                    {
                         if (LoginTryNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
@@ -62,7 +63,8 @@ namespace DMOLibrary.Profiles.Aeria {
                         }
                         break;
                     }
-                case "/dialog/oauth/authorize": {
+                case "/dialog/oauth/authorize":
+                    {
                         System.Windows.Forms.HtmlElementCollection links = wb.Document.GetElementsByTagName("a");
                         foreach (System.Windows.Forms.HtmlElement link in links) {
                             if (link.InnerText.Trim().ToLower().Equals("authorize")) {
@@ -74,11 +76,13 @@ namespace DMOLibrary.Profiles.Aeria {
                         break;
                     }
                 //logged
-                case "/code2token.html": {
+                case "/code2token.html":
+                    {
                         OnCompleted(LoginCode.SUCCESS, string.Format("{0} {1} {2}", "Aeria", HttpUtility.ParseQueryString(e.Url.Query).Get("code"), UserId));
                         break;
                     }
-                default: {
+                default:
+                    {
                         if (!e.Url.Host.Contains("facebook")) {
                             OnCompleted(LoginCode.UNKNOWN_URL, string.Empty);
                         }

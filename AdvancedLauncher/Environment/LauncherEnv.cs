@@ -34,6 +34,7 @@ namespace AdvancedLauncher.Environment {
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
         public const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
+        public const string NTLEA_EXECUTABLE = "ntleas.exe";
         public static Settings Settings;
 
         public const string REMOTE_VERSION_FILE = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/version.xml";
@@ -157,6 +158,10 @@ namespace AdvancedLauncher.Environment {
 
         public static string GetKBLCFile() {
             return Path.Combine(AppPath, KBLC_SERVICE_EXECUTABLE);
+        }
+
+        public static string GetNTLEAFile() {
+            return Path.Combine(AppPath, NTLEA_EXECUTABLE);
         }
 
         public static string GetLangsPath() {

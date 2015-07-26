@@ -62,7 +62,7 @@ namespace AdvancedLauncher.Service {
             };
             queueWorker.RunWorkerCompleted += (s, e) => {
                 if (!Application.Current.Dispatcher.CheckAccess()) {
-                    Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+                    Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                         Application.Current.Shutdown();
                     }));
                 } else {

@@ -115,7 +115,8 @@ namespace AdvancedLauncher.Environment {
             pLastSessionAvailable = false;
 
             switch (type) {
-                case GameType.ADMO: {
+                case GameType.ADMO:
+                    {
                         pGamePathRegKey = pDefLauncherPathRegKey = "Software\\Aeria Games\\DMO";
                         pGamePathRegVal = pDefLauncherPathRegVal = "Path";
                         pGameEXE = "GDMO.exe";
@@ -125,7 +126,8 @@ namespace AdvancedLauncher.Environment {
                         puLocalVer = @"LauncherLib\vGDMO.ini";
                         break;
                     }
-                case GameType.GDMO: {
+                case GameType.GDMO:
+                    {
                         pGamePathRegKey = pDefLauncherPathRegKey = "Software\\Joymax\\DMO";
                         pGamePathRegVal = pDefLauncherPathRegVal = "Path";
                         pGameEXE = "GDMO.exe";
@@ -136,7 +138,8 @@ namespace AdvancedLauncher.Environment {
                         break;
                     }
                 case GameType.KDMO_DM:
-                case GameType.KDMO_IMBC: {
+                case GameType.KDMO_IMBC:
+                    {
                         pGamePathRegKey = "Software\\Digitalic\\DigimonMasters";
                         pGamePathRegVal = "Path";
                         pDefLauncherPathRegKey = "Software\\Digitalic\\Launcher";

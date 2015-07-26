@@ -122,7 +122,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         private void IsLoading(bool _IsLoading) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate() {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 ProgressRing.IsActive = _IsLoading;
             }));
         }

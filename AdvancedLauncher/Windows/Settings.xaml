@@ -287,17 +287,88 @@
                                                Content="{Binding Settings_KBLCService}"
                                                IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.KBLCServiceEnabled, Mode=TwoWay}" />
 
-                        <Controls:ToggleSwitch x:Name="Chk_UseAppLoc"
-                                               FontSize="12"
-                                               Content="{Binding Settings_AppLocale}"
-                                               IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.AppLocaleEnabled, Mode=TwoWay}"
-                                               IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsALSupported, Mode=TwoWay}" />
-                        <TextBlock x:Name="AL_Helper" HorizontalAlignment="Right" Margin="0,0,5,0"
-                                   Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsALNotSupported, Mode=TwoWay, Converter={StaticResource BoolToHiddenConverter}}">
-                            <Hyperlink Click="OnAppLocaleHelpClick" Style="{DynamicResource HyperLinkAccent}">
-                                <Run Text="{Binding Settings_AppLocale_Help}" />
-                            </Hyperlink>
-                        </TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="105" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock 
+                                Text="{Binding Settings_LocaleFix}" 
+                                FontFamily="Segoe UI Semibold, Segoe UI, Lucida Sans Unicode, Verdana"
+                                FontSize="12" 
+                                VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" x:Name="ComboBoxLauncher" Margin="0,5" Height="30"
+                                  SelectedItem="{Binding ElementName=ProfileList, Path=SelectedValue.Launcher, Mode=TwoWay}"
+                                  DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True" >
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                        <Setter Property="Padding" Value="2" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                        <Setter Property="VerticalContentAlignment" Value="Top" />
+                                        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+                                        <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="IsEnabled" Value="{Binding IsSupported}" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ComboBoxItem">
+                                                    <Grid Background="{TemplateBinding Background}" Margin="0,0.5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                        </Grid.ColumnDefinitions>
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                <VisualState x:Name="Normal" />
+                                                                <VisualState x:Name="MouseOver" />
+                                                                <VisualState x:Name="Disabled">
+                                                                    <Storyboard>
+                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
+                                                                       Storyboard.TargetName="contentPresenter">
+                                                                            <SplineDoubleKeyFrame KeyTime="0" Value=".55" />
+                                                                        </DoubleAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                        <Border Grid.ColumnSpan="2" x:Name="ItemBackground"
+                                                            IsHitTestVisible="False"
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            Background="{TemplateBinding Background}" />
+
+                                                        <ContentPresenter Grid.Column="0" x:Name="contentPresenter"
+                                                          TextElement.Foreground="{TemplateBinding Foreground}"
+                                                          Margin="{TemplateBinding Padding}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                                                        <controls:EnabledTextBlock Grid.Column="1" Margin="5,2,0,0"
+                                                               Visibility="{Binding IsSupported, Converter={StaticResource NotBoolToHiddenConverter}}">
+                                                            <Hyperlink Click="OnAppLocaleHelpClick" Style="{DynamicResource HyperLinkAccent}">
+                                                                <Run Loaded="Run_Loaded" Text="{Binding Settings_AppLocale_Help, Source={x:Static env:LanguageEnv.Strings}, Mode=TwoWay}" />
+                                                            </Hyperlink>
+                                                        </controls:EnabledTextBlock>
+                                                    </Grid>
+
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter TargetName="ItemBackground" Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                                                            <Setter Property="Foreground" Value="{DynamicResource AccentSelectedColorBrush}" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ItemBackground" Property="Background" Value="{DynamicResource AccentColorBrush2}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </Grid>
+                        
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Margin="0,5" Header="{Binding Settings_AccountGroup}"

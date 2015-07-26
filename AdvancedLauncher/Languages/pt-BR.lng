@@ -62,8 +62,8 @@
   <Settings_GamePath>Path do Jogo</Settings_GamePath>
   <Settings_LauncherPath>Path para o Launcher Padrao</Settings_LauncherPath>
   <Settings_UpdateEngine>Sistema de Atualização Integrado</Settings_UpdateEngine>
-  <Settings_AppLocale>Executado atraves do Microsoft AppLocale</Settings_AppLocale>
   <Settings_KBLCService>Fix layout do teclado mudança</Settings_KBLCService>
+  <Settings_LocaleFix>Fix Locale</Settings_LocaleFix>
   <Settings_AppLocale_Help>Porque Inativo?</Settings_AppLocale_Help>
   <Settings_Account_User>Username</Settings_Account_User>
   <Settings_Account_Password>Senha</Settings_Account_Password>

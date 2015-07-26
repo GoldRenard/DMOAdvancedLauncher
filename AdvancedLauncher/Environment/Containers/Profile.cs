@@ -23,6 +23,8 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
+using AdvancedLauncher.Service;
+using AdvancedLauncher.Service.Execution;
 using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Environment.Containers {
@@ -67,15 +69,38 @@ namespace AdvancedLauncher.Environment.Containers {
         private bool _AppLocaleEnabled = true;
 
         [XmlAttribute]
+        [Obsolete]
         public bool AppLocaleEnabled {
             set {
                 _AppLocaleEnabled = value; NotifyPropertyChanged("AppLocaleEnabled");
             }
             get {
-                if (!Service.ApplicationLauncher.IsALSupported) {
-                    return false;
-                }
                 return _AppLocaleEnabled;
+            }
+        }
+
+        private String _LaunchMode;
+
+        [XmlAttribute]
+        public String LaunchMode {
+            set {
+                _LaunchMode = value;
+                NotifyPropertyChanged("LaunchMode");
+            }
+            get {
+                return _LaunchMode;
+            }
+        }
+
+        [XmlIgnore]
+        public ILauncher Launcher {
+            set {
+                if (value != null) {
+                    LaunchMode = value.Mnemonic;
+                }
+            }
+            get {
+                return LauncherFactory.GetProfileLauncher(this);
             }
         }
 
@@ -242,16 +267,20 @@ namespace AdvancedLauncher.Environment.Containers {
             }
             get {
                 switch (GameEnv.Type) {
-                    case Environment.GameEnv.GameType.ADMO: {
+                    case Environment.GameEnv.GameType.ADMO:
+                        {
                             return "Aeria Games";
                         }
-                    case Environment.GameEnv.GameType.GDMO: {
+                    case Environment.GameEnv.GameType.GDMO:
+                        {
                             return "Joymax";
                         }
-                    case Environment.GameEnv.GameType.KDMO_DM: {
+                    case Environment.GameEnv.GameType.KDMO_DM:
+                        {
                             return "Korea DM";
                         }
-                    case Environment.GameEnv.GameType.KDMO_IMBC: {
+                    case Environment.GameEnv.GameType.KDMO_IMBC:
+                        {
                             return "Korea IMBC";
                         }
                     default:
@@ -328,7 +357,7 @@ namespace AdvancedLauncher.Environment.Containers {
             this.Id = p.Id;
             this.Name = p.Name;
             this.ImagePath = p.ImagePath;
-            this.AppLocaleEnabled = p.AppLocaleEnabled;
+            this.LaunchMode = p.LaunchMode;
             this.UpdateEngineEnabled = p.UpdateEngineEnabled;
             this.KBLCServiceEnabled = p.KBLCServiceEnabled;
             this._Login = new LoginData(p._Login);

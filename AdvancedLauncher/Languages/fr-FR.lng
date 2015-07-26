@@ -62,9 +62,9 @@
   <Settings_GamePath>Répertoire du jeu</Settings_GamePath>
   <Settings_LauncherPath>Répertoire du lanceur par défaut</Settings_LauncherPath>
   <Settings_UpdateEngine>Moteur de MàJ intégré</Settings_UpdateEngine>
-  <Settings_AppLocale>Démarrer par Microsoft AppLocale</Settings_AppLocale>
   <Settings_AppLocale_Help>Pourquoi inactif?</Settings_AppLocale_Help>
   <Settings_KBLCService>Corriger le changement de disposition du clavier</Settings_KBLCService>
+  <Settings_LocaleFix>Corriger Jeu locale</Settings_LocaleFix>
   <Settings_Account_User>Nom d'utilisateur</Settings_Account_User>
   <Settings_Account_Password>Mot de passe</Settings_Account_Password>
   <Settings_SelectGameDir>Veuillez indiquer le dossier où se trouve le jeu</Settings_SelectGameDir>

@@ -97,7 +97,7 @@ namespace AdvancedLauncher.Windows {
 
         public override void Show() {
             base.Show();
-            this.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate() {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () {
                 ConsoleInput.Focus();
             }));
         }

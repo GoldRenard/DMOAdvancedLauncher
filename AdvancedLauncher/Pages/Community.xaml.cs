@@ -92,11 +92,13 @@ namespace AdvancedLauncher.Pages {
 
         private void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
             switch (e.Code) {
-                case DMODownloadStatusCode.GETTING_GUILD: {
+                case DMODownloadStatusCode.GETTING_GUILD:
+                    {
                         LoadProgressStatus.Text = LanguageEnv.Strings.CommSearchingGuild;
                         break;
                     }
-                case DMODownloadStatusCode.GETTING_TAMER: {
+                case DMODownloadStatusCode.GETTING_TAMER:
+                    {
                         LoadProgressStatus.Text = string.Format(LanguageEnv.Strings.CommGettingTamer, e.Info);
                         break;
                     }
@@ -114,21 +116,25 @@ namespace AdvancedLauncher.Pages {
 
             ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
             switch (e.Code) {
-                case DMODownloadResultCode.OK: {
+                case DMODownloadResultCode.OK:
+                    {
                         CURRENT_GUILD = MergeHelper.Merge(e.Guild);
                         GuildInfoModel.LoadData(CURRENT_GUILD);
                         TDBlock_.SetGuild(CURRENT_GUILD);
                         break;
                     }
-                case DMODownloadResultCode.CANT_GET: {
+                case DMODownloadResultCode.CANT_GET:
+                    {
                         Utils.ShowErrorDialog(LanguageEnv.Strings.CantGetError);
                         break;
                     }
-                case DMODownloadResultCode.NOT_FOUND: {
+                case DMODownloadResultCode.NOT_FOUND:
+                    {
                         Utils.ShowErrorDialog(LanguageEnv.Strings.GuildNotFoundError);
                         break;
                     }
-                case DMODownloadResultCode.WEB_ACCESS_ERROR: {
+                case DMODownloadResultCode.WEB_ACCESS_ERROR:
+                    {
                         Utils.ShowErrorDialog(LanguageEnv.Strings.ConnectionError);
                         break;
                     }

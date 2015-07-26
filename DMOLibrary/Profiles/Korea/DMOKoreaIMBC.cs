@@ -35,7 +35,8 @@ namespace DMOLibrary.Profiles.Korea {
             LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             switch (e.Url.AbsolutePath) {
                 //loginning
-                case "/RealMedia/ads/adstream_sx.ads/www.imbc.com/Login@Middle": {
+                case "/RealMedia/ads/adstream_sx.ads/www.imbc.com/Login@Middle":
+                    {
                         if (LoginTryNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty);
                             return;
@@ -63,13 +64,15 @@ namespace DMOLibrary.Profiles.Korea {
                     }
                 //logged
                 case "/Counsel/PasswordModify90Days.aspx":
-                case "/": {
+                case "/":
+                    {
                         OnChanged(LoginState.GETTING_DATA);
                         wb.Navigate("http://dm.imbc.com/inc/xml/launcher.aspx");
                         break;
                     }
                 //getting data
-                case "/inc/xml/launcher.aspx": {
+                case "/inc/xml/launcher.aspx":
+                    {
                         TryParseInfo(wb.DocumentText);
                         break;
                     }

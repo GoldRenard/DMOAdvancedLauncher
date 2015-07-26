@@ -64,6 +64,7 @@
   <Settings_UpdateEngine>Motore degli aggiornamenti integrato</Settings_UpdateEngine>
   <Settings_AppLocale_Help>Perchè inattivo?</Settings_AppLocale_Help>
   <Settings_KBLCService>Correggi la configurazione della tastiera</Settings_KBLCService>
+  <Settings_LocaleFix>Correggi gioco locale</Settings_LocaleFix>
   <Settings_Account_User>Nome utente</Settings_Account_User>
   <Settings_Account_Password>Password</Settings_Account_Password>
   <Settings_SelectGameDir>Specifica la cartella in cui è situato il gioco</Settings_SelectGameDir>

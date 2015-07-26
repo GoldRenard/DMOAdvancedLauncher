@@ -59,6 +59,7 @@
   <Settings_LauncherPath>Шлях до стандартного лаунчеру</Settings_LauncherPath>
   <Settings_UpdateEngine>Інтегрована система оновлення</Settings_UpdateEngine>
   <Settings_KBLCService>Виправити перемикання розкладки</Settings_KBLCService>
+  <Settings_LocaleFix>Виправити локаль гри</Settings_LocaleFix>
   <Settings_AppLocale_Help>Чому неактивно?</Settings_AppLocale_Help>
   <Settings_Account_User>Ім'я користувача</Settings_Account_User>
   <Settings_Account_Password>Пароль</Settings_Account_Password>

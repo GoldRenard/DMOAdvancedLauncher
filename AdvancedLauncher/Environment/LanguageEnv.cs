@@ -731,6 +731,17 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
+        private string _Settings_LocaleFix = "Fix game locale";
+
+        public string Settings_LocaleFix {
+            set {
+                _Settings_LocaleFix = value; NotifyPropertyChanged("Settings_LocaleFix");
+            }
+            get {
+                return _Settings_LocaleFix;
+            }
+        }
+
         private string _Settings_Account_User = "Username";
 
         public string Settings_Account_User {

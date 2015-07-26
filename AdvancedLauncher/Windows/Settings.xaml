@@ -293,7 +293,7 @@
                                 <ColumnDefinition Width="105" />
                             </Grid.ColumnDefinitions>
                             <TextBlock 
-                                Text="Fix game locale" 
+                                Text="{Binding Settings_LocaleFix}" 
                                 FontFamily="Segoe UI Semibold, Segoe UI, Lucida Sans Unicode, Verdana"
                                 FontSize="12" 
                                 VerticalAlignment="Center" />

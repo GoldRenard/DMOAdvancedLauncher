@@ -64,6 +64,7 @@
   <Settings_UpdateEngine>Integrierte Update Funktion</Settings_UpdateEngine>
   <Settings_AppLocale_Help>Warum nicht aktiv?</Settings_AppLocale_Help>
   <Settings_KBLCService>Fix Tastaturlayout Wechsel</Settings_KBLCService>
+  <Settings_LocaleFix>Fix Spiel locale</Settings_LocaleFix>
   <Settings_Account_User>Benutzername</Settings_Account_User>
   <Settings_Account_Password>Passwort</Settings_Account_Password>
   <Settings_SelectGameDir>Bitte geben Sie den Pfad des Spielverzeichnisses an.</Settings_SelectGameDir>

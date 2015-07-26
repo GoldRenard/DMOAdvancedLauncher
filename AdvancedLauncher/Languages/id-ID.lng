@@ -64,6 +64,7 @@
   <Settings_UpdateEngine>Integrated Update Engine</Settings_UpdateEngine>
   <Settings_AppLocale_Help>Mengapa tidak aktif?</Settings_AppLocale_Help>
   <Settings_KBLCService>Perbaiki perubahan tata letak keyboard</Settings_KBLCService>
+  <Settings_LocaleFix>Perbaiki permainan locale</Settings_LocaleFix>
   <Settings_Account_User>Nama Pengguna</Settings_Account_User>
   <Settings_Account_Password>Kata Sandi</Settings_Account_Password>
   <Settings_SelectGameDir>Mohon tentukan letak direktori permainan</Settings_SelectGameDir>

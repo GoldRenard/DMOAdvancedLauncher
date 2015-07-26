@@ -25,6 +25,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.Windows;
 using MahApps.Metro.Controls;
 
@@ -44,12 +45,12 @@ namespace AdvancedLauncher.Controls {
                     ProfileList.MaxHeight = e.NewSize.Height - CommandsHolder.ActualHeight - 50;
                 };
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-                LanguageEnv.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageEnv.Strings;
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.DataContext = LanguageManager.Model;
                 };
-                LauncherEnv.Settings.ProfileChanged += ReloadCurrentProfile;
-                LauncherEnv.Settings.ProfileLocked += OnProfileLocked;
-                LauncherEnv.Settings.CollectionChanged += ReloadProfiles;
+                EnvironmentManager.Settings.ProfileChanged += ReloadCurrentProfile;
+                EnvironmentManager.Settings.ProfileLocked += OnProfileLocked;
+                EnvironmentManager.Settings.CollectionChanged += ReloadProfiles;
                 ReloadProfiles(this, EventArgs.Empty);
                 BuildCommands();
             }
@@ -73,14 +74,14 @@ namespace AdvancedLauncher.Controls {
                 IconMargin = iconMargin;
                 icon.Resources.Add("BlackBrush", Brush);
                 IconBrush = new VisualBrush(icon);
-                LanguageEnv.LanguageChanged += (s, e) => {
+                LanguageManager.LanguageChanged += (s, e) => {
                     this.NotifyPropertyChanged("Name");
                 };
             }
 
             public string Name {
                 get {
-                    return (string)LanguageEnv.Strings.GetType().GetProperty(bindingName).GetValue(LanguageEnv.Strings, null);
+                    return (string)LanguageManager.Model.GetType().GetProperty(bindingName).GetValue(LanguageManager.Model, null);
                 }
             }
 
@@ -163,20 +164,20 @@ namespace AdvancedLauncher.Controls {
 
         private void ReloadProfiles(object sender, EventArgs e) {
             IsPreventChange = true;
-            ProfileList.ItemsSource = LauncherEnv.Settings.Profiles;
-            ProfileList.SelectedItem = LauncherEnv.Settings.CurrentProfile;
+            ProfileList.ItemsSource = EnvironmentManager.Settings.Profiles;
+            ProfileList.SelectedItem = EnvironmentManager.Settings.CurrentProfile;
             IsPreventChange = false;
         }
 
         private void ReloadCurrentProfile(object sender, EventArgs e) {
             IsPreventChange = true;
-            ProfileList.SelectedItem = LauncherEnv.Settings.CurrentProfile;
+            ProfileList.SelectedItem = EnvironmentManager.Settings.CurrentProfile;
             IsPreventChange = false;
         }
 
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!IsPreventChange) {
-                LauncherEnv.Settings.CurrentProfile = (Profile)ProfileList.SelectedItem;
+                EnvironmentManager.Settings.CurrentProfile = (Profile)ProfileList.SelectedItem;
                 IsOpen = false;
             }
         }

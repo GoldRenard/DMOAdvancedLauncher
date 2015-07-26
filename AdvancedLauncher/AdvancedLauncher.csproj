@@ -106,7 +106,8 @@
     <Compile Include="Controls\AbstractContainerViewModel.cs" />
     <Compile Include="Controls\AbstractItemViewModel.cs" />
     <Compile Include="Controls\AutoScrollBehavior.cs" />
-    <Compile Include="Controls\BindingProxy.cs" />
+    <Compile Include="Management\LanguageManager.cs" />
+    <Compile Include="UI\Extension\BindingProxy.cs" />
     <Compile Include="Controls\BooleanToVisibilityConverter.cs" />
     <Compile Include="Controls\DigiRotation\HaguruLoader.xaml.cs">
       <DependentUpon>HaguruLoader.xaml</DependentUpon>
@@ -114,7 +115,7 @@
     <Compile Include="Controls\DigiRotation\RotationElement.xaml.cs">
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Dialogs\LoginManager.cs" />
+    <Compile Include="Management\LoginManager.cs" />
     <Compile Include="Controls\EnabledTextBlock.cs" />
     <Compile Include="Controls\LogoControl.xaml.cs">
       <DependentUpon>LogoControl.xaml</DependentUpon>
@@ -168,9 +169,9 @@
     <Compile Include="Environment\Containers\LoginData.cs" />
     <Compile Include="Environment\Containers\Profile.cs" />
     <Compile Include="Environment\Containers\Settings.cs" />
-    <Compile Include="Environment\LanguageEnv.cs" />
-    <Compile Include="Environment\LockedEventArgs.cs" />
-    <Compile Include="Environment\LogAppender.cs" />
+    <Compile Include="Model\LanguageModel.cs" />
+    <Compile Include="Management\LockedEventArgs.cs" />
+    <Compile Include="Management\LogAppender.cs" />
     <Compile Include="Pages\AbstractPage.cs" />
     <Compile Include="Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>
@@ -184,27 +185,28 @@
     <Compile Include="Pages\Personalization.xaml.cs">
       <DependentUpon>Personalization.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Service\Execution\AbstractLauncher.cs" />
-    <Compile Include="Service\DispatcherHelper.cs" />
-    <Compile Include="Service\Execution\LauncherFactory.cs" />
-    <Compile Include="Service\Execution\NTLeaLauncher.cs" />
-    <Compile Include="Service\Execution\AppLocaleLauncher.cs" />
-    <Compile Include="Service\Execution\DirectLauncher.cs" />
-    <Compile Include="Service\Execution\SteamSensitiveLauncher.cs" />
-    <Compile Include="Service\FingerPrint.cs" />
-    <Compile Include="Service\Execution\InstanceChecker.cs" />
-    <Compile Include="Environment\LauncherEnv.cs" />
-    <Compile Include="Service\JpegEncoder.cs" />
-    <Compile Include="Service\Execution\ILauncher.cs" />
-    <Compile Include="Service\NativeMethods.cs" />
-    <Compile Include="Service\Execution\ParentProcessUtilities.cs" />
+    <Compile Include="Management\Execution\AbstractLauncher.cs" />
+    <Compile Include="UI\Extension\DialogsHelper.cs" />
+    <Compile Include="UI\Extension\DispatcherHelper.cs" />
+    <Compile Include="Management\Execution\LauncherFactory.cs" />
+    <Compile Include="Management\Execution\NTLeaLauncher.cs" />
+    <Compile Include="Management\Execution\AppLocaleLauncher.cs" />
+    <Compile Include="Management\Execution\DirectLauncher.cs" />
+    <Compile Include="Management\Execution\SteamSensitiveLauncher.cs" />
+    <Compile Include="Management\Security\FingerPrint.cs" />
+    <Compile Include="Management\Execution\InstanceChecker.cs" />
+    <Compile Include="Management\EnvironmentManager.cs" />
+    <Compile Include="UI\Extension\JpegEncoder.cs" />
+    <Compile Include="Management\Execution\ILauncher.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Management\Execution\ParentProcessUtilities.cs" />
     <Compile Include="Controls\BooleanConverter.cs" />
-    <Compile Include="Service\PassEncrypt.cs" />
-    <Compile Include="Service\DependencyObjectExt.cs" />
-    <Compile Include="Service\TargaImage.cs" />
-    <Compile Include="Service\TaskManager.cs" />
-    <Compile Include="Service\UpdateChecker.cs" />
-    <Compile Include="Service\Utils.cs" />
+    <Compile Include="Management\Security\PassEncrypt.cs" />
+    <Compile Include="UI\Extension\DependencyObjectExt.cs" />
+    <Compile Include="UI\Extension\TargaImage.cs" />
+    <Compile Include="Management\TaskManager.cs" />
+    <Compile Include="Management\UpdateManager.cs" />
+    <Compile Include="Management\URLUtils.cs" />
     <Compile Include="UI\Validation\GuildNameValidationRule.cs" />
     <Compile Include="UI\Validation\NameValidationRule.cs" />
     <Compile Include="UI\Validation\ProfileNameValidationRule.cs" />

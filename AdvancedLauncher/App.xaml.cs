@@ -18,10 +18,10 @@
 
 using System.Security.Principal;
 using System.Windows;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Service;
 using AdvancedLauncher.Windows;
 using log4net.Config;
+using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Execution;
 
 #if DEBUG
 
@@ -41,7 +41,7 @@ namespace AdvancedLauncher {
 
         public App() {
             if (IsAdministrator()) {
-                LauncherEnv.Load();
+                EnvironmentManager.Load();
             }
         }
 
@@ -49,7 +49,7 @@ namespace AdvancedLauncher {
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
-                    LauncherEnv.LoadTheme();
+                    EnvironmentManager.LoadTheme();
                     Splashscreen.ShowSplash();
 #if DEBUG
                     Splashscreen.SetProgress("Initializing database...");

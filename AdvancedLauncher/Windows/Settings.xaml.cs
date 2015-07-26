@@ -26,8 +26,9 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
-using AdvancedLauncher.Service;
-using AdvancedLauncher.Service.Execution;
+using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.UI.Extension;
 
 namespace AdvancedLauncher.Windows {
 
@@ -53,11 +54,11 @@ namespace AdvancedLauncher.Windows {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
                 ComboBoxLauncher.ItemsSource = LauncherFactory.Instance;
                 //Copying settings object and set it as DataContext
-                ProfileList.DataContext = settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings);
+                ProfileList.DataContext = settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(EnvironmentManager.Settings);
 
                 //Search and set current profile
                 foreach (Profile p in settingsContainer.Profiles) {
-                    if (p.Id == LauncherEnv.Settings.CurrentProfile.Id) {
+                    if (p.Id == EnvironmentManager.Settings.CurrentProfile.Id) {
                         ProfileList.SelectedItem = p;
                         break;
                     }
@@ -109,7 +110,7 @@ namespace AdvancedLauncher.Windows {
 
         private void OnRemoveClick(object sender, RoutedEventArgs e) {
             if (ProfileList.Items.Count == 1) {
-                Utils.ShowErrorDialog(LanguageEnv.Strings.Settings_LastProfile);
+                DialogsHelper.ShowErrorDialog(LanguageManager.Model.Settings_LastProfile);
                 return;
             }
             Profile profile = SelectedProfile;
@@ -135,15 +136,15 @@ namespace AdvancedLauncher.Windows {
         #region Path Browse Section
 
         private async void OnGameBrowse(object sender, RoutedEventArgs e) {
-            Folderdialog.Description = LanguageEnv.Strings.Settings_SelectGameDir;
+            Folderdialog.Description = LanguageManager.Model.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                     if (SelectedProfile.GameEnv.CheckGame(Folderdialog.SelectedPath)) {
                         SelectedProfile.GameEnv.GamePath = Folderdialog.SelectedPath;
                         break;
                     } else {
-                        await Utils.ShowMessageDialogAsync(LanguageEnv.Strings.Settings_GamePath,
-                            LanguageEnv.Strings.Settings_SelectGameDirError);
+                        await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_GamePath,
+                            LanguageManager.Model.Settings_SelectGameDirError);
                     }
                 } else {
                     break;
@@ -152,15 +153,15 @@ namespace AdvancedLauncher.Windows {
         }
 
         private async void OnLauncherBrowse(object sender, RoutedEventArgs e) {
-            Folderdialog.Description = LanguageEnv.Strings.Settings_SelectLauncherDir;
+            Folderdialog.Description = LanguageManager.Model.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                     if (SelectedProfile.GameEnv.CheckDefLauncher(Folderdialog.SelectedPath)) {
                         SelectedProfile.GameEnv.DefLauncherPath = Folderdialog.SelectedPath;
                         break;
                     } else {
-                        await Utils.ShowMessageDialogAsync(LanguageEnv.Strings.Settings_LauncherPath,
-                            LanguageEnv.Strings.Settings_SelectLauncherDirError);
+                        await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_LauncherPath,
+                            LanguageManager.Model.Settings_SelectLauncherDirError);
                     }
                 } else {
                     break;
@@ -191,17 +192,17 @@ namespace AdvancedLauncher.Windows {
                 return;
             }
 
-            string message = LanguageEnv.Strings.AppLocale_FailReasons + System.Environment.NewLine;
+            string message = LanguageManager.Model.AppLocale_FailReasons + System.Environment.NewLine;
             if (!AppLocaleLauncher.IsInstalled) {
-                message += System.Environment.NewLine + LanguageEnv.Strings.AppLocale_NotInstalled;
+                message += System.Environment.NewLine + LanguageManager.Model.AppLocale_NotInstalled;
             }
 
             if (!AppLocaleLauncher.IsKoreanSupported) {
-                message += System.Environment.NewLine + LanguageEnv.Strings.AppLocale_EALNotInstalled;
+                message += System.Environment.NewLine + LanguageManager.Model.AppLocale_EALNotInstalled;
             }
-            message += System.Environment.NewLine + System.Environment.NewLine + LanguageEnv.Strings.AppLocale_FixQuestion;
+            message += System.Environment.NewLine + System.Environment.NewLine + LanguageManager.Model.AppLocale_FixQuestion;
 
-            if (await Utils.ShowYesNoDialog(LanguageEnv.Strings.AppLocale_Error, message)) {
+            if (await DialogsHelper.ShowYesNoDialog(LanguageManager.Model.AppLocale_Error, message)) {
                 if (!AppLocaleLauncher.IsInstalled) {
                     System.Diagnostics.Process.Start(LINK_MS_APPLOCALE);
                 }
@@ -224,8 +225,8 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
-            LauncherEnv.Settings.MergeProfiles(settingsContainer);
-            LauncherEnv.Save();
+            EnvironmentManager.Settings.MergeProfiles(settingsContainer);
+            EnvironmentManager.Save();
             Close();
         }
 
@@ -234,7 +235,7 @@ namespace AdvancedLauncher.Windows {
         #region Service
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {
-            Utils.OpenSite(e.Uri.AbsoluteUri);
+            URLUtils.OpenSite(e.Uri.AbsoluteUri);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -266,8 +267,8 @@ namespace AdvancedLauncher.Windows {
 
         private void Run_Loaded(object sender, RoutedEventArgs e) {
             Run run = sender as Run;
-            LanguageEnv.LanguageChanged += (s, e2) => {
-                run.Text = LanguageEnv.Strings.Settings_AppLocale_Help;
+            LanguageManager.LanguageChanged += (s, e2) => {
+                run.Text = LanguageManager.Model.Settings_AppLocale_Help;
             };
         }
     }

@@ -19,7 +19,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace AdvancedLauncher.Service.Execution {
+namespace AdvancedLauncher.Management.Execution {
 
     /// <summary>
     /// Base class for application which aren't compatible with Steam

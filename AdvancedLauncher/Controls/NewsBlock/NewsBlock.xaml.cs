@@ -30,7 +30,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using AdvancedLauncher.Environment;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.Management;
 using DMOLibrary;
 using DMOLibrary.Profiles;
 using Newtonsoft.Json.Linq;
@@ -66,9 +66,9 @@ namespace AdvancedLauncher.Controls {
         public NewsBlock() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LauncherEnv.Settings.ProfileChanged += ReloadNews;
-                LanguageEnv.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageEnv.Strings;
+                EnvironmentManager.Settings.ProfileChanged += ReloadNews;
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.DataContext = LanguageManager.Model;
                 };
                 TwitterNewsList.DataContext = TwitterVM;
                 JoymaxNewsList.DataContext = JoymaxVM;
@@ -128,14 +128,14 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void ReloadNews(object sender, EventArgs e) {
-            if (_jsonUrl != LauncherEnv.Settings.CurrentProfile.News.TwitterUrl) {
-                _jsonUrl = LauncherEnv.Settings.CurrentProfile.News.TwitterUrl;
+            if (_jsonUrl != EnvironmentManager.Settings.CurrentProfile.News.TwitterUrl) {
+                _jsonUrl = EnvironmentManager.Settings.CurrentProfile.News.TwitterUrl;
             }
 
-            bool newsSupported = LauncherEnv.Settings.CurrentProfile.DMOProfile.IsNewsAvailable;
+            bool newsSupported = EnvironmentManager.Settings.CurrentProfile.DMOProfile.IsNewsAvailable;
             NavJoymax.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             NavTwitter.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
-            byte index = newsSupported ? LauncherEnv.Settings.CurrentProfile.News.FirstTab : (byte)0;
+            byte index = newsSupported ? EnvironmentManager.Settings.CurrentProfile.News.FirstTab : (byte)0;
             NewsTabControl.SelectedIndex = index;
             ShowTab(index);
         }
@@ -195,7 +195,7 @@ namespace AdvancedLauncher.Controls {
                     response = wc.DownloadString(link);
                 } catch (Exception e) {
                     TwitterStatuses.Add(new TwitterItemViewModel {
-                        Title = LanguageEnv.Strings.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]"
+                        Title = LanguageManager.Model.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]"
                     });
                     return;
                 }
@@ -206,7 +206,7 @@ namespace AdvancedLauncher.Controls {
                 tList = JArray.Parse(System.Web.HttpUtility.HtmlDecode(response));
             } catch {
                 TwitterStatuses.Add(new TwitterItemViewModel {
-                    Title = LanguageEnv.Strings.NewsTwitterError + " [ERRCODE 1 - Parse Error]"
+                    Title = LanguageManager.Model.NewsTwitterError + " [ERRCODE 1 - Parse Error]"
                 });
                 return;
             }
@@ -437,10 +437,10 @@ namespace AdvancedLauncher.Controls {
         #region Joymax news
 
         private void GetJoymaxNews() {
-            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile != null) {
+            if (EnvironmentManager.Settings.CurrentProfile.DMOProfile.NewsProfile != null) {
                 List<DMONewsProfile.NewsItem> news;
                 try {
-                    news = LauncherEnv.Settings.CurrentProfile.DMOProfile.NewsProfile.GetNews();
+                    news = EnvironmentManager.Settings.CurrentProfile.DMOProfile.NewsProfile.GetNews();
                 } catch (WebException e) {
                     news = new List<DMONewsProfile.NewsItem>();
                     news.Add(new DMONewsProfile.NewsItem() {
@@ -458,13 +458,13 @@ namespace AdvancedLauncher.Controls {
                         mode = n.Mode;
                         if (mode == "NOTICE") {
                             viewbox = new Rect(215, 54, 90, 18);
-                            mode = LanguageEnv.Strings[e => e.NewsType_Notice];
+                            mode = LanguageManager.Model[e => e.NewsType_Notice];
                         } else if (mode == "EVENT") {
                             viewbox = new Rect(215, 36, 90, 18);
-                            mode = LanguageEnv.Strings[e => e.NewsType_Event];
+                            mode = LanguageManager.Model[e => e.NewsType_Event];
                         } else if (mode == "PATCH") {
                             viewbox = new Rect(215, 0, 90, 18);
-                            mode = LanguageEnv.Strings[e => e.NewsType_Patch];
+                            mode = LanguageManager.Model[e => e.NewsType_Patch];
                         } else {
                             viewbox = new Rect(215, 0, 90, 18);
                         }
@@ -486,7 +486,7 @@ namespace AdvancedLauncher.Controls {
         #region Interface processing
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {
-            Utils.OpenSiteNoDecode(e.Uri.ToString());
+            URLUtils.OpenSiteNoDecode(e.Uri.ToString());
         }
 
         private void IsTwitterLoadingAnim(bool state) {

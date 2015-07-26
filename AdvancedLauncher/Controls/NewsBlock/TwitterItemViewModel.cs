@@ -18,6 +18,7 @@
 
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.Controls {
 
@@ -87,7 +88,7 @@ namespace AdvancedLauncher.Controls {
 
         public string Date {
             get {
-                return LanguageEnv.Strings.NewsPubDate + _Date;
+                return LanguageManager.Model.NewsPubDate + _Date;
             }
             set {
                 if (value != _Date) {

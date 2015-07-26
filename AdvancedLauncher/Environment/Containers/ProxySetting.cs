@@ -18,7 +18,7 @@
 
 using System.Security;
 using System.Xml.Serialization;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.Management.Security;
 
 namespace AdvancedLauncher.Environment.Containers {
 

@@ -25,7 +25,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Environment;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.Management;
+using AdvancedLauncher.UI.Extension;
 using DMOLibrary.DMOFileSystem;
 using Microsoft.Win32;
 
@@ -73,7 +74,7 @@ namespace AdvancedLauncher.Pages {
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
         protected override void ProfileChanged(object sender, EventArgs e) {
-            FileSystem = LauncherEnv.Settings.CurrentProfile.GameEnv.GetFS();
+            FileSystem = EnvironmentManager.Settings.CurrentProfile.GameEnv.GetFS();
             LoadResourceList();
             ResetCurrent();
             ResetSelect();
@@ -86,7 +87,7 @@ namespace AdvancedLauncher.Pages {
         public override void PageActivate() {
             base.PageActivate();
             try {
-                FileSystem.Open(FileAccess.ReadWrite, 16, LauncherEnv.Settings.CurrentProfile.GameEnv.GetHFPath(), LauncherEnv.Settings.CurrentProfile.GameEnv.GetPFPath());
+                FileSystem.Open(FileAccess.ReadWrite, 16, EnvironmentManager.Settings.CurrentProfile.GameEnv.GetHFPath(), EnvironmentManager.Settings.CurrentProfile.GameEnv.GetPFPath());
                 if (!IsGameImageLoaded && ItemsComboBox.Items.Count > 0) {
                     if (ItemsComboBox.SelectedIndex == 0) {
                         OnSelectionChanged(ItemsComboBox, null);
@@ -95,7 +96,7 @@ namespace AdvancedLauncher.Pages {
                     }
                 }
             } catch {
-                Utils.ShowMessageDialog(LanguageEnv.Strings.PleaseCloseGame, LanguageEnv.Strings.GameFilesInUse);
+                DialogsHelper.ShowMessageDialog(LanguageManager.Model.PleaseCloseGame, LanguageManager.Model.GameFilesInUse);
             }
         }
 
@@ -116,7 +117,7 @@ namespace AdvancedLauncher.Pages {
         private void LoadResourceList() {
             ResourceModel.UnLoadData();
             string[] rlines = null;
-            string rFile = (LauncherEnv.GetResourcesPath() + string.Format(RES_LIST_FILE, LauncherEnv.Settings.CurrentProfile.DMOProfile.GetTypeName()));
+            string rFile = (EnvironmentManager.ResourcesPath + string.Format(RES_LIST_FILE, EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetTypeName()));
             if (File.Exists(rFile)) {
                 rlines = System.IO.File.ReadAllLines(rFile);
 
@@ -171,7 +172,7 @@ namespace AdvancedLauncher.Pages {
 
                     return;
                 }
-                Utils.ShowErrorDialog(LanguageEnv.Strings.PersonalizationWrongTGA);       //Иначе говорим, что это не ТГА-картинка.
+                DialogsHelper.ShowErrorDialog(LanguageManager.Model.PersonalizationWrongTGA);       //Иначе говорим, что это не ТГА-картинка.
             }
         }
 
@@ -194,7 +195,7 @@ namespace AdvancedLauncher.Pages {
                     try {
                         File.WriteAllBytes(sFileDialog.FileName, CurrentImageBytes);
                     } catch (Exception ex) {
-                        Utils.ShowErrorDialog(LanguageEnv.Strings.PersonalizationCantSave + " " + ex.Message);
+                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.PersonalizationCantSave + " " + ex.Message);
                     }
                 }
             }
@@ -253,7 +254,7 @@ namespace AdvancedLauncher.Pages {
             }
 
             if (!writeResult) {
-                Utils.ShowErrorDialog(LanguageEnv.Strings.PersonalizationCantWrite);
+                DialogsHelper.ShowErrorDialog(LanguageManager.Model.PersonalizationCantWrite);
             } else {
                 IsGameImageLoaded = LoadGameImage(selectedResource);
             }

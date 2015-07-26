@@ -18,7 +18,7 @@
 
 using System;
 using System.Windows.Controls;
-using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.UI.Validation {
 
@@ -28,13 +28,13 @@ namespace AdvancedLauncher.UI.Validation {
             int code = 0;
 
             if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {
-                return new ValidationResult(false, LanguageEnv.Strings.CommWrongGuildName);
+                return new ValidationResult(false, LanguageManager.Model.CommWrongGuildName);
             }
 
             foreach (char chr in value.ToString()) {
                 code = Convert.ToInt32(chr);
                 if (Char.IsWhiteSpace(chr) || Char.IsControl(chr)) {
-                    return new ValidationResult(false, LanguageEnv.Strings.CommWrongGuildName);
+                    return new ValidationResult(false, LanguageManager.Model.CommWrongGuildName);
                 }
             }
             return new ValidationResult(true, null);

@@ -36,7 +36,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher.UI.Extension {
 
     internal static class TargaConstants {
 

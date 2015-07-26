@@ -22,8 +22,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.Pages;
-using AdvancedLauncher.Service;
 using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Windows {
@@ -54,20 +54,20 @@ namespace AdvancedLauncher.Windows {
             Splashscreen.SetProgress("Loading...");
             Application.Current.MainWindow = _Instance;
             // force initialize default profile in current thread
-            var profile = LauncherEnv.Settings.CurrentProfile;
+            var profile = EnvironmentManager.Settings.CurrentProfile;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
                 Logger.Instance.WindowClosed += (s, e1) => {
                     transitionLayer.Content = null;
                 };
-                AdvancedLauncher.Service.UpdateChecker.Check();
-                LanguageEnv.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageEnv.Strings;
+                UpdateManager.CheckUpdates();
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.DataContext = LanguageManager.Model;
                 };
-                LauncherEnv.Settings.ProfileChanged += OnProfileChanged;
-                LauncherEnv.Settings.ClosingLocked += OnClosingLocked;
-                LauncherEnv.Settings.FileSystemLocked += OnFileSystemLocked;
+                EnvironmentManager.Settings.ProfileChanged += OnProfileChanged;
+                EnvironmentManager.Settings.ClosingLocked += OnClosingLocked;
+                EnvironmentManager.Settings.FileSystemLocked += OnFileSystemLocked;
                 this.Closing += (s, e) => {
                     e.Cancel = IsCloseLocked;
                 };
@@ -101,7 +101,7 @@ namespace AdvancedLauncher.Windows {
                 NavPersonalization.IsEnabled = false;
             } else {
                 //Включаем персонализации обратно если игра определена
-                if (LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame()) {
+                if (EnvironmentManager.Settings.CurrentProfile.GameEnv.CheckGame()) {
                     NavPersonalization.IsEnabled = true;
                 }
             }
@@ -128,12 +128,12 @@ namespace AdvancedLauncher.Windows {
             NavPersonalization.IsEnabled = false;
 
             //Если доступен веб-профиль, включаем вкладку сообщества
-            if (LauncherEnv.Settings.CurrentProfile.DMOProfile.IsWebAvailable) {
+            if (EnvironmentManager.Settings.CurrentProfile.DMOProfile.IsWebAvailable) {
                 NavCommunity.IsEnabled = true;
             }
 
             //Если путь до игры верен, включаем вкладку галереи и персонализации
-            if (LauncherEnv.Settings.CurrentProfile.GameEnv.CheckGame()) {
+            if (EnvironmentManager.Settings.CurrentProfile.GameEnv.CheckGame()) {
                 NavGallery.IsEnabled = true;
                 NavPersonalization.IsEnabled = true;
             }
@@ -144,12 +144,12 @@ namespace AdvancedLauncher.Windows {
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             //NotifyPropertyChanged("CurrentProfile");
-            ProfileSwitcher.DataContext = LauncherEnv.Settings.CurrentProfile;
+            ProfileSwitcher.DataContext = EnvironmentManager.Settings.CurrentProfile;
         }
 
         public Profile CurrentProfile {
             get {
-                return LauncherEnv.Settings.CurrentProfile;
+                return EnvironmentManager.Settings.CurrentProfile;
             }
         }
 

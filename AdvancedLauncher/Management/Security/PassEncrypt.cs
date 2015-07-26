@@ -23,9 +23,9 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher.Management.Security {
 
-    public static class PassEncrypt {
+    internal static class PassEncrypt {
 
         // This constant is used to determine the keysize of the encryption algorithm.
         private const int keysize = 256;

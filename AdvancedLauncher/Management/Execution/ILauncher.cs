@@ -16,33 +16,39 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.IO;
+using System;
 
-namespace AdvancedLauncher.Service.Execution {
+namespace AdvancedLauncher.Management.Execution {
 
-    /// <summary>
-    /// Direct launcher which execute program AS IS
-    /// </summary>
-    public class DirectLauncher : AbstractLauncher {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DirectLauncher));
-
-        /// <summary>
-        /// Name of this launcher
-        /// </summary>
-        public override string Name {
-            get {
-                return "-";
-            }
-        }
+    public interface ILauncher {
 
         /// <summary>
         /// Is current launcher supported in the envronment
         /// </summary>
-        public override bool IsSupported {
-            get {
-                return true;
-            }
+        bool IsSupported {
+            get;
         }
+
+        /// <summary>
+        /// Name of this launcher
+        /// </summary>
+        string Name {
+            get;
+        }
+
+        /// <summary>
+        /// Name of this launcher
+        /// </summary>
+        string Mnemonic {
+            get;
+        }
+
+        /// <summary>
+        /// Execute process
+        /// </summary>
+        /// <param name="application">Path to executable</param>
+        /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
+        bool Execute(String application);
 
         /// <summary>
         /// Execute process with arguments
@@ -50,12 +56,6 @@ namespace AdvancedLauncher.Service.Execution {
         /// <param name="application">Path to executable</param>
         /// <param name="arguments">Arguments</param>
         /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
-        public override bool Execute(string application, string arguments) {
-            LOGGER.DebugFormat("Trying to start: [application={0}, arguments={1}", application, arguments);
-            if (File.Exists(application)) {
-                return StartProcess(application, arguments);
-            }
-            return false;
-        }
+        bool Execute(String application, String arguments);
     }
 }

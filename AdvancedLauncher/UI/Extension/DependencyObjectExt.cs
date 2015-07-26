@@ -20,7 +20,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher.UI.Extension {
 
     public static class DependencyObjectExt {
 

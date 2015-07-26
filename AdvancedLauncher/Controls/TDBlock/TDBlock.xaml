@@ -21,14 +21,15 @@
 <UserControl x:Class="AdvancedLauncher.Controls.TDBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
+             xmlns:ext="clr-namespace:AdvancedLauncher.UI.Extension"
              xmlns:ALControls="clr-namespace:AdvancedLauncher.Controls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="500"
-             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
+             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
@@ -161,7 +162,7 @@
                               MouseLeftButtonUp="OnTamersShow"
                               Margin="3,3,-7,-7">
                         <DataGrid.Resources>
-                            <ALControls:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ALControls:TDBlock}}}" />
+                            <ext:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ALControls:TDBlock}}}" />
                         </DataGrid.Resources>
                         <DataGrid.Columns>
                             <DataGridTemplateColumn SortMemberPath="TType" Header="{Binding Data.CommHeader_Type, Source={StaticResource proxy}}">
@@ -192,7 +193,7 @@
                               IsReadOnly="True"
                               Margin="3,3,-7,-7">
                         <DataGrid.Resources>
-                            <ALControls:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ALControls:TDBlock}}}" />
+                            <ext:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ALControls:TDBlock}}}" />
                         </DataGrid.Resources>
                         <DataGrid.RowStyle>
                             <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MetroDataGridRow}">

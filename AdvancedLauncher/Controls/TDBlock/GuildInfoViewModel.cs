@@ -20,7 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
+using AdvancedLauncher.Model;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
@@ -30,7 +31,7 @@ namespace AdvancedLauncher.Controls {
 
         public GuildInfoViewModel()
             : base(null) {
-            LanguageEnv.LanguageChanged += (s, e) => {
+            LanguageManager.LanguageChanged += (s, e) => {
                 NotifyPropertyChanged("Items");
             };
         }
@@ -41,12 +42,12 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void LoadGuildData(Guild item) {
-            LoadItem<LanguageEnv>(e => e.CommGMaster, item != null ? item.Master.Name : NO_DATA_CHAR);
-            LoadItem<LanguageEnv>(e => e.CommGBest, item != null ? item.Tamers.Aggregate((t1, t2) => (t1.Rank > t2.Rank ? t2 : t1)).Name : NO_DATA_CHAR);
-            LoadItem<LanguageEnv>(e => e.CommGRank, item != null ? item.Rank : NO_DATA_CHAR);
-            LoadItem<LanguageEnv>(e => e.CommGRep, item != null ? item.Rep : NO_DATA_CHAR);
-            LoadItem<LanguageEnv>(e => e.CommGTCnt, item != null ? item.Tamers.Count : NO_DATA_CHAR);
-            LoadItem<LanguageEnv>(e => e.CommGDCnt, item != null ? item.Tamers.Select(o => o.Digimons.Count).Aggregate((x, y) => x + y) : NO_DATA_CHAR);
+            LoadItem<LanguageModel>(e => e.CommGMaster, item != null ? item.Master.Name : NO_DATA_CHAR);
+            LoadItem<LanguageModel>(e => e.CommGBest, item != null ? item.Tamers.Aggregate((t1, t2) => (t1.Rank > t2.Rank ? t2 : t1)).Name : NO_DATA_CHAR);
+            LoadItem<LanguageModel>(e => e.CommGRank, item != null ? item.Rank : NO_DATA_CHAR);
+            LoadItem<LanguageModel>(e => e.CommGRep, item != null ? item.Rep : NO_DATA_CHAR);
+            LoadItem<LanguageModel>(e => e.CommGTCnt, item != null ? item.Tamers.Count : NO_DATA_CHAR);
+            LoadItem<LanguageModel>(e => e.CommGDCnt, item != null ? item.Tamers.Select(o => o.Digimons.Count).Aggregate((x, y) => x + y) : NO_DATA_CHAR);
             IsDataLoaded = true;
         }
 

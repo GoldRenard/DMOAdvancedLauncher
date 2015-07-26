@@ -20,15 +20,15 @@ using System;
 using System.Collections.Generic;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.Management.Security;
 using AdvancedLauncher.Windows;
 using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace AdvancedLauncher.Controls.Dialogs {
+namespace AdvancedLauncher.Management {
 
-    internal class LoginManager {
+    internal sealed class LoginManager {
         private static LoginManager _Instance;
 
         private List<DMOProfile> failedLogin = new List<DMOProfile>();
@@ -51,7 +51,7 @@ namespace AdvancedLauncher.Controls.Dialogs {
         }
 
         public void Login() {
-            Profile profile = LauncherEnv.Settings.CurrentProfile;
+            Profile profile = EnvironmentManager.Settings.CurrentProfile;
             if (!failedLogin.Contains(profile.DMOProfile)) {
                 if (profile.GameEnv.IsLastSessionAvailable() && !string.IsNullOrEmpty(profile.Login.LastSessionArgs)) {
                     ShowLastSessionDialog();
@@ -59,25 +59,25 @@ namespace AdvancedLauncher.Controls.Dialogs {
                 }
                 if (profile.Login.IsCorrect) {
                     LoginDialogData loginData = new LoginDialogData() {
-                        Username = LauncherEnv.Settings.CurrentProfile.Login.User,
-                        Password = PassEncrypt.ConvertToUnsecureString(LauncherEnv.Settings.CurrentProfile.Login.SecurePassword)
+                        Username = EnvironmentManager.Settings.CurrentProfile.Login.User,
+                        Password = PassEncrypt.ConvertToUnsecureString(EnvironmentManager.Settings.CurrentProfile.Login.SecurePassword)
                     };
                     ShowLoggingInDialog(loginData);
                     return;
                 }
             }
-            ShowLoginDialog(LanguageEnv.Strings.LoginLogIn, String.Empty);
+            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty);
         }
 
         private async void ShowLoginDialog(string title, string message) {
             LoginDialogData result = await MainWindow.Instance.ShowLoginAsync(title, message, new LoginDialogSettings {
                 ColorScheme = MetroDialogColorScheme.Accented,
-                InitialUsername = LauncherEnv.Settings.CurrentProfile.Login.User,
+                InitialUsername = EnvironmentManager.Settings.CurrentProfile.Login.User,
                 NegativeButtonVisibility = System.Windows.Visibility.Visible,
-                NegativeButtonText = LanguageEnv.Strings.CancelButton,
-                UsernameWatermark = LanguageEnv.Strings.Settings_Account_User,
-                PasswordWatermark = LanguageEnv.Strings.Settings_Account_Password,
-                AffirmativeButtonText = LanguageEnv.Strings.LogInButton
+                NegativeButtonText = LanguageManager.Model.CancelButton,
+                UsernameWatermark = LanguageManager.Model.Settings_Account_User,
+                PasswordWatermark = LanguageManager.Model.Settings_Account_Password,
+                AffirmativeButtonText = LanguageManager.Model.LogInButton
             });
             if (result != null) {
                 ShowLoggingInDialog(result);
@@ -89,32 +89,32 @@ namespace AdvancedLauncher.Controls.Dialogs {
         }
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
-            DMOProfile dmoProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile;
+            DMOProfile dmoProfile = EnvironmentManager.Settings.CurrentProfile.DMOProfile;
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
             };
-            controller = await MainWindow.Instance.ShowProgressAsync(LanguageEnv.Strings.LoginLogIn, String.Empty, false, settings);
-            LauncherEnv.Settings.CurrentProfile.DMOProfile.LoginStateChanged += OnLoginStateChanged;
-            LauncherEnv.Settings.CurrentProfile.DMOProfile.LoginCompleted += OnLoginCompleted;
-            LauncherEnv.Settings.CurrentProfile.DMOProfile.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
+            controller = await MainWindow.Instance.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, false, settings);
+            EnvironmentManager.Settings.CurrentProfile.DMOProfile.LoginStateChanged += OnLoginStateChanged;
+            EnvironmentManager.Settings.CurrentProfile.DMOProfile.LoginCompleted += OnLoginCompleted;
+            EnvironmentManager.Settings.CurrentProfile.DMOProfile.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
         }
 
         private async void ShowLastSessionDialog() {
-            MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(LanguageEnv.Strings.UseLastSession, string.Empty,
+            MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(LanguageManager.Model.UseLastSession, string.Empty,
                 MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
-                    AffirmativeButtonText = LanguageEnv.Strings.Yes,
-                    NegativeButtonText = LanguageEnv.Strings.No,
+                    AffirmativeButtonText = LanguageManager.Model.Yes,
+                    NegativeButtonText = LanguageManager.Model.No,
                     ColorScheme = MetroDialogColorScheme.Accented
                 });
 
             if (result == MessageDialogResult.Affirmative) {
                 if (LoginCompleted != null) {
                     LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.SUCCESS,
-                        LauncherEnv.Settings.CurrentProfile.Login.LastSessionArgs));
+                        EnvironmentManager.Settings.CurrentProfile.Login.LastSessionArgs));
                 }
                 return;
             }
-            ShowLoginDialog(LanguageEnv.Strings.LoginLogIn, String.Empty);
+            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty);
         }
 
         private async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
@@ -127,7 +127,7 @@ namespace AdvancedLauncher.Controls.Dialogs {
                 if (!failedLogin.Contains(profile)) {
                     failedLogin.Add(profile);
                 }
-                ShowLoginDialog(LanguageEnv.Strings.LoginLogIn, LanguageEnv.Strings.LoginBadAccount);
+                ShowLoginDialog(LanguageManager.Model.LoginLogIn, LanguageManager.Model.LoginBadAccount);
                 return;
             }
             if (LoginCompleted != null) {
@@ -137,13 +137,13 @@ namespace AdvancedLauncher.Controls.Dialogs {
 
         private void OnLoginStateChanged(object sender, LoginStateEventArgs e) {
             if (e.Code == LoginState.LOGINNING) {
-                controller.SetTitle(LanguageEnv.Strings.LoginLogIn);
+                controller.SetTitle(LanguageManager.Model.LoginLogIn);
             } else if (e.Code == LoginState.GETTING_DATA) {
-                controller.SetTitle(LanguageEnv.Strings.LoginGettingData);
+                controller.SetTitle(LanguageManager.Model.LoginGettingData);
             }
-            string message = string.Format(LanguageEnv.Strings.LoginTry, e.TryNumber);
+            string message = string.Format(LanguageManager.Model.LoginTry, e.TryNumber);
             if (e.LastError != -1) {
-                message += string.Format(" ({0} {1})", LanguageEnv.Strings.LoginWasError, e.LastError);
+                message += string.Format(" ({0} {1})", LanguageManager.Model.LoginWasError, e.LastError);
             }
             controller.SetMessage(message);
         }

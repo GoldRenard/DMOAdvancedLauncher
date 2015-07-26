@@ -18,7 +18,7 @@
 
 using System;
 using System.ComponentModel;
-using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.Controls {
 
@@ -29,7 +29,7 @@ namespace AdvancedLauncher.Controls {
         }
 
         public AbstractItemViewModel() {
-            LanguageEnv.LanguageChanged += (s, e) => {
+            LanguageManager.LanguageChanged += (s, e) => {
                 LanguageChanged();
             };
         }

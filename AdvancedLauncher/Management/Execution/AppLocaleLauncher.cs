@@ -16,32 +16,48 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
+using System.Globalization;
 using System.IO;
-using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher.Service.Execution {
+namespace AdvancedLauncher.Management.Execution {
 
     /// <summary>
-    /// NTLEA application launcher
+    /// AppLocale application launcher
     /// </summary>
-    public class NTLeaLauncher : SteamSensitiveLauncher {
+    public class AppLocaleLauncher : SteamSensitiveLauncher {
 
         /// <summary>
         /// Name of this launcher
         /// </summary>
         public override string Name {
             get {
-                return "NTLEA";
+                return "AppLocale";
+            }
+        }
+
+        public static bool IsInstalled {
+            get {
+                string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
+                return File.Exists(appLocalePath);
+            }
+        }
+
+        public static bool IsKoreanSupported {
+            get {
+                foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.InstalledWin32Cultures))
+                    if (ci.TwoLetterISOLanguageName == "ko") {
+                        return true;
+                    }
+                return false;
             }
         }
 
         /// <summary>
-        /// Is NTLEA supported in the envronment
+        /// Is AppLocale supported in the envronment
         /// </summary>
         public override bool IsSupported {
             get {
-                return File.Exists(LauncherEnv.GetNTLEAFile());
+                return IsInstalled && IsKoreanSupported;
             }
         }
 
@@ -52,11 +68,12 @@ namespace AdvancedLauncher.Service.Execution {
         /// <param name="arguments">Arguments</param>
         /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
         public override bool ExecuteInternal(string application, string arguments) {
-            string newArguments = String.Format("\"{0}\" C949 L1042", application);
+            string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
             if (!string.IsNullOrEmpty(arguments)) {
-                newArguments += String.Format(" \"A{0}\"", arguments);
+                return StartProcess(appLocalePath, "\"" + application + "\" \"" + arguments + "\" \"/L0412\"");
+            } else {
+                return StartProcess(appLocalePath, "\"" + application + "\" \"/L0412\"");
             }
-            return StartProcess(LauncherEnv.GetNTLEAFile(), newArguments);
         }
     }
 }

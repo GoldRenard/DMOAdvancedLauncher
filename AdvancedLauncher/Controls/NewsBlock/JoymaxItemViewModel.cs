@@ -18,6 +18,7 @@
 
 using System.Windows;
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Controls {
@@ -74,7 +75,7 @@ namespace AdvancedLauncher.Controls {
 
         public string Type {
             get {
-                return LanguageEnv.Strings[_Type];
+                return LanguageManager.Model[_Type];
             }
         }
 

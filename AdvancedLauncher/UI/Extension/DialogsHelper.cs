@@ -13,24 +13,23 @@
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with this program. If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see<http://www.gnu.org/licenses/> .
 // ======================================================================
 
 using System;
-using System.IO;
 using System.Threading.Tasks;
-using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.Windows;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher.UI.Extension {
 
-    public static class Utils {
+    internal static class DialogsHelper {
 
         /// <summary> Error MessageBox </summary>
         /// <param name="text">Content of error</param>
         public static void ShowErrorDialog(string text) {
-            ShowMessageDialog(LanguageEnv.Strings.Error, text);
+            ShowMessageDialog(LanguageManager.Model.Error, text);
         }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace AdvancedLauncher.Service {
         /// <param name="text">Content of error</param>
         /// <returns>Dummy True to able wait the return</returns>
         public async static Task<bool> ShowErrorDialogAsync(string text) {
-            return await ShowMessageDialogAsync(LanguageEnv.Strings.Error, text);
+            return await ShowMessageDialogAsync(LanguageManager.Model.Error, text);
         }
 
         /// <summary>
@@ -92,48 +91,11 @@ namespace AdvancedLauncher.Service {
             }
             MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(title, message,
                 MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
-                    AffirmativeButtonText = LanguageEnv.Strings.Yes,
-                    NegativeButtonText = LanguageEnv.Strings.No,
+                    AffirmativeButtonText = LanguageManager.Model.Yes,
+                    NegativeButtonText = LanguageManager.Model.No,
                     ColorScheme = MetroDialogColorScheme.Accented
                 });
             return result == MessageDialogResult.Affirmative;
-        }
-
-        /// <summary> Opens URL with default browser </summary>
-        /// <param name="url">URL to web</param>
-        public static void OpenSite(string url) {
-            try {
-                System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url));
-            } catch (Exception ex) {
-                ShowErrorDialog(LanguageEnv.Strings.CantOpenLink + ex.Message);
-            }
-        }
-
-        /// <summary> Opens URL with default browser (without URL decode) </summary>
-        /// <param name="url">URL to web</param>
-        public static void OpenSiteNoDecode(string url) {
-            try {
-                System.Diagnostics.Process.Start(url);
-            } catch (Exception ex) {
-                ShowErrorDialog(LanguageEnv.Strings.CantOpenLink + ex.Message);
-            }
-        }
-
-        /// <summary> Checks access to file </summary>
-        /// <param name="file">Full path to file</param>
-        /// <returns> <see langword="True"/> if file is locked </returns>
-        public static bool IsFileLocked(string file) {
-            FileStream stream = null;
-
-            try {
-                stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-            } catch (IOException) {
-                return true;
-            } finally {
-                if (stream != null)
-                    stream.Close();
-            }
-            return false;
         }
     }
 }

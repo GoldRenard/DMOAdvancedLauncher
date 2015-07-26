@@ -18,7 +18,7 @@
 
 using System.Windows;
 
-namespace AdvancedLauncher.Controls {
+namespace AdvancedLauncher.UI.Extension {
 
     public class BindingProxy : Freezable {
 

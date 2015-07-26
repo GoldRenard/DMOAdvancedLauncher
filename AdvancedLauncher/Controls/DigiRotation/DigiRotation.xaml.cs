@@ -24,8 +24,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.Management;
 using DMOLibrary;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
@@ -82,10 +81,10 @@ namespace AdvancedLauncher.Controls {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageEnv.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageEnv.Strings;
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.DataContext = LanguageManager.Model;
                 };
-                LauncherEnv.Settings.ProfileChanged += (s, e) => {
+                EnvironmentManager.Settings.ProfileChanged += (s, e) => {
                     IsSourceLoaded = false;
                 };
 
@@ -106,19 +105,19 @@ namespace AdvancedLauncher.Controls {
                     IsStatic = false;
                     IsErrorOccured = false;
                     //Получаем информацию, необходимую для ротации
-                    GuildName = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
-                    TamerName = LauncherEnv.Settings.CurrentProfile.Rotation.Tamer;
+                    GuildName = EnvironmentManager.Settings.CurrentProfile.Rotation.Guild;
+                    TamerName = EnvironmentManager.Settings.CurrentProfile.Rotation.Tamer;
 
                     //Проверяем, доступен ли веб-профиль и необходимая информация
-                    WebProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
+                    WebProfile = EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetWebProfile();
                     IsStatic = WebProfile == null || string.IsNullOrEmpty(GuildName);
                     if (!IsStatic) {
-                        Server = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetServerById(LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1);
+                        Server = EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetServerById(EnvironmentManager.Settings.CurrentProfile.Rotation.ServerId + 1);
                         //Регистрируем ивенты загрузки
                         WebProfile.StatusChanged += OnStatusChange;
                         WebProfile.DownloadCompleted += OnDownloadComplete;
                         //Получаем информацию о списках гильдии
-                        AbstractWebProfile.GetActualGuild(WebProfile, Server, GuildName, false, LauncherEnv.Settings.CurrentProfile.Rotation.UpdateInterval + 1);
+                        AbstractWebProfile.GetActualGuild(WebProfile, Server, GuildName, false, EnvironmentManager.Settings.CurrentProfile.Rotation.UpdateInterval + 1);
                         //Убираем обработку ивентов
                         WebProfile.DownloadCompleted -= OnDownloadComplete;
                         WebProfile.StatusChanged -= OnStatusChange;
@@ -149,21 +148,21 @@ namespace AdvancedLauncher.Controls {
         private void OnDownloadComplete(object sender, DownloadCompleteEventArgs e) {
             if (e.Code != DMODownloadResultCode.OK) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
-                    loader.Title = LanguageEnv.Strings.ErrorOccured + " [" + e.Code + "]";
+                    loader.Title = LanguageManager.Model.ErrorOccured + " [" + e.Code + "]";
                     switch (e.Code) {
                         case DMODownloadResultCode.CANT_GET:
                             {
-                                loader.Summary = LanguageEnv.Strings.CantGetError;
+                                loader.Summary = LanguageManager.Model.CantGetError;
                                 break;
                             }
                         case DMODownloadResultCode.NOT_FOUND:
                             {
-                                loader.Summary = LanguageEnv.Strings.GuildNotFoundError;
+                                loader.Summary = LanguageManager.Model.GuildNotFoundError;
                                 break;
                             }
                         case DMODownloadResultCode.WEB_ACCESS_ERROR:
                             {
-                                loader.Summary = LanguageEnv.Strings.ConnectionError;
+                                loader.Summary = LanguageManager.Model.ConnectionError;
                                 break;
                             }
                     }
@@ -223,7 +222,7 @@ namespace AdvancedLauncher.Controls {
                             }
                             vmodel.DType = DType_;
                             vmodel.Level = Level_;
-                            vmodel.TName = string.Format(TAMER_NAME_FORMAT, LanguageEnv.Strings.RotationTamer, TName_, TLevel_);
+                            vmodel.TName = string.Format(TAMER_NAME_FORMAT, LanguageManager.Model.RotationTamer, TName_, TLevel_);
                             vmodel.TLevel = TLevel_;
                             vmodel.Image = Image_;
                             vmodel.Medal = Medal_;
@@ -253,31 +252,18 @@ namespace AdvancedLauncher.Controls {
         private const string DIGIROTATION_DIR = "DigiRotation";
         private const string PNG_FORMAT = "{0}.png";
 
-        public BitmapImage GetDigimonImage(int digi_id) {
-            DigiImage image = ImagesCollection.Find(i => i.Id == digi_id);
+        public BitmapImage GetDigimonImage(int digimonId) {
+            DigiImage image = ImagesCollection.Find(i => i.Id == digimonId);
             if (image.Image != null) {
                 return image.Image;
             }
 
-            string ImageFile = Path.Combine(LauncherEnv.InitFolder(LauncherEnv.GetResourcesPath(), DIGIROTATION_DIR), string.Format(PNG_FORMAT, digi_id));
-            string ImageFile3rd = Path.Combine(LauncherEnv.InitFolder(LauncherEnv.Get3rdResourcesPath(), DIGIROTATION_DIR), string.Format(PNG_FORMAT, digi_id));
+            string resource = EnvironmentManager.ResolveResource(DIGIROTATION_DIR,
+                string.Format(PNG_FORMAT, digimonId),
+                string.Format(EnvironmentManager.DIGIROTATION_IMAGE_REMOTE_FORMAT, digimonId));
 
-            //If we don't have image, try to download it
-            if (!File.Exists(ImageFile)) {
-                if (!File.Exists(ImageFile3rd)) {
-                    using (WebClientEx webClient = new WebClientEx()) {
-                        try {
-                            webClient.DownloadFile(string.Format(LauncherEnv.DIGIROTATION_IMAGE_REMOTE_FORMAT, digi_id), ImageFile3rd);
-                        } catch {
-                            // fall down
-                        }
-                    }
-                }
-                ImageFile = ImageFile3rd;
-            }
-
-            if (File.Exists(ImageFile)) {
-                Stream str = File.OpenRead(ImageFile);
+            if (resource != null) {
+                Stream str = File.OpenRead(resource);
                 if (str == null) {
                     return null;
                 }
@@ -291,7 +277,7 @@ namespace AdvancedLauncher.Controls {
                 bitmap.Freeze();
                 ImagesCollection.Add(new DigiImage() {
                     Image = bitmap,
-                    Id = digi_id
+                    Id = digimonId
                 });
                 return bitmap;
             }

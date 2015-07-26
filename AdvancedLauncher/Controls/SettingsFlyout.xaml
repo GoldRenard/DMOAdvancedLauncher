@@ -24,12 +24,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              mc:Ignorable="d"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              d:DesignHeight="700" d:DesignWidth="300"
              Position="Right" Width="200"
-             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}"
+             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}"
              Header="{Binding Settings}">
     <Controls:Flyout.Resources>
         <ResourceDictionary>

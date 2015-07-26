@@ -17,39 +17,31 @@
 // ======================================================================
 
 using System;
-using System.Windows;
-using System.Windows.Controls;
 using AdvancedLauncher.Environment;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.UI.Extension;
 
-namespace AdvancedLauncher.Windows {
+namespace AdvancedLauncher.Management {
 
-    public abstract class AbstractWindow : UserControl {
+    public static class URLUtils {
 
-        public delegate void CloseEventHandler(object sender, EventArgs e);
-
-        public event CloseEventHandler WindowClosed;
-
-        public AbstractWindow() {
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+        /// <summary> Opens URL with default browser </summary>
+        /// <param name="url">URL to web</param>
+        public static void OpenSite(string url) {
+            try {
+                System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url));
+            } catch (Exception ex) {
+                DialogsHelper.ShowErrorDialog(LanguageManager.Model.CantOpenLink + ex.Message);
             }
         }
 
-        public virtual void Show() {
-            this.Visibility = Visibility.Visible;
-        }
-
-        public virtual void Close() {
-            if (WindowClosed != null) {
-                WindowClosed(this, new EventArgs());
+        /// <summary> Opens URL with default browser (without URL decode) </summary>
+        /// <param name="url">URL to web</param>
+        public static void OpenSiteNoDecode(string url) {
+            try {
+                System.Diagnostics.Process.Start(url);
+            } catch (Exception ex) {
+                DialogsHelper.ShowErrorDialog(LanguageManager.Model.CantOpenLink + ex.Message);
             }
-        }
-
-        protected virtual void OnCloseClick(object sender, RoutedEventArgs e) {
-            Close();
         }
     }
 }

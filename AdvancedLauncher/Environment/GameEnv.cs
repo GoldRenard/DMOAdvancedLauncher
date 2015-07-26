@@ -20,7 +20,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
-using AdvancedLauncher.Service;
 using DMOLibrary.DMOFileSystem;
 using Microsoft.Win32;
 
@@ -159,6 +158,23 @@ namespace AdvancedLauncher.Environment {
 
         #region Check Section
 
+        /// <summary> Checks access to file </summary>
+        /// <param name="file">Full path to file</param>
+        /// <returns> <see langword="True"/> if file is locked </returns>
+        public static bool IsFileLocked(string file) {
+            FileStream stream = null;
+
+            try {
+                stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            } catch (IOException) {
+                return true;
+            } finally {
+                if (stream != null)
+                    stream.Close();
+            }
+            return false;
+        }
+
         public bool CheckGame() {
             return CheckGame(pGamePath);
         }
@@ -193,7 +209,7 @@ namespace AdvancedLauncher.Environment {
         }
 
         public bool CheckUpdateAccess() {
-            return !Utils.IsFileLocked(GetGameEXE()) && !Utils.IsFileLocked(GetPFPath()) && !Utils.IsFileLocked(GetHFPath());
+            return !IsFileLocked(GetGameEXE()) && !IsFileLocked(GetPFPath()) && !IsFileLocked(GetHFPath());
         }
 
         private DMOFileSystem _GameFS = null;

@@ -23,8 +23,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
-using AdvancedLauncher.Service;
-using AdvancedLauncher.Service.Execution;
+using AdvancedLauncher.Management.Execution;
 using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Environment.Containers {

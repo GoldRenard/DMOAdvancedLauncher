@@ -17,6 +17,7 @@
 // ======================================================================
 
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
@@ -31,7 +32,7 @@ namespace AdvancedLauncher.Controls {
 
         public string Name {
             get {
-                return LanguageEnv.Strings[_Name];
+                return LanguageManager.Model[_Name];
             }
             set {
                 if (value != _Name) {

@@ -27,6 +27,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Management;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 
@@ -44,8 +45,8 @@ namespace AdvancedLauncher.Controls {
         public SettingsFlyout() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageEnv.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageEnv.Strings;
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.DataContext = LanguageManager.Model;
                 };
 
                 this.CloseCommand = new SimpleCommand {
@@ -84,13 +85,13 @@ namespace AdvancedLauncher.Controls {
             settingsContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
             settingsContainer.AppTheme = CurrentAppTheme.Name;
             settingsContainer.ThemeAccent = CurrentAccent.Name;
-            LauncherEnv.Settings.MergeConfig(settingsContainer);
-            LauncherEnv.Save();
+            EnvironmentManager.Settings.MergeConfig(settingsContainer);
+            EnvironmentManager.Save();
             this.IsOpen = false;
         }
 
         private void ResetAll() {
-            settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(LauncherEnv.Settings, true);
+            settingsContainer = new Settings(EnvironmentManager.Settings, true);
             ProxySettings.DataContext = settingsContainer.Proxy;
             ComboBoxLanguage.SelectedIndex = CurrentLangIndex;
             BaseColorsList.SelectedItem = CurrentAppTheme;
@@ -119,21 +120,21 @@ namespace AdvancedLauncher.Controls {
 
         private void InitializeLanguages() {
             List<LanguageEntry> Langs = new List<LanguageEntry>() { new LanguageEntry() {
-                Code = LanguageEnv.DefaultName
+                Code = LanguageManager.DefaultName
             }};
-            foreach (string lang in LanguageEnv.GetTranslations()) {
+            foreach (string lang in LanguageManager.GetTranslations()) {
                 Langs.Add(new LanguageEntry() {
                     Code = Path.GetFileNameWithoutExtension(lang)
                 });
             }
             ComboBoxLanguage.ItemsSource = Langs;
-            ComboBoxLanguage.SelectedItem = Langs.FirstOrDefault(e => e.Code == LauncherEnv.Settings.LanguageFile);
+            ComboBoxLanguage.SelectedItem = Langs.FirstOrDefault(e => e.Code == EnvironmentManager.Settings.LanguageFile);
             CurrentLangIndex = Langs.IndexOf((LanguageEntry)ComboBoxLanguage.SelectedItem);
         }
 
         private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (this.IsLoaded) {
-                LanguageEnv.Load(ComboBoxLanguage.SelectedValue.ToString());
+                LanguageManager.Load(ComboBoxLanguage.SelectedValue.ToString());
             }
         }
 

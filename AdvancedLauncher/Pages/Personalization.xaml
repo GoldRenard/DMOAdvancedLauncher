@@ -22,12 +22,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              xmlns:pages="clr-namespace:AdvancedLauncher.Pages"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="850"
-             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
+             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
     <pages:AbstractPage.Resources>
         <ResourceDictionary>
             <Style x:Key="SelectButton" TargetType="{x:Type Button}">

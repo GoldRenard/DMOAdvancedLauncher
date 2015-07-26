@@ -20,7 +20,7 @@ using System;
 using System.Security.Permissions;
 using System.Windows.Threading;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher.UI.Extension {
 
     public static class DispatcherHelper {
 

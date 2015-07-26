@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher.Management.Execution {
 
     internal class InstanceChecker {
         private static Mutex mutex;

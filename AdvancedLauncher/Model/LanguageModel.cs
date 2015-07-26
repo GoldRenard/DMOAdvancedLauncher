@@ -17,26 +17,16 @@
 // ======================================================================
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
-namespace AdvancedLauncher.Environment {
+namespace AdvancedLauncher.Model {
 
     [XmlType("Language")]
-    public class LanguageEnv : INotifyPropertyChanged {
+    public class LanguageModel : INotifyPropertyChanged {
         private static string sep = ": ";
-
-        [XmlIgnore]
-        public const string DefaultName = "en-US";
-
-        [XmlIgnore]
-        public string FileName = DefaultName;
 
         #region Shared Strings
 
@@ -1638,23 +1628,6 @@ namespace AdvancedLauncher.Environment {
 
         #endregion Update Checker
 
-        public static LanguageEnv Default = new LanguageEnv();
-        private static List<LanguageEnv> lCollection = new List<LanguageEnv>();
-
-        private static LanguageEnv _Strings = new LanguageEnv();
-
-        public static LanguageEnv Strings {
-            set {
-                _Strings = value;
-            }
-            get {
-                return _Strings;
-            }
-        }
-
-        private LanguageEnv() {
-        }
-
         /// <summary>
         /// Returns property value by its string representation as key
         /// </summary>
@@ -1675,7 +1648,7 @@ namespace AdvancedLauncher.Environment {
         /// </summary>
         /// <param name="expression">Property lambda expression</param>
         /// <returns></returns>
-        public string this[Expression<Func<LanguageEnv, object>> expression] {
+        public string this[Expression<Func<LanguageModel, object>> expression] {
             get {
                 var body = expression.Body as MemberExpression;
                 if (body == null) {
@@ -1685,70 +1658,7 @@ namespace AdvancedLauncher.Environment {
             }
         }
 
-        #region Save/Read/Load
-
-        public static void Save(string filename, LanguageEnv t_object) {
-            XmlSerializer writer = new XmlSerializer(typeof(LanguageEnv));
-            StreamWriter file = new StreamWriter(filename);
-            writer.Serialize(file, t_object);
-            file.Close();
-        }
-
-        private static LanguageEnv Read(string tFile) {
-            foreach (LanguageEnv lang in lCollection) {
-                if (lang.FileName == tFile) {
-                    return lang;
-                }
-            }
-            if (File.Exists(tFile)) {
-                XmlSerializer reader = new XmlSerializer(typeof(LanguageEnv));
-                using (var file = new StreamReader(tFile)) {
-                    LanguageEnv lang = (LanguageEnv)reader.Deserialize(file);
-                    lang.FileName = tFile;
-                    lCollection.Add(lang);
-                    return lang;
-                }
-            }
-            return null;
-        }
-
-        public static bool Load(string tName) {
-            if (tName == LanguageEnv.DefaultName) {
-                Strings = Default;
-                OnChanged();
-                return true;
-            }
-            LanguageEnv NewEnv = Read(Path.Combine(LauncherEnv.GetLangsPath(), tName + ".lng"));
-            if (NewEnv == null)
-                return false;
-            else
-                Strings = NewEnv;
-
-            OnChanged();
-            return true;
-        }
-
-        public static string[] GetTranslations() {
-            string[] translations = null;
-            Regex regex = new Regex(@"^[a-z]{2,3}(?:-[A-Z]{2,3}(?:-[a-zA-Z]{4})?)?$");
-            if (Directory.Exists(LauncherEnv.GetLangsPath())) {
-                translations = Directory.GetFiles(LauncherEnv.GetLangsPath(), "*.lng")
-                    .Where(path => regex.IsMatch(Path.GetFileNameWithoutExtension(path))).ToArray();
-            }
-            return translations;
-        }
-
-        #endregion Save/Read/Load
-
         #region Event Handlers
-
-        public static event EventHandler LanguageChanged;
-
-        public static void OnChanged() {
-            if (LanguageChanged != null) {
-                LanguageChanged(LanguageEnv.Strings, EventArgs.Empty);
-            }
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

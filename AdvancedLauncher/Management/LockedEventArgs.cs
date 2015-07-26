@@ -18,7 +18,7 @@
 
 using System;
 
-namespace AdvancedLauncher.Environment {
+namespace AdvancedLauncher.Management {
 
     public class LockedEventArgs : EventArgs {
 

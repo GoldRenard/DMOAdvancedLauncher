@@ -21,7 +21,7 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Windows;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher.Management {
 
     /// <summary> Данный класс реализует своеобразный менеджер задач,
     /// цель которого - не дать приложению закрыться, пока есть хоть одна задача </summary>

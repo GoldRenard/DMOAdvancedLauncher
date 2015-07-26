@@ -21,7 +21,8 @@ using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Controls;
 using AdvancedLauncher.Environment;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.Management;
+using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Validation;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Entity;
@@ -51,7 +52,7 @@ namespace AdvancedLauncher.Pages {
             GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;
-            webProfile = LauncherEnv.Settings.CurrentProfile.DMOProfile.GetWebProfile();
+            webProfile = EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetWebProfile();
             if (webProfile != null) {
                 webProfile.SetDispatcher(this.Dispatcher);
             }
@@ -69,18 +70,18 @@ namespace AdvancedLauncher.Pages {
 
         private void LoadServerList() {
             //Загружаем новый список серверов
-            ComboBoxServer.ItemsSource = LauncherEnv.Settings.CurrentProfile.DMOProfile.ServerList;
+            ComboBoxServer.ItemsSource = EnvironmentManager.Settings.CurrentProfile.DMOProfile.ServerList;
             //Если есть название гильдии в ротации, вводим его и сервер
-            if (!string.IsNullOrEmpty(LauncherEnv.Settings.CurrentProfile.Rotation.Guild)) {
+            if (!string.IsNullOrEmpty(EnvironmentManager.Settings.CurrentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {
                     //Ищем сервер с нужным идентификатором и выбираем его
-                    if (serv.Identifier == LauncherEnv.Settings.CurrentProfile.Rotation.ServerId + 1) {
+                    if (serv.Identifier == EnvironmentManager.Settings.CurrentProfile.Rotation.ServerId + 1) {
                         ComboBoxServer.SelectedValue = serv;
                         break;
                     }
                 }
                 if (string.IsNullOrEmpty(GuildNameTextBox.Text)) {
-                    GuildNameTextBox.Text = LauncherEnv.Settings.CurrentProfile.Rotation.Guild;
+                    GuildNameTextBox.Text = EnvironmentManager.Settings.CurrentProfile.Rotation.Guild;
                 }
             } else {
                 GuildNameTextBox.Clear();
@@ -94,12 +95,12 @@ namespace AdvancedLauncher.Pages {
             switch (e.Code) {
                 case DMODownloadStatusCode.GETTING_GUILD:
                     {
-                        LoadProgressStatus.Text = LanguageEnv.Strings.CommSearchingGuild;
+                        LoadProgressStatus.Text = LanguageManager.Model.CommSearchingGuild;
                         break;
                     }
                 case DMODownloadStatusCode.GETTING_TAMER:
                     {
-                        LoadProgressStatus.Text = string.Format(LanguageEnv.Strings.CommGettingTamer, e.Info);
+                        LoadProgressStatus.Text = string.Format(LanguageManager.Model.CommGettingTamer, e.Info);
                         break;
                     }
             }
@@ -125,17 +126,17 @@ namespace AdvancedLauncher.Pages {
                     }
                 case DMODownloadResultCode.CANT_GET:
                     {
-                        Utils.ShowErrorDialog(LanguageEnv.Strings.CantGetError);
+                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.CantGetError);
                         break;
                     }
                 case DMODownloadResultCode.NOT_FOUND:
                     {
-                        Utils.ShowErrorDialog(LanguageEnv.Strings.GuildNotFoundError);
+                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.GuildNotFoundError);
                         break;
                     }
                 case DMODownloadResultCode.WEB_ACCESS_ERROR:
                     {
-                        Utils.ShowErrorDialog(LanguageEnv.Strings.ConnectionError);
+                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.ConnectionError);
                         break;
                     }
             }
@@ -165,7 +166,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public void BlockControls(bool block) {
-            LauncherEnv.Settings.OnProfileLocked(block);
+            EnvironmentManager.Settings.OnProfileLocked(block);
             GuildNameTextBox.IsEnabled = !block;
             ComboBoxServer.IsEnabled = !block;
             SearchButton.IsEnabled = !block;
@@ -175,14 +176,14 @@ namespace AdvancedLauncher.Pages {
         #region Обработка поля ввода имени гильдии
 
         public static bool IsValidName(string name) {
-            if (name == LanguageEnv.Strings.CommGuildName) {
-                Utils.ShowErrorDialog(LanguageEnv.Strings.CommGuildNameEmpty);
+            if (name == LanguageManager.Model.CommGuildName) {
+                DialogsHelper.ShowErrorDialog(LanguageManager.Model.CommGuildNameEmpty);
                 return false;
             }
             GuildNameValidationRule validationRule = new GuildNameValidationRule();
             ValidationResult result = validationRule.Validate(name, new System.Globalization.CultureInfo(1, false));
             if (!result.IsValid) {
-                Utils.ShowErrorDialog(result.ErrorContent.ToString());
+                DialogsHelper.ShowErrorDialog(result.ErrorContent.ToString());
             }
             return result.IsValid;
         }

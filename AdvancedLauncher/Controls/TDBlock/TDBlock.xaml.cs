@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Controls {
@@ -46,8 +47,8 @@ namespace AdvancedLauncher.Controls {
                 TamerModel.LoadCompleted += TamersLoadCompleted;
                 DigimonModel.LoadStarted += DigimonsLoadStarted;
                 DigimonModel.LoadCompleted += DigimonsLoadCompleted;
-                LanguageEnv.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageEnv.Strings;
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.DataContext = LanguageManager.Model;
                 };
             }
         }

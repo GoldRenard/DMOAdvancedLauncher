@@ -29,7 +29,7 @@
                     xmlns:ALControls="clr-namespace:AdvancedLauncher.Controls"
                     xmlns:local="clr-namespace:AdvancedLauncher"
                     xmlns:Page="clr-namespace:AdvancedLauncher.Pages"
-                    xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+                    xmlns:mg="clr-namespace:AdvancedLauncher.Management"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d"
                     Icon="/AdvancedLauncher;component/app_icon.ico"
@@ -42,7 +42,7 @@
                     ResizeMode="CanResizeWithGrip"
                     BorderBrush="{DynamicResource AccentColorBrush}"
                     BorderThickness="1"
-                    DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
+                    DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
     <Controls:MetroWindow.IconTemplate>
         <DataTemplate>
             <Border Background="{DynamicResource HighlightBrush}">

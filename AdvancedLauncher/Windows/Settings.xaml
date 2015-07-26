@@ -23,7 +23,7 @@
              xmlns:Validation="clr-namespace:AdvancedLauncher.UI.Validation"
              xmlns:controls="clr-namespace:AdvancedLauncher.Controls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              xmlns:sw="clr-namespace:AdvancedLauncher.Windows"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -32,7 +32,7 @@
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="900"
              Background="{DynamicResource WhiteBrush}"
-             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
+             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
     <win:AbstractWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -347,7 +347,7 @@
                                                         <controls:EnabledTextBlock Grid.Column="1" Margin="5,2,0,0"
                                                                Visibility="{Binding IsSupported, Converter={StaticResource NotBoolToHiddenConverter}}">
                                                             <Hyperlink Click="OnAppLocaleHelpClick" Style="{DynamicResource HyperLinkAccent}">
-                                                                <Run Loaded="Run_Loaded" Text="{Binding Settings_AppLocale_Help, Source={x:Static env:LanguageEnv.Strings}, Mode=TwoWay}" />
+                                                                <Run Loaded="Run_Loaded" Text="{Binding Settings_AppLocale_Help, Source={x:Static mg:LanguageManager.Model}, Mode=TwoWay}" />
                                                             </Hyperlink>
                                                         </controls:EnabledTextBlock>
                                                     </Grid>

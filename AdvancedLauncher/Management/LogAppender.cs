@@ -20,7 +20,7 @@ using AdvancedLauncher.Windows;
 using log4net.Appender;
 using log4net.Core;
 
-namespace AdvancedLauncher.Environment {
+namespace AdvancedLauncher.Management {
 
     public class LogAppender : AppenderSkeleton {
 

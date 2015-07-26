@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System.Windows.Navigation;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.Windows {
 
@@ -29,7 +29,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {
-            Utils.OpenSite(e.Uri.AbsoluteUri);
+            URLUtils.OpenSite(e.Uri.AbsoluteUri);
         }
     }
 }

@@ -18,7 +18,7 @@
 
 using System;
 using System.Windows.Threading;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.UI.Extension;
 using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.Windows {

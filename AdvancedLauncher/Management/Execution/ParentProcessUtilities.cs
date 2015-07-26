@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher.Management.Execution {
 
     /// <summary>
     /// A utility class to determine a process parent.

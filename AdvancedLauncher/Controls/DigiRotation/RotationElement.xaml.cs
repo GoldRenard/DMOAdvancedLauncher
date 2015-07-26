@@ -21,7 +21,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.Controls {
 
@@ -30,7 +30,7 @@ namespace AdvancedLauncher.Controls {
         public RotationElement() {
             InitializeComponent();
             (this.Content as FrameworkElement).DataContext = this;
-            LanguageEnv.LanguageChanged += (s, e) => {
+            LanguageManager.LanguageChanged += (s, e) => {
                 NotifyPropertyChanged("LevelText");
             };
         }
@@ -65,7 +65,7 @@ namespace AdvancedLauncher.Controls {
 
         public string LevelText {
             get {
-                return LanguageEnv.Strings.RotationLevelText;
+                return LanguageManager.Model.RotationLevelText;
             }
             set {
             }

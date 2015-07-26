@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
+using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.Environment.Containers {
 

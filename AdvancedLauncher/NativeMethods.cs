@@ -18,8 +18,9 @@
 
 using System;
 using System.Runtime.InteropServices;
+using AdvancedLauncher.Management.Execution;
 
-namespace AdvancedLauncher.Service {
+namespace AdvancedLauncher {
 
     /// <summary>
     /// Native Wind32 methods

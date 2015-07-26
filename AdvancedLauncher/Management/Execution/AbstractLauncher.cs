@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace AdvancedLauncher.Service.Execution {
+namespace AdvancedLauncher.Management.Execution {
 
     public abstract class AbstractLauncher : ILauncher {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(AbstractLauncher));

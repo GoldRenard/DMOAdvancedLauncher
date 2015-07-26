@@ -27,7 +27,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Controls;
 using AdvancedLauncher.Environment;
-using AdvancedLauncher.Service;
+using AdvancedLauncher.Management;
+using AdvancedLauncher.UI.Extension;
 
 namespace AdvancedLauncher.Pages {
 
@@ -50,7 +51,7 @@ namespace AdvancedLauncher.Pages {
 
         public override void PageActivate() {
             base.PageActivate();
-            string gamePath = LauncherEnv.Settings.CurrentProfile.GameEnv.GamePath;
+            string gamePath = EnvironmentManager.Settings.CurrentProfile.GameEnv.GamePath;
             if (Directory.Exists(gamePath + SCREENSHOTS_DIR)) {
                 if (Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length > 0) {
                     if (!IsGalleryInitialized || GalleryModel.Count() != Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length) {
@@ -196,7 +197,7 @@ namespace AdvancedLauncher.Pages {
                     try {
                         Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + FullPath);
                     } catch (Exception ex) {
-                        Utils.ShowErrorDialog(LanguageEnv.Strings.GalleryCantOpenImage + ex.Message);
+                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.GalleryCantOpenImage + ex.Message);
                     }
                 });
             }

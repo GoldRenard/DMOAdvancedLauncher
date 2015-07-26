@@ -23,12 +23,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              xmlns:controls="clr-namespace:AdvancedLauncher.Controls"
              xmlns:pages="clr-namespace:AdvancedLauncher.Pages"
              mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
-             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
+             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
     <Grid x:Name="LayoutRoot">
         <Grid Width="360" HorizontalAlignment="Left">
             <Grid.RowDefinitions>

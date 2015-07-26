@@ -18,7 +18,7 @@
 
 using System;
 using System.Windows.Controls;
-using AdvancedLauncher.Environment;
+using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.UI.Validation {
 
@@ -26,20 +26,20 @@ namespace AdvancedLauncher.UI.Validation {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (string.IsNullOrEmpty(value.ToString().Trim())) {
-                return new ValidationResult(false, LanguageEnv.Strings.Settings_ProfileNameHint);
+                return new ValidationResult(false, LanguageManager.Model.Settings_ProfileNameHint);
             }
             int code = 0;
 
             if (value.ToString().IndexOfAny("*^%@&^@#><>!.,$|`~?:\":\\/';=-+".ToCharArray()) != -1)
-                return new ValidationResult(false, LanguageEnv.Strings.Settings_ProfileNameHint);
+                return new ValidationResult(false, LanguageManager.Model.Settings_ProfileNameHint);
 
             foreach (char chr in value.ToString()) {
                 code = Convert.ToInt32(chr);
                 if (Char.IsControl(chr)) {
-                    return new ValidationResult(false, LanguageEnv.Strings.Settings_ProfileNameHint);
+                    return new ValidationResult(false, LanguageManager.Model.Settings_ProfileNameHint);
                 }
             }
-            return new ValidationResult(true, LanguageEnv.Strings.Settings_ProfileNameHint);
+            return new ValidationResult(true, LanguageManager.Model.Settings_ProfileNameHint);
         }
     }
 }

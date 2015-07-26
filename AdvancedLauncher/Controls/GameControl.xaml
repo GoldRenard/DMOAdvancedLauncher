@@ -23,11 +23,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:env="clr-namespace:AdvancedLauncher.Environment"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d"
              d:DesignHeight="60" d:DesignWidth="330"
-             DataContext="{Binding Source={x:Static env:LanguageEnv.Strings}}">
+             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="UpdateText" TargetType="{x:Type TextBlock}">

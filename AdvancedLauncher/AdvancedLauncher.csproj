@@ -381,8 +381,12 @@
     <None Include="Languages\uk-UA.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="NTLea\COPYING.mhook" />
-    <None Include="NTLea\COPYING.minhook" />
+    <None Include="Docs\NTLEA.COPYING.mhook">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Docs\NTLEA.COPYING.minhook">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

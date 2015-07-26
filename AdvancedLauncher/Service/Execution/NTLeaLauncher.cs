@@ -32,7 +32,7 @@ namespace AdvancedLauncher.Service.Execution {
         /// </summary>
         public override string Name {
             get {
-                return "NTLead";
+                return "NTLEA";
             }
         }
 

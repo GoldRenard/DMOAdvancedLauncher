@@ -25,8 +25,8 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.UI.Controls;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Extension;
 

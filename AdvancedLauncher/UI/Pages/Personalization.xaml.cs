@@ -25,6 +25,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
 using DMOLibrary.DMOFileSystem;
 using Microsoft.Win32;

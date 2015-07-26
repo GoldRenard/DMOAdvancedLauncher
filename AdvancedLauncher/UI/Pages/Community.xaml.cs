@@ -19,9 +19,9 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using AdvancedLauncher.UI.Controls;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.UI.Controls;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Validation;
 using DMOLibrary.Database;

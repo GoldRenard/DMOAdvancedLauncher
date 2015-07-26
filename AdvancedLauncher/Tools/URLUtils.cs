@@ -17,9 +17,10 @@
 // ======================================================================
 
 using System;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.UI.Extension;
 
-namespace AdvancedLauncher.Management {
+namespace AdvancedLauncher.Tools {
 
     public static class URLUtils {
 

@@ -20,7 +20,7 @@ using System;
 using System.Runtime.InteropServices;
 using AdvancedLauncher.Management.Execution;
 
-namespace AdvancedLauncher {
+namespace AdvancedLauncher.Tools {
 
     /// <summary>
     /// Native Wind32 methods

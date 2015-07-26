@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Pages;
 using MahApps.Metro.Controls;
 

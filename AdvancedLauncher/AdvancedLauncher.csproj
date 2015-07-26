@@ -173,7 +173,7 @@
     <Compile Include="Model\Config\Settings.cs" />
     <Compile Include="Model\LanguageModel.cs" />
     <Compile Include="Management\LockedEventArgs.cs" />
-    <Compile Include="Management\LogAppender.cs" />
+    <Compile Include="Tools\LogAppender.cs" />
     <Compile Include="UI\Pages\AbstractPage.cs" />
     <Compile Include="UI\Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>
@@ -198,17 +198,17 @@
     <Compile Include="Management\Security\FingerPrint.cs" />
     <Compile Include="Management\Execution\InstanceChecker.cs" />
     <Compile Include="Management\EnvironmentManager.cs" />
-    <Compile Include="UI\Extension\JpegEncoder.cs" />
+    <Compile Include="Tools\JpegEncoder.cs" />
     <Compile Include="Management\Execution\ILauncher.cs" />
-    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Tools\NativeMethods.cs" />
     <Compile Include="Management\Execution\ParentProcessUtilities.cs" />
     <Compile Include="UI\Converters\BooleanConverter.cs" />
     <Compile Include="Management\Security\PassEncrypt.cs" />
     <Compile Include="UI\Extension\DependencyObjectExt.cs" />
-    <Compile Include="UI\Extension\TargaImage.cs" />
+    <Compile Include="Tools\TargaImage.cs" />
     <Compile Include="Management\TaskManager.cs" />
     <Compile Include="Management\UpdateManager.cs" />
-    <Compile Include="Management\URLUtils.cs" />
+    <Compile Include="Tools\URLUtils.cs" />
     <Compile Include="UI\Validation\GuildNameValidationRule.cs" />
     <Compile Include="UI\Validation\NameValidationRule.cs" />
     <Compile Include="UI\Validation\ProfileNameValidationRule.cs" />

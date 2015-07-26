@@ -31,6 +31,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Tools;
 using DMOLibrary;
 using DMOLibrary.Profiles;
 using Newtonsoft.Json.Linq;

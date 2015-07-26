@@ -20,7 +20,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace AdvancedLauncher.UI.Extension {
+namespace AdvancedLauncher.Tools {
 
     internal class JpegEncoder {
 

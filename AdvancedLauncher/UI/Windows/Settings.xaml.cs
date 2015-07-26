@@ -27,6 +27,7 @@ using System.Windows.Navigation;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
 
 namespace AdvancedLauncher.UI.Windows {

@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System.Windows.Navigation;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.UI.Windows {
 

@@ -19,6 +19,7 @@
 using System;
 using System.ComponentModel;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
 
 namespace AdvancedLauncher.Management {

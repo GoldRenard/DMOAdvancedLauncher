@@ -25,7 +25,7 @@ using System.Xml.Serialization;
 namespace AdvancedLauncher.Model {
 
     [XmlType("Language")]
-    public class LanguageModel : INotifyPropertyChanged {
+    public class LanguageModel {
         private static string sep = ": ";
 
         #region Shared Strings
@@ -34,7 +34,7 @@ namespace AdvancedLauncher.Model {
 
         public string CantOpenLink {
             set {
-                _CantOpenLink = value; NotifyPropertyChanged("CantOpenLink");
+                _CantOpenLink = value;
             }
             get {
                 return _CantOpenLink;
@@ -45,7 +45,7 @@ namespace AdvancedLauncher.Model {
 
         public string Error {
             set {
-                _Error = value; NotifyPropertyChanged("Error");
+                _Error = value;
             }
             get {
                 return _Error;
@@ -56,7 +56,7 @@ namespace AdvancedLauncher.Model {
 
         public string Yes {
             set {
-                _Yes = value; NotifyPropertyChanged("Yes");
+                _Yes = value;
             }
             get {
                 return _Yes;
@@ -67,7 +67,7 @@ namespace AdvancedLauncher.Model {
 
         public string No {
             set {
-                _No = value; NotifyPropertyChanged("No");
+                _No = value;
             }
             get {
                 return _No;
@@ -78,7 +78,7 @@ namespace AdvancedLauncher.Model {
 
         public string Console {
             set {
-                _Console = value; NotifyPropertyChanged("Console");
+                _Console = value;
             }
             get {
                 return _Console;
@@ -89,7 +89,7 @@ namespace AdvancedLauncher.Model {
 
         public string CreateButton {
             set {
-                _CreateButton = value; NotifyPropertyChanged("CreateButton");
+                _CreateButton = value;
             }
             get {
                 return _CreateButton;
@@ -100,7 +100,7 @@ namespace AdvancedLauncher.Model {
 
         public string DeleteButton {
             set {
-                _DeleteButton = value; NotifyPropertyChanged("DeleteButton");
+                _DeleteButton = value;
             }
             get {
                 return _DeleteButton;
@@ -111,7 +111,7 @@ namespace AdvancedLauncher.Model {
 
         public string BrowseButton {
             set {
-                _BrowseButton = value; NotifyPropertyChanged("BrowseButton");
+                _BrowseButton = value;
             }
             get {
                 return _BrowseButton;
@@ -122,7 +122,7 @@ namespace AdvancedLauncher.Model {
 
         public string ApplyButton {
             set {
-                _ApplyButton = value; NotifyPropertyChanged("ApplyButton");
+                _ApplyButton = value;
             }
             get {
                 return _ApplyButton;
@@ -133,7 +133,7 @@ namespace AdvancedLauncher.Model {
 
         public string CancelButton {
             set {
-                _CancelButton = value; NotifyPropertyChanged("CancelButton");
+                _CancelButton = value;
             }
             get {
                 return _CancelButton;
@@ -144,7 +144,7 @@ namespace AdvancedLauncher.Model {
 
         public string SendButton {
             set {
-                _SendButton = value; NotifyPropertyChanged("SendButton");
+                _SendButton = value;
             }
             get {
                 return _SendButton;
@@ -155,7 +155,7 @@ namespace AdvancedLauncher.Model {
 
         public string LogInButton {
             set {
-                _LogInButton = value; NotifyPropertyChanged("LogInButton");
+                _LogInButton = value;
             }
             get {
                 return _LogInButton;
@@ -166,7 +166,7 @@ namespace AdvancedLauncher.Model {
 
         public string CloseButton {
             set {
-                _CloseButton = value; NotifyPropertyChanged("CloseButton");
+                _CloseButton = value;
             }
             get {
                 return _CloseButton;
@@ -177,7 +177,7 @@ namespace AdvancedLauncher.Model {
 
         public string StartButton {
             set {
-                _StartButton = value; NotifyPropertyChanged("StartButton");
+                _StartButton = value;
             }
             get {
                 return _StartButton.ToUpper();
@@ -188,7 +188,7 @@ namespace AdvancedLauncher.Model {
 
         public string DigiRotation {
             set {
-                _DigiRotation = value; NotifyPropertyChanged("DigiRotation");
+                _DigiRotation = value;
             }
             get {
                 return _DigiRotation;
@@ -199,7 +199,7 @@ namespace AdvancedLauncher.Model {
 
         public string PleaseWait {
             set {
-                _PleaseWait = value; NotifyPropertyChanged("PleaseWait");
+                _PleaseWait = value;
             }
             get {
                 return _PleaseWait;
@@ -210,7 +210,7 @@ namespace AdvancedLauncher.Model {
 
         public string ErrorOccured {
             set {
-                _ErrorOccured = value; NotifyPropertyChanged("ErrorOccured");
+                _ErrorOccured = value;
             }
             get {
                 return _ErrorOccured;
@@ -221,7 +221,7 @@ namespace AdvancedLauncher.Model {
 
         public string ConnectionError {
             set {
-                _ConnectionError = value; NotifyPropertyChanged("ConnectionError");
+                _ConnectionError = value;
             }
             get {
                 return _ConnectionError;
@@ -232,7 +232,7 @@ namespace AdvancedLauncher.Model {
 
         public string CantGetError {
             set {
-                _CantGetError = value; NotifyPropertyChanged("CantGetError");
+                _CantGetError = value;
             }
             get {
                 return _CantGetError;
@@ -243,7 +243,7 @@ namespace AdvancedLauncher.Model {
 
         public string GuildNotFoundError {
             set {
-                _GuildNotFoundError = value; NotifyPropertyChanged("GuildNotFoundError");
+                _GuildNotFoundError = value;
             }
             get {
                 return _GuildNotFoundError;
@@ -254,7 +254,7 @@ namespace AdvancedLauncher.Model {
 
         public string GameFilesInUse {
             set {
-                _GameFilesInUse = value; NotifyPropertyChanged("GameFilesInUse");
+                _GameFilesInUse = value;
             }
             get {
                 return _GameFilesInUse;
@@ -265,7 +265,7 @@ namespace AdvancedLauncher.Model {
 
         public string PleaseCloseGame {
             set {
-                _PleaseCloseGame = value; NotifyPropertyChanged("PleaseCloseGame");
+                _PleaseCloseGame = value;
             }
             get {
                 return _PleaseCloseGame;
@@ -276,7 +276,7 @@ namespace AdvancedLauncher.Model {
 
         public string PleaseSelectGamePath {
             set {
-                _PleaseSelectGamePath = value; NotifyPropertyChanged("PleaseSelectGamePaths");
+                _PleaseSelectGamePath = value;
             }
             get {
                 return _PleaseSelectGamePath;
@@ -287,7 +287,7 @@ namespace AdvancedLauncher.Model {
 
         public string PleaseSelectLauncherPath {
             set {
-                _PleaseSelectLauncherPath = value; NotifyPropertyChanged("PleaseSelectGamePaths");
+                _PleaseSelectLauncherPath = value;
             }
             get {
                 return _PleaseSelectLauncherPath;
@@ -302,7 +302,7 @@ namespace AdvancedLauncher.Model {
 
         public string MainWindow_NewsTab {
             set {
-                _MainWindow_NewsTab = value; NotifyPropertyChanged("MainWindow_NewsTab");
+                _MainWindow_NewsTab = value;
             }
             get {
                 return _MainWindow_NewsTab.ToUpper();
@@ -313,7 +313,7 @@ namespace AdvancedLauncher.Model {
 
         public string MainWindow_GalleryTab {
             set {
-                _MainWindow_GalleryTab = value; NotifyPropertyChanged("MainWindow_GalleryTab");
+                _MainWindow_GalleryTab = value;
             }
             get {
                 return _MainWindow_GalleryTab.ToUpper();
@@ -324,7 +324,7 @@ namespace AdvancedLauncher.Model {
 
         public string MainWindow_CommunityTab {
             set {
-                _MainWindow_CommunityTab = value; NotifyPropertyChanged("MainWindow_CommunityTab");
+                _MainWindow_CommunityTab = value;
             }
             get {
                 return _MainWindow_CommunityTab.ToUpper();
@@ -335,7 +335,7 @@ namespace AdvancedLauncher.Model {
 
         public string MainWindow_PersonalizationTab {
             set {
-                _MainWindow_PersonalizationTab = value; NotifyPropertyChanged("MainWindow_PersonalizationTab");
+                _MainWindow_PersonalizationTab = value;
             }
             get {
                 return _MainWindow_PersonalizationTab.ToUpper();
@@ -350,7 +350,7 @@ namespace AdvancedLauncher.Model {
 
         public string About {
             set {
-                _About = value; NotifyPropertyChanged("About");
+                _About = value;
             }
             get {
                 return _About;
@@ -361,7 +361,7 @@ namespace AdvancedLauncher.Model {
 
         public string About_Version {
             set {
-                _About_Version = value; NotifyPropertyChanged("About_Version");
+                _About_Version = value;
             }
             get {
                 Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -373,7 +373,7 @@ namespace AdvancedLauncher.Model {
 
         public string About_Developer {
             set {
-                _About_Developer = value; NotifyPropertyChanged("About_Developer");
+                _About_Developer = value;
             }
             get {
                 return _About_Developer + sep;
@@ -384,7 +384,7 @@ namespace AdvancedLauncher.Model {
 
         public string About_DesignHelp {
             set {
-                _About_DesignHelp = value; NotifyPropertyChanged("About_DesignHelp");
+                _About_DesignHelp = value;
             }
             get {
                 return _About_DesignHelp + sep;
@@ -395,7 +395,7 @@ namespace AdvancedLauncher.Model {
 
         public string About_Acknowledgments {
             set {
-                _About_Acknowledgments = value; NotifyPropertyChanged("About_Acknowledgments");
+                _About_Acknowledgments = value;
             }
             get {
                 return _About_Acknowledgments + sep;
@@ -406,7 +406,7 @@ namespace AdvancedLauncher.Model {
 
         public string About_Translators {
             set {
-                _About_Translators = value; NotifyPropertyChanged("About_Translators");
+                _About_Translators = value;
             }
             get {
                 return _About_Translators + sep;
@@ -421,7 +421,7 @@ namespace AdvancedLauncher.Model {
 
         public string ManageProfiles {
             set {
-                _ManageProfiles = value; NotifyPropertyChanged("ManageProfiles");
+                _ManageProfiles = value;
             }
             get {
                 return _ManageProfiles;
@@ -432,7 +432,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings {
             set {
-                _Settings = value; NotifyPropertyChanged("Settings");
+                _Settings = value;
             }
             get {
                 return _Settings;
@@ -443,7 +443,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_Language {
             set {
-                _Settings_Language = value; NotifyPropertyChanged("Settings_Language");
+                _Settings_Language = value;
             }
             get {
                 return _Settings_Language + sep;
@@ -454,7 +454,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_LastProfile {
             set {
-                _Settings_LastProfile = value; NotifyPropertyChanged("Settings_LastProfile");
+                _Settings_LastProfile = value;
             }
             get {
                 return _Settings_LastProfile;
@@ -467,7 +467,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_MainGroup {
             set {
-                _Settings_MainGroup = value; NotifyPropertyChanged("Settings_MainGroup");
+                _Settings_MainGroup = value;
             }
             get {
                 return _Settings_MainGroup;
@@ -478,7 +478,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_RotationGroup {
             set {
-                _Settings_RotationGroup = value; NotifyPropertyChanged("Settings_RotationGroup");
+                _Settings_RotationGroup = value;
             }
             get {
                 return _Settings_RotationGroup;
@@ -489,7 +489,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_NewsGroup {
             set {
-                _Settings_NewsGroup = value; NotifyPropertyChanged("Settings_NewsGroup");
+                _Settings_NewsGroup = value;
             }
             get {
                 return _Settings_NewsGroup;
@@ -500,7 +500,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_GameGroup {
             set {
-                _Settings_GameGroup = value; NotifyPropertyChanged("Settings_GameGroup");
+                _Settings_GameGroup = value;
             }
             get {
                 return _Settings_GameGroup;
@@ -511,7 +511,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_AccountGroup {
             set {
-                _Settings_AccountGroup = value; NotifyPropertyChanged("Settings_AccountGroup");
+                _Settings_AccountGroup = value;
             }
             get {
                 return _Settings_AccountGroup;
@@ -522,7 +522,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_ThemeGroup {
             set {
-                _Settings_ThemeGroup = value; NotifyPropertyChanged("Settings_ThemeGroup");
+                _Settings_ThemeGroup = value;
             }
             get {
                 return _Settings_ThemeGroup + sep;
@@ -533,7 +533,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_ColorSchemeGroup {
             set {
-                _Settings_ColorSchemeGroup = value; NotifyPropertyChanged("Settings_ColorSchemeGroup");
+                _Settings_ColorSchemeGroup = value;
             }
             get {
                 return _Settings_ColorSchemeGroup + sep;
@@ -544,7 +544,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_ConnectionGroup {
             set {
-                _Settings_ConnectionGroup = value; NotifyPropertyChanged("Settings_ConnectionGroup");
+                _Settings_ConnectionGroup = value;
             }
             get {
                 return _Settings_ConnectionGroup + sep;
@@ -555,7 +555,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_ProxyGroup {
             set {
-                _Settings_ProxyGroup = value; NotifyPropertyChanged("Settings_ProxyGroup");
+                _Settings_ProxyGroup = value;
             }
             get {
                 return _Settings_ProxyGroup + sep;
@@ -570,7 +570,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_ProfileNameHint {
             set {
-                _Settings_ProfileNameHint = value; NotifyPropertyChanged("Settings_ProfileNameHint");
+                _Settings_ProfileNameHint = value;
             }
             get {
                 return _Settings_ProfileNameHint;
@@ -581,7 +581,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_SetAsDefaultButton {
             set {
-                _Settings_SetAsDefaultButton = value; NotifyPropertyChanged("Settings_SetAsDefaultButton");
+                _Settings_SetAsDefaultButton = value;
             }
             get {
                 return _Settings_SetAsDefaultButton;
@@ -596,7 +596,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_RotationGuildHint {
             set {
-                _Settings_RotationGuildHint = value; NotifyPropertyChanged("Settings_RotationGuildHint");
+                _Settings_RotationGuildHint = value;
             }
             get {
                 return _Settings_RotationGuildHint;
@@ -607,7 +607,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_RotationTamerHint {
             set {
-                _Settings_RotationTamerHint = value; NotifyPropertyChanged("Settings_RotationTamerHint");
+                _Settings_RotationTamerHint = value;
             }
             get {
                 return _Settings_RotationTamerHint;
@@ -618,7 +618,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_RotationUpdateFREQ {
             set {
-                _Settings_RotationUpdateFREQ = value; NotifyPropertyChanged("Settings_RotationUpdateFREQ");
+                _Settings_RotationUpdateFREQ = value;
             }
             get {
                 return _Settings_RotationUpdateFREQ + sep;
@@ -633,7 +633,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_TwitterHint {
             set {
-                _Settings_TwitterHint = value; NotifyPropertyChanged("Settings_TwitterHint");
+                _Settings_TwitterHint = value;
             }
             get {
                 return _Settings_TwitterHint;
@@ -644,7 +644,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_FirstNewsTab {
             set {
-                _Settings_FirstNewsTab = value; NotifyPropertyChanged("Settings_FirstNewsTab");
+                _Settings_FirstNewsTab = value;
             }
             get {
                 return _Settings_FirstNewsTab + sep;
@@ -659,7 +659,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_ClientType {
             set {
-                _Settings_ClientType = value; NotifyPropertyChanged("Settings_ClientType");
+                _Settings_ClientType = value;
             }
             get {
                 return _Settings_ClientType + sep;
@@ -670,7 +670,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_GamePath {
             set {
-                _Settings_GamePath = value; NotifyPropertyChanged("Settings_GamePath");
+                _Settings_GamePath = value;
             }
             get {
                 return _Settings_GamePath + sep;
@@ -681,7 +681,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_LauncherPath {
             set {
-                _Settings_LauncherPath = value; NotifyPropertyChanged("Settings_LauncherPath");
+                _Settings_LauncherPath = value;
             }
             get {
                 return _Settings_LauncherPath + sep;
@@ -692,7 +692,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_UpdateEngine {
             set {
-                _Settings_UpdateEngine = value; NotifyPropertyChanged("Settings_UpdateEngine");
+                _Settings_UpdateEngine = value;
             }
             get {
                 return _Settings_UpdateEngine;
@@ -703,7 +703,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_AppLocale_Help {
             set {
-                _Settings_AppLocale_Help = value; NotifyPropertyChanged("Settings_AppLocale_Help");
+                _Settings_AppLocale_Help = value;
             }
             get {
                 return _Settings_AppLocale_Help;
@@ -714,7 +714,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_KBLCService {
             set {
-                _Settings_KBLCService = value; NotifyPropertyChanged("Settings_KBLCService");
+                _Settings_KBLCService = value;
             }
             get {
                 return _Settings_KBLCService;
@@ -725,7 +725,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_LocaleFix {
             set {
-                _Settings_LocaleFix = value; NotifyPropertyChanged("Settings_LocaleFix");
+                _Settings_LocaleFix = value;
             }
             get {
                 return _Settings_LocaleFix;
@@ -736,7 +736,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_Account_User {
             set {
-                _Settings_Account_User = value; NotifyPropertyChanged("Settings_Account_User");
+                _Settings_Account_User = value;
             }
             get {
                 return _Settings_Account_User;
@@ -747,7 +747,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_Account_Password {
             set {
-                _Settings_Account_Password = value; NotifyPropertyChanged("Settings_Account_Password");
+                _Settings_Account_Password = value;
             }
             get {
                 return _Settings_Account_Password;
@@ -762,7 +762,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_SelectGameDir {
             set {
-                _Settings_SelectGameDir = value; NotifyPropertyChanged("Settings_SelectGameDir");
+                _Settings_SelectGameDir = value;
             }
             get {
                 return _Settings_SelectGameDir;
@@ -773,7 +773,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_SelectGameDirError {
             set {
-                _Settings_SelectGameDirError = value; NotifyPropertyChanged("Settings_SelectGameDirError");
+                _Settings_SelectGameDirError = value;
             }
             get {
                 return _Settings_SelectGameDirError;
@@ -784,7 +784,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_SelectLauncherDir {
             set {
-                _Settings_SelectLauncherDir = value; NotifyPropertyChanged("Settings_SelectLauncherDir");
+                _Settings_SelectLauncherDir = value;
             }
             get {
                 return _Settings_SelectLauncherDir;
@@ -795,7 +795,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_SelectLauncherDirError {
             set {
-                _Settings_SelectLauncherDirError = value; NotifyPropertyChanged("Settings_SelectLauncherDirError");
+                _Settings_SelectLauncherDirError = value;
             }
             get {
                 return _Settings_SelectLauncherDirError;
@@ -810,7 +810,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_Proxy_Default {
             set {
-                _Settings_Proxy_Default = value; NotifyPropertyChanged("Settings_Proxy_Default");
+                _Settings_Proxy_Default = value;
             }
             get {
                 return _Settings_Proxy_Default;
@@ -821,7 +821,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_Proxy_Authentication {
             set {
-                _Settings_Proxy_Authentication = value; NotifyPropertyChanged("Settings_Proxy_Authentication");
+                _Settings_Proxy_Authentication = value;
             }
             get {
                 return _Settings_Proxy_Authentication + sep;
@@ -832,7 +832,7 @@ namespace AdvancedLauncher.Model {
 
         public string Settings_Proxy_HostWatermark {
             set {
-                _Settings_Proxy_HostWatermark = value; NotifyPropertyChanged("Settings_Proxy_HostWatermark");
+                _Settings_Proxy_HostWatermark = value;
             }
             get {
                 return _Settings_Proxy_HostWatermark;
@@ -849,7 +849,7 @@ namespace AdvancedLauncher.Model {
 
         public string AppLocale_FailReasons {
             set {
-                _AppLocale_FailReasons = value; NotifyPropertyChanged("AppLocale_FailReasons");
+                _AppLocale_FailReasons = value;
             }
             get {
                 return _AppLocale_FailReasons;
@@ -860,7 +860,7 @@ namespace AdvancedLauncher.Model {
 
         public string AppLocale_Error {
             set {
-                _AppLocale_Error = value; NotifyPropertyChanged("AppLocale_Error");
+                _AppLocale_Error = value;
             }
             get {
                 return _AppLocale_Error;
@@ -871,7 +871,7 @@ namespace AdvancedLauncher.Model {
 
         public string AppLocale_NotInstalled {
             set {
-                _AppLocale_NotInstalled = value; NotifyPropertyChanged("AppLocale_NotInstalled");
+                _AppLocale_NotInstalled = value;
             }
             get {
                 return _AppLocale_NotInstalled;
@@ -882,7 +882,7 @@ namespace AdvancedLauncher.Model {
 
         public string AppLocale_EALNotInstalled {
             set {
-                _AppLocale_EALNotInstalled = value; NotifyPropertyChanged("AppLocale_EALNotInstalled");
+                _AppLocale_EALNotInstalled = value;
             }
             get {
                 return _AppLocale_EALNotInstalled;
@@ -893,7 +893,7 @@ namespace AdvancedLauncher.Model {
 
         public string AppLocale_FixQuestion {
             set {
-                _AppLocale_FixQuestion = value; NotifyPropertyChanged("AppLocale_FixQuestion");
+                _AppLocale_FixQuestion = value;
             }
             get {
                 return _AppLocale_FixQuestion;
@@ -908,7 +908,7 @@ namespace AdvancedLauncher.Model {
 
         public string RotationLevelText {
             set {
-                _RotationLevelText = value; NotifyPropertyChanged("RotationLevelText");
+                _RotationLevelText = value;
             }
             get {
                 return _RotationLevelText;
@@ -919,7 +919,7 @@ namespace AdvancedLauncher.Model {
 
         public string RotationDownloading {
             set {
-                _RotationDownloading = value; NotifyPropertyChanged("RotationDownloading");
+                _RotationDownloading = value;
             }
             get {
                 return _RotationDownloading;
@@ -930,7 +930,7 @@ namespace AdvancedLauncher.Model {
 
         public string RotationTamer {
             set {
-                _RotationTamer = value; NotifyPropertyChanged("RotationTamer");
+                _RotationTamer = value;
             }
             get {
                 return _RotationTamer;
@@ -945,7 +945,7 @@ namespace AdvancedLauncher.Model {
 
         public string News {
             set {
-                _News = value; NotifyPropertyChanged("News");
+                _News = value;
             }
             get {
                 return _News;
@@ -956,7 +956,7 @@ namespace AdvancedLauncher.Model {
 
         public string NewsPubDate {
             set {
-                _NewsPubDate = value; NotifyPropertyChanged("NewsPubDate");
+                _NewsPubDate = value;
             }
             get {
                 return _NewsPubDate + sep;
@@ -967,7 +967,7 @@ namespace AdvancedLauncher.Model {
 
         public string NewsReadMore {
             set {
-                _NewsReadMore = value; NotifyPropertyChanged("NewsReadMore");
+                _NewsReadMore = value;
             }
             get {
                 return _NewsReadMore;
@@ -978,7 +978,7 @@ namespace AdvancedLauncher.Model {
 
         public string NewsTwitterError {
             set {
-                _NewsTwitterError = value; NotifyPropertyChanged("NewsTwitterError");
+                _NewsTwitterError = value;
             }
             get {
                 return _NewsTwitterError;
@@ -989,7 +989,7 @@ namespace AdvancedLauncher.Model {
 
         public string NewsType_Notice {
             set {
-                _NewsType_Notice = value; NotifyPropertyChanged("NewsType_Notice");
+                _NewsType_Notice = value;
             }
             get {
                 return _NewsType_Notice;
@@ -1000,7 +1000,7 @@ namespace AdvancedLauncher.Model {
 
         public string NewsType_Event {
             set {
-                _NewsType_Event = value; NotifyPropertyChanged("NewsType_Event");
+                _NewsType_Event = value;
             }
             get {
                 return _NewsType_Event;
@@ -1011,7 +1011,7 @@ namespace AdvancedLauncher.Model {
 
         public string NewsType_Patch {
             set {
-                _NewsType_Patch = value; NotifyPropertyChanged("NewsType_Patch");
+                _NewsType_Patch = value;
             }
             get {
                 return _NewsType_Patch;
@@ -1028,7 +1028,7 @@ namespace AdvancedLauncher.Model {
 
         public string GameButton_Waiting {
             set {
-                _GameButton_Waiting = value; NotifyPropertyChanged("GameButton_Waiting");
+                _GameButton_Waiting = value;
             }
             get {
                 return _GameButton_Waiting.ToUpper();
@@ -1039,7 +1039,7 @@ namespace AdvancedLauncher.Model {
 
         public string GameButton_UpdateGame {
             set {
-                _GameButton_UpdateGame = value; NotifyPropertyChanged("GameButton_UpdateGame");
+                _GameButton_UpdateGame = value;
             }
             get {
                 return _GameButton_UpdateGame.ToUpper();
@@ -1050,7 +1050,7 @@ namespace AdvancedLauncher.Model {
 
         public string UpdateCantGetVersion {
             set {
-                _UpdateCantGetVersion = value; NotifyPropertyChanged("UpdateCantGetVersion");
+                _UpdateCantGetVersion = value;
             }
             get {
                 return _UpdateCantGetVersion;
@@ -1061,7 +1061,7 @@ namespace AdvancedLauncher.Model {
 
         public string UpdateCantConnect {
             set {
-                _UpdateCantConnect = value; NotifyPropertyChanged("UpdateCantConnect");
+                _UpdateCantConnect = value;
             }
             get {
                 return _UpdateCantConnect;
@@ -1072,7 +1072,7 @@ namespace AdvancedLauncher.Model {
 
         public string UpdateDownloading {
             set {
-                _UpdateDownloading = value; NotifyPropertyChanged("UpdateDownloading");
+                _UpdateDownloading = value;
             }
             get {
                 return _UpdateDownloading;
@@ -1083,7 +1083,7 @@ namespace AdvancedLauncher.Model {
 
         public string UpdateExtracting {
             set {
-                _UpdateExtracting = value; NotifyPropertyChanged("UpdateExtracting");
+                _UpdateExtracting = value;
             }
             get {
                 return _UpdateExtracting;
@@ -1094,7 +1094,7 @@ namespace AdvancedLauncher.Model {
 
         public string UpdateInstalling {
             set {
-                _UpdateInstalling = value; NotifyPropertyChanged("UpdateInstalling");
+                _UpdateInstalling = value;
             }
             get {
                 return _UpdateInstalling;
@@ -1105,7 +1105,7 @@ namespace AdvancedLauncher.Model {
 
         public string UseLastSession {
             set {
-                _UseLastSession = value; NotifyPropertyChanged("UseLastSession");
+                _UseLastSession = value;
             }
             get {
                 return _UseLastSession;
@@ -1120,7 +1120,7 @@ namespace AdvancedLauncher.Model {
 
         public string LoginTry {
             set {
-                _LoginTry = value; NotifyPropertyChanged("LoginTry");
+                _LoginTry = value;
             }
             get {
                 return _LoginTry;
@@ -1131,7 +1131,7 @@ namespace AdvancedLauncher.Model {
 
         public string LoginGettingData {
             set {
-                _LoginGettingData = value; NotifyPropertyChanged("LoginGettingData");
+                _LoginGettingData = value;
             }
             get {
                 return _LoginGettingData;
@@ -1142,7 +1142,7 @@ namespace AdvancedLauncher.Model {
 
         public string LoginLogIn {
             set {
-                _LoginLogIn = value; NotifyPropertyChanged("LoginLogIn");
+                _LoginLogIn = value;
             }
             get {
                 return _LoginLogIn;
@@ -1153,7 +1153,7 @@ namespace AdvancedLauncher.Model {
 
         public string LoginWasError {
             set {
-                _LoginWasError = value; NotifyPropertyChanged("LoginWasError");
+                _LoginWasError = value;
             }
             get {
                 return _LoginWasError;
@@ -1164,7 +1164,7 @@ namespace AdvancedLauncher.Model {
 
         public string LoginBadAccount {
             set {
-                _LoginBadAccount = value; NotifyPropertyChanged("LoginBadAccount");
+                _LoginBadAccount = value;
             }
             get {
                 return _LoginBadAccount;
@@ -1175,7 +1175,7 @@ namespace AdvancedLauncher.Model {
 
         public string LoginEmptyUsername {
             set {
-                _LoginEmptyUsername = value; NotifyPropertyChanged("LoginEmptyUsername");
+                _LoginEmptyUsername = value;
             }
             get {
                 return _LoginEmptyUsername;
@@ -1186,7 +1186,7 @@ namespace AdvancedLauncher.Model {
 
         public string LoginEmptyPassword {
             set {
-                _LoginEmptyPassword = value; NotifyPropertyChanged("LoginEmptyPassword");
+                _LoginEmptyPassword = value;
             }
             get {
                 return _LoginEmptyPassword;
@@ -1197,7 +1197,7 @@ namespace AdvancedLauncher.Model {
 
         public string LoginWrongPage {
             set {
-                _LoginWrongPage = value; NotifyPropertyChanged("LoginWrongPage");
+                _LoginWrongPage = value;
             }
             get {
                 return _LoginWrongPage;
@@ -1214,7 +1214,7 @@ namespace AdvancedLauncher.Model {
 
         public string GalleryNoScreenshots {
             set {
-                _GalleryNoScreenshots = value; NotifyPropertyChanged("GalleryNoScreenshots");
+                _GalleryNoScreenshots = value;
             }
             get {
                 return _GalleryNoScreenshots.ToUpper();
@@ -1225,7 +1225,7 @@ namespace AdvancedLauncher.Model {
 
         public string GalleryCantOpenImage {
             set {
-                _GalleryCantOpenImage = value; NotifyPropertyChanged("GalleryCantOpenImage");
+                _GalleryCantOpenImage = value;
             }
             get {
                 return _GalleryCantOpenImage;
@@ -1240,7 +1240,7 @@ namespace AdvancedLauncher.Model {
 
         public string PersonalizationWrongTGA {
             set {
-                _PersonalizationWrongTGA = value; NotifyPropertyChanged("PersonalizationWrongTGA");
+                _PersonalizationWrongTGA = value;
             }
             get {
                 return _PersonalizationWrongTGA;
@@ -1251,7 +1251,7 @@ namespace AdvancedLauncher.Model {
 
         public string PersonalizationCantSave {
             set {
-                _PersonalizationCantSave = value; NotifyPropertyChanged("PersonalizationCantSave");
+                _PersonalizationCantSave = value;
             }
             get {
                 return _PersonalizationCantSave;
@@ -1262,7 +1262,7 @@ namespace AdvancedLauncher.Model {
 
         public string PersonalizationCantWrite {
             set {
-                _PersonalizationCantWrite = value; NotifyPropertyChanged("PersonalizationCantWrite");
+                _PersonalizationCantWrite = value;
             }
             get {
                 return _PersonalizationCantWrite;
@@ -1273,7 +1273,7 @@ namespace AdvancedLauncher.Model {
 
         public string PersonalizationSelectTitle {
             set {
-                _PersonalizationSelectTitle = value; NotifyPropertyChanged("PersonalizationSelectTitle");
+                _PersonalizationSelectTitle = value;
             }
             get {
                 return _PersonalizationSelectTitle;
@@ -1284,7 +1284,7 @@ namespace AdvancedLauncher.Model {
 
         public string PersonalizationSelectMessage {
             set {
-                _PersonalizationSelectMessage = value; NotifyPropertyChanged("PersonalizationSelectMessage");
+                _PersonalizationSelectMessage = value;
             }
             get {
                 return _PersonalizationSelectMessage;
@@ -1295,7 +1295,7 @@ namespace AdvancedLauncher.Model {
 
         public string PersonalizationCurrentTitle {
             set {
-                _PersonalizationCurrentTitle = value; NotifyPropertyChanged("PersonalizationCurrentTitle");
+                _PersonalizationCurrentTitle = value;
             }
             get {
                 return _PersonalizationCurrentTitle;
@@ -1306,7 +1306,7 @@ namespace AdvancedLauncher.Model {
 
         public string PersonalizationSaveButton {
             set {
-                _PersonalizationSaveButton = value; NotifyPropertyChanged("PersonalizationSaveButton");
+                _PersonalizationSaveButton = value;
             }
             get {
                 return _PersonalizationSaveButton;
@@ -1321,7 +1321,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGuildName {
             set {
-                _CommGuildName = value; NotifyPropertyChanged("CommGuildName");
+                _CommGuildName = value;
             }
             get {
                 return _CommGuildName;
@@ -1332,7 +1332,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGuildNameEmpty {
             set {
-                _CommGuildNameEmpty = value; NotifyPropertyChanged("CommGuildNameEmpty");
+                _CommGuildNameEmpty = value;
             }
             get {
                 return _CommGuildNameEmpty;
@@ -1343,7 +1343,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommWrongGuildName {
             set {
-                _CommWrongGuildName = value; NotifyPropertyChanged("CommWrongGuildName");
+                _CommWrongGuildName = value;
             }
             get {
                 return _CommWrongGuildName;
@@ -1354,7 +1354,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommSearchingGuild {
             set {
-                _CommSearchingGuild = value; NotifyPropertyChanged("CommSearchingGuild");
+                _CommSearchingGuild = value;
             }
             get {
                 return _CommSearchingGuild;
@@ -1365,7 +1365,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGettingTamer {
             set {
-                _CommGettingTamer = value; NotifyPropertyChanged("CommGettingTamer");
+                _CommGettingTamer = value;
             }
             get {
                 return _CommGettingTamer;
@@ -1378,7 +1378,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommTamersTab {
             set {
-                _CommTamersTab = value; NotifyPropertyChanged("CommTamersTab");
+                _CommTamersTab = value;
             }
             get {
                 return _CommTamersTab.ToUpper();
@@ -1389,7 +1389,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommDigimonsTab {
             set {
-                _CommDigimonsTab = value; NotifyPropertyChanged("CommDigimonsTab");
+                _CommDigimonsTab = value;
             }
             get {
                 return _CommDigimonsTab.ToUpper();
@@ -1400,7 +1400,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommSelect_Guild {
             set {
-                _CommSelect_Guild = value; NotifyPropertyChanged("CommSelect_Guild");
+                _CommSelect_Guild = value;
             }
             get {
                 return _CommSelect_Guild + sep;
@@ -1411,7 +1411,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommCheckBox_Detailed {
             set {
-                _CommCheckBox_Detailed = value; NotifyPropertyChanged("CommCheckBox_Detailed");
+                _CommCheckBox_Detailed = value;
             }
             get {
                 return _CommCheckBox_Detailed;
@@ -1422,7 +1422,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommButton_Search {
             set {
-                _CommButton_Search = value; NotifyPropertyChanged("CommButton_Search");
+                _CommButton_Search = value;
             }
             get {
                 return _CommButton_Search;
@@ -1433,7 +1433,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGMaster {
             set {
-                _CommGMaster = value; NotifyPropertyChanged("CommGMaster");
+                _CommGMaster = value;
             }
             get {
                 return _CommGMaster + sep;
@@ -1444,7 +1444,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGBest {
             set {
-                _CommGBest = value; NotifyPropertyChanged("CommGBest");
+                _CommGBest = value;
             }
             get {
                 return _CommGBest + sep;
@@ -1455,7 +1455,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGRank {
             set {
-                _CommGRank = value; NotifyPropertyChanged("CommGRank");
+                _CommGRank = value;
             }
             get {
                 return _CommGRank + sep;
@@ -1466,7 +1466,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGRep {
             set {
-                _CommGRep = value; NotifyPropertyChanged("CommGRep");
+                _CommGRep = value;
             }
             get {
                 return _CommGRep + sep;
@@ -1477,7 +1477,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGTCnt {
             set {
-                _CommGTCnt = value; NotifyPropertyChanged("CommGTCnt");
+                _CommGTCnt = value;
             }
             get {
                 return _CommGTCnt + sep;
@@ -1488,7 +1488,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommGDCnt {
             set {
-                _CommGDCnt = value; NotifyPropertyChanged("CommGDCnt");
+                _CommGDCnt = value;
             }
             get {
                 return _CommGDCnt + sep;
@@ -1503,7 +1503,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommHeader_Type {
             set {
-                _CommHeader_Type = value; NotifyPropertyChanged("CommHeader_Type");
+                _CommHeader_Type = value;
             }
             get {
                 return _CommHeader_Type;
@@ -1514,7 +1514,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommHeader_Level {
             set {
-                _CommHeader_Level = value; NotifyPropertyChanged("CommHeader_Level");
+                _CommHeader_Level = value;
             }
             get {
                 return _CommHeader_Level;
@@ -1525,7 +1525,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommHeader_Ranking {
             set {
-                _CommHeader_Ranking = value; NotifyPropertyChanged("CommHeader_Ranking");
+                _CommHeader_Ranking = value;
             }
             get {
                 return _CommHeader_Ranking;
@@ -1536,7 +1536,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommHeader_Tamer {
             set {
-                _CommHeader_Tamer = value; NotifyPropertyChanged("CommHeader_Tamer");
+                _CommHeader_Tamer = value;
             }
             get {
                 return _CommHeader_Tamer;
@@ -1547,7 +1547,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommHeader_Partner {
             set {
-                _CommHeader_Partner = value; NotifyPropertyChanged("CommHeader_Partner");
+                _CommHeader_Partner = value;
             }
             get {
                 return _CommHeader_Partner;
@@ -1558,7 +1558,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommHeader_Mercenary {
             set {
-                _CommHeader_Mercenary = value; NotifyPropertyChanged("CommHeader_Mercenary");
+                _CommHeader_Mercenary = value;
             }
             get {
                 return _CommHeader_Mercenary;
@@ -1569,7 +1569,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommHeader_Name {
             set {
-                _CommHeader_Name = value; NotifyPropertyChanged("CommHeader_Name");
+                _CommHeader_Name = value;
             }
             get {
                 return _CommHeader_Name;
@@ -1580,7 +1580,7 @@ namespace AdvancedLauncher.Model {
 
         public string CommHeader_Size {
             set {
-                _CommHeader_Size = value; NotifyPropertyChanged("CommHeader_Size");
+                _CommHeader_Size = value;
             }
             get {
                 return _CommHeader_Size;
@@ -1597,7 +1597,7 @@ namespace AdvancedLauncher.Model {
 
         public string UpdateAvailableText {
             set {
-                _UpdateAvailableText = value; NotifyPropertyChanged("UpdateAvailableText");
+                _UpdateAvailableText = value;
             }
             get {
                 return _UpdateAvailableText;
@@ -1608,7 +1608,7 @@ namespace AdvancedLauncher.Model {
 
         public string UpdateAvailableCaption {
             set {
-                _UpdateAvailableCaption = value; NotifyPropertyChanged("UpdateAvailableCaption");
+                _UpdateAvailableCaption = value;
             }
             get {
                 return _UpdateAvailableCaption;
@@ -1619,7 +1619,7 @@ namespace AdvancedLauncher.Model {
 
         public string UpdateDownloadQuestion {
             set {
-                _UpdateDownloadQuestion = value; NotifyPropertyChanged("UpdateDownloadQuestion");
+                _UpdateDownloadQuestion = value;
             }
             get {
                 return _UpdateDownloadQuestion;
@@ -1657,18 +1657,5 @@ namespace AdvancedLauncher.Model {
                 return body.Member.Name;
             }
         }
-
-        #region Event Handlers
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(null, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion Event Handlers
     }
 }

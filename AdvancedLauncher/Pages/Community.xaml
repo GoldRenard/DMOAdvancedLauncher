@@ -25,7 +25,7 @@
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
              xmlns:ALControls="clr-namespace:AdvancedLauncher.Controls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             xmlns:Validators="clr-namespace:AdvancedLauncher.Validators"
+             xmlns:Validation="clr-namespace:AdvancedLauncher.UI.Validation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:pages="clr-namespace:AdvancedLauncher.Pages"
              mc:Ignorable="d"
@@ -44,7 +44,7 @@
                             <TextBox.Text>
                                 <Binding RelativeSource="{RelativeSource Self}" Path="Tag" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
-                                        <Validators:GuildNameValidationRule />
+                                        <Validation:GuildNameValidationRule />
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>

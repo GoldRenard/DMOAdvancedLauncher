@@ -22,7 +22,7 @@ using System.Windows.Controls;
 using AdvancedLauncher.Controls;
 using AdvancedLauncher.Environment;
 using AdvancedLauncher.Service;
-using AdvancedLauncher.Validators;
+using AdvancedLauncher.UI.Validation;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Entity;
 using DMOLibrary.Events;

@@ -16,24 +16,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
-namespace AdvancedLauncher.Validators {
+namespace AdvancedLauncher.UI.Validation {
 
-    internal class NameValidationRule : ValidationRule {
+    internal class URLValidationRule : ValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {
-                return new ValidationResult(false, null);
+            Regex r = new Regex(@"^(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*$");
+            while (r.Match(value.ToString()).Success) {
+                return new ValidationResult(true, null);
             }
-
-            foreach (char chr in value.ToString()) {
-                if (Char.IsWhiteSpace(chr) || Char.IsControl(chr)) {
-                    return new ValidationResult(false, null);
-                }
-            }
-            return new ValidationResult(true, null);
+            return new ValidationResult(false, null);
         }
     }
 }

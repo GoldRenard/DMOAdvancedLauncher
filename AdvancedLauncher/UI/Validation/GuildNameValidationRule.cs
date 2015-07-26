@@ -16,20 +16,28 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows.Controls;
+using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher.Validators {
+namespace AdvancedLauncher.UI.Validation {
 
-    internal class SettingsGamePathValidationRule : ValidationRule {
+    internal class GuildNameValidationRule : ValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.Windows.Settings.SelectedProfile == null) {
-                return new ValidationResult(false, null);
+            int code = 0;
+
+            if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {
+                return new ValidationResult(false, LanguageEnv.Strings.CommWrongGuildName);
             }
-            if (AdvancedLauncher.Windows.Settings.SelectedProfile.GameEnv.CheckGame()) {
-                return new ValidationResult(true, null);
+
+            foreach (char chr in value.ToString()) {
+                code = Convert.ToInt32(chr);
+                if (Char.IsWhiteSpace(chr) || Char.IsControl(chr)) {
+                    return new ValidationResult(false, LanguageEnv.Strings.CommWrongGuildName);
+                }
             }
-            return new ValidationResult(false, null);
+            return new ValidationResult(true, null);
         }
     }
 }

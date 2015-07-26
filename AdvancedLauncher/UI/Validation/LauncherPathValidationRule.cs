@@ -16,16 +16,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
-namespace AdvancedLauncher.Validators {
+namespace AdvancedLauncher.UI.Validation {
 
-    internal class URLValidationRule : ValidationRule {
+    internal class LauncherPathValidationRule : ValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            Regex r = new Regex(@"^(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*$");
-            while (r.Match(value.ToString()).Success) {
+            if (AdvancedLauncher.Windows.Settings.SelectedProfile == null) {
+                return new ValidationResult(false, null);
+            }
+            if (AdvancedLauncher.Windows.Settings.SelectedProfile.GameEnv.CheckDefLauncher()) {
                 return new ValidationResult(true, null);
             }
             return new ValidationResult(false, null);

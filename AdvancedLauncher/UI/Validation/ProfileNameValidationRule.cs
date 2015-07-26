@@ -20,24 +20,26 @@ using System;
 using System.Windows.Controls;
 using AdvancedLauncher.Environment;
 
-namespace AdvancedLauncher.Validators {
+namespace AdvancedLauncher.UI.Validation {
 
-    internal class GuildNameValidationRule : ValidationRule {
+    internal class ProfileNameValidationRule : ValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
+            if (string.IsNullOrEmpty(value.ToString().Trim())) {
+                return new ValidationResult(false, LanguageEnv.Strings.Settings_ProfileNameHint);
+            }
             int code = 0;
 
-            if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {
-                return new ValidationResult(false, LanguageEnv.Strings.CommWrongGuildName);
-            }
+            if (value.ToString().IndexOfAny("*^%@&^@#><>!.,$|`~?:\":\\/';=-+".ToCharArray()) != -1)
+                return new ValidationResult(false, LanguageEnv.Strings.Settings_ProfileNameHint);
 
             foreach (char chr in value.ToString()) {
                 code = Convert.ToInt32(chr);
-                if (Char.IsWhiteSpace(chr) || Char.IsControl(chr)) {
-                    return new ValidationResult(false, LanguageEnv.Strings.CommWrongGuildName);
+                if (Char.IsControl(chr)) {
+                    return new ValidationResult(false, LanguageEnv.Strings.Settings_ProfileNameHint);
                 }
             }
-            return new ValidationResult(true, null);
+            return new ValidationResult(true, LanguageEnv.Strings.Settings_ProfileNameHint);
         }
     }
 }

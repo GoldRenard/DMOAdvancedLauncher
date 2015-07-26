@@ -18,15 +18,15 @@
 
 using System.Windows.Controls;
 
-namespace AdvancedLauncher.Validators {
+namespace AdvancedLauncher.UI.Validation {
 
-    internal class SettingsLauncherPathValidationRule : ValidationRule {
+    internal class GamePathValidationRule : ValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (AdvancedLauncher.Windows.Settings.SelectedProfile == null) {
                 return new ValidationResult(false, null);
             }
-            if (AdvancedLauncher.Windows.Settings.SelectedProfile.GameEnv.CheckDefLauncher()) {
+            if (AdvancedLauncher.Windows.Settings.SelectedProfile.GameEnv.CheckGame()) {
                 return new ValidationResult(true, null);
             }
             return new ValidationResult(false, null);

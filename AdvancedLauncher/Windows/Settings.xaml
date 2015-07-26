@@ -20,7 +20,7 @@
 
 <win:AbstractWindow x:Class="AdvancedLauncher.Windows.Settings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:validators="clr-namespace:AdvancedLauncher.Validators"
+             xmlns:Validation="clr-namespace:AdvancedLauncher.UI.Validation"
              xmlns:controls="clr-namespace:AdvancedLauncher.Controls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:env="clr-namespace:AdvancedLauncher.Environment"
@@ -113,7 +113,7 @@
                                 <TextBox.Text>
                                     <Binding ElementName="ProfileList" Path="SelectedValue.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                         <Binding.ValidationRules>
-                                            <validators:ProfileNameValidationRule />
+                                            <Validation:ProfileNameValidationRule />
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
@@ -154,7 +154,7 @@
                                 <TextBox.Text>
                                     <Binding ElementName="ProfileList" Path="SelectedValue.Rotation.Guild" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
-                                            <validators:GuildNameValidationRule />
+                                            <Validation:GuildNameValidationRule />
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
@@ -169,7 +169,7 @@
                             <TextBox.Text>
                                 <Binding ElementName="ProfileList" Path="SelectedValue.Rotation.Tamer" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
-                                        <validators:NameValidationRule />
+                                        <Validation:NameValidationRule />
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -202,7 +202,7 @@
                             <TextBox.Text>
                                 <Binding ElementName="ProfileList" Path="SelectedValue.News.TwitterUrl" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
-                                        <validators:URLValidationRule />
+                                        <Validation:URLValidationRule />
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -249,7 +249,7 @@
                                 <TextBox.Text>
                                     <Binding ElementName="ProfileList" Path="SelectedValue.GameEnv.GamePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
-                                            <validators:SettingsGamePathValidationRule />
+                                            <Validation:GamePathValidationRule />
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
@@ -268,7 +268,7 @@
                                 <TextBox.Text>
                                     <Binding ElementName="ProfileList" Path="SelectedValue.GameEnv.DefLauncherPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
-                                            <validators:SettingsLauncherPathValidationRule />
+                                            <Validation:LauncherPathValidationRule />
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>

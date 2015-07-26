@@ -205,12 +205,12 @@
     <Compile Include="Service\TaskManager.cs" />
     <Compile Include="Service\UpdateChecker.cs" />
     <Compile Include="Service\Utils.cs" />
-    <Compile Include="Validators\GuildNameValidationRule.cs" />
-    <Compile Include="Validators\NameValidationRule.cs" />
-    <Compile Include="Validators\ProfileNameValidationRule.cs" />
-    <Compile Include="Validators\URLValidationRule.cs" />
-    <Compile Include="Validators\SettingsGamePathValidationRule.cs" />
-    <Compile Include="Validators\SettingsLauncherPathValidationRule.cs" />
+    <Compile Include="UI\Validation\GuildNameValidationRule.cs" />
+    <Compile Include="UI\Validation\NameValidationRule.cs" />
+    <Compile Include="UI\Validation\ProfileNameValidationRule.cs" />
+    <Compile Include="UI\Validation\URLValidationRule.cs" />
+    <Compile Include="UI\Validation\GamePathValidationRule.cs" />
+    <Compile Include="UI\Validation\LauncherPathValidationRule.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -1057,6 +1057,7 @@
     <Content Include="NTLea\ntleak.dll" />
     <Content Include="NTLea\ntleas.exe" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

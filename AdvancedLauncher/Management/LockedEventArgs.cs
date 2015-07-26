@@ -20,6 +20,8 @@ using System;
 
 namespace AdvancedLauncher.Management {
 
+    public delegate void LockedChangedHandler(object sender, LockedEventArgs e);
+
     public class LockedEventArgs : EventArgs {
 
         public bool IsLocked {

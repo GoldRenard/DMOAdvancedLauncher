@@ -20,7 +20,6 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Management;
 using DMOLibrary.Database.Entity;
 

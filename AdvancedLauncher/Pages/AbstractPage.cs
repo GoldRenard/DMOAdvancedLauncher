@@ -19,7 +19,6 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.Pages {
@@ -31,7 +30,7 @@ namespace AdvancedLauncher.Pages {
 
         public AbstractPage() {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                EnvironmentManager.Settings.ProfileChanged += ProfileChanged;
+                ProfileManager.Instance.ProfileChanged += ProfileChanged;
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };

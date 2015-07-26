@@ -18,7 +18,7 @@
 
 using System.Xml.Serialization;
 
-namespace AdvancedLauncher.Environment.Containers {
+namespace AdvancedLauncher.Model.Config {
 
     public class NewsData {
 

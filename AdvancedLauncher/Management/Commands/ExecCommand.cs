@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace AdvancedLauncher.Environment.Commands {
+namespace AdvancedLauncher.Management.Commands {
 
     public class ExecCommand : Command {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ExecCommand));

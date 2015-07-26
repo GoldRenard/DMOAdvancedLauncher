@@ -24,10 +24,9 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.UI.Extension;
 
 namespace AdvancedLauncher.Windows {
@@ -45,7 +44,8 @@ namespace AdvancedLauncher.Windows {
             ShowNewFolderButton = false
         };
 
-        private AdvancedLauncher.Environment.Containers.Settings settingsContainer;
+        private ProfileManager profileManager;
+
         private bool IsPreventPassChange = false;
 
         public Settings() {
@@ -53,15 +53,24 @@ namespace AdvancedLauncher.Windows {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
                 ComboBoxLauncher.ItemsSource = LauncherFactory.Instance;
-                //Copying settings object and set it as DataContext
-                ProfileList.DataContext = settingsContainer = new AdvancedLauncher.Environment.Containers.Settings(EnvironmentManager.Settings);
+                ReloadProfiles();
+            }
+        }
 
-                //Search and set current profile
-                foreach (Profile p in settingsContainer.Profiles) {
-                    if (p.Id == EnvironmentManager.Settings.CurrentProfile.Id) {
-                        ProfileList.SelectedItem = p;
-                        break;
-                    }
+        public override void Show() {
+            base.Show();
+            ReloadProfiles();
+        }
+
+        private void ReloadProfiles() {
+            //Copying settings object and set it as DataContext
+            ProfileList.DataContext = profileManager = ProfileManager.Instance.Clone();
+
+            //Search and set current profile
+            foreach (Profile p in profileManager.Profiles) {
+                if (p.Id == profileManager.CurrentProfile.Id) {
+                    ProfileList.SelectedItem = p;
+                    break;
                 }
             }
         }
@@ -92,7 +101,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void OnSetDefaultClick(object sender, RoutedEventArgs e) {
-            settingsContainer.DefaultProfile = SelectedProfile.Id;
+            profileManager.DefaultProfile = SelectedProfile;
             NotifyPropertyChanged("IsSelectedNotDefault");
         }
 
@@ -100,12 +109,12 @@ namespace AdvancedLauncher.Windows {
             set {
             }
             get {
-                return SelectedProfile.Id != settingsContainer.DefaultProfile;
+                return !profileManager.DefaultProfile.Equals(SelectedProfile);
             }
         }
 
         private void OnAddClick(object sender, RoutedEventArgs e) {
-            settingsContainer.AddProfile();
+            profileManager.AddProfile();
         }
 
         private void OnRemoveClick(object sender, RoutedEventArgs e) {
@@ -121,7 +130,7 @@ namespace AdvancedLauncher.Windows {
                 ProfileList.SelectedIndex--;
             }
 
-            settingsContainer.RemoveProfile(profile);
+            profileManager.RemoveProfile(profile);
         }
 
         private void OnImageSelect(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -139,8 +148,9 @@ namespace AdvancedLauncher.Windows {
             Folderdialog.Description = LanguageManager.Model.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                    if (SelectedProfile.GameEnv.CheckGame(Folderdialog.SelectedPath)) {
-                        SelectedProfile.GameEnv.GamePath = Folderdialog.SelectedPath;
+                    GameManager gameManager = GameManager.Get(SelectedProfile.GameModel);
+                    if (gameManager.CheckGame(Folderdialog.SelectedPath)) {
+                        SelectedProfile.GameModel.GamePath = Folderdialog.SelectedPath;
                         break;
                     } else {
                         await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_GamePath,
@@ -156,8 +166,9 @@ namespace AdvancedLauncher.Windows {
             Folderdialog.Description = LanguageManager.Model.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                    if (SelectedProfile.GameEnv.CheckDefLauncher(Folderdialog.SelectedPath)) {
-                        SelectedProfile.GameEnv.DefLauncherPath = Folderdialog.SelectedPath;
+                    GameManager gameManager = GameManager.Get(SelectedProfile.GameModel);
+                    if (gameManager.CheckDefLauncher(Folderdialog.SelectedPath)) {
+                        SelectedProfile.GameModel.DefLauncherPath = Folderdialog.SelectedPath;
                         break;
                     } else {
                         await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_LauncherPath,
@@ -225,7 +236,7 @@ namespace AdvancedLauncher.Windows {
         }
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
-            EnvironmentManager.Settings.MergeProfiles(settingsContainer);
+            ProfileManager.Instance.Reload(profileManager);
             EnvironmentManager.Save();
             Close();
         }

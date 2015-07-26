@@ -25,7 +25,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Shell;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.UI.Extension;
@@ -86,7 +85,7 @@ namespace AdvancedLauncher.Controls {
                     this.DataContext = LanguageManager.Model;
                 };
                 LoginManager.Instance.LoginCompleted += OnGameStartCompleted;
-                EnvironmentManager.Settings.ProfileChanged += OnProfileChanged;
+                ProfileManager.Instance.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
                 OnProfileChanged(this, EventArgs.Empty);
             }
@@ -112,17 +111,17 @@ namespace AdvancedLauncher.Controls {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 //Добавляем задачу обновления
                 TaskManager.Tasks.Add(UpdateTask);
-                EnvironmentManager.Settings.OnProfileLocked(true);
-                EnvironmentManager.Settings.OnFileSystemLocked(true);
-                EnvironmentManager.Settings.OnClosingLocked(true);
+                ProfileManager.Instance.OnProfileLocked(true);
+                EnvironmentManager.OnFileSystemLocked(true);
+                EnvironmentManager.OnClosingLocked(true);
                 UpdateRequired = false;
                 StartButton.IsEnabled = false;
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             }));
-            GameFS = EnvironmentManager.Settings.CurrentProfile.GameEnv.GetFS();
+            GameFS = GameManager.Current.GetFS();
 
             //Проверяем наличие необходимых файлов игры
-            if (!EnvironmentManager.Settings.CurrentProfile.GameEnv.CheckGame()) {
+            if (!GameManager.Current.CheckGame()) {
                 SetStartEnabled(false); //Если необходимых файлов нет, просто вызываю этот метод. он при вышеуказанном условии покажет неактивную кнопку и сообщение о неправильном пути
                 return;                      //Далее идти нет смысла
             }
@@ -131,9 +130,9 @@ namespace AdvancedLauncher.Controls {
             if (!await ImportPackage()) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                     RemoveTask();
-                    EnvironmentManager.Settings.OnProfileLocked(false);
-                    EnvironmentManager.Settings.OnFileSystemLocked(false);
-                    EnvironmentManager.Settings.OnClosingLocked(false);
+                    ProfileManager.Instance.OnProfileLocked(false);
+                    EnvironmentManager.OnFileSystemLocked(false);
+                    EnvironmentManager.OnClosingLocked(false);
                 }));
                 return;
             }
@@ -148,7 +147,7 @@ namespace AdvancedLauncher.Controls {
             //Если обновление требуется
             if (cRes.IsUpdateRequired) {
                 //Если включен интегрированных движок обновления, пытаемся обновиться
-                if (EnvironmentManager.Settings.CurrentProfile.UpdateEngineEnabled) {
+                if (ProfileManager.Instance.CurrentProfile.UpdateEngineEnabled) {
                     SetStartEnabled(await BeginUpdate(cRes.LocalVer, cRes.RemoteVer));
                 } else { //Если интегрированный движок отключен - показываем кнопку "Обновить игру"
                     SetUpdateEnabled(true);
@@ -160,9 +159,9 @@ namespace AdvancedLauncher.Controls {
 
         private async Task<bool> ImportPackage() {
             //Необходимо импортировать директорию (Pack01), если имеется. Проверяем наличие этой папки
-            if (Directory.Exists(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetImportPath())) {
+            if (Directory.Exists(GameManager.Current.GetImportPath())) {
                 //Если включен интегрированных движок обновления, пытаемся импортировать
-                if (EnvironmentManager.Settings.CurrentProfile.UpdateEngineEnabled) {
+                if (ProfileManager.Instance.CurrentProfile.UpdateEngineEnabled) {
                     //Проверяем наличие доступа к игре
                     if (!await CheckGameAccessLoop()) {
                         return false;
@@ -172,7 +171,7 @@ namespace AdvancedLauncher.Controls {
                     //Пытаемся открыть файлы игры на запись
                     bool IsOpened = false;
                     try {
-                        IsOpened = GameFS.Open(FileAccess.Write, 16, EnvironmentManager.Settings.CurrentProfile.GameEnv.GetHFPath(), EnvironmentManager.Settings.CurrentProfile.GameEnv.GetPFPath());
+                        IsOpened = GameFS.Open(FileAccess.Write, 16, GameManager.Current.GetHFPath(), GameManager.Current.GetPFPath());
                     } catch {
                         IsOpened = false;
                     }
@@ -181,7 +180,7 @@ namespace AdvancedLauncher.Controls {
                     if (IsOpened) {
                         ShowProgressBar();  //Показываем прогрессбар и начинаем запись.
                         GameFS.WriteStatusChanged += OnWriteStatusChanged;
-                        bool IsSuccess = GameFS.WriteDirectory(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetImportPath(), true);
+                        bool IsSuccess = GameFS.WriteDirectory(GameManager.Current.GetImportPath(), true);
                         GameFS.WriteStatusChanged -= OnWriteStatusChanged;
                         //Если сфейлилось, отправляем соответствующий ивент и сообщение
                         if (!IsSuccess) {
@@ -207,11 +206,11 @@ namespace AdvancedLauncher.Controls {
 
         private CheckResult CheckUpdates() {
             //Если локальный файл с версией существует
-            if (File.Exists(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetLocalVerFile())) {
+            if (File.Exists(GameManager.Current.GetLocalVerFile())) {
                 verCurrent = -1;
                 verRemote = -1;
                 //Открываем и парсим его
-                StreamReader streamReader = new StreamReader(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetLocalVerFile());
+                StreamReader streamReader = new StreamReader(GameManager.Current.GetLocalVerFile());
                 verCurrent = GetVersion(streamReader.ReadToEnd());
                 streamReader.Close();
 
@@ -219,7 +218,7 @@ namespace AdvancedLauncher.Controls {
                     string result;
                     try {
                         //Получаем и парсим удаленную версию
-                        result = webClient.DownloadString(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetRemoteVerURL());
+                        result = webClient.DownloadString(GameManager.Current.GetRemoteVerURL());
                         verRemote = GetVersion(result);
                     } catch {
                         return null;
@@ -255,7 +254,7 @@ namespace AdvancedLauncher.Controls {
 
         private async Task<bool> CheckGameAccessLoop() {
             //Проверяем наличие доступа к игре
-            while (!EnvironmentManager.Settings.CurrentProfile.GameEnv.CheckUpdateAccess()) {
+            while (!GameManager.Current.CheckUpdateAccess()) {
                 if (await CheckGameAccessMessage()) {
                     return false;
                 }
@@ -274,23 +273,23 @@ namespace AdvancedLauncher.Controls {
 
             double WholeContentLength = 0;
             for (int i = local + 1; i <= remote; i++) {
-                WholeContentLength += GetFileLength(new Uri(string.Format(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetPatchURL(), i)));
+                WholeContentLength += GetFileLength(new Uri(string.Format(GameManager.Current.GetPatchURL(), i)));
             }
             UpdateMainProgressBar(0, WholeContentLength);
 
             for (int i = local + 1; i <= remote; i++) {
                 verCurrent = i;
-                packageFile = EnvironmentManager.Settings.CurrentProfile.GameEnv.GamePath + string.Format("\\UPDATE{0}.zip", i);
+                packageFile = GameManager.Current.GamePath + string.Format("\\UPDATE{0}.zip", i);
                 UpdateSubProgressBar(0, 100);
 
                 //downloading
-                double CurrentContentLength = GetFileLength(new Uri(string.Format(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetPatchURL(), i)));
+                double CurrentContentLength = GetFileLength(new Uri(string.Format(GameManager.Current.GetPatchURL(), i)));
 
                 using (WebClientEx webClient = new WebClientEx()) {
                     webClient.DownloadProgressChanged += OnDownloadProgressChanged;
                     webClient.DownloadFileCompleted += OnDownloadFileCompleted;
                     try {
-                        webClient.DownloadFileAsync(new Uri(string.Format(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetPatchURL(), i)), packageFile);
+                        webClient.DownloadFileAsync(new Uri(string.Format(GameManager.Current.GetPatchURL(), i)), packageFile);
                         while (webClient.IsBusy) {
                             System.Threading.Thread.Sleep(100);
                         }
@@ -305,9 +304,9 @@ namespace AdvancedLauncher.Controls {
                     break;
                 }
 
-                ExtractUpdate(verCurrent, verRemote, packageFile, EnvironmentManager.Settings.CurrentProfile.GameEnv.GamePath, true);
+                ExtractUpdate(verCurrent, verRemote, packageFile, GameManager.Current.GamePath, true);
                 MainPBValue += CurrentContentLength;
-                File.WriteAllLines(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetLocalVerFile(), new string[] { "[VERSION]", "version=" + verCurrent.ToString() });
+                File.WriteAllLines(GameManager.Current.GetLocalVerFile(), new string[] { "[VERSION]", "version=" + verCurrent.ToString() });
             }
 
             if (!updateSuccess) {
@@ -319,11 +318,11 @@ namespace AdvancedLauncher.Controls {
                 return false;
             }
 
-            if (Directory.Exists(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetImportPath())) {
+            if (Directory.Exists(GameManager.Current.GetImportPath())) {
                 //Открываем файловую систему игры
                 bool IsOpened = false;
                 try {
-                    IsOpened = GameFS.Open(FileAccess.Write, 16, EnvironmentManager.Settings.CurrentProfile.GameEnv.GetHFPath(), EnvironmentManager.Settings.CurrentProfile.GameEnv.GetPFPath());
+                    IsOpened = GameFS.Open(FileAccess.Write, 16, GameManager.Current.GetHFPath(), GameManager.Current.GetPFPath());
                 } catch {
                     IsOpened = false;
                 }
@@ -331,7 +330,7 @@ namespace AdvancedLauncher.Controls {
                 //Если успешно открыли - применяем обновления
                 if (IsOpened) {
                     GameFS.WriteStatusChanged += OnWriteStatusChanged;
-                    bool IsSuccess = GameFS.WriteDirectory(EnvironmentManager.Settings.CurrentProfile.GameEnv.GetImportPath(), true);
+                    bool IsSuccess = GameFS.WriteDirectory(GameManager.Current.GetImportPath(), true);
                     GameFS.WriteStatusChanged -= OnWriteStatusChanged;
                     //Если сфейлилось, отправляем соответствующее сообщение
                     if (!IsSuccess) {
@@ -415,23 +414,23 @@ namespace AdvancedLauncher.Controls {
             StartButton.IsEnabled = false;
 
             //Применить все ссылки
-            EnvironmentManager.Settings.CurrentProfile.GameEnv.SetRegistryPaths();
+            GameManager.Current.SetRegistryPaths();
 
             ILauncher launcher = LauncherFactory.CurrentLauncher;
             bool executed = launcher.Execute(
-                UpdateRequired ? EnvironmentManager.Settings.CurrentProfile.GameEnv.GetDefLauncherEXE() : EnvironmentManager.Settings.CurrentProfile.GameEnv.GetGameEXE(),
-                UpdateRequired ? EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetLauncherStartArgs(args) : EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetGameStartArgs(args));
+                UpdateRequired ? GameManager.Current.GetDefLauncherEXE() : GameManager.Current.GetGameEXE(),
+                UpdateRequired ? GameManager.CurrentProfile.GetLauncherStartArgs(args) : GameManager.CurrentProfile.GetGameStartArgs(args));
 
             if (executed) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
-                if (EnvironmentManager.Settings.CurrentProfile.KBLCServiceEnabled) {
+                if (ProfileManager.Instance.CurrentProfile.KBLCServiceEnabled) {
                     launcher = LauncherFactory.findByType<DirectLauncher>(typeof(DirectLauncher));
                     launcher.Execute(EnvironmentManager.KBLCFile, "-attach -notray");
                 }
                 TaskManager.CloseApp();
             } else {
-                EnvironmentManager.Settings.OnProfileLocked(false);
-                EnvironmentManager.Settings.OnFileSystemLocked(false);
+                ProfileManager.Instance.OnProfileLocked(false);
+                EnvironmentManager.OnFileSystemLocked(false);
                 StartButton.IsEnabled = true;
             }
         }
@@ -445,14 +444,14 @@ namespace AdvancedLauncher.Controls {
                 } else {
                     StartButton.SetBinding(Button.ContentProperty, StartButtonBinding);
                 }
-                EnvironmentManager.Settings.OnProfileLocked(false);
+                ProfileManager.Instance.OnProfileLocked(false);
             }
 
             //Получаем результат логина
             switch (e.Code) {
                 case LoginCode.SUCCESS:
                     {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
-                        EnvironmentManager.Settings.CurrentProfile.Login.LastSessionArgs = e.Arguments;
+                        ProfileManager.Instance.CurrentProfile.Login.LastSessionArgs = e.Arguments;
                         EnvironmentManager.Save();
                         StartGame(e.Arguments);
                         break;
@@ -478,15 +477,15 @@ namespace AdvancedLauncher.Controls {
                 //Убираем задачу обновления
                 RemoveTask();
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
-                EnvironmentManager.Settings.OnProfileLocked(false);
-                EnvironmentManager.Settings.OnClosingLocked(false);
-                EnvironmentManager.Settings.OnFileSystemLocked(false);
+                ProfileManager.Instance.OnProfileLocked(false);
+                EnvironmentManager.OnClosingLocked(false);
+                EnvironmentManager.OnFileSystemLocked(false);
                 UpdateRequired = false;
                 WrapElement.Content = StartButton;
                 StartButton.SetBinding(Button.ContentProperty, StartButtonBinding);
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
-                if (!EnvironmentManager.Settings.CurrentProfile.GameEnv.CheckGame()) {
+                if (!GameManager.Current.CheckGame()) {
                     DialogsHelper.ShowErrorDialog(LanguageManager.Model.PleaseSelectGamePath);
                     return;
                 }
@@ -499,15 +498,15 @@ namespace AdvancedLauncher.Controls {
                 //Убираем задачу обновления
                 RemoveTask();
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
-                EnvironmentManager.Settings.OnProfileLocked(false);
-                EnvironmentManager.Settings.OnFileSystemLocked(false);
-                EnvironmentManager.Settings.OnClosingLocked(false);
+                ProfileManager.Instance.OnProfileLocked(false);
+                EnvironmentManager.OnFileSystemLocked(false);
+                EnvironmentManager.OnClosingLocked(false);
                 UpdateRequired = true;
                 WrapElement.Content = StartButton;
                 StartButton.SetBinding(Button.ContentProperty, UpdateButtonBinding);
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
-                if (!EnvironmentManager.Settings.CurrentProfile.GameEnv.CheckDefLauncher()) {
+                if (!GameManager.Current.CheckDefLauncher()) {
                     DialogsHelper.ShowErrorDialog(LanguageManager.Model.PleaseSelectLauncherPath);
                     return;
                 }
@@ -516,10 +515,10 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void OnStartButtonClick(object sender, RoutedEventArgs e) {
-            EnvironmentManager.Settings.OnProfileLocked(true);
-            EnvironmentManager.Settings.OnFileSystemLocked(true);
+            ProfileManager.Instance.OnProfileLocked(true);
+            EnvironmentManager.OnFileSystemLocked(true);
             //Проверяем, требуется ли логин
-            if (EnvironmentManager.Settings.CurrentProfile.DMOProfile.IsLoginRequired) {
+            if (GameManager.CurrentProfile.IsLoginRequired) {
                 LoginManager.Instance.Login();
             } else { //Логин не требуется, запускаем игру как есть
                 StartGame(string.Empty);

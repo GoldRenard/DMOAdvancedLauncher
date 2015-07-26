@@ -25,9 +25,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Model.Config;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 

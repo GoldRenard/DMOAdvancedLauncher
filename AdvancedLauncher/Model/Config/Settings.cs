@@ -19,11 +19,9 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Xml.Serialization;
-using AdvancedLauncher.Management;
 
-namespace AdvancedLauncher.Environment.Containers {
+namespace AdvancedLauncher.Model.Config {
 
     [XmlType(TypeName = "Settings")]
     public class Settings : INotifyPropertyChanged {
@@ -83,25 +81,6 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        public void MergeProfiles(Settings source) {
-            this.DefaultProfile = source.DefaultProfile;
-            this.Profiles = new ObservableCollection<Profile>();
-
-            //Add clones of instances
-            foreach (Profile p in source.Profiles) {
-                Profiles.Add(new Profile(p));
-            }
-            OnCollectionChanged();
-
-            // Update currentProfiles
-            Profile prof = Profiles.FirstOrDefault(i => i.Id == CurrentProfile.Id);
-            if (prof == null) {
-                CurrentProfile = Profiles[0];
-            } else {
-                CurrentProfile = prof;
-            }
-        }
-
         public void MergeConfig(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
@@ -112,58 +91,6 @@ namespace AdvancedLauncher.Environment.Containers {
 
         #endregion Constructors
 
-        #region Collection Manipulating Section
-
-        public void AddProfile() {
-            Profile pNew = new Profile() {
-                Name = "NewProfile"
-            };
-            foreach (Profile p in Profiles) {
-                if (p.Id > pNew.Id) {
-                    pNew.Id = p.Id;
-                }
-            }
-            pNew.Id++;
-            Profiles.Add(pNew);
-            OnCollectionChanged();
-        }
-
-        public void RemoveProfile(Profile profile) {
-            if (Profiles.Count > 1) {
-                bool IsCurrent = profile.Id == CurrentProfile.Id;
-                bool IsDefault = profile.Id == DefaultProfile;
-                Profiles.Remove(profile);
-                OnCollectionChanged();
-                if (IsCurrent)
-                    CurrentProfile = Profiles[0];
-                if (IsDefault)
-                    DefaultProfile = Profiles[0].Id;
-            }
-        }
-
-        private Profile _CurrentProfile = null;
-
-        [XmlIgnore]
-        public Profile CurrentProfile {
-            get {
-                if (_CurrentProfile == null) {
-                    Profile profile = Profiles.FirstOrDefault(i => i.Id == DefaultProfile);
-                    if (profile == null) {
-                        _CurrentProfile = Profiles[0];
-                    } else {
-                        _CurrentProfile = profile;
-                    }
-                }
-                return _CurrentProfile;
-            }
-            set {
-                _CurrentProfile = value;
-                OnCurrentChanged();
-            }
-        }
-
-        #endregion Collection Manipulating Section
-
         #region Events Section
 
         public event EventHandler ConfigurationChanged;
@@ -171,48 +98,6 @@ namespace AdvancedLauncher.Environment.Containers {
         public void OnConfigurationChanged(object sender, EventArgs args) {
             if (ConfigurationChanged != null) {
                 ConfigurationChanged(sender, args);
-            }
-        }
-
-        public delegate void LockedChangedHandler(object sender, LockedEventArgs e);
-
-        public event LockedChangedHandler ProfileLocked;
-
-        public event LockedChangedHandler FileSystemLocked;
-
-        public event LockedChangedHandler ClosingLocked;
-
-        public void OnProfileLocked(bool IsLocked) {
-            if (ProfileLocked != null) {
-                ProfileLocked(this, new LockedEventArgs(IsLocked));
-            }
-        }
-
-        public void OnFileSystemLocked(bool IsLocked) {
-            if (FileSystemLocked != null) {
-                FileSystemLocked(this, new LockedEventArgs(IsLocked));
-            }
-        }
-
-        public void OnClosingLocked(bool IsLocked) {
-            if (ClosingLocked != null) {
-                ClosingLocked(this, new LockedEventArgs(IsLocked));
-            }
-        }
-
-        public event EventHandler ProfileChanged;
-
-        protected void OnCurrentChanged() {
-            if (ProfileChanged != null) {
-                ProfileChanged(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler CollectionChanged;
-
-        protected void OnCollectionChanged() {
-            if (CollectionChanged != null) {
-                CollectionChanged(this, EventArgs.Empty);
             }
         }
 

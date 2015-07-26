@@ -16,30 +16,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace AdvancedLauncher.Management.Commands {
 
-namespace AdvancedLauncher.Environment.Commands {
+    public abstract class Command {
+        private string commandName;
+        private string commandDescription;
 
-    public class HelpCommand : Command {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(HelpCommand));
-
-        public HelpCommand()
-            : base("help", "Shows help message") {
+        public Command(string commandName, string commandDescription) {
+            this.commandName = commandName;
+            this.commandDescription = commandDescription;
         }
 
-        public override void DoCommand(string[] args) {
-            Dictionary<String, Command> commands = CommandHandler.GetCommands();
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine();
-            builder.AppendLine("Available commands:");
-            foreach (String key in commands.Keys) {
-                Command command;
-                commands.TryGetValue(key, out command);
-                builder.AppendLine(String.Format("\t{0} - {1}", key, command.GetDescription()));
-            }
-            LOGGER.Info(builder);
+        public abstract void DoCommand(string[] args);
+
+        public virtual string GetDescription() {
+            return commandDescription;
+        }
+
+        public virtual string GetName() {
+            return commandName;
         }
     }
 }

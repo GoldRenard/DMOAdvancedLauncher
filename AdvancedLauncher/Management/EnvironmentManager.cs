@@ -22,8 +22,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Model.Config;
 using DMOLibrary;
 using MahApps.Metro;
 
@@ -38,10 +37,12 @@ namespace AdvancedLauncher.Management {
         public const string REMOTE_VERSION_FILE = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/version.xml";
         public const string COMMUNITY_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/Community/{0}.png";
         public const string DIGIROTATION_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/DigiRotation/{0}.png";
+        public const string DEFAULT_TWITTER_SOURCE = "http://renamon.ru/launcher/dmor_timeline.php";
 
         #region Properties
 
         public static Settings _Settings = null;
+
         public static Settings Settings {
             get {
                 return _Settings;
@@ -49,6 +50,7 @@ namespace AdvancedLauncher.Management {
         }
 
         private static string _AppPath = null;
+
         public static string AppPath {
             get {
                 if (_AppPath == null) {
@@ -65,8 +67,8 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-
         private static string _SettingsFile = null;
+
         public static string SettingsFile {
             get {
                 if (_SettingsFile == null) {
@@ -77,6 +79,7 @@ namespace AdvancedLauncher.Management {
         }
 
         private static string _KBLCFile = null;
+
         public static string KBLCFile {
             get {
                 if (_KBLCFile == null) {
@@ -87,6 +90,7 @@ namespace AdvancedLauncher.Management {
         }
 
         private static string _NTLEAFile = null;
+
         public static string NTLEAFile {
             get {
                 if (_NTLEAFile == null) {
@@ -97,6 +101,7 @@ namespace AdvancedLauncher.Management {
         }
 
         private static string _LanguagesPath = null;
+
         public static string LanguagesPath {
             get {
                 if (_LanguagesPath == null) {
@@ -107,6 +112,7 @@ namespace AdvancedLauncher.Management {
         }
 
         private static string _Resources3rdPath = null;
+
         public static string Resources3rdPath {
             get {
                 if (_Resources3rdPath == null) {
@@ -117,6 +123,7 @@ namespace AdvancedLauncher.Management {
         }
 
         private static string _ResourcesPath = null;
+
         public static string ResourcesPath {
             get {
                 if (_ResourcesPath == null) {
@@ -126,7 +133,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        #endregion
+        #endregion Properties
 
         public static void Load() {
             AppDomain.CurrentDomain.SetData("DataDirectory", AppDataPath);
@@ -191,6 +198,12 @@ namespace AdvancedLauncher.Management {
         }
 
         public static void Save() {
+            Settings.DefaultProfile = ProfileManager.Instance.DefaultProfile.Id;
+            Settings.Profiles = new ObservableCollection<Profile>();
+            foreach (Profile p in ProfileManager.Instance.Profiles) {
+                Settings.Profiles.Add(new Profile(p));
+            }
+
             XmlSerializer writer = new XmlSerializer(typeof(Settings));
             using (var file = new StreamWriter(SettingsFile)) {
                 writer.Serialize(file, Settings);
@@ -252,5 +265,25 @@ namespace AdvancedLauncher.Management {
             }
             return folder;
         }
+
+        #region Event handlers
+
+        public static event LockedChangedHandler FileSystemLocked;
+
+        public static event LockedChangedHandler ClosingLocked;
+
+        public static void OnFileSystemLocked(bool IsLocked) {
+            if (FileSystemLocked != null) {
+                FileSystemLocked(null, new LockedEventArgs(IsLocked));
+            }
+        }
+
+        public static void OnClosingLocked(bool IsLocked) {
+            if (ClosingLocked != null) {
+                ClosingLocked(null, new LockedEventArgs(IsLocked));
+            }
+        }
+
+        #endregion Event handlers
     }
 }

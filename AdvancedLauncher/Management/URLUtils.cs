@@ -17,7 +17,6 @@
 // ======================================================================
 
 using System;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.UI.Extension;
 
 namespace AdvancedLauncher.Management {

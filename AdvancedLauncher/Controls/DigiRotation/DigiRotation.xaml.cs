@@ -25,7 +25,6 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Management;
-using DMOLibrary;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
@@ -84,7 +83,7 @@ namespace AdvancedLauncher.Controls {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
-                EnvironmentManager.Settings.ProfileChanged += (s, e) => {
+                ProfileManager.Instance.ProfileChanged += (s, e) => {
                     IsSourceLoaded = false;
                 };
 
@@ -105,19 +104,19 @@ namespace AdvancedLauncher.Controls {
                     IsStatic = false;
                     IsErrorOccured = false;
                     //Получаем информацию, необходимую для ротации
-                    GuildName = EnvironmentManager.Settings.CurrentProfile.Rotation.Guild;
-                    TamerName = EnvironmentManager.Settings.CurrentProfile.Rotation.Tamer;
+                    GuildName = ProfileManager.Instance.CurrentProfile.Rotation.Guild;
+                    TamerName = ProfileManager.Instance.CurrentProfile.Rotation.Tamer;
 
                     //Проверяем, доступен ли веб-профиль и необходимая информация
-                    WebProfile = EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetWebProfile();
+                    WebProfile = GameManager.CurrentProfile.GetWebProfile();
                     IsStatic = WebProfile == null || string.IsNullOrEmpty(GuildName);
                     if (!IsStatic) {
-                        Server = EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetServerById(EnvironmentManager.Settings.CurrentProfile.Rotation.ServerId + 1);
+                        Server = GameManager.CurrentProfile.GetServerById(ProfileManager.Instance.CurrentProfile.Rotation.ServerId + 1);
                         //Регистрируем ивенты загрузки
                         WebProfile.StatusChanged += OnStatusChange;
                         WebProfile.DownloadCompleted += OnDownloadComplete;
                         //Получаем информацию о списках гильдии
-                        AbstractWebProfile.GetActualGuild(WebProfile, Server, GuildName, false, EnvironmentManager.Settings.CurrentProfile.Rotation.UpdateInterval + 1);
+                        AbstractWebProfile.GetActualGuild(WebProfile, Server, GuildName, false, ProfileManager.Instance.CurrentProfile.Rotation.UpdateInterval + 1);
                         //Убираем обработку ивентов
                         WebProfile.DownloadCompleted -= OnDownloadComplete;
                         WebProfile.StatusChanged -= OnStatusChange;

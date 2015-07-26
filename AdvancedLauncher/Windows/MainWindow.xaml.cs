@@ -20,8 +20,6 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Pages;
 using MahApps.Metro.Controls;
@@ -54,7 +52,7 @@ namespace AdvancedLauncher.Windows {
             Splashscreen.SetProgress("Loading...");
             Application.Current.MainWindow = _Instance;
             // force initialize default profile in current thread
-            var profile = EnvironmentManager.Settings.CurrentProfile;
+            var profile = ProfileManager.Instance.CurrentProfile;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
@@ -65,9 +63,9 @@ namespace AdvancedLauncher.Windows {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
-                EnvironmentManager.Settings.ProfileChanged += OnProfileChanged;
-                EnvironmentManager.Settings.ClosingLocked += OnClosingLocked;
-                EnvironmentManager.Settings.FileSystemLocked += OnFileSystemLocked;
+                ProfileManager.Instance.ProfileChanged += OnProfileChanged;
+                EnvironmentManager.ClosingLocked += OnClosingLocked;
+                EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 this.Closing += (s, e) => {
                     e.Cancel = IsCloseLocked;
                 };
@@ -101,7 +99,7 @@ namespace AdvancedLauncher.Windows {
                 NavPersonalization.IsEnabled = false;
             } else {
                 //Включаем персонализации обратно если игра определена
-                if (EnvironmentManager.Settings.CurrentProfile.GameEnv.CheckGame()) {
+                if (GameManager.Current.CheckGame()) {
                     NavPersonalization.IsEnabled = true;
                 }
             }
@@ -128,12 +126,12 @@ namespace AdvancedLauncher.Windows {
             NavPersonalization.IsEnabled = false;
 
             //Если доступен веб-профиль, включаем вкладку сообщества
-            if (EnvironmentManager.Settings.CurrentProfile.DMOProfile.IsWebAvailable) {
+            if (GameManager.CurrentProfile.IsWebAvailable) {
                 NavCommunity.IsEnabled = true;
             }
 
             //Если путь до игры верен, включаем вкладку галереи и персонализации
-            if (EnvironmentManager.Settings.CurrentProfile.GameEnv.CheckGame()) {
+            if (GameManager.Current.CheckGame()) {
                 NavGallery.IsEnabled = true;
                 NavPersonalization.IsEnabled = true;
             }
@@ -144,13 +142,7 @@ namespace AdvancedLauncher.Windows {
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             //NotifyPropertyChanged("CurrentProfile");
-            ProfileSwitcher.DataContext = EnvironmentManager.Settings.CurrentProfile;
-        }
-
-        public Profile CurrentProfile {
-            get {
-                return EnvironmentManager.Settings.CurrentProfile;
-            }
+            ProfileSwitcher.DataContext = ProfileManager.Instance.CurrentProfile;
         }
 
         private void OnTabChanged(object sender, SelectionChangedEventArgs e) {

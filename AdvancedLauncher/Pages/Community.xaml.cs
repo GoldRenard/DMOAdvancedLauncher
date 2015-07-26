@@ -20,8 +20,8 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Controls;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Validation;
 using DMOLibrary.Database;
@@ -52,7 +52,7 @@ namespace AdvancedLauncher.Pages {
             GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;
-            webProfile = EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetWebProfile();
+            webProfile = GameManager.CurrentProfile.GetWebProfile();
             if (webProfile != null) {
                 webProfile.SetDispatcher(this.Dispatcher);
             }
@@ -70,18 +70,19 @@ namespace AdvancedLauncher.Pages {
 
         private void LoadServerList() {
             //Загружаем новый список серверов
-            ComboBoxServer.ItemsSource = EnvironmentManager.Settings.CurrentProfile.DMOProfile.ServerList;
+            ComboBoxServer.ItemsSource = GameManager.CurrentProfile.ServerList;
+            Profile currentProfile = ProfileManager.Instance.CurrentProfile;
             //Если есть название гильдии в ротации, вводим его и сервер
-            if (!string.IsNullOrEmpty(EnvironmentManager.Settings.CurrentProfile.Rotation.Guild)) {
+            if (!string.IsNullOrEmpty(currentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {
                     //Ищем сервер с нужным идентификатором и выбираем его
-                    if (serv.Identifier == EnvironmentManager.Settings.CurrentProfile.Rotation.ServerId + 1) {
+                    if (serv.Identifier == currentProfile.Rotation.ServerId + 1) {
                         ComboBoxServer.SelectedValue = serv;
                         break;
                     }
                 }
                 if (string.IsNullOrEmpty(GuildNameTextBox.Text)) {
-                    GuildNameTextBox.Text = EnvironmentManager.Settings.CurrentProfile.Rotation.Guild;
+                    GuildNameTextBox.Text = currentProfile.Rotation.Guild;
                 }
             } else {
                 GuildNameTextBox.Clear();
@@ -166,7 +167,7 @@ namespace AdvancedLauncher.Pages {
         }
 
         public void BlockControls(bool block) {
-            EnvironmentManager.Settings.OnProfileLocked(block);
+            ProfileManager.Instance.OnProfileLocked(block);
             GuildNameTextBox.IsEnabled = !block;
             ComboBoxServer.IsEnabled = !block;
             SearchButton.IsEnabled = !block;

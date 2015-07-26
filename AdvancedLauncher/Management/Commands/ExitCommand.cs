@@ -16,25 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.Environment.Commands {
+namespace AdvancedLauncher.Management.Commands {
 
-    public abstract class Command {
-        private string commandName;
-        private string commandDescription;
+    public class ExitCommand : Command {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ExitCommand));
 
-        public Command(string commandName, string commandDescription) {
-            this.commandName = commandName;
-            this.commandDescription = commandDescription;
+        public ExitCommand()
+            : base("exit", "Schedules the application shutdown") {
         }
 
-        public abstract void DoCommand(string[] args);
-
-        public virtual string GetDescription() {
-            return commandDescription;
-        }
-
-        public virtual string GetName() {
-            return commandName;
+        public override void DoCommand(string[] args) {
+            TaskManager.CloseApp();
+            LOGGER.InfoFormat("Shutdown scheduled...");
         }
     }
 }

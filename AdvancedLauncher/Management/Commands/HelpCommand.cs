@@ -16,20 +16,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.Management;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace AdvancedLauncher.Environment.Commands {
+namespace AdvancedLauncher.Management.Commands {
 
-    public class ExitCommand : Command {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ExitCommand));
+    public class HelpCommand : Command {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(HelpCommand));
 
-        public ExitCommand()
-            : base("exit", "Schedules the application shutdown") {
+        public HelpCommand()
+            : base("help", "Shows help message") {
         }
 
         public override void DoCommand(string[] args) {
-            TaskManager.CloseApp();
-            LOGGER.InfoFormat("Shutdown scheduled...");
+            Dictionary<String, Command> commands = CommandHandler.GetCommands();
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine();
+            builder.AppendLine("Available commands:");
+            foreach (String key in commands.Keys) {
+                Command command;
+                commands.TryGetValue(key, out command);
+                builder.AppendLine(String.Format("\t{0} - {1}", key, command.GetDescription()));
+            }
+            LOGGER.Info(builder);
         }
     }
 }

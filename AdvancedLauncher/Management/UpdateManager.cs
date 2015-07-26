@@ -18,8 +18,7 @@
 
 using System;
 using System.ComponentModel;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.UI.Extension;
 
 namespace AdvancedLauncher.Management {

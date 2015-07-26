@@ -29,8 +29,8 @@ using System.Windows.Documents;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Model.Config;
 using DMOLibrary;
 using DMOLibrary.Profiles;
 using Newtonsoft.Json.Linq;
@@ -66,7 +66,7 @@ namespace AdvancedLauncher.Controls {
         public NewsBlock() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                EnvironmentManager.Settings.ProfileChanged += ReloadNews;
+                ProfileManager.Instance.ProfileChanged += ReloadNews;
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
@@ -128,14 +128,15 @@ namespace AdvancedLauncher.Controls {
         }
 
         private void ReloadNews(object sender, EventArgs e) {
-            if (_jsonUrl != EnvironmentManager.Settings.CurrentProfile.News.TwitterUrl) {
-                _jsonUrl = EnvironmentManager.Settings.CurrentProfile.News.TwitterUrl;
+            Profile currentProfile = ProfileManager.Instance.CurrentProfile;
+            if (_jsonUrl != currentProfile.News.TwitterUrl) {
+                _jsonUrl = currentProfile.News.TwitterUrl;
             }
 
-            bool newsSupported = EnvironmentManager.Settings.CurrentProfile.DMOProfile.IsNewsAvailable;
+            bool newsSupported = GameManager.CurrentProfile.IsNewsAvailable;
             NavJoymax.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             NavTwitter.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
-            byte index = newsSupported ? EnvironmentManager.Settings.CurrentProfile.News.FirstTab : (byte)0;
+            byte index = newsSupported ? currentProfile.News.FirstTab : (byte)0;
             NewsTabControl.SelectedIndex = index;
             ShowTab(index);
         }
@@ -437,10 +438,11 @@ namespace AdvancedLauncher.Controls {
         #region Joymax news
 
         private void GetJoymaxNews() {
-            if (EnvironmentManager.Settings.CurrentProfile.DMOProfile.NewsProfile != null) {
+            DMOProfile currentProfile = GameManager.CurrentProfile;
+            if (currentProfile.NewsProfile != null) {
                 List<DMONewsProfile.NewsItem> news;
                 try {
-                    news = EnvironmentManager.Settings.CurrentProfile.DMOProfile.NewsProfile.GetNews();
+                    news = currentProfile.NewsProfile.GetNews();
                 } catch (WebException e) {
                     news = new List<DMONewsProfile.NewsItem>();
                     news.Add(new DMONewsProfile.NewsItem() {

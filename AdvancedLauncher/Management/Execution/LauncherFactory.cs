@@ -21,11 +21,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AdvancedLauncher.Environment.Containers;
+using AdvancedLauncher.Model.Config;
 
 namespace AdvancedLauncher.Management.Execution {
 
-    public class LauncherFactory : IEnumerable, IEnumerable<ILauncher> {
+    internal class LauncherFactory : IEnumerable, IEnumerable<ILauncher> {
         public readonly Dictionary<String, ILauncher> CollectionByMnemonic = new Dictionary<string, ILauncher>();
         private readonly Dictionary<Type, ILauncher> CollectionByType = new Dictionary<Type, ILauncher>();
 
@@ -57,7 +57,7 @@ namespace AdvancedLauncher.Management.Execution {
 
         public static ILauncher CurrentLauncher {
             get {
-                return GetProfileLauncher(EnvironmentManager.Settings.CurrentProfile);
+                return GetProfileLauncher(ProfileManager.Instance.CurrentProfile);
             }
         }
 

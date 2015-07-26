@@ -24,7 +24,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.UI.Extension;
 using DMOLibrary.DMOFileSystem;
@@ -74,7 +73,7 @@ namespace AdvancedLauncher.Pages {
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
         protected override void ProfileChanged(object sender, EventArgs e) {
-            FileSystem = EnvironmentManager.Settings.CurrentProfile.GameEnv.GetFS();
+            FileSystem = GameManager.Current.GetFS();
             LoadResourceList();
             ResetCurrent();
             ResetSelect();
@@ -87,7 +86,7 @@ namespace AdvancedLauncher.Pages {
         public override void PageActivate() {
             base.PageActivate();
             try {
-                FileSystem.Open(FileAccess.ReadWrite, 16, EnvironmentManager.Settings.CurrentProfile.GameEnv.GetHFPath(), EnvironmentManager.Settings.CurrentProfile.GameEnv.GetPFPath());
+                FileSystem.Open(FileAccess.ReadWrite, 16, GameManager.Current.GetHFPath(), GameManager.Current.GetPFPath());
                 if (!IsGameImageLoaded && ItemsComboBox.Items.Count > 0) {
                     if (ItemsComboBox.SelectedIndex == 0) {
                         OnSelectionChanged(ItemsComboBox, null);
@@ -117,7 +116,7 @@ namespace AdvancedLauncher.Pages {
         private void LoadResourceList() {
             ResourceModel.UnLoadData();
             string[] rlines = null;
-            string rFile = (EnvironmentManager.ResourcesPath + string.Format(RES_LIST_FILE, EnvironmentManager.Settings.CurrentProfile.DMOProfile.GetTypeName()));
+            string rFile = (EnvironmentManager.ResourcesPath + string.Format(RES_LIST_FILE, GameManager.CurrentProfile.GetTypeName()));
             if (File.Exists(rFile)) {
                 rlines = System.IO.File.ReadAllLines(rFile);
 

@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AdvancedLauncher.Environment.Commands {
+namespace AdvancedLauncher.Management.Commands {
 
     public static class CommandHandler {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(CommandHandler));

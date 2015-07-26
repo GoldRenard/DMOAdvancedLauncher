@@ -16,44 +16,29 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Xml.Serialization;
+using System;
+using System.Text;
 
-namespace AdvancedLauncher.Environment.Containers {
+namespace AdvancedLauncher.Management.Commands {
 
-    public class RotationData {
+    public class EchoCommand : Command {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(EchoCommand));
 
-        [XmlAttribute("Guild")]
-        public string Guild {
-            set;
-            get;
+        public EchoCommand()
+            : base("echo", "Echo to console") {
         }
 
-        [XmlAttribute("Tamer")]
-        public string Tamer {
-            set;
-            get;
-        }
-
-        [XmlAttribute("ServerId")]
-        public byte ServerId {
-            set;
-            get;
-        }
-
-        [XmlAttribute("UpdateInterval")]
-        public int UpdateInterval {
-            set;
-            get;
-        }
-
-        public RotationData(RotationData rd) {
-            Guild = rd.Guild;
-            Tamer = rd.Tamer;
-            ServerId = rd.ServerId;
-            UpdateInterval = rd.UpdateInterval;
-        }
-
-        public RotationData() {
+        public override void DoCommand(string[] args) {
+            StringBuilder builder = new StringBuilder();
+            bool skipEcho = false;
+            foreach (String arg in args) {
+                if (!skipEcho) {
+                    skipEcho = true;
+                    continue;
+                }
+                builder.Append(String.Format("{0} ", arg));
+            }
+            LOGGER.Info(builder);
         }
     }
 }

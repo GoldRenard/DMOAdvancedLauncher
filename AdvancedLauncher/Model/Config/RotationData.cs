@@ -16,25 +16,44 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.IO;
-using System.Reflection;
+using System.Xml.Serialization;
 
-namespace AdvancedLauncher.Environment.Commands {
+namespace AdvancedLauncher.Model.Config {
 
-    public class LicenseCommand : Command {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(LicenseCommand));
+    public class RotationData {
 
-        public LicenseCommand()
-            : base("license", "Shows license") {
+        [XmlAttribute("Guild")]
+        public string Guild {
+            set;
+            get;
         }
 
-        public override void DoCommand(string[] args) {
-            using (var reader = new StreamReader(Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream("AdvancedLauncher.Docs.LICENSE.txt"))) {
-                while (!reader.EndOfStream) {
-                    LOGGER.Info(reader.ReadLine());
-                }
-            }
+        [XmlAttribute("Tamer")]
+        public string Tamer {
+            set;
+            get;
+        }
+
+        [XmlAttribute("ServerId")]
+        public byte ServerId {
+            set;
+            get;
+        }
+
+        [XmlAttribute("UpdateInterval")]
+        public int UpdateInterval {
+            set;
+            get;
+        }
+
+        public RotationData(RotationData rd) {
+            Guild = rd.Guild;
+            Tamer = rd.Tamer;
+            ServerId = rd.ServerId;
+            UpdateInterval = rd.UpdateInterval;
+        }
+
+        public RotationData() {
         }
     }
 }

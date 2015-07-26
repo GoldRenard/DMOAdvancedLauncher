@@ -18,9 +18,8 @@
 
 using System;
 using System.Collections.Generic;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Management.Security;
+using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Windows;
 using DMOLibrary.Events;
 using DMOLibrary.Profiles;
@@ -51,16 +50,16 @@ namespace AdvancedLauncher.Management {
         }
 
         public void Login() {
-            Profile profile = EnvironmentManager.Settings.CurrentProfile;
-            if (!failedLogin.Contains(profile.DMOProfile)) {
-                if (profile.GameEnv.IsLastSessionAvailable() && !string.IsNullOrEmpty(profile.Login.LastSessionArgs)) {
+            Profile profile = ProfileManager.Instance.CurrentProfile;
+            if (!failedLogin.Contains(GameManager.GetProfile(profile.GameModel.Type))) {
+                if (GameManager.Current.IsLastSessionAvailable() && !string.IsNullOrEmpty(profile.Login.LastSessionArgs)) {
                     ShowLastSessionDialog();
                     return;
                 }
                 if (profile.Login.IsCorrect) {
                     LoginDialogData loginData = new LoginDialogData() {
-                        Username = EnvironmentManager.Settings.CurrentProfile.Login.User,
-                        Password = PassEncrypt.ConvertToUnsecureString(EnvironmentManager.Settings.CurrentProfile.Login.SecurePassword)
+                        Username = ProfileManager.Instance.CurrentProfile.Login.User,
+                        Password = PassEncrypt.ConvertToUnsecureString(ProfileManager.Instance.CurrentProfile.Login.SecurePassword)
                     };
                     ShowLoggingInDialog(loginData);
                     return;
@@ -72,7 +71,7 @@ namespace AdvancedLauncher.Management {
         private async void ShowLoginDialog(string title, string message) {
             LoginDialogData result = await MainWindow.Instance.ShowLoginAsync(title, message, new LoginDialogSettings {
                 ColorScheme = MetroDialogColorScheme.Accented,
-                InitialUsername = EnvironmentManager.Settings.CurrentProfile.Login.User,
+                InitialUsername = ProfileManager.Instance.CurrentProfile.Login.User,
                 NegativeButtonVisibility = System.Windows.Visibility.Visible,
                 NegativeButtonText = LanguageManager.Model.CancelButton,
                 UsernameWatermark = LanguageManager.Model.Settings_Account_User,
@@ -89,14 +88,14 @@ namespace AdvancedLauncher.Management {
         }
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
-            DMOProfile dmoProfile = EnvironmentManager.Settings.CurrentProfile.DMOProfile;
+            DMOProfile dmoProfile = GameManager.CurrentProfile;
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
             };
             controller = await MainWindow.Instance.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, false, settings);
-            EnvironmentManager.Settings.CurrentProfile.DMOProfile.LoginStateChanged += OnLoginStateChanged;
-            EnvironmentManager.Settings.CurrentProfile.DMOProfile.LoginCompleted += OnLoginCompleted;
-            EnvironmentManager.Settings.CurrentProfile.DMOProfile.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
+            dmoProfile.LoginStateChanged += OnLoginStateChanged;
+            dmoProfile.LoginCompleted += OnLoginCompleted;
+            dmoProfile.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
         }
 
         private async void ShowLastSessionDialog() {
@@ -110,7 +109,7 @@ namespace AdvancedLauncher.Management {
             if (result == MessageDialogResult.Affirmative) {
                 if (LoginCompleted != null) {
                     LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.SUCCESS,
-                        EnvironmentManager.Settings.CurrentProfile.Login.LastSessionArgs));
+                        ProfileManager.Instance.CurrentProfile.Login.LastSessionArgs));
                 }
                 return;
             }

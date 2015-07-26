@@ -17,51 +17,31 @@
 // ======================================================================
 
 using System;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.IO;
-using System.Xml.Serialization;
+using AdvancedLauncher.Model.Config;
 using DMOLibrary.DMOFileSystem;
+using DMOLibrary.Profiles;
 using Microsoft.Win32;
 
-namespace AdvancedLauncher.Environment {
+namespace AdvancedLauncher.Management {
 
-    public class GameEnv : INotifyPropertyChanged, IDisposable {
+    public class GameManager : INotifyPropertyChanged, IDisposable {
 
         public enum GameType {
             ADMO = 0,
             GDMO = 1,
             KDMO_IMBC = 2,
-            KDMO_DM = 3
+            KDMO_DM = 3,
         }
 
-        [XmlAttribute("Type")]
-        public GameType Type;
+        private const string puPF = @"Data\Pack01.pf";
+        private const string puHF = @"Data\Pack01.hf";
+        private const string puImportDir = @"Pack01";
 
-        [XmlElement("GamePath")]
-        public string pGamePath;
-
-        [XmlElement("DefLauncherPath")]
-        public string pDefLauncherPath;
-
-        [XmlIgnore]
-        public string GamePath {
-            set {
-                pGamePath = value; Initialize(); NotifyPropertyChanged("GamePath");
-            }
-            get {
-                return pGamePath;
-            }
-        }
-
-        [XmlIgnore]
-        public string DefLauncherPath {
-            set {
-                pDefLauncherPath = value; Initialize(); NotifyPropertyChanged("DefLauncherPath");
-            }
-            get {
-                return pDefLauncherPath;
-            }
-        }
+        private static ConcurrentDictionary<GameModel, GameManager> Collection = new ConcurrentDictionary<GameModel, GameManager>();
+        private static ConcurrentDictionary<GameType, DMOProfile> DMOProfiles = new ConcurrentDictionary<GameType, DMOProfile>();
 
         private bool pLastSessionAvailable;
         private string pGamePathRegKey;
@@ -74,45 +54,117 @@ namespace AdvancedLauncher.Environment {
         private string puRemotePatch;
         private string puLocalVer;
 
-        private string puPF;
-        private string puHF;
-        private string puImportDir;
+        #region Properties
 
-        [XmlIgnore]
-        public bool IsInitialized = false;
+        private GameModel _Model;
+
+        public GameModel Model {
+            get {
+                return _Model;
+            }
+        }
+
+        public string GamePath {
+            set {
+                Model.GamePath = value; NotifyPropertyChanged("GamePath");
+            }
+            get {
+                return Model.GamePath;
+            }
+        }
+
+        public string DefLauncherPath {
+            set {
+                Model.DefLauncherPath = value; NotifyPropertyChanged("DefLauncherPath");
+            }
+            get {
+                return Model.DefLauncherPath;
+            }
+        }
+
+        private static GameManager _Current;
+
+        public static GameManager Current {
+            get {
+                if (_Current == null) {
+                    _Current = Get(ProfileManager.Instance.CurrentProfile.GameModel);
+                }
+                return _Current;
+            }
+        }
+
+        public static DMOProfile CurrentProfile {
+            get {
+                return GetProfile(ProfileManager.Instance.CurrentProfile.GameModel.Type);
+            }
+        }
+
+        #endregion Properties
 
         #region Load Section
 
-        public GameEnv() {
+        private GameManager() {
         }
 
-        public GameEnv(GameEnv gameEnv) {
-            this.Type = gameEnv.Type;
-            this.pGamePath = gameEnv.pGamePath;
-            this.pDefLauncherPath = gameEnv.pDefLauncherPath;
-        }
-
-        public void Initialize() {
-            if (IsInitialized) {
-                return;
+        private GameManager(GameModel model) {
+            this._Model = model;
+            LoadType(Model.Type);
+            if (string.IsNullOrEmpty(Model.GamePath)) {
+                Model.GamePath = GetGamePathFromRegistry();
             }
-            IsInitialized = true;
-            LoadType(Type);
-            if (string.IsNullOrEmpty(pGamePath)) {
-                pGamePath = GetGamePathFromRegistry();
-            }
-            if (string.IsNullOrEmpty(pDefLauncherPath)) {
-                pDefLauncherPath = GetDefLauncherPathFromRegistry();
+            if (string.IsNullOrEmpty(Model.DefLauncherPath)) {
+                Model.DefLauncherPath = GetDefLauncherPathFromRegistry();
             }
         }
 
-        public void LoadType(GameType type) {
-            this.Type = type;
-            puPF = @"Data\Pack01.pf";
-            puHF = @"Data\Pack01.hf";
-            puImportDir = @"Pack01";
+        public static DMOProfile GetProfile(GameType type) {
+            DMOProfile profile;
+            if (DMOProfiles.ContainsKey(type)) {
+                DMOProfiles.TryGetValue(type, out profile);
+            } else {
+                switch (type) {
+                    case GameType.ADMO:
+                        profile = new DMOLibrary.Profiles.Aeria.DMOAeria();
+                        break;
+
+                    case GameType.GDMO:
+                        profile = new DMOLibrary.Profiles.Joymax.DMOJoymax();
+                        break;
+
+                    case GameType.KDMO_DM:
+                        profile = new DMOLibrary.Profiles.Korea.DMOKorea();
+                        break;
+
+                    case GameType.KDMO_IMBC:
+                        profile = new DMOLibrary.Profiles.Korea.DMOKoreaIMBC();
+                        break;
+
+                    default:
+                        return null;
+                }
+                DMOProfiles.TryAdd(type, profile);
+            }
+            return profile;
+        }
+
+        public static GameManager Get(GameModel model) {
+            GameManager result = null;
+            Collection.TryGetValue(model, out result);
+            if (result == null) {
+                result = new GameManager(model);
+                Collection.TryAdd(new GameModel(model), result);
+            }
+            return result;
+        }
+
+        static GameManager() {
+            ProfileManager.Instance.ProfileChanged += (s, e) => {
+                _Current = null;
+            };
+        }
+
+        private void LoadType(GameType type) {
             pLastSessionAvailable = false;
-
             switch (type) {
                 case GameType.ADMO:
                     {
@@ -176,11 +228,10 @@ namespace AdvancedLauncher.Environment {
         }
 
         public bool CheckGame() {
-            return CheckGame(pGamePath);
+            return CheckGame(Model.GamePath);
         }
 
         public bool CheckGame(string pGamePath) {
-            Initialize();
             if (string.IsNullOrEmpty(pGamePath)) {
                 return false;
             }
@@ -194,11 +245,10 @@ namespace AdvancedLauncher.Environment {
         }
 
         public bool CheckDefLauncher() {
-            return CheckDefLauncher(pDefLauncherPath);
+            return CheckDefLauncher(Model.DefLauncherPath);
         }
 
         public bool CheckDefLauncher(string pDefLauncherPath) {
-            Initialize();
             if (string.IsNullOrEmpty(pDefLauncherPath)) {
                 return false;
             }
@@ -230,15 +280,13 @@ namespace AdvancedLauncher.Environment {
         #region Get/Set Section
 
         public string GetGameEXE() {
-            Initialize();
-            if (string.IsNullOrEmpty(pGamePath)) {
+            if (string.IsNullOrEmpty(Model.GamePath)) {
                 return null;
             }
-            return Path.Combine(pGamePath, pGameEXE);
+            return Path.Combine(Model.GamePath, pGameEXE);
         }
 
         public string GetDefLauncherEXE() {
-            Initialize();
             if (string.IsNullOrEmpty(DefLauncherPath)) {
                 return null;
             }
@@ -246,49 +294,42 @@ namespace AdvancedLauncher.Environment {
         }
 
         public string GetPFPath() {
-            Initialize();
-            if (string.IsNullOrEmpty(pGamePath)) {
+            if (string.IsNullOrEmpty(Model.GamePath)) {
                 return null;
             }
-            return Path.Combine(pGamePath, puPF);
+            return Path.Combine(Model.GamePath, puPF);
         }
 
         public string GetHFPath() {
-            Initialize();
-            if (string.IsNullOrEmpty(pGamePath)) {
+            if (string.IsNullOrEmpty(Model.GamePath)) {
                 return null;
             }
-            return Path.Combine(pGamePath, puHF);
+            return Path.Combine(Model.GamePath, puHF);
         }
 
         public string GetImportPath() {
-            Initialize();
-            if (string.IsNullOrEmpty(pGamePath)) {
+            if (string.IsNullOrEmpty(Model.GamePath)) {
                 return null;
             }
-            return Path.Combine(pGamePath, puImportDir);
+            return Path.Combine(Model.GamePath, puImportDir);
         }
 
         public string GetLocalVerFile() {
-            Initialize();
-            if (string.IsNullOrEmpty(pGamePath)) {
+            if (string.IsNullOrEmpty(Model.GamePath)) {
                 return null;
             }
-            return Path.Combine(pGamePath, puLocalVer);
+            return Path.Combine(Model.GamePath, puLocalVer);
         }
 
         public string GetRemoteVerURL() {
-            Initialize();
             return puRemoteVer;
         }
 
         public string GetPatchURL() {
-            Initialize();
             return puRemotePatch;
         }
 
         public bool IsLastSessionAvailable() {
-            Initialize();
             return pLastSessionAvailable;
         }
 
@@ -324,15 +365,15 @@ namespace AdvancedLauncher.Environment {
         }
 
         public void SetRegistryPaths() {
-            if (!string.IsNullOrEmpty(pGamePath)) {
+            if (!string.IsNullOrEmpty(Model.GamePath)) {
                 RegistryKey reg = Registry.CurrentUser.CreateSubKey(pGamePathRegKey);
-                reg.SetValue(pGamePathRegVal, pGamePath);
+                reg.SetValue(pGamePathRegVal, Model.GamePath);
                 reg.Close();
             }
 
-            if (!string.IsNullOrEmpty(pDefLauncherPath)) {
+            if (!string.IsNullOrEmpty(Model.DefLauncherPath)) {
                 RegistryKey reg = Registry.CurrentUser.CreateSubKey(pDefLauncherPathRegKey);
-                reg.SetValue(pDefLauncherPathRegVal, pDefLauncherPath);
+                reg.SetValue(pDefLauncherPathRegVal, Model.DefLauncherPath);
                 reg.Close();
             }
         }

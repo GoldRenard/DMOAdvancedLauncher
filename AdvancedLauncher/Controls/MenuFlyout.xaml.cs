@@ -23,9 +23,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Environment.Containers;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Windows;
 using MahApps.Metro.Controls;
 
@@ -48,9 +47,9 @@ namespace AdvancedLauncher.Controls {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
-                EnvironmentManager.Settings.ProfileChanged += ReloadCurrentProfile;
-                EnvironmentManager.Settings.ProfileLocked += OnProfileLocked;
-                EnvironmentManager.Settings.CollectionChanged += ReloadProfiles;
+                ProfileManager.Instance.ProfileChanged += ReloadCurrentProfile;
+                ProfileManager.Instance.ProfileLocked += OnProfileLocked;
+                ProfileManager.Instance.CollectionChanged += ReloadProfiles;
                 ReloadProfiles(this, EventArgs.Empty);
                 BuildCommands();
             }
@@ -164,20 +163,20 @@ namespace AdvancedLauncher.Controls {
 
         private void ReloadProfiles(object sender, EventArgs e) {
             IsPreventChange = true;
-            ProfileList.ItemsSource = EnvironmentManager.Settings.Profiles;
-            ProfileList.SelectedItem = EnvironmentManager.Settings.CurrentProfile;
+            ProfileList.ItemsSource = ProfileManager.Instance.Profiles;
+            ProfileList.SelectedItem = ProfileManager.Instance.CurrentProfile;
             IsPreventChange = false;
         }
 
         private void ReloadCurrentProfile(object sender, EventArgs e) {
             IsPreventChange = true;
-            ProfileList.SelectedItem = EnvironmentManager.Settings.CurrentProfile;
+            ProfileList.SelectedItem = ProfileManager.Instance.CurrentProfile;
             IsPreventChange = false;
         }
 
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!IsPreventChange) {
-                EnvironmentManager.Settings.CurrentProfile = (Profile)ProfileList.SelectedItem;
+                ProfileManager.Instance.CurrentProfile = (Profile)ProfileList.SelectedItem;
                 IsOpen = false;
             }
         }

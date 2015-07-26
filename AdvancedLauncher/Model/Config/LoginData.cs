@@ -20,7 +20,7 @@ using System.Security;
 using System.Xml.Serialization;
 using AdvancedLauncher.Management.Security;
 
-namespace AdvancedLauncher.Environment.Containers {
+namespace AdvancedLauncher.Model.Config {
 
     public class LoginData {
 

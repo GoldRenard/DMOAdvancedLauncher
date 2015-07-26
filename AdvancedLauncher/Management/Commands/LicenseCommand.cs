@@ -16,29 +16,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Text;
+using System.IO;
+using System.Reflection;
 
-namespace AdvancedLauncher.Environment.Commands {
+namespace AdvancedLauncher.Management.Commands {
 
-    public class EchoCommand : Command {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(EchoCommand));
+    public class LicenseCommand : Command {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(LicenseCommand));
 
-        public EchoCommand()
-            : base("echo", "Echo to console") {
+        public LicenseCommand()
+            : base("license", "Shows license") {
         }
 
         public override void DoCommand(string[] args) {
-            StringBuilder builder = new StringBuilder();
-            bool skipEcho = false;
-            foreach (String arg in args) {
-                if (!skipEcho) {
-                    skipEcho = true;
-                    continue;
+            using (var reader = new StreamReader(Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("AdvancedLauncher.Docs.LICENSE.txt"))) {
+                while (!reader.EndOfStream) {
+                    LOGGER.Info(reader.ReadLine());
                 }
-                builder.Append(String.Format("{0} ", arg));
             }
-            LOGGER.Info(builder);
         }
     }
 }

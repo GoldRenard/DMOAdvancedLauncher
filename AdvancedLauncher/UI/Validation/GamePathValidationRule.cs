@@ -17,6 +17,7 @@
 // ======================================================================
 
 using System.Windows.Controls;
+using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.UI.Validation {
 
@@ -26,7 +27,7 @@ namespace AdvancedLauncher.UI.Validation {
             if (AdvancedLauncher.Windows.Settings.SelectedProfile == null) {
                 return new ValidationResult(false, null);
             }
-            if (AdvancedLauncher.Windows.Settings.SelectedProfile.GameEnv.CheckGame()) {
+            if (GameManager.Get(AdvancedLauncher.Windows.Settings.SelectedProfile.GameModel).CheckGame()) {
                 return new ValidationResult(true, null);
             }
             return new ValidationResult(false, null);

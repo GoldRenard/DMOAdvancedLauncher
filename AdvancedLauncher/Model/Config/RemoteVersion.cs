@@ -23,7 +23,7 @@ using System.Xml.Serialization;
 using AdvancedLauncher.Management;
 using DMOLibrary;
 
-namespace AdvancedLauncher.Environment.Containers {
+namespace AdvancedLauncher.Model.Config {
 
     [XmlType(TypeName = "RemoteVersion")]
     public class RemoteVersion {

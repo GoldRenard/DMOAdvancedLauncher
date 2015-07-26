@@ -26,8 +26,8 @@ using System.Xml.Serialization;
 using AdvancedLauncher.Model;
 
 namespace AdvancedLauncher.Management {
-    internal sealed class LanguageManager {
 
+    internal sealed class LanguageManager {
         public const string DefaultName = "en-US";
 
         public static LanguageModel Default = new LanguageModel();

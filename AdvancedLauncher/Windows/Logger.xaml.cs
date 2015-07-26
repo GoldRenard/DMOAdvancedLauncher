@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using AdvancedLauncher.Environment.Commands;
+using AdvancedLauncher.Management.Commands;
 using log4net.Core;
 
 namespace AdvancedLauncher.Windows {

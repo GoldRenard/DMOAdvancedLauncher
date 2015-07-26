@@ -17,21 +17,18 @@
 // ======================================================================
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
-using DMOLibrary.Profiles;
 
-namespace AdvancedLauncher.Environment.Containers {
+namespace AdvancedLauncher.Model.Config {
 
     [XmlType(TypeName = "Profile")]
-    public class Profile : INotifyPropertyChanged, IDisposable {
-        private static string DEFAULT_TWITTER_SOURCE = "http://renamon.ru/launcher/dmor_timeline.php";
-
+    public class Profile : INotifyPropertyChanged {
         private int _Id = 0;
 
         [XmlAttribute("Id")]
@@ -65,6 +62,7 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
+        [Obsolete]
         private bool _AppLocaleEnabled = true;
 
         [XmlAttribute]
@@ -78,10 +76,10 @@ namespace AdvancedLauncher.Environment.Containers {
             }
         }
 
-        private String _LaunchMode;
+        private string _LaunchMode;
 
         [XmlAttribute]
-        public String LaunchMode {
+        public string LaunchMode {
             set {
                 _LaunchMode = value;
                 NotifyPropertyChanged("LaunchMode");
@@ -136,11 +134,6 @@ namespace AdvancedLauncher.Environment.Containers {
                 _Login = value; NotifyPropertyChanged("Login");
             }
             get {
-                if (!DMOProfile.IsLoginRequired) {
-                    _Login.Password = string.Empty;
-                    _Login.LastSessionArgs = string.Empty;
-                    _Login.User = string.Empty;
-                }
                 return _Login;
             }
         }
@@ -154,19 +147,13 @@ namespace AdvancedLauncher.Environment.Containers {
                 _Rotation = value; NotifyPropertyChanged("Rotation");
             }
             get {
-                if (!DMOProfile.IsWebAvailable) {
-                    _Rotation.Guild = string.Empty;
-                    _Rotation.ServerId = 0;
-                    _Rotation.Tamer = string.Empty;
-                    _Rotation.UpdateInterval = 0;
-                }
                 return _Rotation;
             }
         }
 
         private NewsData _News = new NewsData() {
             FirstTab = 0,
-            TwitterUrl = DEFAULT_TWITTER_SOURCE
+            TwitterUrl = EnvironmentManager.DEFAULT_TWITTER_SOURCE
         };
 
         public NewsData News {
@@ -174,9 +161,6 @@ namespace AdvancedLauncher.Environment.Containers {
                 _News = value; NotifyPropertyChanged("News");
             }
             get {
-                if (!DMOProfile.IsNewsAvailable) {
-                    _News.FirstTab = 0;
-                }
                 return _News;
             }
         }
@@ -244,19 +228,17 @@ namespace AdvancedLauncher.Environment.Containers {
 
         #region Game Environment
 
-        private GameEnv _GameEnv = new GameEnv();
+        private GameModel _GameModel = new GameModel();
 
-        public GameEnv GameEnv {
+        [XmlElement("GameEnv")]
+        public GameModel GameModel {
             set {
-                _GameEnv = value;
-                NotifyPropertyChanged("GameEnv");
+                _GameModel = value;
+                NotifyPropertyChanged("GameModel");
                 NotifyPropertyChanged("FullName");
             }
             get {
-                if (!_GameEnv.IsInitialized) {
-                    _GameEnv.Initialize();
-                }
-                return _GameEnv;
+                return _GameModel;
             }
         }
 
@@ -265,20 +247,20 @@ namespace AdvancedLauncher.Environment.Containers {
             set {
             }
             get {
-                switch (GameEnv.Type) {
-                    case Environment.GameEnv.GameType.ADMO:
+                switch (GameModel.Type) {
+                    case GameManager.GameType.ADMO:
                         {
                             return "Aeria Games";
                         }
-                    case Environment.GameEnv.GameType.GDMO:
+                    case GameManager.GameType.GDMO:
                         {
                             return "Joymax";
                         }
-                    case Environment.GameEnv.GameType.KDMO_DM:
+                    case GameManager.GameType.KDMO_DM:
                         {
                             return "Korea DM";
                         }
-                    case Environment.GameEnv.GameType.KDMO_IMBC:
+                    case GameManager.GameType.KDMO_IMBC:
                         {
                             return "Korea IMBC";
                         }
@@ -291,61 +273,20 @@ namespace AdvancedLauncher.Environment.Containers {
         [XmlIgnore]
         public byte GameTypeNum {
             set {
-                GameEnv.Type = (GameEnv.GameType)value;
-                GameEnv.LoadType(GameEnv.Type);
-                NotifyPropertyChanged("GameEnv");       //We've changed env, so we must update all bindings
+                GameModel.Type = (GameManager.GameType)value;
+                NotifyPropertyChanged("GameModel");       //We've changed env, so we must update all bindings
+                NotifyPropertyChanged("FullName");
                 NotifyPropertyChanged("GameType");
                 NotifyPropertyChanged("DMOProfile");
                 NotifyPropertyChanged("Rotation");      //cuz dmoprofile changed, we must update rotation and news support
                 NotifyPropertyChanged("News");
             }
             get {
-                return (byte)GameEnv.Type;
+                return (byte)GameModel.Type;
             }
         }
 
         #endregion Game Environment
-
-        #region DMOLibrary.DMOProfile
-
-        private static Dictionary<Environment.GameEnv.GameType, DMOProfile> profileCollection = new Dictionary<Environment.GameEnv.GameType, DMOProfile>();
-
-        [XmlIgnore]
-        public DMOProfile DMOProfile {
-            set {
-            }
-            get {
-                DMOProfile profile;
-                if (profileCollection.ContainsKey(GameEnv.Type)) {
-                    profileCollection.TryGetValue(GameEnv.Type, out profile);
-                } else {
-                    switch (GameEnv.Type) {
-                        case Environment.GameEnv.GameType.ADMO:
-                            profile = new DMOLibrary.Profiles.Aeria.DMOAeria();
-                            break;
-
-                        case Environment.GameEnv.GameType.GDMO:
-                            profile = new DMOLibrary.Profiles.Joymax.DMOJoymax();
-                            break;
-
-                        case Environment.GameEnv.GameType.KDMO_DM:
-                            profile = new DMOLibrary.Profiles.Korea.DMOKorea();
-                            break;
-
-                        case Environment.GameEnv.GameType.KDMO_IMBC:
-                            profile = new DMOLibrary.Profiles.Korea.DMOKoreaIMBC();
-                            break;
-
-                        default:
-                            return null;
-                    }
-                    profileCollection.Add(GameEnv.Type, profile);
-                }
-                return profile;
-            }
-        }
-
-        #endregion DMOLibrary.DMOProfile
 
         #region Constructors
 
@@ -359,23 +300,10 @@ namespace AdvancedLauncher.Environment.Containers {
             this.LaunchMode = p.LaunchMode;
             this.UpdateEngineEnabled = p.UpdateEngineEnabled;
             this.KBLCServiceEnabled = p.KBLCServiceEnabled;
-            this._Login = new LoginData(p._Login);
-            this._Rotation = new RotationData(p._Rotation);
-            this._News = new NewsData(p._News);
-            this.GameEnv = new GameEnv(p.GameEnv);
-        }
-
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool dispose) {
-            if (dispose) {
-                if (_GameEnv != null) {
-                    _GameEnv.Dispose();
-                }
-            }
+            this.Login = new LoginData(p.Login);
+            this.Rotation = new RotationData(p.Rotation);
+            this.News = new NewsData(p.News);
+            this.GameModel = new GameModel(p.GameModel);
         }
 
         #endregion Constructors

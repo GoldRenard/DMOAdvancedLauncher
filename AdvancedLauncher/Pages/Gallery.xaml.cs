@@ -26,7 +26,6 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Controls;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.UI.Extension;
 
@@ -51,7 +50,7 @@ namespace AdvancedLauncher.Pages {
 
         public override void PageActivate() {
             base.PageActivate();
-            string gamePath = EnvironmentManager.Settings.CurrentProfile.GameEnv.GamePath;
+            string gamePath = GameManager.Current.GamePath;
             if (Directory.Exists(gamePath + SCREENSHOTS_DIR)) {
                 if (Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length > 0) {
                     if (!IsGalleryInitialized || GalleryModel.Count() != Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length) {

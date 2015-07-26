@@ -17,7 +17,6 @@
 // ======================================================================
 
 using System.Windows;
-using AdvancedLauncher.Environment;
 using AdvancedLauncher.Management;
 using DMOLibrary.Profiles;
 

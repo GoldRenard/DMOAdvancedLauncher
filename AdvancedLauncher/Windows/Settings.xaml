@@ -247,7 +247,7 @@
                                      Controls:TextBoxHelper.Watermark="{Binding Settings_GamePath}"
                                      Controls:TextBoxHelper.UseFloatingWatermark="True">
                                 <TextBox.Text>
-                                    <Binding ElementName="ProfileList" Path="SelectedValue.GameEnv.GamePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.GamePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <Validation:GamePathValidationRule />
                                         </Binding.ValidationRules>
@@ -266,7 +266,7 @@
                                      Controls:TextBoxHelper.Watermark="{Binding Settings_LauncherPath}"
                                      Controls:TextBoxHelper.UseFloatingWatermark="True">
                                 <TextBox.Text>
-                                    <Binding ElementName="ProfileList" Path="SelectedValue.GameEnv.DefLauncherPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.DefLauncherPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <Validation:LauncherPathValidationRule />
                                         </Binding.ValidationRules>

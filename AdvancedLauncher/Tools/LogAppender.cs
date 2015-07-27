@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Threading.Tasks;
 using AdvancedLauncher.UI.Windows;
 using log4net.Appender;
 using log4net.Core;
@@ -32,6 +33,10 @@ namespace AdvancedLauncher.Tools {
 
         public LogAppender() {
             App.Kernel.Inject(this);
+            Task.Factory.StartNew(async delegate {
+                await Task.Delay(100);
+                Logger.PrintHeader();
+            });
         }
 
         protected override void Append(LoggingEvent loggingEvent) {

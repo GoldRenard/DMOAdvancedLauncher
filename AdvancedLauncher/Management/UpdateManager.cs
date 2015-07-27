@@ -56,5 +56,9 @@ namespace AdvancedLauncher.Management {
             };
             updateWorker.RunWorkerAsync();
         }
+
+        public void Initialize() {
+            // nothing to do here
+        }
     }
 }

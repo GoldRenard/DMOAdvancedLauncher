@@ -66,7 +66,7 @@ namespace AdvancedLauncher.UI.Controls {
         private string _jsonUrlLoaded;
         private string _jsonUrl;
 
-        public NewsBlock() : base() {
+        public NewsBlock() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ProfileManager.ProfileChanged += ReloadNews;

@@ -20,7 +20,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
@@ -38,18 +37,10 @@ namespace AdvancedLauncher.Management {
             get; set;
         }
 
-        public LauncherManager() {
-            Assembly currAssembly = Assembly.GetExecutingAssembly();
-            Type baseType = typeof(AbstractLauncher);
-            foreach (Type type in currAssembly.GetTypes()) {
-                if (!type.IsClass || type.IsAbstract || !type.IsSubclassOf(baseType)) {
-                    continue;
-                }
-                ILauncher derivedObject = App.Kernel.Get(type) as ILauncher;
-                if (derivedObject != null) {
-                    CollectionByMnemonic.Add(derivedObject.Mnemonic, derivedObject);
-                    CollectionByType.Add(type, derivedObject);
-                }
+        public void Initialize() {
+            foreach (ILauncher launcher in App.Kernel.GetAll<ILauncher>()) {
+                CollectionByMnemonic.Add(launcher.Mnemonic, launcher);
+                CollectionByType.Add(launcher.GetType(), launcher);
             }
         }
 

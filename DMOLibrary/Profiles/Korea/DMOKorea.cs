@@ -42,7 +42,7 @@ namespace DMOLibrary.Profiles.Korea {
                 case "/help/Login/MemberLogin.aspx":
                     {
                         if (LoginTryNum >= 1) {
-                            OnCompleted(LoginCode.WRONG_USER, string.Empty);
+                            OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
                             return;
                         }
                         LoginTryNum++;
@@ -61,7 +61,7 @@ namespace DMOLibrary.Profiles.Korea {
                                 form.InvokeMember("Click");
                             }
                         } else {
-                            OnCompleted(LoginCode.WRONG_PAGE, string.Empty);
+                            OnCompleted(LoginCode.WRONG_PAGE, string.Empty, UserId);
                             return;
                         }
                         break;
@@ -88,7 +88,7 @@ namespace DMOLibrary.Profiles.Korea {
             this.UserId = UserId;
             this.Password = Password;
             if (UserId.Length == 0 || Password.Length == 0) {
-                OnCompleted(LoginCode.WRONG_USER, string.Empty);
+                OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
                 return;
             }
 

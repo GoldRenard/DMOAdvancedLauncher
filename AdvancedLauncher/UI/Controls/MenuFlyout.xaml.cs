@@ -37,7 +37,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         private bool _IsChangeEnabled = true;
 
-        public MenuFlyout() : base() {
+        public MenuFlyout() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ProfileSettings.ItemsSource = new List<object>() { new object() };

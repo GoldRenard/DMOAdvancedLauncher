@@ -35,7 +35,7 @@ namespace AdvancedLauncher.UI.Controls {
             Id = -1
         };
 
-        public TDBlock() : base() {
+        public TDBlock() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 TamerModel = new TamerViewModel(this.Dispatcher);

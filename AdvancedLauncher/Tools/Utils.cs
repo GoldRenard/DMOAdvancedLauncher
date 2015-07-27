@@ -16,25 +16,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.Management.Commands {
+using System.IO;
 
-    public abstract class Command {
-        private string commandName;
-        private string commandDescription;
+namespace AdvancedLauncher.Tools {
+    public class Utils {
 
-        public Command(string commandName, string commandDescription) {
-            this.commandName = commandName;
-            this.commandDescription = commandDescription;
-        }
+        /// <summary> Checks access to file </summary>
+        /// <param name="file">Full path to file</param>
+        /// <returns> <see langword="True"/> if file is locked </returns>
+        public static bool IsFileLocked(string file) {
+            FileStream stream = null;
 
-        public abstract void DoCommand(string[] args);
-
-        public virtual string GetDescription() {
-            return commandDescription;
-        }
-
-        public virtual string GetName() {
-            return commandName;
+            try {
+                stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            } catch (IOException) {
+                return true;
+            } finally {
+                if (stream != null)
+                    stream.Close();
+            }
+            return false;
         }
     }
 }

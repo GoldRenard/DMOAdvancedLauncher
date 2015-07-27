@@ -20,23 +20,28 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Windows;
+using AdvancedLauncher.Management.Interfaces;
 
 namespace AdvancedLauncher.Management {
 
     /// <summary> Данный класс реализует своеобразный менеджер задач,
     /// цель которого - не дать приложению закрыться, пока есть хоть одна задача </summary>
-    public static class TaskManager {
+    public class TaskManager : ITaskManager {
 
         /// <summary> Структура задачи </summary>
         public struct Task {
             public object Owner;
         }
 
+        public void Initialize() {
+            // nothing to do here
+        }
+
         /// <summary> Список задач </summary>
-        private static ConcurrentBag<Task> _Tasks = new ConcurrentBag<Task>();
+        private ConcurrentBag<Task> _Tasks = new ConcurrentBag<Task>();
 
         /// <summary> Предоставляет ссылку на список задач </summary>
-        public static ConcurrentBag<Task> Tasks {
+        public ConcurrentBag<Task> Tasks {
             get {
                 return _Tasks;
             }
@@ -45,7 +50,7 @@ namespace AdvancedLauncher.Management {
         /// <summary> Проверка занятости приложения </summary>
         /// <returns> <see langword="true"/> если приложение занято какой-либо задачей,
         /// <see langword="false"/> если свободно и может быть закрыто. </returns>
-        public static bool IsBusy {
+        public bool IsBusy {
             get {
                 return _Tasks.Count != 0;
             }
@@ -53,7 +58,7 @@ namespace AdvancedLauncher.Management {
 
         /// <summary> Метод закрытия приложения. Приложение будет закрыто тогда,
         /// когда не останется ни одной задачи </summary>
-        public static void CloseApp() {
+        public void CloseApp() {
             BackgroundWorker queueWorker = new BackgroundWorker();
             queueWorker.DoWork += (s, e) => {
                 while (IsBusy) {

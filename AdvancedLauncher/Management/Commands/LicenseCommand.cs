@@ -21,20 +21,21 @@ using System.Reflection;
 
 namespace AdvancedLauncher.Management.Commands {
 
-    public class LicenseCommand : Command {
+    public class LicenseCommand : AbstractCommand {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(LicenseCommand));
 
         public LicenseCommand()
             : base("license", "Shows license") {
         }
 
-        public override void DoCommand(string[] args) {
+        public override bool DoCommand(string[] args) {
             using (var reader = new StreamReader(Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream("AdvancedLauncher.Docs.LICENSE.txt"))) {
                 while (!reader.EndOfStream) {
                     LOGGER.Info(reader.ReadLine());
                 }
             }
+            return true;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace DMOLibrary.Profiles.Joymax {
         #region Getting user login commandline
 
         public override void TryLogin(string UserId, System.Security.SecureString Password) {
-            OnCompleted(LoginCode.SUCCESS, "true");
+            OnCompleted(LoginCode.SUCCESS, "true", UserId);
         }
 
         #endregion Getting user login commandline

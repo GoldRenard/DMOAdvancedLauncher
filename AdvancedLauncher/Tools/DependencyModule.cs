@@ -22,6 +22,9 @@ using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.UI.Windows;
 using Ninject.Modules;
+using Ninject;
+using AdvancedLauncher.Management.Commands;
+using AdvancedLauncher.Management.Configuration;
 
 namespace AdvancedLauncher.Tools {
 
@@ -29,17 +32,34 @@ namespace AdvancedLauncher.Tools {
 
         public override void Load() {
             // Services
-            Bind<IEnvironmentManager>().To<EnvironmentManager>().InSingletonScope();
-            Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope();
-            Bind<IUpdateManager>().To<UpdateManager>().InSingletonScope();
-            Bind<IProfileManager>().To<ProfileManager>().InSingletonScope();
-            Bind<ILoginManager>().To<LoginManager>().InSingletonScope();
+            Bind<IEnvironmentManager>().To<EnvironmentManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IUpdateManager>().To<UpdateManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IGameUpdateManager>().To<GameUpdateManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IProfileManager>().To<ProfileManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<ILoginManager>().To<LoginManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
 
             // Launchers
-            Bind<ILauncherManager>().To<LauncherManager>().InSingletonScope();
-            Bind<DirectLauncher>().ToSelf().InSingletonScope();
-            Bind<AppLocaleLauncher>().ToSelf().InSingletonScope();
-            Bind<NTLeaLauncher>().ToSelf().InSingletonScope();
+            Bind<ILauncherManager>().To<LauncherManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<ILauncher>().To<DirectLauncher>().InSingletonScope();
+            Bind<ILauncher>().To<AppLocaleLauncher>().InSingletonScope();
+            Bind<ILauncher>().To<NTLeaLauncher>().InSingletonScope();
+
+            // Commands
+            Bind<ICommandManager>().To<CommandManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<ICommand>().To<EchoCommand>().InSingletonScope();
+            Bind<ICommand>().To<ExecCommand>().InSingletonScope();
+            Bind<ICommand>().To<ExitCommand>().InSingletonScope();
+            Bind<ICommand>().To<HelpCommand>().InSingletonScope();
+            Bind<ICommand>().To<LicenseCommand>().InSingletonScope();
+
+            // Game Configurations
+            Bind<IGameManager>().To<GameManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IGameConfiguration>().To<JoymaxConfiguration>().InSingletonScope();
+            Bind<IGameConfiguration>().To<AeriaConfiguration>().InSingletonScope();
+            Bind<IGameConfiguration>().To<KDMODMConfiguration>().InSingletonScope();
+            Bind<IGameConfiguration>().To<KDMOIMBCConfiguration>().InSingletonScope();
 
             // ViewModels
             Bind<DigimonItemViewModel>().ToSelf();
@@ -52,8 +72,12 @@ namespace AdvancedLauncher.Tools {
             Bind<IconHolder>().ToSelf().InSingletonScope();
             Bind<MainWindow>().ToSelf().InSingletonScope();
             Bind<About>().ToSelf().InSingletonScope();
-            Bind<Logger>().ToSelf().InSingletonScope();
             Bind<Settings>().ToSelf().InSingletonScope();
+            Bind<Logger>().ToSelf().InSingletonScope().OnActivation(e => e.Initialize());
+        }
+
+        public override void VerifyRequiredModulesAreLoaded() {
+            Kernel.Get<IEnvironmentManager>();
         }
     }
 }

@@ -58,8 +58,6 @@ namespace AdvancedLauncher.Management.Interfaces {
             get;
         }
 
-        void Load();
-
         void Save();
 
         string ResolveResource(string folder, string file, string downloadUrl = null);

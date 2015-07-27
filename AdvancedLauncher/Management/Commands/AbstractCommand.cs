@@ -16,28 +16,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.Management.Interfaces;
-using Ninject;
-
 namespace AdvancedLauncher.Management.Commands {
 
-    public class ExitCommand : AbstractCommand {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ExitCommand));
+    public abstract class AbstractCommand : ICommand {
+        private string commandName;
+        private string commandDescription;
 
-        [Inject]
-        public ITaskManager TaskManager {
-            get;
-            set;
+        public AbstractCommand(string commandName, string commandDescription) {
+            this.commandName = commandName;
+            this.commandDescription = commandDescription;
         }
 
-        public ExitCommand()
-            : base("exit", "Schedules the application shutdown") {
+        public abstract bool DoCommand(string[] args);
+
+        public virtual string GetDescription() {
+            return commandDescription;
         }
 
-        public override bool DoCommand(string[] args) {
-            TaskManager.CloseApp();
-            LOGGER.InfoFormat("Shutdown scheduled...");
-            return true;
+        public virtual string GetName() {
+            return commandName;
         }
     }
 }

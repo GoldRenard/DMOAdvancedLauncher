@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -73,6 +74,22 @@ namespace AdvancedLauncher.Management {
                 }
             }
             return language;
+        }
+
+        public void Initialize() {
+            if (string.IsNullOrEmpty(EnvironmentManager.Settings.LanguageFile)) {
+                if (Load(CultureInfo.CurrentCulture.Name)) {
+                    EnvironmentManager.Settings.LanguageFile = CultureInfo.CurrentCulture.Name;
+                } else {
+                    Load(GetDefaultName());
+                    EnvironmentManager.Settings.LanguageFile = GetDefaultName();
+                }
+            } else {
+                if (!Load(EnvironmentManager.Settings.LanguageFile)) {
+                    Load(GetDefaultName());
+                    EnvironmentManager.Settings.LanguageFile = GetDefaultName();
+                }
+            }
         }
 
         public bool Load(string tName) {

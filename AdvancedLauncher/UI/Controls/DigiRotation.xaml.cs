@@ -26,6 +26,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Tools;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
@@ -92,6 +93,16 @@ namespace AdvancedLauncher.UI.Controls {
             get; set;
         }
 
+        [Inject]
+        public ITaskManager TaskManager {
+            get; set;
+        }
+
+        [Inject]
+        public IGameManager GameManager {
+            get; set;
+        }
+
         public DigiRotation() {
             App.Kernel.Inject(this);
             InitializeComponent();
@@ -126,11 +137,14 @@ namespace AdvancedLauncher.UI.Controls {
                     GuildName = ProfileManager.CurrentProfile.Rotation.Guild;
                     TamerName = ProfileManager.CurrentProfile.Rotation.Tamer;
 
+                    GameModel model = ProfileManager.CurrentProfile.GameModel;
+                    DMOProfile profile = GameManager.GetConfiguration(model).Profile;
+
                     //Проверяем, доступен ли веб-профиль и необходимая информация
-                    WebProfile = GameManager.CurrentProfile.GetWebProfile();
+                    WebProfile = profile.GetWebProfile();
                     IsStatic = WebProfile == null || string.IsNullOrEmpty(GuildName);
                     if (!IsStatic) {
-                        Server = GameManager.CurrentProfile.GetServerById(ProfileManager.CurrentProfile.Rotation.ServerId + 1);
+                        Server = profile.GetServerById(ProfileManager.CurrentProfile.Rotation.ServerId + 1);
                         //Регистрируем ивенты загрузки
                         WebProfile.StatusChanged += OnStatusChange;
                         WebProfile.DownloadCompleted += OnDownloadComplete;

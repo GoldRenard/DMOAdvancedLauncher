@@ -18,12 +18,13 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using AdvancedLauncher.Management.Commands;
+using AdvancedLauncher.Management.Interfaces;
 using log4net.Core;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
@@ -60,13 +61,20 @@ namespace AdvancedLauncher.UI.Windows {
             }
         }
 
+        [Inject]
+        public ICommandManager CommandManager {
+            get; set;
+        }
+
         #endregion Properties and structs
 
         public Logger() {
             InitializeComponent();
             this.Items.ItemsSource = LogEntriesFiltered;
-            CommandHandler.RegisterCommand(new ClearCommand(this));
-            Task.Factory.StartNew(() => PrintHeader());
+        }
+
+        public void Initialize() {
+            CommandManager.RegisterCommand(new ClearCommand(this));
         }
 
         public void PrintHeader() {
@@ -157,9 +165,9 @@ namespace AdvancedLauncher.UI.Windows {
         #region Console Things
 
         private void OnConsoleSendClick(object sender, RoutedEventArgs e) {
-            CommandHandler.Send(ConsoleInput.Text.Trim());
+            CommandManager.Send(ConsoleInput.Text.Trim());
             ConsoleInput.Clear();
-            recentIndex = CommandHandler.GetRecent().Count;
+            recentIndex = CommandManager.GetRecent().Count;
         }
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e) {
@@ -171,9 +179,9 @@ namespace AdvancedLauncher.UI.Windows {
                 case Key.Up:
                 case Key.Down:
                     int newIndex = GetNewIndex(e.Key);
-                    if (newIndex >= 0 && CommandHandler.GetRecent().Count > newIndex) {
+                    if (newIndex >= 0 && CommandManager.GetRecent().Count > newIndex) {
                         recentIndex = newIndex;
-                        ConsoleInput.Text = CommandHandler.GetRecent()[newIndex];
+                        ConsoleInput.Text = CommandManager.GetRecent()[newIndex];
                         ConsoleInput.CaretIndex = ConsoleInput.Text.Length;
                     }
                     break;
@@ -196,7 +204,7 @@ namespace AdvancedLauncher.UI.Windows {
             }
         }
 
-        private class ClearCommand : Command {
+        private class ClearCommand : AbstractCommand {
             private readonly Logger loggerInstance;
 
             public ClearCommand(Logger loggerInstance)
@@ -204,10 +212,11 @@ namespace AdvancedLauncher.UI.Windows {
                 this.loggerInstance = loggerInstance;
             }
 
-            public override void DoCommand(string[] args) {
+            public override bool DoCommand(string[] args) {
                 loggerInstance._LogEntries.Clear();
                 loggerInstance._LogEntriesFiltered.Clear();
                 loggerInstance.PrintHeader();
+                return true;
             }
         }
 

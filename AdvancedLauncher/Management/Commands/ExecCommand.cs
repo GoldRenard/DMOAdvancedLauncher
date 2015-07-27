@@ -23,17 +23,17 @@ using System.Text;
 
 namespace AdvancedLauncher.Management.Commands {
 
-    public class ExecCommand : Command {
+    public class ExecCommand : AbstractCommand {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ExecCommand));
 
         public ExecCommand()
             : base("exec", "Execute program") {
         }
 
-        public override void DoCommand(string[] args) {
+        public override bool DoCommand(string[] args) {
             if (args.Length < 2) {
                 LOGGER.InfoFormat("Usage: {0} <executable> [arguments]", args[0]);
-                return;
+                return false;
             }
             List<String> argList = new List<string>(args);
             string executable = argList[1];
@@ -48,6 +48,7 @@ namespace AdvancedLauncher.Management.Commands {
             } catch (Exception ex) {
                 LOGGER.Error(ex);
             }
+            return true;
         }
 
         private string ParseArguments(List<String> args) {

@@ -25,7 +25,7 @@ namespace AdvancedLauncher.UI.Controls {
 
     public partial class RotationElement : AbstractUserControl, INotifyPropertyChanged {
 
-        public RotationElement() : base() {
+        public RotationElement() {
             InitializeComponent();
             (this.Content as FrameworkElement).DataContext = this;
             LanguageManager.LanguageChanged += (s, e) => {

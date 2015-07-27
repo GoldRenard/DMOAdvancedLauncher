@@ -34,9 +34,6 @@ namespace AdvancedLauncher.Management {
 
         public List<Profile> Profiles {
             get {
-                if (_Profiles == null) {
-                    Initialize();
-                }
                 return _Profiles;
             }
         }
@@ -55,9 +52,6 @@ namespace AdvancedLauncher.Management {
 
         public Profile CurrentProfile {
             get {
-                if (_CurrentProfile == null) {
-                    Initialize();
-                }
                 return _CurrentProfile;
             }
             set {
@@ -70,9 +64,6 @@ namespace AdvancedLauncher.Management {
 
         public Profile DefaultProfile {
             get {
-                if (_DefaultProfile == null) {
-                    Initialize();
-                }
                 return _DefaultProfile;
             }
             set {
@@ -88,7 +79,7 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        private void Initialize() {
+        public void Initialize() {
             ApplyChanges(EnvironmentManager.Settings.Profiles, EnvironmentManager.Settings.DefaultProfile);
         }
 
@@ -102,6 +93,12 @@ namespace AdvancedLauncher.Management {
 
         public void ApplyChanges() {
             ApplyChanges(PendingProfiles, PendingDefaultProfile.Id);
+            List<Profile> settingsProfiles = new List<Profile>();
+            foreach (Profile p in Profiles) {
+                settingsProfiles.Add(new Profile(p));
+            }
+            EnvironmentManager.Settings.DefaultProfile = DefaultProfile.Id;
+            EnvironmentManager.Settings.Profiles = settingsProfiles;
         }
 
         public void AddProfile() {
@@ -129,7 +126,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private void ApplyChanges(Collection<Profile> profiles, int defaultProfileId) {
+        private void ApplyChanges(ICollection<Profile> profiles, int defaultProfileId) {
             this.Profiles.Clear();
             //Add clones of instances
             foreach (Profile p in profiles) {

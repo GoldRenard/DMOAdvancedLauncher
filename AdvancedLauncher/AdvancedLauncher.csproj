@@ -107,17 +107,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Management\Configuration\AbstractConfiguration.cs" />
+    <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
+    <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
+    <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />
+    <Compile Include="Management\GameUpdateManager.cs" />
+    <Compile Include="Management\Interfaces\IGameUpdateManager.cs" />
+    <Compile Include="Management\Interfaces\IGameConfiguration.cs" />
+    <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
+    <Compile Include="Management\Interfaces\ICommandManager.cs" />
+    <Compile Include="Management\Commands\ICommand.cs" />
+    <Compile Include="Management\Interfaces\IGameManager.cs" />
     <Compile Include="Management\Interfaces\ILauncherManager.cs" />
     <Compile Include="Management\Interfaces\IEnvironmentManager.cs" />
     <Compile Include="Management\Interfaces\ILanguageManager.cs" />
     <Compile Include="Management\Interfaces\ILoginManager.cs" />
     <Compile Include="Management\Interfaces\IManager.cs" />
     <Compile Include="Management\Interfaces\IProfileManager.cs" />
+    <Compile Include="Management\Interfaces\ITaskManager.cs" />
     <Compile Include="Management\Interfaces\IUpdateManager.cs" />
     <Compile Include="Management\ServiceHolder.cs" />
     <Compile Include="Model\AbstractContainerViewModel.cs" />
     <Compile Include="Model\AbstractItemViewModel.cs" />
+    <Compile Include="Model\Config\VersionPair.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
+    <Compile Include="Tools\Utils.cs" />
     <Compile Include="UI\Controls\AbstractFlyout.cs" />
     <Compile Include="UI\Controls\AbstractUserControl.cs" />
     <Compile Include="UI\Extension\AutoScrollBehavior.cs" />
@@ -171,8 +185,8 @@
     <Compile Include="Model\TamerItemViewModel.cs" />
     <Compile Include="Model\TamerViewModel.cs" />
     <Compile Include="Model\GuildInfoViewModel.cs" />
-    <Compile Include="Management\Commands\CommandHandler.cs" />
-    <Compile Include="Management\Commands\Command.cs" />
+    <Compile Include="Management\CommandManager.cs" />
+    <Compile Include="Management\Commands\AbstractCommand.cs" />
     <Compile Include="Management\Commands\HelpCommand.cs" />
     <Compile Include="Management\Commands\EchoCommand.cs" />
     <Compile Include="Management\Commands\ExecCommand.cs" />

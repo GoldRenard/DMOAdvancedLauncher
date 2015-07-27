@@ -44,6 +44,14 @@ namespace DMOLibrary.Events {
             get;
             private set;
         }
+        
+        /// <summary>
+        /// Login status code
+        /// </summary>
+        public string UserName {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Command line arguments to start the game
@@ -57,9 +65,14 @@ namespace DMOLibrary.Events {
             : this(Code, string.Empty) {
         }
 
-        public LoginCompleteEventArgs(LoginCode Code, string Arguments) {
+        public LoginCompleteEventArgs(LoginCode Code, string Arguments) 
+            : this(Code, Arguments, string.Empty) {
+        }
+
+        public LoginCompleteEventArgs(LoginCode Code, string Arguments, string UserName) {
             this.Code = Code;
             this.Arguments = Arguments;
+            this.UserName = UserName;
         }
     }
 }

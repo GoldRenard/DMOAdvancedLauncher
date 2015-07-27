@@ -17,8 +17,7 @@
 // ======================================================================
 
 using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
@@ -36,16 +35,6 @@ namespace AdvancedLauncher.Management {
         private const string RESOURCE_DIR = "Resources";
         private const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         private const string NTLEA_EXECUTABLE = "ntleas.exe";
-
-        [Inject]
-        public ILanguageManager LanguageManager {
-            get; set;
-        }
-
-        [Inject]
-        public IProfileManager ProfileManager {
-            get; set;
-        }
 
         #region Properties
 
@@ -143,7 +132,7 @@ namespace AdvancedLauncher.Management {
 
         #endregion Properties
 
-        public void Load() {
+        public void Initialize() {
             AppDomain.CurrentDomain.SetData("DataDirectory", AppDataPath);
             if (File.Exists(SettingsFile)) {
                 _Settings = DeSerializeSettings(SettingsFile);
@@ -157,22 +146,8 @@ namespace AdvancedLauncher.Management {
                 ApplyProxySettings((Settings)s);
             };
 
-            if (string.IsNullOrEmpty(Settings.LanguageFile)) {
-                if (LanguageManager.Load(CultureInfo.CurrentCulture.Name)) {
-                    Settings.LanguageFile = CultureInfo.CurrentCulture.Name;
-                } else {
-                    LanguageManager.Load(LanguageManager.GetDefaultName());
-                    Settings.LanguageFile = LanguageManager.GetDefaultName();
-                }
-            } else {
-                if (!LanguageManager.Load(Settings.LanguageFile)) {
-                    LanguageManager.Load(LanguageManager.GetDefaultName());
-                    Settings.LanguageFile = LanguageManager.GetDefaultName();
-                }
-            }
-
             if (Settings.Profiles == null || Settings.Profiles.Count == 0) {
-                Settings.Profiles = new ObservableCollection<Profile>();
+                Settings.Profiles = new List<Profile>();
                 Settings.Profiles.Add(new Profile());
             }
 
@@ -204,12 +179,6 @@ namespace AdvancedLauncher.Management {
         }
 
         public void Save() {
-            Settings.DefaultProfile = ProfileManager.DefaultProfile.Id;
-            Settings.Profiles = new ObservableCollection<Profile>();
-            foreach (Profile p in ProfileManager.Profiles) {
-                Settings.Profiles.Add(new Profile(p));
-            }
-
             XmlSerializer writer = new XmlSerializer(typeof(Settings));
             using (var file = new StreamWriter(SettingsFile)) {
                 writer.Serialize(file, Settings);

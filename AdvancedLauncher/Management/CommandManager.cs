@@ -17,70 +17,77 @@
 // ======================================================================
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using AdvancedLauncher.Management.Commands;
+using AdvancedLauncher.Management.Interfaces;
+using Ninject;
 
-namespace AdvancedLauncher.Management.Commands {
+namespace AdvancedLauncher.Management {
 
-    public static class CommandHandler {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(CommandHandler));
-        private static Dictionary<String, Command> commands = new Dictionary<String, Command>();
-
+    public class CommandManager : ICommandManager {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(CommandManager));
         private const string ENTER_COMMAND = "Please enter the command or \"help\" to view available commands";
         private const string UNKNOWN_COMMAND = "Unknown command \"{0}\"";
 
-        private static List<String> recentCommands = new List<string>();
+        private ConcurrentDictionary<string, ICommand> Commands = new ConcurrentDictionary<string, ICommand>();
+        
+        private List<string> recentCommands = new List<string>();
 
-        static CommandHandler() {
-            RegisterCommand(new HelpCommand());
-            RegisterCommand(new EchoCommand());
-            RegisterCommand(new ExecCommand());
-            RegisterCommand(new ExitCommand());
-            RegisterCommand(new LicenseCommand());
+        public void Initialize() {
+            foreach (ICommand command in App.Kernel.GetAll<ICommand>()) {
+                RegisterCommand(command);
+            }
         }
 
-        public static void Send(string input) {
+        public bool Send(string input) {
             if (string.IsNullOrEmpty(input)) {
                 LOGGER.Info(ENTER_COMMAND);
-                return;
+                return false;
             }
             LOGGER.Info("] " + input);
             recentCommands.Add(input);
             string[] args = input.Split(' ');
-            if (!commands.ContainsKey(args[0])) {
+            if (!Commands.ContainsKey(args[0])) {
                 LOGGER.Info(String.Format(UNKNOWN_COMMAND, args[0]));
-                return;
+                return false;
             }
-            Command command;
-            commands.TryGetValue(args[0], out command);
+            ICommand command;
+            Commands.TryGetValue(args[0], out command);
             if (command == null) {
                 LOGGER.Info(String.Format(UNKNOWN_COMMAND, args[0]));
-                return;
+                return false;
             }
-            command.DoCommand(args);
+            return command.DoCommand(args);
         }
 
-        public static void RegisterCommand(Command command) {
-            if (commands.ContainsKey(command.GetName())) {
+        public void RegisterCommand(ICommand command) {
+            if (Commands.ContainsKey(command.GetName())) {
                 LOGGER.ErrorFormat("Can't register command {0} because command with this name already registered!", command.GetName());
                 return;
             }
-            commands.Add(command.GetName(), command);
+            Commands.TryAdd(command.GetName(), command);
         }
 
-        public static void UnRegisterCommand(string name) {
-            commands.Remove(name);
+        public bool UnRegisterCommand(string name) {
+            ICommand command;
+            if (Commands.TryGetValue(name, out command)) {
+                return Commands.TryRemove(name, out command);
+            }
+            return false;
         }
 
-        public static void UnRegisterCommand(Command command) {
-            UnRegisterCommand(command.GetName());
+        public bool UnRegisterCommand(ICommand command) {
+            return UnRegisterCommand(command.GetName());
         }
 
-        public static Dictionary<String, Command> GetCommands() {
-            return commands;
+        public IDictionary<String, ICommand> GetCommands() {
+            return new Dictionary<string, ICommand>(Commands);
         }
 
-        public static List<String> GetRecent() {
-            return recentCommands;
+        public List<string> GetRecent() {
+            return new List<string>(recentCommands);
         }
+
     }
 }

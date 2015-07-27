@@ -21,14 +21,14 @@ using System.Text;
 
 namespace AdvancedLauncher.Management.Commands {
 
-    public class EchoCommand : Command {
+    public class EchoCommand : AbstractCommand {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(EchoCommand));
 
         public EchoCommand()
             : base("echo", "Echo to console") {
         }
 
-        public override void DoCommand(string[] args) {
+        public override bool DoCommand(string[] args) {
             StringBuilder builder = new StringBuilder();
             bool skipEcho = false;
             foreach (String arg in args) {
@@ -39,6 +39,7 @@ namespace AdvancedLauncher.Management.Commands {
                 builder.Append(String.Format("{0} ", arg));
             }
             LOGGER.Info(builder);
+            return true;
         }
     }
 }

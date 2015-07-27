@@ -57,9 +57,9 @@ namespace DMOLibrary.Profiles {
 
         public event LoginStateEventHandler LoginStateChanged;
 
-        protected virtual void OnCompleted(LoginCode code, string arguments) {
-            LoginCompleteEventArgs args = new LoginCompleteEventArgs(code, arguments);
-            LOGGER.InfoFormat("Logging in completed: code={0}, result=\"{1}\"", code, arguments);
+        protected virtual void OnCompleted(LoginCode code, string arguments, string UserId) {
+            LoginCompleteEventArgs args = new LoginCompleteEventArgs(code, arguments, UserId);
+            LOGGER.InfoFormat("Logging in completed: code={0}, result=\"{1}\", user={2}", code, arguments, UserId);
             if (LoginCompleted != null) {
                 LoginCompleted(this, args);
             }
@@ -93,7 +93,7 @@ namespace DMOLibrary.Profiles {
                     } catch {
                     };
                 }
-                OnCompleted(LoginCode.SUCCESS, Args);
+                OnCompleted(LoginCode.SUCCESS, Args, UserId);
             } else {
                 LastError = res_code;
                 StartTry++;

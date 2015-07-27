@@ -19,5 +19,6 @@
 namespace AdvancedLauncher.Management.Interfaces {
 
     public interface IManager {
+        void Initialize();
     }
 }

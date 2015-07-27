@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
@@ -52,7 +52,7 @@ namespace AdvancedLauncher.Model.Config {
         }
 
         [XmlArray("Profiles"), XmlArrayItem(typeof(Profile), ElementName = "Profile")]
-        public ObservableCollection<Profile> Profiles {
+        public List<Profile> Profiles {
             get;
             set;
         }
@@ -60,7 +60,7 @@ namespace AdvancedLauncher.Model.Config {
         #region Constructors
 
         public Settings() {
-            this.Profiles = new ObservableCollection<Profile>();
+            this.Profiles = new List<Profile>();
         }
 
         public Settings(Settings source)
@@ -74,7 +74,7 @@ namespace AdvancedLauncher.Model.Config {
             this.Proxy = new ProxySetting(source.Proxy);
             if (!copyConfigOnly) {
                 this.DefaultProfile = source.DefaultProfile;
-                this.Profiles = new ObservableCollection<Profile>();
+                this.Profiles = new List<Profile>();
                 foreach (Profile p in source.Profiles) {
                     Profiles.Add(new Profile(p));
                 }

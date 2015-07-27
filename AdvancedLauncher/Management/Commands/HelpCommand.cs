@@ -19,27 +19,35 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AdvancedLauncher.Management.Interfaces;
+using Ninject;
 
 namespace AdvancedLauncher.Management.Commands {
 
-    public class HelpCommand : Command {
+    public class HelpCommand : AbstractCommand {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(HelpCommand));
+
+        [Inject]
+        public ICommandManager CommandManager {
+            get; set;
+        }
 
         public HelpCommand()
             : base("help", "Shows help message") {
         }
 
-        public override void DoCommand(string[] args) {
-            Dictionary<String, Command> commands = CommandHandler.GetCommands();
+        public override bool DoCommand(string[] args) {
+            IDictionary<string, ICommand> commands = CommandManager.GetCommands();
             StringBuilder builder = new StringBuilder();
             builder.AppendLine();
             builder.AppendLine("Available commands:");
             foreach (String key in commands.Keys) {
-                Command command;
+                ICommand command;
                 commands.TryGetValue(key, out command);
                 builder.AppendLine(String.Format("\t{0} - {1}", key, command.GetDescription()));
             }
             LOGGER.Info(builder);
+            return true;
         }
     }
 }

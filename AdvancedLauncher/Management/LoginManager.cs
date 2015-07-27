@@ -30,7 +30,7 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     internal sealed class LoginManager : ILoginManager {
-        private List<DMOProfile> failedLogin = new List<DMOProfile>();
+        private HashSet<string> failedLogin = new HashSet<string>();
 
         private ProgressDialogController controller;
 
@@ -46,13 +46,22 @@ namespace AdvancedLauncher.Management {
             get; set;
         }
 
+        [Inject]
+        public IGameManager GameManager {
+            get; set;
+        }
+
+        public void Initialize() {
+            // nothing to do here
+        }
+
         public void Login() {
             Login(ProfileManager.CurrentProfile);
         }
 
         public void Login(Profile profile) {
-            if (!failedLogin.Contains(GameManager.GetProfile(profile.GameModel.Type))) {
-                if (GameManager.Current.IsLastSessionAvailable() && !string.IsNullOrEmpty(profile.Login.LastSessionArgs)) {
+            if (!failedLogin.Contains(profile.Login.User)) {
+                if (GameManager.GetConfiguration(profile.GameModel).IsLastSessionAvailable && !string.IsNullOrEmpty(profile.Login.LastSessionArgs)) {
                     ShowLastSessionDialog(profile);
                     return;
                 }
@@ -83,12 +92,13 @@ namespace AdvancedLauncher.Management {
                 return;
             }
             if (LoginCompleted != null) {
-                LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.CANCELLED));
+                LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.CANCELLED, string.Empty, result.Username));
             }
         }
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
-            DMOProfile dmoProfile = GameManager.CurrentProfile;
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
+            DMOProfile dmoProfile = GameManager.GetConfiguration(model).Profile;
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
             };
@@ -109,7 +119,7 @@ namespace AdvancedLauncher.Management {
             if (result == MessageDialogResult.Affirmative) {
                 if (LoginCompleted != null) {
                     LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.SUCCESS,
-                        profile.Login.LastSessionArgs));
+                        profile.Login.LastSessionArgs, profile.Login.User));
                 }
                 return;
             }
@@ -123,9 +133,7 @@ namespace AdvancedLauncher.Management {
             profile.LoginCompleted -= OnLoginCompleted;
 
             if (e.Code == LoginCode.WRONG_USER) {
-                if (!failedLogin.Contains(profile)) {
-                    failedLogin.Add(profile);
-                }
+                failedLogin.Add(e.UserName);
                 ShowLoginDialog(LanguageManager.Model.LoginLogIn, LanguageManager.Model.LoginBadAccount, string.Empty);
                 return;
             }

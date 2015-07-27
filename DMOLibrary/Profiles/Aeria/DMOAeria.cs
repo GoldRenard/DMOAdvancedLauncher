@@ -39,7 +39,7 @@ namespace DMOLibrary.Profiles.Aeria {
                 case "/dialog/oauth":
                     {
                         if (LoginTryNum >= 1) {
-                            OnCompleted(LoginCode.WRONG_USER, string.Empty);
+                            OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
                             return;
                         }
                         LoginTryNum++;
@@ -58,7 +58,7 @@ namespace DMOLibrary.Profiles.Aeria {
                                 form.InvokeMember("submit");
                             }
                         } else {
-                            OnCompleted(LoginCode.WRONG_PAGE, string.Empty);
+                            OnCompleted(LoginCode.WRONG_PAGE, string.Empty, UserId);
                             return;
                         }
                         break;
@@ -72,19 +72,19 @@ namespace DMOLibrary.Profiles.Aeria {
                                 break;
                             }
                         }
-                        OnCompleted(LoginCode.UNKNOWN_URL, string.Empty);
+                        OnCompleted(LoginCode.UNKNOWN_URL, string.Empty, UserId);
                         break;
                     }
                 //logged
                 case "/code2token.html":
                     {
-                        OnCompleted(LoginCode.SUCCESS, string.Format("{0} {1} {2}", "Aeria", HttpUtility.ParseQueryString(e.Url.Query).Get("code"), UserId));
+                        OnCompleted(LoginCode.SUCCESS, string.Format("{0} {1} {2}", "Aeria", HttpUtility.ParseQueryString(e.Url.Query).Get("code"), UserId), UserId);
                         break;
                     }
                 default:
                     {
                         if (!e.Url.Host.Contains("facebook")) {
-                            OnCompleted(LoginCode.UNKNOWN_URL, string.Empty);
+                            OnCompleted(LoginCode.UNKNOWN_URL, string.Empty, UserId);
                         }
                         break;
                     }
@@ -95,7 +95,7 @@ namespace DMOLibrary.Profiles.Aeria {
             this.UserId = UserId;
             this.Password = Password;
             if (UserId.Length == 0 || Password.Length == 0) {
-                OnCompleted(LoginCode.WRONG_USER, string.Empty);
+                OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
                 return;
             }
 

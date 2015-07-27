@@ -71,7 +71,7 @@ namespace AdvancedLauncher.UI.Pages {
         private void LoadServerList() {
             //Загружаем новый список серверов
             ComboBoxServer.ItemsSource = GameManager.CurrentProfile.ServerList;
-            Profile currentProfile = ProfileManager.Instance.CurrentProfile;
+            Profile currentProfile = ProfileManager.CurrentProfile;
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(currentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {
@@ -167,7 +167,7 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         public void BlockControls(bool block) {
-            ProfileManager.Instance.OnProfileLocked(block);
+            ProfileManager.OnProfileLocked(block);
             GuildNameTextBox.IsEnabled = !block;
             ComboBoxServer.IsEnabled = !block;
             SearchButton.IsEnabled = !block;
@@ -176,7 +176,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         #region Обработка поля ввода имени гильдии
 
-        public static bool IsValidName(string name) {
+        public bool IsValidName(string name) {
             if (name == LanguageManager.Model.CommGuildName) {
                 DialogsHelper.ShowErrorDialog(LanguageManager.Model.CommGuildNameEmpty);
                 return false;

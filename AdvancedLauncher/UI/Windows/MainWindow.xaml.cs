@@ -21,9 +21,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Pages;
 using MahApps.Metro.Controls;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
@@ -42,6 +44,31 @@ namespace AdvancedLauncher.UI.Windows {
 
         private static MainWindow _Instance;
 
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
+
+        [Inject]
+        public Logger Logger {
+            get; set;
+        }
+
+        [Inject]
+        public IUpdateManager UpdateManager {
+            get; set;
+        }
+
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get; set;
+        }
+
+        [Inject]
+        public IProfileManager ProfileManager {
+            get; set;
+        }
+
         public static MainWindow Instance {
             get {
                 return _Instance;
@@ -49,22 +76,23 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         public MainWindow() {
+            App.Kernel.Inject(this);
             _Instance = this;
             Splashscreen.SetProgress("Loading...");
             Application.Current.MainWindow = _Instance;
             // force initialize default profile in current thread
-            var profile = ProfileManager.Instance.CurrentProfile;
+            var profile = ProfileManager.CurrentProfile;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
-                Logger.Instance.WindowClosed += (s, e1) => {
+                Logger.WindowClosed += (s, e1) => {
                     transitionLayer.Content = null;
                 };
                 UpdateManager.CheckUpdates();
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
-                ProfileManager.Instance.ProfileChanged += OnProfileChanged;
+                ProfileManager.ProfileChanged += OnProfileChanged;
                 EnvironmentManager.ClosingLocked += OnClosingLocked;
                 EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 this.Closing += (s, e) => {
@@ -142,8 +170,7 @@ namespace AdvancedLauncher.UI.Windows {
             ReloadTabs();
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
-            //NotifyPropertyChanged("CurrentProfile");
-            ProfileSwitcher.DataContext = ProfileManager.Instance.CurrentProfile;
+            ProfileSwitcher.DataContext = ProfileManager.CurrentProfile;
         }
 
         private void OnTabChanged(object sender, SelectionChangedEventArgs e) {
@@ -163,7 +190,7 @@ namespace AdvancedLauncher.UI.Windows {
 
         private void OnProfileSettingsClick(object sender, RoutedEventArgs e) {
             if (SettingsWindow == null) {
-                SettingsWindow = new Settings();
+                SettingsWindow = App.Kernel.Get<Settings>();
                 SettingsWindow.WindowClosed += (s, e1) => {
                     transitionLayer.Content = null;
                 };
@@ -174,7 +201,7 @@ namespace AdvancedLauncher.UI.Windows {
 
         private void OnAboutClick(object sender, RoutedEventArgs e) {
             if (AboutWindow == null) {
-                AboutWindow = new About();
+                AboutWindow = App.Kernel.Get<About>();
                 AboutWindow.WindowClosed += (s, e1) => {
                     transitionLayer.Content = null;
                 };
@@ -184,8 +211,8 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnLoggerClick(object sender, RoutedEventArgs e) {
-            transitionLayer.Content = Logger.Instance;
-            Logger.Instance.Show();
+            transitionLayer.Content = Logger;
+            Logger.Show();
         }
 
         private void ShowSettings(object sender, RoutedEventArgs e) {

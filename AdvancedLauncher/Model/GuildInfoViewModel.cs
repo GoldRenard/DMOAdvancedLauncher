@@ -20,8 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using AdvancedLauncher.Management;
 using DMOLibrary.Database.Entity;
+using Ninject;
 
 namespace AdvancedLauncher.Model {
 
@@ -64,10 +64,11 @@ namespace AdvancedLauncher.Model {
             if (body == null) {
                 body = ((UnaryExpression)expression.Body).Operand as MemberExpression;
             }
-            this.Items.Add(new GuildInfoItemViewModel() {
-                Name = body.Member.Name,
-                Value = value
-            });
+
+            GuildInfoItemViewModel item = App.Kernel.Get<GuildInfoItemViewModel>();
+            item.Name = body.Member.Name;
+            item.Value = value;
+            this.Items.Add(item);
         }
     }
 }

@@ -23,6 +23,7 @@ using System.Windows.Threading;
 using AdvancedLauncher.Tools;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
+using Ninject;
 
 namespace AdvancedLauncher.Model {
 
@@ -49,16 +50,16 @@ namespace AdvancedLauncher.Model {
                     if (dtype.NameAlt != null) {
                         typeName += " (" + dtype.NameAlt + ")";
                     }
-                    items.Add(new DigimonItemViewModel {
-                        DName = item.Name,
-                        DType = typeName,
-                        Image = IconHolder.GetImage(item.Type.Code),
-                        TName = tamer.Name,
-                        Level = item.Level,
-                        SizePC = item.SizePc,
-                        Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
-                        Rank = item.Rank
-                    });
+                    DigimonItemViewModel newItem = App.Kernel.Get<DigimonItemViewModel>();
+                    newItem.DName = item.Name;
+                    newItem.DType = typeName;
+                    newItem.Image = IconHolder.GetImage(item.Type.Code);
+                    newItem.TName = tamer.Name;
+                    newItem.Level = item.Level;
+                    newItem.SizePC = item.SizePc;
+                    newItem.Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc);
+                    newItem.Rank = item.Rank;
+                    items.Add(newItem);
                 }
             }
             ItemsCache.TryAdd(tamer, items);

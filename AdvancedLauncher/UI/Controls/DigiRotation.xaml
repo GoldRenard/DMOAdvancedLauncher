@@ -27,4 +27,4 @@
              xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              mc:Ignorable="d"
              d:DesignHeight="250" d:DesignWidth="300"
-             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}" />
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}" />

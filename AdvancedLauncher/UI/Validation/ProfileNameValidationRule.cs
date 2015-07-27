@@ -18,11 +18,10 @@
 
 using System;
 using System.Windows.Controls;
-using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.UI.Validation {
 
-    internal class ProfileNameValidationRule : ValidationRule {
+    internal class ProfileNameValidationRule : AbstractValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (string.IsNullOrEmpty(value.ToString().Trim())) {

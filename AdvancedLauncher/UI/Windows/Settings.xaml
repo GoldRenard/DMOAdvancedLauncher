@@ -32,7 +32,7 @@
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="900"
              Background="{DynamicResource WhiteBrush}"
-             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
     <win:AbstractWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -67,7 +67,8 @@
                          x:Name="ProfileList"
                          VerticalAlignment="Top"
                          SelectionChanged="OnProfileSelectionChanged"
-                         ItemsSource="{Binding Path=DataContext.Profiles, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                         DataContext="{Binding ProfileManager, Source={StaticResource ServiceHolder}}"
+                         ItemsSource="{Binding Path=ProfileManager.PendingProfiles, Source={StaticResource ServiceHolder}}"
                          BorderThickness="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -298,6 +299,7 @@
                                 FontSize="12" 
                                 VerticalAlignment="Center" />
                             <ComboBox Grid.Column="1" x:Name="ComboBoxLauncher" Margin="0,5" Height="30"
+                                  ItemsSource="{Binding LauncherManager, Source={StaticResource ServiceHolder}}"
                                   SelectedItem="{Binding ElementName=ProfileList, Path=SelectedValue.Launcher, Mode=TwoWay}"
                                   DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True" >
                                 <ComboBox.ItemContainerStyle>
@@ -347,7 +349,7 @@
                                                         <controls:EnabledTextBlock Grid.Column="1" Margin="5,2,0,0"
                                                                Visibility="{Binding IsSupported, Converter={StaticResource NotBoolToHiddenConverter}}">
                                                             <Hyperlink Click="OnAppLocaleHelpClick" Style="{DynamicResource HyperLinkAccent}">
-                                                                <Run Loaded="Run_Loaded" Text="{Binding Settings_AppLocale_Help, Source={x:Static mg:LanguageManager.Model}, Mode=TwoWay}" />
+                                                                <Run Loaded="Run_Loaded" Text="{Binding LaunguageModel.Settings_AppLocale_Help, Source={StaticResource ServiceHolder}, Mode=TwoWay}" />
                                                             </Hyperlink>
                                                         </controls:EnabledTextBlock>
                                                     </Grid>

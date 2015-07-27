@@ -22,36 +22,44 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
 using DMOLibrary;
 using MahApps.Metro;
+using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal static class EnvironmentManager {
+    internal class EnvironmentManager : IEnvironmentManager {
         private const string SETTINGS_FILE = "Settings.xml";
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
         private const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         private const string NTLEA_EXECUTABLE = "ntleas.exe";
-        public const string REMOTE_VERSION_FILE = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/version.xml";
-        public const string COMMUNITY_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/Community/{0}.png";
-        public const string DIGIROTATION_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/DigiRotation/{0}.png";
-        public const string DEFAULT_TWITTER_SOURCE = "http://renamon.ru/launcher/dmor_timeline.php";
+
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get; set;
+        }
+
+        [Inject]
+        public IProfileManager ProfileManager {
+            get; set;
+        }
 
         #region Properties
 
-        public static Settings _Settings = null;
+        public Settings _Settings = null;
 
-        public static Settings Settings {
+        public Settings Settings {
             get {
                 return _Settings;
             }
         }
 
-        private static string _AppPath = null;
+        private string _AppPath = null;
 
-        public static string AppPath {
+        public string AppPath {
             get {
                 if (_AppPath == null) {
                     _AppPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
@@ -60,16 +68,16 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public static string AppDataPath {
+        public string AppDataPath {
             get {
                 return InitFolder(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData),
                     Path.Combine("GoldRenard", "AdvancedLauncher"));
             }
         }
 
-        private static string _SettingsFile = null;
+        private string _SettingsFile = null;
 
-        public static string SettingsFile {
+        public string SettingsFile {
             get {
                 if (_SettingsFile == null) {
                     _SettingsFile = Path.Combine(AppDataPath, SETTINGS_FILE);
@@ -78,9 +86,9 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private static string _KBLCFile = null;
+        private string _KBLCFile = null;
 
-        public static string KBLCFile {
+        public string KBLCFile {
             get {
                 if (_KBLCFile == null) {
                     _KBLCFile = Path.Combine(AppPath, KBLC_SERVICE_EXECUTABLE);
@@ -89,9 +97,9 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private static string _NTLEAFile = null;
+        private string _NTLEAFile = null;
 
-        public static string NTLEAFile {
+        public string NTLEAFile {
             get {
                 if (_NTLEAFile == null) {
                     _NTLEAFile = Path.Combine(AppPath, NTLEA_EXECUTABLE);
@@ -100,9 +108,9 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private static string _LanguagesPath = null;
+        private string _LanguagesPath = null;
 
-        public static string LanguagesPath {
+        public string LanguagesPath {
             get {
                 if (_LanguagesPath == null) {
                     _LanguagesPath = InitFolder(AppPath, LOCALE_DIR);
@@ -111,9 +119,9 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private static string _Resources3rdPath = null;
+        private string _Resources3rdPath = null;
 
-        public static string Resources3rdPath {
+        public string Resources3rdPath {
             get {
                 if (_Resources3rdPath == null) {
                     _Resources3rdPath = InitFolder(AppDataPath, RESOURCE_DIR);
@@ -122,9 +130,9 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private static string _ResourcesPath = null;
+        private string _ResourcesPath = null;
 
-        public static string ResourcesPath {
+        public string ResourcesPath {
             get {
                 if (_ResourcesPath == null) {
                     _ResourcesPath = InitFolder(AppPath, RESOURCE_DIR);
@@ -135,7 +143,7 @@ namespace AdvancedLauncher.Management {
 
         #endregion Properties
 
-        public static void Load() {
+        public void Load() {
             AppDomain.CurrentDomain.SetData("DataDirectory", AppDataPath);
             if (File.Exists(SettingsFile)) {
                 _Settings = DeSerializeSettings(SettingsFile);
@@ -153,13 +161,13 @@ namespace AdvancedLauncher.Management {
                 if (LanguageManager.Load(CultureInfo.CurrentCulture.Name)) {
                     Settings.LanguageFile = CultureInfo.CurrentCulture.Name;
                 } else {
-                    LanguageManager.Load(LanguageManager.DefaultName);
-                    Settings.LanguageFile = LanguageManager.DefaultName;
+                    LanguageManager.Load(LanguageManager.GetDefaultName());
+                    Settings.LanguageFile = LanguageManager.GetDefaultName();
                 }
             } else {
                 if (!LanguageManager.Load(Settings.LanguageFile)) {
-                    LanguageManager.Load(LanguageManager.DefaultName);
-                    Settings.LanguageFile = LanguageManager.DefaultName;
+                    LanguageManager.Load(LanguageManager.GetDefaultName());
+                    Settings.LanguageFile = LanguageManager.GetDefaultName();
                 }
             }
 
@@ -171,9 +179,7 @@ namespace AdvancedLauncher.Management {
             if (!File.Exists(SettingsFile)) {
                 Save();
             }
-        }
 
-        public static void LoadTheme() {
             Tuple<AppTheme, Accent> currentTheme = ThemeManager.DetectAppStyle(Application.Current);
             if (currentTheme == null) {
                 return;
@@ -197,10 +203,10 @@ namespace AdvancedLauncher.Management {
             ThemeManager.ChangeAppStyle(Application.Current, themeAccent, appTheme);
         }
 
-        public static void Save() {
-            Settings.DefaultProfile = ProfileManager.Instance.DefaultProfile.Id;
+        public void Save() {
+            Settings.DefaultProfile = ProfileManager.DefaultProfile.Id;
             Settings.Profiles = new ObservableCollection<Profile>();
-            foreach (Profile p in ProfileManager.Instance.Profiles) {
+            foreach (Profile p in ProfileManager.Profiles) {
                 Settings.Profiles.Add(new Profile(p));
             }
 
@@ -210,7 +216,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private static void ApplyProxySettings(Settings settings) {
+        private void ApplyProxySettings(Settings settings) {
             ProxySetting proxy = settings.Proxy;
             if (!proxy.IsEnabled) {
                 WebClientEx.ProxyConfig = null;
@@ -225,7 +231,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public static Settings DeSerializeSettings(string filepath) {
+        private static Settings DeSerializeSettings(string filepath) {
             Settings settings = new Settings();
             if (File.Exists(filepath)) {
                 XmlSerializer reader = new XmlSerializer(typeof(Settings));
@@ -236,7 +242,7 @@ namespace AdvancedLauncher.Management {
             return settings;
         }
 
-        public static string ResolveResource(string folder, string file, string downloadUrl = null) {
+        public string ResolveResource(string folder, string file, string downloadUrl = null) {
             string resource = Path.Combine(InitFolder(ResourcesPath, folder), file);
             string resource3rd = Path.Combine(InitFolder(Resources3rdPath, folder), file);
             if (File.Exists(resource)) {
@@ -268,17 +274,17 @@ namespace AdvancedLauncher.Management {
 
         #region Event handlers
 
-        public static event LockedChangedHandler FileSystemLocked;
+        public event LockedChangedHandler FileSystemLocked;
 
-        public static event LockedChangedHandler ClosingLocked;
+        public event LockedChangedHandler ClosingLocked;
 
-        public static void OnFileSystemLocked(bool IsLocked) {
+        public void OnFileSystemLocked(bool IsLocked) {
             if (FileSystemLocked != null) {
                 FileSystemLocked(null, new LockedEventArgs(IsLocked));
             }
         }
 
-        public static void OnClosingLocked(bool IsLocked) {
+        public void OnClosingLocked(bool IsLocked) {
             if (ClosingLocked != null) {
                 ClosingLocked(null, new LockedEventArgs(IsLocked));
             }

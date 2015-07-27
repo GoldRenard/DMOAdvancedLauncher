@@ -18,15 +18,22 @@
 
 using System;
 using System.ComponentModel;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
+using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal static class UpdateManager {
+    public class UpdateManager : IUpdateManager {
 
-        public static void CheckUpdates() {
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get; set;
+        }
+
+        public void CheckUpdates() {
             BackgroundWorker updateWorker = new BackgroundWorker();
             updateWorker.DoWork += async (s1, e2) => {
                 RemoteVersion remote = RemoteVersion.Instance;

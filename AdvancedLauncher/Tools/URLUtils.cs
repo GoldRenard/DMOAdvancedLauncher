@@ -17,16 +17,22 @@
 // ======================================================================
 
 using System;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.UI.Extension;
+using Ninject;
 
 namespace AdvancedLauncher.Tools {
 
     public static class URLUtils {
+        public const string REMOTE_VERSION_FILE = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/version.xml";
+        public const string COMMUNITY_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/Community/{0}.png";
+        public const string DIGIROTATION_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/DigiRotation/{0}.png";
+        public const string DEFAULT_TWITTER_SOURCE = "http://renamon.ru/launcher/dmor_timeline.php";
 
         /// <summary> Opens URL with default browser </summary>
         /// <param name="url">URL to web</param>
         public static void OpenSite(string url) {
+            ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
             try {
                 System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url));
             } catch (Exception ex) {
@@ -37,6 +43,7 @@ namespace AdvancedLauncher.Tools {
         /// <summary> Opens URL with default browser (without URL decode) </summary>
         /// <param name="url">URL to web</param>
         public static void OpenSiteNoDecode(string url) {
+            ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
             try {
                 System.Diagnostics.Process.Start(url);
             } catch (Exception ex) {

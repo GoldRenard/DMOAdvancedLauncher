@@ -18,60 +18,60 @@
 
 using System;
 using System.Collections.Generic;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Management.Security;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.UI.Windows;
 using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls.Dialogs;
+using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal sealed class LoginManager {
-        private static LoginManager _Instance;
-
+    internal sealed class LoginManager : ILoginManager {
         private List<DMOProfile> failedLogin = new List<DMOProfile>();
 
         private ProgressDialogController controller;
 
         public event LoginCompleteEventHandler LoginCompleted;
 
-        private LoginManager() {
-            // hide the constructod
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get; set;
         }
 
-        public static LoginManager Instance {
-            get {
-                if (_Instance == null) {
-                    _Instance = new LoginManager();
-                }
-                return _Instance;
-            }
+        [Inject]
+        public IProfileManager ProfileManager {
+            get; set;
         }
 
         public void Login() {
-            Profile profile = ProfileManager.Instance.CurrentProfile;
+            Login(ProfileManager.CurrentProfile);
+        }
+
+        public void Login(Profile profile) {
             if (!failedLogin.Contains(GameManager.GetProfile(profile.GameModel.Type))) {
                 if (GameManager.Current.IsLastSessionAvailable() && !string.IsNullOrEmpty(profile.Login.LastSessionArgs)) {
-                    ShowLastSessionDialog();
+                    ShowLastSessionDialog(profile);
                     return;
                 }
                 if (profile.Login.IsCorrect) {
                     LoginDialogData loginData = new LoginDialogData() {
-                        Username = ProfileManager.Instance.CurrentProfile.Login.User,
-                        Password = PassEncrypt.ConvertToUnsecureString(ProfileManager.Instance.CurrentProfile.Login.SecurePassword)
+                        Username = profile.Login.User,
+                        Password = PassEncrypt.ConvertToUnsecureString(profile.Login.SecurePassword)
                     };
                     ShowLoggingInDialog(loginData);
                     return;
                 }
             }
-            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty);
+            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, profile.Login.User);
         }
 
-        private async void ShowLoginDialog(string title, string message) {
+        private async void ShowLoginDialog(string title, string message, string initUserName) {
             LoginDialogData result = await MainWindow.Instance.ShowLoginAsync(title, message, new LoginDialogSettings {
                 ColorScheme = MetroDialogColorScheme.Accented,
-                InitialUsername = ProfileManager.Instance.CurrentProfile.Login.User,
+                InitialUsername = initUserName,
                 NegativeButtonVisibility = System.Windows.Visibility.Visible,
                 NegativeButtonText = LanguageManager.Model.CancelButton,
                 UsernameWatermark = LanguageManager.Model.Settings_Account_User,
@@ -98,7 +98,7 @@ namespace AdvancedLauncher.Management {
             dmoProfile.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
         }
 
-        private async void ShowLastSessionDialog() {
+        private async void ShowLastSessionDialog(Profile profile) {
             MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(LanguageManager.Model.UseLastSession, string.Empty,
                 MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
                     AffirmativeButtonText = LanguageManager.Model.Yes,
@@ -109,11 +109,11 @@ namespace AdvancedLauncher.Management {
             if (result == MessageDialogResult.Affirmative) {
                 if (LoginCompleted != null) {
                     LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.SUCCESS,
-                        ProfileManager.Instance.CurrentProfile.Login.LastSessionArgs));
+                        profile.Login.LastSessionArgs));
                 }
                 return;
             }
-            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty);
+            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, profile.Login.User);
         }
 
         private async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
@@ -126,7 +126,7 @@ namespace AdvancedLauncher.Management {
                 if (!failedLogin.Contains(profile)) {
                     failedLogin.Add(profile);
                 }
-                ShowLoginDialog(LanguageManager.Model.LoginLogIn, LanguageManager.Model.LoginBadAccount);
+                ShowLoginDialog(LanguageManager.Model.LoginLogIn, LanguageManager.Model.LoginBadAccount, string.Empty);
                 return;
             }
             if (LoginCompleted != null) {

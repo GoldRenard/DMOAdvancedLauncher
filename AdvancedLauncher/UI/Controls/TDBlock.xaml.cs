@@ -20,13 +20,12 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AdvancedLauncher.Management;
 using AdvancedLauncher.Model;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.UI.Controls {
 
-    public partial class TDBlock : UserControl {
+    public partial class TDBlock : AbstractUserControl {
         private TamerViewModel TamerModel;
         private DigimonViewModel DigimonModel;
         private bool IsFullDigimonList = true;
@@ -36,7 +35,7 @@ namespace AdvancedLauncher.UI.Controls {
             Id = -1
         };
 
-        public TDBlock() {
+        public TDBlock() : base() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 TamerModel = new TamerViewModel(this.Dispatcher);

@@ -42,7 +42,7 @@
                     ResizeMode="CanResizeWithGrip"
                     BorderBrush="{DynamicResource AccentColorBrush}"
                     BorderThickness="1"
-                    DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
+                    DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
     <Controls:MetroWindow.IconTemplate>
         <DataTemplate>
             <Border Background="{DynamicResource HighlightBrush}">

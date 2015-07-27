@@ -17,7 +17,6 @@
 // ======================================================================
 
 using System.Windows;
-using AdvancedLauncher.Management;
 using DMOLibrary.Profiles;
 
 namespace AdvancedLauncher.Model {

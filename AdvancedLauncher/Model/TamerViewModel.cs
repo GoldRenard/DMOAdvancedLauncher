@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Windows.Threading;
 using AdvancedLauncher.Tools;
 using DMOLibrary.Database.Entity;
+using Ninject;
 
 namespace AdvancedLauncher.Model {
 
@@ -32,16 +33,16 @@ namespace AdvancedLauncher.Model {
         public override void LoadData(ICollection<Tamer> List) {
             this.IsDataLoaded = true;
             foreach (Tamer item in List) {
-                this.Items.Add(new TamerItemViewModel {
-                    TName = item.Name,
-                    TType = item.Type != null ? item.Type.Name : "N/A",
-                    Level = item.Level,
-                    PName = item.Partner.Name,
-                    Rank = item.Rank,
-                    DCnt = item.Digimons.Count,
-                    Tamer = item,
-                    Image = IconHolder.GetImage(item.Type.Code, false)
-                });
+                TamerItemViewModel newItem = App.Kernel.Get<TamerItemViewModel>();
+                newItem.TName = item.Name;
+                newItem.TType = item.Type != null ? item.Type.Name : "N/A";
+                newItem.Level = item.Level;
+                newItem.PName = item.Partner.Name;
+                newItem.Rank = item.Rank;
+                newItem.DCnt = item.Digimons.Count;
+                newItem.Tamer = item;
+                newItem.Image = IconHolder.GetImage(item.Type.Code, false);
+                this.Items.Add(newItem);
             }
         }
     }

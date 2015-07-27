@@ -17,23 +17,47 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal class ProfileManager {
+    public class ProfileManager : IProfileManager {
 
-        public ObservableCollection<Profile> Profiles {
+        #region Properties
+
+        private List<Profile> _Profiles = new List<Profile>();
+
+        public List<Profile> Profiles {
+            get {
+                if (_Profiles == null) {
+                    Initialize();
+                }
+                return _Profiles;
+            }
+        }
+
+        public ObservableCollection<Profile> PendingProfiles {
             get;
             set;
         } = new ObservableCollection<Profile>();
+
+        public Profile PendingDefaultProfile {
+            get;
+            set;
+        }
 
         private Profile _CurrentProfile = null;
 
         public Profile CurrentProfile {
             get {
+                if (_CurrentProfile == null) {
+                    Initialize();
+                }
                 return _CurrentProfile;
             }
             set {
@@ -42,108 +66,91 @@ namespace AdvancedLauncher.Management {
             }
         }
 
+        private Profile _DefaultProfile;
+
         public Profile DefaultProfile {
-            set; get;
-        }
-
-        private static ProfileManager _Instance;
-
-        public static ProfileManager Instance {
             get {
-                if (_Instance == null) {
-                    _Instance = new ProfileManager(EnvironmentManager.Settings);
+                if (_DefaultProfile == null) {
+                    Initialize();
                 }
-                return _Instance;
+                return _DefaultProfile;
+            }
+            set {
+                _DefaultProfile = value;
             }
         }
 
-        private ProfileManager(ProfileManager profileManager) {
-            Reload(profileManager);
+        #endregion Properties
+
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get;
+            set;
         }
 
-        private ProfileManager(Settings settings) {
-            Reload(settings);
+        private void Initialize() {
+            ApplyChanges(EnvironmentManager.Settings.Profiles, EnvironmentManager.Settings.DefaultProfile);
         }
 
-        public void Reload(Settings settings) {
-            this.Profiles = new ObservableCollection<Profile>();
-            //Add clones of instances
-            foreach (Profile p in settings.Profiles) {
-                Profiles.Add(new Profile(p));
+        public void RevertChanges() {
+            PendingDefaultProfile = new Profile(DefaultProfile);
+            PendingProfiles.Clear();
+            foreach (Profile profile in Profiles) {
+                PendingProfiles.Add(new Profile(profile));
             }
-
-            DefaultProfile = Profiles.FirstOrDefault(i => i.Id == settings.DefaultProfile);
-            if (DefaultProfile == null) {
-                DefaultProfile = Profiles.First();
-            }
-            if (_CurrentProfile != null) {
-                _CurrentProfile = Profiles.FirstOrDefault(i => i.Id == _CurrentProfile.Id);
-            }
-            if (_CurrentProfile == null) {
-                _CurrentProfile = DefaultProfile;
-            }
-            if (_CurrentProfile == null) {
-                _CurrentProfile = Profiles.First();
-            }
-            OnCurrentChanged();
-            OnCollectionChanged();
         }
 
-        public void Reload(ProfileManager profileManager) {
-            this.Profiles = new ObservableCollection<Profile>();
-            //Add clones of instances
-            foreach (Profile p in profileManager.Profiles) {
-                Profiles.Add(new Profile(p));
-            }
-
-            DefaultProfile = Profiles.FirstOrDefault(i => i.Id == profileManager.DefaultProfile.Id);
-            if (DefaultProfile == null) {
-                DefaultProfile = Profiles.First();
-            }
-            if (_CurrentProfile != null) {
-                _CurrentProfile = Profiles.FirstOrDefault(i => i.Id == _CurrentProfile.Id);
-            }
-            if (_CurrentProfile == null) {
-                _CurrentProfile = DefaultProfile;
-            }
-            if (_CurrentProfile == null) {
-                _CurrentProfile = Profiles.First();
-            }
-            OnCurrentChanged();
-            OnCollectionChanged();
-        }
-
-        public ProfileManager Clone() {
-            return new ProfileManager(this);
+        public void ApplyChanges() {
+            ApplyChanges(PendingProfiles, PendingDefaultProfile.Id);
         }
 
         public void AddProfile() {
             Profile pNew = new Profile() {
                 Name = "NewProfile"
             };
-            foreach (Profile p in Profiles) {
+            foreach (Profile p in PendingProfiles) {
                 if (p.Id > pNew.Id) {
                     pNew.Id = p.Id;
                 }
             }
             pNew.Id++;
-            Profiles.Add(pNew);
+            PendingProfiles.Add(pNew);
             OnCollectionChanged();
         }
 
         public void RemoveProfile(Profile profile) {
-            if (Profiles.Count > 1) {
-                bool IsCurrent = profile.Id == CurrentProfile.Id;
-                bool IsDefault = profile.Id == DefaultProfile.Id;
-                Profiles.Remove(profile);
+            if (PendingProfiles.Count > 1) {
+                bool IsDefault = profile.Id == PendingDefaultProfile.Id;
+                PendingProfiles.Remove(profile);
                 OnCollectionChanged();
-                if (IsCurrent) {
-                    CurrentProfile = Profiles.First();
-                }
                 if (IsDefault) {
-                    DefaultProfile = Profiles.First();
+                    PendingDefaultProfile = PendingProfiles.First();
                 }
             }
+        }
+
+        private void ApplyChanges(Collection<Profile> profiles, int defaultProfileId) {
+            this.Profiles.Clear();
+            //Add clones of instances
+            foreach (Profile p in profiles) {
+                Profiles.Add(new Profile(p));
+            }
+
+            DefaultProfile = Profiles.FirstOrDefault(i => i.Id == defaultProfileId);
+            if (DefaultProfile == null) {
+                DefaultProfile = Profiles.First();
+            }
+            if (_CurrentProfile != null) {
+                _CurrentProfile = Profiles.FirstOrDefault(i => i.Id == _CurrentProfile.Id);
+            }
+            if (_CurrentProfile == null) {
+                _CurrentProfile = DefaultProfile;
+            }
+            if (_CurrentProfile == null) {
+                _CurrentProfile = Profiles.First();
+            }
+            OnCollectionChanged();
+            OnCurrentChanged();
         }
 
         #region EventHandlers

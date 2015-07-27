@@ -31,7 +31,7 @@
              mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
              Background="{DynamicResource WhiteBrush}"
-             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
     <win:AbstractWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

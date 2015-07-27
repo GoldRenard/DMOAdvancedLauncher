@@ -42,14 +42,7 @@ namespace AdvancedLauncher.Model {
         public void LoadData(List<JoymaxItemViewModel> List) {
             this.IsDataLoaded = true;
             foreach (JoymaxItemViewModel item in List) {
-                this.Items.Add(new JoymaxItemViewModel {
-                    Title = item.Title,
-                    Content = item.Content,
-                    Link = item.Link,
-                    TypeName = item.TypeName,
-                    Date = item.Date,
-                    ImgVB = item.ImgVB
-                });
+                this.Items.Add(item);
             }
         }
 

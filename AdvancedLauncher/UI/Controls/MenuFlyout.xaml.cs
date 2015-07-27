@@ -24,20 +24,20 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Windows;
-using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.UI.Controls {
 
-    public partial class MenuFlyout : Flyout, INotifyPropertyChanged {
+    public partial class MenuFlyout : AbstractFlyout, INotifyPropertyChanged {
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         private bool _IsChangeEnabled = true;
 
-        public MenuFlyout() {
+        public MenuFlyout() : base() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ProfileSettings.ItemsSource = new List<object>() { new object() };
@@ -48,9 +48,9 @@ namespace AdvancedLauncher.UI.Controls {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
-                ProfileManager.Instance.ProfileChanged += ReloadCurrentProfile;
-                ProfileManager.Instance.ProfileLocked += OnProfileLocked;
-                ProfileManager.Instance.CollectionChanged += ReloadProfiles;
+                ProfileManager.ProfileChanged += ReloadCurrentProfile;
+                ProfileManager.ProfileLocked += OnProfileLocked;
+                ProfileManager.CollectionChanged += ReloadProfiles;
                 ReloadProfiles(this, EventArgs.Empty);
                 BuildCommands();
             }
@@ -61,6 +61,7 @@ namespace AdvancedLauncher.UI.Controls {
         private List<MenuItem> Commands = new List<MenuItem>();
 
         public class MenuItem : INotifyPropertyChanged {
+            private ILanguageManager LanguageManager;
 
             public event PropertyChangedEventHandler PropertyChanged;
 
@@ -68,7 +69,8 @@ namespace AdvancedLauncher.UI.Controls {
 
             private static SolidColorBrush Brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 
-            public MenuItem(string bindingName, Canvas icon, Thickness iconMargin, ICommand command) {
+            public MenuItem(ILanguageManager LanguageManager, string bindingName, Canvas icon, Thickness iconMargin, ICommand command) {
+                this.LanguageManager = LanguageManager;
                 this.bindingName = bindingName;
                 Command = command;
                 IconMargin = iconMargin;
@@ -126,17 +128,17 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void BuildCommands() {
             Commands.Clear();
-            Commands.Add(new MenuItem("Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
+            Commands.Add(new MenuItem(LanguageManager, "Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
                 MainWindow.Instance.SettingsFlyout.Width = MainWindow.Instance.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
                 MainWindow.Instance.SettingsFlyout.IsOpen = true;
             })));
-            Commands.Add(new MenuItem("Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
+            Commands.Add(new MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
                 if (LoggerClick != null) {
                     LoggerClick(this, null);
                 }
                 this.IsOpen = false;
             })));
-            Commands.Add(new MenuItem("About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+            Commands.Add(new MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
                 if (AboutClick != null) {
                     AboutClick(this, null);
                 }
@@ -164,20 +166,20 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void ReloadProfiles(object sender, EventArgs e) {
             IsPreventChange = true;
-            ProfileList.ItemsSource = ProfileManager.Instance.Profiles;
-            ProfileList.SelectedItem = ProfileManager.Instance.CurrentProfile;
+            ProfileList.ItemsSource = ProfileManager.Profiles;
+            ProfileList.SelectedItem = ProfileManager.CurrentProfile;
             IsPreventChange = false;
         }
 
         private void ReloadCurrentProfile(object sender, EventArgs e) {
             IsPreventChange = true;
-            ProfileList.SelectedItem = ProfileManager.Instance.CurrentProfile;
+            ProfileList.SelectedItem = ProfileManager.CurrentProfile;
             IsPreventChange = false;
         }
 
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!IsPreventChange) {
-                ProfileManager.Instance.CurrentProfile = (Profile)ProfileList.SelectedItem;
+                ProfileManager.CurrentProfile = (Profile)ProfileList.SelectedItem;
                 IsOpen = false;
             }
         }

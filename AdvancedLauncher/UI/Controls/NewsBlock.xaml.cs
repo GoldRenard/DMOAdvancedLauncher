@@ -36,10 +36,11 @@ using AdvancedLauncher.Tools;
 using DMOLibrary;
 using DMOLibrary.Profiles;
 using Newtonsoft.Json.Linq;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
 
-    public partial class NewsBlock : UserControl, IDisposable {
+    public partial class NewsBlock : AbstractUserControl, IDisposable {
         private readonly BackgroundWorker bwLoadTwitter = new BackgroundWorker();
         private readonly BackgroundWorker bwLoadJoymax = new BackgroundWorker();
 
@@ -65,10 +66,10 @@ namespace AdvancedLauncher.UI.Controls {
         private string _jsonUrlLoaded;
         private string _jsonUrl;
 
-        public NewsBlock() {
+        public NewsBlock() : base() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ProfileManager.Instance.ProfileChanged += ReloadNews;
+                ProfileManager.ProfileChanged += ReloadNews;
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
@@ -130,7 +131,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void ReloadNews(object sender, EventArgs e) {
-            Profile currentProfile = ProfileManager.Instance.CurrentProfile;
+            Profile currentProfile = ProfileManager.CurrentProfile;
             if (_jsonUrl != currentProfile.News.TwitterUrl) {
                 _jsonUrl = currentProfile.News.TwitterUrl;
             }
@@ -197,9 +198,9 @@ namespace AdvancedLauncher.UI.Controls {
                 try {
                     response = wc.DownloadString(link);
                 } catch (Exception e) {
-                    TwitterStatuses.Add(new TwitterItemViewModel {
-                        Title = LanguageManager.Model.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]"
-                    });
+                    TwitterItemViewModel item = App.Kernel.Get<TwitterItemViewModel>();
+                    item.Title = LanguageManager.Model.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]";
+                    TwitterStatuses.Add(item);
                     return;
                 }
             }
@@ -208,9 +209,9 @@ namespace AdvancedLauncher.UI.Controls {
             try {
                 tList = JArray.Parse(System.Web.HttpUtility.HtmlDecode(response));
             } catch {
-                TwitterStatuses.Add(new TwitterItemViewModel {
-                    Title = LanguageManager.Model.NewsTwitterError + " [ERRCODE 1 - Parse Error]"
-                });
+                TwitterItemViewModel item = App.Kernel.Get<TwitterItemViewModel>();
+                item.Title = LanguageManager.Model.NewsTwitterError + " [ERRCODE 1 - Parse Error]";
+                TwitterStatuses.Add(item);
                 return;
             }
 
@@ -257,15 +258,15 @@ namespace AdvancedLauncher.UI.Controls {
                 statuses.Add(status);
             }
             foreach (UserStatus status in statuses) {
-                TwitterStatuses.Add(new TwitterItemViewModel {
-                    Title = status.Status,
-                    Date = status.StatusDate.ToLongDateString()
-                        + " " + status.StatusDate.ToShortTimeString(),
-                    Image = status.ProfileImageBitmap,
-                    StatusLink = "https://twitter.com/statuses/" + status.StatusId,
-                    UserLink = "https://twitter.com/" + status.UserScreenName,
-                    UserName = status.UserName
-                });
+                TwitterItemViewModel item = App.Kernel.Get<TwitterItemViewModel>();
+                item.Title = status.Status;
+                item.Date = status.StatusDate.ToLongDateString()
+                    + " " + status.StatusDate.ToShortTimeString();
+                item.Image = status.ProfileImageBitmap;
+                item.StatusLink = "https://twitter.com/statuses/" + status.StatusId;
+                item.UserLink = "https://twitter.com/" + status.UserScreenName;
+                item.UserName = status.UserName;
+                TwitterStatuses.Add(item);
             }
         }
 
@@ -472,14 +473,15 @@ namespace AdvancedLauncher.UI.Controls {
                         } else {
                             viewbox = new Rect(215, 0, 90, 18);
                         }
-                        JoymaxNews.Add(new JoymaxItemViewModel {
-                            Title = n.Subject,
-                            Content = n.Content,
-                            Date = n.Date,
-                            TypeName = mode,
-                            Link = n.Url,
-                            ImgVB = viewbox
-                        });
+
+                        JoymaxItemViewModel item = App.Kernel.Get<JoymaxItemViewModel>();
+                        item.Title = n.Subject;
+                        item.Content = n.Content;
+                        item.Date = n.Date;
+                        item.TypeName = mode;
+                        item.Link = n.Url;
+                        item.ImgVB = viewbox;
+                        JoymaxNews.Add(item);
                     }
                 }), news);
             }

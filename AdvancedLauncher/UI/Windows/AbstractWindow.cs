@@ -19,7 +19,8 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
@@ -29,11 +30,20 @@ namespace AdvancedLauncher.UI.Windows {
 
         public event CloseEventHandler WindowClosed;
 
-        public AbstractWindow() {
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+        public ILanguageManager _LanguageManager;
+
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get {
+                return _LanguageManager;
+            }
+            set {
+                if (_LanguageManager == null) {
+                    _LanguageManager = value;
+                    LanguageManager.LanguageChanged += (s, e) => {
+                        this.DataContext = LanguageManager.Model;
+                    };
+                }
             }
         }
 

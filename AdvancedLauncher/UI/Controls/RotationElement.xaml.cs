@@ -19,15 +19,13 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using AdvancedLauncher.Management;
 
 namespace AdvancedLauncher.UI.Controls {
 
-    public partial class RotationElement : UserControl, INotifyPropertyChanged {
+    public partial class RotationElement : AbstractUserControl, INotifyPropertyChanged {
 
-        public RotationElement() {
+        public RotationElement() : base() {
             InitializeComponent();
             (this.Content as FrameworkElement).DataContext = this;
             LanguageManager.LanguageChanged += (s, e) => {

@@ -19,16 +19,24 @@
 using AdvancedLauncher.UI.Windows;
 using log4net.Appender;
 using log4net.Core;
+using Ninject;
 
 namespace AdvancedLauncher.Tools {
 
     public class LogAppender : AppenderSkeleton {
 
+        [Inject]
+        public Logger Logger {
+            get; set;
+        }
+
+        public LogAppender() {
+            App.Kernel.Inject(this);
+        }
+
         protected override void Append(LoggingEvent loggingEvent) {
-            if (Logger.IsInstanceInitialized) {
-                lock (this) {
-                    Logger.Instance.AddEntry(loggingEvent);
-                }
+            lock (this) {
+                Logger.AddEntry(loggingEvent);
             }
         }
     }

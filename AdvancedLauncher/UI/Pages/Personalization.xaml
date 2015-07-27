@@ -27,7 +27,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="850"
-             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
     <pages:AbstractPage.Resources>
         <ResourceDictionary>
             <Style x:Key="SelectButton" TargetType="{x:Type Button}">

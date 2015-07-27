@@ -26,9 +26,11 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
@@ -45,16 +47,27 @@ namespace AdvancedLauncher.UI.Windows {
             ShowNewFolderButton = false
         };
 
-        private ProfileManager profileManager;
-
         private bool IsPreventPassChange = false;
+
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
+
+        [Inject]
+        public IProfileManager ProfileManager {
+            get; set;
+        }
+
+        [Inject]
+        public ILauncherManager LauncherManager {
+            get; set;
+        }
 
         public Settings() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-                ComboBoxLauncher.ItemsSource = LauncherFactory.Instance;
-                ReloadProfiles();
             }
         }
 
@@ -64,12 +77,9 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void ReloadProfiles() {
-            //Copying settings object and set it as DataContext
-            ProfileList.DataContext = profileManager = ProfileManager.Instance.Clone();
-
-            //Search and set current profile
-            foreach (Profile p in profileManager.Profiles) {
-                if (p.Id == profileManager.CurrentProfile.Id) {
+            ProfileManager.RevertChanges();
+            foreach (Profile p in ProfileManager.PendingProfiles) {
+                if (p.Id == ProfileManager.CurrentProfile.Id) {
                     ProfileList.SelectedItem = p;
                     break;
                 }
@@ -102,7 +112,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnSetDefaultClick(object sender, RoutedEventArgs e) {
-            profileManager.DefaultProfile = SelectedProfile;
+            ProfileManager.PendingDefaultProfile = SelectedProfile;
             NotifyPropertyChanged("IsSelectedNotDefault");
         }
 
@@ -110,12 +120,12 @@ namespace AdvancedLauncher.UI.Windows {
             set {
             }
             get {
-                return !profileManager.DefaultProfile.Equals(SelectedProfile);
+                return !ProfileManager.PendingDefaultProfile.Equals(SelectedProfile);
             }
         }
 
         private void OnAddClick(object sender, RoutedEventArgs e) {
-            profileManager.AddProfile();
+            ProfileManager.AddProfile();
         }
 
         private void OnRemoveClick(object sender, RoutedEventArgs e) {
@@ -131,7 +141,7 @@ namespace AdvancedLauncher.UI.Windows {
                 ProfileList.SelectedIndex--;
             }
 
-            profileManager.RemoveProfile(profile);
+            ProfileManager.RemoveProfile(profile);
         }
 
         private void OnImageSelect(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -187,7 +197,7 @@ namespace AdvancedLauncher.UI.Windows {
 
         public bool IsALSupported {
             get {
-                return LauncherFactory.findByType<AppLocaleLauncher>(typeof(AppLocaleLauncher)).IsSupported;
+                return LauncherManager.findByType<AppLocaleLauncher>(typeof(AppLocaleLauncher)).IsSupported;
             }
         }
 
@@ -237,7 +247,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
-            ProfileManager.Instance.Reload(profileManager);
+            ProfileManager.ApplyChanges();
             EnvironmentManager.Save();
             Close();
         }

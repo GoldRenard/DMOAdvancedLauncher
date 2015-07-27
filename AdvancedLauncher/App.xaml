@@ -21,6 +21,7 @@
 <Application x:Class="AdvancedLauncher.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              Startup="Application_Startup"
              DispatcherUnhandledException="App_DispatcherUnhandledException">
     <Application.Resources>
@@ -42,6 +43,7 @@
                 -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <mg:ServiceHolder x:Key="ServiceHolder" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

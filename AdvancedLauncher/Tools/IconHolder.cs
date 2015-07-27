@@ -19,19 +19,25 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
+using Ninject;
 
 namespace AdvancedLauncher.Tools {
 
-    public static class IconHolder {
+    public class IconHolder {
         private const string COMMUNITY_DIR = "Community";
         private const string PNG_FORMAT = "{0}.png";
         private const string IMAGES_REMOTE_JOYMAX = "http://img.joymax.com/property/digimon/digimon_v1/us/ranking/icon/{0}.gif";
         private const string IMAGES_REMOTE_IMBC = "http://dm.imbc.com/images/ranking/icon/{0}.gif";
 
-        private static Dictionary<int, BitmapImage> Dictionary = new Dictionary<int, BitmapImage>();
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
 
-        public static BitmapImage GetImage(int code, bool webResource = true) {
+        private Dictionary<int, BitmapImage> Dictionary = new Dictionary<int, BitmapImage>();
+
+        public BitmapImage GetImage(int code, bool webResource = true) {
             BitmapImage image = null;
             if (Dictionary.TryGetValue(code, out image)) {
                 return image;
@@ -39,7 +45,7 @@ namespace AdvancedLauncher.Tools {
 
             string resource = EnvironmentManager.ResolveResource(COMMUNITY_DIR,
                 string.Format(PNG_FORMAT, code),
-                string.Format(EnvironmentManager.COMMUNITY_IMAGE_REMOTE_FORMAT, code));
+                string.Format(URLUtils.COMMUNITY_IMAGE_REMOTE_FORMAT, code));
 
             if (resource == null) {
                 //If we don't have image yet, try to download it from joymax

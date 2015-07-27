@@ -17,7 +17,6 @@
 // ======================================================================
 
 using System.Windows.Media;
-using AdvancedLauncher.Management;
 using AdvancedLauncher.UI.Controls;
 
 namespace AdvancedLauncher.Model {

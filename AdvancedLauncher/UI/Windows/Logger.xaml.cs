@@ -45,25 +45,6 @@ namespace AdvancedLauncher.UI.Windows {
             OTNER
         }
 
-        private static Logger _Instance;
-
-        public static Logger Instance {
-            get {
-                if (!IsInstanceInitialized) {
-                    _Instance = new Logger() {
-                        Visibility = Visibility.Collapsed
-                    };
-                }
-                return _Instance;
-            }
-        }
-
-        public static bool IsInstanceInitialized {
-            get {
-                return _Instance != null;
-            }
-        }
-
         private ObservableCollection<LoggingEvent> _LogEntries = new ObservableCollection<LoggingEvent>();
         private ObservableCollection<LoggingEvent> _LogEntriesFiltered = new ObservableCollection<LoggingEvent>();
 
@@ -81,7 +62,7 @@ namespace AdvancedLauncher.UI.Windows {
 
         #endregion Properties and structs
 
-        private Logger() {
+        public Logger() {
             InitializeComponent();
             this.Items.ItemsSource = LogEntriesFiltered;
             CommandHandler.RegisterCommand(new ClearCommand(this));

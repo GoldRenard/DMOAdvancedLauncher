@@ -23,20 +23,22 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
+using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal sealed class LanguageManager {
+    public sealed class LanguageManager : ILanguageManager {
         public const string DefaultName = "en-US";
 
         public static LanguageModel Default = new LanguageModel();
 
-        private static Dictionary<string, LanguageModel> Collection = new Dictionary<string, LanguageModel>();
+        private Dictionary<string, LanguageModel> Collection = new Dictionary<string, LanguageModel>();
 
-        private static LanguageModel _Model = new LanguageModel();
+        private LanguageModel _Model = new LanguageModel();
 
-        public static LanguageModel Model {
+        public LanguageModel Model {
             set {
                 _Model = value;
                 OnChanged();
@@ -46,16 +48,21 @@ namespace AdvancedLauncher.Management {
             }
         }
 
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
+
         #region Save/Read/Load
 
-        public static void Save(string filename, LanguageModel model) {
+        public void Save(string filename, LanguageModel model) {
             XmlSerializer writer = new XmlSerializer(typeof(LanguageModel));
             StreamWriter file = new StreamWriter(filename);
             writer.Serialize(file, model);
             file.Close();
         }
 
-        private static LanguageModel Read(string tFile) {
+        public LanguageModel Read(string tFile) {
             LanguageModel language = null;
             Collection.TryGetValue(tFile, out language);
             if (language == null && File.Exists(tFile)) {
@@ -68,7 +75,7 @@ namespace AdvancedLauncher.Management {
             return language;
         }
 
-        public static bool Load(string tName) {
+        public bool Load(string tName) {
             if (tName == DefaultName) {
                 Model = Default;
                 return true;
@@ -82,7 +89,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public static string[] GetTranslations() {
+        public string[] GetTranslations() {
             string[] translations = null;
             Regex regex = new Regex(@"^[a-z]{2,3}(?:-[A-Z]{2,3}(?:-[a-zA-Z]{4})?)?$");
             if (Directory.Exists(EnvironmentManager.LanguagesPath)) {
@@ -92,13 +99,17 @@ namespace AdvancedLauncher.Management {
             return translations;
         }
 
+        public string GetDefaultName() {
+            return DefaultName;
+        }
+
         #endregion Save/Read/Load
 
         #region Event Handlers
 
-        public static event EventHandler LanguageChanged;
+        public event EventHandler LanguageChanged;
 
-        public static void OnChanged() {
+        private void OnChanged() {
             if (LanguageChanged != null) {
                 LanguageChanged(Model, EventArgs.Empty);
             }

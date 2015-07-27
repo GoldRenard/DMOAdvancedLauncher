@@ -18,9 +18,10 @@
 
 using System;
 using System.Threading.Tasks;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls.Dialogs;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Extension {
 
@@ -29,6 +30,7 @@ namespace AdvancedLauncher.UI.Extension {
         /// <summary> Error MessageBox </summary>
         /// <param name="text">Content of error</param>
         public static void ShowErrorDialog(string text) {
+            ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
             ShowMessageDialog(LanguageManager.Model.Error, text);
         }
 
@@ -55,6 +57,7 @@ namespace AdvancedLauncher.UI.Extension {
         /// <param name="text">Content of error</param>
         /// <returns>Dummy True to able wait the return</returns>
         public async static Task<bool> ShowErrorDialogAsync(string text) {
+            ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
             return await ShowMessageDialogAsync(LanguageManager.Model.Error, text);
         }
 
@@ -84,6 +87,7 @@ namespace AdvancedLauncher.UI.Extension {
         /// <param name="message">Message</param>
         /// <returns>True if yes clicked</returns>
         public async static Task<bool> ShowYesNoDialog(string title, string message) {
+            ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
             if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
                 return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
                     return await ShowYesNoDialog(title, message);

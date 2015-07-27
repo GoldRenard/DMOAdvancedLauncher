@@ -73,6 +73,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -103,8 +107,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Management\Interfaces\ILauncherManager.cs" />
+    <Compile Include="Management\Interfaces\IEnvironmentManager.cs" />
+    <Compile Include="Management\Interfaces\ILanguageManager.cs" />
+    <Compile Include="Management\Interfaces\ILoginManager.cs" />
+    <Compile Include="Management\Interfaces\IManager.cs" />
+    <Compile Include="Management\Interfaces\IProfileManager.cs" />
+    <Compile Include="Management\Interfaces\IUpdateManager.cs" />
+    <Compile Include="Management\ServiceHolder.cs" />
     <Compile Include="Model\AbstractContainerViewModel.cs" />
     <Compile Include="Model\AbstractItemViewModel.cs" />
+    <Compile Include="Tools\DependencyModule.cs" />
+    <Compile Include="UI\Controls\AbstractFlyout.cs" />
+    <Compile Include="UI\Controls\AbstractUserControl.cs" />
     <Compile Include="UI\Extension\AutoScrollBehavior.cs" />
     <Compile Include="Management\GameManager.cs" />
     <Compile Include="Management\LanguageManager.cs" />
@@ -190,7 +205,7 @@
     <Compile Include="Management\Execution\AbstractLauncher.cs" />
     <Compile Include="UI\Extension\DialogsHelper.cs" />
     <Compile Include="UI\Extension\DispatcherHelper.cs" />
-    <Compile Include="Management\Execution\LauncherFactory.cs" />
+    <Compile Include="Management\LauncherManager.cs" />
     <Compile Include="Management\Execution\NTLeaLauncher.cs" />
     <Compile Include="Management\Execution\AppLocaleLauncher.cs" />
     <Compile Include="Management\Execution\DirectLauncher.cs" />
@@ -209,6 +224,7 @@
     <Compile Include="Management\TaskManager.cs" />
     <Compile Include="Management\UpdateManager.cs" />
     <Compile Include="Tools\URLUtils.cs" />
+    <Compile Include="UI\Validation\AbstractValidationRule.cs" />
     <Compile Include="UI\Validation\GuildNameValidationRule.cs" />
     <Compile Include="UI\Validation\NameValidationRule.cs" />
     <Compile Include="UI\Validation\ProfileNameValidationRule.cs" />

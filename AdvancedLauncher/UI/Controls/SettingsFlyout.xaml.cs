@@ -25,15 +25,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using AdvancedLauncher.Management;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.UI.Commands;
 using MahApps.Metro;
-using MahApps.Metro.Controls;
 
 namespace AdvancedLauncher.UI.Controls {
 
-    public partial class SettingsFlyout : Flyout {
+    public partial class SettingsFlyout : AbstractFlyout {
         private int CurrentLangIndex;
         private AppThemeMenuData CurrentAppTheme;
         private AccentColorMenuData CurrentAccent;
@@ -120,7 +118,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void InitializeLanguages() {
             List<LanguageEntry> Langs = new List<LanguageEntry>() { new LanguageEntry() {
-                Code = LanguageManager.DefaultName
+                Code = LanguageManager.GetDefaultName()
             }};
             foreach (string lang in LanguageManager.GetTranslations()) {
                 Langs.Add(new LanguageEntry() {

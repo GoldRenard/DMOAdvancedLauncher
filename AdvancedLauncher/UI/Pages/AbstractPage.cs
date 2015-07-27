@@ -18,19 +18,18 @@
 
 using System;
 using System.Windows;
-using System.Windows.Controls;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.UI.Controls;
 
 namespace AdvancedLauncher.UI.Pages {
 
-    public abstract class AbstractPage : UserControl {
+    public abstract class AbstractPage : AbstractUserControl {
         protected bool IsPageActivated = false;
 
         protected bool IsPageVisible = false;
 
-        public AbstractPage() {
+        public AbstractPage() : base() {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ProfileManager.Instance.ProfileChanged += ProfileChanged;
+                ProfileManager.ProfileChanged += ProfileChanged;
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };

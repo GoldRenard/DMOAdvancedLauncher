@@ -18,17 +18,24 @@
 
 using System;
 using System.ComponentModel;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
+using Ninject;
 
 namespace AdvancedLauncher.Model {
 
     public abstract class AbstractItemViewModel<T> : INotifyPropertyChanged {
+
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get; set;
+        }
 
         protected virtual void LanguageChanged() {
             // nothing to do here
         }
 
         public AbstractItemViewModel() {
+            App.Kernel.Inject(this);
             LanguageManager.LanguageChanged += (s, e) => {
                 LanguageChanged();
             };

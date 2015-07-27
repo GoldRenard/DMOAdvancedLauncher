@@ -21,7 +21,7 @@
 <local:TwitterViewModel
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:AdvancedLauncher.UI.Controls;assembly=AdvancedLauncher">
+    xmlns:local="clr-namespace:AdvancedLauncher.Model;assembly=AdvancedLauncher">
 
     <local:TwitterViewModel.Items>
         <local:TwitterItemViewModel Title="WSI #ADMO на 24.07.12: Новый дигимон Бетамон. Новый спортивный мини-ивент в честь олимпийских игр в Лондоне." Date="около часа назад" />

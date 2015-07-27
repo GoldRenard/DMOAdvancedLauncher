@@ -25,12 +25,15 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.Tools;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
 using DMOLibrary.Database.Entity;
 using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
 
@@ -74,7 +77,23 @@ namespace AdvancedLauncher.UI.Controls {
             public BitmapImage Image;
         }
 
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get; set;
+        }
+
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
+
+        [Inject]
+        public IProfileManager ProfileManager {
+            get; set;
+        }
+
         public DigiRotation() {
+            App.Kernel.Inject(this);
             InitializeComponent();
             LoadingTask = new TaskManager.Task() {
                 Owner = this
@@ -83,7 +102,7 @@ namespace AdvancedLauncher.UI.Controls {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
-                ProfileManager.Instance.ProfileChanged += (s, e) => {
+                ProfileManager.ProfileChanged += (s, e) => {
                     IsSourceLoaded = false;
                 };
 
@@ -104,19 +123,19 @@ namespace AdvancedLauncher.UI.Controls {
                     IsStatic = false;
                     IsErrorOccured = false;
                     //Получаем информацию, необходимую для ротации
-                    GuildName = ProfileManager.Instance.CurrentProfile.Rotation.Guild;
-                    TamerName = ProfileManager.Instance.CurrentProfile.Rotation.Tamer;
+                    GuildName = ProfileManager.CurrentProfile.Rotation.Guild;
+                    TamerName = ProfileManager.CurrentProfile.Rotation.Tamer;
 
                     //Проверяем, доступен ли веб-профиль и необходимая информация
                     WebProfile = GameManager.CurrentProfile.GetWebProfile();
                     IsStatic = WebProfile == null || string.IsNullOrEmpty(GuildName);
                     if (!IsStatic) {
-                        Server = GameManager.CurrentProfile.GetServerById(ProfileManager.Instance.CurrentProfile.Rotation.ServerId + 1);
+                        Server = GameManager.CurrentProfile.GetServerById(ProfileManager.CurrentProfile.Rotation.ServerId + 1);
                         //Регистрируем ивенты загрузки
                         WebProfile.StatusChanged += OnStatusChange;
                         WebProfile.DownloadCompleted += OnDownloadComplete;
                         //Получаем информацию о списках гильдии
-                        AbstractWebProfile.GetActualGuild(WebProfile, Server, GuildName, false, ProfileManager.Instance.CurrentProfile.Rotation.UpdateInterval + 1);
+                        AbstractWebProfile.GetActualGuild(WebProfile, Server, GuildName, false, ProfileManager.CurrentProfile.Rotation.UpdateInterval + 1);
                         //Убираем обработку ивентов
                         WebProfile.DownloadCompleted -= OnDownloadComplete;
                         WebProfile.StatusChanged -= OnStatusChange;
@@ -259,7 +278,7 @@ namespace AdvancedLauncher.UI.Controls {
 
             string resource = EnvironmentManager.ResolveResource(DIGIROTATION_DIR,
                 string.Format(PNG_FORMAT, digimonId),
-                string.Format(EnvironmentManager.DIGIROTATION_IMAGE_REMOTE_FORMAT, digimonId));
+                string.Format(URLUtils.DIGIROTATION_IMAGE_REMOTE_FORMAT, digimonId));
 
             if (resource != null) {
                 Stream str = File.OpenRead(resource);

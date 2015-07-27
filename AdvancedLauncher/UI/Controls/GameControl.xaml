@@ -18,17 +18,18 @@
 // ======================================================================
 -->
 
-<UserControl x:Class="AdvancedLauncher.UI.Controls.GameControl"
+<ui:AbstractUserControl x:Class="AdvancedLauncher.UI.Controls.GameControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mg="clr-namespace:AdvancedLauncher.Management"
+             xmlns:ui="clr-namespace:AdvancedLauncher.UI.Controls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d"
              d:DesignHeight="60" d:DesignWidth="330"
-             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
-    <UserControl.Resources>
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
+    <ui:AbstractUserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="UpdateText" TargetType="{x:Type TextBlock}">
                 <Setter Property="TextAlignment" Value="Center" />
@@ -49,7 +50,7 @@
                 <Setter Property="Margin" Value="0,5,0,0" />
             </Style>
         </ResourceDictionary>
-    </UserControl.Resources>
+    </ui:AbstractUserControl.Resources>
     <Grid>
         <Grid x:Name="ElementHolder" Visibility="Collapsed">
             <Button x:Name="StartButton" FontSize="24" Content="{Binding GameButton_Waiting}" Click="OnStartButtonClick" IsEnabled="False" />
@@ -65,4 +66,4 @@
         </Grid>
         <Controls:TransitioningContentControl x:Name="WrapElement" Transition="Default" />
     </Grid>
-</UserControl>
+</ui:AbstractUserControl>

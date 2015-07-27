@@ -16,27 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Windows.Controls;
+namespace AdvancedLauncher.Management.Interfaces {
 
-namespace AdvancedLauncher.UI.Validation {
-
-    internal class GuildNameValidationRule : AbstractValidationRule {
-
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            int code = 0;
-
-            if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {
-                return new ValidationResult(false, LanguageManager.Model.CommWrongGuildName);
-            }
-
-            foreach (char chr in value.ToString()) {
-                code = Convert.ToInt32(chr);
-                if (Char.IsWhiteSpace(chr) || Char.IsControl(chr)) {
-                    return new ValidationResult(false, LanguageManager.Model.CommWrongGuildName);
-                }
-            }
-            return new ValidationResult(true, null);
-        }
+    public interface IManager {
     }
 }

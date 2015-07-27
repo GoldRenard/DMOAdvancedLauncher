@@ -18,6 +18,8 @@
 
 using System;
 using System.IO;
+using AdvancedLauncher.Management.Interfaces;
+using Ninject;
 
 namespace AdvancedLauncher.Management.Execution {
 
@@ -25,6 +27,11 @@ namespace AdvancedLauncher.Management.Execution {
     /// NTLEA application launcher
     /// </summary>
     public class NTLeaLauncher : SteamSensitiveLauncher {
+
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
 
         /// <summary>
         /// Name of this launcher

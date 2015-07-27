@@ -24,6 +24,9 @@ using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.Tools;
+using Ninject;
 
 namespace AdvancedLauncher.Model.Config {
 
@@ -97,7 +100,7 @@ namespace AdvancedLauncher.Model.Config {
                 }
             }
             get {
-                return LauncherFactory.GetProfileLauncher(this);
+                return App.Kernel.Get<ILauncherManager>().GetProfileLauncher(this);
             }
         }
 
@@ -153,7 +156,7 @@ namespace AdvancedLauncher.Model.Config {
 
         private NewsData _News = new NewsData() {
             FirstTab = 0,
-            TwitterUrl = EnvironmentManager.DEFAULT_TWITTER_SOURCE
+            TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE
         };
 
         public NewsData News {

@@ -28,7 +28,7 @@
              xmlns:pages="clr-namespace:AdvancedLauncher.UI.Pages"
              mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
-             DataContext="{Binding Source={x:Static mg:LanguageManager.Model}}">
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
     <Grid x:Name="LayoutRoot">
         <Grid Width="360" HorizontalAlignment="Left">
             <Grid.RowDefinitions>

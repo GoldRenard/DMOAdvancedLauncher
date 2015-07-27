@@ -20,7 +20,7 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Tools;
 using DMOLibrary;
 
 namespace AdvancedLauncher.Model.Config {
@@ -85,7 +85,7 @@ namespace AdvancedLauncher.Model.Config {
             get {
                 string xmlContent;
                 try {
-                    xmlContent = WebClientEx.DownloadContent(EnvironmentManager.REMOTE_VERSION_FILE + "?" + Guid.NewGuid().ToString(), 5000);
+                    xmlContent = WebClientEx.DownloadContent(URLUtils.REMOTE_VERSION_FILE + "?" + Guid.NewGuid().ToString(), 5000);
                     XmlSerializer serializer = new XmlSerializer(typeof(RemoteVersion));
                     using (TextReader reader = new StringReader(xmlContent)) {
                         return serializer.Deserialize(reader) as RemoteVersion;

@@ -20,10 +20,12 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.IO;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
 using DMOLibrary.DMOFileSystem;
 using DMOLibrary.Profiles;
 using Microsoft.Win32;
+using Ninject;
 
 namespace AdvancedLauncher.Management {
 
@@ -87,7 +89,8 @@ namespace AdvancedLauncher.Management {
         public static GameManager Current {
             get {
                 if (_Current == null) {
-                    _Current = Get(ProfileManager.Instance.CurrentProfile.GameModel);
+                    IProfileManager ProfileManager = App.Kernel.Get<IProfileManager>();
+                    _Current = Get(ProfileManager.CurrentProfile.GameModel);
                 }
                 return _Current;
             }
@@ -95,7 +98,8 @@ namespace AdvancedLauncher.Management {
 
         public static DMOProfile CurrentProfile {
             get {
-                return GetProfile(ProfileManager.Instance.CurrentProfile.GameModel.Type);
+                IProfileManager ProfileManager = App.Kernel.Get<IProfileManager>();
+                return GetProfile(ProfileManager.CurrentProfile.GameModel.Type);
             }
         }
 
@@ -158,7 +162,8 @@ namespace AdvancedLauncher.Management {
         }
 
         static GameManager() {
-            ProfileManager.Instance.ProfileChanged += (s, e) => {
+            IProfileManager ProfileManager = App.Kernel.Get<IProfileManager>();
+            ProfileManager.ProfileChanged += (s, e) => {
                 _Current = null;
             };
         }

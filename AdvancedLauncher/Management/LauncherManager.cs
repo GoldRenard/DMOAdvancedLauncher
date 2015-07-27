@@ -21,33 +21,31 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using Ninject;
 
-namespace AdvancedLauncher.Management.Execution {
+namespace AdvancedLauncher.Management {
 
-    internal class LauncherFactory : IEnumerable, IEnumerable<ILauncher> {
-        public readonly Dictionary<String, ILauncher> CollectionByMnemonic = new Dictionary<string, ILauncher>();
+    public class LauncherManager : ILauncherManager {
+        private readonly Dictionary<String, ILauncher> CollectionByMnemonic = new Dictionary<string, ILauncher>();
+
         private readonly Dictionary<Type, ILauncher> CollectionByType = new Dictionary<Type, ILauncher>();
 
-        private static LauncherFactory _Factory;
-
-        public static LauncherFactory Instance {
-            get {
-                if (_Factory == null) {
-                    _Factory = new LauncherFactory();
-                }
-                return _Factory;
-            }
+        [Inject]
+        public IProfileManager ProfileManager {
+            get; set;
         }
 
-        public LauncherFactory() {
+        public LauncherManager() {
             Assembly currAssembly = Assembly.GetExecutingAssembly();
             Type baseType = typeof(AbstractLauncher);
             foreach (Type type in currAssembly.GetTypes()) {
                 if (!type.IsClass || type.IsAbstract || !type.IsSubclassOf(baseType)) {
                     continue;
                 }
-                ILauncher derivedObject = System.Activator.CreateInstance(type) as ILauncher;
+                ILauncher derivedObject = App.Kernel.Get(type) as ILauncher;
                 if (derivedObject != null) {
                     CollectionByMnemonic.Add(derivedObject.Mnemonic, derivedObject);
                     CollectionByType.Add(type, derivedObject);
@@ -55,13 +53,13 @@ namespace AdvancedLauncher.Management.Execution {
             }
         }
 
-        public static ILauncher CurrentLauncher {
+        public ILauncher CurrentLauncher {
             get {
-                return GetProfileLauncher(ProfileManager.Instance.CurrentProfile);
+                return GetProfileLauncher(ProfileManager.CurrentProfile);
             }
         }
 
-        public static ILauncher GetProfileLauncher(Profile profile) {
+        public ILauncher GetProfileLauncher(Profile profile) {
             ILauncher launcher = findByMnemonic(profile.LaunchMode);
             if (launcher == null) {
                 launcher = Default;
@@ -71,7 +69,7 @@ namespace AdvancedLauncher.Management.Execution {
             return launcher;
         }
 
-        public static ILauncher Default {
+        public ILauncher Default {
             get {
                 var os = System.Environment.OSVersion;
 
@@ -101,23 +99,23 @@ namespace AdvancedLauncher.Management.Execution {
             }
         }
 
-        public static ILauncher findByMnemonic(String name) {
+        public ILauncher findByMnemonic(String name) {
             if (name == null) {
                 return null;
             }
             ILauncher result;
-            if (Instance.CollectionByMnemonic.TryGetValue(name, out result)) {
+            if (CollectionByMnemonic.TryGetValue(name, out result)) {
                 return result;
             }
             return null;
         }
 
-        public static T findByType<T>(Type type) where T : ILauncher {
+        public T findByType<T>(Type type) where T : ILauncher {
             ILauncher result = null;
             if (type == null) {
                 return (T)result;
             }
-            Instance.CollectionByType.TryGetValue(type, out result);
+            CollectionByType.TryGetValue(type, out result);
             return (T)result;
         }
 

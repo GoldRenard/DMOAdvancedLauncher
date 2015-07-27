@@ -27,6 +27,7 @@ using System.Windows.Data;
 using System.Windows.Shell;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Windows;
 using DMOLibrary;
@@ -35,10 +36,11 @@ using DMOLibrary.Events;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using MahApps.Metro.Controls.Dialogs;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
 
-    public partial class GameControl : UserControl, IDisposable {
+    public partial class GameControl : AbstractUserControl, IDisposable {
         private TaskManager.Task UpdateTask;
         private bool UpdateRequired = false;
 
@@ -65,13 +67,23 @@ namespace AdvancedLauncher.UI.Controls {
             }
         };
 
+        [Inject]
+        public ILoginManager LoginManager {
+            get; set;
+        }
+
+        [Inject]
+        public ILauncherManager LauncherManager {
+            get; set;
+        }
+
         public delegate void SetProgressBar(double value, double maxvalue);
 
         public delegate void SetProgressBarVal(double value);
 
         public delegate void SetInfoText(string text);
 
-        public GameControl() {
+        public GameControl() : base() {
             InitializeComponent();
             UpdateTask = new TaskManager.Task() {
                 Owner = this
@@ -84,8 +96,8 @@ namespace AdvancedLauncher.UI.Controls {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
-                LoginManager.Instance.LoginCompleted += OnGameStartCompleted;
-                ProfileManager.Instance.ProfileChanged += OnProfileChanged;
+                LoginManager.LoginCompleted += OnGameStartCompleted;
+                ProfileManager.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
                 OnProfileChanged(this, EventArgs.Empty);
             }
@@ -111,7 +123,7 @@ namespace AdvancedLauncher.UI.Controls {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 //Добавляем задачу обновления
                 TaskManager.Tasks.Add(UpdateTask);
-                ProfileManager.Instance.OnProfileLocked(true);
+                ProfileManager.OnProfileLocked(true);
                 EnvironmentManager.OnFileSystemLocked(true);
                 EnvironmentManager.OnClosingLocked(true);
                 UpdateRequired = false;
@@ -130,7 +142,7 @@ namespace AdvancedLauncher.UI.Controls {
             if (!await ImportPackage()) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                     RemoveTask();
-                    ProfileManager.Instance.OnProfileLocked(false);
+                    ProfileManager.OnProfileLocked(false);
                     EnvironmentManager.OnFileSystemLocked(false);
                     EnvironmentManager.OnClosingLocked(false);
                 }));
@@ -147,7 +159,7 @@ namespace AdvancedLauncher.UI.Controls {
             //Если обновление требуется
             if (cRes.IsUpdateRequired) {
                 //Если включен интегрированных движок обновления, пытаемся обновиться
-                if (ProfileManager.Instance.CurrentProfile.UpdateEngineEnabled) {
+                if (ProfileManager.CurrentProfile.UpdateEngineEnabled) {
                     SetStartEnabled(await BeginUpdate(cRes.LocalVer, cRes.RemoteVer));
                 } else { //Если интегрированный движок отключен - показываем кнопку "Обновить игру"
                     SetUpdateEnabled(true);
@@ -161,7 +173,7 @@ namespace AdvancedLauncher.UI.Controls {
             //Необходимо импортировать директорию (Pack01), если имеется. Проверяем наличие этой папки
             if (Directory.Exists(GameManager.Current.GetImportPath())) {
                 //Если включен интегрированных движок обновления, пытаемся импортировать
-                if (ProfileManager.Instance.CurrentProfile.UpdateEngineEnabled) {
+                if (ProfileManager.CurrentProfile.UpdateEngineEnabled) {
                     //Проверяем наличие доступа к игре
                     if (!await CheckGameAccessLoop()) {
                         return false;
@@ -416,20 +428,20 @@ namespace AdvancedLauncher.UI.Controls {
             //Применить все ссылки
             GameManager.Current.SetRegistryPaths();
 
-            ILauncher launcher = LauncherFactory.CurrentLauncher;
+            ILauncher launcher = LauncherManager.CurrentLauncher;
             bool executed = launcher.Execute(
                 UpdateRequired ? GameManager.Current.GetDefLauncherEXE() : GameManager.Current.GetGameEXE(),
                 UpdateRequired ? GameManager.CurrentProfile.GetLauncherStartArgs(args) : GameManager.CurrentProfile.GetGameStartArgs(args));
 
             if (executed) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
-                if (ProfileManager.Instance.CurrentProfile.KBLCServiceEnabled) {
-                    launcher = LauncherFactory.findByType<DirectLauncher>(typeof(DirectLauncher));
+                if (ProfileManager.CurrentProfile.KBLCServiceEnabled) {
+                    launcher = LauncherManager.findByType<DirectLauncher>(typeof(DirectLauncher));
                     launcher.Execute(EnvironmentManager.KBLCFile, "-attach -notray");
                 }
                 TaskManager.CloseApp();
             } else {
-                ProfileManager.Instance.OnProfileLocked(false);
+                ProfileManager.OnProfileLocked(false);
                 EnvironmentManager.OnFileSystemLocked(false);
                 StartButton.IsEnabled = true;
             }
@@ -444,14 +456,14 @@ namespace AdvancedLauncher.UI.Controls {
                 } else {
                     StartButton.SetBinding(Button.ContentProperty, StartButtonBinding);
                 }
-                ProfileManager.Instance.OnProfileLocked(false);
+                ProfileManager.OnProfileLocked(false);
             }
 
             //Получаем результат логина
             switch (e.Code) {
                 case LoginCode.SUCCESS:
                     {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
-                        ProfileManager.Instance.CurrentProfile.Login.LastSessionArgs = e.Arguments;
+                        ProfileManager.CurrentProfile.Login.LastSessionArgs = e.Arguments;
                         EnvironmentManager.Save();
                         StartGame(e.Arguments);
                         break;
@@ -477,7 +489,7 @@ namespace AdvancedLauncher.UI.Controls {
                 //Убираем задачу обновления
                 RemoveTask();
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
-                ProfileManager.Instance.OnProfileLocked(false);
+                ProfileManager.OnProfileLocked(false);
                 EnvironmentManager.OnClosingLocked(false);
                 EnvironmentManager.OnFileSystemLocked(false);
                 UpdateRequired = false;
@@ -498,7 +510,7 @@ namespace AdvancedLauncher.UI.Controls {
                 //Убираем задачу обновления
                 RemoveTask();
                 TaskBar.ProgressState = TaskbarItemProgressState.None;
-                ProfileManager.Instance.OnProfileLocked(false);
+                ProfileManager.OnProfileLocked(false);
                 EnvironmentManager.OnFileSystemLocked(false);
                 EnvironmentManager.OnClosingLocked(false);
                 UpdateRequired = true;
@@ -515,11 +527,11 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void OnStartButtonClick(object sender, RoutedEventArgs e) {
-            ProfileManager.Instance.OnProfileLocked(true);
+            ProfileManager.OnProfileLocked(true);
             EnvironmentManager.OnFileSystemLocked(true);
             //Проверяем, требуется ли логин
             if (GameManager.CurrentProfile.IsLoginRequired) {
-                LoginManager.Instance.Login();
+                LoginManager.Login();
             } else { //Логин не требуется, запускаем игру как есть
                 StartGame(string.Empty);
             }

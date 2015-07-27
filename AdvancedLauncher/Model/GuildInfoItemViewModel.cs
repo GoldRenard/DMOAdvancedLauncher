@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.Management;
 using DMOLibrary.Database.Entity;
 
 namespace AdvancedLauncher.Model {

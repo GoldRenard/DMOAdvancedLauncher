@@ -16,7 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using DMOLibrary.Profiles;
+using AdvancedLauncher.SDK.Model.Web;
+using DMOLibrary.Profiles.Korea;
 
 namespace AdvancedLauncher.Management.Configuration {
 
@@ -28,8 +29,8 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
-        protected new DMOProfile CreateProfile() {
-            return new DMOLibrary.Profiles.Korea.DMOKoreaIMBC();
+        protected new IGameProfile CreateProfile() {
+            return new DMOKoreaIMBC();
         }
     }
 }

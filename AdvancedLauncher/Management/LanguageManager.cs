@@ -24,9 +24,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model;
-using Ninject;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.Management {
 
@@ -49,9 +48,9 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        [Inject]
-        public IEnvironmentManager EnvironmentManager {
-            get; set;
+        public string LanguagesPath {
+            get;
+            private set;
         }
 
         #region Save/Read/Load
@@ -77,19 +76,25 @@ namespace AdvancedLauncher.Management {
         }
 
         public void Initialize() {
-            if (string.IsNullOrEmpty(EnvironmentManager.Settings.LanguageFile)) {
+            // nothing to do here
+        }
+
+        public string Initialize(string languagesPath, string currentLanguage) {
+            this.LanguagesPath = languagesPath;
+            if (string.IsNullOrEmpty(currentLanguage)) {
                 if (Load(CultureInfo.CurrentCulture.Name)) {
-                    EnvironmentManager.Settings.LanguageFile = CultureInfo.CurrentCulture.Name;
+                    return CultureInfo.CurrentCulture.Name;
                 } else {
                     Load(GetDefaultName());
-                    EnvironmentManager.Settings.LanguageFile = GetDefaultName();
+                    return GetDefaultName();
                 }
             } else {
-                if (!Load(EnvironmentManager.Settings.LanguageFile)) {
+                if (!Load(currentLanguage)) {
                     Load(GetDefaultName());
-                    EnvironmentManager.Settings.LanguageFile = GetDefaultName();
+                    return GetDefaultName();
                 }
             }
+            return currentLanguage;
         }
 
         public bool Load(string tName) {
@@ -97,7 +102,7 @@ namespace AdvancedLauncher.Management {
                 Model = Default;
                 return true;
             }
-            LanguageModel newModel = Read(Path.Combine(EnvironmentManager.LanguagesPath, tName + ".lng"));
+            LanguageModel newModel = Read(Path.Combine(LanguagesPath, tName + ".lng"));
             if (newModel == null) {
                 return false;
             } else {
@@ -109,8 +114,8 @@ namespace AdvancedLauncher.Management {
         public string[] GetTranslations() {
             string[] translations = null;
             Regex regex = new Regex(@"^[a-z]{2,3}(?:-[A-Z]{2,3}(?:-[a-zA-Z]{4})?)?$");
-            if (Directory.Exists(EnvironmentManager.LanguagesPath)) {
-                translations = Directory.GetFiles(EnvironmentManager.LanguagesPath, "*.lng")
+            if (Directory.Exists(LanguagesPath)) {
+                translations = Directory.GetFiles(LanguagesPath, "*.lng")
                     .Where(path => regex.IsMatch(Path.GetFileNameWithoutExtension(path))).ToArray();
             }
             return translations;

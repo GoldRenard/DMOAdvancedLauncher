@@ -17,8 +17,9 @@
 // ======================================================================
 
 using System.Security;
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 
 namespace DMOLibrary.Profiles.Korea {
 
@@ -111,7 +112,7 @@ namespace DMOLibrary.Profiles.Korea {
             }
         }
 
-        public override AbstractWebProfile GetWebProfile() {
+        public override IWebProfile GetWebProfile() {
             return new KoreaWebProfile();
         }
 

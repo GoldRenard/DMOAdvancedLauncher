@@ -20,11 +20,9 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
-using AdvancedLauncher.Model.Events;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Pages;
 using MahApps.Metro.Controls;
@@ -162,7 +160,7 @@ namespace AdvancedLauncher.UI.Windows {
             NavCommunity.IsEnabled = false;
             NavPersonalization.IsEnabled = false;
 
-            GameModel model = ProfileManager.CurrentProfile.GameModel;
+            IGameModel model = ProfileManager.CurrentProfile.GameModel;
 
             //Если доступен веб-профиль, включаем вкладку сообщества
             if (GameManager.GetConfiguration(model).Profile.IsWebAvailable) {

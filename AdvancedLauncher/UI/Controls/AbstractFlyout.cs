@@ -16,7 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
 using MahApps.Metro.Controls;
 using Ninject;
 

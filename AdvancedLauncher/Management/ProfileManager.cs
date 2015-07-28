@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
-using AdvancedLauncher.Model.Events;
-using Ninject;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.Management {
 
@@ -31,27 +31,27 @@ namespace AdvancedLauncher.Management {
 
         #region Properties
 
-        private List<Profile> _Profiles = new List<Profile>();
+        private List<IProfile> _Profiles = new List<IProfile>();
 
-        public List<Profile> Profiles {
+        public List<IProfile> Profiles {
             get {
                 return _Profiles;
             }
         }
 
-        public ObservableCollection<Profile> PendingProfiles {
+        public ObservableCollection<IProfile> PendingProfiles {
             get;
             set;
-        } = new ObservableCollection<Profile>();
+        } = new ObservableCollection<IProfile>();
 
-        public Profile PendingDefaultProfile {
+        public IProfile PendingDefaultProfile {
             get;
             set;
         }
 
-        private Profile _CurrentProfile = null;
+        private IProfile _CurrentProfile = null;
 
-        public Profile CurrentProfile {
+        public IProfile CurrentProfile {
             get {
                 return _CurrentProfile;
             }
@@ -61,9 +61,9 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private Profile _DefaultProfile;
+        private IProfile _DefaultProfile;
 
-        public Profile DefaultProfile {
+        public IProfile DefaultProfile {
             get {
                 return _DefaultProfile;
             }
@@ -74,39 +74,31 @@ namespace AdvancedLauncher.Management {
 
         #endregion Properties
 
-        [Inject]
-        public IEnvironmentManager EnvironmentManager {
-            get;
-            set;
-        }
-
         public void Initialize() {
-            ApplyChanges(EnvironmentManager.Settings.Profiles, EnvironmentManager.Settings.DefaultProfile);
+            // nothing to do here
         }
 
         public void RevertChanges() {
             PendingDefaultProfile = new Profile(DefaultProfile);
             PendingProfiles.Clear();
-            foreach (Profile profile in Profiles) {
+            foreach (IProfile profile in Profiles) {
                 PendingProfiles.Add(new Profile(profile));
             }
         }
 
         public void ApplyChanges() {
             ApplyChanges(PendingProfiles, PendingDefaultProfile.Id);
-            List<Profile> settingsProfiles = new List<Profile>();
-            foreach (Profile p in Profiles) {
+            List<IProfile> settingsProfiles = new List<IProfile>();
+            foreach (IProfile p in Profiles) {
                 settingsProfiles.Add(new Profile(p));
             }
-            EnvironmentManager.Settings.DefaultProfile = DefaultProfile.Id;
-            EnvironmentManager.Settings.Profiles = settingsProfiles;
         }
 
         public void AddProfile() {
-            Profile pNew = new Profile() {
+            IProfile pNew = new Profile() {
                 Name = "NewProfile"
             };
-            foreach (Profile p in PendingProfiles) {
+            foreach (IProfile p in PendingProfiles) {
                 if (p.Id > pNew.Id) {
                     pNew.Id = p.Id;
                 }
@@ -116,7 +108,7 @@ namespace AdvancedLauncher.Management {
             OnCollectionChanged();
         }
 
-        public void RemoveProfile(Profile profile) {
+        public void RemoveProfile(IProfile profile) {
             if (PendingProfiles.Count > 1) {
                 bool IsDefault = profile.Id == PendingDefaultProfile.Id;
                 PendingProfiles.Remove(profile);
@@ -127,10 +119,10 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private void ApplyChanges(ICollection<Profile> profiles, int defaultProfileId) {
+        private void ApplyChanges(ICollection<IProfile> profiles, int defaultProfileId) {
             this.Profiles.Clear();
             //Add clones of instances
-            foreach (Profile p in profiles) {
+            foreach (IProfile p in profiles) {
                 Profiles.Add(new Profile(p));
             }
 

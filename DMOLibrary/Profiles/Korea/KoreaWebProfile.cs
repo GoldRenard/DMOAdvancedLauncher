@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
 using DMOLibrary.Database.Context;
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Korea {

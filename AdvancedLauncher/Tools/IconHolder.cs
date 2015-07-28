@@ -19,7 +19,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
 using Ninject;
 
 namespace AdvancedLauncher.Tools {

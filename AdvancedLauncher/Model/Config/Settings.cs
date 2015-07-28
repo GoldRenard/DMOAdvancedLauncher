@@ -17,89 +17,41 @@
 // ======================================================================
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Xml.Serialization;
+using AdvancedLauncher.SDK.Model.Config;
 
 namespace AdvancedLauncher.Model.Config {
 
-    [XmlType(TypeName = "Settings")]
-    public class Settings : INotifyPropertyChanged {
+    public class Settings : ISettings, INotifyPropertyChanged {
 
-        [XmlElement("Language")]
         public string LanguageFile {
             get; set;
         }
 
-        [XmlElement("AppTheme")]
         public string AppTheme {
             get; set;
         }
 
-        [XmlElement("ThemeAccent")]
         public string ThemeAccent {
             get; set;
         }
 
-        [XmlElement("DefaultProfile")]
-        public int DefaultProfile {
-            get; set;
-        }
-
-        private ProxySetting _Proxy = new ProxySetting();
-
-        [XmlElement("Proxy")]
-        public ProxySetting Proxy {
-            set {
-                _Proxy = value;
-                NotifyPropertyChanged("Proxy");
-            }
-            get {
-                return _Proxy;
-            }
-        }
-
-        [XmlArray("Profiles"), XmlArrayItem(typeof(Profile), ElementName = "Profile")]
-        public List<Profile> Profiles {
-            get;
-            set;
-        }
-
-        #region Constructors
-
         public Settings() {
-            this.Profiles = new List<Profile>();
+            // default constructor
         }
 
-        public Settings(Settings source)
-            : this(source, false) {
-        }
-
-        public Settings(Settings source, bool copyConfigOnly) {
+        public Settings(ISettings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
-            this.Proxy = new ProxySetting(source.Proxy);
-            if (!copyConfigOnly) {
-                this.DefaultProfile = source.DefaultProfile;
-                this.Profiles = new List<Profile>();
-                foreach (Profile p in source.Profiles) {
-                    Profiles.Add(new Profile(p));
-                }
-            }
         }
 
-        public void MergeConfig(Settings source) {
+        public void MergeConfig(ISettings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
-            this.Proxy = new ProxySetting(source.Proxy);
             OnConfigurationChanged(this, null);
         }
-
-        #endregion Constructors
-
-        #region Events Section
 
         public event EventHandler ConfigurationChanged;
 
@@ -117,7 +69,5 @@ namespace AdvancedLauncher.Model.Config {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        #endregion Events Section
     }
 }

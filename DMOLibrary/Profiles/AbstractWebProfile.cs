@@ -20,13 +20,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 using DMOLibrary.Database.Context;
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
 
 namespace DMOLibrary.Profiles {
 
-    public abstract class AbstractWebProfile {
+    public abstract class AbstractWebProfile : IWebProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(AbstractWebProfile));
 
         #region EVENTS
@@ -114,8 +115,9 @@ namespace DMOLibrary.Profiles {
 
         protected abstract bool GetMercenaryInfo(ref Digimon digimon, Tamer tamer);
 
-        public static Guild GetActualGuild(AbstractWebProfile webProfile, Server server, string guildName, bool isDetailed, int actualInterval) {
+        public static Guild GetActualGuild(IWebProfile webProfile, Server server, string guildName, bool isDetailed, int actualInterval) {
             bool fetchCurrent = false;
+            AbstractWebProfile castWebProfile = webProfile as AbstractWebProfile;
             using (MainContext context = new MainContext()) {
                 Guild storedGuild = context.FindGuild(server, guildName);
                 if (storedGuild != null && !(isDetailed && !storedGuild.IsDetailed) && storedGuild.UpdateTime != null) {
@@ -125,19 +127,22 @@ namespace DMOLibrary.Profiles {
                     }
                 }
                 if (fetchCurrent) {
-                    webProfile.OnStarted();
-                    webProfile.OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
+                    castWebProfile.OnStarted();
+                    castWebProfile.OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
                     storedGuild = context.FetchGuild(server, guildName);
-                    webProfile.OnCompleted(DMODownloadResultCode.OK, storedGuild);
+                    castWebProfile.OnCompleted(DMODownloadResultCode.OK, storedGuild);
                     return storedGuild;
                 }
             }
-            return webProfile.GetGuild(server, guildName, isDetailed);
+            return castWebProfile.GetGuild(server, guildName, isDetailed);
         }
 
-        public static void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, AbstractWebProfile webProfile,
+        public static void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, IWebProfile webProfile,
             Server server, string guildName, bool isDetailed, int actualInterval) {
             bool fetchCurrent = false;
+
+            AbstractWebProfile castWebProfile = webProfile as AbstractWebProfile;
+
             using (MainContext context = new MainContext()) {
                 Guild storedGuild = context.FindGuild(server, guildName);
                 if (storedGuild != null && !(isDetailed && !storedGuild.IsDetailed) && storedGuild.UpdateTime != null) {
@@ -150,15 +155,15 @@ namespace DMOLibrary.Profiles {
             if (fetchCurrent) {
                 Task.Factory.StartNew(() => {
                     using (MainContext context = new MainContext()) {
-                        webProfile.OnStarted();
-                        webProfile.OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
+                        castWebProfile.OnStarted();
+                        castWebProfile.OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
                         Guild storedGuild = context.FetchGuild(server, guildName);
-                        webProfile.OnCompleted(DMODownloadResultCode.OK, storedGuild);
+                        castWebProfile.OnCompleted(DMODownloadResultCode.OK, storedGuild);
                     }
                 });
                 return;
             }
-            webProfile.GetGuildAsync(ownerDispatcher, server, guildName, isDetailed);
+            castWebProfile.GetGuildAsync(ownerDispatcher, server, guildName, isDetailed);
         }
 
         public static string DownloadContent(string url) {

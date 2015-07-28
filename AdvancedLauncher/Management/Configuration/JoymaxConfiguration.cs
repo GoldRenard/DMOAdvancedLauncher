@@ -16,7 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using DMOLibrary.Profiles;
+using AdvancedLauncher.SDK.Management.Configuration;
+using AdvancedLauncher.SDK.Model.Web;
+using DMOLibrary.Profiles.Joymax;
 
 namespace AdvancedLauncher.Management.Configuration {
 
@@ -78,7 +80,7 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
-        public override string VarsionLocalPath {
+        public override string VersionLocalPath {
             get {
                 return @"LauncherLib\vGDMO.ini";
             }
@@ -92,8 +94,8 @@ namespace AdvancedLauncher.Management.Configuration {
 
         #endregion Common
 
-        protected override DMOProfile CreateProfile() {
-            return new DMOLibrary.Profiles.Joymax.DMOJoymax();
+        protected override IGameProfile CreateProfile() {
+            return new DMOJoymax();
         }
     }
 }

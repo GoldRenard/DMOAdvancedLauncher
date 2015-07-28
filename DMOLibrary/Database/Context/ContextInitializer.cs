@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System.Data.Entity;
-using DMOLibrary.Database.Entity;
+using AdvancedLauncher.SDK.Model.Entity;
 
 namespace DMOLibrary.Database.Context {
 

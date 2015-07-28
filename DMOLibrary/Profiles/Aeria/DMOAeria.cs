@@ -18,8 +18,8 @@
 
 using System.Security;
 using System.Web;
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace DMOLibrary.Profiles.Aeria {
 

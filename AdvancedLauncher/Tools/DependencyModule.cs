@@ -20,10 +20,10 @@ using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Commands;
 using AdvancedLauncher.Management.Configuration;
 using AdvancedLauncher.Management.Execution;
-using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
+using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.UI.Windows;
 using Ninject;
@@ -34,14 +34,17 @@ namespace AdvancedLauncher.Tools {
     internal class DependencyModule : NinjectModule {
 
         public override void Load() {
-            // Services
+            // Singletone services
             Bind<IEnvironmentManager>().To<EnvironmentManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IUpdateManager>().To<UpdateManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IProfileManager>().To<ProfileManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<ILoginManager>().To<LoginManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<IGameUpdateManager>().To<GameUpdateManager>().OnActivation(m => m.Initialize()); // not singletone!
+            Bind<ILogManager>().To<LogManager>().InSingletonScope().OnActivation(m => m.Initialize());
+
+            // Multiinstance services
+            Bind<IGameUpdateManager>().To<GameUpdateManager>().OnActivation(m => m.Initialize());
+            Bind<IFileSystemManager>().To<FileSystemManager>().OnActivation(m => m.Initialize(App.Kernel.Get<ILogManager>()));
 
             // Launchers
             Bind<ILauncherManager>().To<LauncherManager>().InSingletonScope().OnActivation(m => m.Initialize());
@@ -72,15 +75,12 @@ namespace AdvancedLauncher.Tools {
             Bind<TwitterItemViewModel>().ToSelf();
 
             // Components
+            Bind<LoginManager>().ToSelf().InSingletonScope();
             Bind<IconHolder>().ToSelf().InSingletonScope();
             Bind<MainWindow>().ToSelf().InSingletonScope();
             Bind<About>().ToSelf().InSingletonScope();
             Bind<Settings>().ToSelf().InSingletonScope();
             Bind<Logger>().ToSelf().InSingletonScope().OnActivation(e => e.Initialize());
-        }
-
-        public override void VerifyRequiredModulesAreLoaded() {
-            Kernel.Get<IEnvironmentManager>();
         }
     }
 }

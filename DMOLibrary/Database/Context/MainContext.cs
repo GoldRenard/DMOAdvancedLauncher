@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using DMOLibrary.Database.Entity;
+using AdvancedLauncher.SDK.Model.Entity;
 
 namespace DMOLibrary.Database.Context {
 

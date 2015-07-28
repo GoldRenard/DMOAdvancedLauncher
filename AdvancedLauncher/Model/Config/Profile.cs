@@ -21,20 +21,16 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml.Serialization;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.SDK.Model.Config;
-using AdvancedLauncher.Tools;
 using Ninject;
 
 namespace AdvancedLauncher.Model.Config {
 
-    [XmlType(TypeName = "Profile")]
-    public class Profile : INotifyPropertyChanged {
+    public class Profile : IProfile, INotifyPropertyChanged {
         private int _Id = 0;
 
-        [XmlAttribute("Id")]
         public int Id {
             set {
                 _Id = value; NotifyPropertyChanged("Id");
@@ -46,7 +42,6 @@ namespace AdvancedLauncher.Model.Config {
 
         private string _Name = "Default";
 
-        [XmlAttribute("Name")]
         public string Name {
             set {
                 _Name = value;
@@ -58,23 +53,8 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        [Obsolete]
-        private bool _AppLocaleEnabled = true;
-
-        [XmlAttribute]
-        [Obsolete]
-        public bool AppLocaleEnabled {
-            set {
-                _AppLocaleEnabled = value; NotifyPropertyChanged("AppLocaleEnabled");
-            }
-            get {
-                return _AppLocaleEnabled;
-            }
-        }
-
         private string _LaunchMode;
 
-        [XmlAttribute]
         public string LaunchMode {
             set {
                 _LaunchMode = value;
@@ -85,7 +65,6 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        [XmlIgnore]
         public ILauncher Launcher {
             set {
                 if (value != null) {
@@ -99,7 +78,6 @@ namespace AdvancedLauncher.Model.Config {
 
         private bool _UpdateEngineEnabled = false;
 
-        [XmlAttribute]
         public bool UpdateEngineEnabled {
             set {
                 _UpdateEngineEnabled = value; NotifyPropertyChanged("UpdateEngineEnabled");
@@ -111,7 +89,6 @@ namespace AdvancedLauncher.Model.Config {
 
         private bool _KBLCServiceEnabled = false;
 
-        [XmlAttribute]
         public bool KBLCServiceEnabled {
             set {
                 _KBLCServiceEnabled = value; NotifyPropertyChanged("KBLCServiceEnabled");
@@ -123,22 +100,9 @@ namespace AdvancedLauncher.Model.Config {
 
         #region Subcontainers
 
-        private LoginData _Login = new LoginData();
+        private IRotationData _Rotation;
 
-        public LoginData Login {
-            set {
-                _Login = value; NotifyPropertyChanged("Login");
-            }
-            get {
-                return _Login;
-            }
-        }
-
-        private RotationData _Rotation = new RotationData() {
-            UpdateInterval = 2
-        };
-
-        public RotationData Rotation {
+        public IRotationData Rotation {
             set {
                 _Rotation = value; NotifyPropertyChanged("Rotation");
             }
@@ -147,12 +111,9 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        private NewsData _News = new NewsData() {
-            FirstTab = 0,
-            TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE
-        };
+        private INewsData _News;
 
-        public NewsData News {
+        public INewsData News {
             set {
                 _News = value; NotifyPropertyChanged("News");
             }
@@ -183,7 +144,6 @@ namespace AdvancedLauncher.Model.Config {
         private string _ImagePathLoaded;
         private ImageSource _Image;
 
-        [XmlIgnore]
         public ImageSource Image {
             set {
                 if (_Image != value) {
@@ -206,14 +166,12 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        [XmlIgnore]
         public bool HasImage {
             get {
                 return Image != null;
             }
         }
 
-        [XmlIgnore]
         public bool NoImage {
             get {
                 return Image == null;
@@ -224,10 +182,9 @@ namespace AdvancedLauncher.Model.Config {
 
         #region Game Environment
 
-        private GameModel _GameModel = new GameModel();
+        private IGameModel _GameModel;
 
-        [XmlElement("GameEnv")]
-        public GameModel GameModel {
+        public IGameModel GameModel {
             set {
                 _GameModel = value;
                 NotifyPropertyChanged("GameModel");
@@ -281,7 +238,7 @@ namespace AdvancedLauncher.Model.Config {
                 return (byte)GameModel.Type;
             }
         }
-        
+
         [XmlIgnore]
         public string FullName {
             get {
@@ -296,14 +253,13 @@ namespace AdvancedLauncher.Model.Config {
         public Profile() {
         }
 
-        public Profile(Profile p) {
+        public Profile(IProfile p) {
             this.Id = p.Id;
             this.Name = p.Name;
             this.ImagePath = p.ImagePath;
             this.LaunchMode = p.LaunchMode;
             this.UpdateEngineEnabled = p.UpdateEngineEnabled;
             this.KBLCServiceEnabled = p.KBLCServiceEnabled;
-            this.Login = new LoginData(p.Login);
             this.Rotation = new RotationData(p.Rotation);
             this.News = new NewsData(p.News);
             this.GameModel = new GameModel(p.GameModel);

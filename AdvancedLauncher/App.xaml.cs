@@ -18,7 +18,7 @@
 
 using System.Security.Principal;
 using System.Windows;
-using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
 using log4net.Config;
@@ -47,6 +47,7 @@ namespace AdvancedLauncher {
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
+                    Kernel.Get<IEnvironmentManager>();
                     Splashscreen.ShowSplash();
 #if DEBUG
                     /*Splashscreen.SetProgress("Initializing database...");

@@ -16,8 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Management;
-
 namespace AdvancedLauncher.SDK.Management {
 
     public interface IUpdateManager : IManager {

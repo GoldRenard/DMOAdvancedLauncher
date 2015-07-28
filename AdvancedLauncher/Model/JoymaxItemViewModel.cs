@@ -17,11 +17,11 @@
 // ======================================================================
 
 using System.Windows;
-using DMOLibrary.Profiles;
+using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.Model {
 
-    public class JoymaxItemViewModel : AbstractItemViewModel<DMONewsProfile.NewsItem> {
+    public class JoymaxItemViewModel : AbstractItemViewModel<NewsItem> {
 
         protected override void LanguageChanged() {
             NotifyPropertyChanged("Type");

@@ -19,9 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Ninject;
-using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Commands;
+using Ninject;
 
 namespace AdvancedLauncher.Management.Commands {
 

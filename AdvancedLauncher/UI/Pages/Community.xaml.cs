@@ -19,14 +19,15 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Validation;
 using DMOLibrary.Database;
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using Ninject;
 
@@ -36,9 +37,9 @@ namespace AdvancedLauncher.UI.Pages {
 
         private delegate void DoOneText(string text);
 
-        private AbstractWebProfile webProfile;
+        private IWebProfile webProfile;
 
-        private DMOProfile currentDMOProfile;
+        private IGameProfile currentDMOProfile;
 
         private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
 
@@ -80,7 +81,7 @@ namespace AdvancedLauncher.UI.Pages {
         private void LoadServerList() {
             //Загружаем новый список серверов
             ComboBoxServer.ItemsSource = currentDMOProfile.ServerList;
-            Profile currentProfile = ProfileManager.CurrentProfile;
+            IProfile currentProfile = ProfileManager.CurrentProfile;
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(currentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {

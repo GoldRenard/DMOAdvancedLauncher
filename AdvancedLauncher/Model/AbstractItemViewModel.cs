@@ -18,7 +18,7 @@
 
 using System;
 using System.ComponentModel;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
 using Ninject;
 
 namespace AdvancedLauncher.Model {

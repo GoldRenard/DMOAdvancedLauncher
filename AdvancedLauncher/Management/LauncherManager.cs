@@ -21,15 +21,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AdvancedLauncher.Management.Execution;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Execution;
+using AdvancedLauncher.SDK.Model.Config;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
     public class LauncherManager : ILauncherManager {
-        private readonly Dictionary<String, ILauncher> CollectionByMnemonic = new Dictionary<string, ILauncher>();
+        private readonly Dictionary<string, ILauncher> CollectionByMnemonic = new Dictionary<string, ILauncher>();
 
         private readonly Dictionary<Type, ILauncher> CollectionByType = new Dictionary<Type, ILauncher>();
 
@@ -51,7 +51,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public ILauncher GetProfileLauncher(Profile profile) {
+        public ILauncher GetProfileLauncher(IProfile profile) {
             ILauncher launcher = findByMnemonic(profile.LaunchMode);
             if (launcher == null) {
                 launcher = Default;
@@ -91,7 +91,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public ILauncher findByMnemonic(String name) {
+        public ILauncher findByMnemonic(string name) {
             if (name == null) {
                 return null;
             }

@@ -21,7 +21,8 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
 using Microsoft.Win32;
@@ -30,7 +31,6 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     public class ConfigurationManager : IConfigurationManager {
-
         private const string puPF = @"Data\Pack01.pf";
         private const string puHF = @"Data\Pack01.hf";
         private const string puImportDir = @"Pack01";
@@ -56,7 +56,7 @@ namespace AdvancedLauncher.Management {
             if (string.IsNullOrEmpty(pGamePath)) {
                 return false;
             }
-            if (!File.Exists(Path.Combine(pGamePath, config.VarsionLocalPath)) || !File.Exists(Path.Combine(pGamePath, config.GameExecutable))) {
+            if (!File.Exists(Path.Combine(pGamePath, config.VersionLocalPath)) || !File.Exists(Path.Combine(pGamePath, config.GameExecutable))) {
                 return false;
             }
             if (!File.Exists(Path.Combine(pGamePath, puPF)) || !File.Exists(Path.Combine(pGamePath, puHF))) {
@@ -99,7 +99,7 @@ namespace AdvancedLauncher.Management {
             if (string.IsNullOrEmpty(path)) {
                 return null;
             }
-            return Path.Combine(path, config.VarsionLocalPath);
+            return Path.Combine(path, config.VersionLocalPath);
         }
 
         public string GetPFPath(IGameModel model) {

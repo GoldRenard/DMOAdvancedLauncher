@@ -18,8 +18,8 @@
 
 using System.Collections.Generic;
 using System.Windows.Threading;
+using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.Tools;
-using DMOLibrary.Database.Entity;
 using Ninject;
 
 namespace AdvancedLauncher.Model {

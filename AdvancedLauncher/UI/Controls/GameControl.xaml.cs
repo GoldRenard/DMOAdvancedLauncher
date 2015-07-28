@@ -24,21 +24,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Shell;
-using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
-using AdvancedLauncher.Model.Events;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Execution;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Windows;
-using DMOLibrary.Events;
-using DMOLibrary.Profiles;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;
-using AdvancedLauncher.SDK.Model;
-using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Model.Config;
 
 namespace AdvancedLauncher.UI.Controls {
 
@@ -52,11 +49,6 @@ namespace AdvancedLauncher.UI.Controls {
         private Binding StartButtonBinding = new Binding("StartButton");
         private Binding WaitingButtonBinding = new Binding("GameButton_Waiting");
         private Binding UpdateButtonBinding = new Binding("GameButton_UpdateGame");
-
-        [Inject]
-        public ILoginManager LoginManager {
-            get; set;
-        }
 
         [Inject]
         public ILauncherManager LauncherManager {
@@ -89,8 +81,6 @@ namespace AdvancedLauncher.UI.Controls {
             }
         }
 
-        public GameModel CurrentModel;
-
         public delegate void SetProgressBar(double value, double maxvalue);
 
         public delegate void SetProgressBarVal(double value);
@@ -110,7 +100,7 @@ namespace AdvancedLauncher.UI.Controls {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
-                LoginManager.LoginCompleted += OnGameStartCompleted;
+                App.Kernel.Get<LoginManager>().LoginCompleted += OnGameStartCompleted;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
                 OnProfileChanged(this, EventArgs.Empty);
@@ -145,7 +135,7 @@ namespace AdvancedLauncher.UI.Controls {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             }));
 
-            GameModel model = ProfileManager.CurrentProfile.GameModel;
+            IGameModel model = ProfileManager.CurrentProfile.GameModel;
 
             //Проверяем наличие необходимых файлов игры
             if (!GameManager.CheckGame(model)) {
@@ -249,7 +239,7 @@ namespace AdvancedLauncher.UI.Controls {
             SetUpdateEnabled(false);
         }
 
-        private void _UpdateManager_StatusChanged(object sender, Model.Events.UpdateStatusEventEventArgs e) {
+        private void _UpdateManager_StatusChanged(object sender, UpdateStatusEventEventArgs e) {
             UpdateMainProgressBar(e.Progress, e.MaxProgress);
             UpdateSubProgressBar(e.SummaryProgress, e.SummaryMaxProgress);
 
@@ -279,8 +269,8 @@ namespace AdvancedLauncher.UI.Controls {
         private void StartGame(string args) {
             StartButton.IsEnabled = false;
 
-            GameModel model = ProfileManager.CurrentProfile.GameModel;
-            DMOProfile profile = GameManager.GetConfiguration(model).Profile;
+            IGameModel model = ProfileManager.CurrentProfile.GameModel;
+            IGameProfile profile = GameManager.GetConfiguration(model).Profile;
             GameManager.UpdateRegistryPaths(model);
 
             ILauncher launcher = LauncherManager.CurrentLauncher;
@@ -317,15 +307,17 @@ namespace AdvancedLauncher.UI.Controls {
             //Получаем результат логина
             switch (e.Code) {
                 case LoginCode.SUCCESS:
-                    {       //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
-                        ProfileManager.CurrentProfile.Login.LastSessionArgs = e.Arguments;
+                    {
+                        //Если логин успешен, сохраняем аргументы текущей сессии вместе с настройками и запускаем игру
+                        App.Kernel.Get<LoginManager>().UpdateLastSessionArgs(ProfileManager.CurrentProfile, e.Arguments);
                         EnvironmentManager.Save();
                         StartGame(e.Arguments);
                         break;
                     }
                 case LoginCode.WRONG_PAGE:       //Если получены результаты ошибки на странице, отображаем сообщение с кодом ошибки
                 case LoginCode.UNKNOWN_URL:
-                    {    //И возвращаем в форму ввода
+                    {
+                        //И возвращаем в форму ввода
                         DialogsHelper.ShowMessageDialog(LanguageManager.Model.LoginLogIn,
                                     LanguageManager.Model.LoginWrongPage + string.Format(" [{0}]", e.Code));
                         break;
@@ -386,7 +378,7 @@ namespace AdvancedLauncher.UI.Controls {
             EnvironmentManager.OnFileSystemLocked(true);
             //Проверяем, требуется ли логин
             if (GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile.IsLoginRequired) {
-                LoginManager.Login();
+                App.Kernel.Get<LoginManager>().Login(ProfileManager.CurrentProfile);
             } else { //Логин не требуется, запускаем игру как есть
                 StartGame(string.Empty);
             }

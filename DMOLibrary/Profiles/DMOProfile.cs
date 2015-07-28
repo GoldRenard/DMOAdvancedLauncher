@@ -20,16 +20,17 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 using DMOLibrary.Database.Context;
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
 using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles {
 
-    public abstract class DMOProfile {
+    public abstract class DMOProfile : IGameProfile {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOProfile));
-        protected DMONewsProfile _NewsProfile = null;
+        protected INewsProfile _NewsProfile = null;
         protected ObservableCollection<Server> _ServerList;
 
         private readonly string TypeName;
@@ -109,7 +110,7 @@ namespace DMOLibrary.Profiles {
             return ServerList.Where(i => i.Identifier == serverId).FirstOrDefault();
         }
 
-        public DMONewsProfile NewsProfile {
+        public INewsProfile NewsProfile {
             get {
                 if (_NewsProfile == null) {
                     _NewsProfile = GetNewsProfile();
@@ -159,11 +160,11 @@ namespace DMOLibrary.Profiles {
             return TypeName;
         }
 
-        public virtual AbstractWebProfile GetWebProfile() {
+        public virtual IWebProfile GetWebProfile() {
             return null;
         }
 
-        protected virtual DMONewsProfile GetNewsProfile() {
+        protected virtual INewsProfile GetNewsProfile() {
             return null;
         }
 

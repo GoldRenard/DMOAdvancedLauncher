@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.UI.Extension;
 using Ninject;
 

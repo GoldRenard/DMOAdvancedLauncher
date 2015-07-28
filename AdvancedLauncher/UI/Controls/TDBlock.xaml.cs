@@ -21,7 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AdvancedLauncher.Model;
-using DMOLibrary.Database.Entity;
+using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.UI.Controls {
 

@@ -17,8 +17,8 @@
 // ======================================================================
 
 using System.Security;
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace DMOLibrary.Profiles.Korea {
 

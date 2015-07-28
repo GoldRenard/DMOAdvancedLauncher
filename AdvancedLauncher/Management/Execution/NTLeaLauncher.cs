@@ -18,7 +18,7 @@
 
 using System;
 using System.IO;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
 using Ninject;
 
 namespace AdvancedLauncher.Management.Execution {

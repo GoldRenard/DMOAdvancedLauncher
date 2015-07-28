@@ -16,8 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 
 namespace DMOLibrary.Profiles.Joymax {
 
@@ -35,11 +36,11 @@ namespace DMOLibrary.Profiles.Joymax {
 
         #endregion Getting user login commandline
 
-        protected override DMONewsProfile GetNewsProfile() {
+        protected override INewsProfile GetNewsProfile() {
             return new JMNews();
         }
 
-        public override AbstractWebProfile GetWebProfile() {
+        public override IWebProfile GetWebProfile() {
             return new JoymaxWebProfile();
         }
 

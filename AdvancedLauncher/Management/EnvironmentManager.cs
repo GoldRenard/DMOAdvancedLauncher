@@ -21,11 +21,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
-using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
-using AdvancedLauncher.Model.Events;
+using AdvancedLauncher.Model.Protected;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 using DMOLibrary;
 using MahApps.Metro;
+using Ninject;
 
 namespace AdvancedLauncher.Management {
 
@@ -36,15 +39,27 @@ namespace AdvancedLauncher.Management {
         private const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         private const string NTLEA_EXECUTABLE = "ntleas.exe";
 
-        #region Properties
+        [Inject]
+        public IProfileManager ProfileManager {
+            get;
+            set;
+        }
 
-        public Settings _Settings = null;
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get;
+            set;
+        }
 
-        public Settings Settings {
+        private ISettings _Settings;
+
+        public ISettings Settings {
             get {
                 return _Settings;
             }
         }
+
+        #region Environment Properties
 
         private string _AppPath = null;
 
@@ -130,62 +145,110 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        #endregion Properties
+        #endregion Environment Properties
+
+        #region Configuration properties
+
+        public string LanguageFile {
+            get; set;
+        }
+
+        public string AppTheme {
+            get; set;
+        }
+
+        public string ThemeAccent {
+            get; set;
+        }
+
+        public int DefaultProfile {
+            get; set;
+        }
+
+        #endregion Configuration properties
+
+        #region Initialization
 
         public void Initialize() {
             AppDomain.CurrentDomain.SetData("DataDirectory", AppDataPath);
+
+            // Initialize ProtectedSettings entity
+            ProtectedSettings ProtectedSettings = null;
             if (File.Exists(SettingsFile)) {
-                _Settings = DeSerializeSettings(SettingsFile);
+                ProtectedSettings = DeSerializeSettings(SettingsFile);
             }
-            if (Settings == null) {
-                _Settings = new Settings();
+            if (ProtectedSettings == null) {
+                ProtectedSettings = new ProtectedSettings();
             }
-
-            ApplyProxySettings(Settings);
-            Settings.ConfigurationChanged += (s, e) => {
-                ApplyProxySettings((Settings)s);
-            };
-
-            if (Settings.Profiles == null || Settings.Profiles.Count == 0) {
-                Settings.Profiles = new List<Profile>();
-                Settings.Profiles.Add(new Profile());
+            if (ProtectedSettings.Profiles == null || ProtectedSettings.Profiles.Count == 0) {
+                ProtectedSettings.Profiles = new List<ProtectedProfile>();
+                ProtectedSettings.Profiles.Add(new ProtectedProfile());
             }
 
             if (!File.Exists(SettingsFile)) {
                 Save();
             }
 
+            ApplyAppTheme(ProtectedSettings);
+            ApplyProxySettings(ProtectedSettings);
+            InitializeSafeSettings(ProtectedSettings);
+
+            // init language
+            _Settings.LanguageFile = LanguageManager.Initialize(InitFolder(AppPath, LOCALE_DIR), _Settings.LanguageFile);
+        }
+
+        private void InitializeSafeSettings(ProtectedSettings settings) {
+            _Settings = new Settings();
+            _Settings.AppTheme = settings.AppTheme;
+            _Settings.ThemeAccent = settings.ThemeAccent;
+
+            ProfileManager.PendingProfiles.Clear();
+            LoginManager loginManager = App.Kernel.Get<LoginManager>();
+            foreach (ProtectedProfile protectedProfile in settings.Profiles) {
+                Profile safeProfile = new Profile();
+                safeProfile.Id = protectedProfile.Id;
+                safeProfile.Name = protectedProfile.Name;
+                safeProfile.ImagePath = protectedProfile.ImagePath;
+                safeProfile.KBLCServiceEnabled = protectedProfile.KBLCServiceEnabled;
+                safeProfile.UpdateEngineEnabled = protectedProfile.UpdateEngineEnabled;
+                safeProfile.LaunchMode = protectedProfile.LaunchMode;
+                safeProfile.GameModel = new GameModel(protectedProfile.GameModel);
+                safeProfile.News = new NewsData(protectedProfile.News);
+                safeProfile.Rotation = new RotationData(protectedProfile.Rotation);
+                ProfileManager.PendingProfiles.Add(safeProfile);
+                if (safeProfile.Id == settings.DefaultProfile) {
+                    ProfileManager.PendingDefaultProfile = safeProfile;
+                }
+                loginManager.UpdateCredentials(safeProfile, new LoginData(protectedProfile.Login));
+            }
+            ProfileManager.ApplyChanges();
+        }
+
+        private void ApplyAppTheme(ProtectedSettings ProtectedSettings) {
             Tuple<AppTheme, Accent> currentTheme = ThemeManager.DetectAppStyle(Application.Current);
             if (currentTheme == null) {
                 return;
             }
             AppTheme appTheme = null;
             Accent themeAccent = null;
-            if (Settings.AppTheme != null) {
-                appTheme = ThemeManager.GetAppTheme(Settings.AppTheme);
+            if (ProtectedSettings.AppTheme != null) {
+                appTheme = ThemeManager.GetAppTheme(ProtectedSettings.AppTheme);
             }
             if (appTheme == null) {
                 appTheme = currentTheme.Item1;
             }
-            if (Settings.ThemeAccent != null) {
-                themeAccent = ThemeManager.GetAccent(Settings.ThemeAccent);
+            if (ProtectedSettings.ThemeAccent != null) {
+                themeAccent = ThemeManager.GetAccent(ProtectedSettings.ThemeAccent);
             }
             if (themeAccent == null) {
                 themeAccent = currentTheme.Item2;
             }
-            Settings.AppTheme = appTheme.Name;
-            Settings.ThemeAccent = themeAccent.Name;
+            ProtectedSettings.AppTheme = appTheme.Name;
+            ProtectedSettings.ThemeAccent = themeAccent.Name;
             ThemeManager.ChangeAppStyle(Application.Current, themeAccent, appTheme);
         }
 
-        public void Save() {
-            XmlSerializer writer = new XmlSerializer(typeof(Settings));
-            using (var file = new StreamWriter(SettingsFile)) {
-                writer.Serialize(file, Settings);
-            }
-        }
-
-        private void ApplyProxySettings(Settings settings) {
+        private void ApplyProxySettings(ProtectedSettings settings) {
             ProxySetting proxy = settings.Proxy;
             if (!proxy.IsEnabled) {
                 WebClientEx.ProxyConfig = null;
@@ -200,12 +263,21 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private static Settings DeSerializeSettings(string filepath) {
-            Settings settings = new Settings();
+        #endregion Initialization
+
+        public void Save() {
+            XmlSerializer writer = new XmlSerializer(typeof(ProtectedSettings));
+            using (var file = new StreamWriter(SettingsFile)) {
+                writer.Serialize(file, Settings);
+            }
+        }
+
+        private static ProtectedSettings DeSerializeSettings(string filepath) {
+            ProtectedSettings settings = new ProtectedSettings();
             if (File.Exists(filepath)) {
-                XmlSerializer reader = new XmlSerializer(typeof(Settings));
+                XmlSerializer reader = new XmlSerializer(typeof(ProtectedSettings));
                 using (var file = new StreamReader(filepath)) {
-                    settings = (Settings)reader.Deserialize(file);
+                    settings = (ProtectedSettings)reader.Deserialize(file);
                 }
             }
             return settings;

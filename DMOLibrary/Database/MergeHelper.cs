@@ -20,8 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AdvancedLauncher.SDK.Model.Entity;
 using DMOLibrary.Database.Context;
-using DMOLibrary.Database.Entity;
 
 namespace DMOLibrary.Database {
 

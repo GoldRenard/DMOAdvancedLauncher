@@ -18,8 +18,7 @@
 
 using System;
 using System.ComponentModel;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;

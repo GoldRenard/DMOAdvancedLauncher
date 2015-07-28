@@ -24,17 +24,15 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.Management;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.Tools;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
-using DMOLibrary.Database.Entity;
-using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls;
 using Ninject;
@@ -65,7 +63,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         private TaskEntry LoadingTask;
         private readonly BackgroundWorker MainWorker = new BackgroundWorker();
-        private AbstractWebProfile WebProfile = null;
+        private IWebProfile WebProfile = null;
         private RotationElement tempRotationElement = null;
 
         private HaguruLoader loader = new HaguruLoader() {
@@ -140,8 +138,8 @@ namespace AdvancedLauncher.UI.Controls {
                     GuildName = ProfileManager.CurrentProfile.Rotation.Guild;
                     TamerName = ProfileManager.CurrentProfile.Rotation.Tamer;
 
-                    GameModel model = ProfileManager.CurrentProfile.GameModel;
-                    DMOProfile profile = GameManager.GetConfiguration(model).Profile;
+                    IGameModel model = ProfileManager.CurrentProfile.GameModel;
+                    IGameProfile profile = GameManager.GetConfiguration(model).Profile;
 
                     //Проверяем, доступен ли веб-профиль и необходимая информация
                     WebProfile = profile.GetWebProfile();

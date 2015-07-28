@@ -59,11 +59,12 @@ namespace AdvancedLauncher.UI.Controls {
                 ResetAll();
 
                 IsPreventPassChange = true;
-                if (settingsContainer.Proxy.Credentials.SecurePassword != null) {
+                // TODO Proxy settings
+                /*if (settingsContainer.Proxy.Credentials.SecurePassword != null) {
                     ProxyPassword.Password = "empty_pass";
                 } else {
                     ProxyPassword.Clear();
-                }
+                }*/
                 IsPreventPassChange = false;
 
                 InitializeColorTheme();
@@ -89,8 +90,9 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void ResetAll() {
-            settingsContainer = new Settings(EnvironmentManager.Settings, true);
-            ProxySettings.DataContext = settingsContainer.Proxy;
+            settingsContainer = new Settings(EnvironmentManager.Settings);
+            // TODO Proxy settings
+            //ProxySettings.DataContext = settingsContainer.Proxy;
             ComboBoxLanguage.SelectedIndex = CurrentLangIndex;
             BaseColorsList.SelectedItem = CurrentAppTheme;
             AccentColorsList.SelectedItem = CurrentAccent;
@@ -224,7 +226,8 @@ namespace AdvancedLauncher.UI.Controls {
             if (IsPreventPassChange) {
                 return;
             }
-            settingsContainer.Proxy.Credentials.SecurePassword = ProxyPassword.SecurePassword;
+            // TODO Proxy settings
+            //settingsContainer.Proxy.Credentials.SecurePassword = ProxyPassword.SecurePassword;
         }
     }
 }

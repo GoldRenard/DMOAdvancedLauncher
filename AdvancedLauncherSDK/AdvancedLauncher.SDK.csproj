@@ -33,30 +33,63 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IFileSystem.cs" />
+    <Compile Include="Management\Configuration\AbstractConfiguration.cs" />
+    <Compile Include="Management\FileSystemManager.cs" />
+    <Compile Include="Management\IConfigurationManager.cs" />
+    <Compile Include="Management\IFileSystemManager.cs" />
+    <Compile Include="Management\Configuration\IGameConfiguration.cs" />
+    <Compile Include="Management\ILanguageManager.cs" />
+    <Compile Include="Management\ILogManager.cs" />
+    <Compile Include="Model\Entity\BaseEntity.cs" />
+    <Compile Include="Model\Entity\Digimon.cs" />
+    <Compile Include="Model\Entity\DigimonType.cs" />
+    <Compile Include="Model\Entity\Guild.cs" />
+    <Compile Include="Model\Entity\Server.cs" />
+    <Compile Include="Model\Entity\Tamer.cs" />
+    <Compile Include="Model\Entity\TamerType.cs" />
+    <Compile Include="Model\Events\DownloadCompleteEventArgs.cs" />
+    <Compile Include="Model\Events\DownloadStatusEventArgs.cs" />
+    <Compile Include="Model\Events\LoginCompleteEventArgs.cs" />
+    <Compile Include="Model\Events\LoginStateEventArgs.cs" />
+    <Compile Include="Model\LanguageModel.cs" />
+    <Compile Include="Model\Web\IGameProfile.cs" />
     <Compile Include="Management\Commands\AbstractCommand.cs" />
     <Compile Include="Management\Commands\ICommand.cs" />
     <Compile Include="Management\Execution\AbstractLauncher.cs" />
     <Compile Include="Management\Execution\ILauncher.cs" />
     <Compile Include="Management\ICommandManager.cs" />
+    <Compile Include="Management\IEnvironmentManager.cs" />
+    <Compile Include="Management\IGameUpdateManager.cs" />
+    <Compile Include="Management\ILauncherManager.cs" />
     <Compile Include="Management\IManager.cs" />
+    <Compile Include="Management\IProfileManager.cs" />
     <Compile Include="Management\ITaskManager.cs" />
     <Compile Include="Management\IUpdateManager.cs" />
     <Compile Include="Model\Config\IGameModel.cs" />
     <Compile Include="Model\Config\INewsData.cs" />
+    <Compile Include="Model\Config\IProfile.cs" />
     <Compile Include="Model\Config\IRotationData.cs" />
+    <Compile Include="Model\Config\ISettings.cs" />
+    <Compile Include="Model\Events\LockedEventArgs.cs" />
+    <Compile Include="Model\Events\UpdateStatusEventHandler.cs" />
     <Compile Include="Model\Events\WriteDirectoryEventArgs.cs" />
     <Compile Include="Model\TaskEntry.cs" />
     <Compile Include="Model\VersionPair.cs" />
+    <Compile Include="Model\Web\INewsProfile.cs" />
+    <Compile Include="Model\Web\IWebProfile.cs" />
+    <Compile Include="Model\NewsItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -17,25 +17,29 @@
 // ======================================================================
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Protected;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
-using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal sealed class LoginManager : ILoginManager {
+    internal sealed class LoginManager {
         private HashSet<string> failedLogin = new HashSet<string>();
 
         private ProgressDialogController controller;
 
         public event LoginCompleteEventHandler LoginCompleted;
+
+        private ConcurrentDictionary<IProfile, LoginData> CredentialsCollection = new ConcurrentDictionary<IProfile, LoginData>();
 
         [Inject]
         public ILanguageManager LanguageManager {
@@ -52,30 +56,25 @@ namespace AdvancedLauncher.Management {
             get; set;
         }
 
-        public void Initialize() {
-            // nothing to do here
-        }
-
-        public void Login() {
-            Login(ProfileManager.CurrentProfile);
-        }
-
-        public void Login(Profile profile) {
-            if (!failedLogin.Contains(profile.Login.User)) {
-                if (GameManager.GetConfiguration(profile.GameModel).IsLastSessionAvailable && !string.IsNullOrEmpty(profile.Login.LastSessionArgs)) {
-                    ShowLastSessionDialog(profile);
-                    return;
-                }
-                if (profile.Login.IsCorrect) {
-                    LoginDialogData loginData = new LoginDialogData() {
-                        Username = profile.Login.User,
-                        Password = PassEncrypt.ConvertToUnsecureString(profile.Login.SecurePassword)
-                    };
-                    ShowLoggingInDialog(loginData);
-                    return;
+        public void Login(IProfile profile) {
+            LoginData credentials = GetCredentials(profile);
+            if (credentials != null) {
+                if (!failedLogin.Contains(credentials.User)) {
+                    if (GameManager.GetConfiguration(profile.GameModel).IsLastSessionAvailable && !string.IsNullOrEmpty(credentials.LastSessionArgs)) {
+                        ShowLastSessionDialog(profile);
+                        return;
+                    }
+                    if (credentials.IsCorrect) {
+                        LoginDialogData loginData = new LoginDialogData() {
+                            Username = credentials.User,
+                            Password = PassEncrypt.ConvertToUnsecureString(credentials.SecurePassword)
+                        };
+                        ShowLoggingInDialog(loginData);
+                        return;
+                    }
                 }
             }
-            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, profile.Login.User);
+            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, credentials.User);
         }
 
         private async void ShowLoginDialog(string title, string message, string initUserName) {
@@ -99,7 +98,7 @@ namespace AdvancedLauncher.Management {
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
-            DMOProfile dmoProfile = GameManager.GetConfiguration(model).Profile;
+            IGameProfile dmoProfile = GameManager.GetConfiguration(model).Profile;
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
             };
@@ -109,7 +108,7 @@ namespace AdvancedLauncher.Management {
             dmoProfile.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
         }
 
-        private async void ShowLastSessionDialog(Profile profile) {
+        private async void ShowLastSessionDialog(IProfile profile) {
             MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(LanguageManager.Model.UseLastSession, string.Empty,
                 MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
                     AffirmativeButtonText = LanguageManager.Model.Yes,
@@ -117,14 +116,17 @@ namespace AdvancedLauncher.Management {
                     ColorScheme = MetroDialogColorScheme.Accented
                 });
 
-            if (result == MessageDialogResult.Affirmative) {
-                if (LoginCompleted != null) {
-                    LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.SUCCESS,
-                        profile.Login.LastSessionArgs, profile.Login.User));
+            LoginData credentials = GetCredentials(profile);
+            if (credentials != null) {
+                if (result == MessageDialogResult.Affirmative) {
+                    if (LoginCompleted != null) {
+                        LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.SUCCESS,
+                            credentials.LastSessionArgs, credentials.User));
+                    }
+                    return;
                 }
-                return;
             }
-            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, profile.Login.User);
+            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, credentials.User);
         }
 
         private async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
@@ -154,6 +156,26 @@ namespace AdvancedLauncher.Management {
                 message += string.Format(" ({0} {1})", LanguageManager.Model.LoginWasError, e.LastError);
             }
             controller.SetMessage(message);
+        }
+
+        public bool UpdateCredentials(IProfile profile, LoginData data) {
+            return CredentialsCollection.AddOrUpdate(profile, data, (key, oldValue) => data).Equals(data);
+        }
+
+        public bool UpdateLastSessionArgs(IProfile profile, string args) {
+            LoginData data = GetCredentials(profile);
+            if (data != null) {
+                data.LastSessionArgs = args;
+            }
+            return data != null;
+        }
+
+        public LoginData GetCredentials(IProfile profile) {
+            LoginData data = null;
+            if (CredentialsCollection.TryGetValue(profile, out data)) {
+                return data;
+            }
+            return null;
         }
     }
 }

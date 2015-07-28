@@ -18,7 +18,7 @@
 
 using System;
 using System.Threading.Tasks;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;

@@ -24,12 +24,10 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
-using DMOLibrary.DMOFileSystem;
 using Microsoft.Win32;
 using Ninject;
 
@@ -40,7 +38,7 @@ namespace AdvancedLauncher.UI.Pages {
         private BitmapSource SelectedImage;
         private ResourceViewModel ResourceModel = new ResourceViewModel();
         private TargaImage TarImage = new TargaImage();
-        private DMOFileSystem FileSystem;
+        private IFileSystemManager FileSystem;
 
         //Microsoft.Win32.OpenFileDialog oFileDialog = new Microsoft.Win32.OpenFileDialog() { Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png" };
         private OpenFileDialog oFileDialog = new OpenFileDialog() {
@@ -82,7 +80,7 @@ namespace AdvancedLauncher.UI.Pages {
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
         protected override void ProfileChanged(object sender, EventArgs e) {
-            FileSystem = new DMOFileSystem();
+            FileSystem = App.Kernel.Get<IFileSystemManager>();
             LoadResourceList();
             ResetCurrent();
             ResetSelect();
@@ -95,7 +93,7 @@ namespace AdvancedLauncher.UI.Pages {
         public override void PageActivate() {
             base.PageActivate();
             try {
-                GameModel model = ProfileManager.CurrentProfile.GameModel;
+                IGameModel model = ProfileManager.CurrentProfile.GameModel;
                 FileSystem.Open(FileAccess.ReadWrite, 16, GameManager.GetHFPath(model), GameManager.GetPFPath(model));
                 if (!IsGameImageLoaded && ItemsComboBox.Items.Count > 0) {
                     if (ItemsComboBox.SelectedIndex == 0) {

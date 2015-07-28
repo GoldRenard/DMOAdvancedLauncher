@@ -20,7 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using DMOLibrary.Database.Entity;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Entity;
 using Ninject;
 
 namespace AdvancedLauncher.Model {

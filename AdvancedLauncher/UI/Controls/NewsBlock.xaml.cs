@@ -29,12 +29,13 @@ using System.Windows.Documents;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.Tools;
 using DMOLibrary;
-using DMOLibrary.Profiles;
 using Newtonsoft.Json.Linq;
 using Ninject;
 
@@ -59,7 +60,7 @@ namespace AdvancedLauncher.UI.Controls {
         private JoymaxViewModel JoymaxVM = new JoymaxViewModel();
         private List<JoymaxItemViewModel> JoymaxNews = new List<JoymaxItemViewModel>();
 
-        private delegate void DoAddJoyNews(List<DMONewsProfile.NewsItem> news);
+        private delegate void DoAddJoyNews(List<NewsItem> news);
 
         private delegate void DoLoadJoymax(List<JoymaxItemViewModel> news);
 
@@ -136,7 +137,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void ReloadNews(object sender, EventArgs e) {
-            Profile currentProfile = ProfileManager.CurrentProfile;
+            IProfile currentProfile = ProfileManager.CurrentProfile;
             if (_jsonUrl != currentProfile.News.TwitterUrl) {
                 _jsonUrl = currentProfile.News.TwitterUrl;
             }
@@ -446,14 +447,14 @@ namespace AdvancedLauncher.UI.Controls {
         #region Joymax news
 
         private void GetJoymaxNews() {
-            DMOProfile currentProfile = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile;
+            IGameProfile currentProfile = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile;
             if (currentProfile.NewsProfile != null) {
-                List<DMONewsProfile.NewsItem> news;
+                List<NewsItem> news;
                 try {
                     news = currentProfile.NewsProfile.GetNews();
                 } catch (WebException e) {
-                    news = new List<DMONewsProfile.NewsItem>();
-                    news.Add(new DMONewsProfile.NewsItem() {
+                    news = new List<NewsItem>();
+                    news.Add(new NewsItem() {
                         Subject = e.Message,
                         Content = e.Message,
                         Date = DateTime.Now.ToString(),
@@ -464,7 +465,7 @@ namespace AdvancedLauncher.UI.Controls {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) => {
                     Rect viewbox;
                     string mode;
-                    foreach (DMONewsProfile.NewsItem n in news) {
+                    foreach (NewsItem n in news) {
                         mode = n.Mode;
                         if (mode == "NOTICE") {
                             viewbox = new Rect(215, 54, 90, 18);

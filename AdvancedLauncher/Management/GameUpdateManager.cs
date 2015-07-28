@@ -20,12 +20,11 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Events;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 using DMOLibrary;
-using DMOLibrary.DMOFileSystem;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using Ninject;
@@ -33,7 +32,7 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     public class GameUpdateManager : IGameUpdateManager {
-        private ConcurrentDictionary<IGameModel, DMOFileSystem> FileSystems = new ConcurrentDictionary<IGameModel, DMOFileSystem>();
+        private ConcurrentDictionary<IGameModel, IFileSystemManager> FileSystems = new ConcurrentDictionary<IGameModel, IFileSystemManager>();
 
         [Inject]
         public IConfigurationManager GameManager {
@@ -44,12 +43,12 @@ namespace AdvancedLauncher.Management {
             // nothing to do here
         }
 
-        private DMOFileSystem GetFileSystem(IGameModel model) {
-            DMOFileSystem fileSystem;
+        private IFileSystemManager GetFileSystem(IGameModel model) {
+            IFileSystemManager fileSystem;
             if (FileSystems.TryGetValue(model, out fileSystem)) {
                 return fileSystem;
             }
-            fileSystem = new DMOFileSystem();
+            fileSystem = App.Kernel.Get<IFileSystemManager>();
             FileSystems.TryAdd(model, fileSystem);
             fileSystem.WriteStatusChanged += (s, e) => {
                 OnStatusChanged(UpdateStatusEventEventArgs.Stage.INSTALLING, 1, 1, e.FileNumber, e.FileCount, 0, 1);
@@ -59,7 +58,7 @@ namespace AdvancedLauncher.Management {
 
         public bool ImportPackages(IGameModel model) {
             if (Directory.Exists(GameManager.GetImportPath(model))) {
-                DMOFileSystem fs = GetFileSystem(model);
+                IFileSystemManager fs = GetFileSystem(model);
                 bool IsOpened = false;
                 try {
                     IsOpened = fs.Open(FileAccess.Write, 16, GameManager.GetHFPath(model), GameManager.GetPFPath(model));

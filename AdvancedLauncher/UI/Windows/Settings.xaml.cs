@@ -25,8 +25,8 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using AdvancedLauncher.Management.Execution;
-using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
 using Ninject;
@@ -103,11 +103,11 @@ namespace AdvancedLauncher.UI.Windows {
             NotifyPropertyChanged("IsSelectedNotDefault");
 
             IsPreventPassChange = true;
-            if (SelectedProfile.Login.SecurePassword != null) {
+            /*if (SelectedProfile.Login.SecurePassword != null) {
                 pbPass.Password = "empty_pass";
             } else {
                 pbPass.Clear();
-            }
+            }*/
             IsPreventPassChange = false;
         }
 
@@ -289,7 +289,7 @@ namespace AdvancedLauncher.UI.Windows {
             if (IsPreventPassChange) {
                 return;
             }
-            SelectedProfile.Login.SecurePassword = pbPass.SecurePassword;
+            //SelectedProfile.Login.SecurePassword = pbPass.SecurePassword;
         }
 
         private void Run_Loaded(object sender, RoutedEventArgs e) {

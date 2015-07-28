@@ -16,10 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.Management.Interfaces;
-using Ninject;
-using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Commands;
+using Ninject;
 
 namespace AdvancedLauncher.Management.Commands {
 

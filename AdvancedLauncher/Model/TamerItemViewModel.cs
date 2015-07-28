@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System.Windows.Media;
-using DMOLibrary.Database.Entity;
+using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.Model {
 

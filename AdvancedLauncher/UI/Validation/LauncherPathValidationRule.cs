@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System.Windows.Controls;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Validation {

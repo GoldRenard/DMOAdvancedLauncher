@@ -21,8 +21,6 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using AdvancedLauncher.Management.Commands;
-using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using log4net.Core;

@@ -47,7 +47,7 @@ namespace AdvancedLauncher.UI.Pages {
         };
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 

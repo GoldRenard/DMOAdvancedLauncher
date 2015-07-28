@@ -20,10 +20,9 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace AdvancedLauncher.Management.Execution {
+namespace AdvancedLauncher.SDK.Management.Execution {
 
     public abstract class AbstractLauncher : ILauncher {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(AbstractLauncher));
 
         /// <summary>
         /// Is current launcher supported in the envronment
@@ -88,17 +87,11 @@ namespace AdvancedLauncher.Management.Execution {
         /// <param name="arguments">Arguments</param>
         /// <returns> <see langword="true"/> if it succeeds, <see langword="false"/> if it fails. </returns>
         public static bool StartProcess(string application, string arguments) {
-            try {
-                Process proc = new Process();
-                proc.StartInfo.FileName = application;
-                proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(application);
-                proc.StartInfo.Arguments = arguments;
-                proc.Start();
-            } catch (Exception e) {
-                LOGGER.Debug("Failed to start: [program={0}, commandline={1}]", e);
-                return false;
-            }
-            return true;
+            Process proc = new Process();
+            proc.StartInfo.FileName = application;
+            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(application);
+            proc.StartInfo.Arguments = arguments;
+            return proc.Start();
         }
     }
 }

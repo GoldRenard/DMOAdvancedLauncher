@@ -22,9 +22,9 @@ namespace AdvancedLauncher.Management.Configuration {
 
     public class KDMOIMBCConfiguration : KDMODMConfiguration {
 
-        public new GameManager.GameType GameType {
+        public override string GameType {
             get {
-                return GameManager.GameType.KDMO_IMBC;
+                return "KDMO_IMBC";
             }
         }
 

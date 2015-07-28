@@ -21,7 +21,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using AdvancedLauncher.Tools;
 
-namespace AdvancedLauncher.Management.Execution {
+namespace AdvancedLauncher.Tools {
 
     /// <summary>
     /// A utility class to determine a process parent.

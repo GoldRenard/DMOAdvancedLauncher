@@ -60,9 +60,9 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
-        public override GameManager.GameType GameType {
+        public override string GameType {
             get {
-                return GameManager.GameType.ADMO;
+                return "ADMO";
             }
         }
 

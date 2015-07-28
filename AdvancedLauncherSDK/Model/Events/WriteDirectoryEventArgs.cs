@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// DMOLibrary
 // Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -16,45 +16,41 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Xml.Serialization;
-using AdvancedLauncher.SDK.Model.Config;
+using System;
 
-namespace AdvancedLauncher.Model.Config {
+namespace AdvancedLauncher.SDK.Model.Events {
 
-    public class RotationData : IRotationData {
+    /// <summary>
+    /// DMO File System Write status change event handler
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Event arguments</param>
+    public delegate void WriteStatusChangedEventHandler(object sender, WriteDirectoryEventArgs e);
 
-        [XmlAttribute("Guild")]
-        public string Guild {
-            set;
+    /// <summary>
+    /// Write directory status change event args
+    /// </summary>
+    public class WriteDirectoryEventArgs : EventArgs {
+
+        /// <summary>
+        /// Current file number
+        /// </summary>
+        public int FileNumber {
             get;
+            private set;
         }
 
-        [XmlAttribute("Tamer")]
-        public string Tamer {
-            set;
+        /// <summary>
+        /// Files count
+        /// </summary>
+        public int FileCount {
             get;
+            private set;
         }
 
-        [XmlAttribute("ServerId")]
-        public byte ServerId {
-            set;
-            get;
-        }
-
-        [XmlAttribute("UpdateInterval")]
-        public int UpdateInterval {
-            set;
-            get;
-        }
-
-        public RotationData(IRotationData rd) {
-            Guild = rd.Guild;
-            Tamer = rd.Tamer;
-            ServerId = rd.ServerId;
-            UpdateInterval = rd.UpdateInterval;
-        }
-
-        public RotationData() {
+        public WriteDirectoryEventArgs(int FileNumber, int FileCount) {
+            this.FileNumber = FileNumber;
+            this.FileCount = FileCount;
         }
     }
 }

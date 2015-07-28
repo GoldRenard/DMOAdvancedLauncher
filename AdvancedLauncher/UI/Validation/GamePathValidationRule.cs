@@ -25,7 +25,7 @@ namespace AdvancedLauncher.UI.Validation {
     public class GamePathValidationRule : AbstractValidationRule {
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 

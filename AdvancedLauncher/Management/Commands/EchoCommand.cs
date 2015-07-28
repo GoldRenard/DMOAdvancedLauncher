@@ -18,6 +18,7 @@
 
 using System;
 using System.Text;
+using AdvancedLauncher.SDK.Management.Commands;
 
 namespace AdvancedLauncher.Management.Commands {
 

@@ -19,8 +19,8 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using AdvancedLauncher.Management.Commands;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Commands;
 using Ninject;
 
 namespace AdvancedLauncher.Management {

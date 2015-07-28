@@ -16,10 +16,24 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.Management.Interfaces {
+using System;
+using System.Collections.Generic;
+using AdvancedLauncher.SDK.Management.Commands;
 
-    public interface IUpdateManager : IManager {
+namespace AdvancedLauncher.SDK.Management {
 
-        void CheckUpdates();
+    public interface ICommandManager : IManager {
+
+        bool Send(string input);
+
+        void RegisterCommand(ICommand Command);
+
+        bool UnRegisterCommand(string name);
+
+        bool UnRegisterCommand(ICommand command);
+
+        IDictionary<String, ICommand> GetCommands();
+
+        List<string> GetRecent();
     }
 }

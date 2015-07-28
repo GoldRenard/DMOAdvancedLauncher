@@ -45,11 +45,4 @@ namespace DMOLibrary.Events {
     /// <param name="sender">Sender</param>
     /// <param name="e">Event arguments</param>
     public delegate void DownloadStatusChangedEventHandler(object sender, DownloadStatusEventArgs e);
-
-    /// <summary>
-    /// DMO File System Write status change event handler
-    /// </summary>
-    /// <param name="sender">Sender</param>
-    /// <param name="e">Event arguments</param>
-    public delegate void WriteStatusChangedEventHandler(object sender, WriteDirectoryEventArgs e);
 }

@@ -26,6 +26,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
 using DMOLibrary.DMOFileSystem;
@@ -54,7 +55,7 @@ namespace AdvancedLauncher.UI.Pages {
         private bool IsGameImageLoaded = false;
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 

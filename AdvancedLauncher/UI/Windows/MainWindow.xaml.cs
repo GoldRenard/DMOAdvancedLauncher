@@ -23,6 +23,8 @@ using System.Windows.Media;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Model.Events;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Pages;
 using MahApps.Metro.Controls;
@@ -71,7 +73,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 

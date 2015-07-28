@@ -20,7 +20,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AdvancedLauncher.Management.Security {
+namespace AdvancedLauncher.Tools {
 
     /// <summary>
     /// Generates a 16 byte Unique Identification code of a computer

@@ -22,9 +22,9 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
-using AdvancedLauncher.Management;
-using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management.Execution;
+using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
 using Ninject;
 
@@ -55,13 +55,6 @@ namespace AdvancedLauncher.Model.Config {
             }
             get {
                 return _Name;
-            }
-        }
-
-        [XmlIgnore]
-        public string FullName {
-            get {
-                return string.Format("{0} ({1})", Name, GameType);
             }
         }
 
@@ -245,7 +238,7 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        [XmlIgnore]
+        /*[XmlIgnore]
         public string GameType {
             set {
             }
@@ -288,6 +281,13 @@ namespace AdvancedLauncher.Model.Config {
                 return (byte)GameModel.Type;
             }
         }
+        
+        [XmlIgnore]
+        public string FullName {
+            get {
+                return string.Format("{0} ({1})", Name, GameType);
+            }
+        }*/
 
         #endregion Game Environment
 

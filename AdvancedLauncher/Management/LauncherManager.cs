@@ -23,6 +23,7 @@ using System.Linq;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management.Execution;
 using Ninject;
 
 namespace AdvancedLauncher.Management {

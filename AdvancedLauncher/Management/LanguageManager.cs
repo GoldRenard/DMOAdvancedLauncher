@@ -30,7 +30,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public sealed class LanguageManager : ILanguageManager {
+    internal sealed class LanguageManager : ILanguageManager {
         public const string DefaultName = "en-US";
 
         public static LanguageModel Default = new LanguageModel();

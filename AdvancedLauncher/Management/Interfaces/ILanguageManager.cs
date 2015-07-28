@@ -18,6 +18,7 @@
 
 using System;
 using AdvancedLauncher.Model;
+using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.Management.Interfaces {
 

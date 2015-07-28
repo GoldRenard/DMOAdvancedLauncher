@@ -19,8 +19,9 @@
 using System;
 using System.Collections.Generic;
 using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Management.Security;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
 using DMOLibrary.Events;
 using DMOLibrary.Profiles;
@@ -47,7 +48,7 @@ namespace AdvancedLauncher.Management {
         }
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 
@@ -97,7 +98,7 @@ namespace AdvancedLauncher.Management {
         }
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
-            GameModel model = ProfileManager.CurrentProfile.GameModel;
+            IGameModel model = ProfileManager.CurrentProfile.GameModel;
             DMOProfile dmoProfile = GameManager.GetConfiguration(model).Profile;
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented

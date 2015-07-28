@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Model.Events;
+using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.Management.Interfaces {
 

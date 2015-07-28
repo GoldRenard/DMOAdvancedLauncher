@@ -16,7 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.Management.Commands {
+namespace AdvancedLauncher.SDK.Management.Commands {
 
     public interface ICommand {
 

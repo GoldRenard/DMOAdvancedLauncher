@@ -22,7 +22,7 @@ namespace AdvancedLauncher.Management.Interfaces {
 
     public interface IGameConfiguration {
 
-        GameManager.GameType GameType {
+        string GameType {
             get;
         }
 

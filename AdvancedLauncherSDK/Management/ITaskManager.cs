@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// DMOLibrary
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify
@@ -16,34 +16,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
+using System.Collections.Concurrent;
+using AdvancedLauncher.SDK.Model;
 
-namespace DMOLibrary.Events {
+namespace AdvancedLauncher.SDK.Management {
 
-    /// <summary>
-    /// Write directory status change event args
-    /// </summary>
-    public class WriteDirectoryEventArgs : EventArgs {
+    public interface ITaskManager : IManager {
 
-        /// <summary>
-        /// Current file number
-        /// </summary>
-        public int FileNumber {
+        ConcurrentBag<TaskEntry> Tasks {
             get;
-            private set;
         }
 
-        /// <summary>
-        /// Files count
-        /// </summary>
-        public int FileCount {
+        bool IsBusy {
             get;
-            private set;
         }
 
-        public WriteDirectoryEventArgs(int FileNumber, int FileCount) {
-            this.FileNumber = FileNumber;
-            this.FileCount = FileCount;
-        }
+        void CloseApp();
     }
 }

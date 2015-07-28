@@ -93,7 +93,6 @@
     <Compile Include="Events\DownloadCompleteEventArgs.cs" />
     <Compile Include="Events\DownloadStatusEventArgs.cs" />
     <Compile Include="Events\Events.cs" />
-    <Compile Include="Events\WriteDirectoryEventArgs.cs" />
     <Compile Include="Events\LoginCompleteEventArgs.cs" />
     <Compile Include="Events\LoginStateEventArgs.cs" />
     <Compile Include="Profiles\AbstractWebProfile.cs" />
@@ -122,6 +121,12 @@
     <EmbeddedResource Include="Database\Migrations\201503251143011_InitialMigration.resx">
       <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdvancedLauncherSDK\AdvancedLauncher.SDK.csproj">
+      <Project>{d1e7d106-9909-4162-9d22-8798317915af}</Project>
+      <Name>AdvancedLauncher.SDK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

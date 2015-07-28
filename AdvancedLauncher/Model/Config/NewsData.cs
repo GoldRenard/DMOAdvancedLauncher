@@ -17,10 +17,11 @@
 // ======================================================================
 
 using System.Xml.Serialization;
+using AdvancedLauncher.SDK.Model.Config;
 
 namespace AdvancedLauncher.Model.Config {
 
-    public class NewsData {
+    public class NewsData : INewsData {
 
         [XmlAttribute("FirstTab")]
         public byte FirstTab {
@@ -34,7 +35,7 @@ namespace AdvancedLauncher.Model.Config {
             get;
         }
 
-        public NewsData(NewsData nd) {
+        public NewsData(INewsData nd) {
             FirstTab = nd.FirstTab;
             TwitterUrl = nd.TwitterUrl;
         }

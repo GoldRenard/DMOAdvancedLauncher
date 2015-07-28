@@ -20,7 +20,8 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Windows;
-using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.Management {
 
@@ -28,20 +29,15 @@ namespace AdvancedLauncher.Management {
     /// цель которого - не дать приложению закрыться, пока есть хоть одна задача </summary>
     public class TaskManager : ITaskManager {
 
-        /// <summary> Структура задачи </summary>
-        public struct Task {
-            public object Owner;
-        }
-
         public void Initialize() {
             // nothing to do here
         }
 
         /// <summary> Список задач </summary>
-        private ConcurrentBag<Task> _Tasks = new ConcurrentBag<Task>();
+        private ConcurrentBag<TaskEntry> _Tasks = new ConcurrentBag<TaskEntry>();
 
         /// <summary> Предоставляет ссылку на список задач </summary>
-        public ConcurrentBag<Task> Tasks {
+        public ConcurrentBag<TaskEntry> Tasks {
             get {
                 return _Tasks;
             }

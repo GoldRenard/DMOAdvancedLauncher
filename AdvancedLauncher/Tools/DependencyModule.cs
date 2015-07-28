@@ -22,6 +22,9 @@ using AdvancedLauncher.Management.Configuration;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Commands;
+using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.UI.Windows;
 using Ninject;
 using Ninject.Modules;
@@ -55,7 +58,7 @@ namespace AdvancedLauncher.Tools {
             Bind<ICommand>().To<LicenseCommand>().InSingletonScope();
 
             // Game Configurations
-            Bind<IGameManager>().To<GameManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IConfigurationManager>().To<ConfigurationManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IGameConfiguration>().To<JoymaxConfiguration>().InSingletonScope();
             Bind<IGameConfiguration>().To<AeriaConfiguration>().InSingletonScope();
             Bind<IGameConfiguration>().To<KDMODMConfiguration>().InSingletonScope();

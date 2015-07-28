@@ -18,7 +18,7 @@
 
 using System.Security;
 using System.Xml.Serialization;
-using AdvancedLauncher.Management.Security;
+using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.Model.Config {
 

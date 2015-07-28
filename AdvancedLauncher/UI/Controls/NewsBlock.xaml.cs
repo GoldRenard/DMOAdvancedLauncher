@@ -67,7 +67,7 @@ namespace AdvancedLauncher.UI.Controls {
         private string _jsonUrl;
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 

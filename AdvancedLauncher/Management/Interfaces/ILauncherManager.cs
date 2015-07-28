@@ -19,8 +19,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Execution;
 
 namespace AdvancedLauncher.Management.Interfaces {
 

@@ -27,6 +27,9 @@ using System.Windows.Media.Imaging;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
@@ -60,7 +63,7 @@ namespace AdvancedLauncher.UI.Controls {
         private static Brush medalSilver = new SolidColorBrush(Color.FromRgb(180, 180, 180));
         private static Brush medalBronze = new SolidColorBrush(Color.FromRgb(250, 180, 110));
 
-        private TaskManager.Task LoadingTask;
+        private TaskEntry LoadingTask;
         private readonly BackgroundWorker MainWorker = new BackgroundWorker();
         private AbstractWebProfile WebProfile = null;
         private RotationElement tempRotationElement = null;
@@ -99,14 +102,14 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 
         public DigiRotation() {
             App.Kernel.Inject(this);
             InitializeComponent();
-            LoadingTask = new TaskManager.Task() {
+            LoadingTask = new TaskEntry() {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {

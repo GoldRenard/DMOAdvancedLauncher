@@ -27,16 +27,24 @@ namespace AdvancedLauncher.Model.Config {
     public class Settings : INotifyPropertyChanged {
 
         [XmlElement("Language")]
-        public string LanguageFile;
+        public string LanguageFile {
+            get; set;
+        }
 
         [XmlElement("AppTheme")]
-        public string AppTheme;
+        public string AppTheme {
+            get; set;
+        }
 
         [XmlElement("ThemeAccent")]
-        public string ThemeAccent;
+        public string ThemeAccent {
+            get; set;
+        }
 
         [XmlElement("DefaultProfile")]
-        public int DefaultProfile;
+        public int DefaultProfile {
+            get; set;
+        }
 
         private ProxySetting _Proxy = new ProxySetting();
 

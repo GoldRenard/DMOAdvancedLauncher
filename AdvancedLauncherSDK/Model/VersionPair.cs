@@ -1,4 +1,4 @@
-﻿namespace AdvancedLauncher.Model.Config {
+﻿namespace AdvancedLauncher.SDK.Model {
 
     public class VersionPair {
 

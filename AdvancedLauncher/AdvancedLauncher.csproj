@@ -116,28 +116,25 @@
     <Compile Include="Management\Interfaces\IGameUpdateManager.cs" />
     <Compile Include="Management\Interfaces\IGameConfiguration.cs" />
     <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
-    <Compile Include="Management\Interfaces\ICommandManager.cs" />
-    <Compile Include="Management\Commands\ICommand.cs" />
-    <Compile Include="Management\Interfaces\IGameManager.cs" />
+    <Compile Include="Management\Interfaces\IConfigurationManager.cs" />
     <Compile Include="Management\Interfaces\ILauncherManager.cs" />
     <Compile Include="Management\Interfaces\IEnvironmentManager.cs" />
     <Compile Include="Management\Interfaces\ILanguageManager.cs" />
     <Compile Include="Management\Interfaces\ILoginManager.cs" />
-    <Compile Include="Management\Interfaces\IManager.cs" />
     <Compile Include="Management\Interfaces\IProfileManager.cs" />
-    <Compile Include="Management\Interfaces\ITaskManager.cs" />
-    <Compile Include="Management\Interfaces\IUpdateManager.cs" />
     <Compile Include="Management\ServiceHolder.cs" />
     <Compile Include="Model\AbstractContainerViewModel.cs" />
     <Compile Include="Model\AbstractItemViewModel.cs" />
-    <Compile Include="Model\Config\VersionPair.cs" />
+    <Compile Include="Model\Config\GameModel.cs" />
+    <Compile Include="Model\Config\NewsData.cs" />
+    <Compile Include="Model\Config\RotationData.cs" />
     <Compile Include="Model\Events\UpdateStatusEventHandler.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
     <Compile Include="Tools\Utils.cs" />
     <Compile Include="UI\Controls\AbstractFlyout.cs" />
     <Compile Include="UI\Controls\AbstractUserControl.cs" />
     <Compile Include="UI\Extension\AutoScrollBehavior.cs" />
-    <Compile Include="Management\GameManager.cs" />
+    <Compile Include="Management\ConfigurationManager.cs" />
     <Compile Include="Management\LanguageManager.cs" />
     <Compile Include="Management\ProfileManager.cs" />
     <Compile Include="UI\Extension\BindingProxy.cs" />
@@ -188,17 +185,13 @@
     <Compile Include="Model\TamerViewModel.cs" />
     <Compile Include="Model\GuildInfoViewModel.cs" />
     <Compile Include="Management\CommandManager.cs" />
-    <Compile Include="Management\Commands\AbstractCommand.cs" />
     <Compile Include="Management\Commands\HelpCommand.cs" />
     <Compile Include="Management\Commands\EchoCommand.cs" />
     <Compile Include="Management\Commands\ExecCommand.cs" />
     <Compile Include="Management\Commands\ExitCommand.cs" />
     <Compile Include="Management\Commands\LicenseCommand.cs" />
-    <Compile Include="Model\Config\NewsData.cs" />
     <Compile Include="Model\Config\ProxySetting.cs" />
     <Compile Include="Model\Config\RemoteVersion.cs" />
-    <Compile Include="Model\Config\RotationData.cs" />
-    <Compile Include="Model\Config\GameModel.cs" />
     <Compile Include="Model\Config\LoginData.cs" />
     <Compile Include="Model\Config\Profile.cs" />
     <Compile Include="Model\Config\Settings.cs" />
@@ -218,7 +211,6 @@
     <Compile Include="UI\Pages\Personalization.xaml.cs">
       <DependentUpon>Personalization.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Management\Execution\AbstractLauncher.cs" />
     <Compile Include="UI\Extension\DialogsHelper.cs" />
     <Compile Include="UI\Extension\DispatcherHelper.cs" />
     <Compile Include="Management\LauncherManager.cs" />
@@ -226,15 +218,14 @@
     <Compile Include="Management\Execution\AppLocaleLauncher.cs" />
     <Compile Include="Management\Execution\DirectLauncher.cs" />
     <Compile Include="Management\Execution\SteamSensitiveLauncher.cs" />
-    <Compile Include="Management\Security\FingerPrint.cs" />
-    <Compile Include="Management\Execution\InstanceChecker.cs" />
+    <Compile Include="Tools\FingerPrint.cs" />
+    <Compile Include="Tools\InstanceChecker.cs" />
     <Compile Include="Management\EnvironmentManager.cs" />
     <Compile Include="Tools\JpegEncoder.cs" />
-    <Compile Include="Management\Execution\ILauncher.cs" />
     <Compile Include="Tools\NativeMethods.cs" />
-    <Compile Include="Management\Execution\ParentProcessUtilities.cs" />
+    <Compile Include="Tools\ParentProcessUtilities.cs" />
     <Compile Include="UI\Converters\BooleanConverter.cs" />
-    <Compile Include="Management\Security\PassEncrypt.cs" />
+    <Compile Include="Tools\PassEncrypt.cs" />
     <Compile Include="UI\Extension\DependencyObjectExt.cs" />
     <Compile Include="Tools\TargaImage.cs" />
     <Compile Include="Management\TaskManager.cs" />
@@ -446,6 +437,10 @@
     <Resource Include="Resources\app_icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AdvancedLauncherSDK\AdvancedLauncher.SDK.csproj">
+      <Project>{d1e7d106-9909-4162-9d22-8798317915af}</Project>
+      <Name>AdvancedLauncher.SDK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DMOLibrary\DMOLibrary.csproj">
       <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
       <Name>DMOLibrary</Name>

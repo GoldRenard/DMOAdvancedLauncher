@@ -18,6 +18,7 @@
 
 using System.IO;
 using System.Reflection;
+using AdvancedLauncher.SDK.Management.Commands;
 
 namespace AdvancedLauncher.Management.Commands {
 

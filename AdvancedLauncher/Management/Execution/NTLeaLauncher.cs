@@ -26,7 +26,7 @@ namespace AdvancedLauncher.Management.Execution {
     /// <summary>
     /// NTLEA application launcher
     /// </summary>
-    public class NTLeaLauncher : SteamSensitiveLauncher {
+    internal class NTLeaLauncher : SteamSensitiveLauncher {
 
         [Inject]
         public IEnvironmentManager EnvironmentManager {

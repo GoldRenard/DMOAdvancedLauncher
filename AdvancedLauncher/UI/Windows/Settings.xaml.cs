@@ -64,7 +64,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 

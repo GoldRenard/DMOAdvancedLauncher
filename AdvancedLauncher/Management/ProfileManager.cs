@@ -27,7 +27,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class ProfileManager : IProfileManager {
+    internal class ProfileManager : IProfileManager {
 
         #region Properties
 

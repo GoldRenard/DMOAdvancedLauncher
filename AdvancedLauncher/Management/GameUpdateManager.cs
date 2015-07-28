@@ -21,8 +21,9 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Model.Events;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Config;
 using DMOLibrary;
 using DMOLibrary.DMOFileSystem;
 using ICSharpCode.SharpZipLib.Core;
@@ -32,10 +33,10 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     public class GameUpdateManager : IGameUpdateManager {
-        private ConcurrentDictionary<GameModel, DMOFileSystem> FileSystems = new ConcurrentDictionary<GameModel, DMOFileSystem>();
+        private ConcurrentDictionary<IGameModel, DMOFileSystem> FileSystems = new ConcurrentDictionary<IGameModel, DMOFileSystem>();
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 
@@ -43,7 +44,7 @@ namespace AdvancedLauncher.Management {
             // nothing to do here
         }
 
-        private DMOFileSystem GetFileSystem(GameModel model) {
+        private DMOFileSystem GetFileSystem(IGameModel model) {
             DMOFileSystem fileSystem;
             if (FileSystems.TryGetValue(model, out fileSystem)) {
                 return fileSystem;
@@ -56,7 +57,7 @@ namespace AdvancedLauncher.Management {
             return fileSystem;
         }
 
-        public bool ImportPackages(GameModel model) {
+        public bool ImportPackages(IGameModel model) {
             if (Directory.Exists(GameManager.GetImportPath(model))) {
                 DMOFileSystem fs = GetFileSystem(model);
                 bool IsOpened = false;
@@ -79,7 +80,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public bool DownloadUpdates(GameModel model, VersionPair versionPair) {
+        public bool DownloadUpdates(IGameModel model, VersionPair versionPair) {
             bool updateSuccess = true;
             double downloadedContentLenght = 0;
             double WholeContentLength = 0;
@@ -162,7 +163,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public VersionPair CheckUpdates(GameModel model) {
+        public VersionPair CheckUpdates(IGameModel model) {
             string versionFile = GameManager.GetLocalVersionFile(model);
             if (File.Exists(GameManager.GetLocalVersionFile(model))) {
                 int verCurrent = -1;

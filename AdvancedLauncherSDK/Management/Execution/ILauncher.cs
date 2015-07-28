@@ -18,7 +18,7 @@
 
 using System;
 
-namespace AdvancedLauncher.Management.Execution {
+namespace AdvancedLauncher.SDK.Management.Execution {
 
     public interface ILauncher {
 
@@ -48,7 +48,7 @@ namespace AdvancedLauncher.Management.Execution {
         /// </summary>
         /// <param name="application">Path to executable</param>
         /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
-        bool Execute(String application);
+        bool Execute(string application);
 
         /// <summary>
         /// Execute process with arguments
@@ -56,6 +56,6 @@ namespace AdvancedLauncher.Management.Execution {
         /// <param name="application">Path to executable</param>
         /// <param name="arguments">Arguments</param>
         /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
-        bool Execute(String application, String arguments);
+        bool Execute(string application, string arguments);
     }
 }

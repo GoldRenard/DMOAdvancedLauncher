@@ -17,6 +17,7 @@
 // ======================================================================
 
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
 using DMOLibrary.Events;
 
 namespace AdvancedLauncher.Management.Interfaces {

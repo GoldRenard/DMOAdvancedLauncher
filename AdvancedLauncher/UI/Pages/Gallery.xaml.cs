@@ -46,7 +46,7 @@ namespace AdvancedLauncher.UI.Pages {
         private JpegEncoder ImageEncoder = new JpegEncoder();
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 

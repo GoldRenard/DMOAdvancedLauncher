@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Shell;
+using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Interfaces;
@@ -35,11 +36,14 @@ using DMOLibrary.Events;
 using DMOLibrary.Profiles;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Config;
 
 namespace AdvancedLauncher.UI.Controls {
 
     public partial class GameControl : AbstractUserControl, IDisposable {
-        private TaskManager.Task UpdateTask;
+        private TaskEntry UpdateTask;
         private bool UpdateRequired = false;
 
         private TaskbarItemInfo TaskBar = new TaskbarItemInfo();
@@ -65,7 +69,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         [Inject]
-        public IGameManager GameManager {
+        public IConfigurationManager GameManager {
             get; set;
         }
 
@@ -95,7 +99,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         public GameControl() {
             InitializeComponent();
-            UpdateTask = new TaskManager.Task() {
+            UpdateTask = new TaskEntry() {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
@@ -182,7 +186,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private async Task<bool> ImportPackages() {
-            GameModel model = ProfileManager.CurrentProfile.GameModel;
+            IGameModel model = ProfileManager.CurrentProfile.GameModel;
             if (Directory.Exists(GameManager.GetImportPath(model))) {
                 if (ProfileManager.CurrentProfile.UpdateEngineEnabled) {
                     ShowProgressBar();

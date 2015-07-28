@@ -18,16 +18,16 @@
 
 using System.ComponentModel;
 using System.Xml.Serialization;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.SDK.Model.Config;
 
 namespace AdvancedLauncher.Model.Config {
 
     [XmlType(TypeName = "GameEnv")]
-    public class GameModel : INotifyPropertyChanged {
-        private GameManager.GameType _Type;
+    public class GameModel : IGameModel, INotifyPropertyChanged {
+        private string _Type;
 
         [XmlAttribute("Type")]
-        public GameManager.GameType Type {
+        public string Type {
             set {
                 _Type = value;
                 NotifyPropertyChanged("Type");
@@ -66,7 +66,7 @@ namespace AdvancedLauncher.Model.Config {
         public GameModel() {
         }
 
-        public GameModel(GameModel another) {
+        public GameModel(IGameModel another) {
             this.Type = another.Type;
             this.GamePath = another.GamePath;
             this.DefLauncherPath = another.DefLauncherPath;

@@ -16,24 +16,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
-using AdvancedLauncher.Management.Commands;
+namespace AdvancedLauncher.SDK.Management.Commands {
 
-namespace AdvancedLauncher.Management.Interfaces {
+    public abstract class AbstractCommand : ICommand {
+        private string commandName;
+        private string commandDescription;
 
-    public interface ICommandManager : IManager {
+        public AbstractCommand(string commandName, string commandDescription) {
+            this.commandName = commandName;
+            this.commandDescription = commandDescription;
+        }
 
-        bool Send(string input);
+        public abstract bool DoCommand(string[] args);
 
-        void RegisterCommand(ICommand Command);
+        public virtual string GetDescription() {
+            return commandDescription;
+        }
 
-        bool UnRegisterCommand(string name);
-
-        bool UnRegisterCommand(ICommand command);
-
-        IDictionary<String, ICommand> GetCommands();
-
-        List<string> GetRecent();
+        public virtual string GetName() {
+            return commandName;
+        }
     }
 }

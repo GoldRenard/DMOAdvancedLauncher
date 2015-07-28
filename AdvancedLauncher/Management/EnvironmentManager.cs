@@ -29,7 +29,7 @@ using MahApps.Metro;
 
 namespace AdvancedLauncher.Management {
 
-    internal class EnvironmentManager : IEnvironmentManager {
+    public class EnvironmentManager : IEnvironmentManager {
         private const string SETTINGS_FILE = "Settings.xml";
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";

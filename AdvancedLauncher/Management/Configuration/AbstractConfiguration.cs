@@ -37,7 +37,7 @@ namespace AdvancedLauncher.Management.Configuration {
             get;
         }
 
-        public abstract GameManager.GameType GameType {
+        public abstract string GameType {
             get;
         }
 

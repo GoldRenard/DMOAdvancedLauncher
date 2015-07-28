@@ -22,11 +22,12 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Text;
 using System.Windows.Threading;
-using DMOLibrary.Events;
+using AdvancedLauncher.SDK;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace DMOLibrary.DMOFileSystem {
 
-    public class DMOFileSystem : IDisposable {
+    public class DMOFileSystem : IFileSystem {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOFileSystem));
 
         public class DMOFileEntry {
@@ -43,7 +44,7 @@ namespace DMOLibrary.DMOFileSystem {
 
         private int ArchiveHeader = 0;
         private string HeaderFile, PackageFile;
-        public List<DMOFileEntry> ArchiveEntries = new List<DMOFileEntry>();
+        private List<DMOFileEntry> ArchiveEntries = new List<DMOFileEntry>();
 
         private bool _IsOpened = false;
 
@@ -227,7 +228,7 @@ namespace DMOLibrary.DMOFileSystem {
 
         #region Write Section
 
-        public bool WriteMapFile() {
+        private bool WriteMapFile() {
             LOGGER.Debug("Writing map file...");
             if (!_IsOpened && !(Access == FileAccess.ReadWrite || Access == FileAccess.Write)) {
                 LOGGER.Error("Writing map file failed: Archieve not opened or no write access");
@@ -361,7 +362,7 @@ namespace DMOLibrary.DMOFileSystem {
 
         #region Tools
 
-        public static uint FileHash(string filePath) {
+        public uint FileHash(string filePath) {
             uint result = 5381;
             int HASH_TRANS_SIZE = 0x400, charIndex = 0, len;
             byte charCode;

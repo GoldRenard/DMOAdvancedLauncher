@@ -16,25 +16,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.Management.Commands {
+using AdvancedLauncher.SDK.Management;
 
-    public abstract class AbstractCommand : ICommand {
-        private string commandName;
-        private string commandDescription;
+namespace AdvancedLauncher.SDK.Management {
 
-        public AbstractCommand(string commandName, string commandDescription) {
-            this.commandName = commandName;
-            this.commandDescription = commandDescription;
-        }
+    public interface IUpdateManager : IManager {
 
-        public abstract bool DoCommand(string[] args);
-
-        public virtual string GetDescription() {
-            return commandDescription;
-        }
-
-        public virtual string GetName() {
-            return commandName;
-        }
+        void CheckUpdates();
     }
 }

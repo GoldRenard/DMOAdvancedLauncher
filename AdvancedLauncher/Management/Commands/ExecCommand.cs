@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using AdvancedLauncher.SDK.Management.Commands;
 
 namespace AdvancedLauncher.Management.Commands {
 

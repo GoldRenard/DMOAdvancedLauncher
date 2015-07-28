@@ -17,32 +17,25 @@
 // ======================================================================
 
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
-using DMOLibrary.DMOFileSystem;
 using Microsoft.Win32;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class GameManager : IGameManager {
-
-        public enum GameType {
-            ADMO = 0,
-            GDMO = 1,
-            KDMO_IMBC = 2,
-            KDMO_DM = 3,
-        }
+    public class ConfigurationManager : IConfigurationManager {
 
         private const string puPF = @"Data\Pack01.pf";
         private const string puHF = @"Data\Pack01.hf";
         private const string puImportDir = @"Pack01";
 
-        private ConcurrentDictionary<GameModel, DMOFileSystem> FileSystems = new ConcurrentDictionary<GameModel, DMOFileSystem>();
-        private ConcurrentDictionary<GameType, IGameConfiguration> Configurations = new ConcurrentDictionary<GameType, IGameConfiguration>();
+        private ConcurrentDictionary<string, IGameConfiguration> Configurations = new ConcurrentDictionary<string, IGameConfiguration>();
 
         [Inject]
         public IProfileManager ProfileManager {
@@ -51,13 +44,13 @@ namespace AdvancedLauncher.Management {
 
         public void Initialize() {
             foreach (IGameConfiguration config in App.Kernel.GetAll<IGameConfiguration>()) {
-                Configurations.TryAdd(config.GameType, config);
+                RegisterConfiguration(config);
             }
         }
 
         #region Check Section
 
-        public bool CheckGame(GameModel model) {
+        public bool CheckGame(IGameModel model) {
             IGameConfiguration config = GetConfiguration(model);
             string pGamePath = GetGamePath(model);
             if (string.IsNullOrEmpty(pGamePath)) {
@@ -72,7 +65,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public bool CheckLauncher(GameModel model) {
+        public bool CheckLauncher(IGameModel model) {
             IGameConfiguration config = GetConfiguration(model);
             string pLauncherPath = GetLauncherPath(model);
             if (string.IsNullOrEmpty(pLauncherPath)) {
@@ -84,29 +77,15 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public bool CheckUpdateAccess(GameModel model) {
+        public bool CheckUpdateAccess(IGameModel model) {
             return !Utils.IsFileLocked(GetGameEXE(model)) && !Utils.IsFileLocked(GetPFPath(model)) && !Utils.IsFileLocked(GetHFPath(model));
-        }
-
-        public DMOFileSystem GetFileSystem(GameModel model) {
-            DMOFileSystem fileSystem;
-            if (FileSystems.TryGetValue(model, out fileSystem)) {
-                return fileSystem;
-            }
-            fileSystem = new DMOFileSystem();
-            FileSystems.TryAdd(model, fileSystem);
-            return fileSystem;
-        }
-
-        public bool OpenFileSystem(GameModel model, FileAccess fAccess) {
-            return GetFileSystem(model).Open(fAccess, 16, GetHFPath(model), GetPFPath(model));
         }
 
         #endregion Check Section
 
         #region Getters/Setters
 
-        public string GetImportPath(GameModel model) {
+        public string GetImportPath(IGameModel model) {
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
                 return null;
@@ -114,7 +93,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puImportDir);
         }
 
-        public string GetLocalVersionFile(GameModel model) {
+        public string GetLocalVersionFile(IGameModel model) {
             IGameConfiguration config = GetConfiguration(model);
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
@@ -123,7 +102,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, config.VarsionLocalPath);
         }
 
-        public string GetPFPath(GameModel model) {
+        public string GetPFPath(IGameModel model) {
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
                 return null;
@@ -131,7 +110,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puPF);
         }
 
-        public string GetHFPath(GameModel model) {
+        public string GetHFPath(IGameModel model) {
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
                 return null;
@@ -139,7 +118,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puHF);
         }
 
-        public string GetGameEXE(GameModel model) {
+        public string GetGameEXE(IGameModel model) {
             IGameConfiguration config = GetConfiguration(model);
             string gamePath = GetGamePath(model);
             if (string.IsNullOrEmpty(gamePath)) {
@@ -148,7 +127,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(gamePath, config.GameExecutable);
         }
 
-        public string GetLauncherEXE(GameModel model) {
+        public string GetLauncherEXE(IGameModel model) {
             IGameConfiguration config = GetConfiguration(model);
             string path = GetLauncherPath(model);
             if (string.IsNullOrEmpty(path)) {
@@ -157,7 +136,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, config.LauncherExecutable);
         }
 
-        public string GetLauncherPath(GameModel model) {
+        public string GetLauncherPath(IGameModel model) {
             IGameConfiguration config = GetConfiguration(model);
             if (string.IsNullOrEmpty(model.DefLauncherPath)) {
                 return config.GetLauncherPathFromRegistry();
@@ -165,7 +144,7 @@ namespace AdvancedLauncher.Management {
             return model.DefLauncherPath;
         }
 
-        public string GetGamePath(GameModel model) {
+        public string GetGamePath(IGameModel model) {
             IGameConfiguration config = GetConfiguration(model);
             if (string.IsNullOrEmpty(model.GamePath)) {
                 return config.GetGamePathFromRegistry();
@@ -173,7 +152,7 @@ namespace AdvancedLauncher.Management {
             return model.GamePath;
         }
 
-        public IGameConfiguration GetConfiguration(GameModel model) {
+        public IGameConfiguration GetConfiguration(IGameModel model) {
             IGameConfiguration config;
             if (Configurations.TryGetValue(model.Type, out config)) {
                 return config;
@@ -181,7 +160,19 @@ namespace AdvancedLauncher.Management {
             throw new Exception("No game configuration for type: " + model.Type);
         }
 
-        public void UpdateRegistryPaths(GameModel model) {
+        public bool RegisterConfiguration(IGameConfiguration configuration) {
+            if (Configurations.ContainsKey(configuration.GameType)) {
+                throw new Exception(String.Format("Configuration with type {0} already registered!", configuration.GameType));
+            }
+            return Configurations.TryAdd(configuration.GameType, configuration);
+        }
+
+        public bool UnRegisterConfiguration(string name) {
+            IGameConfiguration configuration;
+            return Configurations.TryRemove(name, out configuration);
+        }
+
+        public void UpdateRegistryPaths(IGameModel model) {
             IGameConfiguration config = GetConfiguration(model);
             string gamePath = GetGamePath(model);
             string launcherPath = GetGamePath(model);
@@ -197,6 +188,14 @@ namespace AdvancedLauncher.Management {
                 reg.SetValue(config.LauncherPathRegVal, launcherPath);
                 reg.Close();
             }
+        }
+
+        public IEnumerator<IGameConfiguration> GetEnumerator() {
+            return Configurations.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return Configurations.Values.GetEnumerator();
         }
 
         #endregion Getters/Setters

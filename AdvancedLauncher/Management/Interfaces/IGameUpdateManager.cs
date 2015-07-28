@@ -17,18 +17,20 @@
 // ======================================================================
 
 using System;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Model.Events;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Config;
 
 namespace AdvancedLauncher.Management.Interfaces {
 
     public interface IGameUpdateManager : IManager {
 
-        VersionPair CheckUpdates(GameModel model);
+        VersionPair CheckUpdates(IGameModel model);
 
-        bool ImportPackages(GameModel model);
+        bool ImportPackages(IGameModel model);
 
-        bool DownloadUpdates(GameModel model, VersionPair versionPair);
+        bool DownloadUpdates(IGameModel model, VersionPair versionPair);
 
         event EventHandler FileSystemOpenError;
 

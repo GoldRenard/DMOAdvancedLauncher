@@ -23,7 +23,7 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AdvancedLauncher.Management.Security {
+namespace AdvancedLauncher.Tools {
 
     internal static class PassEncrypt {
 

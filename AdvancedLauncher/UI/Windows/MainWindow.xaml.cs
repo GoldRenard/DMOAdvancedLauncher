@@ -20,8 +20,9 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Events;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Pages;
 using MahApps.Metro.Controls;
@@ -66,6 +67,11 @@ namespace AdvancedLauncher.UI.Windows {
 
         [Inject]
         public IProfileManager ProfileManager {
+            get; set;
+        }
+
+        [Inject]
+        public IGameManager GameManager {
             get; set;
         }
 
@@ -128,7 +134,7 @@ namespace AdvancedLauncher.UI.Windows {
                 NavPersonalization.IsEnabled = false;
             } else {
                 //Включаем персонализации обратно если игра определена
-                if (GameManager.Current.CheckGame()) {
+                if (GameManager.CheckGame(ProfileManager.CurrentProfile.GameModel)) {
                     NavPersonalization.IsEnabled = true;
                 }
             }
@@ -154,13 +160,15 @@ namespace AdvancedLauncher.UI.Windows {
             NavCommunity.IsEnabled = false;
             NavPersonalization.IsEnabled = false;
 
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
+
             //Если доступен веб-профиль, включаем вкладку сообщества
-            if (GameManager.CurrentProfile.IsWebAvailable) {
+            if (GameManager.GetConfiguration(model).Profile.IsWebAvailable) {
                 NavCommunity.IsEnabled = true;
             }
 
             //Если путь до игры верен, включаем вкладку галереи и персонализации
-            if (GameManager.Current.CheckGame()) {
+            if (GameManager.CheckGame(model)) {
                 NavGallery.IsEnabled = true;
                 NavPersonalization.IsEnabled = true;
             }

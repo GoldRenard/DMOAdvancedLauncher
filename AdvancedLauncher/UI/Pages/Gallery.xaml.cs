@@ -25,7 +25,6 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Commands;
@@ -46,6 +45,11 @@ namespace AdvancedLauncher.UI.Pages {
 
         private JpegEncoder ImageEncoder = new JpegEncoder();
 
+        [Inject]
+        public IGameManager GameManager {
+            get; set;
+        }
+
         public Gallery() {
             InitializeComponent();
             Templates.DataContext = GalleryModel;
@@ -53,7 +57,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         public override void PageActivate() {
             base.PageActivate();
-            string gamePath = GameManager.Current.GamePath;
+            string gamePath = GameManager.GetGamePath(ProfileManager.CurrentProfile.GameModel);
             if (Directory.Exists(gamePath + SCREENSHOTS_DIR)) {
                 if (Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length > 0) {
                     if (!IsGalleryInitialized || GalleryModel.Count() != Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length) {

@@ -21,7 +21,7 @@ using System.Windows.Controls;
 
 namespace AdvancedLauncher.UI.Validation {
 
-    internal class NameValidationRule : ValidationRule {
+    internal class NameValidationRule : AbstractValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {

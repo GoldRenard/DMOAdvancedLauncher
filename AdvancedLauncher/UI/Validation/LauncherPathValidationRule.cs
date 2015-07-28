@@ -17,17 +17,23 @@
 // ======================================================================
 
 using System.Windows.Controls;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Validation {
 
-    internal class LauncherPathValidationRule : ValidationRule {
+    internal class LauncherPathValidationRule : AbstractValidationRule {
+
+        [Inject]
+        public IGameManager GameManager {
+            get; set;
+        }
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
                 return new ValidationResult(false, null);
             }
-            if (GameManager.Get(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel).CheckDefLauncher()) {
+            if (GameManager.CheckLauncher(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel)) {
                 return new ValidationResult(true, null);
             }
             return new ValidationResult(false, null);

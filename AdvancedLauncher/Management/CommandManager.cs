@@ -31,7 +31,7 @@ namespace AdvancedLauncher.Management {
         private const string UNKNOWN_COMMAND = "Unknown command \"{0}\"";
 
         private ConcurrentDictionary<string, ICommand> Commands = new ConcurrentDictionary<string, ICommand>();
-        
+
         private List<string> recentCommands = new List<string>();
 
         public void Initialize() {
@@ -88,6 +88,5 @@ namespace AdvancedLauncher.Management {
         public List<string> GetRecent() {
             return new List<string>(recentCommands);
         }
-
     }
 }

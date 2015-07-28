@@ -17,14 +17,14 @@
 // ======================================================================
 
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Commands;
+using AdvancedLauncher.Management.Configuration;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.UI.Windows;
-using Ninject.Modules;
 using Ninject;
-using AdvancedLauncher.Management.Commands;
-using AdvancedLauncher.Management.Configuration;
+using Ninject.Modules;
 
 namespace AdvancedLauncher.Tools {
 
@@ -35,10 +35,10 @@ namespace AdvancedLauncher.Tools {
             Bind<IEnvironmentManager>().To<EnvironmentManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IUpdateManager>().To<UpdateManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<IGameUpdateManager>().To<GameUpdateManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IProfileManager>().To<ProfileManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ILoginManager>().To<LoginManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IGameUpdateManager>().To<GameUpdateManager>().OnActivation(m => m.Initialize()); // not singletone!
 
             // Launchers
             Bind<ILauncherManager>().To<LauncherManager>().InSingletonScope().OnActivation(m => m.Initialize());

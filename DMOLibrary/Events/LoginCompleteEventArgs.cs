@@ -44,7 +44,7 @@ namespace DMOLibrary.Events {
             get;
             private set;
         }
-        
+
         /// <summary>
         /// Login status code
         /// </summary>
@@ -65,7 +65,7 @@ namespace DMOLibrary.Events {
             : this(Code, string.Empty) {
         }
 
-        public LoginCompleteEventArgs(LoginCode Code, string Arguments) 
+        public LoginCompleteEventArgs(LoginCode Code, string Arguments)
             : this(Code, Arguments, string.Empty) {
         }
 

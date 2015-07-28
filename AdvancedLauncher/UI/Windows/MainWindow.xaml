@@ -32,7 +32,7 @@
                     xmlns:mg="clr-namespace:AdvancedLauncher.Management"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d"
-                    Icon="/AdvancedLauncher;component/app_icon.ico"
+                    Icon="/AdvancedLauncher;component/Resources/app_icon.ico"
                     Title="Digimon Masters Online"
                     Width="900"
                     Height="500"

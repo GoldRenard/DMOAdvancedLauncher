@@ -19,6 +19,7 @@
 using System.IO;
 
 namespace AdvancedLauncher.Tools {
+
     public class Utils {
 
         /// <summary> Checks access to file </summary>

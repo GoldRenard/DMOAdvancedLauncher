@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Events;
 using Ninject;
 
 namespace AdvancedLauncher.Management {

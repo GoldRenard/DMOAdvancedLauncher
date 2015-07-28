@@ -19,7 +19,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.UI.Extension;
@@ -28,6 +28,7 @@ using DMOLibrary.Database;
 using DMOLibrary.Database.Entity;
 using DMOLibrary.Events;
 using DMOLibrary.Profiles;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {
 
@@ -37,11 +38,18 @@ namespace AdvancedLauncher.UI.Pages {
 
         private AbstractWebProfile webProfile;
 
+        private DMOProfile currentDMOProfile;
+
         private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
 
         private Guild CURRENT_GUILD = new Guild() {
             Id = -1
         };
+
+        [Inject]
+        public IGameManager GameManager {
+            get; set;
+        }
 
         public Community() {
             InitializeComponent();
@@ -49,10 +57,11 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         protected override void ProfileChanged(object sender, EventArgs e) {
+            currentDMOProfile = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile;
             GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;
-            webProfile = GameManager.CurrentProfile.GetWebProfile();
+            webProfile = currentDMOProfile.GetWebProfile();
             if (webProfile != null) {
                 webProfile.SetDispatcher(this.Dispatcher);
             }
@@ -70,7 +79,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         private void LoadServerList() {
             //Загружаем новый список серверов
-            ComboBoxServer.ItemsSource = GameManager.CurrentProfile.ServerList;
+            ComboBoxServer.ItemsSource = currentDMOProfile.ServerList;
             Profile currentProfile = ProfileManager.CurrentProfile;
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(currentProfile.Rotation.Guild)) {

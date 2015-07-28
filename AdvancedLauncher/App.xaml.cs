@@ -18,16 +18,13 @@
 
 using System.Security.Principal;
 using System.Windows;
+using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
 using log4net.Config;
-using AdvancedLauncher.Management.Interfaces;
-using AdvancedLauncher.Management.Execution;
 using Ninject;
-using AdvancedLauncher.Tools;
 
 #if DEBUG
-
-using DMOLibrary.Database.Context;
 
 #endif
 

@@ -38,11 +38,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Resources\app_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app_icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -130,6 +131,7 @@
     <Compile Include="Model\AbstractContainerViewModel.cs" />
     <Compile Include="Model\AbstractItemViewModel.cs" />
     <Compile Include="Model\Config\VersionPair.cs" />
+    <Compile Include="Model\Events\UpdateStatusEventHandler.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
     <Compile Include="Tools\Utils.cs" />
     <Compile Include="UI\Controls\AbstractFlyout.cs" />
@@ -201,7 +203,7 @@
     <Compile Include="Model\Config\Profile.cs" />
     <Compile Include="Model\Config\Settings.cs" />
     <Compile Include="Model\LanguageModel.cs" />
-    <Compile Include="Management\LockedEventArgs.cs" />
+    <Compile Include="Model\Events\LockedEventArgs.cs" />
     <Compile Include="Tools\LogAppender.cs" />
     <Compile Include="UI\Pages\AbstractPage.cs" />
     <Compile Include="UI\Pages\Community.xaml.cs">
@@ -441,7 +443,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="app_icon.ico" />
+    <Resource Include="Resources\app_icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMOLibrary\DMOLibrary.csproj">

@@ -23,9 +23,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Events;
 using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Windows;
 

@@ -21,7 +21,7 @@ using System.Windows.Controls;
 
 namespace AdvancedLauncher.UI.Validation {
 
-    internal class URLValidationRule : ValidationRule {
+    internal class URLValidationRule : AbstractValidationRule {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             Regex r = new Regex(@"^(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*$");

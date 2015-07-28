@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace AdvancedLauncher.Model.Config {
 
-namespace AdvancedLauncher.Model.Config {
     public class VersionPair {
+
         public int Local {
             get;
             private set;
         }
+
         public int Remote {
             get;
             private set;

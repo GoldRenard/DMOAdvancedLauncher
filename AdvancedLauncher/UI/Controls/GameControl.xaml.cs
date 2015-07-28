@@ -19,7 +19,6 @@
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,14 +28,11 @@ using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Events;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Windows;
-using DMOLibrary;
-using DMOLibrary.DMOFileSystem;
 using DMOLibrary.Events;
 using DMOLibrary.Profiles;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;
 
@@ -47,16 +43,11 @@ namespace AdvancedLauncher.UI.Controls {
         private bool UpdateRequired = false;
 
         private TaskbarItemInfo TaskBar = new TaskbarItemInfo();
-        private DMOFileSystem GameFS = null;
         private readonly BackgroundWorker CheckWorker = new BackgroundWorker();
 
         private Binding StartButtonBinding = new Binding("StartButton");
         private Binding WaitingButtonBinding = new Binding("GameButton_Waiting");
         private Binding UpdateButtonBinding = new Binding("GameButton_UpdateGame");
-
-        private double dataReceived, dataTotal;
-        private int verCurrent = -1;
-        private int verRemote = -1;
 
         [Inject]
         public ILoginManager LoginManager {
@@ -79,6 +70,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private IGameUpdateManager _UpdateManager;
+
         [Inject]
         public IGameUpdateManager UpdateManager {
             get {
@@ -87,9 +79,8 @@ namespace AdvancedLauncher.UI.Controls {
             set {
                 if (_UpdateManager == null) {
                     _UpdateManager = value;
-                    _UpdateManager.ImportStarted += UpdateManager_ImportStarted;
                     _UpdateManager.FileSystemOpenError += UpdateManager_FileSystemOpenError;
-                    _UpdateManager.WriteStatusChanged += OnWriteStatusChanged;
+                    _UpdateManager.StatusChanged += _UpdateManager_StatusChanged;
                 }
             }
         }
@@ -151,7 +142,6 @@ namespace AdvancedLauncher.UI.Controls {
             }));
 
             GameModel model = ProfileManager.CurrentProfile.GameModel;
-            GameFS = GameManager.GetFileSystem(model);
 
             //Проверяем наличие необходимых файлов игры
             if (!GameManager.CheckGame(model)) {
@@ -181,7 +171,8 @@ namespace AdvancedLauncher.UI.Controls {
             if (pair.IsUpdateRequired) {
                 //Если включен интегрированных движок обновления, пытаемся обновиться
                 if (ProfileManager.CurrentProfile.UpdateEngineEnabled) {
-                    SetStartEnabled(await BeginUpdate(pair.Local, pair.Remote));
+                    ShowProgressBar();
+                    SetStartEnabled(await BeginUpdate(pair));
                 } else { //Если интегрированный движок отключен - показываем кнопку "Обновить игру"
                     SetUpdateEnabled(true);
                 }
@@ -193,8 +184,8 @@ namespace AdvancedLauncher.UI.Controls {
         private async Task<bool> ImportPackages() {
             GameModel model = ProfileManager.CurrentProfile.GameModel;
             if (Directory.Exists(GameManager.GetImportPath(model))) {
-                //Если включен интегрированных движок обновления, пытаемся импортировать
                 if (ProfileManager.CurrentProfile.UpdateEngineEnabled) {
+                    ShowProgressBar();
                     //Проверяем наличие доступа к игре
                     if (!await CheckGameAccessLoop()) {
                         return false;
@@ -214,13 +205,17 @@ namespace AdvancedLauncher.UI.Controls {
             return true;
         }
 
-        private async void UpdateManager_FileSystemOpenError(object sender, EventArgs e) {
-            await CheckGameAccessMessage();
-            SetUpdateEnabled(false);
-        }
-
-        private void UpdateManager_ImportStarted(object sender, EventArgs e) {
-            ShowProgressBar();
+        private async Task<bool> BeginUpdate(VersionPair versionPair) {
+            if (!await CheckGameAccessLoop()) {
+                return false;
+            }
+            if (!UpdateManager.DownloadUpdates(ProfileManager.CurrentProfile.GameModel, versionPair)) {
+                DialogsHelper.ShowMessageDialog(LanguageManager.Model.ErrorOccured, LanguageManager.Model.ConnectionError);
+            }
+            if (!await CheckGameAccessLoop()) {
+                return false;
+            }
+            return await ImportPackages();
         }
 
         private async Task<bool> CheckGameAccessMessage() {
@@ -245,135 +240,32 @@ namespace AdvancedLauncher.UI.Controls {
             return true;
         }
 
-        private async Task<bool> BeginUpdate(int local, int remote) {
-            ShowProgressBar();
-            bool updateSuccess = true;
-            string packageFile;
+        private async void UpdateManager_FileSystemOpenError(object sender, EventArgs e) {
+            await CheckGameAccessMessage();
+            SetUpdateEnabled(false);
+        }
 
-            if (!await CheckGameAccessLoop()) {
-                return false;
-            }
+        private void _UpdateManager_StatusChanged(object sender, Model.Events.UpdateStatusEventEventArgs e) {
+            UpdateMainProgressBar(e.Progress, e.MaxProgress);
+            UpdateSubProgressBar(e.SummaryProgress, e.SummaryMaxProgress);
 
-            double WholeContentLength = 0;
-            for (int i = local + 1; i <= remote; i++) {
-                WholeContentLength += GetFileLength(new Uri(string.Format(GameManager.Current.GetPatchURL(), i)));
-            }
-            UpdateMainProgressBar(0, WholeContentLength);
-
-            for (int i = local + 1; i <= remote; i++) {
-                verCurrent = i;
-                packageFile = GameManager.Current.GamePath + string.Format("\\UPDATE{0}.zip", i);
-                UpdateSubProgressBar(0, 100);
-
-                //downloading
-                double CurrentContentLength = GetFileLength(new Uri(string.Format(GameManager.Current.GetPatchURL(), i)));
-
-                using (WebClientEx webClient = new WebClientEx()) {
-                    webClient.DownloadProgressChanged += OnDownloadProgressChanged;
-                    webClient.DownloadFileCompleted += OnDownloadFileCompleted;
-                    try {
-                        webClient.DownloadFileAsync(new Uri(string.Format(GameManager.Current.GetPatchURL(), i)), packageFile);
-                        while (webClient.IsBusy) {
-                            System.Threading.Thread.Sleep(100);
-                        }
-                    } catch {
-                        updateSuccess = false;
-                    }
-                    webClient.DownloadProgressChanged -= OnDownloadProgressChanged;
-                    webClient.DownloadFileCompleted -= OnDownloadFileCompleted;
-                }
-
-                if (!updateSuccess) {
+            string updateText = string.Empty;
+            switch (e.UpdateStage) {
+                case UpdateStatusEventEventArgs.Stage.DOWNLOADING:
+                    updateText = string.Format(LanguageManager.Model.UpdateDownloading, e.CurrentPatch, e.MaxPatch, e.SummaryProgress, e.SummaryMaxProgress);
                     break;
-                }
 
-                ExtractUpdate(verCurrent, verRemote, packageFile, GameManager.Current.GamePath, true);
-                MainPBValue += CurrentContentLength;
-                File.WriteAllLines(GameManager.Current.GetLocalVerFile(), new string[] { "[VERSION]", "version=" + verCurrent.ToString() });
+                case UpdateStatusEventEventArgs.Stage.EXTRACTING:
+                    updateText = string.Format(LanguageManager.Model.UpdateExtracting, e.CurrentPatch, e.MaxPatch, e.SummaryProgress, e.SummaryMaxProgress);
+                    break;
+
+                case UpdateStatusEventEventArgs.Stage.INSTALLING:
+                    updateText = string.Format(LanguageManager.Model.UpdateInstalling, e.Progress, e.MaxProgress);
+                    break;
             }
-
-            if (!updateSuccess) {
-                DialogsHelper.ShowMessageDialog(LanguageManager.Model.ErrorOccured, LanguageManager.Model.ConnectionError);
-            }
-
-            //Проверяем наличие доступа к игре еще раз
-            if (!await CheckGameAccessLoop()) {
-                return false;
-            }
-
-            if (Directory.Exists(GameManager.Current.GetImportPath())) {
-                //Открываем файловую систему игры
-                bool IsOpened = false;
-                try {
-                    IsOpened = GameFS.Open(FileAccess.Write, 16, GameManager.Current.GetHFPath(), GameManager.Current.GetPFPath());
-                } catch {
-                    IsOpened = false;
-                }
-
-                //Если успешно открыли - применяем обновления
-                if (IsOpened) {
-                    GameFS.WriteStatusChanged += OnWriteStatusChanged;
-                    bool IsSuccess = GameFS.WriteDirectory(GameManager.Current.GetImportPath(), true);
-                    GameFS.WriteStatusChanged -= OnWriteStatusChanged;
-                    //Если сфейлилось, отправляем соответствующее сообщение
-                    if (!IsSuccess) {
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
-                            DialogsHelper.ShowErrorDialog(LanguageManager.Model.GameFilesInUse);
-                        }));
-                    }
-                    GameFS.Close();
-                } else {
-                    await CheckGameAccessMessage();
-                    SetUpdateEnabled(false);
-                    return false;
-                }
-            }
-            return updateSuccess;
-        }
-
-        private void ExtractUpdate(int updateNumber, int updateMaxNumber, string archiveFilenameIn, string outFolder, bool DeleteAfterExtract) {
-            using (var zf = new ZipFile(archiveFilenameIn)) {
-                UpdateSubProgressBar(0, (int)zf.Count);
-                int zEntryNumber = 1;
-                foreach (ZipEntry zipEntry in zf) {
-                    UpdateInfoText(1, updateNumber, updateMaxNumber, zEntryNumber, zf.Count);
-                    if (!zipEntry.IsFile) {
-                        continue;
-                    }
-                    byte[] buffer = new byte[4096];
-                    Stream zipStream = zf.GetInputStream(zipEntry);
-                    string fullZipToPath = Path.Combine(outFolder, zipEntry.Name);
-                    string directoryName = Path.GetDirectoryName(fullZipToPath);
-                    if (directoryName.Length > 0)
-                        Directory.CreateDirectory(directoryName);
-
-                    using (FileStream streamWriter = File.Create(fullZipToPath)) {
-                        StreamUtils.Copy(zipStream, streamWriter, buffer);
-                    }
-                    UpdateSubProgressBar(zEntryNumber, (int)zf.Count);
-                    zEntryNumber++;
-                }
-            }
-
-            if (DeleteAfterExtract) {
-                try {
-                    File.Delete(archiveFilenameIn);
-                } catch {
-                }
-            }
-        }
-
-        /// <summary> Returns Length of remote file </summary>
-        /// <param name="url">Remote file Uri</param>
-        /// <returns> ength of remote file </returns>
-        public static double GetFileLength(Uri url) {
-            System.Net.WebRequest req = WebClientEx.CreateHTTPRequest(url);
-            req.Method = "HEAD";
-            double ContentLength = 0;
-            using (System.Net.WebResponse resp = req.GetResponse()) {
-                double.TryParse(resp.Headers.Get("Content-Length"), out ContentLength);
-            }
-            return ContentLength;
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SetInfoText((text_) => {
+                UpdateText.Text = text_;
+            }), updateText);
         }
 
         #endregion Update Section
@@ -510,40 +402,12 @@ namespace AdvancedLauncher.UI.Controls {
             }));
         }
 
-        private void OnWriteStatusChanged(object sender, WriteDirectoryEventArgs e) {
-            UpdateInfoText(2, e.FileNumber, e.FileCount, null, null);
-            UpdateMainProgressBar(e.FileNumber, e.FileCount);
-        }
-
-        private void OnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
-            UpdateSubProgressBar(0, 100);
-        }
-
-        private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
-            dataReceived = (e.BytesReceived / (1024.0 * 1024.0));
-            dataTotal = (e.TotalBytesToReceive / (1024.0 * 1024.0));
-            UpdateInfoText(0, verCurrent, verRemote, dataReceived, dataTotal);
-            UpdateMainProgressBar(MainPBValue + e.BytesReceived);
-            UpdateSubProgressBar(e.ProgressPercentage, 100);
-        }
-
-        private double MainPBValue = 0;
-
         private void UpdateMainProgressBar(double value, double maxvalue) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SetProgressBar((value_, maxvalue_) => {
                 MainProgressBar.Maximum = maxvalue_;
-                MainProgressBar.Value = MainPBValue = value_;
+                MainProgressBar.Value = value_;
                 TaskBar.ProgressValue = MainProgressBar.Value / MainProgressBar.Maximum;
             }), value, maxvalue);
-        }
-
-        private void UpdateMainProgressBar(double value) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SetProgressBarVal((value_) => {
-                if (MainProgressBar.Maximum > value_) {
-                    MainProgressBar.Value = value_;
-                    TaskBar.ProgressValue = MainProgressBar.Value / MainProgressBar.Maximum;
-                }
-            }), value);
         }
 
         private void UpdateSubProgressBar(double value, double maxvalue) {
@@ -551,30 +415,6 @@ namespace AdvancedLauncher.UI.Controls {
                 SubProgressBar.Maximum = maxvalue_;
                 SubProgressBar.Value = value_;
             }), value, maxvalue);
-        }
-
-        private void UpdateInfoText(int code, object arg1, object arg2, object arg3, object arg4) {
-            string text = string.Empty;
-            switch (code) {
-                case 0:
-                    {  //downloading
-                        text = string.Format(LanguageManager.Model.UpdateDownloading, arg1, arg2, arg3, arg4);
-                        break;
-                    }
-                case 1:
-                    {  //extracting
-                        text = string.Format(LanguageManager.Model.UpdateExtracting, arg1, arg2, arg3, arg4);
-                        break;
-                    }
-                case 2:
-                    {  //installing
-                        text = string.Format(LanguageManager.Model.UpdateInstalling, arg1, arg2);
-                        break;
-                    }
-            }
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SetInfoText((text_) => {
-                UpdateText.Text = text_;
-            }), text);
         }
 
         #endregion ProgressBar

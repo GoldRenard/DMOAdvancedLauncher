@@ -29,7 +29,7 @@ using System.Windows.Documents;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Tools;
@@ -65,6 +65,11 @@ namespace AdvancedLauncher.UI.Controls {
 
         private string _jsonUrlLoaded;
         private string _jsonUrl;
+
+        [Inject]
+        public IGameManager GameManager {
+            get; set;
+        }
 
         public NewsBlock() {
             InitializeComponent();
@@ -136,7 +141,7 @@ namespace AdvancedLauncher.UI.Controls {
                 _jsonUrl = currentProfile.News.TwitterUrl;
             }
 
-            bool newsSupported = GameManager.CurrentProfile.IsNewsAvailable;
+            bool newsSupported = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile.IsNewsAvailable;
             NavJoymax.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             NavTwitter.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             byte index = newsSupported ? currentProfile.News.FirstTab : (byte)0;
@@ -441,7 +446,7 @@ namespace AdvancedLauncher.UI.Controls {
         #region Joymax news
 
         private void GetJoymaxNews() {
-            DMOProfile currentProfile = GameManager.CurrentProfile;
+            DMOProfile currentProfile = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile;
             if (currentProfile.NewsProfile != null) {
                 List<DMONewsProfile.NewsItem> news;
                 try {

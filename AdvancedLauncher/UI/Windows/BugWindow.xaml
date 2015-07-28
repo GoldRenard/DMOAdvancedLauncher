@@ -25,7 +25,7 @@
                       Title="DMO Advanced Launcher Crash Report"
                       Height="530" MinHeight="530"
                       Width="600" MinWidth="600"
-                      Icon="/AdvancedLauncher;component/app_icon.ico"
+                      Icon="/AdvancedLauncher;component/Resources/app_icon.ico"
                       WindowStartupLocation="CenterScreen"
                       ResizeMode="CanResizeWithGrip"
                       BorderBrush="{DynamicResource AccentColorBrush}"

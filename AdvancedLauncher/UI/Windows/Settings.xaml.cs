@@ -24,7 +24,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
@@ -61,6 +60,11 @@ namespace AdvancedLauncher.UI.Windows {
 
         [Inject]
         public ILauncherManager LauncherManager {
+            get; set;
+        }
+
+        [Inject]
+        public IGameManager GameManager {
             get; set;
         }
 
@@ -159,14 +163,14 @@ namespace AdvancedLauncher.UI.Windows {
             Folderdialog.Description = LanguageManager.Model.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                    GameManager gameManager = GameManager.Get(SelectedProfile.GameModel);
-                    if (gameManager.CheckGame(Folderdialog.SelectedPath)) {
-                        SelectedProfile.GameModel.GamePath = Folderdialog.SelectedPath;
+                    string defaultPath = SelectedProfile.GameModel.GamePath;
+                    SelectedProfile.GameModel.GamePath = Folderdialog.SelectedPath;
+                    if (GameManager.CheckGame(SelectedProfile.GameModel)) {
                         break;
-                    } else {
-                        await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_GamePath,
-                            LanguageManager.Model.Settings_SelectGameDirError);
                     }
+                    SelectedProfile.GameModel.GamePath = defaultPath;
+                    await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_GamePath,
+                        LanguageManager.Model.Settings_SelectGameDirError);
                 } else {
                     break;
                 }
@@ -177,14 +181,15 @@ namespace AdvancedLauncher.UI.Windows {
             Folderdialog.Description = LanguageManager.Model.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                    GameManager gameManager = GameManager.Get(SelectedProfile.GameModel);
-                    if (gameManager.CheckDefLauncher(Folderdialog.SelectedPath)) {
-                        SelectedProfile.GameModel.DefLauncherPath = Folderdialog.SelectedPath;
+                    string defaultPath = SelectedProfile.GameModel.DefLauncherPath;
+                    SelectedProfile.GameModel.DefLauncherPath = Folderdialog.SelectedPath;
+
+                    if (GameManager.CheckLauncher(SelectedProfile.GameModel)) {
                         break;
-                    } else {
-                        await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_LauncherPath,
-                            LanguageManager.Model.Settings_SelectLauncherDirError);
                     }
+                    SelectedProfile.GameModel.DefLauncherPath = defaultPath;
+                    await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_LauncherPath,
+                        LanguageManager.Model.Settings_SelectLauncherDirError);
                 } else {
                     break;
                 }

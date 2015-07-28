@@ -23,9 +23,9 @@ using System.Windows;
 using System.Xml.Serialization;
 using AdvancedLauncher.Management.Interfaces;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Events;
 using DMOLibrary;
 using MahApps.Metro;
-using Ninject;
 
 namespace AdvancedLauncher.Management {
 

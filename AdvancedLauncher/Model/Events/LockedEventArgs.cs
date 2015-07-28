@@ -18,7 +18,7 @@
 
 using System;
 
-namespace AdvancedLauncher.Management {
+namespace AdvancedLauncher.Model.Events {
 
     public delegate void LockedChangedHandler(object sender, LockedEventArgs e);
 

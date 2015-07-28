@@ -24,11 +24,13 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Interfaces;
+using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
 using DMOLibrary.DMOFileSystem;
 using Microsoft.Win32;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {
 
@@ -50,6 +52,11 @@ namespace AdvancedLauncher.UI.Pages {
 
         private const string RES_LIST_FILE = "\\ResourceList_{0}.cfg";
         private bool IsGameImageLoaded = false;
+
+        [Inject]
+        public IGameManager GameManager {
+            get; set;
+        }
 
         public Personalization() {
             InitializeComponent();
@@ -74,7 +81,7 @@ namespace AdvancedLauncher.UI.Pages {
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
         protected override void ProfileChanged(object sender, EventArgs e) {
-            FileSystem = GameManager.Current.GetFS();
+            FileSystem = new DMOFileSystem();
             LoadResourceList();
             ResetCurrent();
             ResetSelect();
@@ -87,7 +94,8 @@ namespace AdvancedLauncher.UI.Pages {
         public override void PageActivate() {
             base.PageActivate();
             try {
-                FileSystem.Open(FileAccess.ReadWrite, 16, GameManager.Current.GetHFPath(), GameManager.Current.GetPFPath());
+                GameModel model = ProfileManager.CurrentProfile.GameModel;
+                FileSystem.Open(FileAccess.ReadWrite, 16, GameManager.GetHFPath(model), GameManager.GetPFPath(model));
                 if (!IsGameImageLoaded && ItemsComboBox.Items.Count > 0) {
                     if (ItemsComboBox.SelectedIndex == 0) {
                         OnSelectionChanged(ItemsComboBox, null);
@@ -117,7 +125,8 @@ namespace AdvancedLauncher.UI.Pages {
         private void LoadResourceList() {
             ResourceModel.UnLoadData();
             string[] rlines = null;
-            string rFile = (EnvironmentManager.ResourcesPath + string.Format(RES_LIST_FILE, GameManager.CurrentProfile.GetTypeName()));
+            string rFile = (EnvironmentManager.ResourcesPath + string.Format(RES_LIST_FILE,
+                GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile.GetTypeName()));
             if (File.Exists(rFile)) {
                 rlines = System.IO.File.ReadAllLines(rFile);
 

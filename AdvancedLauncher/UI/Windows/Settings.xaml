@@ -23,6 +23,8 @@
              xmlns:Validation="clr-namespace:AdvancedLauncher.UI.Validation"
              xmlns:controls="clr-namespace:AdvancedLauncher.UI.Controls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:conv="clr-namespace:AdvancedLauncher.UI.Converters"
+             xmlns:ex="clr-namespace:AdvancedLauncher.UI.Extension"
              xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              xmlns:sw="clr-namespace:AdvancedLauncher.UI.Windows"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -42,6 +44,9 @@
         </ResourceDictionary>
     </win:AbstractWindow.Resources>
     <Grid x:Name="LayoutRoot" d:Visibility="Collapsed">
+        <Grid.Resources>
+            <ex:BindingProxy x:Key="selectedModel" Data="{Binding ElementName=ProfileList, Path=SelectedValue.GameModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid.Resources>
         <Grid.Background>
             <VisualBrush Visual="{StaticResource digi_background}"
                     Stretch="None"
@@ -67,8 +72,6 @@
                          x:Name="ProfileList"
                          VerticalAlignment="Top"
                          SelectionChanged="OnProfileSelectionChanged"
-                         DataContext="{Binding ProfileManager, Source={StaticResource ServiceHolder}}"
-                         ItemsSource="{Binding Path=ProfileManager.PendingProfiles, Source={StaticResource ServiceHolder}}"
                          BorderThickness="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -88,7 +91,7 @@
                             </Grid>
                             <StackPanel VerticalAlignment="Center" Margin="5,0,0,0">
                                 <TextBlock FontSize="12" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
-                                <TextBlock FontSize="10" Text="{Binding GameType}" IsEnabled="False" />
+                                <TextBlock FontSize="10" Text="{Binding GameModel.Type, Converter={StaticResource GameTypeToNameConverter}}" IsEnabled="False" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -142,7 +145,7 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox x:Name="GuildGroupBox" Margin="0,5" Header="{Binding Settings_RotationGroup}"
-                          IsEnabled="{Binding ElementName=ProfileList, Path=SelectedValue.DMOProfile.IsWebAvailable}">
+                          IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsWebAvailable}">
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -160,9 +163,12 @@
                                     </Binding>
                                 </TextBox.Text>
                             </TextBox>
-                            <ComboBox Grid.Column="1" x:Name="ComboBoxServer" DisplayMemberPath="Name" Width="115" HorizontalAlignment="Right"
-                                          ItemsSource="{Binding ElementName=ProfileList, Path=SelectedValue.DMOProfile.ServerList}"
-                                          SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.Rotation.ServerId, Mode=TwoWay}" />
+                            <ComboBox Grid.Column="1" x:Name="ComboBoxServer" Width="115" HorizontalAlignment="Right"
+                                      ItemsSource="{Binding ElementName=ConfigurationCb, Path=SelectedItem.ServersProvider.ServerList}"
+                                      SelectedValue="{Binding ElementName=ProfileList, Path=SelectedValue.Rotation.ServerId, Mode=TwoWay}"
+                                      SelectedValuePath="Identifier"
+                                      DisplayMemberPath="Name"
+                                      IsSynchronizedWithCurrentItem="True" />
                         </Grid>
                         <TextBox Margin="0,5,0,0"
                                  Controls:TextBoxHelper.Watermark="{Binding Settings_RotationTamerHint}"
@@ -214,7 +220,7 @@
                                       Width="90"
                                       HorizontalAlignment="Right"
                                       SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.News.FirstTab, Mode=TwoWay}"
-                                      IsEnabled="{Binding ElementName=ProfileList, Path=SelectedValue.DMOProfile.IsNewsAvailable}">
+                                      IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsNewsAvailable}">
                                 <ComboBoxItem Content="Twitter" />
                                 <ComboBoxItem Content="Joymax" />
                             </ComboBox>
@@ -230,13 +236,11 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock Text="{Binding Settings_ClientType}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" />
-                            <ComboBox SelectionChanged="OnTypeSelectionChanged" Width="200" HorizontalAlignment="Right"
-                                      SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.GameTypeNum, Mode=TwoWay}">
-                                <ComboBoxItem Content="ADMO (Aeria Games)" />
-                                <ComboBoxItem Content="GDMO (Joymax.com)" />
-                                <ComboBoxItem Content="KDMO (IMBC.com)" />
-                                <ComboBoxItem Content="KDMO (Digimonmasters.com)" />
-                            </ComboBox>
+                            <ComboBox x:Name="ConfigurationCb" SelectionChanged="OnTypeSelectionChanged" Width="200" HorizontalAlignment="Right"
+                                      SelectedValue="{Binding ElementName=ProfileList, Path=SelectedValue.GameModel.Type, Mode=TwoWay}"
+                                      SelectedValuePath="GameType"
+                                      DisplayMemberPath="ServerName"
+                                      IsSynchronizedWithCurrentItem="True" />
                         </StackPanel>
 
                         <Grid Margin="0,5,0,0">
@@ -250,7 +254,11 @@
                                 <TextBox.Text>
                                     <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.GamePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
-                                            <Validation:GamePathValidationRule />
+                                            <Validation:GamePathValidationRule>
+                                                <Validation:GamePathValidationRule.Container>
+                                                    <ex:GameModelContainer GameModel="{Binding Source={StaticResource selectedModel}, Path=Data}" />
+                                                </Validation:GamePathValidationRule.Container>
+                                            </Validation:GamePathValidationRule>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
@@ -267,9 +275,13 @@
                                      Controls:TextBoxHelper.Watermark="{Binding Settings_LauncherPath}"
                                      Controls:TextBoxHelper.UseFloatingWatermark="True">
                                 <TextBox.Text>
-                                    <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.DefLauncherPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.LauncherPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
-                                            <Validation:LauncherPathValidationRule />
+                                            <Validation:LauncherPathValidationRule>
+                                                <Validation:LauncherPathValidationRule.Container>
+                                                    <ex:GameModelContainer GameModel="{Binding Source={StaticResource selectedModel}, Path=Data}" />
+                                                </Validation:LauncherPathValidationRule.Container>
+                                            </Validation:LauncherPathValidationRule>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
@@ -349,7 +361,7 @@
                                                         <controls:EnabledTextBlock Grid.Column="1" Margin="5,2,0,0"
                                                                Visibility="{Binding IsSupported, Converter={StaticResource NotBoolToHiddenConverter}}">
                                                             <Hyperlink Click="OnAppLocaleHelpClick" Style="{DynamicResource HyperLinkAccent}">
-                                                                <Run Loaded="Run_Loaded" Text="{Binding LaunguageModel.Settings_AppLocale_Help, Source={StaticResource ServiceHolder}, Mode=TwoWay}" />
+                                                                <Run Loaded="LauncherHelp_Loaded" Text="{Binding LaunguageModel.Settings_AppLocale_Help, Source={StaticResource ServiceHolder}, Mode=TwoWay}" />
                                                             </Hyperlink>
                                                         </controls:EnabledTextBlock>
                                                     </Grid>
@@ -374,11 +386,12 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Margin="0,5" Header="{Binding Settings_AccountGroup}"
-                          IsEnabled="{Binding ElementName=ProfileList, Path=SelectedValue.DMOProfile.IsLoginRequired}">
+                          IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsLoginRequired}">
                     <StackPanel Margin="3,3,3,4">
-                        <TextBox Controls:TextBoxHelper.Watermark="{Binding Settings_Account_User}"
-                                 Style="{DynamicResource MetroButtonTextBox}"
-                                 Text="{Binding ElementName=ProfileList, Path=SelectedValue.Login.User, Mode=TwoWay}">
+                        <TextBox x:Name="tbUser"
+                                 TextChanged="UsernameChanged"
+                                 Controls:TextBoxHelper.Watermark="{Binding Settings_Account_User}"
+                                 Style="{DynamicResource MetroButtonTextBox}">
                             <Controls:TextBoxHelper.ButtonContent>
                                 <Rectangle Width="12" Height="10">
                                     <Rectangle.Fill>

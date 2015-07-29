@@ -17,16 +17,22 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Configuration;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
 using Ninject;
@@ -46,7 +52,7 @@ namespace AdvancedLauncher.UI.Windows {
             ShowNewFolderButton = false
         };
 
-        private bool IsPreventPassChange = false;
+        private bool IsPreventLoginChange = false;
 
         [Inject]
         public IEnvironmentManager EnvironmentManager {
@@ -64,14 +70,25 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
+
+        private IProfile SelectedProfile {
+            get {
+                return ProfileList.SelectedItem as IProfile;
+            }
+        }
+
+        private Dictionary<IProfile, LoginData> Credentials = new Dictionary<IProfile, LoginData>();
 
         public Settings() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+                ProfileList.DataContext = ProfileManager;
+                ProfileList.ItemsSource = ProfileManager.PendingProfiles;
+                ConfigurationCb.ItemsSource = ConfigurationManager;
             }
         }
 
@@ -82,36 +99,61 @@ namespace AdvancedLauncher.UI.Windows {
 
         private void ReloadProfiles() {
             ProfileManager.RevertChanges();
-            foreach (Profile p in ProfileManager.PendingProfiles) {
+            Credentials.Clear();
+            LoginManager loginManager = App.Kernel.Get<LoginManager>();
+            foreach (IProfile p in ProfileManager.PendingProfiles) {
                 if (p.Id == ProfileManager.CurrentProfile.Id) {
                     ProfileList.SelectedItem = p;
-                    break;
                 }
+                LoginData data = loginManager.GetCredentials(p);
+                Credentials.Add(p, new LoginData(data));
             }
         }
 
         #region Profile Section
 
-        public static Profile SelectedProfile;
-
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            SelectedProfile = (Profile)ProfileList.SelectedItem;
             if (SelectedProfile == null) {
                 return;
             }
             ValidatePaths();
             NotifyPropertyChanged("IsSelectedNotDefault");
 
-            IsPreventPassChange = true;
-            /*if (SelectedProfile.Login.SecurePassword != null) {
-                pbPass.Password = "empty_pass";
+            LoginData login = null;
+            IsPreventLoginChange = true;
+            if (Credentials.TryGetValue(SelectedProfile, out login)) {
+                if (pbPass != null) {
+                    if (login.SecurePassword != null) {
+                        pbPass.Password = "empty_pass";
+                    } else {
+                        pbPass.Clear();
+                    }
+                }
+                if (tbUser != null) {
+                    tbUser.Text = login.User;
+                }
             } else {
-                pbPass.Clear();
-            }*/
-            IsPreventPassChange = false;
+                if (tbUser != null) {
+                    tbUser.Clear();
+                }
+                if (pbPass != null) {
+                    pbPass.Clear();
+                }
+            }
+            IsPreventLoginChange = false;
         }
 
         private void OnTypeSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            IProfile profile = SelectedProfile;
+            IConfiguration config = ConfigurationCb.SelectedItem as IConfiguration;
+            if (config != null && profile != null) {
+                if (config.IsWebAvailable) {
+                    Server serv = config.ServersProvider.ServerList.FirstOrDefault();
+                    if (serv != null) {
+                        profile.Rotation.ServerId = serv.Identifier;
+                    }
+                }
+            }
             ValidatePaths();
         }
 
@@ -129,7 +171,8 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnAddClick(object sender, RoutedEventArgs e) {
-            ProfileManager.AddProfile();
+            IProfile profile = ProfileManager.CreateProfile();
+            Credentials.Add(profile, new LoginData());
         }
 
         private void OnRemoveClick(object sender, RoutedEventArgs e) {
@@ -137,15 +180,15 @@ namespace AdvancedLauncher.UI.Windows {
                 DialogsHelper.ShowErrorDialog(LanguageManager.Model.Settings_LastProfile);
                 return;
             }
-            Profile profile = SelectedProfile;
-
+            IProfile profile = SelectedProfile;
             if (ProfileList.SelectedIndex != ProfileList.Items.Count - 1) {
                 ProfileList.SelectedIndex++;
             } else {
                 ProfileList.SelectedIndex--;
             }
-
-            ProfileManager.RemoveProfile(profile);
+            if (ProfileManager.RemoveProfile(profile)) {
+                Credentials.Remove(profile);
+            }
         }
 
         private void OnImageSelect(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -160,15 +203,16 @@ namespace AdvancedLauncher.UI.Windows {
         #region Path Browse Section
 
         private async void OnGameBrowse(object sender, RoutedEventArgs e) {
+            IProfile profile = SelectedProfile;
             Folderdialog.Description = LanguageManager.Model.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                    string defaultPath = SelectedProfile.GameModel.GamePath;
-                    SelectedProfile.GameModel.GamePath = Folderdialog.SelectedPath;
-                    if (GameManager.CheckGame(SelectedProfile.GameModel)) {
+                    string defaultPath = profile.GameModel.GamePath;
+                    profile.GameModel.GamePath = Folderdialog.SelectedPath;
+                    if (ConfigurationManager.CheckGame(profile.GameModel)) {
                         break;
                     }
-                    SelectedProfile.GameModel.GamePath = defaultPath;
+                    profile.GameModel.GamePath = defaultPath;
                     await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_GamePath,
                         LanguageManager.Model.Settings_SelectGameDirError);
                 } else {
@@ -178,16 +222,17 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private async void OnLauncherBrowse(object sender, RoutedEventArgs e) {
+            IProfile profile = SelectedProfile;
             Folderdialog.Description = LanguageManager.Model.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                    string defaultPath = SelectedProfile.GameModel.DefLauncherPath;
-                    SelectedProfile.GameModel.DefLauncherPath = Folderdialog.SelectedPath;
+                    string defaultPath = profile.GameModel.LauncherPath;
+                    profile.GameModel.LauncherPath = Folderdialog.SelectedPath;
 
-                    if (GameManager.CheckLauncher(SelectedProfile.GameModel)) {
+                    if (ConfigurationManager.CheckLauncher(profile.GameModel)) {
                         break;
                     }
-                    SelectedProfile.GameModel.DefLauncherPath = defaultPath;
+                    profile.GameModel.LauncherPath = defaultPath;
                     await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_LauncherPath,
                         LanguageManager.Model.Settings_SelectLauncherDirError);
                 } else {
@@ -253,6 +298,15 @@ namespace AdvancedLauncher.UI.Windows {
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
             ProfileManager.ApplyChanges();
+
+            LoginManager loginManager = App.Kernel.Get<LoginManager>();
+            foreach (IProfile profile in ProfileManager.Profiles) {
+                LoginData data = null;
+                Credentials.TryGetValue(profile, out data);
+                loginManager.UpdateCredentials(profile, data);
+            }
+            Credentials.Clear();
+
             EnvironmentManager.Save();
             Close();
         }
@@ -260,6 +314,33 @@ namespace AdvancedLauncher.UI.Windows {
         #endregion Global Actions Section
 
         #region Service
+
+        private void UsernameChanged(object sender, TextChangedEventArgs e) {
+            if (IsPreventLoginChange) {
+                return;
+            }
+            LoginData login = null;
+            if (Credentials.TryGetValue(SelectedProfile, out login)) {
+                login.User = tbUser.Text;
+            }
+        }
+
+        private void PasswordChanged(object sender, RoutedEventArgs e) {
+            if (IsPreventLoginChange) {
+                return;
+            }
+            LoginData login = null;
+            if (Credentials.TryGetValue(SelectedProfile, out login)) {
+                login.SecurePassword = pbPass.SecurePassword;
+            }
+        }
+
+        private void LauncherHelp_Loaded(object sender, RoutedEventArgs e) {
+            Run run = sender as Run;
+            LanguageManager.LanguageChanged += (s, e2) => {
+                run.Text = LanguageManager.Model.Settings_AppLocale_Help;
+            };
+        }
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {
             URLUtils.OpenSite(e.Uri.AbsoluteUri);
@@ -279,24 +360,13 @@ namespace AdvancedLauncher.UI.Windows {
         #region Validation
 
         private void ValidatePaths() {
+            if (tbGamePath == null || tbLauncherPath == null) {
+                return;
+            }
             tbGamePath.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             tbLauncherPath.GetBindingExpression(TextBox.TextProperty).UpdateSource();
         }
 
         #endregion Validation
-
-        private void PasswordChanged(object sender, RoutedEventArgs e) {
-            if (IsPreventPassChange) {
-                return;
-            }
-            //SelectedProfile.Login.SecurePassword = pbPass.SecurePassword;
-        }
-
-        private void Run_Loaded(object sender, RoutedEventArgs e) {
-            Run run = sender as Run;
-            LanguageManager.LanguageChanged += (s, e2) => {
-                run.Text = LanguageManager.Model.Settings_AppLocale_Help;
-            };
-        }
     }
 }

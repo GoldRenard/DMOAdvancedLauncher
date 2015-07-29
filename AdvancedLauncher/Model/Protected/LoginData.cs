@@ -62,6 +62,9 @@ namespace AdvancedLauncher.Model.Protected {
         }
 
         public LoginData(LoginData source) {
+            if (source == null) {
+                return;
+            }
             User = source.User;
             Password = source.Password;
             LastSessionArgs = source.LastSessionArgs;
@@ -69,6 +72,12 @@ namespace AdvancedLauncher.Model.Protected {
 
         public LoginData() {
         }
+
+        [XmlIgnore]
+        public bool PasswordChanged {
+            get;
+            set;
+        } = false;
 
         [XmlIgnore]
         public bool IsCorrect {

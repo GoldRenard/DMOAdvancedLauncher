@@ -49,7 +49,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void LoadIcon() {
-            using (var icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/app_icon.ico")).Stream, 64, 64)) {
+            using (var icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Resources/app_icon.ico")).Stream, 64, 64)) {
                 using (var bitmap = icon.ToBitmap()) {
                     MemoryStream memoryStream = new MemoryStream();
                     bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);

@@ -30,6 +30,12 @@ namespace AdvancedLauncher.Management {
             }
         }
 
+        public IConfigurationManager ConfigurationManager {
+            get {
+                return App.Kernel.Get<IConfigurationManager>();
+            }
+        }
+
         public ILauncherManager LauncherManager {
             get {
                 return App.Kernel.Get<ILauncherManager>();

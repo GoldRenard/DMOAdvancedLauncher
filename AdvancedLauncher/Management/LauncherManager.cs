@@ -33,11 +33,6 @@ namespace AdvancedLauncher.Management {
 
         private readonly Dictionary<Type, ILauncher> CollectionByType = new Dictionary<Type, ILauncher>();
 
-        [Inject]
-        public IProfileManager ProfileManager {
-            get; set;
-        }
-
         public void Initialize() {
             foreach (ILauncher launcher in App.Kernel.GetAll<ILauncher>()) {
                 CollectionByMnemonic.Add(launcher.Mnemonic, launcher);
@@ -45,13 +40,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public ILauncher CurrentLauncher {
-            get {
-                return GetProfileLauncher(ProfileManager.CurrentProfile);
-            }
-        }
-
-        public ILauncher GetProfileLauncher(IProfile profile) {
+        public ILauncher GetLauncher(IProfile profile) {
             ILauncher launcher = findByMnemonic(profile.LaunchMode);
             if (launcher == null) {
                 launcher = Default;

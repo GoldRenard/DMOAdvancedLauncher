@@ -16,45 +16,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Xml.Serialization;
-using AdvancedLauncher.SDK.Model.Config;
+using System;
+using System.Globalization;
+using System.Windows.Data;
 
-namespace AdvancedLauncher.Model.Config {
+namespace AdvancedLauncher.UI.Converters {
 
-    public class RotationData : IRotationData {
+    public abstract class AbstractConverter : IValueConverter {
 
-        [XmlAttribute("Guild")]
-        public string Guild {
-            set;
-            get;
+        public AbstractConverter() {
+            App.Kernel.Inject(this);
         }
 
-        [XmlAttribute("Tamer")]
-        public string Tamer {
-            set;
-            get;
-        }
+        public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
 
-        [XmlAttribute("ServerId")]
-        public byte ServerId {
-            set;
-            get;
-        }
-
-        [XmlAttribute("UpdateInterval")]
-        public int UpdateInterval {
-            set;
-            get;
-        } = 1;
-
-        public RotationData(IRotationData rd) {
-            Guild = rd.Guild;
-            Tamer = rd.Tamer;
-            ServerId = rd.ServerId;
-            UpdateInterval = rd.UpdateInterval;
-        }
-
-        public RotationData() {
-        }
+        public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
     }
 }

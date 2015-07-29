@@ -123,11 +123,11 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void MainWorkerFunc(object sender, DoWorkEventArgs e) {
-            IProfile currentProfile = ProfileManager.CurrentProfile;
             //Ротация в цикле
             while (true) {
                 //Если источник не загружен
                 if (!IsSourceLoaded) {
+                    IProfile currentProfile = ProfileManager.CurrentProfile;
                     //Добавляем задачу загрузки
                     TaskManager.Tasks.Add(LoadingTask);
                     //Показываем анимацию загрузки
@@ -138,14 +138,14 @@ namespace AdvancedLauncher.UI.Controls {
                     GuildName = currentProfile.Rotation.Guild;
                     TamerName = currentProfile.Rotation.Tamer;
 
-                    IGameConfiguration config = GameManager.GetConfiguration(currentProfile.GameModel);
+                    IConfiguration config = GameManager.GetConfiguration(currentProfile.GameModel);
                     IWebProvider webProvider = config.CreateWebProvider();
                     IServersProvider serversProvider = config.ServersProvider;
                     //Проверяем, доступен ли веб-профиль и необходимая информация
 
                     IsStatic = webProvider == null || string.IsNullOrEmpty(GuildName);
                     if (!IsStatic) {
-                        Server = serversProvider.GetServerById(currentProfile.Rotation.ServerId + 1);
+                        Server = serversProvider.GetServerById(currentProfile.Rotation.ServerId);
                         //Регистрируем ивенты загрузки
                         webProvider.StatusChanged += OnStatusChange;
                         webProvider.DownloadCompleted += OnDownloadComplete;
@@ -217,8 +217,10 @@ namespace AdvancedLauncher.UI.Controls {
                     Digimon d = null;
 
                     Tamer tamer = null;
-                    if (!string.IsNullOrEmpty(TamerName.Trim())) {
-                        tamer = context.FindTamerByGuildAndName(Guild, TamerName.Trim());
+                    if (TamerName != null) {
+                        if (!string.IsNullOrEmpty(TamerName.Trim())) {
+                            tamer = context.FindTamerByGuildAndName(Guild, TamerName.Trim());
+                        }
                     }
                     if (tamer != null) {
                         d = context.FindRandomDigimon(tamer, MIN_LVL);

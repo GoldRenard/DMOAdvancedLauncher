@@ -19,6 +19,7 @@
 using System;
 using System.Xml.Serialization;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.Model.Protected {
@@ -30,6 +31,21 @@ namespace AdvancedLauncher.Model.Protected {
         public int Id {
             get;
             set;
+        }
+
+        private string _Guid;
+
+        [XmlAttribute("Guid")]
+        public string Guid {
+            get {
+                if (_Guid == null) {
+                    _Guid = System.Guid.NewGuid().ToString();
+                }
+                return _Guid;
+            }
+            set {
+                _Guid = value;
+            }
         }
 
         [XmlAttribute("Name")]
@@ -93,5 +109,21 @@ namespace AdvancedLauncher.Model.Protected {
             get;
             set;
         } = new GameModel();
+
+        public ProtectedProfile() {
+        }
+
+        public ProtectedProfile(IProfile profile) {
+            this.Id = profile.Id;
+            this.Guid = profile.Guid;
+            this.Name = profile.Name;
+            this.ImagePath = profile.ImagePath;
+            this.LaunchMode = profile.LaunchMode;
+            this.UpdateEngineEnabled = profile.UpdateEngineEnabled;
+            this.KBLCServiceEnabled = profile.KBLCServiceEnabled;
+            this.Rotation = new RotationData(profile.Rotation);
+            this.News = new NewsData(profile.News);
+            this.GameModel = new GameModel(profile.GameModel);
+        }
     }
 }

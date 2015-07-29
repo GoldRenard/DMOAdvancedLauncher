@@ -53,9 +53,9 @@ namespace AdvancedLauncher.SDK.Management {
 
         void ApplyChanges();
 
-        void AddProfile();
+        IProfile CreateProfile();
 
-        void RemoveProfile(IProfile profile);
+        bool RemoveProfile(IProfile profile);
 
         event EventHandler ProfileChanged;
 

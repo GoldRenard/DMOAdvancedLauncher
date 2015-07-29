@@ -30,7 +30,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
             set;
         }
 
-        string DefLauncherPath {
+        string LauncherPath {
             get;
             set;
         }

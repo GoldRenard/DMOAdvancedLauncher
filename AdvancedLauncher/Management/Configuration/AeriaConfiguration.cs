@@ -33,6 +33,12 @@ namespace AdvancedLauncher.Management.Configuration {
 
         #region Common
 
+        public override string Name {
+            get {
+                return "Aeria Games";
+            }
+        }
+
         public override string GameType {
             get {
                 return "ADMO";

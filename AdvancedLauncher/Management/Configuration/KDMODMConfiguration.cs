@@ -33,6 +33,18 @@ namespace AdvancedLauncher.Management.Configuration {
 
         #region Common
 
+        public override string Name {
+            get {
+                return "Korea DM";
+            }
+        }
+
+        public override string ServerName {
+            get {
+                return "KDMO (DigimonMasters.com)";
+            }
+        }
+
         public override string GameType {
             get {
                 return "KDMO_DM";

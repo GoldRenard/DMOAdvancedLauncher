@@ -17,8 +17,8 @@
 // ======================================================================
 
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Xml.Serialization;
 using AdvancedLauncher.Model.Config;
@@ -180,21 +180,16 @@ namespace AdvancedLauncher.Management {
             if (ProtectedSettings == null) {
                 ProtectedSettings = new ProtectedSettings();
             }
-            if (ProtectedSettings.Profiles == null || ProtectedSettings.Profiles.Count == 0) {
-                ProtectedSettings.Profiles = new List<ProtectedProfile>();
-                ProtectedSettings.Profiles.Add(new ProtectedProfile());
-            }
-
-            if (!File.Exists(SettingsFile)) {
-                Save();
-            }
 
             ApplyAppTheme(ProtectedSettings);
             ApplyProxySettings(ProtectedSettings);
             InitializeSafeSettings(ProtectedSettings);
 
             // init language
-            _Settings.LanguageFile = LanguageManager.Initialize(InitFolder(AppPath, LOCALE_DIR), _Settings.LanguageFile);
+            Settings.LanguageFile = LanguageManager.Initialize(InitFolder(AppPath, LOCALE_DIR), _Settings.LanguageFile);
+            if (!File.Exists(SettingsFile)) {
+                Save();
+            }
         }
 
         private void InitializeSafeSettings(ProtectedSettings settings) {
@@ -204,24 +199,54 @@ namespace AdvancedLauncher.Management {
 
             ProfileManager.PendingProfiles.Clear();
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (ProtectedProfile protectedProfile in settings.Profiles) {
-                Profile safeProfile = new Profile();
-                safeProfile.Id = protectedProfile.Id;
-                safeProfile.Name = protectedProfile.Name;
-                safeProfile.ImagePath = protectedProfile.ImagePath;
-                safeProfile.KBLCServiceEnabled = protectedProfile.KBLCServiceEnabled;
-                safeProfile.UpdateEngineEnabled = protectedProfile.UpdateEngineEnabled;
-                safeProfile.LaunchMode = protectedProfile.LaunchMode;
-                safeProfile.GameModel = new GameModel(protectedProfile.GameModel);
-                safeProfile.News = new NewsData(protectedProfile.News);
-                safeProfile.Rotation = new RotationData(protectedProfile.Rotation);
-                ProfileManager.PendingProfiles.Add(safeProfile);
-                if (safeProfile.Id == settings.DefaultProfile) {
-                    ProfileManager.PendingDefaultProfile = safeProfile;
+            if (settings.Profiles != null) {
+                foreach (ProtectedProfile protectedProfile in settings.Profiles) {
+                    Profile safeProfile = new Profile();
+                    safeProfile.Id = protectedProfile.Id;
+                    safeProfile.Guid = protectedProfile.Guid;
+                    safeProfile.Name = protectedProfile.Name;
+                    safeProfile.ImagePath = protectedProfile.ImagePath;
+                    safeProfile.KBLCServiceEnabled = protectedProfile.KBLCServiceEnabled;
+                    safeProfile.UpdateEngineEnabled = protectedProfile.UpdateEngineEnabled;
+                    safeProfile.LaunchMode = protectedProfile.LaunchMode;
+                    safeProfile.GameModel = new GameModel(protectedProfile.GameModel);
+                    safeProfile.News = new NewsData(protectedProfile.News);
+                    safeProfile.Rotation = new RotationData(protectedProfile.Rotation);
+                    ProfileManager.PendingProfiles.Add(safeProfile);
+                    if (safeProfile.Id == settings.DefaultProfile) {
+                        ProfileManager.PendingDefaultProfile = safeProfile;
+                    }
+                    loginManager.UpdateCredentials(safeProfile, new LoginData(protectedProfile.Login));
                 }
-                loginManager.UpdateCredentials(safeProfile, new LoginData(protectedProfile.Login));
+            }
+            if (ProfileManager.PendingProfiles.Count == 0) {
+                ProfileManager.CreateProfile();
+            }
+            if (ProfileManager.PendingDefaultProfile == null) {
+                ProfileManager.PendingDefaultProfile = ProfileManager.PendingProfiles.First();
             }
             ProfileManager.ApplyChanges();
+        }
+
+        public void Save() {
+            ProtectedSettings toSave = new ProtectedSettings(Settings);
+
+            toSave.DefaultProfile = ProfileManager.DefaultProfile.Id;
+            LoginManager loginManager = App.Kernel.Get<LoginManager>();
+            foreach (IProfile profile in ProfileManager.Profiles) {
+                ProtectedProfile protectedProfile = new ProtectedProfile(profile);
+                LoginData login = loginManager.GetCredentials(profile);
+                if (login != null) {
+                    protectedProfile.Login = new LoginData(login);
+                }
+                toSave.Profiles.Add(protectedProfile);
+            }
+
+            // TODO Implement proxy settings
+            XmlSerializer writer = new XmlSerializer(typeof(ProtectedSettings));
+            using (var file = new StreamWriter(SettingsFile)) {
+                writer.Serialize(file, toSave);
+            }
         }
 
         private void ApplyAppTheme(ProtectedSettings ProtectedSettings) {
@@ -250,6 +275,9 @@ namespace AdvancedLauncher.Management {
 
         private void ApplyProxySettings(ProtectedSettings settings) {
             ProxySetting proxy = settings.Proxy;
+            if (proxy == null) {
+                return;
+            }
             if (!proxy.IsEnabled) {
                 WebClientEx.ProxyConfig = null;
                 return;
@@ -264,13 +292,6 @@ namespace AdvancedLauncher.Management {
         }
 
         #endregion Initialization
-
-        public void Save() {
-            XmlSerializer writer = new XmlSerializer(typeof(ProtectedSettings));
-            using (var file = new StreamWriter(SettingsFile)) {
-                writer.Serialize(file, Settings);
-            }
-        }
 
         private static ProtectedSettings DeSerializeSettings(string filepath) {
             ProtectedSettings settings = new ProtectedSettings();

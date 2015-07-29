@@ -41,8 +41,6 @@ namespace AdvancedLauncher.UI.Pages {
 
         private IServersProvider serversProvider;
 
-        private IGameConfiguration currentDMOProfile;
-
         private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
 
         private Guild CURRENT_GUILD = new Guild() {
@@ -60,9 +58,9 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         protected override void ProfileChanged(object sender, EventArgs e) {
-            currentDMOProfile = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
-            serversProvider = currentDMOProfile.ServersProvider;
-            webProvider = currentDMOProfile.CreateWebProvider();
+            IConfiguration currentConfiguration = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
+            serversProvider = currentConfiguration.ServersProvider;
+            webProvider = currentConfiguration.CreateWebProvider();
             GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;

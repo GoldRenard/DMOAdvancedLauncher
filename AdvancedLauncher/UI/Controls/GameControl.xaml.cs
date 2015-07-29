@@ -269,18 +269,19 @@ namespace AdvancedLauncher.UI.Controls {
         private void StartGame(string args) {
             StartButton.IsEnabled = false;
 
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
-            IGameConfiguration configuration = GameManager.GetConfiguration(model);
+            IProfile currentProfile = ProfileManager.CurrentProfile;
+            IGameModel model = currentProfile.GameModel;
+            IConfiguration configuration = GameManager.GetConfiguration(model);
+            ILauncher launcher = LauncherManager.GetLauncher(currentProfile);
             GameManager.UpdateRegistryPaths(model);
 
-            ILauncher launcher = LauncherManager.CurrentLauncher;
             bool executed = launcher.Execute(
                 UpdateRequired ? GameManager.GetLauncherEXE(model) : GameManager.GetGameEXE(model),
                 UpdateRequired ? configuration.ConvertLauncherStartArgs(args) : configuration.ConvertGameStartArgs(args));
 
             if (executed) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
-                if (ProfileManager.CurrentProfile.KBLCServiceEnabled) {
+                if (currentProfile.KBLCServiceEnabled) {
                     launcher = LauncherManager.findByType<DirectLauncher>(typeof(DirectLauncher));
                     launcher.Execute(EnvironmentManager.KBLCFile, "-attach -notray");
                 }

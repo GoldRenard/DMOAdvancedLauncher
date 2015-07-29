@@ -26,15 +26,11 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface ILauncherManager : IManager, IEnumerable, IEnumerable<ILauncher> {
 
-        ILauncher CurrentLauncher {
-            get;
-        }
-
         ILauncher Default {
             get;
         }
 
-        ILauncher GetProfileLauncher(IProfile profile);
+        ILauncher GetLauncher(IProfile profile);
 
         ILauncher findByMnemonic(string name);
 

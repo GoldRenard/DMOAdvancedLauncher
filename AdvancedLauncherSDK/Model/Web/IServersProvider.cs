@@ -23,7 +23,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
     public interface IServersProvider {
 
-        Server GetServerById(int serverId);
+        Server GetServerById(long serverId);
 
         ICollection<Server> ServerList {
             get;

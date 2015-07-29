@@ -23,6 +23,18 @@ namespace AdvancedLauncher.Management.Configuration {
 
     public class KDMOIMBCConfiguration : KDMODMConfiguration {
 
+        public override string Name {
+            get {
+                return "Korea IMBC";
+            }
+        }
+
+        public override string ServerName {
+            get {
+                return "KDMO (IMBC.com)";
+            }
+        }
+
         public override string GameType {
             get {
                 return "KDMO_IMBC";

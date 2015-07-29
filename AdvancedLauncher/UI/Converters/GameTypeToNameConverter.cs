@@ -16,45 +16,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Xml.Serialization;
-using AdvancedLauncher.SDK.Model.Config;
+using System;
+using System.Globalization;
+using AdvancedLauncher.SDK.Management;
+using Ninject;
 
-namespace AdvancedLauncher.Model.Config {
+namespace AdvancedLauncher.UI.Converters {
 
-    public class RotationData : IRotationData {
+    public class GameTypeToNameConverter : AbstractConverter {
 
-        [XmlAttribute("Guild")]
-        public string Guild {
-            set;
-            get;
+        [Inject]
+        public IConfigurationManager ConfigurationManager {
+            get; set;
         }
 
-        [XmlAttribute("Tamer")]
-        public string Tamer {
-            set;
-            get;
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            string gameType = value as string;
+            if (gameType != null) {
+                return ConfigurationManager.GetConfiguration(gameType).Name;
+            }
+            return value;
         }
 
-        [XmlAttribute("ServerId")]
-        public byte ServerId {
-            set;
-            get;
-        }
-
-        [XmlAttribute("UpdateInterval")]
-        public int UpdateInterval {
-            set;
-            get;
-        } = 1;
-
-        public RotationData(IRotationData rd) {
-            Guild = rd.Guild;
-            Tamer = rd.Tamer;
-            ServerId = rd.ServerId;
-            UpdateInterval = rd.UpdateInterval;
-        }
-
-        public RotationData() {
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            return value;
         }
     }
 }

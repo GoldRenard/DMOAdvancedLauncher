@@ -33,6 +33,12 @@ namespace AdvancedLauncher.Management.Configuration {
 
         #region Common
 
+        public override string Name {
+            get {
+                return "Joymax";
+            }
+        }
+
         public override string GameType {
             get {
                 return "GDMO";

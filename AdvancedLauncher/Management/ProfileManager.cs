@@ -22,8 +22,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.Tools;
+using Ninject;
 
 namespace AdvancedLauncher.Management {
 
@@ -74,6 +78,16 @@ namespace AdvancedLauncher.Management {
 
         #endregion Properties
 
+        [Inject]
+        public IConfigurationManager ConfigurationManager {
+            get; set;
+        }
+
+        [Inject]
+        public ILauncherManager LauncherManager {
+            get; set;
+        }
+
         public void Initialize() {
             // nothing to do here
         }
@@ -88,35 +102,47 @@ namespace AdvancedLauncher.Management {
 
         public void ApplyChanges() {
             ApplyChanges(PendingProfiles, PendingDefaultProfile.Id);
-            List<IProfile> settingsProfiles = new List<IProfile>();
-            foreach (IProfile p in Profiles) {
-                settingsProfiles.Add(new Profile(p));
-            }
         }
 
-        public void AddProfile() {
+        public IProfile CreateProfile() {
             IProfile pNew = new Profile() {
-                Name = "NewProfile"
+                Name = "NewProfile",
+                Id = PendingProfiles.Count > 0 ? PendingProfiles.Max(p => p.Id) + 1 : 1
             };
-            foreach (IProfile p in PendingProfiles) {
-                if (p.Id > pNew.Id) {
-                    pNew.Id = p.Id;
+
+            IConfiguration config = ConfigurationManager.FirstOrDefault();
+            if (config != null) {
+                pNew.GameModel.Type = config.GameType;
+                pNew.GameModel.GamePath = config.GetGamePathFromRegistry();
+                pNew.GameModel.LauncherPath = config.GetLauncherPathFromRegistry();
+                if (config.IsWebAvailable) {
+                    Server serv = config.ServersProvider.ServerList.FirstOrDefault();
+                    if (serv != null) {
+                        pNew.Rotation.ServerId = serv.Identifier;
+                    }
                 }
             }
-            pNew.Id++;
+            pNew.News.TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE;
+            pNew.Launcher = LauncherManager.Default;
+
             PendingProfiles.Add(pNew);
             OnCollectionChanged();
+            return pNew;
         }
 
-        public void RemoveProfile(IProfile profile) {
+        public bool RemoveProfile(IProfile profile) {
+            bool result = false;
             if (PendingProfiles.Count > 1) {
                 bool IsDefault = profile.Id == PendingDefaultProfile.Id;
-                PendingProfiles.Remove(profile);
-                OnCollectionChanged();
-                if (IsDefault) {
-                    PendingDefaultProfile = PendingProfiles.First();
+                result = PendingProfiles.Remove(profile);
+                if (result) {
+                    OnCollectionChanged();
+                    if (IsDefault) {
+                        PendingDefaultProfile = PendingProfiles.First();
+                    }
                 }
             }
+            return result;
         }
 
         private void ApplyChanges(ICollection<IProfile> profiles, int defaultProfileId) {

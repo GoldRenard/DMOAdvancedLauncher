@@ -35,15 +35,10 @@ namespace AdvancedLauncher.Management {
         private const string puHF = @"Data\Pack01.hf";
         private const string puImportDir = @"Pack01";
 
-        private ConcurrentDictionary<string, IGameConfiguration> Configurations = new ConcurrentDictionary<string, IGameConfiguration>();
-
-        [Inject]
-        public IProfileManager ProfileManager {
-            get; set;
-        }
+        private ConcurrentDictionary<string, IConfiguration> Configurations = new ConcurrentDictionary<string, IConfiguration>();
 
         public void Initialize() {
-            foreach (IGameConfiguration config in App.Kernel.GetAll<IGameConfiguration>()) {
+            foreach (IConfiguration config in App.Kernel.GetAll<IConfiguration>()) {
                 RegisterConfiguration(config);
             }
         }
@@ -51,7 +46,7 @@ namespace AdvancedLauncher.Management {
         #region Check Section
 
         public bool CheckGame(IGameModel model) {
-            IGameConfiguration config = GetConfiguration(model);
+            IConfiguration config = GetConfiguration(model);
             string pGamePath = GetGamePath(model);
             if (string.IsNullOrEmpty(pGamePath)) {
                 return false;
@@ -66,7 +61,7 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool CheckLauncher(IGameModel model) {
-            IGameConfiguration config = GetConfiguration(model);
+            IConfiguration config = GetConfiguration(model);
             string pLauncherPath = GetLauncherPath(model);
             if (string.IsNullOrEmpty(pLauncherPath)) {
                 return false;
@@ -94,7 +89,7 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetLocalVersionFile(IGameModel model) {
-            IGameConfiguration config = GetConfiguration(model);
+            IConfiguration config = GetConfiguration(model);
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
                 return null;
@@ -119,7 +114,7 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetGameEXE(IGameModel model) {
-            IGameConfiguration config = GetConfiguration(model);
+            IConfiguration config = GetConfiguration(model);
             string gamePath = GetGamePath(model);
             if (string.IsNullOrEmpty(gamePath)) {
                 return null;
@@ -128,7 +123,7 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetLauncherEXE(IGameModel model) {
-            IGameConfiguration config = GetConfiguration(model);
+            IConfiguration config = GetConfiguration(model);
             string path = GetLauncherPath(model);
             if (string.IsNullOrEmpty(path)) {
                 return null;
@@ -137,30 +132,34 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetLauncherPath(IGameModel model) {
-            IGameConfiguration config = GetConfiguration(model);
-            if (string.IsNullOrEmpty(model.DefLauncherPath)) {
+            IConfiguration config = GetConfiguration(model);
+            if (string.IsNullOrEmpty(model.LauncherPath)) {
                 return config.GetLauncherPathFromRegistry();
             }
-            return model.DefLauncherPath;
+            return model.LauncherPath;
         }
 
         public string GetGamePath(IGameModel model) {
-            IGameConfiguration config = GetConfiguration(model);
+            IConfiguration config = GetConfiguration(model);
             if (string.IsNullOrEmpty(model.GamePath)) {
                 return config.GetGamePathFromRegistry();
             }
             return model.GamePath;
         }
 
-        public IGameConfiguration GetConfiguration(IGameModel model) {
-            IGameConfiguration config;
-            if (Configurations.TryGetValue(model.Type, out config)) {
-                return config;
-            }
-            throw new Exception("No game configuration for type: " + model.Type);
+        public IConfiguration GetConfiguration(IGameModel model) {
+            return GetConfiguration(model.Type);
         }
 
-        public bool RegisterConfiguration(IGameConfiguration configuration) {
+        public IConfiguration GetConfiguration(string gameType) {
+            IConfiguration config;
+            if (Configurations.TryGetValue(gameType, out config)) {
+                return config;
+            }
+            throw new Exception("No game configuration for type: " + gameType);
+        }
+
+        public bool RegisterConfiguration(IConfiguration configuration) {
             if (Configurations.ContainsKey(configuration.GameType)) {
                 throw new Exception(String.Format("Configuration with type {0} already registered!", configuration.GameType));
             }
@@ -168,12 +167,12 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool UnRegisterConfiguration(string name) {
-            IGameConfiguration configuration;
+            IConfiguration configuration;
             return Configurations.TryRemove(name, out configuration);
         }
 
         public void UpdateRegistryPaths(IGameModel model) {
-            IGameConfiguration config = GetConfiguration(model);
+            IConfiguration config = GetConfiguration(model);
             string gamePath = GetGamePath(model);
             string launcherPath = GetGamePath(model);
 
@@ -190,7 +189,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public IEnumerator<IGameConfiguration> GetEnumerator() {
+        public IEnumerator<IConfiguration> GetEnumerator() {
             return Configurations.Values.GetEnumerator();
         }
 

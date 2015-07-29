@@ -20,7 +20,15 @@ using AdvancedLauncher.SDK.Model.Web;
 
 namespace AdvancedLauncher.SDK.Management.Configuration {
 
-    public interface IGameConfiguration {
+    public interface IConfiguration {
+
+        string Name {
+            get;
+        }
+
+        string ServerName {
+            get;
+        }
 
         string GameType {
             get;

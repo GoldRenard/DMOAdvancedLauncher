@@ -32,6 +32,10 @@ namespace AdvancedLauncher.UI.Windows {
 
         public ILanguageManager _LanguageManager;
 
+        public AbstractWindow() {
+            App.Kernel.Inject(this);
+        }
+
         [Inject]
         public ILanguageManager LanguageManager {
             get {

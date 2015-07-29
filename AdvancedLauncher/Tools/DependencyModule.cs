@@ -63,10 +63,10 @@ namespace AdvancedLauncher.Tools {
 
             // Game Configurations
             Bind<IConfigurationManager>().To<ConfigurationManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<IGameConfiguration>().To<JoymaxConfiguration>().InSingletonScope();
-            Bind<IGameConfiguration>().To<AeriaConfiguration>().InSingletonScope();
-            Bind<IGameConfiguration>().To<KDMODMConfiguration>().InSingletonScope();
-            Bind<IGameConfiguration>().To<KDMOIMBCConfiguration>().InSingletonScope();
+            Bind<IConfiguration>().To<JoymaxConfiguration>().InSingletonScope();
+            Bind<IConfiguration>().To<AeriaConfiguration>().InSingletonScope();
+            Bind<IConfiguration>().To<KDMODMConfiguration>().InSingletonScope();
+            Bind<IConfiguration>().To<KDMOIMBCConfiguration>().InSingletonScope();
 
             // ViewModels
             Bind<DigimonItemViewModel>().ToSelf();

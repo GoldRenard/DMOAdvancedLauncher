@@ -40,6 +40,20 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
+        private string _Guid;
+
+        public string Guid {
+            get {
+                if (_Guid == null) {
+                    _Guid = System.Guid.NewGuid().ToString();
+                }
+                return _Guid;
+            }
+            set {
+                _Guid = value;
+            }
+        }
+
         private string _Name = "Default";
 
         public string Name {
@@ -72,7 +86,7 @@ namespace AdvancedLauncher.Model.Config {
                 }
             }
             get {
-                return App.Kernel.Get<ILauncherManager>().GetProfileLauncher(this);
+                return App.Kernel.Get<ILauncherManager>().GetLauncher(this);
             }
         }
 
@@ -119,6 +133,19 @@ namespace AdvancedLauncher.Model.Config {
             }
             get {
                 return _News;
+            }
+        }
+
+        private IGameModel _GameModel;
+
+        public IGameModel GameModel {
+            set {
+                _GameModel = value;
+                NotifyPropertyChanged("GameModel");
+                NotifyPropertyChanged("FullName");
+            }
+            get {
+                return _GameModel;
             }
         }
 
@@ -180,81 +207,17 @@ namespace AdvancedLauncher.Model.Config {
 
         #endregion Image
 
-        #region Game Environment
-
-        private IGameModel _GameModel;
-
-        public IGameModel GameModel {
-            set {
-                _GameModel = value;
-                NotifyPropertyChanged("GameModel");
-                NotifyPropertyChanged("FullName");
-            }
-            get {
-                return _GameModel;
-            }
-        }
-
-        /*[XmlIgnore]
-        public string GameType {
-            set {
-            }
-            get {
-                switch (GameModel.Type) {
-                    case GameManager.GameType.ADMO:
-                        {
-                            return "Aeria Games";
-                        }
-                    case GameManager.GameType.GDMO:
-                        {
-                            return "Joymax";
-                        }
-                    case GameManager.GameType.KDMO_DM:
-                        {
-                            return "Korea DM";
-                        }
-                    case GameManager.GameType.KDMO_IMBC:
-                        {
-                            return "Korea IMBC";
-                        }
-                    default:
-                        return "Unknown";
-                }
-            }
-        }
-
-        [XmlIgnore]
-        public byte GameTypeNum {
-            set {
-                GameModel.Type = (GameManager.GameType)value;
-                NotifyPropertyChanged("GameModel");       //We've changed env, so we must update all bindings
-                NotifyPropertyChanged("FullName");
-                NotifyPropertyChanged("GameType");
-                NotifyPropertyChanged("DMOProfile");
-                NotifyPropertyChanged("Rotation");      //cuz dmoprofile changed, we must update rotation and news support
-                NotifyPropertyChanged("News");
-            }
-            get {
-                return (byte)GameModel.Type;
-            }
-        }
-
-        [XmlIgnore]
-        public string FullName {
-            get {
-                return string.Format("{0} ({1})", Name, GameType);
-            }
-        }*/
-
-        #endregion Game Environment
-
         #region Constructors
 
         public Profile() {
+            this.Rotation = new RotationData();
+            this.News = new NewsData();
+            this.GameModel = new GameModel();
         }
 
         public Profile(IProfile p) {
             this.Id = p.Id;
+            this.Guid = p.Guid;
             this.Name = p.Name;
             this.ImagePath = p.ImagePath;
             this.LaunchMode = p.LaunchMode;
@@ -266,6 +229,36 @@ namespace AdvancedLauncher.Model.Config {
         }
 
         #endregion Constructors
+
+        public override int GetHashCode() {
+            int prime = 31;
+            int result = 1;
+            result = prime * result + (Guid == null ? 0 : Guid.GetHashCode());
+            return result;
+        }
+
+        public override bool Equals(object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (!this.GetType().IsAssignableFrom(obj.GetType())) {
+                return false;
+            }
+            Profile other = (Profile)obj;
+
+            if (Guid == null) {
+                if (other.Guid != null) {
+                    return false;
+                }
+            } else if (!Guid.Equals(other.Guid)) {
+                return false;
+            }
+
+            return this.GetHashCode() == obj.GetHashCode();
+        }
 
         #region Property Change Handler
 

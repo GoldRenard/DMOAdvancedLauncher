@@ -198,8 +198,15 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         public void GetTwitterNewsAPI11(string url) {
-            Uri link = new Uri(url);
             TwitterStatuses.Clear();
+            if (string.IsNullOrEmpty(url)) {
+                TwitterItemViewModel item = App.Kernel.Get<TwitterItemViewModel>();
+                item.Title = LanguageManager.Model.NewsTwitterError + ": [ERRCODE 4 - No URL specified]";
+                item.Date = DateTime.Now.ToLongDateString();
+                TwitterStatuses.Add(item);
+                return;
+            }
+            Uri link = new Uri(url);
             string response;
             using (WebClient wc = new WebClientEx()) {
                 try {
@@ -448,7 +455,7 @@ namespace AdvancedLauncher.UI.Controls {
         #region Joymax news
 
         private void GetJoymaxNews() {
-            IGameConfiguration config = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
+            IConfiguration config = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             INewsProvider newsProvider = config.CreateNewsProvider();
             if (newsProvider != null) {
                 List<NewsItem> news;

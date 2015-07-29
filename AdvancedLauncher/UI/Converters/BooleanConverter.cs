@@ -19,11 +19,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace AdvancedLauncher.UI.Converters {
 
-    public class BooleanConverter<T> : IValueConverter {
+    public class BooleanConverter<T> : AbstractConverter {
 
         public BooleanConverter(T trueValue, T falseValue) {
             True = trueValue;
@@ -38,11 +37,11 @@ namespace AdvancedLauncher.UI.Converters {
             get; set;
         }
 
-        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             return value is bool && ((bool)value) ? True : False;
         }
 
-        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
             return value is T && EqualityComparer<T>.Default.Equals((T)value, True);
         }
     }

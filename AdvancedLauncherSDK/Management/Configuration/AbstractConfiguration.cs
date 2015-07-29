@@ -21,8 +21,22 @@ using Microsoft.Win32;
 
 namespace AdvancedLauncher.SDK.Management.Configuration {
 
-    public abstract class AbstractConfiguration : IGameConfiguration {
+    public abstract class AbstractConfiguration : IConfiguration {
         private IServersProvider _ServersProvider;
+
+        public abstract string Name {
+            get;
+        }
+
+        public virtual string ServerName {
+            get {
+                return string.Format("{0} ({1})", GameType, Name);
+            }
+        }
+
+        public abstract string GameType {
+            get;
+        }
 
         public abstract string GameExecutable {
             get;
@@ -33,10 +47,6 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         public abstract string GamePathRegVal {
-            get;
-        }
-
-        public abstract string GameType {
             get;
         }
 

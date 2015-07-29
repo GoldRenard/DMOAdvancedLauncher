@@ -128,6 +128,8 @@
     <Compile Include="Tools\Utils.cs" />
     <Compile Include="UI\Controls\AbstractFlyout.cs" />
     <Compile Include="UI\Controls\AbstractUserControl.cs" />
+    <Compile Include="UI\Converters\AbstractConverter.cs" />
+    <Compile Include="UI\Converters\GameTypeToNameConverter.cs" />
     <Compile Include="UI\Extension\AutoScrollBehavior.cs" />
     <Compile Include="Management\ConfigurationManager.cs" />
     <Compile Include="Management\LanguageManager.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Model\Protected\ProtectedProfile.cs" />
     <Compile Include="Model\Protected\ProtectedSettings.cs" />
     <Compile Include="Tools\LogAppender.cs" />
+    <Compile Include="UI\Extension\GameModelContainer.cs" />
     <Compile Include="UI\Pages\AbstractPage.cs" />
     <Compile Include="UI\Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>

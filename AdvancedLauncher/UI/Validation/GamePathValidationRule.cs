@@ -18,6 +18,7 @@
 
 using System.Windows.Controls;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.UI.Extension;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Validation {
@@ -29,11 +30,22 @@ namespace AdvancedLauncher.UI.Validation {
             get; set;
         }
 
+        public GameModelContainer Container {
+            get;
+            set;
+        }
+
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            if (AdvancedLauncher.UI.Windows.Settings.SelectedProfile == null) {
+            if (Container == null) {
                 return new ValidationResult(false, null);
             }
-            if (GameManager.CheckGame(AdvancedLauncher.UI.Windows.Settings.SelectedProfile.GameModel)) {
+            if (Container.GameModel == null) {
+                return new ValidationResult(false, null);
+            }
+            if (Container.GameModel.Type == null) {
+                return new ValidationResult(false, null);
+            }
+            if (GameManager.CheckGame(Container.GameModel)) {
                 return new ValidationResult(true, null);
             }
             return new ValidationResult(false, null);

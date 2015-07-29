@@ -44,7 +44,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
             this.ServerType = serverType;
         }
 
-        public Server GetServerById(int serverId) {
+        public Server GetServerById(long serverId) {
             return ServerList.Where(i => i.Identifier == serverId).FirstOrDefault();
         }
 

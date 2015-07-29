@@ -50,16 +50,16 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        private string _DefLauncherPath;
+        private string _LauncherPath;
 
         [XmlElement("DefLauncherPath")]
-        public string DefLauncherPath {
+        public string LauncherPath {
             set {
-                _DefLauncherPath = value;
-                NotifyPropertyChanged("DefLauncherPath");
+                _LauncherPath = value;
+                NotifyPropertyChanged("LauncherPath");
             }
             get {
-                return _DefLauncherPath;
+                return _LauncherPath;
             }
         }
 
@@ -69,7 +69,7 @@ namespace AdvancedLauncher.Model.Config {
         public GameModel(IGameModel another) {
             this.Type = another.Type;
             this.GamePath = another.GamePath;
-            this.DefLauncherPath = another.DefLauncherPath;
+            this.LauncherPath = another.LauncherPath;
         }
 
         public override int GetHashCode() {
@@ -77,7 +77,7 @@ namespace AdvancedLauncher.Model.Config {
             int result = 1;
             result = prime * result + Type.GetHashCode();
             result = prime * result + (GamePath == null ? 0 : GamePath.GetHashCode());
-            result = prime * result + (DefLauncherPath == null ? 0 : DefLauncherPath.GetHashCode());
+            result = prime * result + (LauncherPath == null ? 0 : LauncherPath.GetHashCode());
             return result;
         }
 
@@ -104,11 +104,11 @@ namespace AdvancedLauncher.Model.Config {
                 return false;
             }
 
-            if (DefLauncherPath == null) {
-                if (other.DefLauncherPath != null) {
+            if (LauncherPath == null) {
+                if (other.LauncherPath != null) {
                     return false;
                 }
-            } else if (!DefLauncherPath.Equals(other.DefLauncherPath)) {
+            } else if (!LauncherPath.Equals(other.LauncherPath)) {
                 return false;
             }
 

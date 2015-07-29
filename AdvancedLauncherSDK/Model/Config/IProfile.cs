@@ -17,12 +17,18 @@
 // ======================================================================
 
 using System.Windows.Media;
+using AdvancedLauncher.SDK.Management.Execution;
 
 namespace AdvancedLauncher.SDK.Model.Config {
 
     public interface IProfile {
 
         int Id {
+            get;
+            set;
+        }
+
+        string Guid {
             get;
             set;
         }
@@ -55,6 +61,11 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         INewsData News {
+            get;
+            set;
+        }
+
+        ILauncher Launcher {
             get;
             set;
         }

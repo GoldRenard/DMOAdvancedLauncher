@@ -49,7 +49,7 @@
     <Compile Include="Management\FileSystemManager.cs" />
     <Compile Include="Management\IConfigurationManager.cs" />
     <Compile Include="Management\IFileSystemManager.cs" />
-    <Compile Include="Management\Configuration\IGameConfiguration.cs" />
+    <Compile Include="Management\Configuration\IConfiguration.cs" />
     <Compile Include="Management\ILanguageManager.cs" />
     <Compile Include="Management\ILoggable.cs" />
     <Compile Include="Management\ILogManager.cs" />

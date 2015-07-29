@@ -97,6 +97,8 @@
     <Compile Include="Model\Web\IServersProvider.cs" />
     <Compile Include="Model\Web\IWebProvider.cs" />
     <Compile Include="Model\NewsItem.cs" />
+    <Compile Include="Management\Plugins\IPlugin.cs" />
+    <Compile Include="Management\IPluginHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

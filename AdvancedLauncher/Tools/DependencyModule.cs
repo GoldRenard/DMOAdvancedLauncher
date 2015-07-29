@@ -17,9 +17,6 @@
 // ======================================================================
 
 using AdvancedLauncher.Management;
-using AdvancedLauncher.Management.Commands;
-using AdvancedLauncher.Management.Configuration;
-using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
@@ -27,9 +24,8 @@ using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.UI.Windows;
 using Ninject;
-using Ninject.Modules;
 using Ninject.Extensions.Conventions;
-using Ninject.Extensions.Conventions.Syntax;
+using Ninject.Modules;
 
 namespace AdvancedLauncher.Tools {
 
@@ -92,6 +88,9 @@ namespace AdvancedLauncher.Tools {
             Bind<About>().ToSelf().InSingletonScope();
             Bind<Settings>().ToSelf().InSingletonScope();
             Bind<Logger>().ToSelf().InSingletonScope().OnActivation(e => e.Initialize());
+
+            // Plugin System
+            Bind<IPluginHost>().To<PluginHost>().InSingletonScope().OnActivation(m => m.Initialize());
         }
     }
 }

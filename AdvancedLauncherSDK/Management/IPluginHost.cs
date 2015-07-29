@@ -16,63 +16,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Model.Config;
-using AdvancedLauncher.SDK.Model.Events;
-
 namespace AdvancedLauncher.SDK.Management {
 
-    public interface IEnvironmentManager : IManager {
+    public interface IPluginHost : IManager {
 
-        ISettings Settings {
+        ICommandManager CommandManager {
             get;
         }
 
-        string AppPath {
+        ILogManager LogManager {
             get;
         }
-
-        string AppDataPath {
-            get;
-        }
-
-        string SettingsFile {
-            get;
-        }
-
-        string KBLCFile {
-            get;
-        }
-
-        string NTLEAFile {
-            get;
-        }
-
-        string LanguagesPath {
-            get;
-        }
-
-        string Resources3rdPath {
-            get;
-        }
-
-        string ResourcesPath {
-            get;
-        }
-
-        string PluginsPath {
-            get;
-        }
-
-        void Save();
-
-        string ResolveResource(string folder, string file, string downloadUrl = null);
-
-        event LockedChangedHandler FileSystemLocked;
-
-        void OnFileSystemLocked(bool IsLocked);
-
-        event LockedChangedHandler ClosingLocked;
-
-        void OnClosingLocked(bool IsLocked);
     }
 }

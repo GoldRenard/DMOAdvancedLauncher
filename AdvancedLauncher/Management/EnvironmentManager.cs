@@ -25,10 +25,12 @@ using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.Providers;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Plugins;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using MahApps.Metro;
 using Ninject;
+using Ninject.Extensions.Conventions;
 
 namespace AdvancedLauncher.Management {
 
@@ -36,6 +38,7 @@ namespace AdvancedLauncher.Management {
         private const string SETTINGS_FILE = "Settings.xml";
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
+        private const string PLUGINS_DIR = "Plugins";
         private const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         private const string NTLEA_EXECUTABLE = "ntleas.exe";
 
@@ -145,6 +148,17 @@ namespace AdvancedLauncher.Management {
             }
         }
 
+        private string _PluginsPath = null;
+
+        public string PluginsPath {
+            get {
+                if (_PluginsPath == null) {
+                    _PluginsPath = InitFolder(AppPath, PLUGINS_DIR);
+                }
+                return _PluginsPath;
+            }
+        }
+
         #endregion Environment Properties
 
         #region Configuration properties
@@ -190,6 +204,7 @@ namespace AdvancedLauncher.Management {
             if (!File.Exists(SettingsFile)) {
                 Save();
             }
+            ApplyPlugins();
         }
 
         private void InitializeSafeSettings(ProtectedSettings settings) {
@@ -288,6 +303,21 @@ namespace AdvancedLauncher.Management {
                     proxy.Credentials.User, proxy.Credentials.SecurePassword);
             } else {
                 WebClientEx.ProxyConfig = new ProxyConfiguration(mode, proxy.Host, proxy.Port);
+            }
+        }
+
+        private void ApplyPlugins() {
+            App.Kernel.Bind(p => {
+                p.FromAssembliesInPath(Path.Combine(AppPath, PluginsPath))
+                .SelectAllClasses()
+                .InheritedFrom<IPlugin>()
+                .BindAllInterfaces()
+                .Configure(c => c.InSingletonScope());
+            });
+
+            IPluginHost host = App.Kernel.Get<IPluginHost>();
+            foreach (IPlugin plugin in App.Kernel.GetAll<IPlugin>()) {
+                plugin.OnActivate(host);
             }
         }
 

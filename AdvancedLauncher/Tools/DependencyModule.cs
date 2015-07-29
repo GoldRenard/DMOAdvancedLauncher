@@ -28,6 +28,8 @@ using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.UI.Windows;
 using Ninject;
 using Ninject.Modules;
+using Ninject.Extensions.Conventions;
+using Ninject.Extensions.Conventions.Syntax;
 
 namespace AdvancedLauncher.Tools {
 
@@ -48,25 +50,33 @@ namespace AdvancedLauncher.Tools {
 
             // Launchers
             Bind<ILauncherManager>().To<LauncherManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<ILauncher>().To<DirectLauncher>().InSingletonScope();
-            Bind<ILauncher>().To<AppLocaleLauncher>().InSingletonScope();
-            Bind<ILauncher>().To<NTLeaLauncher>().InSingletonScope();
+            Kernel.Bind(e => {
+                e.FromThisAssembly()
+                .SelectAllClasses()
+                .InheritedFrom<ILauncher>()
+                .BindAllInterfaces()
+                .Configure(c => c.InSingletonScope());
+            });
 
             // Commands
             Bind<ICommandManager>().To<CommandManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<ICommand>().To<EchoCommand>().InSingletonScope();
-            Bind<ICommand>().To<ExecCommand>().InSingletonScope();
-            Bind<ICommand>().To<ExitCommand>().InSingletonScope();
-            Bind<ICommand>().To<HelpCommand>().InSingletonScope();
-            Bind<ICommand>().To<LicenseCommand>().InSingletonScope();
-            Bind<ICommand>().To<ClearCommand>().InSingletonScope();
+            Kernel.Bind(e => {
+                e.FromThisAssembly()
+                .SelectAllClasses()
+                .InheritedFrom<ICommand>()
+                .BindAllInterfaces()
+                .Configure(c => c.InSingletonScope());
+            });
 
             // Game Configurations
             Bind<IConfigurationManager>().To<ConfigurationManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<IConfiguration>().To<JoymaxConfiguration>().InSingletonScope();
-            Bind<IConfiguration>().To<AeriaConfiguration>().InSingletonScope();
-            Bind<IConfiguration>().To<KDMODMConfiguration>().InSingletonScope();
-            Bind<IConfiguration>().To<KDMOIMBCConfiguration>().InSingletonScope();
+            Kernel.Bind(e => {
+                e.FromThisAssembly()
+                .SelectAllClasses()
+                .InheritedFrom<IConfiguration>()
+                .BindAllInterfaces()
+                .Configure(c => c.InSingletonScope());
+            });
 
             // ViewModels
             Bind<DigimonItemViewModel>().ToSelf();

@@ -412,16 +412,16 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Resources\ResourceList_Aeria.cfg">
+    <None Include="Resources\ResourceList_ADMO.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\ResourceList_Joymax.cfg">
+    <None Include="Resources\ResourceList_GDMO.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\ResourceList_Korea.cfg">
+    <None Include="Resources\ResourceList_KDMO_DM.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\ResourceList_KoreaIMBC.cfg">
+    <None Include="Resources\ResourceList_KDMO_IMBC.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

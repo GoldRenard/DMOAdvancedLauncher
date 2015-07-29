@@ -98,14 +98,14 @@ namespace AdvancedLauncher.Management {
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
-            IGameProfile dmoProfile = GameManager.GetConfiguration(model).Profile;
+            ILoginProvider loginProvider = GameManager.GetConfiguration(model).CreateLoginProvider();
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
             };
             controller = await MainWindow.Instance.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, false, settings);
-            dmoProfile.LoginStateChanged += OnLoginStateChanged;
-            dmoProfile.LoginCompleted += OnLoginCompleted;
-            dmoProfile.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
+            loginProvider.LoginStateChanged += OnLoginStateChanged;
+            loginProvider.LoginCompleted += OnLoginCompleted;
+            loginProvider.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
         }
 
         private async void ShowLastSessionDialog(IProfile profile) {
@@ -131,7 +131,7 @@ namespace AdvancedLauncher.Management {
 
         private async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
             await controller.CloseAsync();
-            DMOProfile profile = (DMOProfile)sender;
+            AbstractLoginProvider profile = (AbstractLoginProvider)sender;
             profile.LoginStateChanged -= OnLoginStateChanged;
             profile.LoginCompleted -= OnLoginCompleted;
 

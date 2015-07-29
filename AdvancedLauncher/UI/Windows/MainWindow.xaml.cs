@@ -163,7 +163,7 @@ namespace AdvancedLauncher.UI.Windows {
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
 
             //Если доступен веб-профиль, включаем вкладку сообщества
-            if (GameManager.GetConfiguration(model).Profile.IsWebAvailable) {
+            if (GameManager.GetConfiguration(model).IsWebAvailable) {
                 NavCommunity.IsEnabled = true;
             }
 

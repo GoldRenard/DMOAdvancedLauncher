@@ -66,12 +66,34 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
             get;
         }
 
-        IGameProfile Profile {
+        ILoginProvider CreateLoginProvider();
+
+        IWebProvider CreateWebProvider();
+
+        INewsProvider CreateNewsProvider();
+
+        IServersProvider ServersProvider {
+            get;
+        }
+
+        bool IsWebAvailable {
+            get;
+        }
+
+        bool IsNewsAvailable {
+            get;
+        }
+
+        bool IsLoginRequired {
             get;
         }
 
         string GetGamePathFromRegistry();
 
         string GetLauncherPathFromRegistry();
+
+        string ConvertGameStartArgs(string args);
+
+        string ConvertLauncherStartArgs(string args);
     }
 }

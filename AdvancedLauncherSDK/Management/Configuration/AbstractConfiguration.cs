@@ -22,7 +22,7 @@ using Microsoft.Win32;
 namespace AdvancedLauncher.SDK.Management.Configuration {
 
     public abstract class AbstractConfiguration : IGameConfiguration {
-        private IGameProfile _Profile;
+        private IServersProvider _ServersProvider;
 
         public abstract string GameExecutable {
             get;
@@ -68,16 +68,48 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
             get;
         }
 
-        public IGameProfile Profile {
+        public virtual bool IsWebAvailable {
             get {
-                if (_Profile == null) {
-                    _Profile = CreateProfile();
-                }
-                return _Profile;
+                return false;
             }
         }
 
-        protected abstract IGameProfile CreateProfile();
+        public virtual bool IsNewsAvailable {
+            get {
+                return false;
+            }
+        }
+
+        public virtual bool IsLoginRequired {
+            get {
+                return false;
+            }
+        }
+
+        public virtual ILoginProvider CreateLoginProvider() {
+            return null;
+        }
+
+        public virtual IWebProvider CreateWebProvider() {
+            return null;
+        }
+
+        public virtual INewsProvider CreateNewsProvider() {
+            return null;
+        }
+
+        public IServersProvider ServersProvider {
+            get {
+                lock (this) {
+                    if (_ServersProvider == null) {
+                        _ServersProvider = CreateServersProvider();
+                    }
+                }
+                return _ServersProvider;
+            }
+        }
+
+        protected abstract IServersProvider CreateServersProvider();
 
         public string GetGamePathFromRegistry() {
             using (RegistryKey reg = Registry.CurrentUser.CreateSubKey(GamePathRegKey)) {
@@ -89,6 +121,14 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
             using (RegistryKey reg = Registry.CurrentUser.CreateSubKey(LauncherPathRegKey)) {
                 return (string)reg.GetValue(LauncherPathRegVal);
             }
+        }
+
+        public virtual string ConvertGameStartArgs(string args) {
+            return args;
+        }
+
+        public virtual string ConvertLauncherStartArgs(string args) {
+            return string.Empty;
         }
     }
 }

@@ -125,7 +125,7 @@ namespace AdvancedLauncher.UI.Pages {
             ResourceModel.UnLoadData();
             string[] rlines = null;
             string rFile = (EnvironmentManager.ResourcesPath + string.Format(RES_LIST_FILE,
-                GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile.GetTypeName()));
+                GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).GameType));
             if (File.Exists(rFile)) {
                 rlines = System.IO.File.ReadAllLines(rFile);
 

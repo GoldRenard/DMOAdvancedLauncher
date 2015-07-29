@@ -16,15 +16,28 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Web;
 using DMOLibrary.Profiles.Aeria;
+using Ninject;
 
 namespace AdvancedLauncher.Management.Configuration {
 
     public class AeriaConfiguration : AbstractConfiguration {
 
+        [Inject]
+        public ILogManager LogManager {
+            get; set;
+        }
+
         #region Common
+
+        public override string GameType {
+            get {
+                return "ADMO";
+            }
+        }
 
         public override string LauncherExecutable {
             get {
@@ -62,12 +75,6 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
-        public override string GameType {
-            get {
-                return "ADMO";
-            }
-        }
-
         public override bool IsLastSessionAvailable {
             get {
                 return false;
@@ -94,8 +101,22 @@ namespace AdvancedLauncher.Management.Configuration {
 
         #endregion Common
 
-        protected override IGameProfile CreateProfile() {
-            return new DMOAeria();
+        #region Providers
+
+        public override ILoginProvider CreateLoginProvider() {
+            return new AeriaLoginProvider(LogManager);
         }
+
+        protected override IServersProvider CreateServersProvider() {
+            return new AeriaServersProvider();
+        }
+
+        public override bool IsLoginRequired {
+            get {
+                return true;
+            }
+        }
+
+        #endregion Providers
     }
 }

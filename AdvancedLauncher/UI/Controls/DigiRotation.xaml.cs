@@ -25,6 +25,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
@@ -33,7 +34,6 @@ using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.Tools;
 using DMOLibrary.Database;
 using DMOLibrary.Database.Context;
-using DMOLibrary.Profiles;
 using MahApps.Metro.Controls;
 using Ninject;
 
@@ -63,7 +63,6 @@ namespace AdvancedLauncher.UI.Controls {
 
         private TaskEntry LoadingTask;
         private readonly BackgroundWorker MainWorker = new BackgroundWorker();
-        private IWebProfile WebProfile = null;
         private RotationElement tempRotationElement = null;
 
         private HaguruLoader loader = new HaguruLoader() {
@@ -124,6 +123,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void MainWorkerFunc(object sender, DoWorkEventArgs e) {
+            IProfile currentProfile = ProfileManager.CurrentProfile;
             //Ротация в цикле
             while (true) {
                 //Если источник не загружен
@@ -135,25 +135,25 @@ namespace AdvancedLauncher.UI.Controls {
                     IsStatic = false;
                     IsErrorOccured = false;
                     //Получаем информацию, необходимую для ротации
-                    GuildName = ProfileManager.CurrentProfile.Rotation.Guild;
-                    TamerName = ProfileManager.CurrentProfile.Rotation.Tamer;
+                    GuildName = currentProfile.Rotation.Guild;
+                    TamerName = currentProfile.Rotation.Tamer;
 
-                    IGameModel model = ProfileManager.CurrentProfile.GameModel;
-                    IGameProfile profile = GameManager.GetConfiguration(model).Profile;
-
+                    IGameConfiguration config = GameManager.GetConfiguration(currentProfile.GameModel);
+                    IWebProvider webProvider = config.CreateWebProvider();
+                    IServersProvider serversProvider = config.ServersProvider;
                     //Проверяем, доступен ли веб-профиль и необходимая информация
-                    WebProfile = profile.GetWebProfile();
-                    IsStatic = WebProfile == null || string.IsNullOrEmpty(GuildName);
+
+                    IsStatic = webProvider == null || string.IsNullOrEmpty(GuildName);
                     if (!IsStatic) {
-                        Server = profile.GetServerById(ProfileManager.CurrentProfile.Rotation.ServerId + 1);
+                        Server = serversProvider.GetServerById(currentProfile.Rotation.ServerId + 1);
                         //Регистрируем ивенты загрузки
-                        WebProfile.StatusChanged += OnStatusChange;
-                        WebProfile.DownloadCompleted += OnDownloadComplete;
+                        webProvider.StatusChanged += OnStatusChange;
+                        webProvider.DownloadCompleted += OnDownloadComplete;
                         //Получаем информацию о списках гильдии
-                        AbstractWebProfile.GetActualGuild(WebProfile, Server, GuildName, false, ProfileManager.CurrentProfile.Rotation.UpdateInterval + 1);
+                        webProvider.GetActualGuild(Server, GuildName, false, currentProfile.Rotation.UpdateInterval + 1);
                         //Убираем обработку ивентов
-                        WebProfile.DownloadCompleted -= OnDownloadComplete;
-                        WebProfile.StatusChanged -= OnStatusChange;
+                        webProvider.DownloadCompleted -= OnDownloadComplete;
+                        webProvider.StatusChanged -= OnStatusChange;
                     }
                     //Проверяем не произошла ли ошибка
                     if (!IsErrorOccured) {

@@ -51,6 +51,7 @@
     <Compile Include="Management\IFileSystemManager.cs" />
     <Compile Include="Management\Configuration\IGameConfiguration.cs" />
     <Compile Include="Management\ILanguageManager.cs" />
+    <Compile Include="Management\ILoggable.cs" />
     <Compile Include="Management\ILogManager.cs" />
     <Compile Include="Model\Entity\BaseEntity.cs" />
     <Compile Include="Model\Entity\Digimon.cs" />
@@ -64,7 +65,10 @@
     <Compile Include="Model\Events\LoginCompleteEventArgs.cs" />
     <Compile Include="Model\Events\LoginStateEventArgs.cs" />
     <Compile Include="Model\LanguageModel.cs" />
-    <Compile Include="Model\Web\IGameProfile.cs" />
+    <Compile Include="Model\Web\AbstractNewsProvider.cs" />
+    <Compile Include="Model\Web\AbstractServersProvider.cs" />
+    <Compile Include="Model\Web\AbstractWebProvider.cs" />
+    <Compile Include="Model\Web\ILoginProvider.cs" />
     <Compile Include="Management\Commands\AbstractCommand.cs" />
     <Compile Include="Management\Commands\ICommand.cs" />
     <Compile Include="Management\Execution\AbstractLauncher.cs" />
@@ -87,8 +91,9 @@
     <Compile Include="Model\Events\WriteDirectoryEventArgs.cs" />
     <Compile Include="Model\TaskEntry.cs" />
     <Compile Include="Model\VersionPair.cs" />
-    <Compile Include="Model\Web\INewsProfile.cs" />
-    <Compile Include="Model\Web\IWebProfile.cs" />
+    <Compile Include="Model\Web\INewsProvider.cs" />
+    <Compile Include="Model\Web\IServersProvider.cs" />
+    <Compile Include="Model\Web\IWebProvider.cs" />
     <Compile Include="Model\NewsItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

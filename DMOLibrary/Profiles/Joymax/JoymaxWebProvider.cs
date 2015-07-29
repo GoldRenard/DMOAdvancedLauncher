@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
 using DMOLibrary.Database.Context;
@@ -27,8 +28,7 @@ using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Joymax {
 
-    public class JoymaxWebProfile : AbstractWebProfile {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(JoymaxWebProfile));
+    public class JoymaxWebProvider : DatabaseWebProvider {
         private static string STR_RANKING_NODE = "//div[@class='list bbs-ranking']";
         private static string STR_GUILD_ID_REGEX = "(\\/Ranking\\/GuildRankingDetail\\.aspx\\?gid=)(\\d+)(&srvn=)";
         private static string STR_TAMER_ID_REGEX = "(\\/Ranking\\/MainPop\\.aspx\\?tid=)(\\d+)(&srvn=)";
@@ -39,6 +39,9 @@ namespace DMOLibrary.Profiles.Joymax {
         private static string STR_URL_MERC_SIZE_RANK = "http://dmocp.joymax.com/Ranking/SizeRankingList.aspx?sw={0}&srvn={1}&dtype={2}";
         private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://dmocp.joymax.com/Ranking/SizeRankingList.aspx";
         private static string STR_URL_STARTER_RANK = "http://dmocp.joymax.com/Ranking/PartnerRankingList.aspx?sw={0}&srvn={1}";
+
+        public JoymaxWebProvider(ILogManager logManager) : base(logManager) {
+        }
 
         public override Guild GetGuild(Server server, string guildName, bool isDetailed) {
             OnStarted();
@@ -110,7 +113,9 @@ namespace DMOLibrary.Profiles.Joymax {
                     return guild;
                 }
             } catch (Exception e) {
-                LOGGER.Error("An error occured while guild info receiving", e);
+                if (LogManager != null) {
+                    LogManager.Error("An error occured while guild info receiving", e);
+                }
                 OnCompleted(DMODownloadResultCode.WEB_ACCESS_ERROR, guild);
                 return guild;
             }
@@ -119,7 +124,9 @@ namespace DMOLibrary.Profiles.Joymax {
         protected override bool GetGuildInfo(ref Guild guild, bool isDetailed) {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlDocument doc = new HtmlDocument();
-            LOGGER.InfoFormat("Obtaining info of {0}", guild.Name);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Obtaining info of {0}", guild.Name);
+            }
             string html = DownloadContent(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
             doc.LoadHtml(html);
 
@@ -155,7 +162,9 @@ namespace DMOLibrary.Profiles.Joymax {
                         }
 
                         tamerList.Add(tamer);
-                        LOGGER.InfoFormat("Found tamer \"{0}\"", tamer.Name);
+                        if (LogManager != null) {
+                            LogManager.InfoFormat("Found tamer \"{0}\"", tamer.Name);
+                        }
                     }
                 }
             }
@@ -167,7 +176,9 @@ namespace DMOLibrary.Profiles.Joymax {
         }
 
         protected override List<Digimon> GetDigimons(Tamer tamer, bool isDetailed) {
-            LOGGER.InfoFormat("Obtaining digimons for tamer \"{0}\"", tamer.Name);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Obtaining digimons for tamer \"{0}\"", tamer.Name);
+            }
             List<Digimon> digimonList = new List<Digimon>();
             HtmlDocument doc = new HtmlDocument();
 
@@ -186,7 +197,9 @@ namespace DMOLibrary.Profiles.Joymax {
                 partner.SizeCm = partner.Type.SizeCm;
                 digimonList.Add(partner);
                 if (!GetStarterInfo(ref partner, tamer)) {
-                    LOGGER.ErrorFormat("Unable to obtain info about starter digimon \"{0}\" for tamer \"{1}\"", partner.Name, tamer.Name);
+                    if (LogManager != null) {
+                        LogManager.ErrorFormat("Unable to obtain info about starter digimon \"{0}\" for tamer \"{1}\"", partner.Name, tamer.Name);
+                    }
                 }
 
                 HtmlNode mercenaryList = doc.DocumentNode.SelectNodes("//div[@id='rankingscroll']")[0];
@@ -209,11 +222,15 @@ namespace DMOLibrary.Profiles.Joymax {
                         if (digimonList.Count(d => d.Type.Equals(digimonInfo.Type)) == 0) {
                             if (isDetailed) {
                                 if (!GetMercenaryInfo(ref digimonInfo, tamer)) {
-                                    LOGGER.ErrorFormat("Unable to obtain detailed data of digimon \"{0}\" for tamer \"{1}\"", digimonInfo.Name, tamer.Name);
+                                    if (LogManager != null) {
+                                        LogManager.ErrorFormat("Unable to obtain detailed data of digimon \"{0}\" for tamer \"{1}\"", digimonInfo.Name, tamer.Name);
+                                    }
                                 }
                             }
                             digimonList.Add(digimonInfo);
-                            LOGGER.Info(String.Format("Found digimon \"{0}\"", digimonInfo.Name));
+                            if (LogManager != null) {
+                                LogManager.Info(String.Format("Found digimon \"{0}\"", digimonInfo.Name));
+                            }
                         }
                     }
                 }
@@ -225,7 +242,9 @@ namespace DMOLibrary.Profiles.Joymax {
             if (digimon.Type == null) {
                 return false;
             }
-            LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
+            }
             HtmlDocument doc = new HtmlDocument();
 
             string html = DownloadContent(string.Format(STR_URL_STARTER_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier));
@@ -252,7 +271,9 @@ namespace DMOLibrary.Profiles.Joymax {
             if (digimon.Type.IsStarter) {
                 return false;
             }
-            LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
+            }
 
             string html = DownloadContent(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier.ToString(), digimon.Type.Code));
             HtmlDocument doc = new HtmlDocument();
@@ -301,7 +322,9 @@ namespace DMOLibrary.Profiles.Joymax {
                     Name = type.InnerText
                 };
                 dTypes.Add(dType);
-                LOGGER.DebugFormat("Found {0}", dType);
+                if (LogManager != null) {
+                    LogManager.DebugFormat("Found {0}", dType);
+                }
             }
             return dTypes;
         }

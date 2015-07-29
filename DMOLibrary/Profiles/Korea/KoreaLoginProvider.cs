@@ -17,27 +17,22 @@
 // ======================================================================
 
 using System.Security;
-using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
-using AdvancedLauncher.SDK.Model.Web;
 
 namespace DMOLibrary.Profiles.Korea {
 
-    public class DMOKorea : DMOProfile {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOKorea));
+    public class KoreaLoginProvider : AbstractLoginProvider {
 
-        public DMOKorea()
-            : this(Server.ServerType.KDMO, "Korea") {
-        }
-
-        public DMOKorea(Server.ServerType serverType, string typeName)
-            : base(serverType, typeName) {
+        public KoreaLoginProvider(ILogManager logManager) : base(logManager) {
         }
 
         #region Getting user login commandline
 
         public virtual void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
-            LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Document requested: {0}", e.Url.OriginalString);
+            }
             switch (e.Url.AbsolutePath) {
                 //loginning
                 case "/help/Login/MemberLogin.aspx":
@@ -70,7 +65,7 @@ namespace DMOLibrary.Profiles.Korea {
                 //logged
                 case "/index.aspx":
                     {
-                        OnChanged(LoginState.GETTING_DATA);
+                        OnStateChanged(LoginState.GETTING_DATA);
                         wb.Navigate("http://www.digimonmasters.com/inc/xml/launcher.aspx");
                         break;
                     }
@@ -101,27 +96,9 @@ namespace DMOLibrary.Profiles.Korea {
             };
             wb.DocumentCompleted += LoginDocumentCompleted;
             wb.Navigate("http://www.digimonmasters.com/help/Login/MemberLogin.aspx");
-            OnChanged(LoginState.LOGINNING);
+            OnStateChanged(LoginState.LOGINNING);
         }
 
         #endregion Getting user login commandline
-
-        public override bool IsLoginRequired {
-            get {
-                return true;
-            }
-        }
-
-        public override IWebProfile GetWebProfile() {
-            return new KoreaWebProfile();
-        }
-
-        public override string GetGameStartArgs(string args) {
-            return args.Replace(" 1 ", " ");
-        }
-
-        public override string GetLauncherStartArgs(string args) {
-            return args;
-        }
     }
 }

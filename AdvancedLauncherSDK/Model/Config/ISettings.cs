@@ -17,37 +17,25 @@
 // ======================================================================
 
 using System;
-using System.IO;
-using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.SDK.Management {
+namespace AdvancedLauncher.SDK.Model.Config {
 
-    public interface IFileSystemManager : IManager, ILoggable, IDisposable {
+    public interface ISettings {
 
-        event WriteStatusChangedEventHandler WriteStatusChanged;
+        event EventHandler ConfigurationChanged;
 
-        bool IsOpened {
-            get;
+        string LanguageFile {
+            get; set;
         }
 
-        bool Open(FileAccess access, int archiveHeader, string headerFile, string packageFile);
+        string AppTheme {
+            get; set;
+        }
 
-        void Close();
+        string ThemeAccent {
+            get; set;
+        }
 
-        Stream ReadFile(string name);
-
-        Stream ReadFile(uint id);
-
-        Stream ReadFile(int entryIndex);
-
-        bool WriteFile(string sourceFile, string destination);
-
-        bool WriteStream(Stream sourceStream, string destination);
-
-        bool WriteStream(Stream sourceStream, uint entryId);
-
-        bool WriteDirectory(string path, bool deleteOnComplete);
-
-        uint FileHash(string filePath);
+        void MergeConfig(ISettings source);
     }
 }

@@ -17,26 +17,25 @@
 // ======================================================================
 
 using System.Security;
-using System.Web;
-using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 
-namespace DMOLibrary.Profiles.Aeria {
+namespace DMOLibrary.Profiles.Korea {
 
-    public class DMOAeria : DMOProfile {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(DMOAeria));
+    public class KoreaIMBCLoginProvider : KoreaLoginProvider {
 
-        public DMOAeria()
-            : base(Server.ServerType.ADMO, "Aeria") {
+        public KoreaIMBCLoginProvider(ILogManager logManager) : base(logManager) {
         }
 
         #region Getting user login commandline
 
-        private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
-            LOGGER.InfoFormat("Document requested: {0}", e.Url.OriginalString);
+        public override void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+            if (LogManager != null) {
+                LogManager.InfoFormat("Document requested: {0}", e.Url.OriginalString);
+            }
             switch (e.Url.AbsolutePath) {
                 //loginning
-                case "/dialog/oauth":
+                case "/RealMedia/ads/adstream_sx.ads/www.imbc.com/Login@Middle":
                     {
                         if (LoginTryNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
@@ -46,14 +45,14 @@ namespace DMOLibrary.Profiles.Aeria {
 
                         bool isFound = true;
                         try {
-                            wb.Document.GetElementById("edit-id").SetAttribute("value", UserId);
-                            wb.Document.GetElementById("edit-pass").SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
+                            wb.Document.GetElementsByTagName("input").GetElementsByName("Uid")[0].SetAttribute("value", UserId);
+                            wb.Document.GetElementsByTagName("input").GetElementsByName("Password")[0].SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
                         } catch {
                             isFound = false;
                         }
 
                         if (isFound) {
-                            System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("account_login");
+                            System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("frmLogin");
                             if (form != null) {
                                 form.InvokeMember("submit");
                             }
@@ -63,31 +62,22 @@ namespace DMOLibrary.Profiles.Aeria {
                         }
                         break;
                     }
-                case "/dialog/oauth/authorize":
+                //logged
+                case "/Counsel/PasswordModify90Days.aspx":
+                case "/":
                     {
-                        System.Windows.Forms.HtmlElementCollection links = wb.Document.GetElementsByTagName("a");
-                        foreach (System.Windows.Forms.HtmlElement link in links) {
-                            if (link.InnerText.Trim().ToLower().Equals("authorize")) {
-                                link.InvokeMember("click");
-                                break;
-                            }
-                        }
-                        OnCompleted(LoginCode.UNKNOWN_URL, string.Empty, UserId);
+                        OnStateChanged(LoginState.GETTING_DATA);
+                        wb.Navigate("http://dm.imbc.com/inc/xml/launcher.aspx");
                         break;
                     }
-                //logged
-                case "/code2token.html":
+                //getting data
+                case "/inc/xml/launcher.aspx":
                     {
-                        OnCompleted(LoginCode.SUCCESS, string.Format("{0} {1} {2}", "Aeria", HttpUtility.ParseQueryString(e.Url.Query).Get("code"), UserId), UserId);
+                        TryParseInfo(wb.DocumentText);
                         break;
                     }
                 default:
-                    {
-                        if (!e.Url.Host.Contains("facebook")) {
-                            OnCompleted(LoginCode.UNKNOWN_URL, string.Empty, UserId);
-                        }
-                        break;
-                    }
+                    break;
             }
         }
 
@@ -100,25 +90,16 @@ namespace DMOLibrary.Profiles.Aeria {
             }
 
             LoginTryNum = 0;
+            if (wb != null)
+                wb.Dispose();
+            wb = new System.Windows.Forms.WebBrowser() {
+                ScriptErrorsSuppressed = true
+            };
             wb.DocumentCompleted += LoginDocumentCompleted;
-            wb.Navigate("http://www.aeriagames.com/dialog/oauth?response_type=code&client_id=f24233f2506681f0ba2022418e6a5b44050b5216f&https://agoa-dmo.joymax.com/code2token.html&&state=xyz");
-            OnChanged(LoginState.LOGINNING);
+            wb.Navigate("http://member.imbc.com/Login/Login.aspx");
+            OnStateChanged(LoginState.LOGINNING);
         }
 
         #endregion Getting user login commandline
-
-        public override bool IsLoginRequired {
-            get {
-                return true;
-            }
-        }
-
-        public override string GetGameStartArgs(string args) {
-            return args;
-        }
-
-        public override string GetLauncherStartArgs(string args) {
-            return string.Empty;
-        }
     }
 }

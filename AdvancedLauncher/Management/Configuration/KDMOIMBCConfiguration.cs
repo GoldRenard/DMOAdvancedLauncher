@@ -29,8 +29,12 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
-        protected new IGameProfile CreateProfile() {
-            return new DMOKoreaIMBC();
+        protected override IServersProvider CreateServersProvider() {
+            return new KoreaIMBCServersProvider();
+        }
+
+        public override ILoginProvider CreateLoginProvider() {
+            return new KoreaIMBCLoginProvider(LogManager);
         }
     }
 }

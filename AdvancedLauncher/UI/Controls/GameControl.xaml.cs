@@ -27,11 +27,11 @@ using System.Windows.Shell;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
-using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls.Dialogs;
@@ -270,13 +270,13 @@ namespace AdvancedLauncher.UI.Controls {
             StartButton.IsEnabled = false;
 
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
-            IGameProfile profile = GameManager.GetConfiguration(model).Profile;
+            IGameConfiguration configuration = GameManager.GetConfiguration(model);
             GameManager.UpdateRegistryPaths(model);
 
             ILauncher launcher = LauncherManager.CurrentLauncher;
             bool executed = launcher.Execute(
                 UpdateRequired ? GameManager.GetLauncherEXE(model) : GameManager.GetGameEXE(model),
-                UpdateRequired ? profile.GetLauncherStartArgs(args) : profile.GetGameStartArgs(args));
+                UpdateRequired ? configuration.ConvertLauncherStartArgs(args) : configuration.ConvertGameStartArgs(args));
 
             if (executed) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
@@ -377,7 +377,7 @@ namespace AdvancedLauncher.UI.Controls {
             ProfileManager.OnProfileLocked(true);
             EnvironmentManager.OnFileSystemLocked(true);
             //Проверяем, требуется ли логин
-            if (GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile.IsLoginRequired) {
+            if (GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).IsLoginRequired) {
                 App.Kernel.Get<LoginManager>().Login(ProfileManager.CurrentProfile);
             } else { //Логин не требуется, запускаем игру как есть
                 StartGame(string.Empty);

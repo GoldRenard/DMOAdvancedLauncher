@@ -16,15 +16,28 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Web;
 using DMOLibrary.Profiles.Joymax;
+using Ninject;
 
 namespace AdvancedLauncher.Management.Configuration {
 
     public class JoymaxConfiguration : AbstractConfiguration {
 
+        [Inject]
+        public ILogManager LogManager {
+            get; set;
+        }
+
         #region Common
+
+        public override string GameType {
+            get {
+                return "GDMO";
+            }
+        }
 
         public override string LauncherExecutable {
             get {
@@ -62,12 +75,6 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
-        public override string GameType {
-            get {
-                return "GDMO";
-            }
-        }
-
         public override bool IsLastSessionAvailable {
             get {
                 return false;
@@ -92,10 +99,44 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
+        public override string ConvertGameStartArgs(string args) {
+            return "true";
+        }
+
         #endregion Common
 
-        protected override IGameProfile CreateProfile() {
-            return new DMOJoymax();
+        #region Providers
+
+        public override IWebProvider CreateWebProvider() {
+            return new JoymaxWebProvider(LogManager);
         }
+
+        public override INewsProvider CreateNewsProvider() {
+            return new JoymaxNewsProvider(LogManager);
+        }
+
+        protected override IServersProvider CreateServersProvider() {
+            return new JoymaxServersProvider();
+        }
+
+        public override bool IsLoginRequired {
+            get {
+                return false;
+            }
+        }
+
+        public override bool IsWebAvailable {
+            get {
+                return true;
+            }
+        }
+
+        public override bool IsNewsAvailable {
+            get {
+                return true;
+            }
+        }
+
+        #endregion Providers
     }
 }

@@ -16,15 +16,28 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Web;
 using DMOLibrary.Profiles.Korea;
+using Ninject;
 
 namespace AdvancedLauncher.Management.Configuration {
 
     public class KDMODMConfiguration : AbstractConfiguration {
 
+        [Inject]
+        public ILogManager LogManager {
+            get; set;
+        }
+
         #region Common
+
+        public override string GameType {
+            get {
+                return "KDMO_DM";
+            }
+        }
 
         public override string LauncherExecutable {
             get {
@@ -62,12 +75,6 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
-        public override string GameType {
-            get {
-                return "KDMO_DM";
-            }
-        }
-
         public override bool IsLastSessionAvailable {
             get {
                 return true;
@@ -92,10 +99,42 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
+        public override string ConvertGameStartArgs(string args) {
+            return args.Replace(" 1 ", " ");
+        }
+
+        public override string ConvertLauncherStartArgs(string args) {
+            return args;
+        }
+
         #endregion Common
 
-        protected override IGameProfile CreateProfile() {
-            return new DMOKorea();
+        #region Providers
+
+        public override ILoginProvider CreateLoginProvider() {
+            return new KoreaLoginProvider(LogManager);
         }
+
+        public override IWebProvider CreateWebProvider() {
+            return new KoreaWebProvider(LogManager);
+        }
+
+        protected override IServersProvider CreateServersProvider() {
+            return new KoreaServersProvider();
+        }
+
+        public override bool IsLoginRequired {
+            get {
+                return true;
+            }
+        }
+
+        public override bool IsWebAvailable {
+            get {
+                return true;
+            }
+        }
+
+        #endregion Providers
     }
 }

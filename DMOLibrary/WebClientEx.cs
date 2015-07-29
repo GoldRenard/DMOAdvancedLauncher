@@ -18,12 +18,11 @@
 
 using System;
 using System.Net;
+using AdvancedLauncher.SDK.Management;
 
 namespace DMOLibrary {
 
     public class WebClientEx : WebClient {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(WebClientEx));
-
         public const int DEFAULT_TIMEOUT = 3000;
 
         private int? _timeout;
@@ -85,6 +84,14 @@ namespace DMOLibrary {
         }
 
         public static string DownloadContent(string url, int tryAttempts, int? timeOut) {
+            return DownloadContent(null, url, tryAttempts, timeOut);
+        }
+
+        public static string DownloadContent(ILogManager logManager, string url, int? timeOut = null) {
+            return DownloadContent(logManager, url, 100, timeOut);
+        }
+
+        public static string DownloadContent(ILogManager logManager, string url, int tryAttempts, int? timeOut) {
             Exception exception = null;
             for (int i = 0; i < tryAttempts; i++) {
                 using (WebClientEx webClient = timeOut != null ? new WebClientEx(timeOut.Value) : new WebClientEx()) {
@@ -92,7 +99,9 @@ namespace DMOLibrary {
                         return webClient.DownloadString(url);
                     } catch (WebException e) {
                         exception = e;
-                        LOGGER.WarnFormat("Web request for \"{0}\" caused the error: {1}", url, e.Message);
+                        if (logManager != null) {
+                            logManager.WarnFormat("Web request for \"{0}\" caused the error: {1}", url, e.Message);
+                        }
                     };
                 }
             }

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
 using DMOLibrary.Database.Context;
@@ -28,8 +29,7 @@ using HtmlAgilityPack;
 
 namespace DMOLibrary.Profiles.Korea {
 
-    public class KoreaWebProfile : AbstractWebProfile {
-        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(KoreaWebProfile));
+    public class KoreaWebProvider : DatabaseWebProvider {
         private static string STR_GUILD_ID_REGEX = "(main_sub\\.aspx\\?v=)(\\d+)(&o=)(\\d+)";
         private static string STR_TAMER_LVL_REGEX = "(\\/images\\/comm\\/icon\\/lv_)(\\d+)(\\.gif)";
         private static string STR_TAMER_TYPE_REGEX = "(\\/images\\/ranking\\/icon\\/)(\\d+)(\\.gif)";
@@ -42,6 +42,9 @@ namespace DMOLibrary.Profiles.Korea {
         private static string STR_URL_MERC_SIZE_RANK = "http://www.digimonmasters.com/ranking/size.aspx?type={1}00&search={0}&digimon={2}";
         private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://www.digimonmasters.com/ranking/size.aspx";
         private static string STR_URL_STARTER_RANK = "http://www.digimonmasters.com/ranking/partner.aspx?type={1}00&search={0}";
+
+        public KoreaWebProvider(ILogManager logManager) : base(logManager) {
+        }
 
         public override Guild GetGuild(Server server, string guildName, bool isDetailed) {
             OnStarted();
@@ -109,7 +112,9 @@ namespace DMOLibrary.Profiles.Korea {
         protected override bool GetGuildInfo(ref Guild guild, bool isDetailed) {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlDocument doc = new HtmlDocument();
-            LOGGER.InfoFormat("Obtaining info of {0}", guild.Name);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Obtaining info of {0}", guild.Name);
+            }
             string html = DownloadContent(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
             doc.LoadHtml(html);
 
@@ -154,7 +159,9 @@ namespace DMOLibrary.Profiles.Korea {
                                     partner.Name = ClearStr(tlist[i].SelectSingleNode(".//td[5]").InnerText);
                                 }
                                 tamerList.Add(tamer);
-                                LOGGER.InfoFormat("Found tamer \"{0}\"", tamer.Name);
+                                if (LogManager != null) {
+                                    LogManager.InfoFormat("Found tamer \"{0}\"", tamer.Name);
+                                }
                             }
                         } catch {
                         }
@@ -170,7 +177,9 @@ namespace DMOLibrary.Profiles.Korea {
         }
 
         protected override List<Digimon> GetDigimons(Tamer tamer, bool isDetailed) {
-            LOGGER.InfoFormat("Obtaining digimons for tamer \"{0}\"", tamer.Name);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Obtaining digimons for tamer \"{0}\"", tamer.Name);
+            }
             List<Digimon> digimonList = new List<Digimon>();
             HtmlDocument doc = new HtmlDocument();
 
@@ -200,7 +209,9 @@ namespace DMOLibrary.Profiles.Korea {
             }
             digimonList.Add(partner);
             if (!GetStarterInfo(ref partner, tamer)) {
-                LOGGER.ErrorFormat("Unable to obtain info about starter digimon \"{0}\" for tamer \"{1}\"", partner.Name, tamer.Name);
+                if (LogManager != null) {
+                    LogManager.ErrorFormat("Unable to obtain info about starter digimon \"{0}\" for tamer \"{1}\"", partner.Name, tamer.Name);
+                }
             }
 
             HtmlNode mercList = doc.DocumentNode.SelectNodes("//table[@class='list']")[1];
@@ -234,11 +245,15 @@ namespace DMOLibrary.Profiles.Korea {
                         if (digimonList.Count(d => d.Type.Equals(digimonInfo.Type)) == 0) {
                             if (isDetailed) {
                                 if (!GetMercenaryInfo(ref digimonInfo, tamer)) {
-                                    LOGGER.ErrorFormat("Unable to obtain detailed data of digimon \"{0}\" for tamer \"{1}\"", digimonInfo.Name, tamer.Name);
+                                    if (LogManager != null) {
+                                        LogManager.ErrorFormat("Unable to obtain detailed data of digimon \"{0}\" for tamer \"{1}\"", digimonInfo.Name, tamer.Name);
+                                    }
                                 }
                             }
                             digimonList.Add(digimonInfo);
-                            LOGGER.InfoFormat("Found digimon \"{0}\"", digimonInfo.Name);
+                            if (LogManager != null) {
+                                LogManager.InfoFormat("Found digimon \"{0}\"", digimonInfo.Name);
+                            }
                         }
                     }
                 }
@@ -247,7 +262,9 @@ namespace DMOLibrary.Profiles.Korea {
         }
 
         protected override bool GetStarterInfo(ref Digimon digimon, Tamer tamer) {
-            LOGGER.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
+            }
             HtmlDocument doc = new HtmlDocument();
             string html = DownloadContent(string.Format(STR_URL_STARTER_RANK, tamer.Name, tamer.Guild.Server.Identifier));
             doc.LoadHtml(html);
@@ -272,7 +289,9 @@ namespace DMOLibrary.Profiles.Korea {
             if (digimon.Type.IsStarter) {
                 return false;
             }
-            LOGGER.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
+            if (LogManager != null) {
+                LogManager.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
+            }
 
             string html = DownloadContent(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, tamer.Guild.Server.Identifier, digimon.Type.Code));
             HtmlDocument doc = new HtmlDocument();
@@ -339,7 +358,9 @@ namespace DMOLibrary.Profiles.Korea {
                     Name = type.InnerText
                 };
                 dTypes.Add(dType);
-                LOGGER.DebugFormat("Found {0}", dType);
+                if (LogManager != null) {
+                    LogManager.DebugFormat("Found {0}", dType);
+                }
             }
             return dTypes;
         }

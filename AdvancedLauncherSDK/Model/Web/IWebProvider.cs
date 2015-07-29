@@ -18,12 +18,13 @@
 
 using System;
 using System.Collections.Generic;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
-    public interface IWebProfile {
+    public interface IWebProvider : ILoggable {
 
         event EventHandler DownloadStarted;
 
@@ -38,5 +39,10 @@ namespace AdvancedLauncher.SDK.Model.Web {
         List<DigimonType> GetDigimonTypes();
 
         Guild GetGuild(Server server, string guildName, bool isDetailed);
+
+        Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval);
+
+        void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher,
+            Server server, string guildName, bool isDetailed, int actualInterval);
     }
 }

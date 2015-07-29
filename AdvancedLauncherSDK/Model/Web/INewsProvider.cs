@@ -16,38 +16,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.IO;
-using AdvancedLauncher.SDK.Model.Events;
+using System.Collections.Generic;
+using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.SDK.Management {
+namespace AdvancedLauncher.SDK.Model.Web {
 
-    public interface IFileSystemManager : IManager, ILoggable, IDisposable {
+    public interface INewsProvider : ILoggable {
 
-        event WriteStatusChangedEventHandler WriteStatusChanged;
-
-        bool IsOpened {
-            get;
-        }
-
-        bool Open(FileAccess access, int archiveHeader, string headerFile, string packageFile);
-
-        void Close();
-
-        Stream ReadFile(string name);
-
-        Stream ReadFile(uint id);
-
-        Stream ReadFile(int entryIndex);
-
-        bool WriteFile(string sourceFile, string destination);
-
-        bool WriteStream(Stream sourceStream, string destination);
-
-        bool WriteStream(Stream sourceStream, uint entryId);
-
-        bool WriteDirectory(string path, bool deleteOnComplete);
-
-        uint FileHash(string filePath);
+        List<NewsItem> GetNews();
     }
 }

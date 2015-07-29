@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
@@ -28,7 +29,6 @@ using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Validation;
 using DMOLibrary.Database;
-using DMOLibrary.Profiles;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {
@@ -37,9 +37,11 @@ namespace AdvancedLauncher.UI.Pages {
 
         private delegate void DoOneText(string text);
 
-        private IWebProfile webProfile;
+        private IWebProvider webProvider;
 
-        private IGameProfile currentDMOProfile;
+        private IServersProvider serversProvider;
+
+        private IGameConfiguration currentDMOProfile;
 
         private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
 
@@ -58,13 +60,14 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         protected override void ProfileChanged(object sender, EventArgs e) {
-            currentDMOProfile = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).Profile;
+            currentDMOProfile = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
+            serversProvider = currentDMOProfile.ServersProvider;
+            webProvider = currentDMOProfile.CreateWebProvider();
             GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;
-            webProfile = currentDMOProfile.GetWebProfile();
-            if (webProfile != null) {
-                webProfile.SetDispatcher(this.Dispatcher);
+            if (webProvider != null) {
+                webProvider.SetDispatcher(this.Dispatcher);
             }
             // use lazy ServerList initialization to prevent first long EF6 database
             // init causes the long app start time
@@ -80,7 +83,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         private void LoadServerList() {
             //Загружаем новый список серверов
-            ComboBoxServer.ItemsSource = currentDMOProfile.ServerList;
+            ComboBoxServer.ItemsSource = serversProvider.ServerList;
             IProfile currentProfile = ProfileManager.CurrentProfile;
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(currentProfile.Rotation.Guild)) {
@@ -122,9 +125,9 @@ namespace AdvancedLauncher.UI.Pages {
         private void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
             BlockControls(false);
 
-            webProfile.DownloadStarted -= OnDownloadStarted;
-            webProfile.DownloadCompleted -= OnDownloadCompleted;
-            webProfile.StatusChanged -= OnStatusChanged;
+            webProvider.DownloadStarted -= OnDownloadStarted;
+            webProvider.DownloadCompleted -= OnDownloadCompleted;
+            webProvider.StatusChanged -= OnStatusChanged;
 
             ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
             switch (e.Code) {
@@ -163,12 +166,10 @@ namespace AdvancedLauncher.UI.Pages {
 
         private void OnGetInfoClick(object sender, RoutedEventArgs e) {
             if (IsValidName(GuildNameTextBox.Text)) {
-                webProfile.DownloadStarted += OnDownloadStarted;
-                webProfile.DownloadCompleted += OnDownloadCompleted;
-                webProfile.StatusChanged += OnStatusChanged;
-
-                AbstractWebProfile.GetActualGuildAsync(this.Dispatcher,
-                    webProfile,
+                webProvider.DownloadStarted += OnDownloadStarted;
+                webProvider.DownloadCompleted += OnDownloadCompleted;
+                webProvider.StatusChanged += OnStatusChanged;
+                webProvider.GetActualGuildAsync(this.Dispatcher,
                     (Server)ComboBoxServer.SelectedValue,
                     GuildNameTextBox.Text,
                     (bool)IsDetailedCheckbox.IsChecked,

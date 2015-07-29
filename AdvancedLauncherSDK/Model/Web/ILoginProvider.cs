@@ -16,49 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.ObjectModel;
 using System.Security;
-using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
-    public interface IGameProfile {
+    public interface ILoginProvider : ILoggable {
 
         event LoginCompleteEventHandler LoginCompleted;
 
         event LoginStateEventHandler LoginStateChanged;
 
-        INewsProfile NewsProfile {
-            get;
-        }
-
-        IWebProfile GetWebProfile();
-
-        Server GetServerById(int serverId);
-
         void TryLogin(string UserId, SecureString Password);
-
-        string GetGameStartArgs(string args);
-
-        string GetLauncherStartArgs(string args);
-
-        string GetTypeName();
-
-        bool IsWebAvailable {
-            get;
-        }
-
-        bool IsNewsAvailable {
-            get;
-        }
-
-        bool IsLoginRequired {
-            get;
-        }
-
-        ObservableCollection<Server> ServerList {
-            get;
-        }
     }
 }

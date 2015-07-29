@@ -1,5 +1,5 @@
 ﻿// ======================================================================
-// DMOLibrary
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
 // Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
 
 // This program is free software: you can redistribute it and/or modify

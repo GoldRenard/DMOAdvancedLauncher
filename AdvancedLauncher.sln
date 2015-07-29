@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedLauncher", "AdvancedLauncher\AdvancedLauncher.csproj", "{91A457B6-E472-4D26-8666-BBCCF930707E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMOLibrary", "DMOLibrary\DMOLibrary.csproj", "{283FCE16-15FC-4DD2-BA55-0C8E622E1D2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedLauncher.Providers", "AdvancedLauncherProviders\AdvancedLauncher.Providers.csproj", "{283FCE16-15FC-4DD2-BA55-0C8E622E1D2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KBLCService", "KBLCService\KBLCService.csproj", "{32C4C0E7-D91B-43C8-8A05-AD62E7D20F7D}"
 EndProject

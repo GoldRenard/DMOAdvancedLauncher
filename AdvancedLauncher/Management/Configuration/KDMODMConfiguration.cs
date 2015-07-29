@@ -16,10 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.Providers.Korea;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Web;
-using DMOLibrary.Profiles.Korea;
 using Ninject;
 
 namespace AdvancedLauncher.Management.Configuration {

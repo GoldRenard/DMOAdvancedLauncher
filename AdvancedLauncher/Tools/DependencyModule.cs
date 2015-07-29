@@ -59,6 +59,7 @@ namespace AdvancedLauncher.Tools {
             Bind<ICommand>().To<ExitCommand>().InSingletonScope();
             Bind<ICommand>().To<HelpCommand>().InSingletonScope();
             Bind<ICommand>().To<LicenseCommand>().InSingletonScope();
+            Bind<ICommand>().To<ClearCommand>().InSingletonScope();
 
             // Game Configurations
             Bind<IConfigurationManager>().To<ConfigurationManager>().InSingletonScope().OnActivation(m => m.Initialize());

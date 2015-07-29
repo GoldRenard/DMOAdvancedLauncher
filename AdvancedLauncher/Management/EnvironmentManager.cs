@@ -23,10 +23,10 @@ using System.Windows;
 using System.Xml.Serialization;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Model.Protected;
+using AdvancedLauncher.Providers;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
-using DMOLibrary;
 using MahApps.Metro;
 using Ninject;
 

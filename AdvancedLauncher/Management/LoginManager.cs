@@ -26,7 +26,6 @@ using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
-using DMOLibrary.Profiles;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;
 
@@ -131,10 +130,6 @@ namespace AdvancedLauncher.Management {
 
         private async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
             await controller.CloseAsync();
-            AbstractLoginProvider profile = (AbstractLoginProvider)sender;
-            profile.LoginStateChanged -= OnLoginStateChanged;
-            profile.LoginCompleted -= OnLoginCompleted;
-
             if (e.Code == LoginCode.WRONG_USER) {
                 failedLogin.Add(e.UserName);
                 ShowLoginDialog(LanguageManager.Model.LoginLogIn, LanguageManager.Model.LoginBadAccount, string.Empty);

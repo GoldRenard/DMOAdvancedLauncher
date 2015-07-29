@@ -22,7 +22,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Commands;
 using log4net.Core;
 using Ninject;
 
@@ -74,7 +73,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         public void Initialize() {
-            CommandManager.RegisterCommand(new ClearCommand(this));
+            // nothing to do here
         }
 
         public void PrintHeader() {
@@ -201,22 +200,6 @@ namespace AdvancedLauncher.UI.Windows {
 
                 default:
                     return recentIndex;
-            }
-        }
-
-        private class ClearCommand : AbstractCommand {
-            private readonly Logger loggerInstance;
-
-            public ClearCommand(Logger loggerInstance)
-                : base("clear", "Clears the console log") {
-                this.loggerInstance = loggerInstance;
-            }
-
-            public override bool DoCommand(string[] args) {
-                loggerInstance._LogEntries.Clear();
-                loggerInstance._LogEntriesFiltered.Clear();
-                loggerInstance.PrintHeader();
-                return true;
             }
         }
 

@@ -108,6 +108,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Management\Commands\ClearCommand.cs" />
     <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />
@@ -372,7 +373,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="app.manifest" />
     <None Include="Docs\changelog.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -433,9 +436,9 @@
       <Project>{d1e7d106-9909-4162-9d22-8798317915af}</Project>
       <Name>AdvancedLauncher.SDK</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DMOLibrary\DMOLibrary.csproj">
+    <ProjectReference Include="..\AdvancedLauncherProviders\AdvancedLauncher.Providers.csproj">
       <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
-      <Name>DMOLibrary</Name>
+      <Name>AdvancedLauncher.Providers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

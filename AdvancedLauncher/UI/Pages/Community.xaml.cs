@@ -20,6 +20,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Model;
+using AdvancedLauncher.Providers.Database;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
@@ -28,7 +29,6 @@ using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Validation;
-using DMOLibrary.Database;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {

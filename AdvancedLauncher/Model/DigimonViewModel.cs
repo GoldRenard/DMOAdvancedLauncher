@@ -20,9 +20,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Threading;
+using AdvancedLauncher.Providers.Database.Context;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.Tools;
-using DMOLibrary.Database.Context;
 using Ninject;
 
 namespace AdvancedLauncher.Model {

@@ -24,6 +24,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using AdvancedLauncher.Providers.Database;
+using AdvancedLauncher.Providers.Database.Context;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model;
@@ -32,8 +34,6 @@ using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Web;
 using AdvancedLauncher.Tools;
-using DMOLibrary.Database;
-using DMOLibrary.Database.Context;
 using MahApps.Metro.Controls;
 using Ninject;
 

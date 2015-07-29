@@ -16,8 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.Providers.Korea;
 using AdvancedLauncher.SDK.Model.Web;
-using DMOLibrary.Profiles.Korea;
 
 namespace AdvancedLauncher.Management.Configuration {
 

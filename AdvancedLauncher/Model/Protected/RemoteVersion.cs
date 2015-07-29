@@ -20,8 +20,8 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using AdvancedLauncher.Providers;
 using AdvancedLauncher.Tools;
-using DMOLibrary;
 
 namespace AdvancedLauncher.Model.Protected {
 

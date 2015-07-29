@@ -29,6 +29,8 @@
     <PFControls:BooleanToVisibilityConverter x:Key="BoolToHiddenConverter" />
     <conv:BooleanToVisibilityConverter x:Key="NotBoolToHiddenConverter" True="Collapsed" False="Visible" />
     <conv:GameTypeToNameConverter x:Key="GameTypeToNameConverter" />
+    <conv:ProfileNameConverter x:Key="ProfileNameConverter" />
+    <conv:ProfileToConfigNameConverter x:Key="ProfileToConfigNameConverter" />
 
     <!-- CUSTOM CONTROLS-->
 

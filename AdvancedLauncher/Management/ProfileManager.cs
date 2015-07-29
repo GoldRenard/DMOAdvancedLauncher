@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Management;
@@ -31,13 +32,13 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal class ProfileManager : IProfileManager {
+    internal class ProfileManager : IProfileManager, INotifyPropertyChanged {
 
         #region Properties
 
-        private List<IProfile> _Profiles = new List<IProfile>();
+        private ObservableCollection<IProfile> _Profiles = new ObservableCollection<IProfile>();
 
-        public List<IProfile> Profiles {
+        public ObservableCollection<IProfile> Profiles {
             get {
                 return _Profiles;
             }
@@ -182,6 +183,7 @@ namespace AdvancedLauncher.Management {
         public event EventHandler ProfileChanged;
 
         protected void OnCurrentChanged() {
+            NotifyPropertyChanged("CurrentProfile");
             if (ProfileChanged != null) {
                 ProfileChanged(this, EventArgs.Empty);
             }
@@ -196,5 +198,18 @@ namespace AdvancedLauncher.Management {
         }
 
         #endregion EventHandlers
+
+        #region Property Change Handler
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String propertyName) {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler) {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion Property Change Handler
     }
 }

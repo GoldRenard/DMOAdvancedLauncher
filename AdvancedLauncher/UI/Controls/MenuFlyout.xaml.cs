@@ -21,10 +21,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using AdvancedLauncher.Model.Config;
-using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Windows;
@@ -58,67 +56,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         #region Commands
 
-        private List<MenuItem> Commands = new List<MenuItem>();
-
-        public class MenuItem : INotifyPropertyChanged {
-            private ILanguageManager LanguageManager;
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            private readonly string bindingName;
-
-            private static SolidColorBrush Brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-
-            public MenuItem(ILanguageManager LanguageManager, string bindingName, Canvas icon, Thickness iconMargin, ICommand command) {
-                this.LanguageManager = LanguageManager;
-                this.bindingName = bindingName;
-                Command = command;
-                IconMargin = iconMargin;
-                icon.Resources.Add("BlackBrush", Brush);
-                IconBrush = new VisualBrush(icon);
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.NotifyPropertyChanged("Name");
-                };
-            }
-
-            public string Name {
-                get {
-                    return (string)LanguageManager.Model.GetType().GetProperty(bindingName).GetValue(LanguageManager.Model, null);
-                }
-            }
-
-            public ICommand Command {
-                get;
-                set;
-            }
-
-            public bool IsEnabled {
-                get {
-                    return Command.CanExecute(Command);
-                }
-            }
-
-            public VisualBrush IconBrush {
-                get;
-                set;
-            }
-
-            public Thickness IconMargin {
-                get;
-                set;
-            }
-
-            public void NotifyEnabled() {
-                NotifyPropertyChanged("IsEnabled");
-            }
-
-            private void NotifyPropertyChanged(String propertyName) {
-                PropertyChangedEventHandler handler = PropertyChanged;
-                if (null != handler) {
-                    handler(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
+        private List<AdvancedLauncher.SDK.Model.MenuItem> Commands = new List<AdvancedLauncher.SDK.Model.MenuItem>();
 
         public event RoutedEventHandler AboutClick;
 
@@ -128,17 +66,17 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void BuildCommands() {
             Commands.Clear();
-            Commands.Add(new MenuItem(LanguageManager, "Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
+            Commands.Add(new AdvancedLauncher.SDK.Model.MenuItem(LanguageManager, "Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
                 MainWindow.Instance.SettingsFlyout.Width = MainWindow.Instance.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
                 MainWindow.Instance.SettingsFlyout.IsOpen = true;
             })));
-            Commands.Add(new MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
+            Commands.Add(new AdvancedLauncher.SDK.Model.MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
                 if (LoggerClick != null) {
                     LoggerClick(this, null);
                 }
                 this.IsOpen = false;
             })));
-            Commands.Add(new MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+            Commands.Add(new AdvancedLauncher.SDK.Model.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
                 if (AboutClick != null) {
                     AboutClick(this, null);
                 }
@@ -178,7 +116,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (!IsPreventChange) {
+            if (!IsPreventChange && ProfileList.SelectedItem != null) {
                 ProfileManager.CurrentProfile = (Profile)ProfileList.SelectedItem;
                 IsOpen = false;
             }

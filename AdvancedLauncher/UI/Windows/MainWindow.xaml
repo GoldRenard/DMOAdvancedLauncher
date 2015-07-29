@@ -67,19 +67,19 @@
         <Controls:WindowCommands>
             <Button x:Name="ProfileSwitcher" Click="ShowSettings">
                 <StackPanel Orientation="Horizontal">
-                    <Border Width="25" Height="25" Visibility="{Binding HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Border Width="25" Height="25" Visibility="{Binding CurrentProfile.HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Border.Background>
-                            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
+                            <ImageBrush ImageSource="{Binding CurrentProfile.Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
                         </Border.Background>
                     </Border>
                     <Rectangle Width="17" Height="17"
                                Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
-                                Visibility="{Binding NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                Visibility="{Binding CurrentProfile.NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_user}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding FullName}" />
+                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding CurrentProfile, Converter={StaticResource ProfileNameConverter}}" />
                 </StackPanel>
             </Button>
         </Controls:WindowCommands>

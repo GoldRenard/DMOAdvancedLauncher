@@ -102,7 +102,7 @@
                         </Grid>
                         <StackPanel VerticalAlignment="Center" Margin="5,0,0,0">
                             <TextBlock FontSize="12" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
-                            <TextBlock FontSize="10" Text="{Binding GameType}" IsEnabled="False" />
+                            <TextBlock FontSize="10" Text="{Binding Converter={StaticResource ProfileToConfigNameConverter}}" IsEnabled="False" />
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

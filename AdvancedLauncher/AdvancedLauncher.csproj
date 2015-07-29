@@ -129,6 +129,8 @@
     <Compile Include="UI\Controls\AbstractFlyout.cs" />
     <Compile Include="UI\Controls\AbstractUserControl.cs" />
     <Compile Include="UI\Converters\AbstractConverter.cs" />
+    <Compile Include="UI\Converters\ProfileToConfigNameConverter.cs" />
+    <Compile Include="UI\Converters\ProfileNameConverter.cs" />
     <Compile Include="UI\Converters\GameTypeToNameConverter.cs" />
     <Compile Include="UI\Extension\AutoScrollBehavior.cs" />
     <Compile Include="Management\ConfigurationManager.cs" />

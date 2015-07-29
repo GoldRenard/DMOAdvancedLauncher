@@ -17,51 +17,30 @@
 // ======================================================================
 
 using System;
-using System.Collections.ObjectModel;
+using System.Globalization;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
-using AdvancedLauncher.SDK.Model.Events;
+using Ninject;
 
-namespace AdvancedLauncher.SDK.Management {
+namespace AdvancedLauncher.UI.Converters {
 
-    public interface IProfileManager : IManager {
+    public class ProfileToConfigNameConverter : AbstractConverter {
 
-        IProfile DefaultProfile {
-            set; get;
+        [Inject]
+        public IConfigurationManager ConfigurationManager {
+            get; set;
         }
 
-        ObservableCollection<IProfile> Profiles {
-            get;
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            IProfile profile = value as IProfile;
+            if (profile != null) {
+                return ConfigurationManager.GetConfiguration(profile.GameModel).Name;
+            }
+            return value;
         }
 
-        IProfile CurrentProfile {
-            get;
-            set;
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            throw new NotImplementedException();
         }
-
-        ObservableCollection<IProfile> PendingProfiles {
-            get;
-            set;
-        }
-
-        IProfile PendingDefaultProfile {
-            get;
-            set;
-        }
-
-        void RevertChanges();
-
-        void ApplyChanges();
-
-        IProfile CreateProfile();
-
-        bool RemoveProfile(IProfile profile);
-
-        event EventHandler ProfileChanged;
-
-        event EventHandler CollectionChanged;
-
-        event LockedChangedHandler ProfileLocked;
-
-        void OnProfileLocked(bool IsLocked);
     }
 }

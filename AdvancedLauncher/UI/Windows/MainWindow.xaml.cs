@@ -86,8 +86,6 @@ namespace AdvancedLauncher.UI.Windows {
             _Instance = this;
             Splashscreen.SetProgress("Loading...");
             Application.Current.MainWindow = _Instance;
-            // force initialize default profile in current thread
-            var profile = ProfileManager.CurrentProfile;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
@@ -98,6 +96,7 @@ namespace AdvancedLauncher.UI.Windows {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
+                ProfileSwitcher.DataContext = ProfileManager;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 EnvironmentManager.ClosingLocked += OnClosingLocked;
                 EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
@@ -178,7 +177,6 @@ namespace AdvancedLauncher.UI.Windows {
             ReloadTabs();
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
-            ProfileSwitcher.DataContext = ProfileManager.CurrentProfile;
         }
 
         private void OnTabChanged(object sender, SelectionChangedEventArgs e) {

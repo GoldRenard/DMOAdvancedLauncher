@@ -84,12 +84,13 @@ namespace AdvancedLauncher.Tools {
 
             // Components
             Bind<MainWindow>().ToSelf().InSingletonScope(); // be careful with injecting this on initialization of MainWindow itself (UserControls, etc)
+            Bind<Logger>().ToSelf().InSingletonScope().OnActivation(e => e.Initialize());
+            Bind<About>().ToSelf().InSingletonScope();
+            Bind<Settings>().ToSelf().InSingletonScope();
+
             Bind<LoginManager>().ToSelf().InSingletonScope();
             Bind<ProxyManager>().ToSelf().InSingletonScope();
             Bind<IconHolder>().ToSelf().InSingletonScope();
-            Bind<About>().ToSelf().InSingletonScope();
-            Bind<Settings>().ToSelf().InSingletonScope();
-            Bind<Logger>().ToSelf().InSingletonScope().OnActivation(e => e.Initialize());
 
             // Plugin System
             Bind<IPluginHost>().To<PluginHost>().InSingletonScope().OnActivation(m => m.Initialize());

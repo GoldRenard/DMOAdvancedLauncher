@@ -95,6 +95,7 @@ namespace AdvancedLauncher.UI.Windows {
                 EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 this.Closing += (s, e) => {
                     e.Cancel = IsCloseLocked;
+                    App.Kernel.Get<ITaskManager>().CloseApp(true);
                 };
                 this.MouseDown += MainWindow_MouseDown;
 

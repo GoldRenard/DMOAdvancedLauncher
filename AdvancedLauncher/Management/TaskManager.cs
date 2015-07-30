@@ -54,10 +54,10 @@ namespace AdvancedLauncher.Management {
 
         /// <summary> Метод закрытия приложения. Приложение будет закрыто тогда,
         /// когда не останется ни одной задачи </summary>
-        public void CloseApp() {
+        public void CloseApp(bool forceClose = false) {
             BackgroundWorker queueWorker = new BackgroundWorker();
             queueWorker.DoWork += (s, e) => {
-                while (IsBusy) {
+                while (IsBusy && !forceClose) {
                     System.Threading.Thread.Sleep(100);
                 }
             };

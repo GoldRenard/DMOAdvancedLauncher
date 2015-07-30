@@ -31,6 +31,6 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
-        void CloseApp();
+        void CloseApp(bool forceClose = false);
     }
 }

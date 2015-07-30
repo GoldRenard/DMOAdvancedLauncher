@@ -120,6 +120,7 @@
     <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
     <Compile Include="Management\LogManager.cs" />
     <Compile Include="Management\PluginHost.cs" />
+    <Compile Include="Management\ProxyManager.cs" />
     <Compile Include="Management\ServiceHolder.cs" />
     <Compile Include="Model\AbstractContainerViewModel.cs" />
     <Compile Include="Model\AbstractItemViewModel.cs" />

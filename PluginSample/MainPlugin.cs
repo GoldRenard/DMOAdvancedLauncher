@@ -21,10 +21,10 @@ using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Plugins;
 
 namespace PluginSample {
+
     public class MainPlugin : IPlugin {
 
         public class TestCommand : ICommand {
-
             private readonly IPluginHost PluginHost;
 
             public TestCommand(IPluginHost PluginHost) {

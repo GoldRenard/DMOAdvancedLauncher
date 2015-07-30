@@ -20,6 +20,12 @@ using System.Xml.Serialization;
 
 namespace AdvancedLauncher.Model.Protected {
 
+    public enum ProxyMode {
+        Default = 0,
+        HTTP = 1,
+        HTTPS = 2
+    }
+
     public class ProxySetting {
 
         public ProxySetting() {
@@ -43,7 +49,7 @@ namespace AdvancedLauncher.Model.Protected {
         }
 
         [XmlAttribute("Mode")]
-        public int Mode {
+        public ProxyMode Mode {
             get;
             set;
         }

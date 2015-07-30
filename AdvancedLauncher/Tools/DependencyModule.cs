@@ -83,6 +83,7 @@ namespace AdvancedLauncher.Tools {
 
             // Components
             Bind<LoginManager>().ToSelf().InSingletonScope();
+            Bind<ProxyManager>().ToSelf().InSingletonScope();
             Bind<IconHolder>().ToSelf().InSingletonScope();
             Bind<MainWindow>().ToSelf().InSingletonScope();
             Bind<About>().ToSelf().InSingletonScope();

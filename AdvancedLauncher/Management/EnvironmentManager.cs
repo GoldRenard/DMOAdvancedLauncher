@@ -204,12 +204,14 @@ namespace AdvancedLauncher.Management {
             if (!File.Exists(SettingsFile)) {
                 Save();
             }
-            ApplyPlugins();
+            // TODO Figure out how to run plugins in different AppDomains.
+            //ApplyPlugins();
         }
 
         private void InitializeSafeSettings(ProtectedSettings settings) {
             _Settings = new Settings();
             _Settings.AppTheme = settings.AppTheme;
+            _Settings.LanguageFile = settings.Language;
             _Settings.ThemeAccent = settings.ThemeAccent;
 
             ProfileManager.PendingProfiles.Clear();
@@ -243,27 +245,6 @@ namespace AdvancedLauncher.Management {
             ProfileManager.ApplyChanges();
         }
 
-        public void Save() {
-            ProtectedSettings toSave = new ProtectedSettings(Settings);
-
-            toSave.DefaultProfile = ProfileManager.DefaultProfile.Id;
-            LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (IProfile profile in ProfileManager.Profiles) {
-                ProtectedProfile protectedProfile = new ProtectedProfile(profile);
-                LoginData login = loginManager.GetCredentials(profile);
-                if (login != null) {
-                    protectedProfile.Login = new LoginData(login);
-                }
-                toSave.Profiles.Add(protectedProfile);
-            }
-
-            // TODO Implement proxy settings
-            XmlSerializer writer = new XmlSerializer(typeof(ProtectedSettings));
-            using (var file = new StreamWriter(SettingsFile)) {
-                writer.Serialize(file, toSave);
-            }
-        }
-
         private void ApplyAppTheme(ProtectedSettings ProtectedSettings) {
             Tuple<AppTheme, Accent> currentTheme = ThemeManager.DetectAppStyle(Application.Current);
             if (currentTheme == null) {
@@ -289,21 +270,11 @@ namespace AdvancedLauncher.Management {
         }
 
         private void ApplyProxySettings(ProtectedSettings settings) {
-            ProxySetting proxy = settings.Proxy;
-            if (proxy == null) {
-                return;
+            ProxyManager pManager = App.Kernel.Get<ProxyManager>();
+            if (settings.Proxy == null) {
+                settings.Proxy = new ProxySetting();
             }
-            if (!proxy.IsEnabled) {
-                WebClientEx.ProxyConfig = null;
-                return;
-            }
-            ProxyConfiguration.ProxyMode mode = (ProxyConfiguration.ProxyMode)proxy.Mode;
-            if (proxy.Authentication && proxy.Credentials.IsCorrect) {
-                WebClientEx.ProxyConfig = new ProxyConfiguration(mode, proxy.Host, proxy.Port,
-                    proxy.Credentials.User, proxy.Credentials.SecurePassword);
-            } else {
-                WebClientEx.ProxyConfig = new ProxyConfiguration(mode, proxy.Host, proxy.Port);
-            }
+            pManager.Initialize(settings.Proxy);
         }
 
         private void ApplyPlugins() {
@@ -322,6 +293,27 @@ namespace AdvancedLauncher.Management {
         }
 
         #endregion Initialization
+
+        public void Save() {
+            ProtectedSettings toSave = new ProtectedSettings(Settings);
+            toSave.Proxy = new ProxySetting(App.Kernel.Get<ProxyManager>().Settings);
+
+            toSave.DefaultProfile = ProfileManager.DefaultProfile.Id;
+            LoginManager loginManager = App.Kernel.Get<LoginManager>();
+            foreach (IProfile profile in ProfileManager.Profiles) {
+                ProtectedProfile protectedProfile = new ProtectedProfile(profile);
+                LoginData login = loginManager.GetCredentials(profile);
+                if (login != null) {
+                    protectedProfile.Login = new LoginData(login);
+                }
+                toSave.Profiles.Add(protectedProfile);
+            }
+
+            XmlSerializer writer = new XmlSerializer(typeof(ProtectedSettings));
+            using (var file = new StreamWriter(SettingsFile)) {
+                writer.Serialize(file, toSave);
+            }
+        }
 
         private static ProtectedSettings DeSerializeSettings(string filepath) {
             ProtectedSettings settings = new ProtectedSettings();

@@ -25,9 +25,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.UI.Commands;
 using MahApps.Metro;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
 
@@ -39,6 +42,8 @@ namespace AdvancedLauncher.UI.Controls {
         private bool IsPreventPassChange = false;
 
         private Settings settingsContainer;
+
+        private ProxySetting proxySettings;
 
         public SettingsFlyout() {
             InitializeComponent();
@@ -59,12 +64,11 @@ namespace AdvancedLauncher.UI.Controls {
                 ResetAll();
 
                 IsPreventPassChange = true;
-                // TODO Proxy settings
-                /*if (settingsContainer.Proxy.Credentials.SecurePassword != null) {
+                if (proxySettings.Credentials.SecurePassword != null) {
                     ProxyPassword.Password = "empty_pass";
                 } else {
                     ProxyPassword.Clear();
-                }*/
+                }
                 IsPreventPassChange = false;
 
                 InitializeColorTheme();
@@ -84,6 +88,7 @@ namespace AdvancedLauncher.UI.Controls {
             settingsContainer.LanguageFile = ComboBoxLanguage.SelectedValue.ToString();
             settingsContainer.AppTheme = CurrentAppTheme.Name;
             settingsContainer.ThemeAccent = CurrentAccent.Name;
+            App.Kernel.Get<ProxyManager>().Initialize(proxySettings);
             EnvironmentManager.Settings.MergeConfig(settingsContainer);
             EnvironmentManager.Save();
             this.IsOpen = false;
@@ -91,8 +96,8 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void ResetAll() {
             settingsContainer = new Settings(EnvironmentManager.Settings);
-            // TODO Proxy settings
-            //ProxySettings.DataContext = settingsContainer.Proxy;
+            proxySettings = new ProxySetting(App.Kernel.Get<ProxyManager>().Settings);
+            ProxySettings.DataContext = proxySettings;
             ComboBoxLanguage.SelectedIndex = CurrentLangIndex;
             BaseColorsList.SelectedItem = CurrentAppTheme;
             AccentColorsList.SelectedItem = CurrentAccent;
@@ -226,8 +231,7 @@ namespace AdvancedLauncher.UI.Controls {
             if (IsPreventPassChange) {
                 return;
             }
-            // TODO Proxy settings
-            //settingsContainer.Proxy.Credentials.SecurePassword = ProxyPassword.SecurePassword;
+            proxySettings.Credentials.SecurePassword = ProxyPassword.SecurePassword;
         }
     }
 }

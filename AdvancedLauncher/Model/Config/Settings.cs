@@ -50,15 +50,6 @@ namespace AdvancedLauncher.Model.Config {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
-            OnConfigurationChanged(this, null);
-        }
-
-        public event EventHandler ConfigurationChanged;
-
-        public void OnConfigurationChanged(object sender, EventArgs args) {
-            if (ConfigurationChanged != null) {
-                ConfigurationChanged(sender, args);
-            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

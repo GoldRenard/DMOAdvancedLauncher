@@ -27,11 +27,6 @@ namespace AdvancedLauncher.Providers {
 
         private int? _timeout;
 
-        public static ProxyConfiguration ProxyConfig {
-            set;
-            get;
-        }
-
         /// <summary>
         /// Time in milliseconds
         /// </summary>
@@ -48,14 +43,15 @@ namespace AdvancedLauncher.Providers {
             : this(null) {
         }
 
+        public static IWebProxy GlobalProxy {
+            get;
+            set;
+        }
+
         public WebClientEx(int? timeout) {
             this._timeout = timeout;
             this.Encoding = System.Text.Encoding.UTF8;
-            if (ProxyConfig == null) {
-                this.Proxy = (IWebProxy)null;
-            } else if (!ProxyConfig.IsDefault) {
-                this.Proxy = ProxyConfig.GetProxy();
-            }
+            this.Proxy = GlobalProxy;
         }
 
         protected override WebRequest GetWebRequest(Uri address) {
@@ -71,11 +67,7 @@ namespace AdvancedLauncher.Providers {
             if (timeOut != null) {
                 req.Timeout = timeOut.Value;
             }
-            if (ProxyConfig == null) {
-                req.Proxy = (IWebProxy)null;
-            } else if (!ProxyConfig.IsDefault) {
-                req.Proxy = ProxyConfig.GetProxy();
-            }
+            req.Proxy = GlobalProxy;
             return req;
         }
 

@@ -215,7 +215,7 @@
     <Compile Include="UI\Pages\Personalization.xaml.cs">
       <DependentUpon>Personalization.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Extension\DialogsHelper.cs" />
+    <Compile Include="Management\DialogManager.cs" />
     <Compile Include="UI\Extension\DispatcherHelper.cs" />
     <Compile Include="Management\LauncherManager.cs" />
     <Compile Include="Management\Execution\NTLeaLauncher.cs" />

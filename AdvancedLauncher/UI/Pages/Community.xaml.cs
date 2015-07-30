@@ -27,7 +27,6 @@ using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Web;
-using AdvancedLauncher.UI.Extension;
 using AdvancedLauncher.UI.Validation;
 using Ninject;
 
@@ -49,6 +48,11 @@ namespace AdvancedLauncher.UI.Pages {
 
         [Inject]
         public IConfigurationManager GameManager {
+            get; set;
+        }
+
+        [Inject]
+        public IDialogManager DialogManager {
             get; set;
         }
 
@@ -138,17 +142,17 @@ namespace AdvancedLauncher.UI.Pages {
                     }
                 case DMODownloadResultCode.CANT_GET:
                     {
-                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.CantGetError);
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.CantGetError);
                         break;
                     }
                 case DMODownloadResultCode.NOT_FOUND:
                     {
-                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.GuildNotFoundError);
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.GuildNotFoundError);
                         break;
                     }
                 case DMODownloadResultCode.WEB_ACCESS_ERROR:
                     {
-                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.ConnectionError);
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.ConnectionError);
                         break;
                     }
             }
@@ -187,13 +191,13 @@ namespace AdvancedLauncher.UI.Pages {
 
         public bool IsValidName(string name) {
             if (name == LanguageManager.Model.CommGuildName) {
-                DialogsHelper.ShowErrorDialog(LanguageManager.Model.CommGuildNameEmpty);
+                DialogManager.ShowErrorDialog(LanguageManager.Model.CommGuildNameEmpty);
                 return false;
             }
             GuildNameValidationRule validationRule = new GuildNameValidationRule();
             ValidationResult result = validationRule.Validate(name, new System.Globalization.CultureInfo(1, false));
             if (!result.IsValid) {
-                DialogsHelper.ShowErrorDialog(result.ErrorContent.ToString());
+                DialogManager.ShowErrorDialog(result.ErrorContent.ToString());
             }
             return result.IsValid;
         }

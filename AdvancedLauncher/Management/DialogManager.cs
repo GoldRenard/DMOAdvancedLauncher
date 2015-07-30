@@ -23,14 +23,23 @@ using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;
 
-namespace AdvancedLauncher.UI.Extension {
+namespace AdvancedLauncher.Management {
 
-    internal static class DialogsHelper {
+    public class DialogManager : IDialogManager {
+
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get;
+            set;
+        }
+
+        public void Initialize() {
+            // nothing to do here
+        }
 
         /// <summary> Error MessageBox </summary>
         /// <param name="text">Content of error</param>
-        public static void ShowErrorDialog(string text) {
-            ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
+        public void ShowErrorDialog(string text) {
             ShowMessageDialog(LanguageManager.Model.Error, text);
         }
 
@@ -39,7 +48,7 @@ namespace AdvancedLauncher.UI.Extension {
         /// </summary>
         /// <param name="title">Title</param>
         /// <param name="message">Message</param>
-        public static void ShowMessageDialog(string title, string message) {
+        public void ShowMessageDialog(string title, string message) {
             if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
                 MainWindow.Instance.Dispatcher.BeginInvoke(new Func<string, string, bool>((t, m) => {
                     ShowMessageDialog(t, m);
@@ -56,8 +65,7 @@ namespace AdvancedLauncher.UI.Extension {
         /// <summary> Error MessageBox Async </summary>
         /// <param name="text">Content of error</param>
         /// <returns>Dummy True to able wait the return</returns>
-        public async static Task<bool> ShowErrorDialogAsync(string text) {
-            ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
+        public async Task<bool> ShowErrorDialogAsync(string text) {
             return await ShowMessageDialogAsync(LanguageManager.Model.Error, text);
         }
 
@@ -67,7 +75,7 @@ namespace AdvancedLauncher.UI.Extension {
         /// <param name="title">Title</param>
         /// <param name="message">Message</param>
         /// <returns>True if Yes clicked</returns>
-        public async static Task<bool> ShowMessageDialogAsync(string title, string message) {
+        public async Task<bool> ShowMessageDialogAsync(string title, string message) {
             if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
                 return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
                     return await ShowMessageDialogAsync(title, message);
@@ -86,8 +94,7 @@ namespace AdvancedLauncher.UI.Extension {
         /// <param name="title">Title</param>
         /// <param name="message">Message</param>
         /// <returns>True if yes clicked</returns>
-        public async static Task<bool> ShowYesNoDialog(string title, string message) {
-            ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
+        public async Task<bool> ShowYesNoDialog(string title, string message) {
             if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
                 return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
                     return await ShowYesNoDialog(title, message);

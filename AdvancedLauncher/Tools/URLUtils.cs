@@ -18,7 +18,6 @@
 
 using System;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.UI.Extension;
 using Ninject;
 
 namespace AdvancedLauncher.Tools {
@@ -33,10 +32,11 @@ namespace AdvancedLauncher.Tools {
         /// <param name="url">URL to web</param>
         public static void OpenSite(string url) {
             ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
+            IDialogManager DialogManager = App.Kernel.Get<IDialogManager>();
             try {
                 System.Diagnostics.Process.Start(System.Web.HttpUtility.UrlDecode(url));
             } catch (Exception ex) {
-                DialogsHelper.ShowErrorDialog(LanguageManager.Model.CantOpenLink + ex.Message);
+                DialogManager.ShowErrorDialog(LanguageManager.Model.CantOpenLink + ex.Message);
             }
         }
 
@@ -44,10 +44,11 @@ namespace AdvancedLauncher.Tools {
         /// <param name="url">URL to web</param>
         public static void OpenSiteNoDecode(string url) {
             ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
+            IDialogManager DialogManager = App.Kernel.Get<IDialogManager>();
             try {
                 System.Diagnostics.Process.Start(url);
             } catch (Exception ex) {
-                DialogsHelper.ShowErrorDialog(LanguageManager.Model.CantOpenLink + ex.Message);
+                DialogManager.ShowErrorDialog(LanguageManager.Model.CantOpenLink + ex.Message);
             }
         }
     }

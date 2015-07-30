@@ -49,6 +49,7 @@
     <Compile Include="Management\Configuration\AbstractConfiguration.cs" />
     <Compile Include="Management\FileSystemManager.cs" />
     <Compile Include="Management\IConfigurationManager.cs" />
+    <Compile Include="Management\IDialogManager.cs" />
     <Compile Include="Management\IFileSystemManager.cs" />
     <Compile Include="Management\Configuration\IConfiguration.cs" />
     <Compile Include="Management\ILanguageManager.cs" />

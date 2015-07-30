@@ -74,6 +74,11 @@ namespace AdvancedLauncher.UI.Windows {
             get; set;
         }
 
+        [Inject]
+        public IDialogManager DialogManager {
+            get; set;
+        }
+
         private IProfile SelectedProfile {
             get {
                 return ProfileList.SelectedItem as IProfile;
@@ -177,7 +182,7 @@ namespace AdvancedLauncher.UI.Windows {
 
         private void OnRemoveClick(object sender, RoutedEventArgs e) {
             if (ProfileList.Items.Count == 1) {
-                DialogsHelper.ShowErrorDialog(LanguageManager.Model.Settings_LastProfile);
+                DialogManager.ShowErrorDialog(LanguageManager.Model.Settings_LastProfile);
                 return;
             }
             IProfile profile = SelectedProfile;
@@ -213,7 +218,7 @@ namespace AdvancedLauncher.UI.Windows {
                         break;
                     }
                     profile.GameModel.GamePath = defaultPath;
-                    await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_GamePath,
+                    await DialogManager.ShowMessageDialogAsync(LanguageManager.Model.Settings_GamePath,
                         LanguageManager.Model.Settings_SelectGameDirError);
                 } else {
                     break;
@@ -233,7 +238,7 @@ namespace AdvancedLauncher.UI.Windows {
                         break;
                     }
                     profile.GameModel.LauncherPath = defaultPath;
-                    await DialogsHelper.ShowMessageDialogAsync(LanguageManager.Model.Settings_LauncherPath,
+                    await DialogManager.ShowMessageDialogAsync(LanguageManager.Model.Settings_LauncherPath,
                         LanguageManager.Model.Settings_SelectLauncherDirError);
                 } else {
                     break;
@@ -274,7 +279,7 @@ namespace AdvancedLauncher.UI.Windows {
             }
             message += System.Environment.NewLine + System.Environment.NewLine + LanguageManager.Model.AppLocale_FixQuestion;
 
-            if (await DialogsHelper.ShowYesNoDialog(LanguageManager.Model.AppLocale_Error, message)) {
+            if (await DialogManager.ShowYesNoDialog(LanguageManager.Model.AppLocale_Error, message)) {
                 if (!AppLocaleLauncher.IsInstalled) {
                     System.Diagnostics.Process.Start(LINK_MS_APPLOCALE);
                 }

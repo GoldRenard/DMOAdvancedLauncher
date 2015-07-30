@@ -28,7 +28,6 @@ using System.Windows.Media.Imaging;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Commands;
-using AdvancedLauncher.UI.Extension;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {
@@ -47,6 +46,11 @@ namespace AdvancedLauncher.UI.Pages {
 
         [Inject]
         public IConfigurationManager GameManager {
+            get; set;
+        }
+
+        [Inject]
+        public IDialogManager DialogManager {
             get; set;
         }
 
@@ -204,7 +208,8 @@ namespace AdvancedLauncher.UI.Pages {
                         Process.Start("rundll32.exe", System.Environment.SystemDirectory + "\\shimgvw.dll,ImageView_Fullscreen " + FullPath);
                     } catch (Exception ex) {
                         ILanguageManager LanguageManager = App.Kernel.Get<ILanguageManager>();
-                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.GalleryCantOpenImage + ex.Message);
+                        IDialogManager DialogManager = App.Kernel.Get<IDialogManager>();
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.GalleryCantOpenImage + ex.Message);
                     }
                 });
             }

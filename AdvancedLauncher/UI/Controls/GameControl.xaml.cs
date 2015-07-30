@@ -65,6 +65,11 @@ namespace AdvancedLauncher.UI.Controls {
             get; set;
         }
 
+        [Inject]
+        public IDialogManager DialogManager {
+            get; set;
+        }
+
         private IGameUpdateManager _UpdateManager;
 
         [Inject]
@@ -158,7 +163,7 @@ namespace AdvancedLauncher.UI.Controls {
             VersionPair pair = UpdateManager.CheckUpdates(ProfileManager.CurrentProfile.GameModel);
             if (pair == null) {
                 SetStartEnabled(false);
-                DialogsHelper.ShowMessageDialog(LanguageManager.Model.ErrorOccured, LanguageManager.Model.ConnectionError);
+                DialogManager.ShowMessageDialog(LanguageManager.Model.ErrorOccured, LanguageManager.Model.ConnectionError);
                 return;
             }
             //Если обновление требуется
@@ -186,7 +191,7 @@ namespace AdvancedLauncher.UI.Controls {
                     }
                     if (!UpdateManager.ImportPackages(model)) {
                         this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
-                            DialogsHelper.ShowErrorDialog(LanguageManager.Model.GameFilesInUse);
+                            DialogManager.ShowErrorDialog(LanguageManager.Model.GameFilesInUse);
                         }));
                         return false;
                     }
@@ -204,7 +209,7 @@ namespace AdvancedLauncher.UI.Controls {
                 return false;
             }
             if (!UpdateManager.DownloadUpdates(ProfileManager.CurrentProfile.GameModel, versionPair)) {
-                DialogsHelper.ShowMessageDialog(LanguageManager.Model.ErrorOccured, LanguageManager.Model.ConnectionError);
+                DialogManager.ShowMessageDialog(LanguageManager.Model.ErrorOccured, LanguageManager.Model.ConnectionError);
             }
             if (!await CheckGameAccessLoop()) {
                 return false;
@@ -319,7 +324,7 @@ namespace AdvancedLauncher.UI.Controls {
                 case LoginCode.UNKNOWN_URL:
                     {
                         //И возвращаем в форму ввода
-                        DialogsHelper.ShowMessageDialog(LanguageManager.Model.LoginLogIn,
+                        DialogManager.ShowMessageDialog(LanguageManager.Model.LoginLogIn,
                                     LanguageManager.Model.LoginWrongPage + string.Format(" [{0}]", e.Code));
                         break;
                     }
@@ -346,7 +351,7 @@ namespace AdvancedLauncher.UI.Controls {
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
                 if (!GameManager.CheckGame(ProfileManager.CurrentProfile.GameModel)) {
-                    DialogsHelper.ShowErrorDialog(LanguageManager.Model.PleaseSelectGamePath);
+                    DialogManager.ShowErrorDialog(LanguageManager.Model.PleaseSelectGamePath);
                     return;
                 }
                 StartButton.IsEnabled = IsEnabled;
@@ -367,7 +372,7 @@ namespace AdvancedLauncher.UI.Controls {
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
                 if (!GameManager.CheckLauncher(ProfileManager.CurrentProfile.GameModel)) {
-                    DialogsHelper.ShowErrorDialog(LanguageManager.Model.PleaseSelectLauncherPath);
+                    DialogManager.ShowErrorDialog(LanguageManager.Model.PleaseSelectLauncherPath);
                     return;
                 }
                 StartButton.IsEnabled = IsEnabled;

@@ -27,7 +27,6 @@ using System.Windows.Media.Imaging;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
-using AdvancedLauncher.UI.Extension;
 using Microsoft.Win32;
 using Ninject;
 
@@ -54,6 +53,11 @@ namespace AdvancedLauncher.UI.Pages {
 
         [Inject]
         public IConfigurationManager GameManager {
+            get; set;
+        }
+
+        [Inject]
+        public IDialogManager DialogManager {
             get; set;
         }
 
@@ -103,7 +107,7 @@ namespace AdvancedLauncher.UI.Pages {
                     }
                 }
             } catch {
-                DialogsHelper.ShowMessageDialog(LanguageManager.Model.PleaseCloseGame, LanguageManager.Model.GameFilesInUse);
+                DialogManager.ShowMessageDialog(LanguageManager.Model.PleaseCloseGame, LanguageManager.Model.GameFilesInUse);
             }
         }
 
@@ -180,7 +184,7 @@ namespace AdvancedLauncher.UI.Pages {
 
                     return;
                 }
-                DialogsHelper.ShowErrorDialog(LanguageManager.Model.PersonalizationWrongTGA);       //Иначе говорим, что это не ТГА-картинка.
+                DialogManager.ShowErrorDialog(LanguageManager.Model.PersonalizationWrongTGA);       //Иначе говорим, что это не ТГА-картинка.
             }
         }
 
@@ -203,7 +207,7 @@ namespace AdvancedLauncher.UI.Pages {
                     try {
                         File.WriteAllBytes(sFileDialog.FileName, CurrentImageBytes);
                     } catch (Exception ex) {
-                        DialogsHelper.ShowErrorDialog(LanguageManager.Model.PersonalizationCantSave + " " + ex.Message);
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.PersonalizationCantSave + " " + ex.Message);
                     }
                 }
             }
@@ -262,7 +266,7 @@ namespace AdvancedLauncher.UI.Pages {
             }
 
             if (!writeResult) {
-                DialogsHelper.ShowErrorDialog(LanguageManager.Model.PersonalizationCantWrite);
+                DialogManager.ShowErrorDialog(LanguageManager.Model.PersonalizationCantWrite);
             } else {
                 IsGameImageLoaded = LoadGameImage(selectedResource);
             }

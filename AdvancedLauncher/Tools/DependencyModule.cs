@@ -39,6 +39,7 @@ namespace AdvancedLauncher.Tools {
             Bind<IProfileManager>().To<ProfileManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ILogManager>().To<LogManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IDialogManager>().To<DialogManager>().InSingletonScope().OnActivation(m => m.Initialize());
 
             // Multiinstance services
             Bind<IGameUpdateManager>().To<GameUpdateManager>().OnActivation(m => m.Initialize());

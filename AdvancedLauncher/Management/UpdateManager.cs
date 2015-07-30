@@ -21,7 +21,6 @@ using System.ComponentModel;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.Tools;
-using AdvancedLauncher.UI.Extension;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
@@ -30,6 +29,11 @@ namespace AdvancedLauncher.Management {
 
         [Inject]
         public ILanguageManager LanguageManager {
+            get; set;
+        }
+
+        [Inject]
+        public IDialogManager DialogManager {
             get; set;
         }
 
@@ -48,7 +52,7 @@ namespace AdvancedLauncher.Management {
                             + System.Environment.NewLine
                             + LanguageManager.Model.UpdateDownloadQuestion;
                         string caption = string.Format(LanguageManager.Model.UpdateAvailableCaption, remote.Version);
-                        if (await DialogsHelper.ShowYesNoDialog(caption, content)) {
+                        if (await DialogManager.ShowYesNoDialog(caption, content)) {
                             URLUtils.OpenSite(remote.DownloadUrl);
                         }
                     }

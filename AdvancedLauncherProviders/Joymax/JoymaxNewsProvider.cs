@@ -38,10 +38,20 @@ namespace AdvancedLauncher.Providers.Joymax {
             HtmlDocument doc = new HtmlDocument();
             List<NewsItem> news = new List<NewsItem>();
 
-            string html = WebClientEx.DownloadContent(LogManager, "http://dmocp.joymax.com/Main/HomeMain.aspx", 5000);
-            doc.LoadHtml(html);
+            HtmlNodeCollection newsNode = null;
+            int tryCount = 5;
+            while (newsNode == null && tryCount > 0) {
+                string html = WebClientEx.DownloadContent(LogManager, "http://dmocp.joymax.com/Main/HomeMain.aspx", 5000);
+                doc.LoadHtml(html);
+                newsNode = doc.DocumentNode.SelectNodes("//div[@class='news-list']/ul/li");
+                tryCount--;
+            }
 
-            HtmlNode newsWrap = doc.DocumentNode.SelectNodes("//div[@class='news-list']/ul/li")[0];
+            if (newsNode == null) {
+                return null;
+            }
+
+            HtmlNode newsWrap = newsNode[0];
             HtmlNodeCollection newsList = doc.DocumentNode.SelectNodes("//div[@class='news-list']/ul/li");
             NewsItem ni;
 

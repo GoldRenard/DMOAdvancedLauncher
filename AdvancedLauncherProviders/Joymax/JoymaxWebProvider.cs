@@ -43,23 +43,37 @@ namespace AdvancedLauncher.Providers.Joymax {
         public JoymaxWebProvider(ILogManager logManager) : base(logManager) {
         }
 
+        private HtmlNode tryLoadNode(string url, string nodeExpression) {
+            HtmlDocument doc;
+            return tryLoadNode(url, nodeExpression, out doc);
+        }
+
+        private HtmlNode tryLoadNode(string url, string nodeExpression, out HtmlDocument doc) {
+            HtmlNodeCollection nodeCollection = null;
+            doc = null;
+            int tryNum = 10;
+            while (nodeCollection == null && tryNum > 0) {
+                string html = DownloadContent(url);
+                doc = new HtmlDocument();
+                doc.LoadHtml(html);
+                nodeCollection = doc.DocumentNode.SelectNodes(nodeExpression);
+                tryNum--;
+            }
+            if (nodeCollection == null) {
+                throw new Exception(string.Format("Unable to retrieve node \"{0}\" for \"{1}\"", nodeExpression, url));
+            }
+            return nodeCollection.FirstOrDefault();
+        }
+
         public override Guild GetGuild(Server server, string guildName, bool isDetailed) {
             OnStarted();
             Guild guild = new Guild() {
                 Server = server,
                 IsDetailed = isDetailed
             };
-            HtmlDocument doc = new HtmlDocument();
             OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
             try {
-                string html = DownloadContent(string.Format(STR_URL_GUILD_RANK, guildName, "srv" + server.Identifier));
-                doc.LoadHtml(html);
-
-                HtmlNodeCollection collection = doc.DocumentNode.SelectNodes(STR_RANKING_NODE);
-                if (collection == null) {
-                    throw new Exception("GetGuild -> Unable to find ranking node on the page");
-                }
-                HtmlNode ranking = collection[0];
+                HtmlNode ranking = tryLoadNode(string.Format(STR_URL_GUILD_RANK, guildName, "srv" + server.Identifier), STR_RANKING_NODE);
                 HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='guild']");
                 bool isFound = false;
                 if (tlist != null) {
@@ -122,19 +136,11 @@ namespace AdvancedLauncher.Providers.Joymax {
         }
 
         protected override bool GetGuildInfo(ref Guild guild, bool isDetailed) {
-            List<Tamer> tamerList = new List<Tamer>();
-            HtmlDocument doc = new HtmlDocument();
             if (LogManager != null) {
                 LogManager.InfoFormat("Obtaining info of {0}", guild.Name);
             }
-            string html = DownloadContent(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier));
-            doc.LoadHtml(html);
-
-            HtmlNodeCollection collection = doc.DocumentNode.SelectNodes(STR_RANKING_NODE);
-            if (collection == null) {
-                throw new Exception("GetGuildInfo -> Unable to find ranking node on the page");
-            }
-            HtmlNode ranking = collection[0];
+            List<Tamer> tamerList = new List<Tamer>();
+            HtmlNode ranking = tryLoadNode(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier), STR_RANKING_NODE);
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
             using (MainContext context = new MainContext()) {
                 for (int i = 0; i < tlist.Count; i++) {
@@ -180,14 +186,11 @@ namespace AdvancedLauncher.Providers.Joymax {
                 LogManager.InfoFormat("Obtaining digimons for tamer \"{0}\"", tamer.Name);
             }
             List<Digimon> digimonList = new List<Digimon>();
-            HtmlDocument doc = new HtmlDocument();
-
-            string html = DownloadContent(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, "srv" + tamer.Guild.Server.Identifier));
-            doc.LoadHtml(html);
 
             using (MainContext context = new MainContext()) {
+                HtmlDocument doc;
                 //getting starter
-                HtmlNode tamerInfo = doc.DocumentNode.SelectNodes("//div[@class='tamer-area']")[0];
+                HtmlNode tamerInfo = tryLoadNode(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, "srv" + tamer.Guild.Server.Identifier), "//div[@class='tamer-area']", out doc);
                 Digimon partner = new Digimon() {
                     Tamer = tamer,
                     SizePc = 100,
@@ -245,14 +248,8 @@ namespace AdvancedLauncher.Providers.Joymax {
             if (LogManager != null) {
                 LogManager.InfoFormat("Obtaining starter digimon for tamer \"{0}\"", tamer.Name);
             }
-            HtmlDocument doc = new HtmlDocument();
-
-            string html = DownloadContent(string.Format(STR_URL_STARTER_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier));
-            doc.LoadHtml(html);
-
-            HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
+            HtmlNode ranking = tryLoadNode(string.Format(STR_URL_STARTER_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier), STR_RANKING_NODE);
             HtmlNodeCollection dlist = ranking.SelectNodes("//tr/td[@class='tamer2']");
-
             if (dlist != null) {
                 for (int i = 0; i < dlist.Count; i++) {
                     if (ClearStr(ranking.SelectNodes("//td[@class='tamer2']")[i].InnerText) == tamer.Name) {
@@ -275,11 +272,7 @@ namespace AdvancedLauncher.Providers.Joymax {
                 LogManager.InfoFormat("Obtaining detailed data of digimon \"{0}\" for tamer \"{1}\"", digimon.Name, tamer.Name);
             }
 
-            string html = DownloadContent(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier.ToString(), digimon.Type.Code));
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(html);
-
-            HtmlNode ranking = doc.DocumentNode.SelectNodes(STR_RANKING_NODE)[0];
+            HtmlNode ranking = tryLoadNode(string.Format(STR_URL_MERC_SIZE_RANK, tamer.Name, "srv" + tamer.Guild.Server.Identifier.ToString(), digimon.Type.Code), STR_RANKING_NODE);
             HtmlNodeCollection dlist = ranking.SelectNodes("//tr/td[@class='tamer2']");
 
             if (dlist != null) {

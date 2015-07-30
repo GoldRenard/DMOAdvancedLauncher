@@ -91,7 +91,7 @@ namespace AdvancedLauncher.UI.Pages {
             if (!string.IsNullOrEmpty(currentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {
                     //Ищем сервер с нужным идентификатором и выбираем его
-                    if (serv.Identifier == currentProfile.Rotation.ServerId + 1) {
+                    if (serv.Identifier == currentProfile.Rotation.ServerId) {
                         ComboBoxServer.SelectedValue = serv;
                         break;
                     }

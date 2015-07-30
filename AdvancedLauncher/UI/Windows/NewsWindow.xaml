@@ -1,0 +1,57 @@
+﻿<!--
+// ======================================================================
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see<http://www.gnu.org/licenses /> .
+// ======================================================================
+-->
+
+<win:AbstractWindow x:Class="AdvancedLauncher.UI.Windows.NewsWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:controls="clr-namespace:AdvancedLauncher.UI.Controls"
+             xmlns:Page="clr-namespace:AdvancedLauncher.UI.Pages"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:win="clr-namespace:AdvancedLauncher.UI.Windows"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="900"
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
+    <win:AbstractWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </win:AbstractWindow.Resources>
+    <Grid x:Name="LayoutRoot">
+        <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged" Margin="0,0,0,30">
+            <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
+                <Page:MainPage x:Name="MainPage" />
+            </TabItem>
+            <TabItem x:Name="NavGallery" Header="{Binding MainWindow_GalleryTab}">
+                <Page:Gallery x:Name="Gallery" />
+            </TabItem>
+            <TabItem x:Name="NavCommunity" Header="{Binding MainWindow_CommunityTab}">
+                <Page:Community x:Name="Community" />
+            </TabItem>
+            <TabItem x:Name="NavPersonalization" Header="{Binding MainWindow_PersonalizationTab}">
+                <Page:Personalization x:Name="Personalization" />
+            </TabItem>
+        </TabControl>
+        <controls:Footer Height="30" VerticalAlignment="Bottom" />
+    </Grid>
+</win:AbstractWindow>

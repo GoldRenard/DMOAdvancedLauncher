@@ -19,14 +19,11 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
-using AdvancedLauncher.UI.Pages;
 using MahApps.Metro.Controls;
 using Ninject;
 
@@ -41,11 +38,11 @@ namespace AdvancedLauncher.UI.Windows {
 
         private bool IsCloseLocked = true;
 
+        private NewsWindow NewsWindow = null;
+
         private Settings SettingsWindow = null;
 
         private About AboutWindow = null;
-
-        private AbstractPage currentTab;
 
         [Inject]
         public Logger Logger {
@@ -67,20 +64,17 @@ namespace AdvancedLauncher.UI.Windows {
             get; set;
         }
 
-        [Inject]
-        public IConfigurationManager ConfigurationManager {
-            get; set;
-        }
-
         public MainWindow() {
             App.Kernel.Inject(this);
             Splashscreen.SetProgress("Loading...");
             Application.Current.MainWindow = this;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                NewsWindow = new NewsWindow();
+                transitionLayer.Content = NewsWindow;
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
                 Logger.WindowClosed += (s, e1) => {
-                    transitionLayer.Content = null;
+                    transitionLayer.Content = NewsWindow;
                 };
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
@@ -88,7 +82,6 @@ namespace AdvancedLauncher.UI.Windows {
                 ProfileSwitcher.DataContext = ProfileManager;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 EnvironmentManager.ClosingLocked += OnClosingLocked;
-                EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 this.Closing += (s, e) => {
                     e.Cancel = IsCloseLocked;
                     App.Kernel.Get<ITaskManager>().CloseApp(true);
@@ -117,19 +110,6 @@ namespace AdvancedLauncher.UI.Windows {
             }
         }
 
-        private void OnFileSystemLocked(object sender, LockedEventArgs e) {
-            if (e.IsLocked) {
-                //Выбираем первую вкладку и отключаем персонализацию (на всякий случай)
-                NavControl.SelectedIndex = 0;
-                NavPersonalization.IsEnabled = false;
-            } else {
-                //Включаем персонализации обратно если игра определена
-                if (ConfigurationManager.CheckGame(ProfileManager.CurrentProfile.GameModel)) {
-                    NavPersonalization.IsEnabled = true;
-                }
-            }
-        }
-
         private void OnClosingLocked(object sender, LockedEventArgs e) {
             if (hWnd == IntPtr.Zero) {
                 hWnd = new System.Windows.Interop.WindowInteropHelper(Application.Current.MainWindow).Handle;
@@ -143,53 +123,16 @@ namespace AdvancedLauncher.UI.Windows {
                 e.IsLocked ? NativeMethods.MF_DISABLED | NativeMethods.MF_GRAYED : NativeMethods.MF_ENABLED);
         }
 
-        public void ReloadTabs() {
-            //Выбираем первую вкладку и отключаем все модули
-            NavControl.SelectedIndex = 0;
-            NavGallery.IsEnabled = false;
-            NavCommunity.IsEnabled = false;
-            NavPersonalization.IsEnabled = false;
-
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
-
-            //Если доступен веб-профиль, включаем вкладку сообщества
-            if (ConfigurationManager.GetConfiguration(model).IsWebAvailable) {
-                NavCommunity.IsEnabled = true;
-            }
-
-            //Если путь до игры верен, включаем вкладку галереи и персонализации
-            if (ConfigurationManager.CheckGame(model)) {
-                NavGallery.IsEnabled = true;
-                NavPersonalization.IsEnabled = true;
-            }
-        }
-
         private void OnProfileChanged(object sender, EventArgs e) {
-            ReloadTabs();
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
-        }
-
-        private void OnTabChanged(object sender, SelectionChangedEventArgs e) {
-            TabItem selectedTab = (TabItem)NavControl.SelectedValue;
-            AbstractPage selectedPage = (AbstractPage)selectedTab.Content;
-            //Prevent handling over changing inside tab item
-            if (currentTab == selectedPage) {
-                return;
-            }
-            if (currentTab != null) {
-                currentTab.PageClose();
-            }
-            currentTab = selectedPage;
-            currentTab.PageActivate();
-            selectedTab.Focus();
         }
 
         private void OnProfileSettingsClick(object sender, RoutedEventArgs e) {
             if (SettingsWindow == null) {
                 SettingsWindow = App.Kernel.Get<Settings>();
                 SettingsWindow.WindowClosed += (s, e1) => {
-                    transitionLayer.Content = null;
+                    transitionLayer.Content = NewsWindow;
                 };
             }
             transitionLayer.Content = SettingsWindow;
@@ -200,7 +143,7 @@ namespace AdvancedLauncher.UI.Windows {
             if (AboutWindow == null) {
                 AboutWindow = App.Kernel.Get<About>();
                 AboutWindow.WindowClosed += (s, e1) => {
-                    transitionLayer.Content = null;
+                    transitionLayer.Content = NewsWindow;
                 };
             }
             transitionLayer.Content = AboutWindow;

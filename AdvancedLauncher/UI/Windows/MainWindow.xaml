@@ -24,12 +24,8 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:ALControls="clr-namespace:AdvancedLauncher.UI.Controls"
-                    xmlns:local="clr-namespace:AdvancedLauncher"
-                    xmlns:Page="clr-namespace:AdvancedLauncher.UI.Pages"
-                    xmlns:mg="clr-namespace:AdvancedLauncher.Management"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d"
                     Icon="/AdvancedLauncher;component/Resources/app_icon.ico"
@@ -104,22 +100,6 @@
                 </VisualBrush.Transform>
             </VisualBrush>
         </Grid.Background>
-
-        <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged" Margin="0,0,0,30">
-            <TabItem x:Name="NavMain" Header="{Binding MainWindow_NewsTab}">
-                <Page:MainPage x:Name="MainPage" />
-            </TabItem>
-            <TabItem x:Name="NavGallery" Header="{Binding MainWindow_GalleryTab}">
-                <Page:Gallery x:Name="Gallery" />
-            </TabItem>
-            <TabItem x:Name="NavCommunity" Header="{Binding MainWindow_CommunityTab}">
-                <Page:Community x:Name="Community" />
-            </TabItem>
-            <TabItem x:Name="NavPersonalization" Header="{Binding MainWindow_PersonalizationTab}">
-                <Page:Personalization x:Name="Personalization" />
-            </TabItem>
-        </TabControl>
-        <ALControls:Footer x:Name="Footer_" Height="30" VerticalAlignment="Bottom" />
-        <Controls:TransitioningContentControl x:Name="transitionLayer" Transition="RightReplace" />
+        <Controls:TransitioningContentControl x:Name="transitionLayer" Transition="Left"/>
     </Grid>
 </Controls:MetroWindow>

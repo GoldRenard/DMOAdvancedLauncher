@@ -251,6 +251,9 @@
     <Compile Include="UI\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Windows\NewsWindow.xaml.cs">
+      <DependentUpon>NewsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -351,6 +354,10 @@
     <Page Include="UI\Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Windows\NewsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Windows\Settings.xaml">
       <SubType>Designer</SubType>

@@ -30,7 +30,6 @@
              xmlns:ext="clr-namespace:AdvancedLauncher.UI.Extension"
              mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
-             Background="{DynamicResource WhiteBrush}"
              DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
     <win:AbstractWindow.Resources>
         <ResourceDictionary>
@@ -59,19 +58,6 @@
         </ResourceDictionary>
     </win:AbstractWindow.Resources>
     <Grid x:Name="LayoutRoot" d:Visibility="Collapsed">
-        <Grid.Background>
-            <VisualBrush Visual="{StaticResource digi_background}"
-                    Stretch="None"
-                    TileMode="Tile"
-                    Viewbox="0,0,750,5000"
-                    ViewboxUnits="Absolute"
-                    Viewport="0,0,750,5000"
-                    ViewportUnits="Absolute">
-                <VisualBrush.Transform>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
-                </VisualBrush.Transform>
-            </VisualBrush>
-        </Grid.Background>
         <Grid Margin="20,0,20,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />

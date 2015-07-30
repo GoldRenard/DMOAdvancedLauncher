@@ -33,7 +33,6 @@
              xmlns:win="clr-namespace:AdvancedLauncher.UI.Windows"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="900"
-             Background="{DynamicResource WhiteBrush}"
              DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
     <win:AbstractWindow.Resources>
         <ResourceDictionary>
@@ -47,19 +46,6 @@
         <Grid.Resources>
             <ex:BindingProxy x:Key="selectedModel" Data="{Binding ElementName=ProfileList, Path=SelectedValue.GameModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid.Resources>
-        <Grid.Background>
-            <VisualBrush Visual="{StaticResource digi_background}"
-                    Stretch="None"
-                    TileMode="Tile"
-                    Viewbox="0,0,750,5000"
-                    ViewboxUnits="Absolute"
-                    Viewport="0,0,750,5000"
-                    ViewportUnits="Absolute">
-                <VisualBrush.Transform>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
-                </VisualBrush.Transform>
-            </VisualBrush>
-        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="310" />

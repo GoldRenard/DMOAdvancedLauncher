@@ -33,6 +33,12 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
+        [Inject]
+        public MainWindow MainWindow {
+            get;
+            set;
+        }
+
         public void Initialize() {
             // nothing to do here
         }
@@ -49,14 +55,14 @@ namespace AdvancedLauncher.Management {
         /// <param name="title">Title</param>
         /// <param name="message">Message</param>
         public void ShowMessageDialog(string title, string message) {
-            if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
-                MainWindow.Instance.Dispatcher.BeginInvoke(new Func<string, string, bool>((t, m) => {
+            if (MainWindow.Dispatcher != null && !MainWindow.Dispatcher.CheckAccess()) {
+                MainWindow.Dispatcher.BeginInvoke(new Func<string, string, bool>((t, m) => {
                     ShowMessageDialog(t, m);
                     return true;
                 }), title, message);
                 return;
             }
-            MainWindow.Instance.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings() {
+            MainWindow.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings() {
                 AffirmativeButtonText = "OK",
                 ColorScheme = MetroDialogColorScheme.Accented
             });
@@ -76,12 +82,12 @@ namespace AdvancedLauncher.Management {
         /// <param name="message">Message</param>
         /// <returns>True if Yes clicked</returns>
         public async Task<bool> ShowMessageDialogAsync(string title, string message) {
-            if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
-                return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
+            if (MainWindow.Dispatcher != null && !MainWindow.Dispatcher.CheckAccess()) {
+                return await MainWindow.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
                     return await ShowMessageDialogAsync(title, message);
                 }));
             }
-            await MainWindow.Instance.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings() {
+            await MainWindow.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings() {
                 AffirmativeButtonText = "OK",
                 ColorScheme = MetroDialogColorScheme.Accented
             });
@@ -95,12 +101,12 @@ namespace AdvancedLauncher.Management {
         /// <param name="message">Message</param>
         /// <returns>True if yes clicked</returns>
         public async Task<bool> ShowYesNoDialog(string title, string message) {
-            if (MainWindow.Instance.Dispatcher != null && !MainWindow.Instance.Dispatcher.CheckAccess()) {
-                return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
+            if (MainWindow.Dispatcher != null && !MainWindow.Dispatcher.CheckAccess()) {
+                return await MainWindow.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
                     return await ShowYesNoDialog(title, message);
                 }));
             }
-            MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(title, message,
+            MessageDialogResult result = await MainWindow.ShowMessageAsync(title, message,
                 MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
                     AffirmativeButtonText = LanguageManager.Model.Yes,
                     NegativeButtonText = LanguageManager.Model.No,

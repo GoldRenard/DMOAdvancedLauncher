@@ -26,6 +26,7 @@ using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Windows;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
 
@@ -56,7 +57,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         #region Commands
 
-        private List<AdvancedLauncher.SDK.Model.MenuItem> Commands = new List<AdvancedLauncher.SDK.Model.MenuItem>();
+        private List<SDK.Model.MenuItem> Commands = new List<SDK.Model.MenuItem>();
 
         public event RoutedEventHandler AboutClick;
 
@@ -66,17 +67,18 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void BuildCommands() {
             Commands.Clear();
-            Commands.Add(new AdvancedLauncher.SDK.Model.MenuItem(LanguageManager, "Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
-                MainWindow.Instance.SettingsFlyout.Width = MainWindow.Instance.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
-                MainWindow.Instance.SettingsFlyout.IsOpen = true;
+            Commands.Add(new SDK.Model.MenuItem(LanguageManager, "Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
+                MainWindow MainWindow = App.Kernel.Get<MainWindow>();
+                MainWindow.SettingsFlyout.Width = MainWindow.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
+                MainWindow.SettingsFlyout.IsOpen = true;
             })));
-            Commands.Add(new AdvancedLauncher.SDK.Model.MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
+            Commands.Add(new SDK.Model.MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
                 if (LoggerClick != null) {
                     LoggerClick(this, null);
                 }
                 this.IsOpen = false;
             })));
-            Commands.Add(new AdvancedLauncher.SDK.Model.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+            Commands.Add(new SDK.Model.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
                 if (AboutClick != null) {
                     AboutClick(this, null);
                 }

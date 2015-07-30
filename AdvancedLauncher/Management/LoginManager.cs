@@ -77,7 +77,8 @@ namespace AdvancedLauncher.Management {
         }
 
         private async void ShowLoginDialog(string title, string message, string initUserName) {
-            LoginDialogData result = await MainWindow.Instance.ShowLoginAsync(title, message, new LoginDialogSettings {
+            MainWindow MainWindow = App.Kernel.Get<MainWindow>();
+            LoginDialogData result = await MainWindow.ShowLoginAsync(title, message, new LoginDialogSettings {
                 ColorScheme = MetroDialogColorScheme.Accented,
                 InitialUsername = initUserName,
                 NegativeButtonVisibility = System.Windows.Visibility.Visible,
@@ -96,19 +97,21 @@ namespace AdvancedLauncher.Management {
         }
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
+            MainWindow MainWindow = App.Kernel.Get<MainWindow>();
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
             ILoginProvider loginProvider = GameManager.GetConfiguration(model).CreateLoginProvider();
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
             };
-            controller = await MainWindow.Instance.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, false, settings);
+            controller = await MainWindow.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, false, settings);
             loginProvider.LoginStateChanged += OnLoginStateChanged;
             loginProvider.LoginCompleted += OnLoginCompleted;
             loginProvider.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
         }
 
         private async void ShowLastSessionDialog(IProfile profile) {
-            MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(LanguageManager.Model.UseLastSession, string.Empty,
+            MainWindow MainWindow = App.Kernel.Get<MainWindow>();
+            MessageDialogResult result = await MainWindow.ShowMessageAsync(LanguageManager.Model.UseLastSession, string.Empty,
                 MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
                     AffirmativeButtonText = LanguageManager.Model.Yes,
                     NegativeButtonText = LanguageManager.Model.No,

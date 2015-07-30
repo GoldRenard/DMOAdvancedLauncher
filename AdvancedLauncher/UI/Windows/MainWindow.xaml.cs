@@ -40,10 +40,10 @@ namespace AdvancedLauncher.UI.Windows {
         private bool IsCloseLocked = true;
 
         private Settings SettingsWindow = null;
-        private About AboutWindow = null;
-        private AbstractPage currentTab;
 
-        private static MainWindow _Instance;
+        private About AboutWindow = null;
+
+        private AbstractPage currentTab;
 
         [Inject]
         public IEnvironmentManager EnvironmentManager {
@@ -75,17 +75,10 @@ namespace AdvancedLauncher.UI.Windows {
             get; set;
         }
 
-        public static MainWindow Instance {
-            get {
-                return _Instance;
-            }
-        }
-
         public MainWindow() {
             App.Kernel.Inject(this);
-            _Instance = this;
             Splashscreen.SetProgress("Loading...");
-            Application.Current.MainWindow = _Instance;
+            Application.Current.MainWindow = this;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);

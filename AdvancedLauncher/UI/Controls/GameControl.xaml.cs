@@ -218,8 +218,9 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private async Task<bool> CheckGameAccessMessage() {
-            return await MainWindow.Instance.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
-                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync(LanguageManager.Model.PleaseCloseGame, LanguageManager.Model.GameFilesInUse,
+            MainWindow MainWindow = App.Kernel.Get<MainWindow>();
+            return await MainWindow.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
+                MessageDialogResult result = await MainWindow.ShowMessageAsync(LanguageManager.Model.PleaseCloseGame, LanguageManager.Model.GameFilesInUse,
                     MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
                         AffirmativeButtonText = "OK",
                         NegativeButtonText = LanguageManager.Model.CancelButton,

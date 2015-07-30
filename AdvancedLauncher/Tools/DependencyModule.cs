@@ -83,10 +83,10 @@ namespace AdvancedLauncher.Tools {
             Bind<TwitterItemViewModel>().ToSelf();
 
             // Components
+            Bind<MainWindow>().ToSelf().InSingletonScope(); // be careful with injecting this on initialization of MainWindow itself (UserControls, etc)
             Bind<LoginManager>().ToSelf().InSingletonScope();
             Bind<ProxyManager>().ToSelf().InSingletonScope();
             Bind<IconHolder>().ToSelf().InSingletonScope();
-            Bind<MainWindow>().ToSelf().InSingletonScope();
             Bind<About>().ToSelf().InSingletonScope();
             Bind<Settings>().ToSelf().InSingletonScope();
             Bind<Logger>().ToSelf().InSingletonScope().OnActivation(e => e.Initialize());

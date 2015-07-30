@@ -9,7 +9,7 @@ clone_folder: C:\Projects\DMOAdvancedLauncher
 install:
 - choco install InnoSetup
 - set PATH=%PATH%;"C:\Program Files (x86)\Inno Setup 5"
-- set PATH=%PATH%;"C:\Program Files (x86)\MSBuild\14.0\Bin"
+- set PATH="C:\Program Files (x86)\MSBuild\14.0\Bin";%PATH% 
 build:
   project: AdvancedLauncher.sln
   verbosity: minimal

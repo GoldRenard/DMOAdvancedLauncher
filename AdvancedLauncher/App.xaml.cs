@@ -18,52 +18,55 @@
 
 using System.Security.Principal;
 using System.Windows;
-using AdvancedLauncher.Environment;
-using AdvancedLauncher.Service;
-using AdvancedLauncher.Windows;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.Tools;
+using AdvancedLauncher.UI.Windows;
 using log4net.Config;
+using Ninject;
 
 #if DEBUG
-
-using DMOLibrary.Database.Context;
 
 #endif
 
 namespace AdvancedLauncher {
 
     public partial class App : Application {
+        private static IKernel _Kernel;
 
-        public static bool IsAdministrator() {
-            var identity = WindowsIdentity.GetCurrent();
-            var principal = new WindowsPrincipal(identity);
-            return principal.IsInRole(WindowsBuiltInRole.Administrator);
-        }
-
-        public App() {
-            if (IsAdministrator()) {
-                LauncherEnv.Load();
+        public static IKernel Kernel {
+            get {
+                if (_Kernel == null) {
+                    _Kernel = new StandardKernel(new DependencyModule());
+                }
+                return _Kernel;
             }
         }
 
         private void Application_Startup(object sender, StartupEventArgs e) {
+            Kernel.Inject(this);
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
-                    LauncherEnv.LoadTheme();
+                    Kernel.Get<IEnvironmentManager>();
                     Splashscreen.ShowSplash();
 #if DEBUG
-                    Splashscreen.SetProgress("Initializing database...");
+                    /*Splashscreen.SetProgress("Initializing database...");
                     using (MainContext context = new MainContext()) {
                         context.Database.Initialize(false);
-                    }
+                    }*/
 #endif
-                    MainWindow mw = new MainWindow();
-                    mw.Show();
+                    Kernel.Get<MainWindow>().Show();
                 } else {
                     Application.Current.Shutdown();
                 }
             } else
                 MessageBox.Show("Administrator Privileges are required to run DMO AdvancedLauncher. Please run application as Administrator.", "Please run application as Administrator", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        public static bool IsAdministrator() {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {

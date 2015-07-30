@@ -1,0 +1,412 @@
+﻿<!--
+// ======================================================================
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see<http://www.gnu.org/licenses /> .
+// ======================================================================
+-->
+
+<win:AbstractWindow x:Class="AdvancedLauncher.UI.Windows.Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:Validation="clr-namespace:AdvancedLauncher.UI.Validation"
+             xmlns:controls="clr-namespace:AdvancedLauncher.UI.Controls"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:conv="clr-namespace:AdvancedLauncher.UI.Converters"
+             xmlns:ex="clr-namespace:AdvancedLauncher.UI.Extension"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
+             xmlns:sw="clr-namespace:AdvancedLauncher.UI.Windows"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:win="clr-namespace:AdvancedLauncher.UI.Windows"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="900"
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
+    <win:AbstractWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
+                <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </win:AbstractWindow.Resources>
+    <Grid x:Name="LayoutRoot" d:Visibility="Collapsed">
+        <Grid.Resources>
+            <ex:BindingProxy x:Key="selectedModel" Data="{Binding ElementName=ProfileList, Path=SelectedValue.GameModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="310" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="Profiles" Margin="10,10,10,50">
+            <ListBox Height="{Binding ElementName=Profiles, Path=ActualHeight}"
+                         Grid.IsSharedSizeScope="True"
+                         SelectedIndex="0"
+                         x:Name="ProfileList"
+                         VerticalAlignment="Top"
+                         SelectionChanged="OnProfileSelectionChanged"
+                         BorderThickness="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <Grid Width="35" Height="35">
+                                <Border Background="White" />
+                                <Border BorderBrush="White" Visibility="{Binding HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
+                                    </Border.Background>
+                                </Border>
+                                <Rectangle Margin="3" Visibility="{Binding NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{StaticResource appbar_user_black}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <StackPanel VerticalAlignment="Center" Margin="5,0,0,0">
+                                <TextBlock FontSize="12" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock FontSize="10" Text="{Binding GameModel.Type, Converter={StaticResource GameTypeToNameConverter}}" IsEnabled="False" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Button x:Name="BtnAdd" Margin="10" Height="30" Width="85" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding CreateButton}" Click="OnAddClick" />
+        <Button x:Name="BtnDel" Margin="10" Height="30" Width="85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{Binding DeleteButton}" Click="OnRemoveClick" />
+
+        <Grid Grid.Column="1" Margin="0,5,0,0">
+            <StackPanel HorizontalAlignment="Left" Width="305">
+                <GroupBox x:Name="CommonGroupBox" Margin="0,5" Header="{Binding Settings_MainGroup}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="70" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBox x:Name="pName" Margin="0,3,0,8"
+                                     Controls:TextBoxHelper.Watermark="{Binding Settings_ProfileNameHint}"
+                                     Controls:TextBoxHelper.UseFloatingWatermark="True">
+                                <TextBox.Text>
+                                    <Binding ElementName="ProfileList" Path="SelectedValue.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                        <Binding.ValidationRules>
+                                            <Validation:ProfileNameValidationRule />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <Button x:Name="BtnSetDef" Content="{Binding Settings_SetAsDefaultButton}" Click="OnSetDefaultClick" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type sw:Settings}}, Path=IsSelectedNotDefault, Mode=TwoWay}" />
+                        </StackPanel>
+                        <Grid Grid.Column="2" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Grid Grid.RowSpan="2" Width="60" Height="60">
+                                <Border Background="White" />
+                                <Border BorderBrush="White" Cursor="Hand" MouseDown="OnImageSelect"
+                                        Visibility="{Binding ElementName=ProfileList, Path=SelectedValue.HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding ElementName=ProfileList, Path=SelectedValue.Image}"
+                                                    Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
+                                    </Border.Background>
+                                </Border>
+                                <Rectangle Margin="3" Cursor="Hand" MouseDown="OnImageSelect"
+                                           Visibility="{Binding ElementName=ProfileList, Path=SelectedValue.NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{StaticResource appbar_user_black}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <GroupBox x:Name="GuildGroupBox" Margin="0,5" Header="{Binding Settings_RotationGroup}"
+                          IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsWebAvailable}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Controls:TextBoxHelper.Watermark="{Binding Settings_RotationGuildHint}"
+                                     Controls:TextBoxHelper.UseFloatingWatermark="True">
+                                <TextBox.Text>
+                                    <Binding ElementName="ProfileList" Path="SelectedValue.Rotation.Guild" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <Validation:GuildNameValidationRule />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <ComboBox Grid.Column="1" x:Name="ComboBoxServer" Width="115" HorizontalAlignment="Right"
+                                      ItemsSource="{Binding ElementName=ConfigurationCb, Path=SelectedItem.ServersProvider.ServerList}"
+                                      SelectedValue="{Binding ElementName=ProfileList, Path=SelectedValue.Rotation.ServerId, Mode=TwoWay}"
+                                      SelectedValuePath="Identifier"
+                                      DisplayMemberPath="Name"
+                                      IsSynchronizedWithCurrentItem="True" />
+                        </Grid>
+                        <TextBox Margin="0,5,0,0"
+                                 Controls:TextBoxHelper.Watermark="{Binding Settings_RotationTamerHint}"
+                                 Controls:TextBoxHelper.UseFloatingWatermark="True">
+                            <TextBox.Text>
+                                <Binding ElementName="ProfileList" Path="SelectedValue.Rotation.Tamer" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <Validation:NameValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding Settings_RotationUpdateFREQ}" VerticalAlignment="Center" Margin="0,0,5,0" />
+                            <ComboBox x:Name="ComboBoxURate" Width="55" SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.Rotation.UpdateInterval, Mode=TwoWay}">
+                                <ComboBoxItem Content="1" />
+                                <ComboBoxItem Content="2" />
+                                <ComboBoxItem Content="3" />
+                                <ComboBoxItem Content="4" />
+                                <ComboBoxItem Content="5" />
+                                <ComboBoxItem Content="6" />
+                                <ComboBoxItem Content="7" />
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Margin="0,5" Header="{Binding Settings_NewsGroup}">
+                    <StackPanel>
+                        <TextBox Controls:TextBoxHelper.Watermark="{Binding Settings_TwitterHint}"
+                                 Style="{DynamicResource MetroButtonTextBox}">
+                            <Controls:TextBoxHelper.ButtonContent>
+                                <Rectangle Width="12" Height="10">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{StaticResource appbar_twitter_bird}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Controls:TextBoxHelper.ButtonContent>
+                            <TextBox.Text>
+                                <Binding ElementName="ProfileList" Path="SelectedValue.News.TwitterUrl" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <Validation:URLValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding Settings_FirstNewsTab}" VerticalAlignment="Center" Margin="0,0,5,0" />
+                            <ComboBox x:Name="ComboBoxNewsPage"
+                                      Width="90"
+                                      HorizontalAlignment="Right"
+                                      SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.News.FirstTab, Mode=TwoWay}"
+                                      IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsNewsAvailable}">
+                                <ComboBoxItem Content="Twitter" />
+                                <ComboBoxItem Content="Joymax" />
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="2" Margin="0,5,10,0">
+            <StackPanel>
+                <GroupBox Margin="0,5" Header="{Binding Settings_GameGroup}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding Settings_ClientType}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" />
+                            <ComboBox x:Name="ConfigurationCb" SelectionChanged="OnTypeSelectionChanged" Width="200" HorizontalAlignment="Right"
+                                      SelectedValue="{Binding ElementName=ProfileList, Path=SelectedValue.GameModel.Type, Mode=TwoWay}"
+                                      SelectedValuePath="GameType"
+                                      DisplayMemberPath="ServerName"
+                                      IsSynchronizedWithCurrentItem="True" />
+                        </StackPanel>
+
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="110" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="tbGamePath" Grid.Column="0" IsReadOnly="True"
+                                     Controls:TextBoxHelper.Watermark="{Binding Settings_GamePath}"
+                                     Controls:TextBoxHelper.UseFloatingWatermark="True">
+                                <TextBox.Text>
+                                    <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.GamePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <Validation:GamePathValidationRule>
+                                                <Validation:GamePathValidationRule.Container>
+                                                    <ex:GameModelContainer GameModel="{Binding Source={StaticResource selectedModel}, Path=Data}" />
+                                                </Validation:GamePathValidationRule.Container>
+                                            </Validation:GamePathValidationRule>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <Button Grid.Column="1" x:Name="BtnGameBrowse" Margin="5,0,0,0" Content="{Binding BrowseButton}" Click="OnGameBrowse" />
+                        </Grid>
+
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="110" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="tbLauncherPath" Grid.Column="0" IsReadOnly="True"
+                                     Controls:TextBoxHelper.Watermark="{Binding Settings_LauncherPath}"
+                                     Controls:TextBoxHelper.UseFloatingWatermark="True">
+                                <TextBox.Text>
+                                    <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.LauncherPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <Validation:LauncherPathValidationRule>
+                                                <Validation:LauncherPathValidationRule.Container>
+                                                    <ex:GameModelContainer GameModel="{Binding Source={StaticResource selectedModel}, Path=Data}" />
+                                                </Validation:LauncherPathValidationRule.Container>
+                                            </Validation:LauncherPathValidationRule>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <Button Grid.Column="1" x:Name="BtnLauncherBrowse" Margin="5,0,0,0" Content="{Binding BrowseButton}" Click="OnLauncherBrowse" />
+                        </Grid>
+
+                        <Controls:ToggleSwitch x:Name="Chk_UseUpdateEngine"
+                                               Margin="0,5,0,0"
+                                               FontSize="12"
+                                               Content="{Binding Settings_UpdateEngine}"
+                                               IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.UpdateEngineEnabled, Mode=TwoWay}" />
+
+                        <Controls:ToggleSwitch x:Name="Chk_UseKBLCService"
+                                               FontSize="12"
+                                               Content="{Binding Settings_KBLCService}"
+                                               IsChecked="{Binding ElementName=ProfileList, Path=SelectedValue.KBLCServiceEnabled, Mode=TwoWay}" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="105" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock 
+                                Text="{Binding Settings_LocaleFix}" 
+                                FontFamily="Segoe UI Semibold, Segoe UI, Lucida Sans Unicode, Verdana"
+                                FontSize="12" 
+                                VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" x:Name="ComboBoxLauncher" Margin="0,5" Height="30"
+                                  ItemsSource="{Binding LauncherManager, Source={StaticResource ServiceHolder}}"
+                                  SelectedItem="{Binding ElementName=ProfileList, Path=SelectedValue.Launcher, Mode=TwoWay}"
+                                  DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True" >
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                        <Setter Property="Padding" Value="2" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                        <Setter Property="VerticalContentAlignment" Value="Top" />
+                                        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+                                        <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="IsEnabled" Value="{Binding IsSupported}" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ComboBoxItem">
+                                                    <Grid Background="{TemplateBinding Background}" Margin="0,0.5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                        </Grid.ColumnDefinitions>
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                <VisualState x:Name="Normal" />
+                                                                <VisualState x:Name="MouseOver" />
+                                                                <VisualState x:Name="Disabled">
+                                                                    <Storyboard>
+                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
+                                                                       Storyboard.TargetName="contentPresenter">
+                                                                            <SplineDoubleKeyFrame KeyTime="0" Value=".55" />
+                                                                        </DoubleAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                        <Border Grid.ColumnSpan="2" x:Name="ItemBackground"
+                                                            IsHitTestVisible="False"
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            Background="{TemplateBinding Background}" />
+
+                                                        <ContentPresenter Grid.Column="0" x:Name="contentPresenter"
+                                                          TextElement.Foreground="{TemplateBinding Foreground}"
+                                                          Margin="{TemplateBinding Padding}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                                                        <controls:EnabledTextBlock Grid.Column="1" Margin="5,2,0,0"
+                                                               Visibility="{Binding IsSupported, Converter={StaticResource NotBoolToHiddenConverter}}">
+                                                            <Hyperlink Click="OnAppLocaleHelpClick" Style="{DynamicResource HyperLinkAccent}">
+                                                                <Run Loaded="LauncherHelp_Loaded" Text="{Binding LaunguageModel.Settings_AppLocale_Help, Source={StaticResource ServiceHolder}, Mode=TwoWay}" />
+                                                            </Hyperlink>
+                                                        </controls:EnabledTextBlock>
+                                                    </Grid>
+
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter TargetName="ItemBackground" Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                                                            <Setter Property="Foreground" Value="{DynamicResource AccentSelectedColorBrush}" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ItemBackground" Property="Background" Value="{DynamicResource AccentColorBrush2}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </Grid>
+                        
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Margin="0,5" Header="{Binding Settings_AccountGroup}"
+                          IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsLoginRequired}">
+                    <StackPanel Margin="3,3,3,4">
+                        <TextBox x:Name="tbUser"
+                                 TextChanged="UsernameChanged"
+                                 Controls:TextBoxHelper.Watermark="{Binding Settings_Account_User}"
+                                 Style="{DynamicResource MetroButtonTextBox}">
+                            <Controls:TextBoxHelper.ButtonContent>
+                                <Rectangle Width="12" Height="10">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{DynamicResource appbar_user}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Controls:TextBoxHelper.ButtonContent>
+                        </TextBox>
+
+                        <PasswordBox x:Name="pbPass"
+                                     Margin="0,5,0,0"
+                                     Controls:TextBoxHelper.Watermark="{Binding Settings_Account_Password}"
+                                     PasswordChanged="PasswordChanged"
+                                     Style="{DynamicResource MetroButtonPasswordBox}">
+                            <Controls:TextBoxHelper.ButtonContent>
+                                <Rectangle Width="12" Height="10">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{DynamicResource appbar_shield}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Controls:TextBoxHelper.ButtonContent>
+                        </PasswordBox>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,10">
+                <Button x:Name="BtnApply" Margin="0,0,10,0" Width="85" Content="{Binding ApplyButton}" Click="OnApplyClick" />
+                <Button x:Name="BtnClose" Width="85" Content="{Binding CancelButton}" Click="OnCloseClick" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</win:AbstractWindow>

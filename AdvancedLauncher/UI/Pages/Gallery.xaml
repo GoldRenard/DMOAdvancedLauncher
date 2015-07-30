@@ -1,0 +1,113 @@
+﻿<!--
+// ======================================================================
+// DIGIMON MASTERS ONLINE ADVANCED LAUNCHER
+// Copyright (C) 2015 Ilya Egorov (goldrenard@gmail.com)
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see<http://www.gnu.org/licenses /> .
+// ======================================================================
+-->
+
+<pages:AbstractPage x:Class="AdvancedLauncher.UI.Pages.Gallery"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mg="clr-namespace:AdvancedLauncher.Management"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:pages="clr-namespace:AdvancedLauncher.UI.Pages"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="800"
+             DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
+    <pages:AbstractPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type Controls:Tile}" BasedOn="{StaticResource {x:Type Controls:Tile}}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Controls:Tile">
+                            <Grid x:Name="TileRoot" Background="{TemplateBinding Background}">
+                                <StackPanel VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    Orientation="Horizontal">
+                                    <ContentPresenter RecognizesAccessKey="True" />
+                                    <TextBlock Text="{TemplateBinding Count}"
+                                       FontSize="{Binding CountFontSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                       VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <Label HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       Background="#70000000"
+                                       Width="{Binding ElementName=TileRoot, Path=ActualWidth}"
+                                       Foreground="{TemplateBinding Foreground}">
+                                    <AccessText Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        TextWrapping="Wrap"
+                                        FontSize="{Binding TitleFontSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Margin="-1" />
+                                </Label>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="0.95" ScaleY="0.95" CenterX="0.5" CenterY="0.5" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </pages:AbstractPage.Resources>
+    <Grid x:Name="LayoutRoot">
+        <TextBlock x:Name="EmptyText" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding GalleryNoScreenshots}" />
+        <ListBox x:Name="Templates"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 IsSynchronizedWithCurrentItem="True"
+                 ItemsSource="{Binding Items}"
+                 BorderThickness="0"
+                 Background="{x:Null}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="OverridesDefaultStyle" Value="True" />
+                    <Setter Property="SnapsToDevicePixels" Value="true" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Controls:Tile Margin="4" Title="{Binding Date}" TitleFontSize="11" Width="{Binding ThumbWidth}" Height="{Binding ThumbHeight}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Command}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Image Source="{Binding Thumb}" Stretch="UniformToFill" />
+                                </Controls:Tile>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel MaxWidth="{Binding ElementName=LayoutRoot, Path=ActualWidth}" HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Controls:ProgressRing x:Name="ProgressRing" Height="70" Width="70" IsActive="False" />
+    </Grid>
+</pages:AbstractPage>

@@ -38,11 +38,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Resources\app_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app_icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -72,6 +73,14 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -103,198 +112,222 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\AbstractContainerViewModel.cs" />
-    <Compile Include="Controls\AbstractItemViewModel.cs" />
-    <Compile Include="Controls\AutoScrollBehavior.cs" />
-    <Compile Include="Controls\BindingProxy.cs" />
-    <Compile Include="Controls\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Controls\DigiRotation\HaguruLoader.xaml.cs">
+    <Compile Include="Management\Commands\ClearCommand.cs" />
+    <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
+    <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
+    <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />
+    <Compile Include="Management\UpdateManager.cs" />
+    <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
+    <Compile Include="Management\LogManager.cs" />
+    <Compile Include="Management\PluginHost.cs" />
+    <Compile Include="Management\ProxyManager.cs" />
+    <Compile Include="Management\ServiceHolder.cs" />
+    <Compile Include="Model\AbstractContainerViewModel.cs" />
+    <Compile Include="Model\AbstractItemViewModel.cs" />
+    <Compile Include="Model\Config\GameModel.cs" />
+    <Compile Include="Model\Config\Profile.cs" />
+    <Compile Include="Model\Config\NewsData.cs" />
+    <Compile Include="Model\Config\RotationData.cs" />
+    <Compile Include="Model\Config\Settings.cs" />
+    <Compile Include="Model\Protected\ProxyCredentials.cs" />
+    <Compile Include="Tools\DependencyModule.cs" />
+    <Compile Include="Tools\Utils.cs" />
+    <Compile Include="UI\Controls\AbstractFlyout.cs" />
+    <Compile Include="UI\Controls\AbstractUserControl.cs" />
+    <Compile Include="UI\Converters\AbstractConverter.cs" />
+    <Compile Include="UI\Converters\ProfileToConfigNameConverter.cs" />
+    <Compile Include="UI\Converters\ProfileNameConverter.cs" />
+    <Compile Include="UI\Converters\GameTypeToNameConverter.cs" />
+    <Compile Include="UI\Extension\AutoScrollBehavior.cs" />
+    <Compile Include="Management\ConfigurationManager.cs" />
+    <Compile Include="Management\LanguageManager.cs" />
+    <Compile Include="Management\ProfileManager.cs" />
+    <Compile Include="UI\Extension\BindingProxy.cs" />
+    <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\Controls\HaguruLoader.xaml.cs">
       <DependentUpon>HaguruLoader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DigiRotation\RotationElement.xaml.cs">
+    <Compile Include="UI\Controls\RotationElement.xaml.cs">
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Dialogs\LoginManager.cs" />
-    <Compile Include="Controls\EnabledTextBlock.cs" />
-    <Compile Include="Controls\LogoControl.xaml.cs">
+    <Compile Include="Management\LoginManager.cs" />
+    <Compile Include="UI\Controls\EnabledTextBlock.cs" />
+    <Compile Include="UI\Controls\LogoControl.xaml.cs">
       <DependentUpon>LogoControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MenuFlyout.xaml.cs">
+    <Compile Include="UI\Controls\MenuFlyout.xaml.cs">
       <DependentUpon>MenuFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ModelCommand.cs" />
-    <Compile Include="Controls\SettingsFlyout.xaml.cs">
+    <Compile Include="UI\Commands\ModelCommand.cs" />
+    <Compile Include="UI\Controls\SettingsFlyout.xaml.cs">
       <DependentUpon>SettingsFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SimpleCommand.cs" />
-    <Compile Include="Controls\TDBlock\GuildInfoItemViewModel.cs" />
-    <Compile Include="Controls\TDBlock\IconHolder.cs" />
-    <Compile Include="Controls\TDBlock\TDBlock.xaml.cs">
+    <Compile Include="UI\Commands\SimpleCommand.cs" />
+    <Compile Include="Model\GuildInfoItemViewModel.cs" />
+    <Compile Include="Tools\IconHolder.cs" />
+    <Compile Include="UI\Controls\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TDBlock\DigimonItemViewModel.cs" />
-    <Compile Include="Controls\DigiRotation\DigiRotation.xaml.cs">
+    <Compile Include="Model\DigimonItemViewModel.cs" />
+    <Compile Include="UI\Controls\DigiRotation.xaml.cs">
       <DependentUpon>DigiRotation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Footer.xaml.cs">
+    <Compile Include="UI\Controls\Footer.xaml.cs">
       <DependentUpon>Footer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GameControl.xaml.cs">
+    <Compile Include="UI\Controls\GameControl.xaml.cs">
       <DependentUpon>GameControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NewsBlock\NewsBlock.xaml.cs">
+    <Compile Include="UI\Controls\NewsBlock.xaml.cs">
       <DependentUpon>NewsBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NewsBlock\JoymaxViewModel.cs" />
-    <Compile Include="Controls\NewsBlock\JoymaxItemViewModel.cs" />
-    <Compile Include="Controls\NewsBlock\TwitterItemViewModel.cs" />
-    <Compile Include="Controls\NewsBlock\TwitterViewModel.cs" />
-    <Compile Include="Controls\TDBlock\DigimonViewModel.cs" />
-    <Compile Include="Controls\TDBlock\TamerItemViewModel.cs" />
-    <Compile Include="Controls\TDBlock\TamerViewModel.cs" />
-    <Compile Include="Controls\TDBlock\GuildInfoViewModel.cs" />
-    <Compile Include="Environment\Commands\CommandHandler.cs" />
-    <Compile Include="Environment\Commands\Command.cs" />
-    <Compile Include="Environment\Commands\HelpCommand.cs" />
-    <Compile Include="Environment\Commands\EchoCommand.cs" />
-    <Compile Include="Environment\Commands\ExecCommand.cs" />
-    <Compile Include="Environment\Commands\ExitCommand.cs" />
-    <Compile Include="Environment\Commands\LicenseCommand.cs" />
-    <Compile Include="Environment\Containers\NewsData.cs" />
-    <Compile Include="Environment\Containers\ProxySetting.cs" />
-    <Compile Include="Environment\Containers\RemoteVersion.cs" />
-    <Compile Include="Environment\Containers\RotationData.cs" />
-    <Compile Include="Environment\GameEnv.cs" />
-    <Compile Include="Environment\Containers\LoginData.cs" />
-    <Compile Include="Environment\Containers\Profile.cs" />
-    <Compile Include="Environment\Containers\Settings.cs" />
-    <Compile Include="Environment\LanguageEnv.cs" />
-    <Compile Include="Environment\LockedEventArgs.cs" />
-    <Compile Include="Environment\LogAppender.cs" />
-    <Compile Include="Pages\AbstractPage.cs" />
-    <Compile Include="Pages\Community.xaml.cs">
+    <Compile Include="Model\JoymaxViewModel.cs" />
+    <Compile Include="Model\JoymaxItemViewModel.cs" />
+    <Compile Include="Model\TwitterItemViewModel.cs" />
+    <Compile Include="Model\TwitterViewModel.cs" />
+    <Compile Include="Model\DigimonViewModel.cs" />
+    <Compile Include="Model\TamerItemViewModel.cs" />
+    <Compile Include="Model\TamerViewModel.cs" />
+    <Compile Include="Model\GuildInfoViewModel.cs" />
+    <Compile Include="Management\CommandManager.cs" />
+    <Compile Include="Management\Commands\HelpCommand.cs" />
+    <Compile Include="Management\Commands\EchoCommand.cs" />
+    <Compile Include="Management\Commands\ExecCommand.cs" />
+    <Compile Include="Management\Commands\ExitCommand.cs" />
+    <Compile Include="Management\Commands\LicenseCommand.cs" />
+    <Compile Include="Model\Protected\ProxySetting.cs" />
+    <Compile Include="Model\Protected\RemoteVersion.cs" />
+    <Compile Include="Model\Protected\LoginData.cs" />
+    <Compile Include="Model\Protected\ProtectedProfile.cs" />
+    <Compile Include="Model\Protected\ProtectedSettings.cs" />
+    <Compile Include="Tools\LogAppender.cs" />
+    <Compile Include="UI\Extension\GameModelContainer.cs" />
+    <Compile Include="UI\Pages\AbstractPage.cs" />
+    <Compile Include="UI\Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Gallery.xaml.cs">
+    <Compile Include="UI\Pages\Gallery.xaml.cs">
       <DependentUpon>Gallery.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MainPage.xaml.cs">
+    <Compile Include="UI\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Personalization.xaml.cs">
+    <Compile Include="UI\Pages\Personalization.xaml.cs">
       <DependentUpon>Personalization.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Service\Execution\AbstractLauncher.cs" />
-    <Compile Include="Service\DispatcherHelper.cs" />
-    <Compile Include="Service\Execution\LauncherFactory.cs" />
-    <Compile Include="Service\Execution\NTLeaLauncher.cs" />
-    <Compile Include="Service\Execution\AppLocaleLauncher.cs" />
-    <Compile Include="Service\Execution\DirectLauncher.cs" />
-    <Compile Include="Service\Execution\SteamSensitiveLauncher.cs" />
-    <Compile Include="Service\FingerPrint.cs" />
-    <Compile Include="Service\Execution\InstanceChecker.cs" />
-    <Compile Include="Environment\LauncherEnv.cs" />
-    <Compile Include="Service\JpegEncoder.cs" />
-    <Compile Include="Service\Execution\ILauncher.cs" />
-    <Compile Include="Service\NativeMethods.cs" />
-    <Compile Include="Service\Execution\ParentProcessUtilities.cs" />
-    <Compile Include="Controls\BooleanConverter.cs" />
-    <Compile Include="Service\PassEncrypt.cs" />
-    <Compile Include="Service\DependencyObjectExt.cs" />
-    <Compile Include="Service\TargaImage.cs" />
-    <Compile Include="Service\TaskManager.cs" />
-    <Compile Include="Service\UpdateChecker.cs" />
-    <Compile Include="Service\Utils.cs" />
-    <Compile Include="Validators\GuildNameValidationRule.cs" />
-    <Compile Include="Validators\NameValidationRule.cs" />
-    <Compile Include="Validators\ProfileNameValidationRule.cs" />
-    <Compile Include="Validators\URLValidationRule.cs" />
-    <Compile Include="Validators\SettingsGamePathValidationRule.cs" />
-    <Compile Include="Validators\SettingsLauncherPathValidationRule.cs" />
-    <Compile Include="Windows\About.xaml.cs">
+    <Compile Include="Management\DialogManager.cs" />
+    <Compile Include="UI\Extension\DispatcherHelper.cs" />
+    <Compile Include="Management\LauncherManager.cs" />
+    <Compile Include="Management\Execution\NTLeaLauncher.cs" />
+    <Compile Include="Management\Execution\AppLocaleLauncher.cs" />
+    <Compile Include="Management\Execution\DirectLauncher.cs" />
+    <Compile Include="Management\Execution\SteamSensitiveLauncher.cs" />
+    <Compile Include="Tools\FingerPrint.cs" />
+    <Compile Include="Tools\InstanceChecker.cs" />
+    <Compile Include="Management\EnvironmentManager.cs" />
+    <Compile Include="Tools\JpegEncoder.cs" />
+    <Compile Include="Tools\NativeMethods.cs" />
+    <Compile Include="Tools\ParentProcessUtilities.cs" />
+    <Compile Include="UI\Converters\BooleanConverter.cs" />
+    <Compile Include="Tools\PassEncrypt.cs" />
+    <Compile Include="UI\Extension\DependencyObjectExt.cs" />
+    <Compile Include="Tools\TargaImage.cs" />
+    <Compile Include="Management\TaskManager.cs" />
+    <Compile Include="Tools\URLUtils.cs" />
+    <Compile Include="UI\Validation\AbstractValidationRule.cs" />
+    <Compile Include="UI\Validation\GuildNameValidationRule.cs" />
+    <Compile Include="UI\Validation\NameValidationRule.cs" />
+    <Compile Include="UI\Validation\ProfileNameValidationRule.cs" />
+    <Compile Include="UI\Validation\URLValidationRule.cs" />
+    <Compile Include="UI\Validation\GamePathValidationRule.cs" />
+    <Compile Include="UI\Validation\LauncherPathValidationRule.cs" />
+    <Compile Include="UI\Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AbstractWindow.cs" />
-    <Compile Include="Windows\BugWindow.xaml.cs">
+    <Compile Include="UI\Windows\AbstractWindow.cs" />
+    <Compile Include="UI\Windows\BugWindow.xaml.cs">
       <DependentUpon>BugWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
+    <Compile Include="UI\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Settings.xaml.cs">
+    <Compile Include="UI\Windows\NewsWindow.xaml.cs">
+      <DependentUpon>NewsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Logger.xaml.cs">
+    <Compile Include="UI\Windows\Logger.xaml.cs">
       <DependentUpon>Logger.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Splashscreen.xaml.cs">
+    <Compile Include="UI\Windows\Splashscreen.xaml.cs">
       <DependentUpon>Splashscreen.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\DigiRotation\DigiRotation.xaml">
+    <Page Include="UI\Controls\DigiRotation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DigiRotation\HaguruLoader.xaml">
+    <Page Include="UI\Controls\HaguruLoader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DigiRotation\RotationElement.xaml">
+    <Page Include="UI\Controls\RotationElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Controls\DigiRotation\RotationElementSampleData.xaml">
+    <DesignData Include="UI\Controls\RotationElementSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="Controls\Footer.xaml">
+    <Page Include="UI\Controls\Footer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\GameControl.xaml">
+    <Page Include="UI\Controls\GameControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Controls\NewsBlock\JoymaxViewModelSampleData.xaml">
+    <DesignData Include="Model\JoymaxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="Controls\LogoControl.xaml">
+    <Page Include="UI\Controls\LogoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MenuFlyout.xaml">
+    <Page Include="UI\Controls\MenuFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\NewsBlock\NewsBlock.xaml">
+    <Page Include="UI\Controls\NewsBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Controls\NewsBlock\TwitterViewModelSampleData.xaml">
+    <DesignData Include="Model\TwitterViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="Controls\SettingsFlyout.xaml">
+    <Page Include="UI\Controls\SettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TDBlock\TDBlock.xaml">
+    <Page Include="UI\Controls\TDBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Community.xaml">
+    <Page Include="UI\Pages\Community.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Gallery.xaml">
+    <Page Include="UI\Pages\Gallery.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainPage.xaml">
+    <Page Include="UI\Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Personalization.xaml">
+    <Page Include="UI\Pages\Personalization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -310,27 +343,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\About.xaml">
+    <Page Include="UI\Windows\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\BugWindow.xaml">
+    <Page Include="UI\Windows\BugWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\MainWindow.xaml">
+    <Page Include="UI\Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Settings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Logger.xaml">
+    <Page Include="UI\Windows\NewsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Splashscreen.xaml">
+    <Page Include="UI\Windows\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Windows\Logger.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Windows\Splashscreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -353,7 +390,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="app.manifest" />
     <None Include="Docs\changelog.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -393,26 +432,30 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Resources\ResourceList_Aeria.cfg">
+    <None Include="Resources\ResourceList_ADMO.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\ResourceList_Joymax.cfg">
+    <None Include="Resources\ResourceList_GDMO.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\ResourceList_Korea.cfg">
+    <None Include="Resources\ResourceList_KDMO_DM.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\ResourceList_KoreaIMBC.cfg">
+    <None Include="Resources\ResourceList_KDMO_IMBC.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="app_icon.ico" />
+    <Resource Include="Resources\app_icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DMOLibrary\DMOLibrary.csproj">
+    <ProjectReference Include="..\AdvancedLauncherSDK\AdvancedLauncher.SDK.csproj">
+      <Project>{d1e7d106-9909-4162-9d22-8798317915af}</Project>
+      <Name>AdvancedLauncher.SDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AdvancedLauncherProviders\AdvancedLauncher.Providers.csproj">
       <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
-      <Name>DMOLibrary</Name>
+      <Name>AdvancedLauncher.Providers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -902,7 +945,7 @@
     <Resource Include="Resources\copy_icons.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\NewsBlock\Images\bbs_mode.png" />
+    <Resource Include="Resources\bbs_mode.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Languages\Template_for_translation.txt">
@@ -1057,6 +1100,7 @@
     <Content Include="NTLea\ntleak.dll" />
     <Content Include="NTLea\ntleas.exe" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

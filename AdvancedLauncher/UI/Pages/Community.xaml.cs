@@ -47,7 +47,7 @@ namespace AdvancedLauncher.UI.Pages {
         };
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -62,7 +62,7 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         protected override void ProfileChanged(object sender, EventArgs e) {
-            IConfiguration currentConfiguration = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
+            IConfiguration currentConfiguration = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             serversProvider = currentConfiguration.ServersProvider;
             webProvider = currentConfiguration.CreateWebProvider();
             GuildInfoModel.UnLoadData();

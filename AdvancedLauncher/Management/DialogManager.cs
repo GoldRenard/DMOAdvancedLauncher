@@ -33,12 +33,6 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        [Inject]
-        public MainWindow MainWindow {
-            get;
-            set;
-        }
-
         public void Initialize() {
             // nothing to do here
         }
@@ -55,6 +49,7 @@ namespace AdvancedLauncher.Management {
         /// <param name="title">Title</param>
         /// <param name="message">Message</param>
         public void ShowMessageDialog(string title, string message) {
+            MainWindow MainWindow = App.Kernel.Get<MainWindow>();
             if (MainWindow.Dispatcher != null && !MainWindow.Dispatcher.CheckAccess()) {
                 MainWindow.Dispatcher.BeginInvoke(new Func<string, string, bool>((t, m) => {
                     ShowMessageDialog(t, m);
@@ -82,6 +77,7 @@ namespace AdvancedLauncher.Management {
         /// <param name="message">Message</param>
         /// <returns>True if Yes clicked</returns>
         public async Task<bool> ShowMessageDialogAsync(string title, string message) {
+            MainWindow MainWindow = App.Kernel.Get<MainWindow>();
             if (MainWindow.Dispatcher != null && !MainWindow.Dispatcher.CheckAccess()) {
                 return await MainWindow.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
                     return await ShowMessageDialogAsync(title, message);
@@ -101,6 +97,7 @@ namespace AdvancedLauncher.Management {
         /// <param name="message">Message</param>
         /// <returns>True if yes clicked</returns>
         public async Task<bool> ShowYesNoDialog(string title, string message) {
+            MainWindow MainWindow = App.Kernel.Get<MainWindow>();
             if (MainWindow.Dispatcher != null && !MainWindow.Dispatcher.CheckAccess()) {
                 return await MainWindow.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
                     return await ShowYesNoDialog(title, message);

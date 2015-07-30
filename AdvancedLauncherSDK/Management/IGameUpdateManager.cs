@@ -23,7 +23,7 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management {
 
-    public interface IGameUpdateManager : IManager {
+    public interface IUpdateManager : IManager {
 
         VersionPair CheckUpdates(IGameModel model);
 

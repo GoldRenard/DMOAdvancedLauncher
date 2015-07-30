@@ -52,7 +52,7 @@ namespace AdvancedLauncher.UI.Pages {
         private bool IsGameImageLoaded = false;
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -98,7 +98,7 @@ namespace AdvancedLauncher.UI.Pages {
             base.PageActivate();
             try {
                 IGameModel model = ProfileManager.CurrentProfile.GameModel;
-                FileSystem.Open(FileAccess.ReadWrite, 16, GameManager.GetHFPath(model), GameManager.GetPFPath(model));
+                FileSystem.Open(FileAccess.ReadWrite, 16, ConfigurationManager.GetHFPath(model), ConfigurationManager.GetPFPath(model));
                 if (!IsGameImageLoaded && ItemsComboBox.Items.Count > 0) {
                     if (ItemsComboBox.SelectedIndex == 0) {
                         OnSelectionChanged(ItemsComboBox, null);
@@ -129,7 +129,7 @@ namespace AdvancedLauncher.UI.Pages {
             ResourceModel.UnLoadData();
             string[] rlines = null;
             string rFile = (EnvironmentManager.ResourcesPath + string.Format(RES_LIST_FILE,
-                GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).GameType));
+                ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).GameType));
             if (File.Exists(rFile)) {
                 rlines = System.IO.File.ReadAllLines(rFile);
 

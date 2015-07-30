@@ -69,7 +69,7 @@ namespace AdvancedLauncher.UI.Controls {
         private string _jsonUrl;
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -143,7 +143,7 @@ namespace AdvancedLauncher.UI.Controls {
                 _jsonUrl = currentProfile.News.TwitterUrl;
             }
 
-            bool newsSupported = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).IsNewsAvailable;
+            bool newsSupported = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).IsNewsAvailable;
             NavJoymax.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             NavTwitter.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             byte index = newsSupported ? currentProfile.News.FirstTab : (byte)0;
@@ -455,7 +455,7 @@ namespace AdvancedLauncher.UI.Controls {
         #region Joymax news
 
         private void GetJoymaxNews() {
-            IConfiguration config = GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
+            IConfiguration config = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             INewsProvider newsProvider = config.CreateNewsProvider();
             if (newsProvider != null) {
                 List<NewsItem> news;

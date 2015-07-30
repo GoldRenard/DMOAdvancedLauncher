@@ -17,9 +17,11 @@
 // ======================================================================
 
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
@@ -46,17 +48,12 @@ namespace AdvancedLauncher.UI.Windows {
         private AbstractPage currentTab;
 
         [Inject]
-        public IEnvironmentManager EnvironmentManager {
-            get; set;
-        }
-
-        [Inject]
         public Logger Logger {
             get; set;
         }
 
         [Inject]
-        public IUpdateManager UpdateManager {
+        public IEnvironmentManager EnvironmentManager {
             get; set;
         }
 
@@ -71,7 +68,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -85,7 +82,6 @@ namespace AdvancedLauncher.UI.Windows {
                 Logger.WindowClosed += (s, e1) => {
                     transitionLayer.Content = null;
                 };
-                UpdateManager.CheckUpdates();
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
@@ -107,6 +103,7 @@ namespace AdvancedLauncher.UI.Windows {
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
                 Splashscreen.HideSplash();
+                CheckUpdates();
             }
         }
 
@@ -127,7 +124,7 @@ namespace AdvancedLauncher.UI.Windows {
                 NavPersonalization.IsEnabled = false;
             } else {
                 //Включаем персонализации обратно если игра определена
-                if (GameManager.CheckGame(ProfileManager.CurrentProfile.GameModel)) {
+                if (ConfigurationManager.CheckGame(ProfileManager.CurrentProfile.GameModel)) {
                     NavPersonalization.IsEnabled = true;
                 }
             }
@@ -156,12 +153,12 @@ namespace AdvancedLauncher.UI.Windows {
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
 
             //Если доступен веб-профиль, включаем вкладку сообщества
-            if (GameManager.GetConfiguration(model).IsWebAvailable) {
+            if (ConfigurationManager.GetConfiguration(model).IsWebAvailable) {
                 NavCommunity.IsEnabled = true;
             }
 
             //Если путь до игры верен, включаем вкладку галереи и персонализации
-            if (GameManager.CheckGame(model)) {
+            if (ConfigurationManager.CheckGame(model)) {
                 NavGallery.IsEnabled = true;
                 NavPersonalization.IsEnabled = true;
             }
@@ -221,6 +218,30 @@ namespace AdvancedLauncher.UI.Windows {
             if (MenuFlyout.IsOpen == false) {
                 SettingsFlyout.IsOpen = false;
             }
+        }
+
+        public void CheckUpdates() {
+            BackgroundWorker updateWorker = new BackgroundWorker();
+            updateWorker.DoWork += async (s1, e2) => {
+                RemoteVersion remote = RemoteVersion.Instance;
+                if (remote != null) {
+                    Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                    if (remote.Version.CompareTo(currentVersion) > 0) {
+                        string content = string.Format(LanguageManager.Model.UpdateAvailableText, remote.Version)
+                            + System.Environment.NewLine
+                            + System.Environment.NewLine
+                            + remote.ChangeLog
+                            + System.Environment.NewLine
+                            + System.Environment.NewLine
+                            + LanguageManager.Model.UpdateDownloadQuestion;
+                        string caption = string.Format(LanguageManager.Model.UpdateAvailableCaption, remote.Version);
+                        if (await App.Kernel.Get<IDialogManager>().ShowYesNoDialog(caption, content)) {
+                            URLUtils.OpenSite(remote.DownloadUrl);
+                        }
+                    }
+                }
+            };
+            updateWorker.RunWorkerAsync();
         }
     }
 }

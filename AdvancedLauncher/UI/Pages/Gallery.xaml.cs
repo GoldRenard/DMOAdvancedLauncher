@@ -45,7 +45,7 @@ namespace AdvancedLauncher.UI.Pages {
         private JpegEncoder ImageEncoder = new JpegEncoder();
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -61,7 +61,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         public override void PageActivate() {
             base.PageActivate();
-            string gamePath = GameManager.GetGamePath(ProfileManager.CurrentProfile.GameModel);
+            string gamePath = ConfigurationManager.GetGamePath(ProfileManager.CurrentProfile.GameModel);
             if (Directory.Exists(gamePath + SCREENSHOTS_DIR)) {
                 if (Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length > 0) {
                     if (!IsGalleryInitialized || GalleryModel.Count() != Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length) {

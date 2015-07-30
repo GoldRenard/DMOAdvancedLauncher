@@ -61,7 +61,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -70,10 +70,10 @@ namespace AdvancedLauncher.UI.Controls {
             get; set;
         }
 
-        private IGameUpdateManager _UpdateManager;
+        private IUpdateManager _UpdateManager;
 
         [Inject]
-        public IGameUpdateManager UpdateManager {
+        public IUpdateManager UpdateManager {
             get {
                 return _UpdateManager;
             }
@@ -143,7 +143,7 @@ namespace AdvancedLauncher.UI.Controls {
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
 
             //Проверяем наличие необходимых файлов игры
-            if (!GameManager.CheckGame(model)) {
+            if (!ConfigurationManager.CheckGame(model)) {
                 SetStartEnabled(false); //Если необходимых файлов нет, просто вызываю этот метод. он при вышеуказанном условии покажет неактивную кнопку и сообщение о неправильном пути
                 return;                      //Далее идти нет смысла
             }
@@ -182,7 +182,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         private async Task<bool> ImportPackages() {
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
-            if (Directory.Exists(GameManager.GetImportPath(model))) {
+            if (Directory.Exists(ConfigurationManager.GetImportPath(model))) {
                 if (ProfileManager.CurrentProfile.UpdateEngineEnabled) {
                     ShowProgressBar();
                     //Проверяем наличие доступа к игре
@@ -232,7 +232,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         private async Task<bool> CheckGameAccessLoop() {
             //Проверяем наличие доступа к игре
-            while (!GameManager.CheckUpdateAccess(ProfileManager.CurrentProfile.GameModel)) {
+            while (!ConfigurationManager.CheckUpdateAccess(ProfileManager.CurrentProfile.GameModel)) {
                 if (await CheckGameAccessMessage()) {
                     return false;
                 }
@@ -277,12 +277,12 @@ namespace AdvancedLauncher.UI.Controls {
 
             IProfile currentProfile = ProfileManager.CurrentProfile;
             IGameModel model = currentProfile.GameModel;
-            IConfiguration configuration = GameManager.GetConfiguration(model);
+            IConfiguration configuration = ConfigurationManager.GetConfiguration(model);
             ILauncher launcher = LauncherManager.GetLauncher(currentProfile);
-            GameManager.UpdateRegistryPaths(model);
+            ConfigurationManager.UpdateRegistryPaths(model);
 
             bool executed = launcher.Execute(
-                UpdateRequired ? GameManager.GetLauncherEXE(model) : GameManager.GetGameEXE(model),
+                UpdateRequired ? ConfigurationManager.GetLauncherEXE(model) : ConfigurationManager.GetGameEXE(model),
                 UpdateRequired ? configuration.ConvertLauncherStartArgs(args) : configuration.ConvertGameStartArgs(args));
 
             if (executed) {
@@ -351,7 +351,7 @@ namespace AdvancedLauncher.UI.Controls {
                 StartButton.SetBinding(Button.ContentProperty, StartButtonBinding);
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
-                if (!GameManager.CheckGame(ProfileManager.CurrentProfile.GameModel)) {
+                if (!ConfigurationManager.CheckGame(ProfileManager.CurrentProfile.GameModel)) {
                     DialogManager.ShowErrorDialog(LanguageManager.Model.PleaseSelectGamePath);
                     return;
                 }
@@ -372,7 +372,7 @@ namespace AdvancedLauncher.UI.Controls {
                 StartButton.SetBinding(Button.ContentProperty, UpdateButtonBinding);
                 StartButton.IsEnabled = false;
                 //Проверяем наличие необходимых файлов стандартного лаунчера. Если нету - просто показываем неактивную кнопку "Обновить игру" и сообщение об ошибке.
-                if (!GameManager.CheckLauncher(ProfileManager.CurrentProfile.GameModel)) {
+                if (!ConfigurationManager.CheckLauncher(ProfileManager.CurrentProfile.GameModel)) {
                     DialogManager.ShowErrorDialog(LanguageManager.Model.PleaseSelectLauncherPath);
                     return;
                 }
@@ -384,7 +384,7 @@ namespace AdvancedLauncher.UI.Controls {
             ProfileManager.OnProfileLocked(true);
             EnvironmentManager.OnFileSystemLocked(true);
             //Проверяем, требуется ли логин
-            if (GameManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).IsLoginRequired) {
+            if (ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).IsLoginRequired) {
                 App.Kernel.Get<LoginManager>().Login(ProfileManager.CurrentProfile);
             } else { //Логин не требуется, запускаем игру как есть
                 StartGame(string.Empty);

@@ -51,7 +51,7 @@ namespace AdvancedLauncher.Management {
         }
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -59,7 +59,7 @@ namespace AdvancedLauncher.Management {
             LoginData credentials = GetCredentials(profile);
             if (credentials != null) {
                 if (!failedLogin.Contains(credentials.User)) {
-                    if (GameManager.GetConfiguration(profile.GameModel).IsLastSessionAvailable && !string.IsNullOrEmpty(credentials.LastSessionArgs)) {
+                    if (ConfigurationManager.GetConfiguration(profile.GameModel).IsLastSessionAvailable && !string.IsNullOrEmpty(credentials.LastSessionArgs)) {
                         ShowLastSessionDialog(profile);
                         return;
                     }
@@ -99,7 +99,7 @@ namespace AdvancedLauncher.Management {
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
             MainWindow MainWindow = App.Kernel.Get<MainWindow>();
             IGameModel model = ProfileManager.CurrentProfile.GameModel;
-            ILoginProvider loginProvider = GameManager.GetConfiguration(model).CreateLoginProvider();
+            ILoginProvider loginProvider = ConfigurationManager.GetConfiguration(model).CreateLoginProvider();
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
             };

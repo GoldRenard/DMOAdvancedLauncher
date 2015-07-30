@@ -26,7 +26,7 @@ namespace AdvancedLauncher.UI.Validation {
     public class GamePathValidationRule : AbstractValidationRule {
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -45,7 +45,7 @@ namespace AdvancedLauncher.UI.Validation {
             if (Container.GameModel.Type == null) {
                 return new ValidationResult(false, null);
             }
-            if (GameManager.CheckGame(Container.GameModel)) {
+            if (ConfigurationManager.CheckGame(Container.GameModel)) {
                 return new ValidationResult(true, null);
             }
             return new ValidationResult(false, null);

@@ -83,7 +83,6 @@
     <Compile Include="Management\IManager.cs" />
     <Compile Include="Management\IProfileManager.cs" />
     <Compile Include="Management\ITaskManager.cs" />
-    <Compile Include="Management\IUpdateManager.cs" />
     <Compile Include="Model\Config\IGameModel.cs" />
     <Compile Include="Model\Config\INewsData.cs" />
     <Compile Include="Model\Config\IProfile.cs" />

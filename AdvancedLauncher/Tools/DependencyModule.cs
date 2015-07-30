@@ -34,15 +34,14 @@ namespace AdvancedLauncher.Tools {
         public override void Load() {
             // Singletone services
             Bind<IEnvironmentManager>().To<EnvironmentManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<IUpdateManager>().To<UpdateManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IProfileManager>().To<ProfileManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<ILogManager>().To<LogManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IDialogManager>().To<DialogManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<ILogManager>().To<LogManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
 
             // Multiinstance services
-            Bind<IGameUpdateManager>().To<GameUpdateManager>().OnActivation(m => m.Initialize());
+            Bind<IUpdateManager>().To<UpdateManager>().OnActivation(m => m.Initialize());
             Bind<IFileSystemManager>().To<FileSystemManager>().OnActivation(m => m.Initialize(App.Kernel.Get<ILogManager>()));
 
             // Launchers

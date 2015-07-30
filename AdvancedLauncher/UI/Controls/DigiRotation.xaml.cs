@@ -99,7 +99,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         [Inject]
-        public IConfigurationManager GameManager {
+        public IConfigurationManager ConfigurationManager {
             get; set;
         }
 
@@ -138,7 +138,7 @@ namespace AdvancedLauncher.UI.Controls {
                     GuildName = currentProfile.Rotation.Guild;
                     TamerName = currentProfile.Rotation.Tamer;
 
-                    IConfiguration config = GameManager.GetConfiguration(currentProfile.GameModel);
+                    IConfiguration config = ConfigurationManager.GetConfiguration(currentProfile.GameModel);
                     IWebProvider webProvider = config.CreateWebProvider();
                     IServersProvider serversProvider = config.ServersProvider;
                     //Проверяем, доступен ли веб-профиль и необходимая информация

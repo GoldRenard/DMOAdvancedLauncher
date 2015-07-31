@@ -44,9 +44,6 @@ namespace AdvancedLauncher.UI.Controls {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ProfileSettings.ItemsSource = new List<object>() { new object() };
-                this.SizeChanged += (s, e) => {
-                    ProfileList.MaxHeight = e.NewSize.Height - CommandsHolder.ActualHeight - 50;
-                };
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;

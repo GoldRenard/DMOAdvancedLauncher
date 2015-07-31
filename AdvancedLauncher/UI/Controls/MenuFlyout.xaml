@@ -80,80 +80,97 @@
             <DockPanel Margin="10,25,10,10" />
         </DataTemplate>
     </ui:AbstractFlyout.HeaderTemplate>
-    <StackPanel x:Name="LayoutRoot">
-        <ListBox x:Name="ProfileList" SelectedIndex="0" SelectionChanged="OnProfileSelectionChanged" Background="{x:Null}"
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel x:Name="LayoutRoot">
+            <ListBox x:Name="ProfileList" SelectedIndex="0" SelectionChanged="OnProfileSelectionChanged" Background="{x:Null}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type ALControls:MenuFlyout}}, Path=IsChangeEnabled}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <Grid Width="35" Height="35">
-                            <Border Background="White" />
-                            <Border BorderBrush="White" Visibility="{Binding HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
-                                </Border.Background>
-                            </Border>
-                            <Rectangle Margin="3" Visibility="{Binding NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <Rectangle.Fill>
-                                    <VisualBrush Visual="{StaticResource appbar_user_black}" />
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Grid>
-                        <StackPanel VerticalAlignment="Center" Margin="5,0,0,0">
-                            <TextBlock FontSize="12" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
-                            <TextBlock FontSize="10" Text="{Binding Converter={StaticResource ProfileToConfigNameConverter}}" IsEnabled="False" />
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <ListBox x:Name="ProfileSettings" SelectedIndex="-1" Background="{x:Null}" SelectionChanged="ProfileSettings_SelectionChanged"
-                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type ALControls:MenuFlyout}}, Path=IsChangeEnabled}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <Grid Width="35" Height="35">
-                            <Border Background="White" />
-                            <Rectangle Margin="3,6">
-                                <Rectangle.Fill>
-                                    <VisualBrush Visual="{StaticResource appbar_group_black}" />
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Grid>
-                        <StackPanel VerticalAlignment="Center" Margin="5,0,0,0">
-                            <TextBlock FontSize="12" Text="{Binding DataContext.ManageProfiles, RelativeSource={RelativeSource AncestorType={x:Type ALControls:MenuFlyout}}}" />
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel x:Name="CommandsHolder">
-            <Separator Margin="5" />
-            <ListBox x:Name="CommandList" Background="{x:Null}"
-                ItemContainerStyle="{DynamicResource MetroListBoxItemNoSelected}">
+                <ListBox.Template>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Background="Transparent">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseLeftButtonUp">
-                                    <i:InvokeCommandAction Command="{Binding Command}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-
-                            <Separator Margin="0,5,5,5" Visibility="{Binding SeparatorVisibility}" />
-                            <StackPanel Orientation="Horizontal" Margin="0,5" Visibility="{Binding ItemVisibility}">
-                                <Grid Width="25" Height="25">
-                                    <Rectangle Fill="{Binding IconBrush}" Margin="{Binding IconMargin}" />
-                                </Grid>
-                                <StackPanel VerticalAlignment="Center" Margin="2,0,0,0">
-                                    <TextBlock FontSize="12" Text="{Binding Name}" />
-                                </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <Grid Width="35" Height="35">
+                                <Border Background="White" />
+                                <Border BorderBrush="White" Visibility="{Binding HasImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" TileMode="None" />
+                                    </Border.Background>
+                                </Border>
+                                <Rectangle Margin="3" Visibility="{Binding NoImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{StaticResource appbar_user_black}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <StackPanel VerticalAlignment="Center" Margin="5,0,0,0">
+                                <TextBlock FontSize="12" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock FontSize="10" Text="{Binding Converter={StaticResource ProfileToConfigNameConverter}}" IsEnabled="False" />
                             </StackPanel>
-                        </Grid>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <ListBox x:Name="ProfileSettings" SelectedIndex="-1" Background="{x:Null}" SelectionChanged="ProfileSettings_SelectionChanged"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type ALControls:MenuFlyout}}, Path=IsChangeEnabled}">
+                <ListBox.Template>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <Grid Width="35" Height="35">
+                                <Border Background="White" />
+                                <Rectangle Margin="3,6">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{StaticResource appbar_group_black}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <StackPanel VerticalAlignment="Center" Margin="5,0,0,0">
+                                <TextBlock FontSize="12" Text="{Binding DataContext.ManageProfiles, RelativeSource={RelativeSource AncestorType={x:Type ALControls:MenuFlyout}}}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel x:Name="CommandsHolder">
+                <Separator Margin="5" />
+                <ListBox x:Name="CommandList" Background="{x:Null}"
+                ItemContainerStyle="{DynamicResource MetroListBoxItemNoSelected}">
+                    <ListBox.Template>
+                        <ControlTemplate TargetType="{x:Type ListBox}">
+                            <ItemsPresenter />
+                        </ControlTemplate>
+                    </ListBox.Template>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="Transparent">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                                        <i:InvokeCommandAction Command="{Binding Command}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                                <Separator Margin="0,5,5,5" Visibility="{Binding SeparatorVisibility}" />
+                                <StackPanel Orientation="Horizontal" Margin="0,5" Visibility="{Binding ItemVisibility}">
+                                    <Grid Width="25" Height="25">
+                                        <Rectangle Fill="{Binding IconBrush}" Margin="{Binding IconMargin}" />
+                                    </Grid>
+                                    <StackPanel VerticalAlignment="Center" Margin="2,0,0,0">
+                                        <TextBlock FontSize="12" Text="{Binding Name}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </ScrollViewer>
 </ui:AbstractFlyout>

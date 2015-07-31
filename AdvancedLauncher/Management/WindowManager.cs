@@ -111,31 +111,6 @@ namespace AdvancedLauncher.Management {
                 ShowWindow(AboutWindow);
                 MainWindow.MenuFlyout.IsOpen = false;
             })));
-
-            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
-            })));
-            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
-            })));
-            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
-            })));
-            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
-            })));
-            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
-            })));
-            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
-            })));
-            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
-            })));
-            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
-            })));
         }
 
         public void ShowWindow(IWindow window) {

@@ -41,6 +41,9 @@ namespace AdvancedLauncher.UI.Controls {
 
         public AbstractFlyout() {
             App.Kernel.Inject(this);
+            LanguageManager.LanguageChanged += (s, e) => {
+                this.DataContext = LanguageManager.Model;
+            };
         }
     }
 }

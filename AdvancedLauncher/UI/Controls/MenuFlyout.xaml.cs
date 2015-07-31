@@ -45,9 +45,6 @@ namespace AdvancedLauncher.UI.Controls {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ProfileSettings.ItemsSource = new List<object>() { new object() };
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
                 ProfileManager.ProfileChanged += ReloadCurrentProfile;
                 ProfileManager.ProfileLocked += OnProfileLocked;
                 ProfileManager.CollectionChanged += ReloadProfiles;

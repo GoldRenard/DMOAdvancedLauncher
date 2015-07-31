@@ -78,14 +78,12 @@ namespace AdvancedLauncher.Management {
         }
 
         public void Initialize() {
-            Splashscreen.ShowSplash();
             ProfileManager.ProfileLocked += OnProfileLocked;
-            Splashscreen.SetProgress("Loading...");
             this.MainWindow = App.Kernel.Get<MainWindow>(); // do not inject it directly, we should not export it as public property
             Application.Current.MainWindow = MainWindow;
             ShowWindow(new NewsWindow());
             BuildMenu();
-            Splashscreen.HideSplash();
+            App.Kernel.Get<Splashscreen>().Close();
             MainWindow.Show();
         }
 

@@ -130,6 +130,7 @@
     <Compile Include="Model\Config\RotationData.cs" />
     <Compile Include="Model\Config\Settings.cs" />
     <Compile Include="Model\Protected\ProxyCredentials.cs" />
+    <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
     <Compile Include="Tools\Utils.cs" />
     <Compile Include="UI\Controls\AbstractFlyout.cs" />

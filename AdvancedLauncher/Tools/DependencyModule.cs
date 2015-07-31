@@ -25,6 +25,7 @@ using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.UI.Windows;
 using Ninject;
+using Ninject.Activation.Strategies;
 using Ninject.Extensions.Conventions;
 using Ninject.Modules;
 
@@ -33,6 +34,7 @@ namespace AdvancedLauncher.Tools {
     internal class DependencyModule : NinjectModule {
 
         public override void Load() {
+            Kernel.Components.Add<IActivationStrategy, ActivationStrategy>();
             // Singletone services
             Bind<IEnvironmentManager>().To<EnvironmentManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IWindowManager>().To<WindowManager>().InSingletonScope().OnActivation(m => m.Initialize());
@@ -89,6 +91,7 @@ namespace AdvancedLauncher.Tools {
             Bind<Logger>().ToSelf().InSingletonScope();
             Bind<About>().ToSelf().InSingletonScope();
             Bind<Settings>().ToSelf().InSingletonScope();
+            Bind<Splashscreen>().ToSelf().InSingletonScope();
 
             Bind<LoginManager>().ToSelf().InSingletonScope();
             Bind<ProxyManager>().ToSelf().InSingletonScope();

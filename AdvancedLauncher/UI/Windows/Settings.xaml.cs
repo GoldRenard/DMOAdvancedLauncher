@@ -97,8 +97,7 @@ namespace AdvancedLauncher.UI.Windows {
             }
         }
 
-        public override void Show() {
-            base.Show();
+        public override void OnShow() {
             ReloadProfiles();
         }
 
@@ -296,10 +295,6 @@ namespace AdvancedLauncher.UI.Windows {
         #endregion AppLocale Section
 
         #region Global Actions Section
-
-        protected override void OnCloseClick(object sender, RoutedEventArgs e) {
-            base.OnCloseClick(sender, e);
-        }
 
         private void OnApplyClick(object sender, RoutedEventArgs e) {
             ProfileManager.ApplyChanges();

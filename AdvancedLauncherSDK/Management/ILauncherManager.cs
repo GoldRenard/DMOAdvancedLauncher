@@ -30,6 +30,12 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
+        void RegisterLauncher(ILauncher launcher);
+
+        bool UnRegisterLauncher(string name);
+
+        bool UnRegisterLauncher(ILauncher launcher);
+
         ILauncher GetLauncher(IProfile profile);
 
         ILauncher findByMnemonic(string name);

@@ -16,53 +16,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Windows;
-using System.Windows.Controls;
 using AdvancedLauncher.SDK.Management;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
-    public abstract class AbstractWindow : UserControl {
+    public abstract class AbstractWindow : AdvancedLauncher.SDK.Management.Windows.AbstractWindow {
 
-        public delegate void CloseEventHandler(object sender, EventArgs e);
-
-        public event CloseEventHandler WindowClosed;
-
-        public ILanguageManager _LanguageManager;
-
-        public AbstractWindow() {
+        public AbstractWindow() : base(App.Kernel.Get<ILanguageManager>(), App.Kernel.Get<IWindowManager>()) {
             App.Kernel.Inject(this);
-        }
-
-        [Inject]
-        public ILanguageManager LanguageManager {
-            get {
-                return _LanguageManager;
-            }
-            set {
-                if (_LanguageManager == null) {
-                    _LanguageManager = value;
-                    LanguageManager.LanguageChanged += (s, e) => {
-                        this.DataContext = LanguageManager.Model;
-                    };
-                }
-            }
-        }
-
-        public virtual void Show() {
-            this.Visibility = Visibility.Visible;
-        }
-
-        public virtual void Close() {
-            if (WindowClosed != null) {
-                WindowClosed(this, new EventArgs());
-            }
-        }
-
-        protected virtual void OnCloseClick(object sender, RoutedEventArgs e) {
-            Close();
         }
     }
 }

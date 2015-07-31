@@ -38,7 +38,7 @@ namespace AdvancedLauncher.Management {
             IWebProxy proxy = null;
             if (Settings != null) {
                 if (Settings.IsEnabled) {
-                    switch (Settings.Mode) {
+                    switch ((ProxyMode)Settings.Mode) {
                         case ProxyMode.Default:
                             proxy = WebRequest.GetSystemWebProxy();
                             break;
@@ -51,7 +51,7 @@ namespace AdvancedLauncher.Management {
                             proxy = new WebProxy(Settings.Host, Settings.Port);
                             break;
                     }
-                    if (Settings.Mode != ProxyMode.Default &&
+                    if ((ProxyMode)Settings.Mode != ProxyMode.Default &&
                         Settings.Authentication && Settings.Credentials.IsCorrect) {
                         proxy.Credentials = new NetworkCredential(Settings.Credentials.User, Settings.Credentials.SecurePassword);
                     }

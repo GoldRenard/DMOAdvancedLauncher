@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Windows;
@@ -35,6 +36,11 @@ namespace AdvancedLauncher.UI.Controls {
         public event PropertyChangedEventHandler PropertyChanged;
 
         private bool _IsChangeEnabled = true;
+
+        [Inject]
+        public IWindowManager WindowManager {
+            get; set;
+        }
 
         public MenuFlyout() {
             InitializeComponent();
@@ -59,11 +65,8 @@ namespace AdvancedLauncher.UI.Controls {
 
         private List<SDK.Model.MenuItem> Commands = new List<SDK.Model.MenuItem>();
 
-        public event RoutedEventHandler AboutClick;
-
-        public event RoutedEventHandler ProfileSettingsClick;
-
-        public event RoutedEventHandler LoggerClick;
+        private Windows.Settings SettingsWindow = null;
+        private About AboutWindow = null;
 
         private void BuildCommands() {
             Commands.Clear();
@@ -73,15 +76,14 @@ namespace AdvancedLauncher.UI.Controls {
                 MainWindow.SettingsFlyout.IsOpen = true;
             })));
             Commands.Add(new SDK.Model.MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
-                if (LoggerClick != null) {
-                    LoggerClick(this, null);
-                }
+                WindowManager.ShowWindow(App.Kernel.Get<Logger>());
                 this.IsOpen = false;
             })));
             Commands.Add(new SDK.Model.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                if (AboutClick != null) {
-                    AboutClick(this, null);
+                if (AboutWindow == null) {
+                    AboutWindow = App.Kernel.Get<About>();
                 }
+                WindowManager.ShowWindow(AboutWindow);
                 this.IsOpen = false;
             })));
             CommandList.ItemsSource = Commands;
@@ -161,9 +163,10 @@ namespace AdvancedLauncher.UI.Controls {
                 return;
             }
             ProfileSettings.SelectedIndex = -1;
-            if (ProfileSettingsClick != null) {
-                ProfileSettingsClick(this, null);
+            if (SettingsWindow == null) {
+                SettingsWindow = App.Kernel.Get<Windows.Settings>();
             }
+            WindowManager.ShowWindow(SettingsWindow);
             this.IsOpen = false;
         }
     }

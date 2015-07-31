@@ -16,29 +16,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Management.Commands;
-using AdvancedLauncher.UI.Windows;
-using Ninject;
+namespace AdvancedLauncher.SDK.Management.Windows {
 
-namespace AdvancedLauncher.Management.Commands {
+    public interface IWindow {
 
-    public class ClearCommand : AbstractCommand {
+        void Close();
 
-        [Inject]
-        public Logger Logger {
-            get;
-            set;
-        }
-
-        public ClearCommand()
-            : base("clear", "Clears the console log") {
-        }
-
-        public override bool DoCommand(string[] args) {
-            Logger.LogEntries.Clear();
-            Logger.LogEntriesFiltered.Clear();
-            Logger.PrintHeader();
-            return true;
-        }
+        void OnShow();
     }
 }

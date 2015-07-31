@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using AdvancedLauncher.Management.Execution;
@@ -29,14 +30,14 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     public class LauncherManager : ILauncherManager {
-        private readonly Dictionary<string, ILauncher> CollectionByMnemonic = new Dictionary<string, ILauncher>();
+        private readonly ConcurrentDictionary<string, ILauncher> CollectionByMnemonic = new ConcurrentDictionary<string, ILauncher>();
 
-        private readonly Dictionary<Type, ILauncher> CollectionByType = new Dictionary<Type, ILauncher>();
+        private readonly ConcurrentDictionary<Type, ILauncher> CollectionByType = new ConcurrentDictionary<Type, ILauncher>();
 
         public void Initialize() {
             foreach (ILauncher launcher in App.Kernel.GetAll<ILauncher>()) {
-                CollectionByMnemonic.Add(launcher.Mnemonic, launcher);
-                CollectionByType.Add(launcher.GetType(), launcher);
+                CollectionByMnemonic.TryAdd(launcher.Mnemonic, launcher);
+                CollectionByType.TryAdd(launcher.GetType(), launcher);
             }
         }
 
@@ -98,6 +99,31 @@ namespace AdvancedLauncher.Management {
             }
             CollectionByType.TryGetValue(type, out result);
             return (T)result;
+        }
+
+        public void RegisterLauncher(ILauncher launcher) {
+            if (launcher == null) {
+                throw new ArgumentException("launcher argument cannot be null");
+            }
+            CollectionByMnemonic.TryAdd(launcher.Mnemonic, launcher);
+            CollectionByType.TryAdd(launcher.GetType(), launcher);
+        }
+
+        public bool UnRegisterLauncher(string name) {
+            if (name == null) {
+                throw new ArgumentException("name argument cannot be null");
+            }
+            ILauncher launcher = findByMnemonic(name);
+            return CollectionByMnemonic.TryRemove(name, out launcher)
+                && CollectionByType.TryRemove(launcher.GetType(), out launcher);
+        }
+
+        public bool UnRegisterLauncher(ILauncher launcher) {
+            if (launcher == null) {
+                throw new ArgumentException("launcher argument cannot be null");
+            }
+            return CollectionByType.TryRemove(launcher.GetType(), out launcher)
+                && CollectionByMnemonic.TryRemove(launcher.Mnemonic, out launcher);
         }
 
         public IEnumerator GetEnumerator() {

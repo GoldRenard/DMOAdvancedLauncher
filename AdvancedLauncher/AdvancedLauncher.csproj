@@ -112,7 +112,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Management\Commands\ClearCommand.cs" />
     <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />
@@ -122,6 +121,7 @@
     <Compile Include="Management\PluginHost.cs" />
     <Compile Include="Management\ProxyManager.cs" />
     <Compile Include="Management\ServiceHolder.cs" />
+    <Compile Include="Management\WindowManager.cs" />
     <Compile Include="Model\AbstractContainerViewModel.cs" />
     <Compile Include="Model\AbstractItemViewModel.cs" />
     <Compile Include="Model\Config\GameModel.cs" />

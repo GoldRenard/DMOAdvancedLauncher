@@ -62,6 +62,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public void RegisterCommand(ICommand command) {
+            if (command == null) {
+                throw new ArgumentException("command argument cannot be null");
+            }
             if (Commands.ContainsKey(command.GetName())) {
                 LOGGER.ErrorFormat("Can't register command {0} because command with this name already registered!", command.GetName());
                 return;
@@ -70,6 +73,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool UnRegisterCommand(string name) {
+            if (name == null) {
+                throw new ArgumentException("name argument cannot be null");
+            }
             ICommand command;
             if (Commands.TryGetValue(name, out command)) {
                 return Commands.TryRemove(name, out command);
@@ -78,6 +84,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool UnRegisterCommand(ICommand command) {
+            if (command == null) {
+                throw new ArgumentException("command argument cannot be null");
+            }
             return UnRegisterCommand(command.GetName());
         }
 

@@ -17,6 +17,7 @@
 // ======================================================================
 
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Commands;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
@@ -34,6 +35,7 @@ namespace AdvancedLauncher.Tools {
         public override void Load() {
             // Singletone services
             Bind<IEnvironmentManager>().To<EnvironmentManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IWindowManager>().To<WindowManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IProfileManager>().To<ProfileManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<IDialogManager>().To<DialogManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
@@ -59,6 +61,7 @@ namespace AdvancedLauncher.Tools {
             Kernel.Bind(e => {
                 e.FromThisAssembly()
                 .SelectAllClasses()
+                .InNamespaceOf<EchoCommand>()
                 .InheritedFrom<ICommand>()
                 .BindAllInterfaces()
                 .Configure(c => c.InSingletonScope());
@@ -83,7 +86,7 @@ namespace AdvancedLauncher.Tools {
 
             // Components
             Bind<MainWindow>().ToSelf().InSingletonScope(); // be careful with injecting this on initialization of MainWindow itself (UserControls, etc)
-            Bind<Logger>().ToSelf().InSingletonScope().OnActivation(e => e.Initialize());
+            Bind<Logger>().ToSelf().InSingletonScope();
             Bind<About>().ToSelf().InSingletonScope();
             Bind<Settings>().ToSelf().InSingletonScope();
 

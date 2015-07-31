@@ -132,6 +132,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool RemoveProfile(IProfile profile) {
+            if (profile == null) {
+                throw new ArgumentException("profile argument cannot be null");
+            }
             bool result = false;
             if (PendingProfiles.Count > 1) {
                 bool IsDefault = profile.Id == PendingDefaultProfile.Id;
@@ -147,6 +150,9 @@ namespace AdvancedLauncher.Management {
         }
 
         private void ApplyChanges(ICollection<IProfile> profiles, int defaultProfileId) {
+            if (profiles == null) {
+                throw new ArgumentException("profiles argument cannot be null");
+            }
             this.Profiles.Clear();
             //Add clones of instances
             foreach (IProfile p in profiles) {

@@ -44,6 +44,9 @@ namespace AdvancedLauncher.Management {
         }
 
         private IFileSystemManager GetFileSystem(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IFileSystemManager fileSystem;
             if (FileSystems.TryGetValue(model, out fileSystem)) {
                 return fileSystem;
@@ -57,6 +60,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool ImportPackages(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             if (Directory.Exists(ConfigurationManager.GetImportPath(model))) {
                 IFileSystemManager fs = GetFileSystem(model);
                 bool IsOpened = false;
@@ -80,6 +86,12 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool DownloadUpdates(IGameModel model, VersionPair versionPair) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
+            if (versionPair == null) {
+                throw new ArgumentException("versionPair argument cannot be null");
+            }
             bool updateSuccess = true;
             double downloadedContentLenght = 0;
             double WholeContentLength = 0;
@@ -163,6 +175,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public VersionPair CheckUpdates(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             string versionFile = ConfigurationManager.GetLocalVersionFile(model);
             if (File.Exists(ConfigurationManager.GetLocalVersionFile(model))) {
                 int verCurrent = -1;

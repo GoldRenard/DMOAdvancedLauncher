@@ -38,17 +38,6 @@ namespace AdvancedLauncher.UI.Windows {
 
         private bool IsCloseLocked = true;
 
-        private NewsWindow NewsWindow = null;
-
-        private Settings SettingsWindow = null;
-
-        private About AboutWindow = null;
-
-        [Inject]
-        public Logger Logger {
-            get; set;
-        }
-
         [Inject]
         public IEnvironmentManager EnvironmentManager {
             get; set;
@@ -64,18 +53,18 @@ namespace AdvancedLauncher.UI.Windows {
             get; set;
         }
 
+        [Inject]
+        public IWindowManager WindowManager {
+            get; set;
+        }
+
         public MainWindow() {
             App.Kernel.Inject(this);
             Splashscreen.SetProgress("Loading...");
             Application.Current.MainWindow = this;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                NewsWindow = new NewsWindow();
-                transitionLayer.Content = NewsWindow;
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
-                Logger.WindowClosed += (s, e1) => {
-                    transitionLayer.Content = NewsWindow;
-                };
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.DataContext = LanguageManager.Model;
                 };
@@ -87,10 +76,6 @@ namespace AdvancedLauncher.UI.Windows {
                     App.Kernel.Get<ITaskManager>().CloseApp(true);
                 };
                 this.MouseDown += MainWindow_MouseDown;
-
-                MenuFlyout.AboutClick += OnAboutClick;
-                MenuFlyout.ProfileSettingsClick += OnProfileSettingsClick;
-                MenuFlyout.LoggerClick += OnLoggerClick;
                 OnProfileChanged(this, EventArgs.Empty);
 #if DEBUG
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
@@ -126,33 +111,6 @@ namespace AdvancedLauncher.UI.Windows {
         private void OnProfileChanged(object sender, EventArgs e) {
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
-        }
-
-        private void OnProfileSettingsClick(object sender, RoutedEventArgs e) {
-            if (SettingsWindow == null) {
-                SettingsWindow = App.Kernel.Get<Settings>();
-                SettingsWindow.WindowClosed += (s, e1) => {
-                    transitionLayer.Content = NewsWindow;
-                };
-            }
-            transitionLayer.Content = SettingsWindow;
-            SettingsWindow.Show();
-        }
-
-        private void OnAboutClick(object sender, RoutedEventArgs e) {
-            if (AboutWindow == null) {
-                AboutWindow = App.Kernel.Get<About>();
-                AboutWindow.WindowClosed += (s, e1) => {
-                    transitionLayer.Content = NewsWindow;
-                };
-            }
-            transitionLayer.Content = AboutWindow;
-            AboutWindow.Show();
-        }
-
-        private void OnLoggerClick(object sender, RoutedEventArgs e) {
-            transitionLayer.Content = Logger;
-            Logger.Show();
         }
 
         private void ShowSettings(object sender, RoutedEventArgs e) {

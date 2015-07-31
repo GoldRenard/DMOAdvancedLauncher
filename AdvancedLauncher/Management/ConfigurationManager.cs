@@ -46,6 +46,9 @@ namespace AdvancedLauncher.Management {
         #region Check Section
 
         public bool CheckGame(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IConfiguration config = GetConfiguration(model);
             string pGamePath = GetGamePath(model);
             if (string.IsNullOrEmpty(pGamePath)) {
@@ -61,6 +64,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool CheckLauncher(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IConfiguration config = GetConfiguration(model);
             string pLauncherPath = GetLauncherPath(model);
             if (string.IsNullOrEmpty(pLauncherPath)) {
@@ -73,6 +79,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool CheckUpdateAccess(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             return !Utils.IsFileLocked(GetGameEXE(model)) && !Utils.IsFileLocked(GetPFPath(model)) && !Utils.IsFileLocked(GetHFPath(model));
         }
 
@@ -81,6 +90,9 @@ namespace AdvancedLauncher.Management {
         #region Getters/Setters
 
         public string GetImportPath(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
                 return null;
@@ -89,6 +101,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetLocalVersionFile(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IConfiguration config = GetConfiguration(model);
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
@@ -98,6 +113,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetPFPath(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
                 return null;
@@ -106,6 +124,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetHFPath(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             string path = GetGamePath(model);
             if (string.IsNullOrEmpty(path)) {
                 return null;
@@ -114,6 +135,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetGameEXE(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IConfiguration config = GetConfiguration(model);
             string gamePath = GetGamePath(model);
             if (string.IsNullOrEmpty(gamePath)) {
@@ -123,6 +147,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetLauncherEXE(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IConfiguration config = GetConfiguration(model);
             string path = GetLauncherPath(model);
             if (string.IsNullOrEmpty(path)) {
@@ -132,6 +159,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetLauncherPath(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IConfiguration config = GetConfiguration(model);
             if (string.IsNullOrEmpty(model.LauncherPath)) {
                 return config.GetLauncherPathFromRegistry();
@@ -140,6 +170,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public string GetGamePath(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IConfiguration config = GetConfiguration(model);
             if (string.IsNullOrEmpty(model.GamePath)) {
                 return config.GetGamePathFromRegistry();
@@ -148,10 +181,16 @@ namespace AdvancedLauncher.Management {
         }
 
         public IConfiguration GetConfiguration(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             return GetConfiguration(model.Type);
         }
 
         public IConfiguration GetConfiguration(string gameType) {
+            if (gameType == null) {
+                throw new ArgumentException("gameType argument cannot be null");
+            }
             IConfiguration config;
             if (Configurations.TryGetValue(gameType, out config)) {
                 return config;
@@ -160,6 +199,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool RegisterConfiguration(IConfiguration configuration) {
+            if (configuration == null) {
+                throw new ArgumentException("configuration argument cannot be null");
+            }
             if (Configurations.ContainsKey(configuration.GameType)) {
                 throw new Exception(String.Format("Configuration with type {0} already registered!", configuration.GameType));
             }
@@ -167,11 +209,17 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool UnRegisterConfiguration(string name) {
+            if (name == null) {
+                throw new ArgumentException("name argument cannot be null");
+            }
             IConfiguration configuration;
             return Configurations.TryRemove(name, out configuration);
         }
 
         public void UpdateRegistryPaths(IGameModel model) {
+            if (model == null) {
+                throw new ArgumentException("model argument cannot be null");
+            }
             IConfiguration config = GetConfiguration(model);
             string gamePath = GetGamePath(model);
             string launcherPath = GetGamePath(model);

@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Management.Commands;
 using log4net.Core;
 using Ninject;
 
@@ -33,6 +34,8 @@ namespace AdvancedLauncher.UI.Windows {
         private delegate void AddLogHandler(LoggingEvent logEvent);
 
         private int recentIndex = -1;
+
+        private bool FirstShow = true;
 
         #region Properties and structs
 
@@ -72,10 +75,6 @@ namespace AdvancedLauncher.UI.Windows {
             this.Items.ItemsSource = LogEntriesFiltered;
         }
 
-        public void Initialize() {
-            // nothing to do here
-        }
-
         public void PrintHeader() {
             LOGGER.Info("Digimon Masters Online Advanced Launcher, Copyright (C) 2015 Egorov Ilya" + System.Environment.NewLine +
                 "This program comes with ABSOLUTELY NO WARRANTY; for details type `license'." + System.Environment.NewLine +
@@ -83,11 +82,15 @@ namespace AdvancedLauncher.UI.Windows {
                 "under certain conditions; type `license' for details." + System.Environment.NewLine);
         }
 
-        public override void Show() {
-            base.Show();
+        public override void OnShow() {
             this.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () {
                 ConsoleInput.Focus();
             }));
+            if (FirstShow) {
+                CommandManager.RegisterCommand(new ClearCommand(this));
+                PrintHeader();
+                FirstShow = false;
+            }
         }
 
         public void AddEntry(LoggingEvent logEvent) {
@@ -200,6 +203,26 @@ namespace AdvancedLauncher.UI.Windows {
 
                 default:
                     return recentIndex;
+            }
+        }
+
+        public class ClearCommand : AbstractCommand {
+
+            private Logger Logger {
+                get;
+                set;
+            }
+
+            public ClearCommand(Logger Logger)
+                : base("clear", "Clears the console log") {
+                this.Logger = Logger;
+            }
+
+            public override bool DoCommand(string[] args) {
+                Logger.LogEntries.Clear();
+                Logger.LogEntriesFiltered.Clear();
+                Logger.PrintHeader();
+                return true;
             }
         }
 

@@ -47,15 +47,7 @@ namespace AdvancedLauncher {
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
-                    Kernel.Get<IEnvironmentManager>();
-                    Splashscreen.ShowSplash();
-#if DEBUG
-                    /*Splashscreen.SetProgress("Initializing database...");
-                    using (MainContext context = new MainContext()) {
-                        context.Database.Initialize(false);
-                    }*/
-#endif
-                    Kernel.Get<MainWindow>().Show();
+                    Kernel.Get<IWindowManager>();
                 } else {
                     Application.Current.Shutdown();
                 }

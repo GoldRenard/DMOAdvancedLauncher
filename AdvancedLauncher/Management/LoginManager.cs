@@ -56,6 +56,9 @@ namespace AdvancedLauncher.Management {
         }
 
         public void Login(IProfile profile) {
+            if (profile == null) {
+                throw new ArgumentException("profile argument cannot be null");
+            }
             LoginData credentials = GetCredentials(profile);
             if (credentials != null) {
                 if (!failedLogin.Contains(credentials.User)) {

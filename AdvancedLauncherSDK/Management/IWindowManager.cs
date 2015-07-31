@@ -16,26 +16,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.UI.Windows;
-using log4net.Appender;
-using log4net.Core;
-using Ninject;
+using AdvancedLauncher.SDK.Management.Windows;
 
-namespace AdvancedLauncher.Tools {
+namespace AdvancedLauncher.SDK.Management {
 
-    public class LogAppender : AppenderSkeleton {
+    public interface IWindowManager : IManager {
 
-        private Logger Logger {
-            get; set;
-        }
+        void ShowWindow(IWindow window);
 
-        protected override void Append(LoggingEvent loggingEvent) {
-            lock (this) {
-                if (Logger == null) {
-                    Logger = App.Kernel.Get<Logger>();
-                }
-                Logger.AddEntry(loggingEvent);
-            }
-        }
+        void GoHome();
+
+        /// <summary>
+        /// Returns to last opened window.
+        /// </summary>
+        /// <param name="currentWindow"></param>
+        void GoBack();
+
+        /// <summary>
+        /// Returns to last opened window in case that current window is passed as parameter
+        /// </summary>
+        /// <param name="currentWindow">Desired current window. It does nothing if argument is not current window.</param>
+        void GoBack(IWindow currentWindow);
     }
 }

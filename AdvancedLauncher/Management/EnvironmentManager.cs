@@ -192,7 +192,7 @@ namespace AdvancedLauncher.Management {
             if (File.Exists(SettingsFile)) {
                 try {
                     ProtectedSettings = DeSerializeSettings(SettingsFile);
-                } catch (Exception e) {
+                } catch (Exception) {
                     // fall down and recreate settings file
                 }
             }

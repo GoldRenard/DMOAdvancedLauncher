@@ -188,20 +188,25 @@ namespace AdvancedLauncher.Management {
 
             // Initialize ProtectedSettings entity
             ProtectedSettings ProtectedSettings = null;
+
             if (File.Exists(SettingsFile)) {
-                ProtectedSettings = DeSerializeSettings(SettingsFile);
+                try {
+                    ProtectedSettings = DeSerializeSettings(SettingsFile);
+                } catch (Exception e) {
+                    // fall down and recreate settings file
+                }
             }
-            if (ProtectedSettings == null) {
+            bool createSettingsFile = ProtectedSettings == null;
+            if (createSettingsFile) {
                 ProtectedSettings = new ProtectedSettings();
             }
 
             ApplyAppTheme(ProtectedSettings);
             ApplyProxySettings(ProtectedSettings);
             InitializeSafeSettings(ProtectedSettings);
-
-            // init language
             Settings.LanguageFile = LanguageManager.Initialize(InitFolder(AppPath, LOCALE_DIR), _Settings.LanguageFile);
-            if (!File.Exists(SettingsFile)) {
+
+            if (createSettingsFile) {
                 Save();
             }
             // TODO Figure out how to run plugins in different AppDomains.

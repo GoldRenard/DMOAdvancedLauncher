@@ -49,7 +49,7 @@ namespace AdvancedLauncher.Model.Protected {
         }
 
         [XmlAttribute("Mode")]
-        public ProxyMode Mode {
+        public int Mode {
             get;
             set;
         }

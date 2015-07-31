@@ -25,8 +25,6 @@ using System.Windows.Media;
 using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
-using AdvancedLauncher.UI.Commands;
-using AdvancedLauncher.UI.Windows;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
@@ -46,52 +44,18 @@ namespace AdvancedLauncher.UI.Controls {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ProfileSettings.ItemsSource = new List<object>() { new object() };
-                this.SizeChanged += (s, e) => {
-                    ProfileList.MaxHeight = e.NewSize.Height - CommandsHolder.ActualHeight - 50;
-                };
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
                 ProfileManager.ProfileChanged += ReloadCurrentProfile;
                 ProfileManager.ProfileLocked += OnProfileLocked;
                 ProfileManager.CollectionChanged += ReloadProfiles;
                 ReloadProfiles(this, EventArgs.Empty);
-                BuildCommands();
+                CommandList.ItemsSource = WindowManager.MenuItems;
             }
         }
 
         #region Commands
 
-        private List<SDK.Model.MenuItem> Commands = new List<SDK.Model.MenuItem>();
-
         private Windows.Settings SettingsWindow = null;
-        private About AboutWindow = null;
-
-        private void BuildCommands() {
-            Commands.Clear();
-            Commands.Add(new SDK.Model.MenuItem(LanguageManager, "Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
-                MainWindow MainWindow = App.Kernel.Get<MainWindow>();
-                MainWindow.SettingsFlyout.Width = MainWindow.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
-                MainWindow.SettingsFlyout.IsOpen = true;
-            })));
-            Commands.Add(new SDK.Model.MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
-                WindowManager.ShowWindow(App.Kernel.Get<Logger>());
-                this.IsOpen = false;
-            })));
-            Commands.Add(new SDK.Model.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                if (AboutWindow == null) {
-                    AboutWindow = App.Kernel.Get<About>();
-                }
-                WindowManager.ShowWindow(AboutWindow);
-                this.IsOpen = false;
-            })));
-            CommandList.ItemsSource = Commands;
-        }
-
-        public T FindResource<T>(string name) {
-            return (T)this.FindResource(name);
-        }
 
         #endregion Commands
 
@@ -99,7 +63,6 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void OnProfileLocked(object sender, LockedEventArgs e) {
             IsChangeEnabled = !e.IsLocked;
-            Commands.ForEach(c => c.NotifyEnabled());
         }
 
         /* We must prevent updating current profile in ProfileList_SelectionChanged by updating

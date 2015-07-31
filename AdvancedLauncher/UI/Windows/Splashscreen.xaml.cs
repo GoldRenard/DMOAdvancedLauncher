@@ -18,44 +18,36 @@
 
 using System;
 using System.Windows.Threading;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.UI.Extension;
 using MahApps.Metro.Controls;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
     public partial class Splashscreen : MetroWindow {
 
-        public static Splashscreen Instance {
-            get;
-            private set;
+        private bool IsClosed = false;
+
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set; // This injection will force bootstrap environment for this window (require color theme)
         }
 
         public Splashscreen() {
-            Instance = this;
             InitializeComponent();
+            this.Closing += (s, e) => {
+                IsClosed = true;
+            };
         }
 
-        public static void ShowSplash() {
-            new Splashscreen().Show();
-            // let the window render
-            DispatcherHelper.DoEvents();
-        }
-
-        public static void HideSplash() {
-            Instance.Dispatcher.Invoke(DispatcherPriority.Normal,
-                new Action(() => {
-                    Instance.Close();
-                })
-            );
-        }
-
-        public static void SetProgress(string title) {
-            while (Instance == null) {
-                DispatcherHelper.DoEvents();
+        public void SetProgress(string title) {
+            if (IsClosed) {
+                return;
             }
-            Instance.Dispatcher.Invoke(DispatcherPriority.Normal,
+            this.Dispatcher.Invoke(DispatcherPriority.Normal,
                 new Action<string>((t) => {
-                    Instance.Title = t;
+                    this.Title = t;
                     DispatcherHelper.DoEvents();
                 }), title);
         }

@@ -60,7 +60,6 @@ namespace AdvancedLauncher.UI.Windows {
 
         public MainWindow() {
             App.Kernel.Inject(this);
-            Splashscreen.SetProgress("Loading...");
             Application.Current.MainWindow = this;
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
@@ -80,7 +79,6 @@ namespace AdvancedLauncher.UI.Windows {
 #if DEBUG
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
-                Splashscreen.HideSplash();
                 CheckUpdates();
             }
         }

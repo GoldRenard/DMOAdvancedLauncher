@@ -48,10 +48,6 @@ namespace AdvancedLauncher.UI.Controls {
         public SettingsFlyout() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
-
                 this.CloseCommand = new SimpleCommand {
                     CanExecuteDelegate = x => true,
                     ExecuteDelegate = x => this.ResetAll()

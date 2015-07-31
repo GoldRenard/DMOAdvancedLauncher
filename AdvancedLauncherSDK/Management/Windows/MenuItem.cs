@@ -22,9 +22,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.SDK.Model {
+namespace AdvancedLauncher.SDK.Management.Windows {
 
     public class MenuItem : INotifyPropertyChanged {
         private ILanguageManager LanguageManager;
@@ -33,22 +32,45 @@ namespace AdvancedLauncher.SDK.Model {
 
         private readonly string bindingName;
 
+        private readonly string Label;
+
         private static SolidColorBrush Brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 
-        public MenuItem(ILanguageManager LanguageManager, string bindingName, Canvas icon, Thickness iconMargin, ICommand command) {
+        public MenuItem(string Label, Canvas icon, Thickness iconMargin, ICommand command)
+            : this(Label, null, null, icon, iconMargin, command) {
+        }
+
+        public MenuItem(ILanguageManager LanguageManager, string bindingName, Canvas icon, Thickness iconMargin, ICommand command)
+            : this(null, LanguageManager, bindingName, icon, iconMargin, command) {
+        }
+
+        private MenuItem(string Label, ILanguageManager LanguageManager, string bindingName, Canvas icon, Thickness iconMargin, ICommand command) {
+            this.Label = Label;
             this.LanguageManager = LanguageManager;
             this.bindingName = bindingName;
             Command = command;
             IconMargin = iconMargin;
-            icon.Resources.Add("BlackBrush", Brush);
-            IconBrush = new VisualBrush(icon);
-            LanguageManager.LanguageChanged += (s, e) => {
-                this.NotifyPropertyChanged("Name");
-            };
+            if (icon != null) {
+                if (!icon.Resources.Contains("BlackBrush")) {
+                    icon.Resources.Add("BlackBrush", Brush);
+                }
+                IconBrush = new VisualBrush(icon);
+            }
+            if (LanguageManager != null) {
+                LanguageManager.LanguageChanged += (s, e) => {
+                    this.NotifyPropertyChanged("Name");
+                };
+            }
         }
 
         public string Name {
             get {
+                if (LanguageManager == null || bindingName == null) {
+                    if (Label != null) {
+                        return Label;
+                    }
+                    return "N/A";
+                }
                 return (string)LanguageManager.Model.GetType().GetProperty(bindingName).GetValue(LanguageManager.Model, null);
             }
         }
@@ -60,6 +82,9 @@ namespace AdvancedLauncher.SDK.Model {
 
         public bool IsEnabled {
             get {
+                if (Command == null) {
+                    return false;
+                }
                 return Command.CanExecute(Command);
             }
         }
@@ -74,6 +99,18 @@ namespace AdvancedLauncher.SDK.Model {
             set;
         }
 
+        public Visibility SeparatorVisibility {
+            get {
+                return Command == null ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public Visibility ItemVisibility {
+            get {
+                return Command != null ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public void NotifyEnabled() {
             NotifyPropertyChanged("IsEnabled");
         }
@@ -82,6 +119,12 @@ namespace AdvancedLauncher.SDK.Model {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public static MenuItem Separator {
+            get {
+                return new MenuItem("", null, null, null, new Thickness(), null);
             }
         }
     }

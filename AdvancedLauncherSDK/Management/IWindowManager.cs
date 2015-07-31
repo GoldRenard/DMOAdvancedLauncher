@@ -16,11 +16,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Collections.ObjectModel;
 using AdvancedLauncher.SDK.Management.Windows;
 
 namespace AdvancedLauncher.SDK.Management {
 
     public interface IWindowManager : IManager {
+
+        ObservableCollection<MenuItem> MenuItems {
+            get;
+        }
 
         void ShowWindow(IWindow window);
 
@@ -37,5 +42,11 @@ namespace AdvancedLauncher.SDK.Management {
         /// </summary>
         /// <param name="currentWindow">Desired current window. It does nothing if argument is not current window.</param>
         void GoBack(IWindow currentWindow);
+
+        void AddMenuItem(MenuItem menuItem);
+
+        bool RemoveMenuItem(MenuItem menuItem);
+
+        T FindResource<T>(string name);
     }
 }

@@ -40,8 +40,11 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             if (WindowManager == null) {
                 throw new ArgumentException("WindowManager cannot be null");
             }
-            this.LanguageManager = LanguageManager;
             this.WindowManager = WindowManager;
+            this.LanguageManager = LanguageManager;
+            this.LanguageManager.LanguageChanged += (s, e) => {
+                this.DataContext = LanguageManager.Model;
+            };
         }
 
         protected void OnCloseClick(object sender, System.Windows.RoutedEventArgs e) {

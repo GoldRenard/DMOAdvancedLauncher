@@ -16,34 +16,27 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Management;
-using MahApps.Metro.Controls;
+using System;
+using AdvancedLauncher.UI.Windows;
 using Ninject;
+using Ninject.Activation;
+using Ninject.Activation.Strategies;
+using Ninject.Components;
 
-namespace AdvancedLauncher.UI.Controls {
+namespace AdvancedLauncher.Tools {
 
-    public abstract class AbstractFlyout : Flyout {
+    internal class ActivationStrategy : NinjectComponent, IActivationStrategy {
 
-        [Inject]
-        public IEnvironmentManager EnvironmentManager {
-            get; set;
+        public void Activate(IContext context, InstanceReference reference) {
+            Type instanceType = reference.Instance.GetType();
+            if (!instanceType.IsAssignableFrom(typeof(Splashscreen))) {
+                Splashscreen splashscreen = App.Kernel.Get<Splashscreen>();
+                splashscreen.SetProgress(string.Format("{0} loading...", instanceType.Name));
+            }
         }
 
-        [Inject]
-        public ILanguageManager LanguageManager {
-            get; set;
-        }
-
-        [Inject]
-        public IProfileManager ProfileManager {
-            get; set;
-        }
-
-        public AbstractFlyout() {
-            App.Kernel.Inject(this);
-            LanguageManager.LanguageChanged += (s, e) => {
-                this.DataContext = LanguageManager.Model;
-            };
+        public void Deactivate(IContext context, InstanceReference reference) {
+            // nothing to do
         }
     }
 }

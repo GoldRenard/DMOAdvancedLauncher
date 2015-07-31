@@ -47,6 +47,9 @@ namespace AdvancedLauncher {
             XmlConfigurator.Configure();
             if (IsAdministrator()) {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
+                    // initialization sequence
+                    Kernel.Get<IEnvironmentManager>();
+                    Kernel.Get<Splashscreen>().Show();
                     Kernel.Get<IWindowManager>();
                 } else {
                     Application.Current.Shutdown();

@@ -134,19 +134,23 @@
                 ItemContainerStyle="{DynamicResource MetroListBoxItemNoSelected}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="0,5" Background="Transparent">
+                        <Grid Background="Transparent">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseLeftButtonUp">
                                     <i:InvokeCommandAction Command="{Binding Command}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            <Grid Width="25" Height="25">
-                                <Rectangle Fill="{Binding IconBrush}" Margin="{Binding IconMargin}" />
-                            </Grid>
-                            <StackPanel VerticalAlignment="Center" Margin="2,0,0,0">
-                                <TextBlock FontSize="12" Text="{Binding Name}" />
+
+                            <Separator Margin="0,5,5,5" Visibility="{Binding SeparatorVisibility}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,5" Visibility="{Binding ItemVisibility}">
+                                <Grid Width="25" Height="25">
+                                    <Rectangle Fill="{Binding IconBrush}" Margin="{Binding IconMargin}" />
+                                </Grid>
+                                <StackPanel VerticalAlignment="Center" Margin="2,0,0,0">
+                                    <TextBlock FontSize="12" Text="{Binding Name}" />
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

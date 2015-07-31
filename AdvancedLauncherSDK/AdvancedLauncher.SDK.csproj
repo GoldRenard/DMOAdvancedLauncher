@@ -74,7 +74,7 @@
     <Compile Include="Model\Events\LoginCompleteEventArgs.cs" />
     <Compile Include="Model\Events\LoginStateEventArgs.cs" />
     <Compile Include="Model\LanguageModel.cs" />
-    <Compile Include="Model\MenuItem.cs" />
+    <Compile Include="Management\Windows\MenuItem.cs" />
     <Compile Include="Model\Web\AbstractNewsProvider.cs" />
     <Compile Include="Model\Web\AbstractServersProvider.cs" />
     <Compile Include="Model\Web\AbstractWebProvider.cs" />

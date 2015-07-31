@@ -18,16 +18,22 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Windows;
+using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Windows;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
     public class WindowManager : IWindowManager {
+        private About AboutWindow = null;
+
+        private bool MainMenuSeparatorAdded = false;
 
         private ConcurrentStack<IWindow> WindowStack {
             get;
@@ -44,6 +50,11 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
+        public ObservableCollection<SDK.Management.Windows.MenuItem> MenuItems {
+            get;
+            private set;
+        } = new ObservableCollection<SDK.Management.Windows.MenuItem>();
+
         [Inject]
         public Logger Logger {
             get; set;
@@ -55,14 +66,76 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IProfileManager ProfileManager {
+            get; set;
+        }
+
         public void Initialize() {
             Splashscreen.ShowSplash();
+            ProfileManager.ProfileLocked += OnProfileLocked;
             Splashscreen.SetProgress("Loading...");
             this.MainWindow = App.Kernel.Get<MainWindow>(); // do not inject it directly, we should not export it as public property
             Application.Current.MainWindow = MainWindow;
-            Splashscreen.HideSplash();
             ShowWindow(new NewsWindow());
+            BuildMenu();
+            Splashscreen.HideSplash();
             MainWindow.Show();
+        }
+
+        private void OnProfileLocked(object sender, LockedEventArgs e) {
+            foreach (SDK.Management.Windows.MenuItem item in MenuItems) {
+                item.NotifyEnabled();
+            }
+        }
+
+        private void BuildMenu() {
+            MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
+                MainWindow.SettingsFlyout.Width = MainWindow.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
+                MainWindow.SettingsFlyout.IsOpen = true;
+            })));
+            MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
+                ShowWindow(Logger);
+                MainWindow.MenuFlyout.IsOpen = false;
+            })));
+            MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                if (AboutWindow == null) {
+                    AboutWindow = App.Kernel.Get<About>();
+                }
+                ShowWindow(AboutWindow);
+                MainWindow.MenuFlyout.IsOpen = false;
+            })));
+
+            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
+            })));
+            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
+            })));
+            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
+            })));
+            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
+            })));
+            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
+            })));
+            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
+            })));
+            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
+            })));
+            AddMenuItem(new SDK.Management.Windows.MenuItem("Test!", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
+                App.Kernel.Get<IDialogManager>().ShowMessageDialog("test!", "test2");
+            })));
         }
 
         public void ShowWindow(IWindow window) {
@@ -108,6 +181,22 @@ namespace AdvancedLauncher.Management {
                 this.CurrentWindow = null;
                 ShowWindow(window);
             }
+        }
+
+        public void AddMenuItem(SDK.Management.Windows.MenuItem menuItem) {
+            if (!MainMenuSeparatorAdded) {
+                MenuItems.Add(SDK.Management.Windows.MenuItem.Separator);
+                MainMenuSeparatorAdded = true;
+            }
+            MenuItems.Add(menuItem);
+        }
+
+        public bool RemoveMenuItem(SDK.Management.Windows.MenuItem menuItem) {
+            return MenuItems.Remove(menuItem);
+        }
+
+        public T FindResource<T>(string name) {
+            return (T)MainWindow.FindResource(name);
         }
     }
 }

@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,6 +82,8 @@ namespace AdvancedLauncher.Management {
             get;
             set;
         }
+
+        private List<NamedItem> OwnedItems = new List<NamedItem>();
 
         #endregion Base Controls
 
@@ -153,6 +156,9 @@ namespace AdvancedLauncher.Management {
             PageItems.Add(Gallery);
             PageItems.Add(Community);
             PageItems.Add(Personalization);
+
+            OwnedItems.AddRange(MenuItems);
+            OwnedItems.AddRange(PageItems);
         }
 
         public void ShowWindow(IWindow window) {
@@ -210,11 +216,10 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool RemoveMenuItem(SDK.Management.Windows.MenuItem menuItem) {
+            if (OwnedItems.Contains(menuItem)) {
+                throw new ArgumentException("You are not allowed to remove default MenuItem");
+            }
             return MenuItems.Remove(menuItem);
-        }
-
-        public T FindResource<T>(string name) {
-            return (T)MainWindow.FindResource(name);
         }
 
         public void AddPageItem(PageItem pageItem) {
@@ -222,7 +227,14 @@ namespace AdvancedLauncher.Management {
         }
 
         public bool RemovePageItem(PageItem pageItem) {
+            if (OwnedItems.Contains(pageItem)) {
+                throw new ArgumentException("You are not allowed to remove default PageItem");
+            }
             return PageItems.Remove(pageItem);
+        }
+
+        public T FindResource<T>(string name) {
+            return (T)MainWindow.FindResource(name);
         }
 
         #region Event handlers

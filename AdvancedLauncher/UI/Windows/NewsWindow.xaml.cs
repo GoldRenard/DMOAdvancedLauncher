@@ -21,7 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.UI.Pages;
 using Ninject;
@@ -37,11 +37,6 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         [Inject]
-        public IConfigurationManager ConfigurationManager {
-            get; set;
-        }
-
-        [Inject]
         public IProfileManager ProfileManager {
             get; set;
         }
@@ -50,27 +45,18 @@ namespace AdvancedLauncher.UI.Windows {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+                NavControl.ItemsSource = App.Kernel.Get<IWindowManager>().PageItems;
                 EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 OnProfileChanged(this, EventArgs.Empty);
             }
         }
 
-        private void OnFileSystemLocked(object sender, LockedEventArgs e) {
-            if (e.IsLocked) {
-                //Выбираем первую вкладку и отключаем персонализацию (на всякий случай)
-                NavControl.SelectedIndex = 0;
-                NavPersonalization.IsEnabled = false;
-            } else {
-                //Включаем персонализации обратно если игра определена
-                if (ConfigurationManager.CheckGame(ProfileManager.CurrentProfile.GameModel)) {
-                    NavPersonalization.IsEnabled = true;
-                }
-            }
-        }
-
         private void OnTabChanged(object sender, SelectionChangedEventArgs e) {
-            TabItem selectedTab = (TabItem)NavControl.SelectedValue;
+            PageItem selectedTab = NavControl.SelectedValue as PageItem;
+            if (selectedTab == null) {
+                return;
+            }
             AbstractPage selectedPage = (AbstractPage)selectedTab.Content;
             //Prevent handling over changing inside tab item
             if (currentTab == selectedPage) {
@@ -81,28 +67,16 @@ namespace AdvancedLauncher.UI.Windows {
             }
             currentTab = selectedPage;
             currentTab.PageActivate();
-            selectedTab.Focus();
+        }
+
+        private void OnFileSystemLocked(object sender, LockedEventArgs e) {
+            if (e.IsLocked) {
+                NavControl.SelectedIndex = 0;
+            }
         }
 
         private void OnProfileChanged(object sender, EventArgs e) {
-            //Выбираем первую вкладку и отключаем все модули
             NavControl.SelectedIndex = 0;
-            NavGallery.IsEnabled = false;
-            NavCommunity.IsEnabled = false;
-            NavPersonalization.IsEnabled = false;
-
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
-
-            //Если доступен веб-профиль, включаем вкладку сообщества
-            if (ConfigurationManager.GetConfiguration(model).IsWebAvailable) {
-                NavCommunity.IsEnabled = true;
-            }
-
-            //Если путь до игры верен, включаем вкладку галереи и персонализации
-            if (ConfigurationManager.CheckGame(model)) {
-                NavGallery.IsEnabled = true;
-                NavPersonalization.IsEnabled = true;
-            }
         }
     }
 }

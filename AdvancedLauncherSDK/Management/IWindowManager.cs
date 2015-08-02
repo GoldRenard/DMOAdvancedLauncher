@@ -27,6 +27,10 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
+        ObservableCollection<PageItem> PageItems {
+            get;
+        }
+
         void ShowWindow(IWindow window);
 
         void GoHome();
@@ -46,6 +50,10 @@ namespace AdvancedLauncher.SDK.Management {
         void AddMenuItem(MenuItem menuItem);
 
         bool RemoveMenuItem(MenuItem menuItem);
+
+        void AddPageItem(PageItem pageItem);
+
+        bool RemovePageItem(PageItem pageItem);
 
         T FindResource<T>(string name);
     }

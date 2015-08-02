@@ -62,6 +62,8 @@
     <Compile Include="Management\IWindowManager.cs" />
     <Compile Include="Management\Windows\AbstractWindow.cs" />
     <Compile Include="Management\Windows\IWindow.cs" />
+    <Compile Include="Management\Windows\PageItem.cs" />
+    <Compile Include="Management\Windows\NamedItem.cs" />
     <Compile Include="Model\Entity\BaseEntity.cs" />
     <Compile Include="Model\Entity\Digimon.cs" />
     <Compile Include="Model\Entity\DigimonType.cs" />

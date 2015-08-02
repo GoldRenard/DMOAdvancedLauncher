@@ -122,7 +122,7 @@ namespace AdvancedLauncher.Management {
             EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
             ProfileManager.ProfileChanged += OnProfileChanged;
             ProfileManager.ProfileLocked += OnProfileLocked;
-            ShowWindow(new NewsWindow());
+            ShowWindow(new PagesWindow());
             BuildMenu();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 App.Kernel.Get<Splashscreen>().Close();

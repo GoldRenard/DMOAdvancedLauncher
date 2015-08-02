@@ -28,7 +28,7 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
-    public partial class NewsWindow : AbstractWindow {
+    public partial class PagesWindow : AbstractWindow {
         private AbstractPage currentTab;
 
         [Inject]
@@ -41,7 +41,7 @@ namespace AdvancedLauncher.UI.Windows {
             get; set;
         }
 
-        public NewsWindow() {
+        public PagesWindow() {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);

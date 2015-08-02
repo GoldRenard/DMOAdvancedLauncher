@@ -31,8 +31,6 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     public class WindowManager : IWindowManager {
-        private About AboutWindow = null;
-
         private bool MainMenuSeparatorAdded = false;
 
         private ConcurrentStack<IWindow> WindowStack {
@@ -78,13 +76,14 @@ namespace AdvancedLauncher.Management {
         }
 
         public void Initialize() {
-            ProfileManager.ProfileLocked += OnProfileLocked;
             this.MainWindow = App.Kernel.Get<MainWindow>(); // do not inject it directly, we should not export it as public property
             Application.Current.MainWindow = MainWindow;
             ShowWindow(new NewsWindow());
             BuildMenu();
-            App.Kernel.Get<Splashscreen>().Close();
-            MainWindow.Show();
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                App.Kernel.Get<Splashscreen>().Close();
+                MainWindow.Show();
+            }
         }
 
         private void OnProfileLocked(object sender, LockedEventArgs e) {
@@ -103,10 +102,7 @@ namespace AdvancedLauncher.Management {
                 MainWindow.MenuFlyout.IsOpen = false;
             })));
             MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                if (AboutWindow == null) {
-                    AboutWindow = App.Kernel.Get<About>();
-                }
-                ShowWindow(AboutWindow);
+                ShowWindow(App.Kernel.Get<About>());
                 MainWindow.MenuFlyout.IsOpen = false;
             })));
         }
@@ -115,13 +111,14 @@ namespace AdvancedLauncher.Management {
             if (window == null) {
                 throw new ArgumentException("Window argument cannot be null");
             }
-            UserControl control = window as UserControl;
+            Control control = window as Control;
             if (control == null) {
-                throw new ArgumentException("Window must inherit from WPF UserControl");
+                throw new ArgumentException("Window must inherit from WPF Control");
             }
             if (CurrentWindow != null) {
                 WindowStack.Push(CurrentWindow);
             }
+
             CurrentWindow = window;
             CurrentWindow.OnShow();
             MainWindow.transitionLayer.Content = control;

@@ -16,8 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,15 +23,7 @@ using System.Windows.Media;
 
 namespace AdvancedLauncher.SDK.Management.Windows {
 
-    public class MenuItem : INotifyPropertyChanged {
-        private ILanguageManager LanguageManager;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private readonly string bindingName;
-
-        private readonly string Label;
-
+    public class MenuItem : NamedItem {
         private static SolidColorBrush Brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 
         public MenuItem(string Label, Canvas icon, Thickness iconMargin, ICommand command)
@@ -44,10 +34,8 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             : this(null, LanguageManager, bindingName, icon, iconMargin, command) {
         }
 
-        private MenuItem(string Label, ILanguageManager LanguageManager, string bindingName, Canvas icon, Thickness iconMargin, ICommand command) {
-            this.Label = Label;
-            this.LanguageManager = LanguageManager;
-            this.bindingName = bindingName;
+        private MenuItem(string Label, ILanguageManager LanguageManager, string bindingName, Canvas icon, Thickness iconMargin, ICommand command)
+            : base(Label, LanguageManager, bindingName) {
             Command = command;
             IconMargin = iconMargin;
             if (icon != null) {
@@ -60,18 +48,6 @@ namespace AdvancedLauncher.SDK.Management.Windows {
                 LanguageManager.LanguageChanged += (s, e) => {
                     this.NotifyPropertyChanged("Name");
                 };
-            }
-        }
-
-        public string Name {
-            get {
-                if (LanguageManager == null || bindingName == null) {
-                    if (Label != null) {
-                        return Label;
-                    }
-                    return "N/A";
-                }
-                return (string)LanguageManager.Model.GetType().GetProperty(bindingName).GetValue(LanguageManager.Model, null);
             }
         }
 
@@ -113,13 +89,6 @@ namespace AdvancedLauncher.SDK.Management.Windows {
 
         public void NotifyEnabled() {
             NotifyPropertyChanged("IsEnabled");
-        }
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         public static MenuItem Separator {

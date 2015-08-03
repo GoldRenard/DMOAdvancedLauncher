@@ -32,9 +32,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
         event DownloadStatusChangedEventHandler StatusChanged;
 
-        void GetGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, Server server, string guildName, bool isDetailed);
-
-        void SetDispatcher(System.Windows.Threading.Dispatcher ownerDispatcher);
+        void GetGuildAsync(Server server, string guildName, bool isDetailed);
 
         List<DigimonType> GetDigimonTypes();
 
@@ -42,7 +40,6 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
         Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval);
 
-        void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher,
-            Server server, string guildName, bool isDetailed, int actualInterval);
+        void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval);
     }
 }

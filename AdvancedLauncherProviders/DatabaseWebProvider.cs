@@ -52,8 +52,7 @@ namespace AdvancedLauncher.Providers {
             return GetGuild(server, guildName, isDetailed);
         }
 
-        public override void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher,
-            Server server, string guildName, bool isDetailed, int actualInterval) {
+        public override void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval) {
             bool fetchCurrent = false;
 
             using (MainContext context = new MainContext()) {
@@ -76,7 +75,7 @@ namespace AdvancedLauncher.Providers {
                 });
                 return;
             }
-            GetGuildAsync(ownerDispatcher, server, guildName, isDetailed);
+            GetGuildAsync(server, guildName, isDetailed);
         }
 
         protected string DownloadContent(string url) {

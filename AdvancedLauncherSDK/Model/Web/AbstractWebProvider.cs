@@ -54,9 +54,6 @@ namespace AdvancedLauncher.SDK.Model.Web {
          * 4 - web page is not supported or guild not found
          * */
 
-        // TODO What's happening with Dispatcher across domains?
-        protected System.Windows.Threading.Dispatcher OwnerDispatcher;
-
         public event EventHandler DownloadStarted;
 
         public event DownloadCompleteEventHandler DownloadCompleted;
@@ -68,13 +65,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
                 LogManager.Info("GuildInfo obtaining started.");
             }
             if (DownloadStarted != null) {
-                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new EventHandler((s, e) => {
-                        DownloadStarted(s, e);
-                    }), this, EventArgs.Empty);
-                } else {
-                    DownloadStarted(this, EventArgs.Empty);
-                }
+                DownloadStarted(this, EventArgs.Empty);
             }
         }
 
@@ -82,14 +73,8 @@ namespace AdvancedLauncher.SDK.Model.Web {
             if (LogManager != null) {
                 LogManager.Info(String.Format("GuildInfo obtaining completed: code={0}, result={1}", code, result));
             }
-            DownloadCompleteEventArgs args = new DownloadCompleteEventArgs(code, result);
             if (DownloadCompleted != null) {
-                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e) => {
-                        DownloadCompleted(s, e);
-                    }), this, args);
-                } else
-                    DownloadCompleted(this, args);
+                DownloadCompleted(this, new DownloadCompleteEventArgs(code, result));
             }
         }
 
@@ -97,30 +82,19 @@ namespace AdvancedLauncher.SDK.Model.Web {
             if (LogManager != null) {
                 LogManager.Info(String.Format("GuildInfo obtaining status changed: code={0}, info={1}, p={2}, pm={3}", code, info, p, pm));
             }
-            DownloadStatusEventArgs args = new DownloadStatusEventArgs(code, info, p, pm);
             if (StatusChanged != null) {
-                if (OwnerDispatcher != null && !OwnerDispatcher.CheckAccess()) {
-                    OwnerDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e) => {
-                        StatusChanged(s, e);
-                    }), this, args);
-                } else
-                    StatusChanged(this, args);
+                StatusChanged(this, new DownloadStatusEventArgs(code, info, p, pm));
             }
         }
 
         #endregion EVENTS
 
-        public void GetGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, Server server, string guildName, bool isDetailed) {
-            this.OwnerDispatcher = ownerDispatcher;
+        public void GetGuildAsync(Server server, string guildName, bool isDetailed) {
             BackgroundWorker bw = new BackgroundWorker();
             bw.DoWork += (s1, e2) => {
                 GetGuild(server, guildName, isDetailed);
             };
             bw.RunWorkerAsync();
-        }
-
-        public void SetDispatcher(System.Windows.Threading.Dispatcher ownerDispatcher) {
-            this.OwnerDispatcher = ownerDispatcher;
         }
 
         public abstract List<DigimonType> GetDigimonTypes();
@@ -137,7 +111,6 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
         public abstract Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval);
 
-        public abstract void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher,
-            Server server, string guildName, bool isDetailed, int actualInterval);
+        public abstract void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval);
     }
 }

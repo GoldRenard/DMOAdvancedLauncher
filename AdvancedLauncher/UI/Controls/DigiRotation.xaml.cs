@@ -172,13 +172,24 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void OnStatusChange(object sender, DownloadStatusEventArgs e) {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
-                loader.Maximum = e.MaxProgress;
-                loader.Value = e.Progress;
-            }));
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e2) => {
+                    OnStatusChange(s, e2);
+                }), sender, e);
+                return;
+            }
+            loader.Maximum = e.MaxProgress;
+            loader.Value = e.Progress;
         }
 
         private void OnDownloadComplete(object sender, DownloadCompleteEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e2) => {
+                    OnDownloadComplete(s, e2);
+                }), sender, e);
+                return;
+            }
+
             if (e.Code != DMODownloadResultCode.OK) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
                     loader.Title = LanguageManager.Model.ErrorOccured + " [" + e.Code + "]";

@@ -24,7 +24,7 @@ using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.Providers.Database.Context {
 
-    public class MainContext : BaseContext {
+    public class MainContext : DbContext {
 
         #region Constructors
 

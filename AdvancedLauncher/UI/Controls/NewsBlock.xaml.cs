@@ -458,9 +458,11 @@ namespace AdvancedLauncher.UI.Controls {
             IConfiguration config = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             INewsProvider newsProvider = config.CreateNewsProvider();
             if (newsProvider != null) {
-                List<NewsItem> news;
+                List<NewsItem> news = new List<NewsItem>();
                 try {
-                    news = newsProvider.GetNews();
+                    foreach (NewsItem item in newsProvider.GetNews()) {
+                        news.Add(new NewsItem(item));
+                    }
                 } catch (WebException e) {
                     news = new List<NewsItem>();
                     news.Add(new NewsItem() {

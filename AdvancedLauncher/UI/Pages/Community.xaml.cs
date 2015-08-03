@@ -68,9 +68,6 @@ namespace AdvancedLauncher.UI.Pages {
             GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;
-            if (webProvider != null) {
-                webProvider.SetDispatcher(this.Dispatcher);
-            }
             // use lazy ServerList initialization to prevent first long EF6 database
             // init causes the long app start time
             if (IsPageActivated) {
@@ -108,6 +105,12 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         private void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e2) => {
+                    OnStatusChanged(s, e2);
+                }), sender, e);
+                return;
+            }
             switch (e.Code) {
                 case DMODownloadStatusCode.GETTING_GUILD:
                     {
@@ -125,6 +128,13 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         private void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e2) => {
+                    OnDownloadCompleted(s, e2);
+                }), sender, e);
+                return;
+            }
+
             BlockControls(false);
 
             webProvider.DownloadStarted -= OnDownloadStarted;
@@ -159,6 +169,12 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         private void OnDownloadStarted(object sender, EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new EventHandler((s, e2) => {
+                    OnDownloadStarted(s, e2);
+                }), sender, e);
+                return;
+            }
             BlockControls(true);
             LoadProgressBar.Value = 0;
             LoadProgressBar.Maximum = 100;
@@ -171,8 +187,7 @@ namespace AdvancedLauncher.UI.Pages {
                 webProvider.DownloadStarted += OnDownloadStarted;
                 webProvider.DownloadCompleted += OnDownloadCompleted;
                 webProvider.StatusChanged += OnStatusChanged;
-                webProvider.GetActualGuildAsync(this.Dispatcher,
-                    (Server)ComboBoxServer.SelectedValue,
+                webProvider.GetActualGuildAsync((Server)ComboBoxServer.SelectedValue,
                     GuildNameTextBox.Text,
                     (bool)IsDetailedCheckbox.IsChecked,
                     1);

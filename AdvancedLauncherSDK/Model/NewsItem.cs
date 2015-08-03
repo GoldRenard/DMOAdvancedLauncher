@@ -26,5 +26,16 @@ namespace AdvancedLauncher.SDK.Model {
         public string Date;
         public string Content;
         public string Url;
+
+        public NewsItem() {
+        }
+
+        public NewsItem(NewsItem item) {
+            this.Mode = item.Mode;
+            this.Subject = item.Subject;
+            this.Date = item.Date;
+            this.Content = item.Content;
+            this.Url = item.Url;
+        }
     }
 }

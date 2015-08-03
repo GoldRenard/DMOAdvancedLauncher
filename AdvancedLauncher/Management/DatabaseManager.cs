@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Security.Permissions;
 using AdvancedLauncher.Database.Context;
 using AdvancedLauncher.SDK.Management;
 
@@ -23,6 +24,7 @@ namespace AdvancedLauncher.Management {
 
     public class DatabaseManager : CrossDomainObject, IDatabaseManager {
 
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public IDatabaseContext CreateContext() {
             return new ContextWrapper(new MainContext());
         }

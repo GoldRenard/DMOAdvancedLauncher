@@ -20,11 +20,13 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Permissions;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.Database.Context {
 
+    [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
     public class ContextWrapper : CrossDomainObject, IDatabaseContext {
         private readonly MainContext Context;
 

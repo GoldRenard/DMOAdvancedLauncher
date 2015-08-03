@@ -161,7 +161,7 @@ namespace AdvancedLauncher.Management {
             Resources3rdPath = InitFolder(AppDataPath, RESOURCE_DIR);
             ResourcesPath = InitFolder(AppPath, RESOURCE_DIR);
             PluginsPath = InitFolder(AppPath, PLUGINS_DIR);
-            
+
             AppDomain.CurrentDomain.SetData("DataDirectory", AppDataPath);
 
             // Initialize ProtectedSettings entity
@@ -199,7 +199,7 @@ namespace AdvancedLauncher.Management {
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
             if (settings.Profiles != null) {
                 foreach (ProtectedProfile protectedProfile in settings.Profiles) {
-                    Profile safeProfile = new Model.Config.Profile();
+                    Profile safeProfile = new Profile();
                     safeProfile.Id = protectedProfile.Id;
                     safeProfile.Guid = protectedProfile.Guid;
                     safeProfile.Name = protectedProfile.Name;

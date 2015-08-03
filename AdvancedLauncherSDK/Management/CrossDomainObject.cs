@@ -17,13 +17,10 @@
 // ======================================================================
 
 using System;
-using System.Runtime.Remoting.Lifetime;
-using System.Security;
 
 namespace AdvancedLauncher.SDK.Management {
 
     public abstract class CrossDomainObject : MarshalByRefObject {
-
         /*[SecurityCritical]
         public override object InitializeLifetimeService() {
             ILease lease = (ILease)base.InitializeLifetimeService();

@@ -33,6 +33,7 @@ using AdvancedLauncher.Model;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
+using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.Tools;
@@ -97,6 +98,19 @@ namespace AdvancedLauncher.UI.Windows {
             set;
         } = new ObservableCollection<ConfigurationViewModel>();
 
+        public ILauncher ProfileLauncher {
+            get {
+                Profile profile = ProfileList.SelectedValue as Profile;
+                return profile != null ? LauncherManager.GetLauncher(profile) : null;
+            }
+            set {
+                Profile profile = ProfileList.SelectedValue as Profile;
+                if (profile != null && value != null) {
+                    profile.LaunchMode = value.Mnemonic;
+                }
+            }
+        }
+
         private Dictionary<Profile, LoginData> Credentials = new Dictionary<Profile, LoginData>();
 
         public Settings() {
@@ -106,6 +120,7 @@ namespace AdvancedLauncher.UI.Windows {
                 ProfileList.DataContext = ProfileManager;
                 ProfileList.ItemsSource = ProfileManager.PendingProfiles;
                 ComboBoxServer.ItemsSource = ServerList;
+                ComboBoxLauncher.DataContext = this;
                 SetUpConfigurations();
             }
         }
@@ -152,6 +167,7 @@ namespace AdvancedLauncher.UI.Windows {
             }
             ValidatePaths();
             NotifyPropertyChanged("IsSelectedNotDefault");
+            NotifyPropertyChanged("ProfileLauncher");
 
             LoginData login = null;
             IsPreventLoginChange = true;

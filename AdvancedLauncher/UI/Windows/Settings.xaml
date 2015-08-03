@@ -296,7 +296,7 @@
                                 VerticalAlignment="Center" />
                             <ComboBox Grid.Column="1" x:Name="ComboBoxLauncher" Margin="0,5" Height="30"
                                   ItemsSource="{Binding LauncherManager, Source={StaticResource ServiceHolder}}"
-                                  SelectedItem="{Binding ElementName=ProfileList, Path=SelectedValue.Launcher, Mode=TwoWay}"
+                                  SelectedItem="{Binding ProfileLauncher, Mode=TwoWay}"
                                   DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True" >
                                 <ComboBox.ItemContainerStyle>
                                     <Style TargetType="ComboBoxItem">

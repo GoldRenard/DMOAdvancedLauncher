@@ -123,6 +123,7 @@ namespace PluginSample {
                 return true;
             }
         }
+
         #endregion Providers
     }
 }

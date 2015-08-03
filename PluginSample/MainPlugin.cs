@@ -16,15 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using AdvancedLauncher.Providers.Joymax;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Plugins;
-using AdvancedLauncher.SDK.Model.Entity;
 
 namespace PluginSample {
 

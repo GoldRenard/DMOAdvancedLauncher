@@ -105,7 +105,7 @@ namespace AdvancedLauncher.Management {
         }
 
         public Profile CreateProfile() {
-            var pNew = new Model.Config.Profile() {
+            var pNew = new Profile() {
                 Name = "NewProfile",
                 Id = PendingProfiles.Count > 0 ? PendingProfiles.Max(p => p.Id) + 1 : 1
             };
@@ -123,7 +123,7 @@ namespace AdvancedLauncher.Management {
                 }
             }
             pNew.News.TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE;
-            pNew.Launcher = LauncherManager.Default;
+            pNew.GameModel.Type = LauncherManager.Default.Mnemonic;
 
             PendingProfiles.Add(pNew);
             OnCollectionChanged();

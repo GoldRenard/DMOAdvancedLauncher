@@ -18,25 +18,28 @@
 
 using System;
 
-namespace AdvancedLauncher.SDK.Management.Commands {
+namespace AdvancedLauncher.SDK.Management.Plugins {
 
-    public abstract class AbstractCommand : MarshalByRefObject, ICommand {
-        private string commandName;
-        private string commandDescription;
+    [Serializable]
+    public struct PluginInfo {
+        private string assemblyPath;
+        private string typeName;
 
-        public AbstractCommand(string commandName, string commandDescription) {
-            this.commandName = commandName;
-            this.commandDescription = commandDescription;
+        public PluginInfo(string assemblyPath, string typeName) {
+            this.assemblyPath = assemblyPath;
+            this.typeName = typeName;
         }
 
-        public abstract bool DoCommand(string[] args);
-
-        public virtual string GetDescription() {
-            return commandDescription;
+        public string AssemblyPath {
+            get {
+                return assemblyPath;
+            }
         }
 
-        public virtual string GetName() {
-            return commandName;
+        public string TypeName {
+            get {
+                return typeName;
+            }
         }
     }
 }

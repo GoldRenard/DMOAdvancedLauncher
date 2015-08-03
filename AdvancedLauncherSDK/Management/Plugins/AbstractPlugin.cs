@@ -18,25 +18,20 @@
 
 using System;
 
-namespace AdvancedLauncher.SDK.Management.Commands {
+namespace AdvancedLauncher.SDK.Management.Plugins {
 
-    public abstract class AbstractCommand : MarshalByRefObject, ICommand {
-        private string commandName;
-        private string commandDescription;
+    public abstract class AbstractPlugin : MarshalByRefObject, IPlugin {
 
-        public AbstractCommand(string commandName, string commandDescription) {
-            this.commandName = commandName;
-            this.commandDescription = commandDescription;
+        public abstract string Author {
+            get;
         }
 
-        public abstract bool DoCommand(string[] args);
-
-        public virtual string GetDescription() {
-            return commandDescription;
+        public abstract string Name {
+            get;
         }
 
-        public virtual string GetName() {
-            return commandName;
-        }
+        public abstract void OnActivate(IPluginHost PluginHost);
+
+        public abstract void OnStop(IPluginHost PluginHost);
     }
 }

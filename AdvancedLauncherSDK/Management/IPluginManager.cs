@@ -16,27 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
+namespace AdvancedLauncher.SDK.Management {
 
-namespace AdvancedLauncher.SDK.Management.Commands {
-
-    public abstract class AbstractCommand : MarshalByRefObject, ICommand {
-        private string commandName;
-        private string commandDescription;
-
-        public AbstractCommand(string commandName, string commandDescription) {
-            this.commandName = commandName;
-            this.commandDescription = commandDescription;
-        }
-
-        public abstract bool DoCommand(string[] args);
-
-        public virtual string GetDescription() {
-            return commandDescription;
-        }
-
-        public virtual string GetName() {
-            return commandName;
-        }
+    public interface IPluginManager : IManager {
+        void Load(string pluginsDirectory);
     }
 }

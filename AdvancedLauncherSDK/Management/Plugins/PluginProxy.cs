@@ -17,26 +17,34 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 
-namespace AdvancedLauncher.SDK.Management.Commands {
+namespace AdvancedLauncher.SDK.Management.Plugins {
 
-    public abstract class AbstractCommand : MarshalByRefObject, ICommand {
-        private string commandName;
-        private string commandDescription;
+    public class Proxy : MarshalByRefObject {
 
-        public AbstractCommand(string commandName, string commandDescription) {
-            this.commandName = commandName;
-            this.commandDescription = commandDescription;
+        public string[] PluginLibs {
+            get; set;
         }
 
-        public abstract bool DoCommand(string[] args);
-
-        public virtual string GetDescription() {
-            return commandDescription;
+        public List<PluginInfo> PluginInfos {
+            get; set;
         }
 
-        public virtual string GetName() {
-            return commandName;
+        public void LoadInfos() {
+            Type pluginType = typeof(IPlugin);
+            foreach (var assemblyPath in PluginLibs) {
+                var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(assemblyPath).FullName);
+                foreach (Type type in assembly.GetExportedTypes()) {
+                    if (type.IsAbstract) {
+                        continue;
+                    }
+                    if (pluginType.IsAssignableFrom(type)) {
+                        PluginInfos.Add(new PluginInfo(assemblyPath, type.FullName));
+                    }
+                }
+            }
         }
     }
 }

@@ -17,26 +17,23 @@
 // ======================================================================
 
 using System;
+using AdvancedLauncher.SDK.Management.Plugins;
 
-namespace AdvancedLauncher.SDK.Management.Commands {
+namespace AdvancedLauncher.Model {
 
-    public abstract class AbstractCommand : MarshalByRefObject, ICommand {
-        private string commandName;
-        private string commandDescription;
+    internal class PluginContainer {
 
-        public AbstractCommand(string commandName, string commandDescription) {
-            this.commandName = commandName;
-            this.commandDescription = commandDescription;
+        public AppDomain Domain {
+            get; private set;
         }
 
-        public abstract bool DoCommand(string[] args);
-
-        public virtual string GetDescription() {
-            return commandDescription;
+        public IPlugin Plugin {
+            get; private set;
         }
 
-        public virtual string GetName() {
-            return commandName;
+        public PluginContainer(AppDomain domain, IPlugin plugin) {
+            Domain = domain;
+            Plugin = plugin;
         }
     }
 }

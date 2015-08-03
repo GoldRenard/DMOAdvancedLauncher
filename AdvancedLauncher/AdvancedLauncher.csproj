@@ -115,6 +115,7 @@
     <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />
+    <Compile Include="Management\PluginManager.cs" />
     <Compile Include="Management\UpdateManager.cs" />
     <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
     <Compile Include="Management\LogManager.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Model\Config\NewsData.cs" />
     <Compile Include="Model\Config\RotationData.cs" />
     <Compile Include="Model\Config\Settings.cs" />
+    <Compile Include="Model\PluginContainer.cs" />
     <Compile Include="Model\Protected\ProxyCredentials.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
@@ -1109,7 +1111,9 @@
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"
-    xcopy /s /y "$(ProjectDir)\NTLea\*.*" "$(TargetDir)"</PostBuildEvent>
+    xcopy /s /y "$(ProjectDir)\NTLea\*.*" "$(TargetDir)"
+    if not exist "$(TargetDir)Plugins" md "$(TargetDir)Plugins"
+    xcopy /s /y "$(SolutionDir)\PluginSample\bin\Debug\PluginSample.*" "$(TargetDir)Plugins"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

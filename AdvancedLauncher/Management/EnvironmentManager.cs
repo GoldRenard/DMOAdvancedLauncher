@@ -54,6 +54,12 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
+        [Inject]
+        public IPluginManager PluginManager {
+            get;
+            set;
+        }
+
         private ISettings _Settings;
 
         public ISettings Settings {
@@ -209,8 +215,7 @@ namespace AdvancedLauncher.Management {
             if (createSettingsFile) {
                 Save();
             }
-            // TODO Figure out how to run plugins in different AppDomains.
-            //ApplyPlugins();
+            PluginManager.Load(Path.Combine(AppPath, PluginsPath));
         }
 
         private void InitializeSafeSettings(ProtectedSettings settings) {
@@ -280,21 +285,6 @@ namespace AdvancedLauncher.Management {
                 settings.Proxy = new ProxySetting();
             }
             pManager.Initialize(settings.Proxy);
-        }
-
-        private void ApplyPlugins() {
-            App.Kernel.Bind(p => {
-                p.FromAssembliesInPath(Path.Combine(AppPath, PluginsPath))
-                .SelectAllClasses()
-                .InheritedFrom<IPlugin>()
-                .BindAllInterfaces()
-                .Configure(c => c.InSingletonScope());
-            });
-
-            IPluginHost host = App.Kernel.Get<IPluginHost>();
-            foreach (IPlugin plugin in App.Kernel.GetAll<IPlugin>()) {
-                plugin.OnActivate(host);
-            }
         }
 
         #endregion Initialization

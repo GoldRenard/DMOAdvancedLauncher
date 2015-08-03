@@ -59,7 +59,11 @@
     <Compile Include="Management\ILanguageManager.cs" />
     <Compile Include="Management\ILoggable.cs" />
     <Compile Include="Management\ILogManager.cs" />
+    <Compile Include="Management\IPluginManager.cs" />
     <Compile Include="Management\IWindowManager.cs" />
+    <Compile Include="Management\Plugins\AbstractPlugin.cs" />
+    <Compile Include="Management\Plugins\PluginInfo.cs" />
+    <Compile Include="Management\Plugins\PluginProxy.cs" />
     <Compile Include="Management\Windows\AbstractWindow.cs" />
     <Compile Include="Management\Windows\IWindow.cs" />
     <Compile Include="Management\Windows\PageItem.cs" />

@@ -24,9 +24,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using AdvancedLauncher.Database;
 using AdvancedLauncher.Model.Proxy;
-using AdvancedLauncher.Providers.Database;
-using AdvancedLauncher.Providers.Database.Context;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model;
@@ -106,6 +105,11 @@ namespace AdvancedLauncher.UI.Controls {
             get; set;
         }
 
+        [Inject]
+        public IDatabaseManager DatabaseManager {
+            get; set;
+        }
+
         public DigiRotation() {
             EventProxy = new WebProviderEventProxy<DigiRotation>(this);
             App.Kernel.Inject(this);
@@ -179,7 +183,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void UpdateModel() {
             IsLoadingAnim(true);
-            using (MainContext context = new MainContext()) {
+            using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                 if (!IsStatic && Guild != null) {
                     //Если не статическое, получаем рандомного дигимона из базы данных
                     Brush MedalColor = null;

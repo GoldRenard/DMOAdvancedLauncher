@@ -18,22 +18,22 @@
 
 using System;
 using System.Threading.Tasks;
-using AdvancedLauncher.Providers.Database.Context;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
-using AdvancedLauncher.SDK.Model.Web;
 
-namespace AdvancedLauncher.Providers {
+namespace AdvancedLauncher.SDK.Model.Web {
 
     public abstract class DatabaseWebProvider : AbstractWebProvider {
+        protected readonly IDatabaseManager DatabaseManager;
 
-        public DatabaseWebProvider(ILogManager logManager) : base(logManager) {
+        public DatabaseWebProvider(IDatabaseManager DatabaseManager, ILogManager logManager) : base(logManager) {
+            this.DatabaseManager = DatabaseManager;
         }
 
         public override Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval) {
             bool fetchCurrent = false;
-            using (MainContext context = new MainContext()) {
+            using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                 Guild storedGuild = context.FindGuild(server, guildName);
                 if (storedGuild != null && !(isDetailed && !storedGuild.IsDetailed) && storedGuild.UpdateTime != null) {
                     TimeSpan timeDiff = (TimeSpan)(DateTime.Now - storedGuild.UpdateTime);
@@ -55,7 +55,7 @@ namespace AdvancedLauncher.Providers {
         public override void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval) {
             bool fetchCurrent = false;
 
-            using (MainContext context = new MainContext()) {
+            using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                 Guild storedGuild = context.FindGuild(server, guildName);
                 if (storedGuild != null && !(isDetailed && !storedGuild.IsDetailed) && storedGuild.UpdateTime != null) {
                     TimeSpan timeDiff = (TimeSpan)(DateTime.Now - storedGuild.UpdateTime);
@@ -66,7 +66,7 @@ namespace AdvancedLauncher.Providers {
             }
             if (fetchCurrent) {
                 Task.Factory.StartNew(() => {
-                    using (MainContext context = new MainContext()) {
+                    using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                         OnStarted();
                         OnStatusChanged(DMODownloadStatusCode.GETTING_GUILD, guildName, 0, 50);
                         Guild storedGuild = context.FetchGuild(server, guildName);
@@ -76,10 +76,6 @@ namespace AdvancedLauncher.Providers {
                 return;
             }
             GetGuildAsync(server, guildName, isDetailed);
-        }
-
-        protected string DownloadContent(string url) {
-            return WebClientEx.DownloadContent(LogManager, url, 5, 15000);
         }
     }
 }

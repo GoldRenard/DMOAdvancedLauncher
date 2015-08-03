@@ -21,10 +21,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using AdvancedLauncher.Providers.Database.Context;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 using HtmlAgilityPack;
 
 namespace AdvancedLauncher.Providers.Korea {
@@ -43,7 +43,7 @@ namespace AdvancedLauncher.Providers.Korea {
         private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://www.digimonmasters.com/ranking/size.aspx";
         private static string STR_URL_STARTER_RANK = "http://www.digimonmasters.com/ranking/partner.aspx?type={1}00&search={0}";
 
-        public KoreaWebProvider(ILogManager logManager) : base(logManager) {
+        public KoreaWebProvider(IDatabaseManager DatabaseManager, ILogManager logManager) : base(DatabaseManager, logManager) {
         }
 
         public override Guild GetGuild(Server server, string guildName, bool isDetailed) {
@@ -87,7 +87,7 @@ namespace AdvancedLauncher.Providers.Korea {
                 }
 
                 List<DigimonType> types = GetDigimonTypes();
-                using (MainContext context = new MainContext()) {
+                using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                     foreach (DigimonType type in types) {
                         context.AddOrUpdateDigimonType(type, true);
                     }
@@ -121,7 +121,7 @@ namespace AdvancedLauncher.Providers.Korea {
             HtmlNode ranking = doc.DocumentNode.SelectNodes("//table[@class='forum_list']//tbody")[1];
             HtmlNodeCollection tlist = ranking.SelectNodes(".//tr");
             if (tlist != null) {
-                using (MainContext context = new MainContext()) {
+                using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                     for (int i = 0; i < tlist.Count; i++) {
                         try {
                             Tamer tamer = new Tamer() {
@@ -199,8 +199,8 @@ namespace AdvancedLauncher.Providers.Korea {
             }
 
             DigimonType type = null;
-            using (MainContext context = new MainContext()) {
-                type = context.FindDigimonTypeBySearchKDMO(MainContext.PrepareDigimonSearch(partner.Name));
+            using (IDatabaseContext context = DatabaseManager.CreateContext()) {
+                type = context.FindDigimonTypeBySearchKDMO(context.PrepareDigimonSearch(partner.Name));
             }
             if (type != null) {
                 partner.Type = type;
@@ -218,7 +218,7 @@ namespace AdvancedLauncher.Providers.Korea {
             HtmlNodeCollection dlist = mercList.SelectNodes(".//tr");
 
             if (dlist != null) {
-                using (MainContext context = new MainContext()) {
+                using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                     for (int i = 1; i < dlist.Count; i++) {
                         Digimon digimonInfo = new Digimon() {
                             Tamer = tamer,
@@ -235,7 +235,7 @@ namespace AdvancedLauncher.Providers.Korea {
                             }
                         }
                         digimonInfo.Rank = Convert.ToInt32(rank);
-                        digimonInfo.Type = context.FindDigimonTypeBySearchKDMO(MainContext.PrepareDigimonSearch(digimonInfo.Name));
+                        digimonInfo.Type = context.FindDigimonTypeBySearchKDMO(context.PrepareDigimonSearch(digimonInfo.Name));
                         if (digimonInfo.Type == null) {
                             continue;
                         }
@@ -363,6 +363,10 @@ namespace AdvancedLauncher.Providers.Korea {
                 }
             }
             return dTypes;
+        }
+
+        protected string DownloadContent(string url) {
+            return WebClientEx.DownloadContent(LogManager, url, 5, 15000);
         }
     }
 }

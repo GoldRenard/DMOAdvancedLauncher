@@ -16,14 +16,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Web;
 
 namespace AdvancedLauncher.Providers.Joymax {
 
     public class JoymaxServersProvider : DatabaseServersProvider {
 
-        public JoymaxServersProvider()
-            : base(Server.ServerType.GDMO) {
+        public JoymaxServersProvider(IDatabaseManager DatabaseManager)
+            : base(DatabaseManager, Server.ServerType.GDMO) {
         }
     }
 }

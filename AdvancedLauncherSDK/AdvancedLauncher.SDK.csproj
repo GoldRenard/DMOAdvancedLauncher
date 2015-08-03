@@ -54,6 +54,8 @@
     <Compile Include="Management\CrossDomainObject.cs" />
     <Compile Include="Management\FileSystemManager.cs" />
     <Compile Include="Management\IConfigurationManager.cs" />
+    <Compile Include="Management\IDatabaseContext.cs" />
+    <Compile Include="Management\IDatabaseManager.cs" />
     <Compile Include="Management\IDialogManager.cs" />
     <Compile Include="Management\IFileSystemManager.cs" />
     <Compile Include="Management\Configuration\IConfiguration.cs" />
@@ -91,6 +93,8 @@
     <Compile Include="Model\Web\AbstractNewsProvider.cs" />
     <Compile Include="Model\Web\AbstractServersProvider.cs" />
     <Compile Include="Model\Web\AbstractWebProvider.cs" />
+    <Compile Include="Model\Web\DatabaseServersProvider.cs" />
+    <Compile Include="Model\Web\DatabaseWebProvider.cs" />
     <Compile Include="Model\Web\ILoginProvider.cs" />
     <Compile Include="Management\Commands\AbstractCommand.cs" />
     <Compile Include="Management\Commands\ICommand.cs" />

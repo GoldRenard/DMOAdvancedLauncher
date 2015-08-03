@@ -16,52 +16,24 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Management {
+using System.Collections.ObjectModel;
+using System.Linq;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Entity;
 
-    public interface IPluginHost : IManager {
+namespace AdvancedLauncher.SDK.Model.Web {
 
-        ILogManager LogManager {
-            get;
+    public abstract class DatabaseServersProvider : AbstractServersProvider {
+        protected readonly IDatabaseManager DatabaseManager;
+
+        public DatabaseServersProvider(IDatabaseManager DatabaseManager, Server.ServerType serverType) : base(serverType) {
+            this.DatabaseManager = DatabaseManager;
         }
 
-        ICommandManager CommandManager {
-            get;
-        }
-
-        IConfigurationManager ConfigurationManager {
-            get;
-        }
-
-        IDialogManager DialogManager {
-            get;
-        }
-
-        ILauncherManager LauncherManager {
-            get;
-        }
-
-        IProfileManager ProfileManager {
-            get;
-        }
-
-        IEnvironmentManager EnvironmentManager {
-            get;
-        }
-
-        ITaskManager TaskManager {
-            get;
-        }
-
-        IUpdateManager UpdateManager {
-            get;
-        }
-
-        IWindowManager WindowManager {
-            get;
-        }
-
-        IDatabaseManager DatabaseManager {
-            get;
+        protected override ReadOnlyCollection<Server> CreateServerList() {
+            using (IDatabaseContext context = DatabaseManager.CreateContext()) {
+                return new ReadOnlyCollection<Server>(context.Servers.Where(i => i.Type == ServerType).ToList());
+            }
         }
     }
 }

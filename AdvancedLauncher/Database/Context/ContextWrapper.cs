@@ -20,94 +20,58 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 
-namespace AdvancedLauncher.Providers.Database.Context {
-    
-    public class MainContext : DbContext {
+namespace AdvancedLauncher.Database.Context {
 
-        #region Constructors
+    public class ContextWrapper : CrossDomainObject, IDatabaseContext {
+        private readonly MainContext Context;
 
-        static MainContext() {
-            System.Data.Entity.Database.SetInitializer<MainContext>(new ContextInitializer());
+        public ContextWrapper(MainContext Context) {
+            this.Context = Context;
         }
 
-        public MainContext() {
-            // default constructor
+        public IQueryable<Digimon> Digimons {
+            get {
+                return Context.Digimons;
+            }
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
-            modelBuilder.Entity<Guild>()
-                .HasRequired(r => r.Server)
-                .WithMany(s => s.Guilds)
-                .HasForeignKey(f => f.ServerId)
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Tamer>()
-                .HasRequired(r => r.Guild)
-                .WithMany(s => s.Tamers)
-                .HasForeignKey(f => f.GuildId)
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Tamer>()
-                .HasOptional(t => t.Type)
-                .WithMany(t => t.Tamers)
-                .HasForeignKey(t => t.TypeId)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Digimon>()
-                .HasRequired(r => r.Tamer)
-                .WithMany(s => s.Digimons)
-                .HasForeignKey(f => f.TamerId)
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Digimon>()
-                .HasRequired(d => d.Type)
-                .WithMany(d => d.Digimons)
-                .HasForeignKey(d => d.TypeId)
-                .WillCascadeOnDelete(false);
+        public IQueryable<DigimonType> DigimonTypes {
+            get {
+                return Context.DigimonTypes;
+            }
         }
 
-        #endregion Constructors
-
-        #region Database sets
-
-        public DbSet<Server> Servers {
-            get;
-            set;
+        public IQueryable<Guild> Guilds {
+            get {
+                return Context.Guilds;
+            }
         }
 
-        public DbSet<Guild> Guilds {
-            get;
-            set;
+        public IQueryable<Server> Servers {
+            get {
+                return Context.Servers;
+            }
         }
 
-        public DbSet<Tamer> Tamers {
-            get;
-            set;
+        public IQueryable<Tamer> Tamers {
+            get {
+                return Context.Tamers;
+            }
         }
 
-        public DbSet<Digimon> Digimons {
-            get;
-            set;
+        public IQueryable<TamerType> TamerTypes {
+            get {
+                return Context.TamerTypes;
+            }
         }
-
-        public DbSet<DigimonType> DigimonTypes {
-            get;
-            set;
-        }
-
-        public DbSet<TamerType> TamerTypes {
-            get;
-            set;
-        }
-
-        #endregion Database sets
 
         #region Guild operations
 
         public Guild FetchGuild(Server server, string name) {
-            return Guilds
+            return Context.Guilds
                 .Include(g => g.Server)
                 .Include(g => g.Tamers)
                 .Include(g => g.Tamers.Select(t => t.Guild))
@@ -119,7 +83,7 @@ namespace AdvancedLauncher.Providers.Database.Context {
         }
 
         public Guild FindGuild(Server server, string name) {
-            return Guilds
+            return Context.Guilds
                 .FirstOrDefault(g => g.Server.Id == server.Id && g.Name == name);
         }
 
@@ -128,12 +92,12 @@ namespace AdvancedLauncher.Providers.Database.Context {
         #region Digimon operations
 
         public Digimon FindRandomDigimon(Guild guild, int minlvl) {
-            return Digimons.Where(e => e.Tamer.Guild.Id == guild.Id && e.Level >= minlvl)
+            return Context.Digimons.Where(e => e.Tamer.Guild.Id == guild.Id && e.Level >= minlvl)
                 .OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();
         }
 
         public Digimon FindRandomDigimon(Tamer tamer, int minlvl) {
-            return Digimons.Where(e => e.Tamer.Id == tamer.Id && e.Level >= minlvl)
+            return Context.Digimons.Where(e => e.Tamer.Id == tamer.Id && e.Level >= minlvl)
                 .OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();
         }
 
@@ -142,7 +106,7 @@ namespace AdvancedLauncher.Providers.Database.Context {
         #region Tamer operations
 
         public Tamer FindTamerByGuildAndName(Guild guild, string name) {
-            return Tamers.FirstOrDefault(e => e.Guild.Id == guild.Id && e.Name == name);
+            return Context.Tamers.FirstOrDefault(e => e.Guild.Id == guild.Id && e.Name == name);
         }
 
         #endregion Tamer operations
@@ -150,7 +114,7 @@ namespace AdvancedLauncher.Providers.Database.Context {
         #region TamerType operations
 
         public TamerType FindTamerTypeByCode(int code) {
-            return TamerTypes.FirstOrDefault(e => e.Code == code);
+            return Context.TamerTypes.FirstOrDefault(e => e.Code == code);
         }
 
         #endregion TamerType operations
@@ -158,39 +122,39 @@ namespace AdvancedLauncher.Providers.Database.Context {
         #region DigimonType operations
 
         public DigimonType FindRandomDigimonType() {
-            return DigimonTypes.OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();
+            return Context.DigimonTypes.OrderBy(c => Guid.NewGuid()).Take(1).FirstOrDefault();
         }
 
         public List<DigimonType> FindDigimonTypesByName(string name) {
-            return DigimonTypes.Where(e => e.Name == name).ToList();
+            return Context.DigimonTypes.Where(e => e.Name == name).ToList();
         }
 
         public List<DigimonType> FindDigimonTypesByKoreanName(string name) {
-            return DigimonTypes.Where(e => e.NameKorean == name).ToList();
+            return Context.DigimonTypes.Where(e => e.NameKorean == name).ToList();
         }
 
         public DigimonType FindDigimonTypeByCode(int code) {
-            return DigimonTypes.FirstOrDefault(e => e.Code == code);
+            return Context.DigimonTypes.FirstOrDefault(e => e.Code == code);
         }
 
         public List<DigimonType> FindDigimonTypesBySearchGDMO(string search) {
-            return DigimonTypes.Where(e => e.SearchGDMO == search).ToList();
+            return Context.DigimonTypes.Where(e => e.SearchGDMO == search).ToList();
         }
 
         public List<DigimonType> FindDigimonTypesBySearchKDMO(string search) {
-            return DigimonTypes.Where(e => e.SearchKDMO == search).ToList();
+            return Context.DigimonTypes.Where(e => e.SearchKDMO == search).ToList();
         }
 
         public DigimonType FindDigimonTypeBySearchGDMO(string search) {
-            return DigimonTypes.FirstOrDefault(e => e.SearchGDMO == search);
+            return Context.DigimonTypes.FirstOrDefault(e => e.SearchGDMO == search);
         }
 
         public DigimonType FindDigimonTypeBySearchKDMO(string search) {
-            return DigimonTypes.FirstOrDefault(e => e.SearchKDMO == search);
+            return Context.DigimonTypes.FirstOrDefault(e => e.SearchKDMO == search);
         }
 
         public void AddOrUpdateDigimonType(DigimonType type, bool isKorean) {
-            DigimonType ordinal = DigimonTypes.FirstOrDefault(e => e.Code == type.Code);
+            DigimonType ordinal = Context.DigimonTypes.FirstOrDefault(e => e.Code == type.Code);
             if (ordinal == null) {
                 if (isKorean) {
                     type.NameKorean = type.Name;
@@ -198,7 +162,7 @@ namespace AdvancedLauncher.Providers.Database.Context {
                 } else {
                     type.SearchGDMO = PrepareDigimonSearch(type.Name);
                 }
-                DigimonTypes.Add(type);
+                Context.DigimonTypes.Add(type);
                 return;
             }
 
@@ -210,7 +174,7 @@ namespace AdvancedLauncher.Providers.Database.Context {
             }
         }
 
-        public static String PrepareDigimonSearch(string name) {
+        public string PrepareDigimonSearch(string name) {
             if (name == null) {
                 return null;
             }
@@ -225,5 +189,29 @@ namespace AdvancedLauncher.Providers.Database.Context {
         }
 
         #endregion DigimonType operations
+
+        #region IDisposable Support
+
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    Context.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public int SaveChanges() {
+            return Context.SaveChanges();
+        }
+
+        #endregion IDisposable Support
     }
 }

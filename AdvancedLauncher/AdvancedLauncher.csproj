@@ -115,9 +115,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\Context\ContextInitializer.cs" />
+    <Compile Include="Database\Context\ContextWrapper.cs" />
+    <Compile Include="Database\Context\MainContext.cs" />
+    <Compile Include="Database\MergeHelper.cs" />
+    <Compile Include="Database\Migrations\201503251143011_InitialMigration.cs" />
+    <Compile Include="Database\Migrations\201503251143011_InitialMigration.Designer.cs">
+      <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />
+    <Compile Include="Management\DatabaseManager.cs" />
     <Compile Include="Management\PluginManager.cs" />
     <Compile Include="Management\UpdateManager.cs" />
     <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
@@ -391,6 +401,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Database\Migrations\201503251143011_InitialMigration.resx">
+      <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

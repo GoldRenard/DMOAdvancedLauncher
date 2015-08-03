@@ -43,6 +43,7 @@ namespace AdvancedLauncher.Tools {
             Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ILogManager>().To<LogManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<IDatabaseManager>().To<DatabaseManager>().InSingletonScope().OnActivation(m => m.Initialize());
 
             // Multiinstance services
             Bind<IUpdateManager>().To<UpdateManager>().OnActivation(m => m.Initialize());

@@ -31,6 +31,11 @@ namespace AdvancedLauncher.Management.Configuration {
             get; set;
         }
 
+        [Inject]
+        public IDatabaseManager DatabaseManager {
+            get; set;
+        }
+
         #region Common
 
         public override string Name {
@@ -114,7 +119,7 @@ namespace AdvancedLauncher.Management.Configuration {
         #region Providers
 
         public override IWebProvider CreateWebProvider() {
-            return new JoymaxWebProvider(LogManager);
+            return new JoymaxWebProvider(DatabaseManager, LogManager);
         }
 
         public override INewsProvider CreateNewsProvider() {
@@ -122,7 +127,7 @@ namespace AdvancedLauncher.Management.Configuration {
         }
 
         protected override IServersProvider CreateServersProvider() {
-            return new JoymaxServersProvider();
+            return new JoymaxServersProvider(DatabaseManager);
         }
 
         public override bool IsLoginRequired {

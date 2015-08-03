@@ -18,9 +18,9 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using AdvancedLauncher.Database;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.Model.Proxy;
-using AdvancedLauncher.Providers.Database;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;

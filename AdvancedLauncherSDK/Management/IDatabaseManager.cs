@@ -16,23 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.ObjectModel;
-using System.Linq;
-using AdvancedLauncher.Providers.Database.Context;
-using AdvancedLauncher.SDK.Model.Entity;
-using AdvancedLauncher.SDK.Model.Web;
+namespace AdvancedLauncher.SDK.Management {
 
-namespace AdvancedLauncher.Providers {
+    public interface IDatabaseManager : IManager {
 
-    public abstract class DatabaseServersProvider : AbstractServersProvider {
-
-        public DatabaseServersProvider(Server.ServerType serverType) : base(serverType) {
-        }
-
-        protected override ReadOnlyCollection<Server> CreateServerList() {
-            using (MainContext context = new MainContext()) {
-                return new ReadOnlyCollection<Server>(context.Servers.Where(i => i.Type == ServerType).ToList());
-            }
-        }
+        IDatabaseContext CreateContext();
     }
 }

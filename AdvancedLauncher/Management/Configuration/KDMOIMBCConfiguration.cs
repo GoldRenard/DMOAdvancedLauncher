@@ -42,7 +42,7 @@ namespace AdvancedLauncher.Management.Configuration {
         }
 
         protected override IServersProvider CreateServersProvider() {
-            return new KoreaIMBCServersProvider();
+            return new KoreaIMBCServersProvider(DatabaseManager);
         }
 
         public override ILoginProvider CreateLoginProvider() {

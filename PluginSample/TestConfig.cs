@@ -7,9 +7,11 @@ namespace PluginSample {
 
     public class TestConfig : AbstractConfiguration {
         private readonly ILogManager LogManager;
+        private readonly IDatabaseManager DatabaseManager;
 
-        public TestConfig(ILogManager LogManager) {
+        public TestConfig(IDatabaseManager DatabaseManager, ILogManager LogManager) {
             this.LogManager = LogManager;
+            this.DatabaseManager = DatabaseManager;
         }
 
         #region Common
@@ -95,7 +97,7 @@ namespace PluginSample {
         #region Providers
 
         public override IWebProvider CreateWebProvider() {
-            return new JoymaxWebProvider(LogManager);
+            return new JoymaxWebProvider(DatabaseManager, LogManager);
         }
 
         public override INewsProvider CreateNewsProvider() {
@@ -103,7 +105,7 @@ namespace PluginSample {
         }
 
         protected override IServersProvider CreateServersProvider() {
-            return new JoymaxServersProvider();
+            return new JoymaxServersProvider(DatabaseManager);
         }
 
         public override bool IsLoginRequired {

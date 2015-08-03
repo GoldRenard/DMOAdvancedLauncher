@@ -16,52 +16,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Management {
+using AdvancedLauncher.Database.Context;
+using AdvancedLauncher.SDK.Management;
 
-    public interface IPluginHost : IManager {
+namespace AdvancedLauncher.Management {
 
-        ILogManager LogManager {
-            get;
+    public class DatabaseManager : CrossDomainObject, IDatabaseManager {
+
+        public IDatabaseContext CreateContext() {
+            return new ContextWrapper(new MainContext());
         }
 
-        ICommandManager CommandManager {
-            get;
-        }
-
-        IConfigurationManager ConfigurationManager {
-            get;
-        }
-
-        IDialogManager DialogManager {
-            get;
-        }
-
-        ILauncherManager LauncherManager {
-            get;
-        }
-
-        IProfileManager ProfileManager {
-            get;
-        }
-
-        IEnvironmentManager EnvironmentManager {
-            get;
-        }
-
-        ITaskManager TaskManager {
-            get;
-        }
-
-        IUpdateManager UpdateManager {
-            get;
-        }
-
-        IWindowManager WindowManager {
-            get;
-        }
-
-        IDatabaseManager DatabaseManager {
-            get;
+        public void Initialize() {
+            // nothing to do
         }
     }
 }

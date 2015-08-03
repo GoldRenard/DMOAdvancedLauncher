@@ -83,6 +83,12 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
+        [Inject]
+        public IDatabaseManager DatabaseManager {
+            get;
+            set;
+        }
+
         public void Initialize() {
             // nothing to do
         }

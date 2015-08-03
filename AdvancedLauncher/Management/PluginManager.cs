@@ -135,7 +135,7 @@ namespace AdvancedLauncher.Management {
                 plugin.OnActivate(PluginHost);
                 PluginContainer container = new PluginContainer(domain, plugin);
                 Plugins.Add(pluginName, container);
-            } catch (Exception e) {
+            } catch (Exception) {
                 AppDomain.Unload(domain);
                 return;
             }

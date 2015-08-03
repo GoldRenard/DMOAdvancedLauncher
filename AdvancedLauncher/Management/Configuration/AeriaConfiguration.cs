@@ -31,6 +31,11 @@ namespace AdvancedLauncher.Management.Configuration {
             get; set;
         }
 
+        [Inject]
+        public IDatabaseManager DatabaseManager {
+            get; set;
+        }
+
         #region Common
 
         public override string Name {
@@ -114,7 +119,7 @@ namespace AdvancedLauncher.Management.Configuration {
         }
 
         protected override IServersProvider CreateServersProvider() {
-            return new AeriaServersProvider();
+            return new AeriaServersProvider(DatabaseManager);
         }
 
         public override bool IsLoginRequired {

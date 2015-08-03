@@ -58,7 +58,7 @@ namespace PluginSample {
 
         public override void OnActivate(IPluginHost PluginHost) {
             DoItCommand = new TestCommand(PluginHost);
-            Configuration = new TestConfig(PluginHost.LogManager);
+            Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
             PluginHost.CommandManager.RegisterCommand(DoItCommand);
             PluginHost.ConfigurationManager.RegisterConfiguration(Configuration);
         }

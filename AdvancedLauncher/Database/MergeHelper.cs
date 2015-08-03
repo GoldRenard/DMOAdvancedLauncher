@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AdvancedLauncher.Providers.Database.Context;
+using AdvancedLauncher.Database.Context;
 using AdvancedLauncher.SDK.Model.Entity;
 
-namespace AdvancedLauncher.Providers.Database {
+namespace AdvancedLauncher.Database {
 
     public static class MergeHelper {
         private static object MERGE_LOCKER = new object();

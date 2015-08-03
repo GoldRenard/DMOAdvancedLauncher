@@ -1,4 +1,4 @@
-namespace AdvancedLauncher.Providers.Database.Migrations {
+namespace AdvancedLauncher.Database.Migrations {
 
     using System.Data.Entity.Migrations;
 

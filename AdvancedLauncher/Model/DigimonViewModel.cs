@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Threading;
-using AdvancedLauncher.Providers.Database.Context;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.Tools;
 using Ninject;
@@ -43,7 +43,7 @@ namespace AdvancedLauncher.Model {
             }
             items = new List<DigimonItemViewModel>();
             BindingOperations.EnableCollectionSynchronization(items, _stocksLock);
-            using (MainContext context = new MainContext()) {
+            using (IDatabaseContext context = App.Kernel.Get<IDatabaseManager>().CreateContext()) {
                 foreach (Digimon item in tamer.Digimons) {
                     dtype = context.FindDigimonTypeByCode(item.Type.Code);
                     typeName = dtype.Name;

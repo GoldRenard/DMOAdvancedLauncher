@@ -32,6 +32,12 @@ namespace AdvancedLauncher.Management {
     internal sealed class PluginManager {
 
         [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get;
+            set;
+        }
+
+        [Inject]
         public IPluginHost PluginHost {
             get;
             set;
@@ -39,8 +45,8 @@ namespace AdvancedLauncher.Management {
 
         private Dictionary<string, PluginContainer> Plugins = new Dictionary<string, PluginContainer>();
 
-        public void Load(string pluginsDirectory) {
-            var pluginInfos = LoadFrom(pluginsDirectory);
+        public void Load() {
+            var pluginInfos = LoadFrom(EnvironmentManager.PluginsPath);
             foreach (PluginInfo pluginInfo in pluginInfos) {
                 LoadPlugin(pluginInfo);
             }
@@ -51,16 +57,16 @@ namespace AdvancedLauncher.Management {
 
             AppDomainSetup domainSetup = new AppDomainSetup();
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-            domainSetup.PrivateBinPath = "Plugins";
+            domainSetup.PrivateBinPath = "Plugins;bin";
 
-            PermissionSet permmisions = new PermissionSet(PermissionState.None);
-            permmisions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
-            permmisions.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
-            permmisions.AddPermission(new UIPermission(UIPermissionWindow.AllWindows));
-            permmisions.AddPermission(new FileIOPermission(FileIOPermissionAccess.PathDiscovery | FileIOPermissionAccess.Read, pluginList));
+            PermissionSet permissions = new PermissionSet(PermissionState.None);
+            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
+            permissions.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution | SecurityPermissionFlag.Infrastructure));
+            permissions.AddPermission(new UIPermission(UIPermissionWindow.AllWindows));
+            permissions.AddPermission(new FileIOPermission(FileIOPermissionAccess.PathDiscovery | FileIOPermissionAccess.Read, pluginList));
 
             List<PluginInfo> result;
-            var pluginLoader = AppDomain.CreateDomain("PluginLoader", null, domainSetup, permmisions);
+            var pluginLoader = AppDomain.CreateDomain("PluginLoader", null, domainSetup, permissions);
             try {
                 string engineAssemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AdvancedLauncher.SDK.dll");
                 Proxy proxy = (Proxy)pluginLoader.CreateInstanceAndUnwrap(AssemblyName.GetAssemblyName(engineAssemblyPath).FullName, typeof(Proxy).FullName);
@@ -77,28 +83,41 @@ namespace AdvancedLauncher.Management {
         private void LoadPlugin(PluginInfo info) {
             AppDomainSetup domainSetup = new AppDomainSetup();
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-            domainSetup.PrivateBinPath = "plugins;bin";
+            domainSetup.PrivateBinPath = "Plugins;bin";
 
-            PermissionSet permmisions = new PermissionSet(PermissionState.None);
-            permmisions.AddPermission(new UIPermission(PermissionState.Unrestricted));
+            PermissionSet permissions = new PermissionSet(PermissionState.None);
+            permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
 
-            permmisions.AddPermission(new SecurityPermission(
+            permissions.AddPermission(new SecurityPermission(
               SecurityPermissionFlag.Execution |
               SecurityPermissionFlag.UnmanagedCode |
               SecurityPermissionFlag.SerializationFormatter |
               SecurityPermissionFlag.Assertion));
 
-            permmisions.AddPermission(new FileIOPermission(
+            permissions.AddPermission(new FileIOPermission(
               FileIOPermissionAccess.PathDiscovery |
               FileIOPermissionAccess.Write |
               FileIOPermissionAccess.Read,
               AppDomain.CurrentDomain.BaseDirectory));
 
+            // database file access
+            permissions.AddPermission(new FileIOPermission(
+              FileIOPermissionAccess.AllAccess,
+              EnvironmentManager.DatabaseFile));
+
+            // EF6 requeired permission
+            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
+
+            // debug = REMOVE
+            //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
+            //permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
+
             AppDomain domain = AppDomain.CreateDomain(
               string.Format("PluginDomain [{0}]", Path.GetFileNameWithoutExtension(info.AssemblyPath)),
               null,
               domainSetup,
-              permmisions);
+              permissions);
+            domain.SetData("DataDirectory", EnvironmentManager.AppDataPath);
 
             string pluginName = string.Empty;
             try {

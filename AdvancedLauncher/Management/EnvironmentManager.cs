@@ -61,22 +61,14 @@ namespace AdvancedLauncher.Management {
 
         #region Environment Properties
 
-        private string _AppPath = null;
-
         public string AppPath {
-            get {
-                if (_AppPath == null) {
-                    _AppPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-                }
-                return _AppPath;
-            }
+            get;
+            private set;
         }
 
         public string AppDataPath {
-            get {
-                return InitFolder(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData),
-                    Path.Combine("GoldRenard", "AdvancedLauncher"));
-            }
+            get;
+            private set;
         }
 
         private string _SettingsFile = null;
@@ -112,47 +104,29 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private string _LanguagesPath = null;
-
         public string LanguagesPath {
-            get {
-                if (_LanguagesPath == null) {
-                    _LanguagesPath = InitFolder(AppPath, LOCALE_DIR);
-                }
-                return _LanguagesPath;
-            }
+            get;
+            private set;
         }
-
-        private string _Resources3rdPath = null;
 
         public string Resources3rdPath {
-            get {
-                if (_Resources3rdPath == null) {
-                    _Resources3rdPath = InitFolder(AppDataPath, RESOURCE_DIR);
-                }
-                return _Resources3rdPath;
-            }
+            get;
+            private set;
         }
-
-        private string _ResourcesPath = null;
 
         public string ResourcesPath {
-            get {
-                if (_ResourcesPath == null) {
-                    _ResourcesPath = InitFolder(AppPath, RESOURCE_DIR);
-                }
-                return _ResourcesPath;
-            }
+            get;
+            private set;
         }
 
-        private string _PluginsPath = null;
-
         public string PluginsPath {
+            get;
+            private set;
+        }
+
+        public string DatabaseFile {
             get {
-                if (_PluginsPath == null) {
-                    _PluginsPath = InitFolder(AppPath, PLUGINS_DIR);
-                }
-                return _PluginsPath;
+                return Path.Combine(AppDataPath, "MainDatabase.sdf");
             }
         }
 
@@ -181,6 +155,13 @@ namespace AdvancedLauncher.Management {
         #region Initialization
 
         public void Initialize() {
+            AppPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            AppDataPath = InitFolder(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Path.Combine("GoldRenard", "AdvancedLauncher"));
+            LanguagesPath = InitFolder(AppPath, LOCALE_DIR);
+            Resources3rdPath = InitFolder(AppDataPath, RESOURCE_DIR);
+            ResourcesPath = InitFolder(AppPath, RESOURCE_DIR);
+            PluginsPath = InitFolder(AppPath, PLUGINS_DIR);
+            
             AppDomain.CurrentDomain.SetData("DataDirectory", AppDataPath);
 
             // Initialize ProtectedSettings entity
@@ -206,7 +187,6 @@ namespace AdvancedLauncher.Management {
             if (createSettingsFile) {
                 Save();
             }
-            App.Kernel.Get<PluginManager>().Load(Path.Combine(AppPath, PluginsPath));
         }
 
         private void InitializeSafeSettings(ProtectedSettings settings) {

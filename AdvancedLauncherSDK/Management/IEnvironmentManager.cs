@@ -63,6 +63,10 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
+        string DatabaseFile {
+            get;
+        }
+
         void Save();
 
         string ResolveResource(string folder, string file, string downloadUrl = null);

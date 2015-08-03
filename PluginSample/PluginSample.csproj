@@ -42,12 +42,22 @@
   <ItemGroup>
     <Compile Include="MainPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AdvancedLauncherProviders\AdvancedLauncher.Providers.csproj">
+      <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
+      <Name>AdvancedLauncher.Providers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AdvancedLauncherSDK\AdvancedLauncher.SDK.csproj">
       <Project>{d1e7d106-9909-4162-9d22-8798317915af}</Project>
       <Name>AdvancedLauncher.SDK</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

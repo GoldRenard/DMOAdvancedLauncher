@@ -150,10 +150,8 @@
                                 </TextBox.Text>
                             </TextBox>
                             <ComboBox Grid.Column="1" x:Name="ComboBoxServer" Width="115" HorizontalAlignment="Right"
-                                      ItemsSource="{Binding ElementName=ConfigurationCb, Path=SelectedItem.ServersProvider.ServerList}"
                                       SelectedValue="{Binding ElementName=ProfileList, Path=SelectedValue.Rotation.ServerId, Mode=TwoWay}"
                                       SelectedValuePath="Identifier"
-                                      DisplayMemberPath="Name"
                                       IsSynchronizedWithCurrentItem="True" />
                         </Grid>
                         <TextBox Margin="0,5,0,0"

@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -85,6 +86,11 @@ namespace AdvancedLauncher.UI.Windows {
             }
         }
 
+        public ObservableCollection<Server> ServerList {
+            get;
+            set;
+        } = new ObservableCollection<Server>();
+
         private Dictionary<Profile, LoginData> Credentials = new Dictionary<Profile, LoginData>();
 
         public Settings() {
@@ -94,6 +100,7 @@ namespace AdvancedLauncher.UI.Windows {
                 ProfileList.DataContext = ProfileManager;
                 ProfileList.ItemsSource = ProfileManager.PendingProfiles;
                 ConfigurationCb.ItemsSource = ConfigurationManager;
+                ComboBoxServer.ItemsSource = ServerList;
             }
         }
 
@@ -152,9 +159,14 @@ namespace AdvancedLauncher.UI.Windows {
             IConfiguration config = ConfigurationCb.SelectedItem as IConfiguration;
             if (config != null && profile != null) {
                 if (config.IsWebAvailable) {
-                    Server serv = config.ServersProvider.ServerList.FirstOrDefault();
-                    if (serv != null) {
-                        profile.Rotation.ServerId = serv.Identifier;
+                    ComboBoxServer.SelectedIndex = -1;
+                    ServerList.Clear();
+                    if (config.ServersProvider.ServerList.Count > 0) {
+                        // Construct new list to avoid plugin's transparent proxy issues
+                        foreach (Server server in config.ServersProvider.ServerList) {
+                            ServerList.Add(new Server(server));
+                        }
+                        ComboBoxServer.SelectedIndex = 0;
                     }
                 }
             }

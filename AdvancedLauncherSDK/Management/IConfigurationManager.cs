@@ -55,6 +55,8 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool UnRegisterConfiguration(string name);
 
+        bool UnRegisterConfiguration(IConfiguration configuration);
+
         void UpdateRegistryPaths(GameModel model);
     }
 }

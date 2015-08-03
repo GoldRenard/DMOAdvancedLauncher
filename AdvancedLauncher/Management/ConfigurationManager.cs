@@ -216,6 +216,13 @@ namespace AdvancedLauncher.Management {
             return Configurations.TryRemove(name, out configuration);
         }
 
+        public bool UnRegisterConfiguration(IConfiguration configuration) {
+            if (configuration == null) {
+                throw new ArgumentException("configuration argument cannot be null");
+            }
+            return Configurations.TryRemove(configuration.Name, out configuration);
+        }
+
         public void UpdateRegistryPaths(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");

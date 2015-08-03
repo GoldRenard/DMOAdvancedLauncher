@@ -20,7 +20,7 @@ namespace AdvancedLauncher.Providers.Database.Migrations {
 
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<AdvancedLauncher.Providers.Database.Context.MainContext> {
+    public sealed class Configuration : DbMigrationsConfiguration<AdvancedLauncher.Providers.Database.Context.MainContext> {
 
         public Configuration() {
             AutomaticMigrationsEnabled = true;

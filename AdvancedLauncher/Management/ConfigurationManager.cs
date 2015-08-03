@@ -24,6 +24,7 @@ using System.IO;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
 using Microsoft.Win32;
 using Ninject;
@@ -36,6 +37,10 @@ namespace AdvancedLauncher.Management {
         private const string puImportDir = @"Pack01";
 
         private ConcurrentDictionary<string, IConfiguration> Configurations = new ConcurrentDictionary<string, IConfiguration>();
+
+        public event ConfigurationChangedEventHandler ConfigurationRegistered;
+
+        public event ConfigurationChangedEventHandler ConfigurationUnRegistered;
 
         public void Initialize() {
             foreach (IConfiguration config in App.Kernel.GetAll<IConfiguration>()) {
@@ -205,7 +210,12 @@ namespace AdvancedLauncher.Management {
             if (Configurations.ContainsKey(configuration.GameType)) {
                 throw new Exception(String.Format("Configuration with type {0} already registered!", configuration.GameType));
             }
-            return Configurations.TryAdd(configuration.GameType, configuration);
+
+            bool result = Configurations.TryAdd(configuration.GameType, configuration);
+            if (result) {
+                OnConfigurationRegistered(configuration);
+            }
+            return result;
         }
 
         public bool UnRegisterConfiguration(string name) {
@@ -213,14 +223,22 @@ namespace AdvancedLauncher.Management {
                 throw new ArgumentException("name argument cannot be null");
             }
             IConfiguration configuration;
-            return Configurations.TryRemove(name, out configuration);
+            bool result = Configurations.TryRemove(name, out configuration);
+            if (result) {
+                OnConfigurationUnRegistered(configuration);
+            }
+            return result;
         }
 
         public bool UnRegisterConfiguration(IConfiguration configuration) {
             if (configuration == null) {
                 throw new ArgumentException("configuration argument cannot be null");
             }
-            return Configurations.TryRemove(configuration.Name, out configuration);
+            bool result = Configurations.TryRemove(configuration.Name, out configuration);
+            if (result) {
+                OnConfigurationUnRegistered(configuration);
+            }
+            return result;
         }
 
         public void UpdateRegistryPaths(GameModel model) {
@@ -250,6 +268,18 @@ namespace AdvancedLauncher.Management {
 
         IEnumerator IEnumerable.GetEnumerator() {
             return Configurations.Values.GetEnumerator();
+        }
+
+        protected virtual void OnConfigurationRegistered(IConfiguration configuration) {
+            if (ConfigurationRegistered != null) {
+                ConfigurationRegistered(this, new ConfigurationChangedEventArgs(configuration));
+            }
+        }
+
+        protected virtual void OnConfigurationUnRegistered(IConfiguration configuration) {
+            if (ConfigurationUnRegistered != null) {
+                ConfigurationUnRegistered(this, new ConfigurationChangedEventArgs(configuration));
+            }
         }
 
         #endregion Getters/Setters

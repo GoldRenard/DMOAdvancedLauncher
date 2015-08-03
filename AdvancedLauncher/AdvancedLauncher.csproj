@@ -125,6 +125,7 @@
     <Compile Include="Management\WindowManager.cs" />
     <Compile Include="Model\AbstractContainerViewModel.cs" />
     <Compile Include="Model\AbstractItemViewModel.cs" />
+    <Compile Include="Model\ConfigurationViewModel.cs" />
     <Compile Include="Model\Config\Profile.cs" />
     <Compile Include="Model\PluginContainer.cs" />
     <Compile Include="Model\Protected\ProxyCredentials.cs" />

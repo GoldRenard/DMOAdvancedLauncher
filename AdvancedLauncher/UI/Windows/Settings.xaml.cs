@@ -29,6 +29,7 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Model;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
@@ -91,6 +92,11 @@ namespace AdvancedLauncher.UI.Windows {
             set;
         } = new ObservableCollection<Server>();
 
+        public ObservableCollection<ConfigurationViewModel> Configurations {
+            get;
+            set;
+        } = new ObservableCollection<ConfigurationViewModel>();
+
         private Dictionary<Profile, LoginData> Credentials = new Dictionary<Profile, LoginData>();
 
         public Settings() {
@@ -99,9 +105,26 @@ namespace AdvancedLauncher.UI.Windows {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
                 ProfileList.DataContext = ProfileManager;
                 ProfileList.ItemsSource = ProfileManager.PendingProfiles;
-                ConfigurationCb.ItemsSource = ConfigurationManager;
                 ComboBoxServer.ItemsSource = ServerList;
+                SetUpConfigurations();
             }
+        }
+
+        private void SetUpConfigurations() {
+            // Construct new list to avoid plugin's transparent proxy issues
+            ConfigurationCb.ItemsSource = Configurations;
+            foreach (IConfiguration configuration in ConfigurationManager) {
+                Configurations.Add(new ConfigurationViewModel(configuration));
+            }
+            ConfigurationManager.ConfigurationRegistered += (s, e) => {
+                Configurations.Add(new ConfigurationViewModel(e.Configuration));
+            };
+            ConfigurationManager.ConfigurationUnRegistered += (s, e) => {
+                ConfigurationViewModel viewModel = Configurations.FirstOrDefault(c => c.Configuration.Equals(e.Configuration));
+                if (viewModel != null) {
+                    Configurations.Remove(viewModel);
+                }
+            };
         }
 
         public override void OnShow() {
@@ -156,14 +179,14 @@ namespace AdvancedLauncher.UI.Windows {
 
         private void OnTypeSelectionChanged(object sender, SelectionChangedEventArgs e) {
             Profile profile = SelectedProfile;
-            IConfiguration config = ConfigurationCb.SelectedItem as IConfiguration;
+            ConfigurationViewModel config = ConfigurationCb.SelectedItem as ConfigurationViewModel;
             if (config != null && profile != null) {
                 if (config.IsWebAvailable) {
                     ComboBoxServer.SelectedIndex = -1;
                     ServerList.Clear();
-                    if (config.ServersProvider.ServerList.Count > 0) {
+                    if (config.Configuration.ServersProvider.ServerList.Count > 0) {
                         // Construct new list to avoid plugin's transparent proxy issues
-                        foreach (Server server in config.ServersProvider.ServerList) {
+                        foreach (Server server in config.Configuration.ServersProvider.ServerList) {
                             ServerList.Add(new Server(server));
                         }
                         ComboBoxServer.SelectedIndex = 0;

@@ -20,6 +20,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management {
 
@@ -58,5 +59,9 @@ namespace AdvancedLauncher.SDK.Management {
         bool UnRegisterConfiguration(IConfiguration configuration);
 
         void UpdateRegistryPaths(GameModel model);
+
+        event ConfigurationChangedEventHandler ConfigurationRegistered;
+
+        event ConfigurationChangedEventHandler ConfigurationUnRegistered;
     }
 }

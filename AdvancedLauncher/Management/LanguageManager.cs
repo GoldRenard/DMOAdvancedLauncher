@@ -29,7 +29,7 @@ using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.Management {
 
-    internal sealed class LanguageManager : ILanguageManager {
+    internal sealed class LanguageManager : CrossDomainObject, ILanguageManager {
         public const string DefaultName = "en-US";
 
         public static LanguageModel Default = new LanguageModel();

@@ -62,7 +62,7 @@ namespace AdvancedLauncher.Model.Protected {
         public ProtectedSettings() {
         }
 
-        public ProtectedSettings(ISettings settings) {
+        public ProtectedSettings(Settings settings) {
             this.Language = settings.LanguageFile;
             this.AppTheme = settings.AppTheme;
             this.ThemeAccent = settings.ThemeAccent;

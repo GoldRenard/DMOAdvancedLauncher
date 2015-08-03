@@ -25,7 +25,7 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
-    public abstract class AbstractWebProvider : IWebProvider {
+    public abstract class AbstractWebProvider : CrossDomainObject, IWebProvider {
 
         protected ILogManager LogManager {
             get;
@@ -54,6 +54,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
          * 4 - web page is not supported or guild not found
          * */
 
+        // TODO What's happening with Dispatcher across domains?
         protected System.Windows.Threading.Dispatcher OwnerDispatcher;
 
         public event EventHandler DownloadStarted;

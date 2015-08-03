@@ -21,7 +21,7 @@ using Microsoft.Win32;
 
 namespace AdvancedLauncher.SDK.Management.Configuration {
 
-    public abstract class AbstractConfiguration : IConfiguration {
+    public abstract class AbstractConfiguration : CrossDomainObject, IConfiguration {
         private IServersProvider _ServersProvider;
 
         public abstract string Name {

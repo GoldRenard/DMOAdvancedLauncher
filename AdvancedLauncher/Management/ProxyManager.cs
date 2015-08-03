@@ -22,7 +22,7 @@ using AdvancedLauncher.Providers;
 
 namespace AdvancedLauncher.Management {
 
-    internal class ProxyManager {
+    internal sealed class ProxyManager {
 
         public ProxySetting Settings {
             get;

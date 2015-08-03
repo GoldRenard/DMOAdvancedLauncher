@@ -138,7 +138,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void ReloadNews(object sender, EventArgs e) {
-            IProfile currentProfile = ProfileManager.CurrentProfile;
+            Profile currentProfile = ProfileManager.CurrentProfile;
             if (_jsonUrl != currentProfile.News.TwitterUrl) {
                 _jsonUrl = currentProfile.News.TwitterUrl;
             }

@@ -16,22 +16,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Model.Config {
+using System;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 
-    public interface ISettings {
+namespace AdvancedLauncher.SDK.Management {
 
-        string LanguageFile {
-            get; set;
-        }
+    public interface IUpdateManager : IManager {
 
-        string AppTheme {
-            get; set;
-        }
+        VersionPair CheckUpdates(GameModel model);
 
-        string ThemeAccent {
-            get; set;
-        }
+        bool ImportPackages(GameModel model);
 
-        void MergeConfig(ISettings source);
+        bool DownloadUpdates(GameModel model, VersionPair versionPair);
+
+        event EventHandler FileSystemOpenError;
+
+        event UpdateStatusEventHandler StatusChanged;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using AdvancedLauncher.Model.Config;
+using AdvancedLauncher.SDK.Model.Config;
 
 namespace AdvancedLauncher.UI.Extension {
 

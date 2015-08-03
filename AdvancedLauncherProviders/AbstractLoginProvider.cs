@@ -25,7 +25,7 @@ using HtmlAgilityPack;
 
 namespace AdvancedLauncher.Providers {
 
-    public abstract class AbstractLoginProvider : ILoginProvider {
+    public abstract class AbstractLoginProvider : CrossDomainObject, ILoginProvider {
         protected string UserId;
 
         protected SecureString Password;

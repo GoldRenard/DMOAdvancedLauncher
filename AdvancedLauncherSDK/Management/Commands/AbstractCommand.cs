@@ -16,11 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-
 namespace AdvancedLauncher.SDK.Management.Commands {
 
-    public abstract class AbstractCommand : MarshalByRefObject, ICommand {
+    public abstract class AbstractCommand : CrossDomainObject, ICommand {
         private string commandName;
         private string commandDescription;
 

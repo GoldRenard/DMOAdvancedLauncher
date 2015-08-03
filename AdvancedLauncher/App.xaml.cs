@@ -50,7 +50,7 @@ namespace AdvancedLauncher {
                     // initialization sequence
                     Kernel.Get<IEnvironmentManager>();
                     Kernel.Get<Splashscreen>().Show();
-                    Kernel.Get<IWindowManager>();
+                    Kernel.Get<IWindowManager>().Start();
                 } else {
                     Application.Current.Shutdown();
                 }

@@ -140,7 +140,7 @@ namespace AdvancedLauncher.UI.Controls {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             }));
 
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
 
             //Проверяем наличие необходимых файлов игры
             if (!ConfigurationManager.CheckGame(model)) {
@@ -181,7 +181,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private async Task<bool> ImportPackages() {
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
             if (Directory.Exists(ConfigurationManager.GetImportPath(model))) {
                 if (ProfileManager.CurrentProfile.UpdateEngineEnabled) {
                     ShowProgressBar();
@@ -275,8 +275,8 @@ namespace AdvancedLauncher.UI.Controls {
         private void StartGame(string args) {
             StartButton.IsEnabled = false;
 
-            IProfile currentProfile = ProfileManager.CurrentProfile;
-            IGameModel model = currentProfile.GameModel;
+            Profile currentProfile = ProfileManager.CurrentProfile;
+            GameModel model = currentProfile.GameModel;
             IConfiguration configuration = ConfigurationManager.GetConfiguration(model);
             ILauncher launcher = LauncherManager.GetLauncher(currentProfile);
             ConfigurationManager.UpdateRegistryPaths(model);

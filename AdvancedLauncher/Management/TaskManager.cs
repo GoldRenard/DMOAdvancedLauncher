@@ -27,7 +27,7 @@ namespace AdvancedLauncher.Management {
 
     /// <summary> Данный класс реализует своеобразный менеджер задач,
     /// цель которого - не дать приложению закрыться, пока есть хоть одна задача </summary>
-    public class TaskManager : ITaskManager {
+    public class TaskManager : CrossDomainObject, ITaskManager {
 
         public void Initialize() {
             // nothing to do here

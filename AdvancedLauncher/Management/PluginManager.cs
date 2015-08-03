@@ -29,7 +29,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class PluginManager : IPluginManager {
+    internal sealed class PluginManager {
 
         [Inject]
         public IPluginHost PluginHost {
@@ -38,10 +38,6 @@ namespace AdvancedLauncher.Management {
         }
 
         private Dictionary<string, PluginContainer> Plugins = new Dictionary<string, PluginContainer>();
-
-        public void Initialize() {
-            // nothing to do
-        }
 
         public void Load(string pluginsDirectory) {
             var pluginInfos = LoadFrom(pluginsDirectory);
@@ -106,7 +102,7 @@ namespace AdvancedLauncher.Management {
 
             string pluginName = string.Empty;
             try {
-                IPlugin plugin = (IPlugin) domain.CreateInstanceFromAndUnwrap(info.AssemblyPath, info.TypeName);
+                IPlugin plugin = (IPlugin)domain.CreateInstanceFromAndUnwrap(info.AssemblyPath, info.TypeName);
                 pluginName = plugin.Name;
 
                 if (Plugins.ContainsKey(pluginName)) {

@@ -30,7 +30,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class ConfigurationManager : IConfigurationManager {
+    public class ConfigurationManager : CrossDomainObject, IConfigurationManager {
         private const string puPF = @"Data\Pack01.pf";
         private const string puHF = @"Data\Pack01.hf";
         private const string puImportDir = @"Pack01";
@@ -45,7 +45,7 @@ namespace AdvancedLauncher.Management {
 
         #region Check Section
 
-        public bool CheckGame(IGameModel model) {
+        public bool CheckGame(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -63,7 +63,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public bool CheckLauncher(IGameModel model) {
+        public bool CheckLauncher(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -78,7 +78,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public bool CheckUpdateAccess(IGameModel model) {
+        public bool CheckUpdateAccess(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -89,7 +89,7 @@ namespace AdvancedLauncher.Management {
 
         #region Getters/Setters
 
-        public string GetImportPath(IGameModel model) {
+        public string GetImportPath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -100,7 +100,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puImportDir);
         }
 
-        public string GetLocalVersionFile(IGameModel model) {
+        public string GetLocalVersionFile(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -112,7 +112,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, config.VersionLocalPath);
         }
 
-        public string GetPFPath(IGameModel model) {
+        public string GetPFPath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -123,7 +123,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puPF);
         }
 
-        public string GetHFPath(IGameModel model) {
+        public string GetHFPath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -134,7 +134,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puHF);
         }
 
-        public string GetGameEXE(IGameModel model) {
+        public string GetGameEXE(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -146,7 +146,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(gamePath, config.GameExecutable);
         }
 
-        public string GetLauncherEXE(IGameModel model) {
+        public string GetLauncherEXE(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -158,7 +158,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, config.LauncherExecutable);
         }
 
-        public string GetLauncherPath(IGameModel model) {
+        public string GetLauncherPath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -169,7 +169,7 @@ namespace AdvancedLauncher.Management {
             return model.LauncherPath;
         }
 
-        public string GetGamePath(IGameModel model) {
+        public string GetGamePath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -180,7 +180,7 @@ namespace AdvancedLauncher.Management {
             return model.GamePath;
         }
 
-        public IConfiguration GetConfiguration(IGameModel model) {
+        public IConfiguration GetConfiguration(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -216,7 +216,7 @@ namespace AdvancedLauncher.Management {
             return Configurations.TryRemove(name, out configuration);
         }
 
-        public void UpdateRegistryPaths(IGameModel model) {
+        public void UpdateRegistryPaths(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }

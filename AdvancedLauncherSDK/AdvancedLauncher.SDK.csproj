@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Management\Configuration\AbstractConfiguration.cs" />
+    <Compile Include="Management\CrossDomainObject.cs" />
     <Compile Include="Management\FileSystemManager.cs" />
     <Compile Include="Management\IConfigurationManager.cs" />
     <Compile Include="Management\IDialogManager.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="Management\ILanguageManager.cs" />
     <Compile Include="Management\ILoggable.cs" />
     <Compile Include="Management\ILogManager.cs" />
-    <Compile Include="Management\IPluginManager.cs" />
     <Compile Include="Management\IWindowManager.cs" />
     <Compile Include="Management\Plugins\AbstractPlugin.cs" />
     <Compile Include="Management\Plugins\PluginInfo.cs" />
@@ -68,6 +68,11 @@
     <Compile Include="Management\Windows\IWindow.cs" />
     <Compile Include="Management\Windows\PageItem.cs" />
     <Compile Include="Management\Windows\NamedItem.cs" />
+    <Compile Include="Model\Config\GameModel.cs" />
+    <Compile Include="Model\Config\NewsData.cs" />
+    <Compile Include="Model\Config\Profile.cs" />
+    <Compile Include="Model\Config\RotationData.cs" />
+    <Compile Include="Model\Config\Settings.cs" />
     <Compile Include="Model\Entity\BaseEntity.cs" />
     <Compile Include="Model\Entity\Digimon.cs" />
     <Compile Include="Model\Entity\DigimonType.cs" />
@@ -91,16 +96,11 @@
     <Compile Include="Management\Execution\ILauncher.cs" />
     <Compile Include="Management\ICommandManager.cs" />
     <Compile Include="Management\IEnvironmentManager.cs" />
-    <Compile Include="Management\IGameUpdateManager.cs" />
+    <Compile Include="Management\IUpdateManager.cs" />
     <Compile Include="Management\ILauncherManager.cs" />
     <Compile Include="Management\IManager.cs" />
     <Compile Include="Management\IProfileManager.cs" />
     <Compile Include="Management\ITaskManager.cs" />
-    <Compile Include="Model\Config\IGameModel.cs" />
-    <Compile Include="Model\Config\INewsData.cs" />
-    <Compile Include="Model\Config\IProfile.cs" />
-    <Compile Include="Model\Config\IRotationData.cs" />
-    <Compile Include="Model\Config\ISettings.cs" />
     <Compile Include="Model\Events\LockedEventArgs.cs" />
     <Compile Include="Model\Events\UpdateStatusEventHandler.cs" />
     <Compile Include="Model\Events\WriteDirectoryEventArgs.cs" />

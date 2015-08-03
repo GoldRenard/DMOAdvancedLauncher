@@ -18,7 +18,6 @@
 
 using System;
 using System.Xml.Serialization;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.Tools;
 
@@ -113,7 +112,7 @@ namespace AdvancedLauncher.Model.Protected {
         public ProtectedProfile() {
         }
 
-        public ProtectedProfile(IProfile profile) {
+        public ProtectedProfile(SDK.Model.Config.Profile profile) {
             this.Id = profile.Id;
             this.Guid = profile.Guid;
             this.Name = profile.Name;

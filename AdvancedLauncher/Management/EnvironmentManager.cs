@@ -21,20 +21,17 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Xml.Serialization;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.Providers;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Plugins;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using MahApps.Metro;
 using Ninject;
-using Ninject.Extensions.Conventions;
 
 namespace AdvancedLauncher.Management {
 
-    public class EnvironmentManager : IEnvironmentManager {
+    public class EnvironmentManager : CrossDomainObject, IEnvironmentManager {
         private const string SETTINGS_FILE = "Settings.xml";
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
@@ -54,15 +51,9 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        [Inject]
-        public IPluginManager PluginManager {
-            get;
-            set;
-        }
+        private Settings _Settings;
 
-        private ISettings _Settings;
-
-        public ISettings Settings {
+        public Settings Settings {
             get {
                 return _Settings;
             }
@@ -215,7 +206,7 @@ namespace AdvancedLauncher.Management {
             if (createSettingsFile) {
                 Save();
             }
-            PluginManager.Load(Path.Combine(AppPath, PluginsPath));
+            App.Kernel.Get<PluginManager>().Load(Path.Combine(AppPath, PluginsPath));
         }
 
         private void InitializeSafeSettings(ProtectedSettings settings) {
@@ -228,7 +219,7 @@ namespace AdvancedLauncher.Management {
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
             if (settings.Profiles != null) {
                 foreach (ProtectedProfile protectedProfile in settings.Profiles) {
-                    Profile safeProfile = new Profile();
+                    Profile safeProfile = new Model.Config.Profile();
                     safeProfile.Id = protectedProfile.Id;
                     safeProfile.Guid = protectedProfile.Guid;
                     safeProfile.Name = protectedProfile.Name;
@@ -295,7 +286,7 @@ namespace AdvancedLauncher.Management {
 
             toSave.DefaultProfile = ProfileManager.DefaultProfile.Id;
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (IProfile profile in ProfileManager.Profiles) {
+            foreach (Profile profile in ProfileManager.Profiles) {
                 ProtectedProfile protectedProfile = new ProtectedProfile(profile);
                 LoginData login = loginManager.GetCredentials(profile);
                 if (login != null) {

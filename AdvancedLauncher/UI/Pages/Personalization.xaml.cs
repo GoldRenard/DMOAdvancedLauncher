@@ -97,7 +97,7 @@ namespace AdvancedLauncher.UI.Pages {
         public override void PageActivate() {
             base.PageActivate();
             try {
-                IGameModel model = ProfileManager.CurrentProfile.GameModel;
+                GameModel model = ProfileManager.CurrentProfile.GameModel;
                 FileSystem.Open(FileAccess.ReadWrite, 16, ConfigurationManager.GetHFPath(model), ConfigurationManager.GetPFPath(model));
                 if (!IsGameImageLoaded && ItemsComboBox.Items.Count > 0) {
                     if (ItemsComboBox.SelectedIndex == 0) {

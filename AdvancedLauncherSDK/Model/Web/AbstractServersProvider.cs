@@ -19,11 +19,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
-    public abstract class AbstractServersProvider : IServersProvider {
+    public abstract class AbstractServersProvider : CrossDomainObject, IServersProvider {
         protected ICollection<Server> _ServerList;
 
         public ICollection<Server> ServerList {

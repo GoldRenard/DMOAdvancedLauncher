@@ -98,7 +98,7 @@ namespace AdvancedLauncher.Tools {
             Bind<IconHolder>().ToSelf().InSingletonScope();
 
             // Plugin System
-            Bind<IPluginManager>().To<PluginManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<PluginManager>().To<PluginManager>().InSingletonScope();
             Bind<IPluginHost>().To<PluginHost>().InSingletonScope().OnActivation(m => m.Initialize());
         }
     }

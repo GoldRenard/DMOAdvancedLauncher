@@ -16,13 +16,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using AdvancedLauncher.SDK.Management;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class PluginHost : MarshalByRefObject, IPluginHost {
+    public class PluginHost : CrossDomainObject, IPluginHost {
 
         [Inject]
         public ILogManager LogManager {
@@ -32,6 +31,54 @@ namespace AdvancedLauncher.Management {
 
         [Inject]
         public ICommandManager CommandManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IConfigurationManager ConfigurationManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IDialogManager DialogManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public ILauncherManager LauncherManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IProfileManager ProfileManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public ITaskManager TaskManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IUpdateManager UpdateManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IWindowManager WindowManager {
             get;
             set;
         }

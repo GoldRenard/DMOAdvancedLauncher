@@ -22,8 +22,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using Ninject;
 

@@ -16,9 +16,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
+
 namespace AdvancedLauncher.SDK.Model {
 
-    public struct NewsItem {
+    public class NewsItem : CrossDomainObject {
         public string Mode;
         public string Subject;
         public string Date;

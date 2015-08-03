@@ -25,29 +25,29 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface IConfigurationManager : IManager, IEnumerable, IEnumerable<IConfiguration> {
 
-        bool CheckGame(IGameModel model);
+        bool CheckGame(GameModel model);
 
-        bool CheckLauncher(IGameModel model);
+        bool CheckLauncher(GameModel model);
 
-        bool CheckUpdateAccess(IGameModel model);
+        bool CheckUpdateAccess(GameModel model);
 
-        string GetImportPath(IGameModel model);
+        string GetImportPath(GameModel model);
 
-        string GetLocalVersionFile(IGameModel model);
+        string GetLocalVersionFile(GameModel model);
 
-        string GetPFPath(IGameModel model);
+        string GetPFPath(GameModel model);
 
-        string GetHFPath(IGameModel model);
+        string GetHFPath(GameModel model);
 
-        string GetGameEXE(IGameModel model);
+        string GetGameEXE(GameModel model);
 
-        string GetLauncherEXE(IGameModel model);
+        string GetLauncherEXE(GameModel model);
 
-        string GetLauncherPath(IGameModel model);
+        string GetLauncherPath(GameModel model);
 
-        string GetGamePath(IGameModel model);
+        string GetGamePath(GameModel model);
 
-        IConfiguration GetConfiguration(IGameModel model);
+        IConfiguration GetConfiguration(GameModel model);
 
         IConfiguration GetConfiguration(string gameType);
 
@@ -55,6 +55,6 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool UnRegisterConfiguration(string name);
 
-        void UpdateRegistryPaths(IGameModel model);
+        void UpdateRegistryPaths(GameModel model);
     }
 }

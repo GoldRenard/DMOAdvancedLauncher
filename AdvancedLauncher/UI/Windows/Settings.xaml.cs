@@ -79,17 +79,17 @@ namespace AdvancedLauncher.UI.Windows {
             get; set;
         }
 
-        private IProfile SelectedProfile {
+        private Profile SelectedProfile {
             get {
-                return ProfileList.SelectedItem as IProfile;
+                return ProfileList.SelectedItem as Profile;
             }
         }
 
-        private Dictionary<IProfile, LoginData> Credentials = new Dictionary<IProfile, LoginData>();
+        private Dictionary<Profile, LoginData> Credentials = new Dictionary<Profile, LoginData>();
 
         public Settings() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
                 ProfileList.DataContext = ProfileManager;
                 ProfileList.ItemsSource = ProfileManager.PendingProfiles;
@@ -105,7 +105,7 @@ namespace AdvancedLauncher.UI.Windows {
             ProfileManager.RevertChanges();
             Credentials.Clear();
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (IProfile p in ProfileManager.PendingProfiles) {
+            foreach (Profile p in ProfileManager.PendingProfiles) {
                 if (p.Id == ProfileManager.CurrentProfile.Id) {
                     ProfileList.SelectedItem = p;
                 }
@@ -148,7 +148,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnTypeSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            IProfile profile = SelectedProfile;
+            Profile profile = SelectedProfile;
             IConfiguration config = ConfigurationCb.SelectedItem as IConfiguration;
             if (config != null && profile != null) {
                 if (config.IsWebAvailable) {
@@ -175,7 +175,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnAddClick(object sender, RoutedEventArgs e) {
-            IProfile profile = ProfileManager.CreateProfile();
+            Profile profile = ProfileManager.CreateProfile();
             Credentials.Add(profile, new LoginData());
         }
 
@@ -184,7 +184,7 @@ namespace AdvancedLauncher.UI.Windows {
                 DialogManager.ShowErrorDialog(LanguageManager.Model.Settings_LastProfile);
                 return;
             }
-            IProfile profile = SelectedProfile;
+            Profile profile = SelectedProfile;
             if (ProfileList.SelectedIndex != ProfileList.Items.Count - 1) {
                 ProfileList.SelectedIndex++;
             } else {
@@ -207,7 +207,7 @@ namespace AdvancedLauncher.UI.Windows {
         #region Path Browse Section
 
         private async void OnGameBrowse(object sender, RoutedEventArgs e) {
-            IProfile profile = SelectedProfile;
+            Profile profile = SelectedProfile;
             Folderdialog.Description = LanguageManager.Model.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -226,7 +226,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private async void OnLauncherBrowse(object sender, RoutedEventArgs e) {
-            IProfile profile = SelectedProfile;
+            Profile profile = SelectedProfile;
             Folderdialog.Description = LanguageManager.Model.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -300,7 +300,7 @@ namespace AdvancedLauncher.UI.Windows {
             ProfileManager.ApplyChanges();
 
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (IProfile profile in ProfileManager.Profiles) {
+            foreach (Profile profile in ProfileManager.Profiles) {
                 LoginData data = null;
                 Credentials.TryGetValue(profile, out data);
                 loginManager.UpdateCredentials(profile, data);

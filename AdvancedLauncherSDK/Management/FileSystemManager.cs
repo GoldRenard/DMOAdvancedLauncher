@@ -26,7 +26,7 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management {
 
-    public class FileSystemManager : IFileSystemManager {
+    public class FileSystemManager : CrossDomainObject, IFileSystemManager {
 
         private class FileEntry {
             public uint Id;

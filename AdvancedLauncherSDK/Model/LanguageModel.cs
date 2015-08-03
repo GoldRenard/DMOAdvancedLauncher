@@ -20,11 +20,12 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Serialization;
+using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model {
 
     [XmlType("Language")]
-    public sealed class LanguageModel {
+    public sealed class LanguageModel : CrossDomainObject {
         private static string sep = ": ";
 
         #region Shared Strings

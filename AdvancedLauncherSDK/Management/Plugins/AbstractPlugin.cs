@@ -16,11 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-
 namespace AdvancedLauncher.SDK.Management.Plugins {
 
-    public abstract class AbstractPlugin : MarshalByRefObject, IPlugin {
+    public abstract class AbstractPlugin : CrossDomainObject, IPlugin {
 
         public abstract string Author {
             get;

@@ -26,7 +26,6 @@ using Ninject;
 namespace AdvancedLauncher.UI.Windows {
 
     public partial class Splashscreen : MetroWindow {
-
         private bool IsClosed = false;
 
         [Inject]

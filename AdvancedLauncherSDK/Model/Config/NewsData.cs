@@ -16,18 +16,31 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Xml.Serialization;
+using AdvancedLauncher.SDK.Management;
+
 namespace AdvancedLauncher.SDK.Model.Config {
 
-    public interface INewsData {
+    public class NewsData : CrossDomainObject {
 
-        byte FirstTab {
+        [XmlAttribute("FirstTab")]
+        public byte FirstTab {
             set;
             get;
         }
 
-        string TwitterUrl {
+        [XmlAttribute("TwitterUrl")]
+        public string TwitterUrl {
             set;
             get;
+        }
+
+        public NewsData(NewsData nd) {
+            FirstTab = nd.FirstTab;
+            TwitterUrl = nd.TwitterUrl;
+        }
+
+        public NewsData() {
         }
     }
 }

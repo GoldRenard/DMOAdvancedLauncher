@@ -21,7 +21,7 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.Management {
 
-    public class LogManager : MarshalByRefObject, ILogManager {
+    public class LogManager : CrossDomainObject, ILogManager {
         private log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(LogManager));
 
         public void Initialize() {

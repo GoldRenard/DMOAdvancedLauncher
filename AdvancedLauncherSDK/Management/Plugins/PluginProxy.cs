@@ -22,7 +22,7 @@ using System.Reflection;
 
 namespace AdvancedLauncher.SDK.Management.Plugins {
 
-    public class Proxy : MarshalByRefObject {
+    public class Proxy : CrossDomainObject {
 
         public string[] PluginLibs {
             get; set;

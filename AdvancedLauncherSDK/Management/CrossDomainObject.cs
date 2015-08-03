@@ -16,9 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
+
 namespace AdvancedLauncher.SDK.Management {
 
-    public interface IPluginManager : IManager {
-        void Load(string pluginsDirectory);
+    public abstract class CrossDomainObject : MarshalByRefObject {
     }
 }

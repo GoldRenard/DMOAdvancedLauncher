@@ -23,7 +23,7 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface IEnvironmentManager : IManager {
 
-        ISettings Settings {
+        Settings Settings {
             get;
         }
 

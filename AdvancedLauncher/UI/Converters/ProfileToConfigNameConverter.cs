@@ -32,7 +32,7 @@ namespace AdvancedLauncher.UI.Converters {
         }
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            IProfile profile = value as IProfile;
+            Profile profile = value as Profile;
             if (profile != null) {
                 return ConfigurationManager.GetConfiguration(profile.GameModel).Name;
             }

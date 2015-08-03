@@ -22,7 +22,7 @@ using System.IO;
 
 namespace AdvancedLauncher.SDK.Management.Execution {
 
-    public abstract class AbstractLauncher : ILauncher {
+    public abstract class AbstractLauncher : CrossDomainObject, ILauncher {
 
         /// <summary>
         /// Is current launcher supported in the envronment

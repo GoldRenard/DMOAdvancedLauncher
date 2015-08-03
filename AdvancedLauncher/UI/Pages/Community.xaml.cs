@@ -86,7 +86,7 @@ namespace AdvancedLauncher.UI.Pages {
         private void LoadServerList() {
             //Загружаем новый список серверов
             ComboBoxServer.ItemsSource = serversProvider.ServerList;
-            IProfile currentProfile = ProfileManager.CurrentProfile;
+            Profile currentProfile = ProfileManager.CurrentProfile;
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(currentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {

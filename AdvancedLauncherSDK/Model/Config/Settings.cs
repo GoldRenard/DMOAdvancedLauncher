@@ -18,11 +18,11 @@
 
 using System;
 using System.ComponentModel;
-using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.Model.Config {
+namespace AdvancedLauncher.SDK.Model.Config {
 
-    public class Settings : ISettings, INotifyPropertyChanged {
+    public class Settings : CrossDomainObject, INotifyPropertyChanged {
 
         public string LanguageFile {
             get; set;
@@ -40,13 +40,13 @@ namespace AdvancedLauncher.Model.Config {
             // default constructor
         }
 
-        public Settings(ISettings source) {
+        public Settings(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
         }
 
-        public void MergeConfig(ISettings source) {
+        public void MergeConfig(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;

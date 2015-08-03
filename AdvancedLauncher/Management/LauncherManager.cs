@@ -29,7 +29,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class LauncherManager : ILauncherManager {
+    public class LauncherManager : CrossDomainObject, ILauncherManager {
         private readonly ConcurrentDictionary<string, ILauncher> CollectionByMnemonic = new ConcurrentDictionary<string, ILauncher>();
 
         private readonly ConcurrentDictionary<Type, ILauncher> CollectionByType = new ConcurrentDictionary<Type, ILauncher>();
@@ -41,7 +41,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public ILauncher GetLauncher(IProfile profile) {
+        public ILauncher GetLauncher(Profile profile) {
             ILauncher launcher = findByMnemonic(profile.LaunchMode);
             if (launcher == null) {
                 launcher = Default;

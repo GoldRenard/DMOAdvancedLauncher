@@ -127,7 +127,7 @@ namespace AdvancedLauncher.UI.Controls {
             while (true) {
                 //Если источник не загружен
                 if (!IsSourceLoaded) {
-                    IProfile currentProfile = ProfileManager.CurrentProfile;
+                    Profile currentProfile = ProfileManager.CurrentProfile;
                     //Добавляем задачу загрузки
                     TaskManager.Tasks.Add(LoadingTask);
                     //Показываем анимацию загрузки

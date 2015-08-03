@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Plugins;
@@ -28,8 +27,8 @@ namespace PluginSample {
         public class TestCommand : AbstractCommand {
             private readonly IPluginHost PluginHost;
 
-            public TestCommand(IPluginHost PluginHost) 
-                : base("doit", "Just the test command")  {
+            public TestCommand(IPluginHost PluginHost)
+                : base("doit", "Just the test command") {
                 this.PluginHost = PluginHost;
             }
 

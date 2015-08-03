@@ -25,25 +25,25 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface IProfileManager : IManager {
 
-        IProfile DefaultProfile {
+        Profile DefaultProfile {
             set; get;
         }
 
-        ObservableCollection<IProfile> Profiles {
+        ObservableCollection<Profile> Profiles {
             get;
         }
 
-        IProfile CurrentProfile {
-            get;
-            set;
-        }
-
-        ObservableCollection<IProfile> PendingProfiles {
+        Profile CurrentProfile {
             get;
             set;
         }
 
-        IProfile PendingDefaultProfile {
+        ObservableCollection<Profile> PendingProfiles {
+            get;
+            set;
+        }
+
+        Profile PendingDefaultProfile {
             get;
             set;
         }
@@ -52,9 +52,9 @@ namespace AdvancedLauncher.SDK.Management {
 
         void ApplyChanges();
 
-        IProfile CreateProfile();
+        Profile CreateProfile();
 
-        bool RemoveProfile(IProfile profile);
+        bool RemoveProfile(Profile profile);
 
         event EventHandler ProfileChanged;
 

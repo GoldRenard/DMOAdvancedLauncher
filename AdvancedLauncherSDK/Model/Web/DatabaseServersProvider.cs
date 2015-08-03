@@ -17,7 +17,6 @@
 // ======================================================================
 
 using System.Collections.ObjectModel;
-using System.Linq;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 
@@ -32,7 +31,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
         protected override ReadOnlyCollection<Server> CreateServerList() {
             using (IDatabaseContext context = DatabaseManager.CreateContext()) {
-                return new ReadOnlyCollection<Server>(context.Servers.Where(i => i.Type == ServerType).ToList());
+                return new ReadOnlyCollection<Server>(context.FindServerByServerType(ServerType));
             }
         }
     }

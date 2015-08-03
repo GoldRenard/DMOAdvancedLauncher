@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.Database.Context;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Commands;
 using AdvancedLauncher.Model;
@@ -43,7 +44,9 @@ namespace AdvancedLauncher.Tools {
             Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ILogManager>().To<LogManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
+
             Bind<IDatabaseManager>().To<DatabaseManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<MainContext>().ToSelf();
 
             // Multiinstance services
             Bind<IUpdateManager>().To<UpdateManager>().OnActivation(m => m.Initialize());

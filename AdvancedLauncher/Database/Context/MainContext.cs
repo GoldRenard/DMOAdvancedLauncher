@@ -32,10 +32,6 @@ namespace AdvancedLauncher.Database.Context {
             System.Data.Entity.Database.SetInitializer<MainContext>(new ContextInitializer());
         }
 
-        public MainContext() {
-            // default constructor
-        }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Entity<Guild>()
                 .HasRequired(r => r.Server)

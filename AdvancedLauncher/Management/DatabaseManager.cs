@@ -28,7 +28,6 @@ namespace AdvancedLauncher.Management {
         }
 
         public void Initialize() {
-            // nothing to do
         }
     }
 }

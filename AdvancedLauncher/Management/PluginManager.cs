@@ -18,11 +18,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Drawing.Printing;
 using System.IO;
 using System.Net;
+using System.Net.Mail;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
+using System.Transactions;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Plugins;
@@ -84,7 +89,7 @@ namespace AdvancedLauncher.Management {
         private void LoadPlugin(PluginInfo info) {
             AppDomainSetup domainSetup = new AppDomainSetup();
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-            domainSetup.PrivateBinPath = "Plugins;bin";
+            domainSetup.PrivateBinPath = @"Plugins;bin";
 
             PermissionSet permissions = new PermissionSet(PermissionState.None);
             permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
@@ -113,6 +118,25 @@ namespace AdvancedLauncher.Management {
             permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
             permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
 
+            // High
+            permissions = new PermissionSet(PermissionState.None);
+            permissions.AddPermission(new DnsPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new EnvironmentPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new EventLogPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new FileIOPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new IsolatedStorageFilePermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new PrintingPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new FileIOPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new RegistryPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new SocketPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new SmtpPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new SqlClientPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new DistributedTransactionPermission(PermissionState.Unrestricted));
+
+            permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
+
             //permissions = new PermissionSet(PermissionState.Unrestricted);
 
             AppDomain domain = AppDomain.CreateDomain(
@@ -122,10 +146,9 @@ namespace AdvancedLauncher.Management {
               permissions);
             domain.SetData("DataDirectory", EnvironmentManager.AppDataPath);
 
-            string pluginName = string.Empty;
             try {
                 IPlugin plugin = (IPlugin)domain.CreateInstanceFromAndUnwrap(info.AssemblyPath, info.TypeName);
-                pluginName = plugin.Name;
+                string pluginName = plugin.Name;
 
                 if (Plugins.ContainsKey(pluginName)) {
                     AppDomain.Unload(domain);

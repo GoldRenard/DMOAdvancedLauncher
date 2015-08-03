@@ -32,42 +32,6 @@ namespace AdvancedLauncher.Database.Context {
             this.Context = Context;
         }
 
-        public IQueryable<Digimon> Digimons {
-            get {
-                return Context.Digimons;
-            }
-        }
-
-        public IQueryable<DigimonType> DigimonTypes {
-            get {
-                return Context.DigimonTypes;
-            }
-        }
-
-        public IQueryable<Guild> Guilds {
-            get {
-                return Context.Guilds;
-            }
-        }
-
-        public IQueryable<Server> Servers {
-            get {
-                return Context.Servers;
-            }
-        }
-
-        public IQueryable<Tamer> Tamers {
-            get {
-                return Context.Tamers;
-            }
-        }
-
-        public IQueryable<TamerType> TamerTypes {
-            get {
-                return Context.TamerTypes;
-            }
-        }
-
         #region Guild operations
 
         public Guild FetchGuild(Server server, string name) {
@@ -189,6 +153,14 @@ namespace AdvancedLauncher.Database.Context {
         }
 
         #endregion DigimonType operations
+
+        #region Server operations
+
+        public List<Server> FindServerByServerType(Server.ServerType ServerType) {
+            return Context.Servers.Where(i => i.Type == ServerType).ToList();
+        }
+
+        #endregion Server operations
 
         #region IDisposable Support
 

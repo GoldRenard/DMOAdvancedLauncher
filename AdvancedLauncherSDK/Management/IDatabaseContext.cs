@@ -18,36 +18,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.SDK.Management {
 
     public interface IDatabaseContext : IDisposable {
-
-        IQueryable<Server> Servers {
-            get;
-        }
-
-        IQueryable<Guild> Guilds {
-            get;
-        }
-
-        IQueryable<Tamer> Tamers {
-            get;
-        }
-
-        IQueryable<Digimon> Digimons {
-            get;
-        }
-
-        IQueryable<DigimonType> DigimonTypes {
-            get;
-        }
-
-        IQueryable<TamerType> TamerTypes {
-            get;
-        }
 
         int SaveChanges();
 
@@ -100,6 +75,12 @@ namespace AdvancedLauncher.SDK.Management {
         void AddOrUpdateDigimonType(DigimonType type, bool isKorean);
 
         #endregion DigimonType operations
+
+        #region Server operations
+
+        List<Server> FindServerByServerType(Server.ServerType ServerType);
+
+        #endregion Server operations
 
         string PrepareDigimonSearch(string name);
     }

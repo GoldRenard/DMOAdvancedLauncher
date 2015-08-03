@@ -169,7 +169,7 @@ namespace AdvancedLauncher.UI.Controls {
                 }
 
                 if (!IsErrorOccured && IsSourceLoaded) {
-                    //UpdateModel();
+                    UpdateModel();
                     System.Threading.Thread.Sleep(ROTATION_INTERVAL);
                 }
             }

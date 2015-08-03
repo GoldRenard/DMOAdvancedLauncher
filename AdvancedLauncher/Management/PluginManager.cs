@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
@@ -85,8 +86,8 @@ namespace AdvancedLauncher.Management {
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
             domainSetup.PrivateBinPath = "Plugins;bin";
 
-            PermissionSet permissions = new PermissionSet(PermissionState.Unrestricted);
-            /*permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
+            PermissionSet permissions = new PermissionSet(PermissionState.None);
+            permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
 
             permissions.AddPermission(new SecurityPermission(
               SecurityPermissionFlag.Execution |
@@ -106,11 +107,13 @@ namespace AdvancedLauncher.Management {
               FileIOPermissionAccess.AllAccess,
               EnvironmentManager.DatabaseFile));
 
-            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));*/
+            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
 
             // debug = REMOVE
-            //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
-            //permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
+
+            //permissions = new PermissionSet(PermissionState.Unrestricted);
 
             AppDomain domain = AppDomain.CreateDomain(
               string.Format("PluginDomain [{0}]", Path.GetFileNameWithoutExtension(info.AssemblyPath)),

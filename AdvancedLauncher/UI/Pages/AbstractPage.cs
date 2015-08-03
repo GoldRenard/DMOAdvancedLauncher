@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows;
 using AdvancedLauncher.UI.Controls;
 
@@ -38,7 +37,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         public virtual void PageActivate() {
             if (!IsPageActivated) {
-                ProfileChanged(this, EventArgs.Empty);
+                ProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
             }
             IsPageActivated = true;
             IsPageVisible = true;
@@ -48,6 +47,6 @@ namespace AdvancedLauncher.UI.Pages {
             IsPageVisible = false;
         }
 
-        protected abstract void ProfileChanged(object sender, EventArgs e);
+        protected abstract void ProfileChanged(object sender, SDK.Model.Events.EventArgs e);
     }
 }

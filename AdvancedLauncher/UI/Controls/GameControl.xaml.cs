@@ -108,11 +108,11 @@ namespace AdvancedLauncher.UI.Controls {
                 App.Kernel.Get<LoginManager>().LoginCompleted += OnGameStartCompleted;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
-                OnProfileChanged(this, EventArgs.Empty);
+                OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
             }
         }
 
-        private void OnProfileChanged(object sender, EventArgs e) {
+        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             StartButton.IsEnabled = false;
             StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             CheckWorker.RunWorkerAsync();
@@ -240,7 +240,7 @@ namespace AdvancedLauncher.UI.Controls {
             return true;
         }
 
-        private async void UpdateManager_FileSystemOpenError(object sender, EventArgs e) {
+        private async void UpdateManager_FileSystemOpenError(object sender, SDK.Model.Events.EventArgs e) {
             await CheckGameAccessMessage();
             SetUpdateEnabled(false);
         }

@@ -16,29 +16,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Generic;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Model.Entity;
-using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.SDK.Model.Web {
+namespace AdvancedLauncher.SDK.Model.Events {
 
-    public interface IWebProvider : ILoggable {
+    public delegate void EventHandler(object sender, EventArgs e);
 
-        event SDK.Model.Events.EventHandler DownloadStarted;
-
-        event DownloadCompleteEventHandler DownloadCompleted;
-
-        event DownloadStatusChangedEventHandler StatusChanged;
-
-        void GetGuildAsync(Server server, string guildName, bool isDetailed);
-
-        List<DigimonType> GetDigimonTypes();
-
-        Guild GetGuild(Server server, string guildName, bool isDetailed);
-
-        Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval);
-
-        void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval);
+    public class EventArgs : CrossDomainObject {
+        public static EventArgs Empty = new EventArgs();
     }
 }

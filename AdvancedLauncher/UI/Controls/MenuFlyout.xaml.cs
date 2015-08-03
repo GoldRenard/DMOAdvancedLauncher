@@ -48,7 +48,7 @@ namespace AdvancedLauncher.UI.Controls {
                 ProfileManager.ProfileChanged += ReloadCurrentProfile;
                 ProfileManager.ProfileLocked += OnProfileLocked;
                 ProfileManager.CollectionChanged += ReloadProfiles;
-                ReloadProfiles(this, EventArgs.Empty);
+                ReloadProfiles(this, SDK.Model.Events.EventArgs.Empty);
                 CommandList.ItemsSource = WindowManager.MenuItems;
             }
         }
@@ -69,14 +69,14 @@ namespace AdvancedLauncher.UI.Controls {
          * ProfileList.ItemsSource or ProfileList.SelectedItem by outside profiles reloading */
         private bool IsPreventChange = false;
 
-        private void ReloadProfiles(object sender, EventArgs e) {
+        private void ReloadProfiles(object sender, SDK.Model.Events.EventArgs e) {
             IsPreventChange = true;
             ProfileList.ItemsSource = ProfileManager.Profiles;
             ProfileList.SelectedItem = ProfileManager.CurrentProfile;
             IsPreventChange = false;
         }
 
-        private void ReloadCurrentProfile(object sender, EventArgs e) {
+        private void ReloadCurrentProfile(object sender, SDK.Model.Events.EventArgs e) {
             IsPreventChange = true;
             ProfileList.SelectedItem = ProfileManager.CurrentProfile;
             IsPreventChange = false;

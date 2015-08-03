@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
@@ -31,7 +30,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool DownloadUpdates(GameModel model, VersionPair versionPair);
 
-        event EventHandler FileSystemOpenError;
+        event Model.Events.EventHandler FileSystemOpenError;
 
         event UpdateStatusEventHandler StatusChanged;
     }

@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -48,7 +47,7 @@ namespace AdvancedLauncher.UI.Windows {
                 NavControl.ItemsSource = App.Kernel.Get<IWindowManager>().PageItems;
                 EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 ProfileManager.ProfileChanged += OnProfileChanged;
-                OnProfileChanged(this, EventArgs.Empty);
+                OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
             }
         }
 
@@ -75,7 +74,7 @@ namespace AdvancedLauncher.UI.Windows {
             }
         }
 
-        private void OnProfileChanged(object sender, EventArgs e) {
+        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             NavControl.SelectedIndex = 0;
         }
     }

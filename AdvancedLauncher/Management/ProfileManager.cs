@@ -185,20 +185,20 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public event EventHandler ProfileChanged;
+        public event SDK.Model.Events.EventHandler ProfileChanged;
 
         protected void OnCurrentChanged() {
             NotifyPropertyChanged("CurrentProfile");
             if (ProfileChanged != null) {
-                ProfileChanged(this, EventArgs.Empty);
+                ProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
             }
         }
 
-        public event EventHandler CollectionChanged;
+        public event SDK.Model.Events.EventHandler CollectionChanged;
 
         protected void OnCollectionChanged() {
             if (CollectionChanged != null) {
-                CollectionChanged(this, EventArgs.Empty);
+                CollectionChanged(this, SDK.Model.Events.EventArgs.Empty);
             }
         }
 

@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using AdvancedLauncher.Model.Proxy;
 using AdvancedLauncher.Providers.Database;
 using AdvancedLauncher.Providers.Database.Context;
 using AdvancedLauncher.SDK.Management;
@@ -39,7 +40,7 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
 
-    public partial class DigiRotation : TransitioningContentControl, IDisposable {
+    public partial class DigiRotation : TransitioningContentControl, IDisposable, IWebProviderEventAccessor {
         private static int MIN_LVL = 41;
 
         private static int ROTATION_INTERVAL = 5000;
@@ -78,6 +79,8 @@ namespace AdvancedLauncher.UI.Controls {
             public BitmapImage Image;
         }
 
+        private WebProviderEventProxy<DigiRotation> EventProxy;
+
         [Inject]
         public ILanguageManager LanguageManager {
             get; set;
@@ -104,6 +107,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         public DigiRotation() {
+            EventProxy = new WebProviderEventProxy<DigiRotation>(this);
             App.Kernel.Inject(this);
             InitializeComponent();
             LoadingTask = new TaskEntry() {
@@ -147,13 +151,13 @@ namespace AdvancedLauncher.UI.Controls {
                     if (!IsStatic) {
                         Server = serversProvider.GetServerById(currentProfile.Rotation.ServerId);
                         //Регистрируем ивенты загрузки
-                        webProvider.StatusChanged += OnStatusChange;
-                        webProvider.DownloadCompleted += OnDownloadComplete;
+                        webProvider.StatusChanged += EventProxy.OnStatusChanged;
+                        webProvider.DownloadCompleted += EventProxy.OnDownloadCompleted;
                         //Получаем информацию о списках гильдии
                         webProvider.GetActualGuild(Server, GuildName, false, currentProfile.Rotation.UpdateInterval + 1);
                         //Убираем обработку ивентов
-                        webProvider.DownloadCompleted -= OnDownloadComplete;
-                        webProvider.StatusChanged -= OnStatusChange;
+                        webProvider.DownloadCompleted -= EventProxy.OnDownloadCompleted;
+                        webProvider.StatusChanged -= EventProxy.OnStatusChanged;
                     }
                     //Проверяем не произошла ли ошибка
                     if (!IsErrorOccured) {
@@ -165,56 +169,10 @@ namespace AdvancedLauncher.UI.Controls {
                 }
 
                 if (!IsErrorOccured && IsSourceLoaded) {
-                    UpdateModel();
+                    //UpdateModel();
                     System.Threading.Thread.Sleep(ROTATION_INTERVAL);
                 }
             }
-        }
-
-        private void OnStatusChange(object sender, DownloadStatusEventArgs e) {
-            if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e2) => {
-                    OnStatusChange(s, e2);
-                }), sender, e);
-                return;
-            }
-            loader.Maximum = e.MaxProgress;
-            loader.Value = e.Progress;
-        }
-
-        private void OnDownloadComplete(object sender, DownloadCompleteEventArgs e) {
-            if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e2) => {
-                    OnDownloadComplete(s, e2);
-                }), sender, e);
-                return;
-            }
-
-            if (e.Code != DMODownloadResultCode.OK) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
-                    loader.Title = LanguageManager.Model.ErrorOccured + " [" + e.Code + "]";
-                    switch (e.Code) {
-                        case DMODownloadResultCode.CANT_GET:
-                            {
-                                loader.Summary = LanguageManager.Model.CantGetError;
-                                break;
-                            }
-                        case DMODownloadResultCode.NOT_FOUND:
-                            {
-                                loader.Summary = LanguageManager.Model.GuildNotFoundError;
-                                break;
-                            }
-                        case DMODownloadResultCode.WEB_ACCESS_ERROR:
-                            {
-                                loader.Summary = LanguageManager.Model.ConnectionError;
-                                break;
-                            }
-                    }
-                    IsErrorOccured = true;
-                }));
-                return;
-            }
-            Guild = MergeHelper.Merge(e.Guild);
         }
 
         #region Utils
@@ -355,6 +313,56 @@ namespace AdvancedLauncher.UI.Controls {
             if (dispose) {
                 MainWorker.Dispose();
             }
+        }
+
+        public void OnDownloadStarted(object sender, SDK.Model.Events.EventArgs e) {
+            // nothing to do
+        }
+
+        public void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e2) => {
+                    OnDownloadCompleted(s, e2);
+                }), sender, e);
+                return;
+            }
+
+            if (e.Code != DMODownloadResultCode.OK) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
+                    loader.Title = LanguageManager.Model.ErrorOccured + " [" + e.Code + "]";
+                    switch (e.Code) {
+                        case DMODownloadResultCode.CANT_GET:
+                            {
+                                loader.Summary = LanguageManager.Model.CantGetError;
+                                break;
+                            }
+                        case DMODownloadResultCode.NOT_FOUND:
+                            {
+                                loader.Summary = LanguageManager.Model.GuildNotFoundError;
+                                break;
+                            }
+                        case DMODownloadResultCode.WEB_ACCESS_ERROR:
+                            {
+                                loader.Summary = LanguageManager.Model.ConnectionError;
+                                break;
+                            }
+                    }
+                    IsErrorOccured = true;
+                }));
+                return;
+            }
+            Guild = MergeHelper.Merge(e.Guild);
+        }
+
+        public void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e2) => {
+                    OnStatusChanged(s, e2);
+                }), sender, e);
+                return;
+            }
+            loader.Maximum = e.MaxProgress;
+            loader.Value = e.Progress;
         }
     }
 }

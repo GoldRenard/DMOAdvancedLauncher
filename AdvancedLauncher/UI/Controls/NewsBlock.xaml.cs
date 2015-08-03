@@ -127,7 +127,7 @@ namespace AdvancedLauncher.UI.Controls {
                         }), JoymaxNews);
                     }
                 };
-                ReloadNews(this, EventArgs.Empty);
+                ReloadNews(this, SDK.Model.Events.EventArgs.Empty);
             }
         }
 
@@ -137,7 +137,7 @@ namespace AdvancedLauncher.UI.Controls {
             }
         }
 
-        private void ReloadNews(object sender, EventArgs e) {
+        private void ReloadNews(object sender, SDK.Model.Events.EventArgs e) {
             Profile currentProfile = ProfileManager.CurrentProfile;
             if (_jsonUrl != currentProfile.News.TwitterUrl) {
                 _jsonUrl = currentProfile.News.TwitterUrl;

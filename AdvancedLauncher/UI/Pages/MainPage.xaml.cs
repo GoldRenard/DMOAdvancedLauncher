@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using log4net;
 
 namespace AdvancedLauncher.UI.Pages {
@@ -30,7 +29,7 @@ namespace AdvancedLauncher.UI.Pages {
             InitializeComponent();
         }
 
-        protected override void ProfileChanged(object sender, EventArgs e) {
+        protected override void ProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             // nothing to do
         }
     }

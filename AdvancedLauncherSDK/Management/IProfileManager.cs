@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.ObjectModel;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
@@ -56,9 +55,9 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool RemoveProfile(Profile profile);
 
-        event EventHandler ProfileChanged;
+        event Model.Events.EventHandler ProfileChanged;
 
-        event EventHandler CollectionChanged;
+        event Model.Events.EventHandler CollectionChanged;
 
         event LockedChangedHandler ProfileLocked;
 

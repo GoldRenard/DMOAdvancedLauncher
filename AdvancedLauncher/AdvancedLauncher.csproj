@@ -83,6 +83,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.AddIn" />
+    <Reference Include="System.AddIn.Contract" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -95,6 +97,7 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -128,6 +131,9 @@
     <Compile Include="Model\ConfigurationViewModel.cs" />
     <Compile Include="Model\PluginContainer.cs" />
     <Compile Include="Model\Protected\ProxyCredentials.cs" />
+    <Compile Include="Model\Proxy\IEventAccessor.cs" />
+    <Compile Include="Model\Proxy\IWebProviderEventAccessor.cs" />
+    <Compile Include="Model\Proxy\WebProviderEventProxy.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
     <Compile Include="Tools\Utils.cs" />

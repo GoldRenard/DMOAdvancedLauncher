@@ -85,8 +85,8 @@ namespace AdvancedLauncher.Management {
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
             domainSetup.PrivateBinPath = "Plugins;bin";
 
-            PermissionSet permissions = new PermissionSet(PermissionState.None);
-            permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
+            PermissionSet permissions = new PermissionSet(PermissionState.Unrestricted);
+            /*permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
 
             permissions.AddPermission(new SecurityPermission(
               SecurityPermissionFlag.Execution |
@@ -100,13 +100,13 @@ namespace AdvancedLauncher.Management {
               FileIOPermissionAccess.Read,
               AppDomain.CurrentDomain.BaseDirectory));
 
-            // database file access
+            permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
+
             permissions.AddPermission(new FileIOPermission(
               FileIOPermissionAccess.AllAccess,
               EnvironmentManager.DatabaseFile));
 
-            // EF6 requeired permission
-            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
+            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));*/
 
             // debug = REMOVE
             //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));

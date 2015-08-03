@@ -16,10 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Model;
+using AdvancedLauncher.Model.Proxy;
 using AdvancedLauncher.Providers.Database;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
@@ -32,7 +32,7 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {
 
-    public partial class Community : AbstractPage {
+    public partial class Community : AbstractPage, IWebProviderEventAccessor {
 
         private delegate void DoOneText(string text);
 
@@ -46,6 +46,8 @@ namespace AdvancedLauncher.UI.Pages {
             Id = -1
         };
 
+        private WebProviderEventProxy<Community> Proxy;
+
         [Inject]
         public IConfigurationManager ConfigurationManager {
             get; set;
@@ -57,11 +59,12 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         public Community() {
+            Proxy = new WebProviderEventProxy<Community>(this);
             InitializeComponent();
             GuildInfo.DataContext = GuildInfoModel;
         }
 
-        protected override void ProfileChanged(object sender, EventArgs e) {
+        protected override void ProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             IConfiguration currentConfiguration = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             serversProvider = currentConfiguration.ServersProvider;
             webProvider = currentConfiguration.CreateWebProvider();
@@ -104,89 +107,11 @@ namespace AdvancedLauncher.UI.Pages {
             }
         }
 
-        private void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
-            if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e2) => {
-                    OnStatusChanged(s, e2);
-                }), sender, e);
-                return;
-            }
-            switch (e.Code) {
-                case DMODownloadStatusCode.GETTING_GUILD:
-                    {
-                        LoadProgressStatus.Text = LanguageManager.Model.CommSearchingGuild;
-                        break;
-                    }
-                case DMODownloadStatusCode.GETTING_TAMER:
-                    {
-                        LoadProgressStatus.Text = string.Format(LanguageManager.Model.CommGettingTamer, e.Info);
-                        break;
-                    }
-            }
-            LoadProgressBar.Maximum = e.MaxProgress;
-            LoadProgressBar.Value = e.Progress;
-        }
-
-        private void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
-            if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e2) => {
-                    OnDownloadCompleted(s, e2);
-                }), sender, e);
-                return;
-            }
-
-            BlockControls(false);
-
-            webProvider.DownloadStarted -= OnDownloadStarted;
-            webProvider.DownloadCompleted -= OnDownloadCompleted;
-            webProvider.StatusChanged -= OnStatusChanged;
-
-            ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
-            switch (e.Code) {
-                case DMODownloadResultCode.OK:
-                    {
-                        CURRENT_GUILD = MergeHelper.Merge(e.Guild);
-                        GuildInfoModel.LoadData(CURRENT_GUILD);
-                        TDBlock_.SetGuild(CURRENT_GUILD);
-                        break;
-                    }
-                case DMODownloadResultCode.CANT_GET:
-                    {
-                        DialogManager.ShowErrorDialog(LanguageManager.Model.CantGetError);
-                        break;
-                    }
-                case DMODownloadResultCode.NOT_FOUND:
-                    {
-                        DialogManager.ShowErrorDialog(LanguageManager.Model.GuildNotFoundError);
-                        break;
-                    }
-                case DMODownloadResultCode.WEB_ACCESS_ERROR:
-                    {
-                        DialogManager.ShowErrorDialog(LanguageManager.Model.ConnectionError);
-                        break;
-                    }
-            }
-        }
-
-        private void OnDownloadStarted(object sender, EventArgs e) {
-            if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new EventHandler((s, e2) => {
-                    OnDownloadStarted(s, e2);
-                }), sender, e);
-                return;
-            }
-            BlockControls(true);
-            LoadProgressBar.Value = 0;
-            LoadProgressBar.Maximum = 100;
-            LoadProgressStatus.Text = string.Empty;
-            ProgressBlock.Visibility = System.Windows.Visibility.Visible;
-        }
-
         private void OnGetInfoClick(object sender, RoutedEventArgs e) {
             if (IsValidName(GuildNameTextBox.Text)) {
-                webProvider.DownloadStarted += OnDownloadStarted;
-                webProvider.DownloadCompleted += OnDownloadCompleted;
-                webProvider.StatusChanged += OnStatusChanged;
+                webProvider.DownloadStarted += Proxy.OnDownloadStarted;
+                webProvider.DownloadCompleted += Proxy.OnDownloadCompleted;
+                webProvider.StatusChanged += Proxy.OnStatusChanged;
                 webProvider.GetActualGuildAsync((Server)ComboBoxServer.SelectedValue,
                     GuildNameTextBox.Text,
                     (bool)IsDetailedCheckbox.IsChecked,
@@ -218,5 +143,87 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         #endregion Обработка поля ввода имени гильдии
+
+        #region Event handlers
+
+        public void OnDownloadStarted(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnDownloadStarted(s, e2);
+                }), sender, e);
+                return;
+            }
+            BlockControls(true);
+            LoadProgressBar.Value = 0;
+            LoadProgressBar.Maximum = 100;
+            LoadProgressStatus.Text = string.Empty;
+            ProgressBlock.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        public void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e2) => {
+                    OnDownloadCompleted(s, e2);
+                }), sender, e);
+                return;
+            }
+
+            BlockControls(false);
+
+            webProvider.DownloadStarted -= Proxy.OnDownloadStarted;
+            webProvider.DownloadCompleted -= Proxy.OnDownloadCompleted;
+            webProvider.StatusChanged -= Proxy.OnStatusChanged;
+
+            ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
+            switch (e.Code) {
+                case DMODownloadResultCode.OK:
+                    {
+                        CURRENT_GUILD = MergeHelper.Merge(e.Guild);
+                        GuildInfoModel.LoadData(CURRENT_GUILD);
+                        TDBlock_.SetGuild(CURRENT_GUILD);
+                        break;
+                    }
+                case DMODownloadResultCode.CANT_GET:
+                    {
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.CantGetError);
+                        break;
+                    }
+                case DMODownloadResultCode.NOT_FOUND:
+                    {
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.GuildNotFoundError);
+                        break;
+                    }
+                case DMODownloadResultCode.WEB_ACCESS_ERROR:
+                    {
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.ConnectionError);
+                        break;
+                    }
+            }
+        }
+
+        public void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e2) => {
+                    OnStatusChanged(s, e2);
+                }), sender, e);
+                return;
+            }
+            switch (e.Code) {
+                case DMODownloadStatusCode.GETTING_GUILD:
+                    {
+                        LoadProgressStatus.Text = LanguageManager.Model.CommSearchingGuild;
+                        break;
+                    }
+                case DMODownloadStatusCode.GETTING_TAMER:
+                    {
+                        LoadProgressStatus.Text = string.Format(LanguageManager.Model.CommGettingTamer, e.Info);
+                        break;
+                    }
+            }
+            LoadProgressBar.Maximum = e.MaxProgress;
+            LoadProgressBar.Value = e.Progress;
+        }
+
+        #endregion Event handlers
     }
 }

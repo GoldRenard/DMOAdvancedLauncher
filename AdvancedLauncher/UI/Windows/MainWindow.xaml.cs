@@ -75,7 +75,7 @@ namespace AdvancedLauncher.UI.Windows {
                     App.Kernel.Get<ITaskManager>().CloseApp(true);
                 };
                 this.MouseDown += MainWindow_MouseDown;
-                OnProfileChanged(this, EventArgs.Empty);
+                OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
 #if DEBUG
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
@@ -106,7 +106,7 @@ namespace AdvancedLauncher.UI.Windows {
                 e.IsLocked ? NativeMethods.MF_DISABLED | NativeMethods.MF_GRAYED : NativeMethods.MF_ENABLED);
         }
 
-        private void OnProfileChanged(object sender, EventArgs e) {
+        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
         }

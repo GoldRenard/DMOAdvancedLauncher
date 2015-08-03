@@ -16,8 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-
 namespace AdvancedLauncher.SDK.Model.Events {
 
     public delegate void UpdateStatusEventHandler(object sender, UpdateStatusEventEventArgs e);

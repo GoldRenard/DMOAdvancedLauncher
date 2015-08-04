@@ -1130,7 +1130,7 @@
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"
     xcopy /s /y "$(ProjectDir)\NTLea\*.*" "$(TargetDir)"
     if not exist "$(TargetDir)Plugins" md "$(TargetDir)Plugins"
-    xcopy /s /y "$(SolutionDir)\PluginSample\bin\Debug\PluginSample.*" "$(TargetDir)Plugins"</PostBuildEvent>
+    xcopy /s /y "$(SolutionDir)\PluginSample\bin\$(ConfigurationName)\PluginSample.*" "$(TargetDir)Plugins"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

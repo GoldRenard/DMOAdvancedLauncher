@@ -22,6 +22,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Security.Permissions;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
@@ -58,6 +59,8 @@ namespace AdvancedLauncher.Management {
             }
             IConfiguration config = GetConfiguration(model);
             string pGamePath = GetGamePath(model);
+
+            new FileIOPermission(FileIOPermissionAccess.Read, pGamePath).Assert();
             if (string.IsNullOrEmpty(pGamePath)) {
                 return false;
             }
@@ -79,6 +82,8 @@ namespace AdvancedLauncher.Management {
             if (string.IsNullOrEmpty(pLauncherPath)) {
                 return false;
             }
+
+            new FileIOPermission(FileIOPermissionAccess.Read, pLauncherPath).Assert();
             if (!File.Exists(Path.Combine(pLauncherPath, config.LauncherExecutable))) {
                 return false;
             }
@@ -89,7 +94,11 @@ namespace AdvancedLauncher.Management {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
-            return !Utils.IsFileLocked(GetGameEXE(model)) && !Utils.IsFileLocked(GetPFPath(model)) && !Utils.IsFileLocked(GetHFPath(model));
+            string gameEXE = GetGameEXE(model);
+            string pfFile = GetPFPath(model);
+            string hfFile = GetHFPath(model);
+            new FileIOPermission(FileIOPermissionAccess.Read | FileIOPermissionAccess.Write, new string[] { gameEXE, pfFile, hfFile }).Assert();
+            return !Utils.IsFileLocked(gameEXE) && !Utils.IsFileLocked(pfFile) && !Utils.IsFileLocked(hfFile);
         }
 
         #endregion Check Section
@@ -171,7 +180,7 @@ namespace AdvancedLauncher.Management {
             }
             IConfiguration config = GetConfiguration(model);
             if (string.IsNullOrEmpty(model.LauncherPath)) {
-                return config.GetLauncherPathFromRegistry();
+                return GetLauncherPathFromRegistry(config);
             }
             return model.LauncherPath;
         }
@@ -182,7 +191,7 @@ namespace AdvancedLauncher.Management {
             }
             IConfiguration config = GetConfiguration(model);
             if (string.IsNullOrEmpty(model.GamePath)) {
-                return config.GetGamePathFromRegistry();
+                return GetGamePathFromRegistry(config);
             }
             return model.GamePath;
         }
@@ -237,6 +246,34 @@ namespace AdvancedLauncher.Management {
             return false;
         }
 
+        #region Registry
+
+        public string GetGamePathFromRegistry(IConfiguration config) {
+            try {
+                using (RegistryKey reg = Registry.CurrentUser.OpenSubKey(config.GamePathRegKey)) {
+                    if (reg == null) {
+                        return null;
+                    }
+                    return (string)reg.GetValue(config.GamePathRegVal);
+                }
+            } catch (SecurityException) {
+                return null;
+            }
+        }
+
+        public string GetLauncherPathFromRegistry(IConfiguration config) {
+            try {
+                using (RegistryKey reg = Registry.CurrentUser.OpenSubKey(config.LauncherPathRegKey)) {
+                    if (reg == null) {
+                        return null;
+                    }
+                    return (string)reg.GetValue(config.LauncherPathRegVal);
+                }
+            } catch (SecurityException) {
+                return null;
+            }
+        }
+
         public void UpdateRegistryPaths(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
@@ -245,18 +282,24 @@ namespace AdvancedLauncher.Management {
             string gamePath = GetGamePath(model);
             string launcherPath = GetGamePath(model);
 
-            if (!string.IsNullOrEmpty(gamePath)) {
-                RegistryKey reg = Registry.CurrentUser.CreateSubKey(config.GamePathRegKey);
-                reg.SetValue(config.GamePathRegVal, gamePath);
-                reg.Close();
-            }
+            try {
+                if (!string.IsNullOrEmpty(gamePath)) {
+                    RegistryKey reg = Registry.CurrentUser.CreateSubKey(config.GamePathRegKey);
+                    reg.SetValue(config.GamePathRegVal, gamePath);
+                    reg.Close();
+                }
 
-            if (!string.IsNullOrEmpty(launcherPath)) {
-                RegistryKey reg = Registry.CurrentUser.CreateSubKey(config.LauncherPathRegKey);
-                reg.SetValue(config.LauncherPathRegVal, launcherPath);
-                reg.Close();
+                if (!string.IsNullOrEmpty(launcherPath)) {
+                    RegistryKey reg = Registry.CurrentUser.CreateSubKey(config.LauncherPathRegKey);
+                    reg.SetValue(config.LauncherPathRegVal, launcherPath);
+                    reg.Close();
+                }
+            } catch (SecurityException) {
+                // ignore
             }
         }
+
+        #endregion Registry
 
         public IEnumerator<IConfiguration> GetEnumerator() {
             return Configurations.Values.GetEnumerator();

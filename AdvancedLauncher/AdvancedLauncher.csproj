@@ -211,7 +211,6 @@
     <Compile Include="Management\CommandManager.cs" />
     <Compile Include="Management\Commands\HelpCommand.cs" />
     <Compile Include="Management\Commands\EchoCommand.cs" />
-    <Compile Include="Management\Commands\ExecCommand.cs" />
     <Compile Include="Management\Commands\ExitCommand.cs" />
     <Compile Include="Management\Commands\LicenseCommand.cs" />
     <Compile Include="Model\Protected\ProxySetting.cs" />

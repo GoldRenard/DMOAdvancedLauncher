@@ -96,10 +96,6 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
             get;
         }
 
-        string GetGamePathFromRegistry();
-
-        string GetLauncherPathFromRegistry();
-
         string ConvertGameStartArgs(string args);
 
         string ConvertLauncherStartArgs(string args);

@@ -42,6 +42,12 @@ namespace AdvancedLauncher.Management {
         }
 
         [Inject]
+        public IDatabaseManager DatabaseManager {
+            get;
+            set;
+        }
+
+        /*[Inject]
         public IDialogManager DialogManager {
             get;
             set;
@@ -81,13 +87,7 @@ namespace AdvancedLauncher.Management {
         public IWindowManager WindowManager {
             get;
             set;
-        }
-
-        [Inject]
-        public IDatabaseManager DatabaseManager {
-            get;
-            set;
-        }
+        }*/
 
         public void Initialize() {
             // nothing to do

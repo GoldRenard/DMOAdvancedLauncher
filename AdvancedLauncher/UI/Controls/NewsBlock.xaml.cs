@@ -161,6 +161,10 @@ namespace AdvancedLauncher.UI.Controls {
                 _jsonUrl = currentProfile.News.TwitterUrl;
             }
 
+            JoymaxVM.UnLoadData();
+            JoymaxNews.Clear();
+            TwitterVM.UnLoadData();
+
             bool newsSupported = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).IsNewsAvailable;
             NavJoymax.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             NavTwitter.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;

@@ -32,7 +32,11 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
-        IDialogManager DialogManager {
+        IDatabaseManager DatabaseManager {
+            get;
+        }
+
+        /*IDialogManager DialogManager {
             get;
         }
 
@@ -59,9 +63,6 @@ namespace AdvancedLauncher.SDK.Management {
         IWindowManager WindowManager {
             get;
         }
-
-        IDatabaseManager DatabaseManager {
-            get;
-        }
+*/
     }
 }

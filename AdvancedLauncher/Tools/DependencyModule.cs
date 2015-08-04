@@ -16,7 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.Database.Context;
+using AdvancedLauncher.Database;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Commands;
 using AdvancedLauncher.Model;
@@ -46,7 +46,6 @@ namespace AdvancedLauncher.Tools {
             Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
 
             Bind<IDatabaseManager>().To<DatabaseManager>().InSingletonScope().OnActivation(m => m.Initialize());
-            Bind<MainContext>().ToSelf();
 
             // Multiinstance services
             Bind<IUpdateManager>().To<UpdateManager>().OnActivation(m => m.Initialize());
@@ -100,6 +99,7 @@ namespace AdvancedLauncher.Tools {
             Bind<LoginManager>().ToSelf().InSingletonScope();
             Bind<ProxyManager>().ToSelf().InSingletonScope();
             Bind<IconHolder>().ToSelf().InSingletonScope();
+            Bind<MergeHelper>().ToSelf();
 
             // Plugin System
             Bind<PluginManager>().To<PluginManager>().InSingletonScope();

@@ -64,9 +64,7 @@ namespace AdvancedLauncher.UI.Windows {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(ProfileSwitcher, BitmapScalingMode.HighQuality);
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+                LanguageManager.LanguageChanged += OnLanguageChanged;
                 ProfileSwitcher.DataContext = ProfileManager;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 EnvironmentManager.ClosingLocked += OnClosingLocked;
@@ -83,6 +81,16 @@ namespace AdvancedLauncher.UI.Windows {
             }
         }
 
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
+        }
+
         private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Point p = e.GetPosition(this);
             if (MenuFlyout.IsOpen && this.Width - p.X > MenuFlyout.Width) {
@@ -94,6 +102,12 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnClosingLocked(object sender, LockedEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LockedChangedHandler((s, e2) => {
+                    OnClosingLocked(sender, e2);
+                }), sender, e);
+                return;
+            }
             if (hWnd == IntPtr.Zero) {
                 hWnd = new System.Windows.Interop.WindowInteropHelper(Application.Current.MainWindow).Handle;
             }
@@ -107,6 +121,12 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnProfileChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
             SettingsFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
         }

@@ -221,5 +221,21 @@ namespace AdvancedLauncher.Database.Context {
         }
 
         #endregion DigimonType operations
+
+        #region universal methods
+
+        public TEntity Create<TEntity>(TEntity entity) where TEntity : BaseEntity {
+            return this.Set<TEntity>().Add(entity);
+        }
+
+        public TEntity Remove<TEntity>(TEntity entity) where TEntity : BaseEntity {
+            return this.Set<TEntity>().Remove(entity);
+        }
+
+        public TEntity FindById<TEntity>(long id) where TEntity : BaseEntity {
+            return this.Set<TEntity>().First(e => e.Id == id);
+        }
+
+        #endregion universal methods
     }
 }

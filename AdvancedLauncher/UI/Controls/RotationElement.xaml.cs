@@ -28,9 +28,17 @@ namespace AdvancedLauncher.UI.Controls {
         public RotationElement() {
             InitializeComponent();
             (this.Content as FrameworkElement).DataContext = this;
-            LanguageManager.LanguageChanged += (s, e) => {
-                NotifyPropertyChanged("LevelText");
-            };
+            LanguageManager.LanguageChanged += OnLanguageChanged;
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            NotifyPropertyChanged("LevelText");
         }
 
         private string _DType;

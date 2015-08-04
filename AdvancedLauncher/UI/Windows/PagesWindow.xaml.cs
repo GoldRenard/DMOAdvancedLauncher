@@ -69,12 +69,24 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnFileSystemLocked(object sender, LockedEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LockedChangedHandler((s, e2) => {
+                    OnFileSystemLocked(sender, e2);
+                }), sender, e);
+                return;
+            }
             if (e.IsLocked) {
                 NavControl.SelectedIndex = 0;
             }
         }
 
         private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnProfileChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
             NavControl.SelectedIndex = 0;
         }
     }

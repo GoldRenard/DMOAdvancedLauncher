@@ -34,6 +34,22 @@ namespace AdvancedLauncher.Database.Context {
             this.Context = Context;
         }
 
+        public int SaveChanges() {
+            return Context.SaveChanges();
+        }
+
+        public TEntity Create<TEntity>(TEntity entity) where TEntity : BaseEntity {
+            return Context.Create(entity);
+        }
+
+        public TEntity Remove<TEntity>(TEntity entity) where TEntity : BaseEntity {
+            return Context.Remove(entity);
+        }
+
+        public TEntity FindById<TEntity>(long id) where TEntity : BaseEntity {
+            return Context.FindById<TEntity>(id);
+        }
+
         #region Guild operations
 
         public Guild FetchGuild(Server server, string name) {
@@ -180,10 +196,6 @@ namespace AdvancedLauncher.Database.Context {
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public int SaveChanges() {
-            return Context.SaveChanges();
         }
 
         #endregion IDisposable Support

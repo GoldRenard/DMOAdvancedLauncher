@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.SDK.Management {
@@ -37,7 +36,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         string[] GetTranslations();
 
-        event EventHandler LanguageChanged;
+        event SDK.Model.Events.EventHandler LanguageChanged;
 
         string GetDefaultName();
 

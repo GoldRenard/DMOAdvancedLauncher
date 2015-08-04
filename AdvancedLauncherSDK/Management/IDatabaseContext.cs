@@ -24,6 +24,12 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface IDatabaseContext : IDisposable {
 
+        TEntity Create<TEntity>(TEntity entity) where TEntity : BaseEntity;
+
+        TEntity Remove<TEntity>(TEntity entity) where TEntity : BaseEntity;
+
+        TEntity FindById<TEntity>(long id) where TEntity : BaseEntity;
+
         int SaveChanges();
 
         #region Guild operations

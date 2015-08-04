@@ -83,7 +83,7 @@ namespace AdvancedLauncher.UI.Pages {
         /// <summary>
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
-        protected override void ProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        protected override void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             FileSystem = App.Kernel.Get<IFileSystemManager>();
             LoadResourceList();
             ResetCurrent();

@@ -44,11 +44,6 @@ namespace AdvancedLauncher.SDK.Management.Windows {
                 }
                 IconBrush = new VisualBrush(icon);
             }
-            if (LanguageManager != null) {
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.NotifyPropertyChanged("Name");
-                };
-            }
         }
 
         public ICommand Command {

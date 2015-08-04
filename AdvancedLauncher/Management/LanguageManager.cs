@@ -129,11 +129,11 @@ namespace AdvancedLauncher.Management {
 
         #region Event Handlers
 
-        public event EventHandler LanguageChanged;
+        public event SDK.Model.Events.EventHandler LanguageChanged;
 
         private void OnChanged() {
             if (LanguageChanged != null) {
-                LanguageChanged(Model, EventArgs.Empty);
+                LanguageChanged(Model, SDK.Model.Events.EventArgs.Empty);
             }
         }
 

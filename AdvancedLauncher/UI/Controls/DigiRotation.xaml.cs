@@ -110,6 +110,11 @@ namespace AdvancedLauncher.UI.Controls {
             get; set;
         }
 
+        [Inject]
+        public MergeHelper MergeHelper {
+            get; set;
+        }
+
         public DigiRotation() {
             EventProxy = new WebProviderEventProxy<DigiRotation>(this);
             App.Kernel.Inject(this);
@@ -118,16 +123,32 @@ namespace AdvancedLauncher.UI.Controls {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
-                ProfileManager.ProfileChanged += (s, e) => {
-                    IsSourceLoaded = false;
-                };
+                LanguageManager.LanguageChanged += OnLanguageChanged;
+                ProfileManager.ProfileChanged += OnProfileChanged;
 
                 MainWorker.DoWork += MainWorkerFunc;
                 MainWorker.RunWorkerAsync();
             }
+        }
+
+        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnProfileChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            IsSourceLoaded = false;
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
         }
 
         private void MainWorkerFunc(object sender, DoWorkEventArgs e) {

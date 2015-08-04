@@ -77,9 +77,7 @@ namespace AdvancedLauncher.UI.Controls {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ProfileManager.ProfileChanged += ReloadNews;
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+                LanguageManager.LanguageChanged += OnLanguageChanged;
                 TwitterNewsList.DataContext = TwitterVM;
                 JoymaxNewsList.DataContext = JoymaxVM;
 
@@ -95,8 +93,10 @@ namespace AdvancedLauncher.UI.Controls {
                 ShowTwitter.Children.Add(dShowTwitter);
 
                 bwLoadTwitter.RunWorkerCompleted += (s, e) => {
-                    ShowTwitter.Begin();
-                    IsTwitterLoadingAnim(false);
+                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
+                        ShowTwitter.Begin();
+                        IsTwitterLoadingAnim(false);
+                    }));
                 };
 
                 bwLoadTwitter.DoWork += (s1, e1) => {
@@ -114,8 +114,10 @@ namespace AdvancedLauncher.UI.Controls {
                 };
 
                 bwLoadJoymax.RunWorkerCompleted += (s, e) => {
-                    ShowJoymax.Begin();
-                    IsJoymaxLoadingAnim(false);
+                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
+                        ShowJoymax.Begin();
+                        IsJoymaxLoadingAnim(false);
+                    }));
                 };
                 bwLoadJoymax.DoWork += (s1, e1) => {
                     if (!JoymaxVM.IsDataLoaded) {
@@ -131,6 +133,16 @@ namespace AdvancedLauncher.UI.Controls {
             }
         }
 
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
+        }
+
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (this.IsLoaded) {
                 ShowTab(((TabControl)sender).SelectedIndex);
@@ -138,6 +150,12 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void ReloadNews(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    ReloadNews(sender, e2);
+                }), sender, e);
+                return;
+            }
             Profile currentProfile = ProfileManager.CurrentProfile;
             if (_jsonUrl != currentProfile.News.TwitterUrl) {
                 _jsonUrl = currentProfile.News.TwitterUrl;

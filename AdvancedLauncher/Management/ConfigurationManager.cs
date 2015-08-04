@@ -22,6 +22,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
@@ -204,6 +205,7 @@ namespace AdvancedLauncher.Management {
             return null;
         }
 
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public bool RegisterConfiguration(IConfiguration configuration) {
             if (configuration == null) {
                 throw new ArgumentException("configuration argument cannot be null");
@@ -219,6 +221,7 @@ namespace AdvancedLauncher.Management {
             return result;
         }
 
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public bool UnRegisterConfiguration(IConfiguration configuration) {
             if (configuration == null) {
                 throw new ArgumentException("configuration argument cannot be null");

@@ -20,35 +20,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AdvancedLauncher.Database.Context;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
+using Ninject;
 
 namespace AdvancedLauncher.Database {
 
-    public static class MergeHelper {
+    public class MergeHelper {
         private static object MERGE_LOCKER = new object();
 
-        public static Guild Merge(Guild guild) {
+        [Inject]
+        public IDatabaseManager DatabaseManager {
+            get;
+            set;
+        }
+
+        public Guild Merge(Guild guild) {
             lock (MERGE_LOCKER) {
                 if (guild == null) {
                     return null;
                 }
 
-                using (MainContext context = new MainContext()) {
+                using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                     Guild storedGuild = context.FetchGuild(guild.Server, guild.Name);
 
                     // If we don't have this guild yet, add it
                     if (storedGuild == null) {
-                        guild.Server = context.Servers.First(e => e.Id == guild.Server.Id);
+                        guild.Server = context.FindById<Server>(guild.Server.Id); ;
                         foreach (Tamer tamer in guild.Tamers) {
                             if (tamer.Type != null) {
-                                tamer.Type = context.TamerTypes.First(e => e.Id == tamer.Type.Id);
+                                tamer.Type = context.FindById<TamerType>(tamer.Type.Id);
                             }
                             foreach (Digimon digimon in tamer.Digimons) {
-                                digimon.Type = context.DigimonTypes.First(e => e.Id == digimon.Type.Id);
+                                digimon.Type = context.FindById<DigimonType>(digimon.Type.Id);
                             }
                         }
-                        context.Guilds.Add(guild);
+                        context.Create(guild);
                         context.SaveChanges();
                         return guild;
                     }
@@ -70,7 +77,7 @@ namespace AdvancedLauncher.Database {
             }
         }
 
-        private static bool MergeGuild(MainContext context, Guild mergeGuild, Guild storedGuild) {
+        private static bool MergeGuild(IDatabaseContext context, Guild mergeGuild, Guild storedGuild) {
             MergeEntity(mergeGuild, storedGuild, false, "Rep", "Rank", "UpdateTime");
 
             // Syncronize the tamer sets by name
@@ -78,7 +85,7 @@ namespace AdvancedLauncher.Database {
             List<Tamer> newTamers = mergeGuild.Tamers.Where(t1 => storedGuild.Tamers.FirstOrDefault(t2 => t2.Name == t1.Name) == null).ToList();
             foreach (Tamer tamer in tamersToDelete) {
                 storedGuild.Tamers.Remove(tamer);
-                context.Tamers.Remove(tamer);
+                context.Remove(tamer);
             }
             foreach (Tamer tamer in newTamers) {
                 tamer.Guild = storedGuild;
@@ -97,10 +104,10 @@ namespace AdvancedLauncher.Database {
             return true;
         }
 
-        private static bool MergeTamer(MainContext context, Tamer mergeTamer, Tamer storedTamer) {
+        private static bool MergeTamer(IDatabaseContext context, Tamer mergeTamer, Tamer storedTamer) {
             MergeEntity(mergeTamer, storedTamer, false, "Level", "Rank", "Type", "IsMaster");
             if (storedTamer.Type != null) {
-                storedTamer.Type = context.TamerTypes.First(t => t.Id == storedTamer.Type.Id);
+                storedTamer.Type = context.FindById<TamerType>(storedTamer.Type.Id);
             }
 
             // Syncronize the digimon sets by digimon type (one digimon per-type limitation)
@@ -108,7 +115,7 @@ namespace AdvancedLauncher.Database {
             List<Digimon> newDigimons = mergeTamer.Digimons.Where(d1 => storedTamer.Digimons.FirstOrDefault(d2 => d2.Type.Id == d1.Type.Id) == null).ToList();
             foreach (Digimon digimon in digimonsToDelete) {
                 storedTamer.Digimons.Remove(digimon);
-                context.Digimons.Remove(digimon);
+                context.Remove(digimon);
             }
             foreach (Digimon digimon in newDigimons) {
                 digimon.Tamer = storedTamer;
@@ -123,7 +130,7 @@ namespace AdvancedLauncher.Database {
             return true;
         }
 
-        private static bool MergeDigimon(MainContext context, Digimon mergeDigimon, Digimon storedDigimon) {
+        private static bool MergeDigimon(IDatabaseContext context, Digimon mergeDigimon, Digimon storedDigimon) {
             if (mergeDigimon.Tamer.Guild.IsDetailed) {
                 MergeEntity(mergeDigimon, storedDigimon, false, "Rank", "Level", "Name", "SizeCm", "SizePc", "SizeRank");
             } else {
@@ -132,7 +139,7 @@ namespace AdvancedLauncher.Database {
             return true;
         }
 
-        public static void MergeEntity<TIn, TOut>(TIn input, TOut output, bool exclude = false, params string[] properties)
+        private static void MergeEntity<TIn, TOut>(TIn input, TOut output, bool exclude = false, params string[] properties)
             where TIn : BaseEntity
             where TOut : BaseEntity {
             if ((input == null) || (output == null)) return;

@@ -62,6 +62,12 @@ namespace AdvancedLauncher.UI.Controls {
         #region Profile Selection
 
         private void OnProfileLocked(object sender, LockedEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LockedChangedHandler((s, e2) => {
+                    OnProfileLocked(sender, e2);
+                }), sender, e);
+                return;
+            }
             IsChangeEnabled = !e.IsLocked;
         }
 
@@ -70,6 +76,12 @@ namespace AdvancedLauncher.UI.Controls {
         private bool IsPreventChange = false;
 
         private void ReloadProfiles(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    ReloadProfiles(sender, e2);
+                }), sender, e);
+                return;
+            }
             IsPreventChange = true;
             ProfileList.ItemsSource = ProfileManager.Profiles;
             ProfileList.SelectedItem = ProfileManager.CurrentProfile;
@@ -77,6 +89,12 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void ReloadCurrentProfile(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    ReloadCurrentProfile(sender, e2);
+                }), sender, e);
+                return;
+            }
             IsPreventChange = true;
             ProfileList.SelectedItem = ProfileManager.CurrentProfile;
             IsPreventChange = false;

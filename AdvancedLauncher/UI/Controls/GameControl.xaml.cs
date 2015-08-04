@@ -81,7 +81,7 @@ namespace AdvancedLauncher.UI.Controls {
                 if (_UpdateManager == null) {
                     _UpdateManager = value;
                     _UpdateManager.FileSystemOpenError += UpdateManager_FileSystemOpenError;
-                    _UpdateManager.StatusChanged += _UpdateManager_StatusChanged;
+                    _UpdateManager.StatusChanged += OnUpdateStatusChanged;
                 }
             }
         }
@@ -102,9 +102,7 @@ namespace AdvancedLauncher.UI.Controls {
                 ElementHolder.RemoveChild(UpdateBlock);
                 WrapElement.Content = StartButton;
                 Application.Current.MainWindow.TaskbarItemInfo = TaskBar;
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+                LanguageManager.LanguageChanged += OnLanguageChanged;
                 App.Kernel.Get<LoginManager>().LoginCompleted += OnGameStartCompleted;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
@@ -112,7 +110,23 @@ namespace AdvancedLauncher.UI.Controls {
             }
         }
 
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
+        }
+
         private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnProfileChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
             StartButton.IsEnabled = false;
             StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             CheckWorker.RunWorkerAsync();
@@ -241,11 +255,23 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private async void UpdateManager_FileSystemOpenError(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    UpdateManager_FileSystemOpenError(sender, e2);
+                }), sender, e);
+                return;
+            }
             await CheckGameAccessMessage();
             SetUpdateEnabled(false);
         }
 
-        private void _UpdateManager_StatusChanged(object sender, UpdateStatusEventEventArgs e) {
+        private void OnUpdateStatusChanged(object sender, UpdateStatusEventEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateStatusEventHandler((s, e2) => {
+                    OnUpdateStatusChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
             UpdateMainProgressBar(e.Progress, e.MaxProgress);
             UpdateSubProgressBar(e.SummaryProgress, e.SummaryMaxProgress);
 
@@ -300,6 +326,12 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void OnGameStartCompleted(object sender, LoginCompleteEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteEventHandler((s, e2) => {
+                    OnGameStartCompleted(sender, e2);
+                }), sender, e);
+                return;
+            }
             //Если результат НЕУСПЕШЕН, возвращаем кнопку старта и возможность смены профиля
             if (e.Code != LoginCode.SUCCESS) {
                 StartButton.IsEnabled = true;

@@ -131,15 +131,8 @@ namespace AdvancedLauncher.UI.Windows {
             foreach (IConfiguration configuration in ConfigurationManager) {
                 Configurations.Add(new ConfigurationViewModel(configuration));
             }
-            ConfigurationManager.ConfigurationRegistered += (s, e) => {
-                Configurations.Add(new ConfigurationViewModel(e.Configuration));
-            };
-            ConfigurationManager.ConfigurationUnRegistered += (s, e) => {
-                ConfigurationViewModel viewModel = Configurations.FirstOrDefault(c => c.Configuration.Equals(e.Configuration));
-                if (viewModel != null) {
-                    Configurations.Remove(viewModel);
-                }
-            };
+            ConfigurationManager.ConfigurationRegistered += OnConfigurationRegistered;
+            ConfigurationManager.ConfigurationUnRegistered += OnConfigurationUnRegistered;
         }
 
         public override void OnShow() {
@@ -366,6 +359,29 @@ namespace AdvancedLauncher.UI.Windows {
 
         #region Service
 
+        private void OnConfigurationUnRegistered(object sender, SDK.Model.Events.ConfigurationChangedEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.ConfigurationChangedEventHandler((s, e2) => {
+                    OnConfigurationUnRegistered(sender, e2);
+                }), sender, e);
+                return;
+            }
+            ConfigurationViewModel viewModel = Configurations.FirstOrDefault(c => c.Configuration.Equals(e.Configuration));
+            if (viewModel != null) {
+                Configurations.Remove(viewModel);
+            }
+        }
+
+        private void OnConfigurationRegistered(object sender, SDK.Model.Events.ConfigurationChangedEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.ConfigurationChangedEventHandler((s, e2) => {
+                    OnConfigurationRegistered(sender, e2);
+                }), sender, e);
+                return;
+            }
+            Configurations.Add(new ConfigurationViewModel(e.Configuration));
+        }
+
         private void UsernameChanged(object sender, TextChangedEventArgs e) {
             if (IsPreventLoginChange) {
                 return;
@@ -387,10 +403,22 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void LauncherHelp_Loaded(object sender, RoutedEventArgs e) {
-            Run run = sender as Run;
             LanguageManager.LanguageChanged += (s, e2) => {
-                run.Text = LanguageManager.Model.Settings_AppLocale_Help;
+                OnLanguageChanged(sender, e2);
             };
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            Run run = sender as Run;
+            if (run != null) {
+                run.Text = LanguageManager.Model.Settings_AppLocale_Help;
+            }
         }
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {

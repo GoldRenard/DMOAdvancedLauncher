@@ -42,7 +42,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
 
-        private Guild CURRENT_GUILD = new Guild() {
+        private Guild CurrentGuild = new Guild() {
             Id = -1
         };
 
@@ -58,13 +58,18 @@ namespace AdvancedLauncher.UI.Pages {
             get; set;
         }
 
+        [Inject]
+        public MergeHelper MergeHelper {
+            get; set;
+        }
+
         public Community() {
             Proxy = new WebProviderEventProxy<Community>(this);
             InitializeComponent();
             GuildInfo.DataContext = GuildInfoModel;
         }
 
-        protected override void ProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        protected override void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             IConfiguration currentConfiguration = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             serversProvider = currentConfiguration.ServersProvider;
             webProvider = currentConfiguration.CreateWebProvider();
@@ -174,13 +179,13 @@ namespace AdvancedLauncher.UI.Pages {
             webProvider.DownloadCompleted -= Proxy.OnDownloadCompleted;
             webProvider.StatusChanged -= Proxy.OnStatusChanged;
 
-            ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
+            ProgressBlock.Visibility = Visibility.Collapsed;
             switch (e.Code) {
                 case DMODownloadResultCode.OK:
                     {
-                        CURRENT_GUILD = MergeHelper.Merge(e.Guild);
-                        GuildInfoModel.LoadData(CURRENT_GUILD);
-                        TDBlock_.SetGuild(CURRENT_GUILD);
+                        CurrentGuild = MergeHelper.Merge(e.Guild);
+                        GuildInfoModel.LoadData(CurrentGuild);
+                        TDBlock_.SetGuild(CurrentGuild);
                         break;
                     }
                 case DMODownloadResultCode.CANT_GET:

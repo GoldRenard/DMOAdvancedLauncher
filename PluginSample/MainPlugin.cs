@@ -34,8 +34,8 @@ namespace PluginSample {
             }
 
             public override bool DoCommand(string[] args) {
-                PluginHost.LogManager.Info("Did it!");
-                PluginHost.LogManager.Info(PluginHost.ProfileManager.CurrentProfile.Name);
+                PluginHost.LogManager.Info(string.Format("SimplePlugin - Did it, {0}!",
+                    PluginHost.ProfileManager.CurrentProfile.Name));
                 return true;
             }
         }

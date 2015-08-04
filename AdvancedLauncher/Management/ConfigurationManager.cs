@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
@@ -218,27 +219,19 @@ namespace AdvancedLauncher.Management {
             return result;
         }
 
-        public bool UnRegisterConfiguration(string name) {
-            if (name == null) {
-                throw new ArgumentException("name argument cannot be null");
-            }
-            IConfiguration configuration;
-            bool result = Configurations.TryRemove(name, out configuration);
-            if (result) {
-                OnConfigurationUnRegistered(configuration);
-            }
-            return result;
-        }
-
         public bool UnRegisterConfiguration(IConfiguration configuration) {
             if (configuration == null) {
                 throw new ArgumentException("configuration argument cannot be null");
             }
-            bool result = Configurations.TryRemove(configuration.Name, out configuration);
-            if (result) {
-                OnConfigurationUnRegistered(configuration);
+            var configToRemove = Configurations.FirstOrDefault(kvp => kvp.Value.Equals(configuration));
+            if (configToRemove.Key != null) {
+                bool result = Configurations.TryRemove(configToRemove.Key, out configuration);
+                if (result) {
+                    OnConfigurationUnRegistered(configuration);
+                }
+                return result;
             }
-            return result;
+            return false;
         }
 
         public void UpdateRegistryPaths(GameModel model) {

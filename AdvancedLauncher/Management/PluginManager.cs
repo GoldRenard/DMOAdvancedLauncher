@@ -17,17 +17,13 @@
 // ======================================================================
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Drawing.Printing;
 using System.IO;
 using System.Net;
-using System.Net.Mail;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
-using System.Transactions;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Plugins;
@@ -49,7 +45,7 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        private Dictionary<string, PluginContainer> Plugins = new Dictionary<string, PluginContainer>();
+        private ConcurrentDictionary<string, PluginContainer> Plugins = new ConcurrentDictionary<string, PluginContainer>();
 
         public void Load() {
             var pluginInfos = LoadFrom(EnvironmentManager.PluginsPath);
@@ -67,8 +63,7 @@ namespace AdvancedLauncher.Management {
 
             PermissionSet permissions = new PermissionSet(PermissionState.None);
             permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
-            permissions.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution | SecurityPermissionFlag.Infrastructure));
-            permissions.AddPermission(new UIPermission(UIPermissionWindow.AllWindows));
+            permissions.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
             permissions.AddPermission(new FileIOPermission(FileIOPermissionAccess.PathDiscovery | FileIOPermissionAccess.Read, pluginList));
 
             List<PluginInfo> result;
@@ -86,13 +81,15 @@ namespace AdvancedLauncher.Management {
             return result;
         }
 
-        private void LoadPlugin(PluginInfo info) {
+        private bool LoadPlugin(PluginInfo info) {
             AppDomainSetup domainSetup = new AppDomainSetup();
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
             domainSetup.PrivateBinPath = @"Plugins;bin";
 
             PermissionSet permissions = new PermissionSet(PermissionState.None);
             permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
 
             permissions.AddPermission(new SecurityPermission(
               SecurityPermissionFlag.Execution |
@@ -106,14 +103,6 @@ namespace AdvancedLauncher.Management {
               FileIOPermissionAccess.Read,
               AppDomain.CurrentDomain.BaseDirectory));
 
-            permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
-
-            permissions.AddPermission(new FileIOPermission(
-              FileIOPermissionAccess.AllAccess,
-              EnvironmentManager.DatabaseFile));
-
-            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
-
             // debug = REMOVE
             //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
             //permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
@@ -125,22 +114,50 @@ namespace AdvancedLauncher.Management {
               permissions);
             domain.SetData("DataDirectory", EnvironmentManager.AppDataPath);
 
+            PluginContainer container = null;
+            string pluginName = null;
+            IPlugin Instance = null;
             try {
-                IPlugin plugin = (IPlugin)domain.CreateInstanceFromAndUnwrap(info.AssemblyPath, info.TypeName);
-                string pluginName = plugin.Name;
+                Instance = (IPlugin)domain.CreateInstanceFromAndUnwrap(info.AssemblyPath, info.TypeName);
+                pluginName = Instance.Name;
 
-                if (Plugins.ContainsKey(pluginName)) {
-                    AppDomain.Unload(domain);
-                    return;
+                if (Plugins.TryGetValue(pluginName, out container)) {
+                    if (container.Status == PluginContainer.RuntimeStatus.ACTIVE) {
+                        AppDomain.Unload(domain);
+                        return false;
+                    }
                 }
 
-                plugin.OnActivate(PluginHost);
-                PluginContainer container = new PluginContainer(domain, plugin);
-                Plugins.Add(pluginName, container);
+                Instance.OnActivate(PluginHost);
+                container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.ACTIVE, domain);
             } catch (Exception) {
                 AppDomain.Unload(domain);
-                return;
+                if (pluginName != null && Instance != null) {
+                    container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.FAILED, domain);
+                }
+                return false;
             }
+
+            return Plugins.AddOrUpdate(pluginName, container, (key, oldValue) => container) != null;
+        }
+
+        public List<PluginContainer> GetPlugins() {
+            return new List<PluginContainer>(Plugins.Values);
+        }
+
+        public bool StopPlugin(PluginContainer container) {
+            bool result = false;
+            if (container.Status == PluginContainer.RuntimeStatus.ACTIVE) {
+                container.Plugin.OnStop(PluginHost);
+                AppDomain.Unload(container.Domain);
+                container = new PluginContainer(container, PluginContainer.RuntimeStatus.STOPPED);
+                result = Plugins.AddOrUpdate(container.Name, container, (key, oldValue) => container) != null;
+            }
+            return result;
+        }
+
+        public bool StartPlugin(PluginContainer container) {
+            return LoadPlugin(container.Info);
         }
     }
 }

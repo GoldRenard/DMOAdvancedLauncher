@@ -23,7 +23,17 @@ namespace AdvancedLauncher.Model {
 
     internal class PluginContainer {
 
-        public AppDomain Domain {
+        public enum RuntimeStatus {
+            ACTIVE,
+            STOPPED,
+            FAILED
+        };
+
+        public string Name {
+            get; private set;
+        }
+
+        public string Author {
             get; private set;
         }
 
@@ -31,9 +41,32 @@ namespace AdvancedLauncher.Model {
             get; private set;
         }
 
-        public PluginContainer(AppDomain domain, IPlugin plugin) {
-            Domain = domain;
-            Plugin = plugin;
+        public PluginInfo Info {
+            get; private set;
+        }
+
+        public RuntimeStatus Status {
+            get; private set;
+        }
+
+        public AppDomain Domain {
+            get; private set;
+        }
+
+        public PluginContainer(IPlugin Plugin, PluginInfo Info, RuntimeStatus Status, AppDomain Domain) {
+            this.Name = Plugin.Name;
+            this.Author = Plugin.Author;
+            this.Plugin = Plugin;
+            this.Info = Info;
+            this.Status = Status;
+            this.Domain = Domain;
+        }
+
+        public PluginContainer(PluginContainer container, RuntimeStatus Status) {
+            this.Name = container.Name;
+            this.Author = container.Author;
+            this.Info = container.Info;
+            this.Status = Status;
         }
     }
 }

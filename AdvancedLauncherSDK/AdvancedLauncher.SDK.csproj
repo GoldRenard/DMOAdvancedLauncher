@@ -50,6 +50,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Management\Commands\AbstractExtendedCommand.cs" />
     <Compile Include="Management\Configuration\AbstractConfiguration.cs" />
     <Compile Include="Management\CrossDomainObject.cs" />
     <Compile Include="Management\FileSystemManager.cs" />

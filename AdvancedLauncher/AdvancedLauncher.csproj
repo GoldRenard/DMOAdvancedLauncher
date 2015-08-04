@@ -125,6 +125,7 @@
       <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
+    <Compile Include="Management\Commands\PluginCommand.cs" />
     <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />

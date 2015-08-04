@@ -47,7 +47,7 @@ namespace AdvancedLauncher.Management {
 
         private ConcurrentDictionary<string, PluginContainer> Plugins = new ConcurrentDictionary<string, PluginContainer>();
 
-        public void Load() {
+        public void Start() {
             var pluginInfos = LoadFrom(EnvironmentManager.PluginsPath);
             foreach (PluginInfo pluginInfo in pluginInfos) {
                 LoadPlugin(pluginInfo);

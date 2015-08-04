@@ -50,8 +50,9 @@ namespace AdvancedLauncher {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
                     // initialization sequence
                     Kernel.Get<IEnvironmentManager>();
-                    Kernel.Get<PluginManager>().Load();
                     Kernel.Get<Splashscreen>().Show();
+                    Kernel.Get<PluginManager>().Start();
+                    Kernel.Get<IProfileManager>().Start();
                     Kernel.Get<IWindowManager>().Start();
                 } else {
                     Application.Current.Shutdown();

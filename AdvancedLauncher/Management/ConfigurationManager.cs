@@ -201,7 +201,7 @@ namespace AdvancedLauncher.Management {
             if (Configurations.TryGetValue(gameType, out config)) {
                 return config;
             }
-            throw new Exception("No game configuration for type: " + gameType);
+            return null;
         }
 
         public bool RegisterConfiguration(IConfiguration configuration) {

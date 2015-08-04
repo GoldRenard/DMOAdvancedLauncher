@@ -24,6 +24,8 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface IProfileManager : IManager {
 
+        void Start();
+
         Profile DefaultProfile {
             set; get;
         }

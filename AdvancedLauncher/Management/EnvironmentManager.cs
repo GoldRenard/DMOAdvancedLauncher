@@ -17,8 +17,8 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Xml.Serialization;
 using AdvancedLauncher.Model.Protected;
@@ -35,15 +35,9 @@ namespace AdvancedLauncher.Management {
         private const string SETTINGS_FILE = "Settings.xml";
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
-        private const string PLUGINS_DIR = "Plugins";
+        public const string PLUGINS_DIR = "Plugins";
         private const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         private const string NTLEA_EXECUTABLE = "ntleas.exe";
-
-        [Inject]
-        public IProfileManager ProfileManager {
-            get;
-            set;
-        }
 
         [Inject]
         public ILanguageManager LanguageManager {
@@ -195,7 +189,7 @@ namespace AdvancedLauncher.Management {
             _Settings.LanguageFile = settings.Language;
             _Settings.ThemeAccent = settings.ThemeAccent;
 
-            ProfileManager.PendingProfiles.Clear();
+            _Settings.Profiles = new List<Profile>();
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
             if (settings.Profiles != null) {
                 foreach (ProtectedProfile protectedProfile in settings.Profiles) {
@@ -210,20 +204,13 @@ namespace AdvancedLauncher.Management {
                     safeProfile.GameModel = new GameModel(protectedProfile.GameModel);
                     safeProfile.News = new NewsData(protectedProfile.News);
                     safeProfile.Rotation = new RotationData(protectedProfile.Rotation);
-                    ProfileManager.PendingProfiles.Add(safeProfile);
+                    _Settings.Profiles.Add(safeProfile);
                     if (safeProfile.Id == settings.DefaultProfile) {
-                        ProfileManager.PendingDefaultProfile = safeProfile;
+                        _Settings.DefaultProfile = safeProfile;
                     }
                     loginManager.UpdateCredentials(safeProfile, new LoginData(protectedProfile.Login));
                 }
             }
-            if (ProfileManager.PendingProfiles.Count == 0) {
-                ProfileManager.CreateProfile();
-            }
-            if (ProfileManager.PendingDefaultProfile == null) {
-                ProfileManager.PendingDefaultProfile = ProfileManager.PendingProfiles.First();
-            }
-            ProfileManager.ApplyChanges();
         }
 
         private void ApplyAppTheme(ProtectedSettings ProtectedSettings) {
@@ -263,7 +250,7 @@ namespace AdvancedLauncher.Management {
         public void Save() {
             ProtectedSettings toSave = new ProtectedSettings(Settings);
             toSave.Proxy = new ProxySetting(App.Kernel.Get<ProxyManager>().Settings);
-
+            IProfileManager ProfileManager = App.Kernel.Get<IProfileManager>();
             toSave.DefaultProfile = ProfileManager.DefaultProfile.Id;
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
             foreach (Profile profile in ProfileManager.Profiles) {

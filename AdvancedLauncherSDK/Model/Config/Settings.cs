@@ -17,6 +17,7 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using AdvancedLauncher.SDK.Management;
 
@@ -34,6 +35,16 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         public string ThemeAccent {
             get; set;
+        }
+
+        public Profile DefaultProfile {
+            get;
+            set;
+        }
+
+        public List<Profile> Profiles {
+            get;
+            set;
         }
 
         public Settings() {

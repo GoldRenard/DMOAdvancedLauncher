@@ -32,6 +32,7 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     internal class ProfileManager : CrossDomainObject, IProfileManager, INotifyPropertyChanged {
+        private bool IsLoaded = false;
 
         #region Properties
 
@@ -88,8 +89,54 @@ namespace AdvancedLauncher.Management {
             get; set;
         }
 
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
+
         public void Initialize() {
             // nothing to do here
+            ConfigurationManager.ConfigurationUnRegistered += OnConfigurationUnRegistered;
+        }
+
+        public void Start() {
+            lock (this) {
+                if (IsLoaded) {
+                    return;
+                }
+                PendingProfiles.Clear();
+                foreach (Profile p in EnvironmentManager.Settings.Profiles) {
+                    PendingProfiles.Add(new Profile(p));
+                }
+                if (PendingProfiles.Count == 0) {
+                    CreateProfile();
+                }
+                if (EnvironmentManager.Settings.DefaultProfile != null) {
+                    PendingDefaultProfile = new Profile(EnvironmentManager.Settings.DefaultProfile);
+                } else {
+                    PendingDefaultProfile = PendingProfiles.First();
+                }
+                ApplyChanges();
+                IsLoaded = true;
+            }
+        }
+
+        private void OnConfigurationUnRegistered(object sender, ConfigurationChangedEventArgs e) {
+            List<Profile> invalidProfiles = Profiles.Where(p => e.Configuration.GameType.Equals(p.GameModel.Type)).ToList();
+            if (invalidProfiles.Count == 0) {
+                return;
+            }
+            bool updateCurrent = false;
+            string newType = ConfigurationManager.First().GameType;
+            foreach (Profile p in invalidProfiles) {
+                p.GameModel.Type = newType;
+                updateCurrent = updateCurrent || p.Equals(CurrentProfile);
+            }
+            RevertChanges();
+            OnCollectionChanged();
+            if (updateCurrent) {
+                OnCurrentChanged();
+            }
         }
 
         public void RevertChanges() {
@@ -155,7 +202,12 @@ namespace AdvancedLauncher.Management {
             this.Profiles.Clear();
             //Add clones of instances
             foreach (Profile p in profiles) {
-                Profiles.Add(new Profile(p));
+                Profile newProfile = new Profile(p);
+                IConfiguration config = ConfigurationManager.GetConfiguration(p.GameModel);
+                if (config == null) {
+                    newProfile.GameModel.Type = ConfigurationManager.First().GameType;
+                }
+                Profiles.Add(newProfile);
             }
 
             DefaultProfile = Profiles.FirstOrDefault(i => i.Id == defaultProfileId);

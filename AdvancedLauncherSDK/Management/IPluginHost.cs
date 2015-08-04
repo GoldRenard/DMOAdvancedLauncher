@@ -20,12 +20,49 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface IPluginHost : IManager {
 
+        ILogManager LogManager {
+            get;
+        }
+
         ICommandManager CommandManager {
             get;
         }
 
-        ILogManager LogManager {
+        IConfigurationManager ConfigurationManager {
             get;
         }
+
+        IDatabaseManager DatabaseManager {
+            get;
+        }
+
+        /*IDialogManager DialogManager {
+            get;
+        }
+
+        ILauncherManager LauncherManager {
+            get;
+        }
+
+        IProfileManager ProfileManager {
+            get;
+        }
+
+        IEnvironmentManager EnvironmentManager {
+            get;
+        }
+
+        ITaskManager TaskManager {
+            get;
+        }
+
+        IUpdateManager UpdateManager {
+            get;
+        }
+
+        IWindowManager WindowManager {
+            get;
+        }
+*/
     }
 }

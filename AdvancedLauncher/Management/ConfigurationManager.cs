@@ -21,21 +21,28 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security.Permissions;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
 using Microsoft.Win32;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class ConfigurationManager : IConfigurationManager {
+    public class ConfigurationManager : CrossDomainObject, IConfigurationManager {
         private const string puPF = @"Data\Pack01.pf";
         private const string puHF = @"Data\Pack01.hf";
         private const string puImportDir = @"Pack01";
 
         private ConcurrentDictionary<string, IConfiguration> Configurations = new ConcurrentDictionary<string, IConfiguration>();
+
+        public event ConfigurationChangedEventHandler ConfigurationRegistered;
+
+        public event ConfigurationChangedEventHandler ConfigurationUnRegistered;
 
         public void Initialize() {
             foreach (IConfiguration config in App.Kernel.GetAll<IConfiguration>()) {
@@ -45,7 +52,7 @@ namespace AdvancedLauncher.Management {
 
         #region Check Section
 
-        public bool CheckGame(IGameModel model) {
+        public bool CheckGame(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -63,7 +70,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public bool CheckLauncher(IGameModel model) {
+        public bool CheckLauncher(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -78,7 +85,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public bool CheckUpdateAccess(IGameModel model) {
+        public bool CheckUpdateAccess(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -89,7 +96,7 @@ namespace AdvancedLauncher.Management {
 
         #region Getters/Setters
 
-        public string GetImportPath(IGameModel model) {
+        public string GetImportPath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -100,7 +107,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puImportDir);
         }
 
-        public string GetLocalVersionFile(IGameModel model) {
+        public string GetLocalVersionFile(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -112,7 +119,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, config.VersionLocalPath);
         }
 
-        public string GetPFPath(IGameModel model) {
+        public string GetPFPath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -123,7 +130,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puPF);
         }
 
-        public string GetHFPath(IGameModel model) {
+        public string GetHFPath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -134,7 +141,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, puHF);
         }
 
-        public string GetGameEXE(IGameModel model) {
+        public string GetGameEXE(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -146,7 +153,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(gamePath, config.GameExecutable);
         }
 
-        public string GetLauncherEXE(IGameModel model) {
+        public string GetLauncherEXE(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -158,7 +165,7 @@ namespace AdvancedLauncher.Management {
             return Path.Combine(path, config.LauncherExecutable);
         }
 
-        public string GetLauncherPath(IGameModel model) {
+        public string GetLauncherPath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -169,7 +176,7 @@ namespace AdvancedLauncher.Management {
             return model.LauncherPath;
         }
 
-        public string GetGamePath(IGameModel model) {
+        public string GetGamePath(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -180,7 +187,7 @@ namespace AdvancedLauncher.Management {
             return model.GamePath;
         }
 
-        public IConfiguration GetConfiguration(IGameModel model) {
+        public IConfiguration GetConfiguration(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -195,9 +202,10 @@ namespace AdvancedLauncher.Management {
             if (Configurations.TryGetValue(gameType, out config)) {
                 return config;
             }
-            throw new Exception("No game configuration for type: " + gameType);
+            return null;
         }
 
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public bool RegisterConfiguration(IConfiguration configuration) {
             if (configuration == null) {
                 throw new ArgumentException("configuration argument cannot be null");
@@ -205,18 +213,31 @@ namespace AdvancedLauncher.Management {
             if (Configurations.ContainsKey(configuration.GameType)) {
                 throw new Exception(String.Format("Configuration with type {0} already registered!", configuration.GameType));
             }
-            return Configurations.TryAdd(configuration.GameType, configuration);
-        }
 
-        public bool UnRegisterConfiguration(string name) {
-            if (name == null) {
-                throw new ArgumentException("name argument cannot be null");
+            bool result = Configurations.TryAdd(configuration.GameType, configuration);
+            if (result) {
+                OnConfigurationRegistered(configuration);
             }
-            IConfiguration configuration;
-            return Configurations.TryRemove(name, out configuration);
+            return result;
         }
 
-        public void UpdateRegistryPaths(IGameModel model) {
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+        public bool UnRegisterConfiguration(IConfiguration configuration) {
+            if (configuration == null) {
+                throw new ArgumentException("configuration argument cannot be null");
+            }
+            var configToRemove = Configurations.FirstOrDefault(kvp => kvp.Value.Equals(configuration));
+            if (configToRemove.Key != null) {
+                bool result = Configurations.TryRemove(configToRemove.Key, out configuration);
+                if (result) {
+                    OnConfigurationUnRegistered(configuration);
+                }
+                return result;
+            }
+            return false;
+        }
+
+        public void UpdateRegistryPaths(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -243,6 +264,18 @@ namespace AdvancedLauncher.Management {
 
         IEnumerator IEnumerable.GetEnumerator() {
             return Configurations.Values.GetEnumerator();
+        }
+
+        protected virtual void OnConfigurationRegistered(IConfiguration configuration) {
+            if (ConfigurationRegistered != null) {
+                ConfigurationRegistered(this, new ConfigurationChangedEventArgs(configuration));
+            }
+        }
+
+        protected virtual void OnConfigurationUnRegistered(IConfiguration configuration) {
+            if (ConfigurationUnRegistered != null) {
+                ConfigurationUnRegistered(this, new ConfigurationChangedEventArgs(configuration));
+            }
         }
 
         #endregion Getters/Setters

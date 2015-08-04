@@ -18,21 +18,13 @@
 
 using System;
 using System.Windows.Threading;
-using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.UI.Extension;
 using MahApps.Metro.Controls;
-using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
     public partial class Splashscreen : MetroWindow {
-
         private bool IsClosed = false;
-
-        [Inject]
-        public IEnvironmentManager EnvironmentManager {
-            get; set; // This injection will force bootstrap environment for this window (require color theme)
-        }
 
         public Splashscreen() {
             InitializeComponent();

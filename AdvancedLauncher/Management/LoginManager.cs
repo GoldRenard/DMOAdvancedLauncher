@@ -38,7 +38,7 @@ namespace AdvancedLauncher.Management {
 
         public event LoginCompleteEventHandler LoginCompleted;
 
-        private ConcurrentDictionary<IProfile, LoginData> CredentialsCollection = new ConcurrentDictionary<IProfile, LoginData>();
+        private ConcurrentDictionary<Profile, LoginData> CredentialsCollection = new ConcurrentDictionary<Profile, LoginData>();
 
         [Inject]
         public ILanguageManager LanguageManager {
@@ -55,7 +55,7 @@ namespace AdvancedLauncher.Management {
             get; set;
         }
 
-        public void Login(IProfile profile) {
+        public void Login(Profile profile) {
             if (profile == null) {
                 throw new ArgumentException("profile argument cannot be null");
             }
@@ -101,7 +101,7 @@ namespace AdvancedLauncher.Management {
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
             MainWindow MainWindow = App.Kernel.Get<MainWindow>();
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
             ILoginProvider loginProvider = ConfigurationManager.GetConfiguration(model).CreateLoginProvider();
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
@@ -112,7 +112,7 @@ namespace AdvancedLauncher.Management {
             loginProvider.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
         }
 
-        private async void ShowLastSessionDialog(IProfile profile) {
+        private async void ShowLastSessionDialog(Profile profile) {
             MainWindow MainWindow = App.Kernel.Get<MainWindow>();
             MessageDialogResult result = await MainWindow.ShowMessageAsync(LanguageManager.Model.UseLastSession, string.Empty,
                 MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() {
@@ -159,11 +159,11 @@ namespace AdvancedLauncher.Management {
             controller.SetMessage(message);
         }
 
-        public bool UpdateCredentials(IProfile profile, LoginData data) {
+        public bool UpdateCredentials(Profile profile, LoginData data) {
             return CredentialsCollection.AddOrUpdate(profile, data, (key, oldValue) => data).Equals(data);
         }
 
-        public bool UpdateLastSessionArgs(IProfile profile, string args) {
+        public bool UpdateLastSessionArgs(Profile profile, string args) {
             LoginData data = GetCredentials(profile);
             if (data != null) {
                 data.LastSessionArgs = args;
@@ -171,7 +171,7 @@ namespace AdvancedLauncher.Management {
             return data != null;
         }
 
-        public LoginData GetCredentials(IProfile profile) {
+        public LoginData GetCredentials(Profile profile) {
             LoginData data = null;
             if (CredentialsCollection.TryGetValue(profile, out data)) {
                 return data;

@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows;
 using AdvancedLauncher.UI.Controls;
 
@@ -29,16 +28,24 @@ namespace AdvancedLauncher.UI.Pages {
 
         public AbstractPage() : base() {
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ProfileManager.ProfileChanged += ProfileChanged;
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+                ProfileManager.ProfileChanged += OnProfileChangedInternal;
+                LanguageManager.LanguageChanged += OnLanguageChanged;
             }
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
         }
 
         public virtual void PageActivate() {
             if (!IsPageActivated) {
-                ProfileChanged(this, EventArgs.Empty);
+                OnProfileChangedInternal(this, SDK.Model.Events.EventArgs.Empty);
             }
             IsPageActivated = true;
             IsPageVisible = true;
@@ -48,6 +55,16 @@ namespace AdvancedLauncher.UI.Pages {
             IsPageVisible = false;
         }
 
-        protected abstract void ProfileChanged(object sender, EventArgs e);
+        private void OnProfileChangedInternal(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnProfileChangedInternal(sender, e2);
+                }), sender, e);
+                return;
+            }
+            OnProfileChanged(sender, e);
+        }
+
+        protected abstract void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e);
     }
 }

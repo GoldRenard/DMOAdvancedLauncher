@@ -36,7 +36,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool UnRegisterLauncher(ILauncher launcher);
 
-        ILauncher GetLauncher(IProfile profile);
+        ILauncher GetLauncher(Profile profile);
 
         ILauncher findByMnemonic(string name);
 

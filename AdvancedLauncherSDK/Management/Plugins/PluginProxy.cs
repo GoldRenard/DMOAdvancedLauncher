@@ -16,22 +16,35 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Model.Config {
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
-    public interface ISettings {
+namespace AdvancedLauncher.SDK.Management.Plugins {
 
-        string LanguageFile {
+    public class Proxy : CrossDomainObject {
+
+        public string[] PluginLibs {
             get; set;
         }
 
-        string AppTheme {
+        public List<PluginInfo> PluginInfos {
             get; set;
         }
 
-        string ThemeAccent {
-            get; set;
+        public void LoadInfos() {
+            Type pluginType = typeof(IPlugin);
+            foreach (var assemblyPath in PluginLibs) {
+                var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(assemblyPath).FullName);
+                foreach (Type type in assembly.GetExportedTypes()) {
+                    if (type.IsAbstract) {
+                        continue;
+                    }
+                    if (pluginType.IsAssignableFrom(type)) {
+                        PluginInfos.Add(new PluginInfo(assemblyPath, type.FullName));
+                    }
+                }
+            }
         }
-
-        void MergeConfig(ISettings source);
     }
 }

@@ -18,6 +18,7 @@
 
 using System.Security.Principal;
 using System.Windows;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
@@ -50,7 +51,9 @@ namespace AdvancedLauncher {
                     // initialization sequence
                     Kernel.Get<IEnvironmentManager>();
                     Kernel.Get<Splashscreen>().Show();
-                    Kernel.Get<IWindowManager>();
+                    Kernel.Get<PluginManager>().Start();
+                    Kernel.Get<IProfileManager>().Start();
+                    Kernel.Get<IWindowManager>().Start();
                 } else {
                     Application.Current.Shutdown();
                 }

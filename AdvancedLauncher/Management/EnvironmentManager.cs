@@ -17,36 +17,27 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Xml.Serialization;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.Providers;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Plugins;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using MahApps.Metro;
 using Ninject;
-using Ninject.Extensions.Conventions;
 
 namespace AdvancedLauncher.Management {
 
-    public class EnvironmentManager : IEnvironmentManager {
+    public class EnvironmentManager : CrossDomainObject, IEnvironmentManager {
         private const string SETTINGS_FILE = "Settings.xml";
         private const string LOCALE_DIR = "Languages";
         private const string RESOURCE_DIR = "Resources";
-        private const string PLUGINS_DIR = "Plugins";
+        public const string PLUGINS_DIR = "Plugins";
         private const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         private const string NTLEA_EXECUTABLE = "ntleas.exe";
-
-        [Inject]
-        public IProfileManager ProfileManager {
-            get;
-            set;
-        }
 
         [Inject]
         public ILanguageManager LanguageManager {
@@ -54,9 +45,9 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        private ISettings _Settings;
+        private Settings _Settings;
 
-        public ISettings Settings {
+        public Settings Settings {
             get {
                 return _Settings;
             }
@@ -64,22 +55,14 @@ namespace AdvancedLauncher.Management {
 
         #region Environment Properties
 
-        private string _AppPath = null;
-
         public string AppPath {
-            get {
-                if (_AppPath == null) {
-                    _AppPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-                }
-                return _AppPath;
-            }
+            get;
+            private set;
         }
 
         public string AppDataPath {
-            get {
-                return InitFolder(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData),
-                    Path.Combine("GoldRenard", "AdvancedLauncher"));
-            }
+            get;
+            private set;
         }
 
         private string _SettingsFile = null;
@@ -115,47 +98,29 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private string _LanguagesPath = null;
-
         public string LanguagesPath {
-            get {
-                if (_LanguagesPath == null) {
-                    _LanguagesPath = InitFolder(AppPath, LOCALE_DIR);
-                }
-                return _LanguagesPath;
-            }
+            get;
+            private set;
         }
-
-        private string _Resources3rdPath = null;
 
         public string Resources3rdPath {
-            get {
-                if (_Resources3rdPath == null) {
-                    _Resources3rdPath = InitFolder(AppDataPath, RESOURCE_DIR);
-                }
-                return _Resources3rdPath;
-            }
+            get;
+            private set;
         }
-
-        private string _ResourcesPath = null;
 
         public string ResourcesPath {
-            get {
-                if (_ResourcesPath == null) {
-                    _ResourcesPath = InitFolder(AppPath, RESOURCE_DIR);
-                }
-                return _ResourcesPath;
-            }
+            get;
+            private set;
         }
 
-        private string _PluginsPath = null;
-
         public string PluginsPath {
+            get;
+            private set;
+        }
+
+        public string DatabaseFile {
             get {
-                if (_PluginsPath == null) {
-                    _PluginsPath = InitFolder(AppPath, PLUGINS_DIR);
-                }
-                return _PluginsPath;
+                return Path.Combine(AppDataPath, "MainDatabase.sdf");
             }
         }
 
@@ -184,6 +149,13 @@ namespace AdvancedLauncher.Management {
         #region Initialization
 
         public void Initialize() {
+            AppPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            AppDataPath = InitFolder(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Path.Combine("GoldRenard", "AdvancedLauncher"));
+            LanguagesPath = InitFolder(AppPath, LOCALE_DIR);
+            Resources3rdPath = InitFolder(AppDataPath, RESOURCE_DIR);
+            ResourcesPath = InitFolder(AppPath, RESOURCE_DIR);
+            PluginsPath = InitFolder(AppPath, PLUGINS_DIR);
+
             AppDomain.CurrentDomain.SetData("DataDirectory", AppDataPath);
 
             // Initialize ProtectedSettings entity
@@ -209,8 +181,6 @@ namespace AdvancedLauncher.Management {
             if (createSettingsFile) {
                 Save();
             }
-            // TODO Figure out how to run plugins in different AppDomains.
-            //ApplyPlugins();
         }
 
         private void InitializeSafeSettings(ProtectedSettings settings) {
@@ -219,7 +189,7 @@ namespace AdvancedLauncher.Management {
             _Settings.LanguageFile = settings.Language;
             _Settings.ThemeAccent = settings.ThemeAccent;
 
-            ProfileManager.PendingProfiles.Clear();
+            _Settings.Profiles = new List<Profile>();
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
             if (settings.Profiles != null) {
                 foreach (ProtectedProfile protectedProfile in settings.Profiles) {
@@ -234,20 +204,13 @@ namespace AdvancedLauncher.Management {
                     safeProfile.GameModel = new GameModel(protectedProfile.GameModel);
                     safeProfile.News = new NewsData(protectedProfile.News);
                     safeProfile.Rotation = new RotationData(protectedProfile.Rotation);
-                    ProfileManager.PendingProfiles.Add(safeProfile);
+                    _Settings.Profiles.Add(safeProfile);
                     if (safeProfile.Id == settings.DefaultProfile) {
-                        ProfileManager.PendingDefaultProfile = safeProfile;
+                        _Settings.DefaultProfile = safeProfile;
                     }
                     loginManager.UpdateCredentials(safeProfile, new LoginData(protectedProfile.Login));
                 }
             }
-            if (ProfileManager.PendingProfiles.Count == 0) {
-                ProfileManager.CreateProfile();
-            }
-            if (ProfileManager.PendingDefaultProfile == null) {
-                ProfileManager.PendingDefaultProfile = ProfileManager.PendingProfiles.First();
-            }
-            ProfileManager.ApplyChanges();
         }
 
         private void ApplyAppTheme(ProtectedSettings ProtectedSettings) {
@@ -282,30 +245,15 @@ namespace AdvancedLauncher.Management {
             pManager.Initialize(settings.Proxy);
         }
 
-        private void ApplyPlugins() {
-            App.Kernel.Bind(p => {
-                p.FromAssembliesInPath(Path.Combine(AppPath, PluginsPath))
-                .SelectAllClasses()
-                .InheritedFrom<IPlugin>()
-                .BindAllInterfaces()
-                .Configure(c => c.InSingletonScope());
-            });
-
-            IPluginHost host = App.Kernel.Get<IPluginHost>();
-            foreach (IPlugin plugin in App.Kernel.GetAll<IPlugin>()) {
-                plugin.OnActivate(host);
-            }
-        }
-
         #endregion Initialization
 
         public void Save() {
             ProtectedSettings toSave = new ProtectedSettings(Settings);
             toSave.Proxy = new ProxySetting(App.Kernel.Get<ProxyManager>().Settings);
-
+            IProfileManager ProfileManager = App.Kernel.Get<IProfileManager>();
             toSave.DefaultProfile = ProfileManager.DefaultProfile.Id;
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (IProfile profile in ProfileManager.Profiles) {
+            foreach (Profile profile in ProfileManager.Profiles) {
                 ProtectedProfile protectedProfile = new ProtectedProfile(profile);
                 LoginData login = loginManager.GetCredentials(profile);
                 if (login != null) {

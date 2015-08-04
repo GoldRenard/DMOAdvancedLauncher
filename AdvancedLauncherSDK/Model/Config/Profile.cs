@@ -22,13 +22,10 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Execution;
-using AdvancedLauncher.SDK.Model.Config;
-using Ninject;
 
-namespace AdvancedLauncher.Model.Config {
+namespace AdvancedLauncher.SDK.Model.Config {
 
-    public class Profile : IProfile, INotifyPropertyChanged {
+    public class Profile : CrossDomainObject, INotifyPropertyChanged {
         private int _Id = 0;
 
         public int Id {
@@ -79,17 +76,6 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        public ILauncher Launcher {
-            set {
-                if (value != null) {
-                    LaunchMode = value.Mnemonic;
-                }
-            }
-            get {
-                return App.Kernel.Get<ILauncherManager>().GetLauncher(this);
-            }
-        }
-
         private bool _UpdateEngineEnabled = false;
 
         public bool UpdateEngineEnabled {
@@ -114,9 +100,9 @@ namespace AdvancedLauncher.Model.Config {
 
         #region Subcontainers
 
-        private IRotationData _Rotation;
+        private RotationData _Rotation;
 
-        public IRotationData Rotation {
+        public RotationData Rotation {
             set {
                 _Rotation = value; NotifyPropertyChanged("Rotation");
             }
@@ -125,9 +111,9 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        private INewsData _News;
+        private NewsData _News;
 
-        public INewsData News {
+        public NewsData News {
             set {
                 _News = value; NotifyPropertyChanged("News");
             }
@@ -136,9 +122,9 @@ namespace AdvancedLauncher.Model.Config {
             }
         }
 
-        private IGameModel _GameModel;
+        private GameModel _GameModel;
 
-        public IGameModel GameModel {
+        public GameModel GameModel {
             set {
                 _GameModel = value;
                 NotifyPropertyChanged("GameModel");
@@ -215,7 +201,7 @@ namespace AdvancedLauncher.Model.Config {
             this.GameModel = new GameModel();
         }
 
-        public Profile(IProfile p) {
+        public Profile(Profile p) {
             this.Id = p.Id;
             this.Guid = p.Guid;
             this.Name = p.Name;

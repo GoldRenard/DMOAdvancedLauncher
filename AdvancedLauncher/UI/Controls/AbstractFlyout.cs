@@ -41,9 +41,22 @@ namespace AdvancedLauncher.UI.Controls {
 
         public AbstractFlyout() {
             App.Kernel.Inject(this);
-            LanguageManager.LanguageChanged += (s, e) => {
-                this.DataContext = LanguageManager.Model;
-            };
+            LanguageManager.LanguageChanged += OnLanguageChanged;
+            MouseLeave += OnMouseLeave;
+        }
+
+        private void OnMouseLeave(object sender, System.Windows.Input.MouseEventArgs e) {
+            IsOpen = false;
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
         }
     }
 }

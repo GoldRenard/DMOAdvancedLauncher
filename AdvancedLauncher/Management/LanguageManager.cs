@@ -29,7 +29,7 @@ using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.Management {
 
-    internal sealed class LanguageManager : ILanguageManager {
+    internal sealed class LanguageManager : CrossDomainObject, ILanguageManager {
         public const string DefaultName = "en-US";
 
         public static LanguageModel Default = new LanguageModel();
@@ -129,11 +129,11 @@ namespace AdvancedLauncher.Management {
 
         #region Event Handlers
 
-        public event EventHandler LanguageChanged;
+        public event SDK.Model.Events.EventHandler LanguageChanged;
 
         private void OnChanged() {
             if (LanguageChanged != null) {
-                LanguageChanged(Model, EventArgs.Empty);
+                LanguageChanged(Model, SDK.Model.Events.EventArgs.Empty);
             }
         }
 

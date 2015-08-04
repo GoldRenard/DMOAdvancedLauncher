@@ -17,11 +17,11 @@
 // ======================================================================
 
 using System.Xml.Serialization;
-using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.Model.Config {
+namespace AdvancedLauncher.SDK.Model.Config {
 
-    public class RotationData : IRotationData {
+    public class RotationData : CrossDomainObject {
 
         [XmlAttribute("Guild")]
         public string Guild {
@@ -47,7 +47,7 @@ namespace AdvancedLauncher.Model.Config {
             get;
         } = 1;
 
-        public RotationData(IRotationData rd) {
+        public RotationData(RotationData rd) {
             Guild = rd.Guild;
             Tamer = rd.Tamer;
             ServerId = rd.ServerId;

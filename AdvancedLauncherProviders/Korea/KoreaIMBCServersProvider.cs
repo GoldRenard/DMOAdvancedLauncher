@@ -16,14 +16,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.Providers.Korea {
 
     public class KoreaIMBCServersProvider : KoreaServersProvider {
 
-        public KoreaIMBCServersProvider()
-            : base(Server.ServerType.KDMO_IMBC) {
+        public KoreaIMBCServersProvider(IDatabaseManager DatabaseManager)
+            : base(DatabaseManager, Server.ServerType.KDMO_IMBC) {
         }
     }
 }

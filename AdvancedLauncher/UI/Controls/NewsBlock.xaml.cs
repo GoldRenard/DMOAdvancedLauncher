@@ -77,9 +77,7 @@ namespace AdvancedLauncher.UI.Controls {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ProfileManager.ProfileChanged += ReloadNews;
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+                LanguageManager.LanguageChanged += OnLanguageChanged;
                 TwitterNewsList.DataContext = TwitterVM;
                 JoymaxNewsList.DataContext = JoymaxVM;
 
@@ -95,8 +93,10 @@ namespace AdvancedLauncher.UI.Controls {
                 ShowTwitter.Children.Add(dShowTwitter);
 
                 bwLoadTwitter.RunWorkerCompleted += (s, e) => {
-                    ShowTwitter.Begin();
-                    IsTwitterLoadingAnim(false);
+                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
+                        ShowTwitter.Begin();
+                        IsTwitterLoadingAnim(false);
+                    }));
                 };
 
                 bwLoadTwitter.DoWork += (s1, e1) => {
@@ -114,8 +114,10 @@ namespace AdvancedLauncher.UI.Controls {
                 };
 
                 bwLoadJoymax.RunWorkerCompleted += (s, e) => {
-                    ShowJoymax.Begin();
-                    IsJoymaxLoadingAnim(false);
+                    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
+                        ShowJoymax.Begin();
+                        IsJoymaxLoadingAnim(false);
+                    }));
                 };
                 bwLoadJoymax.DoWork += (s1, e1) => {
                     if (!JoymaxVM.IsDataLoaded) {
@@ -127,8 +129,18 @@ namespace AdvancedLauncher.UI.Controls {
                         }), JoymaxNews);
                     }
                 };
-                ReloadNews(this, EventArgs.Empty);
+                ReloadNews(this, SDK.Model.Events.EventArgs.Empty);
             }
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -137,11 +149,21 @@ namespace AdvancedLauncher.UI.Controls {
             }
         }
 
-        private void ReloadNews(object sender, EventArgs e) {
-            IProfile currentProfile = ProfileManager.CurrentProfile;
+        private void ReloadNews(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    ReloadNews(sender, e2);
+                }), sender, e);
+                return;
+            }
+            Profile currentProfile = ProfileManager.CurrentProfile;
             if (_jsonUrl != currentProfile.News.TwitterUrl) {
                 _jsonUrl = currentProfile.News.TwitterUrl;
             }
+
+            JoymaxVM.UnLoadData();
+            JoymaxNews.Clear();
+            TwitterVM.UnLoadData();
 
             bool newsSupported = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).IsNewsAvailable;
             NavJoymax.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
@@ -458,9 +480,11 @@ namespace AdvancedLauncher.UI.Controls {
             IConfiguration config = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             INewsProvider newsProvider = config.CreateNewsProvider();
             if (newsProvider != null) {
-                List<NewsItem> news;
+                List<NewsItem> news = new List<NewsItem>();
                 try {
-                    news = newsProvider.GetNews();
+                    foreach (NewsItem item in newsProvider.GetNews()) {
+                        news.Add(new NewsItem(item));
+                    }
                 } catch (WebException e) {
                     news = new List<NewsItem>();
                     news.Add(new NewsItem() {

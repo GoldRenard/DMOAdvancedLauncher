@@ -16,23 +16,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.ObjectModel;
-using System.Linq;
-using AdvancedLauncher.Providers.Database.Context;
-using AdvancedLauncher.SDK.Model.Entity;
-using AdvancedLauncher.SDK.Model.Web;
+using System.Security.Permissions;
+using AdvancedLauncher.Database.Context;
+using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.Providers {
+namespace AdvancedLauncher.Management {
 
-    public abstract class DatabaseServersProvider : AbstractServersProvider {
+    public class DatabaseManager : CrossDomainObject, IDatabaseManager {
 
-        public DatabaseServersProvider(Server.ServerType serverType) : base(serverType) {
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+        public IDatabaseContext CreateContext() {
+            return new ContextWrapper(new MainContext());
         }
 
-        protected override ReadOnlyCollection<Server> CreateServerList() {
-            using (MainContext context = new MainContext()) {
-                return new ReadOnlyCollection<Server>(context.Servers.Where(i => i.Type == ServerType).ToList());
-            }
+        public void Initialize() {
         }
     }
 }

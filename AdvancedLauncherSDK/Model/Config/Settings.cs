@@ -17,12 +17,13 @@
 // ======================================================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.Model.Config {
+namespace AdvancedLauncher.SDK.Model.Config {
 
-    public class Settings : ISettings, INotifyPropertyChanged {
+    public class Settings : CrossDomainObject, INotifyPropertyChanged {
 
         public string LanguageFile {
             get; set;
@@ -36,17 +37,27 @@ namespace AdvancedLauncher.Model.Config {
             get; set;
         }
 
+        public Profile DefaultProfile {
+            get;
+            set;
+        }
+
+        public List<Profile> Profiles {
+            get;
+            set;
+        }
+
         public Settings() {
             // default constructor
         }
 
-        public Settings(ISettings source) {
+        public Settings(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
         }
 
-        public void MergeConfig(ISettings source) {
+        public void MergeConfig(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;

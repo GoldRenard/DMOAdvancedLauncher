@@ -16,9 +16,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
+
 namespace AdvancedLauncher.SDK.Model {
 
-    public struct TaskEntry {
+    public class TaskEntry : CrossDomainObject {
         public object Owner;
     }
 }

@@ -25,7 +25,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class CommandManager : ICommandManager {
+    public class CommandManager : CrossDomainObject, ICommandManager {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(CommandManager));
         private const string ENTER_COMMAND = "Please enter the command or \"help\" to view available commands";
         private const string UNKNOWN_COMMAND = "Unknown command \"{0}\"";
@@ -90,7 +90,7 @@ namespace AdvancedLauncher.Management {
             return UnRegisterCommand(command.GetName());
         }
 
-        public IDictionary<String, ICommand> GetCommands() {
+        public IDictionary<string, ICommand> GetCommands() {
             return new Dictionary<string, ICommand>(Commands);
         }
 

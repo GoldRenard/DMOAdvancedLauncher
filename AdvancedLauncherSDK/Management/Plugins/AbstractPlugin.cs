@@ -16,23 +16,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
-using AdvancedLauncher.SDK.Model;
-using AdvancedLauncher.SDK.Model.Config;
-using AdvancedLauncher.SDK.Model.Events;
+namespace AdvancedLauncher.SDK.Management.Plugins {
 
-namespace AdvancedLauncher.SDK.Management {
+    public abstract class AbstractPlugin : CrossDomainObject, IPlugin {
 
-    public interface IUpdateManager : IManager {
+        public abstract string Author {
+            get;
+        }
 
-        VersionPair CheckUpdates(IGameModel model);
+        public abstract string Name {
+            get;
+        }
 
-        bool ImportPackages(IGameModel model);
+        public abstract void OnActivate(IPluginHost PluginHost);
 
-        bool DownloadUpdates(IGameModel model, VersionPair versionPair);
-
-        event EventHandler FileSystemOpenError;
-
-        event UpdateStatusEventHandler StatusChanged;
+        public abstract void OnStop(IPluginHost PluginHost);
     }
 }

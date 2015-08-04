@@ -18,12 +18,12 @@
 
 using System.ComponentModel;
 using System.Xml.Serialization;
-using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.Model.Config {
+namespace AdvancedLauncher.SDK.Model.Config {
 
     [XmlType(TypeName = "GameEnv")]
-    public class GameModel : IGameModel, INotifyPropertyChanged {
+    public class GameModel : CrossDomainObject, INotifyPropertyChanged {
         private string _Type;
 
         [XmlAttribute("Type")]
@@ -66,7 +66,7 @@ namespace AdvancedLauncher.Model.Config {
         public GameModel() {
         }
 
-        public GameModel(IGameModel another) {
+        public GameModel(GameModel another) {
             this.Type = another.Type;
             this.GamePath = another.GamePath;
             this.LauncherPath = another.LauncherPath;

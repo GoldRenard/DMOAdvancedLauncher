@@ -16,18 +16,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Web;
 
 namespace AdvancedLauncher.Providers.Korea {
 
     public class KoreaServersProvider : DatabaseServersProvider {
 
-        public KoreaServersProvider()
-            : base(Server.ServerType.KDMO) {
+        public KoreaServersProvider(IDatabaseManager DatabaseManager)
+            : base(DatabaseManager, Server.ServerType.KDMO) {
         }
 
-        public KoreaServersProvider(Server.ServerType serverType)
-            : base(serverType) {
+        public KoreaServersProvider(IDatabaseManager DatabaseManager, Server.ServerType serverType)
+            : base(DatabaseManager, serverType) {
         }
     }
 }

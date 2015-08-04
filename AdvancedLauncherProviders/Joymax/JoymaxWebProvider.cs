@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using AdvancedLauncher.Providers.Database.Context;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Web;
 using HtmlAgilityPack;
 
 namespace AdvancedLauncher.Providers.Joymax {
@@ -40,7 +40,7 @@ namespace AdvancedLauncher.Providers.Joymax {
         private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://dmocp.joymax.com/Ranking/SizeRankingList.aspx";
         private static string STR_URL_STARTER_RANK = "http://dmocp.joymax.com/Ranking/PartnerRankingList.aspx?sw={0}&srvn={1}";
 
-        public JoymaxWebProvider(ILogManager logManager) : base(logManager) {
+        public JoymaxWebProvider(IDatabaseManager DatabaseManager, ILogManager logManager) : base(DatabaseManager, logManager) {
         }
 
         private HtmlNode tryLoadNode(string url, string nodeExpression) {
@@ -78,7 +78,7 @@ namespace AdvancedLauncher.Providers.Joymax {
                 bool isFound = false;
                 if (tlist != null) {
                     List<DigimonType> types = GetDigimonTypes();
-                    using (MainContext context = new MainContext()) {
+                    using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                         foreach (DigimonType type in types) {
                             context.AddOrUpdateDigimonType(type, false);
                         }
@@ -142,7 +142,7 @@ namespace AdvancedLauncher.Providers.Joymax {
             List<Tamer> tamerList = new List<Tamer>();
             HtmlNode ranking = tryLoadNode(string.Format(STR_URL_GUILD_PAGE, guild.Identifier, "srv" + guild.Server.Identifier), STR_RANKING_NODE);
             HtmlNodeCollection tlist = ranking.SelectNodes("//tr/td[@class='level']");
-            using (MainContext context = new MainContext()) {
+            using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                 for (int i = 0; i < tlist.Count; i++) {
                     Tamer tamer = new Tamer() {
                         Guild = guild,
@@ -187,7 +187,7 @@ namespace AdvancedLauncher.Providers.Joymax {
             }
             List<Digimon> digimonList = new List<Digimon>();
 
-            using (MainContext context = new MainContext()) {
+            using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                 HtmlDocument doc;
                 //getting starter
                 HtmlNode tamerInfo = tryLoadNode(string.Format(STR_URL_TAMER_POPPAGE, tamer.AccountId, "srv" + tamer.Guild.Server.Identifier), "//div[@class='tamer-area']", out doc);
@@ -196,7 +196,7 @@ namespace AdvancedLauncher.Providers.Joymax {
                     SizePc = 100,
                     Name = ClearStr(tamerInfo.SelectNodes("//ul/li[@class='partner']/span")[0].InnerText)
                 };
-                partner.Type = context.FindDigimonTypeBySearchGDMO(MainContext.PrepareDigimonSearch(partner.Name));
+                partner.Type = context.FindDigimonTypeBySearchGDMO(context.PrepareDigimonSearch(partner.Name));
                 partner.SizeCm = partner.Type.SizeCm;
                 digimonList.Add(partner);
                 if (!GetStarterInfo(ref partner, tamer)) {
@@ -216,7 +216,7 @@ namespace AdvancedLauncher.Providers.Joymax {
                             Level = Convert.ToByte(ClearStr(mercenaryList.SelectNodes("//span[@class='level']")[i].InnerText)),
                             Rank = Convert.ToInt32(ClearStr(mercenaryList.SelectNodes("//span[@class='ranking']")[i].InnerText))
                         };
-                        digimonInfo.Type = context.FindDigimonTypeBySearchGDMO(MainContext.PrepareDigimonSearch(digimonInfo.Name));
+                        digimonInfo.Type = context.FindDigimonTypeBySearchGDMO(context.PrepareDigimonSearch(digimonInfo.Name));
                         if (digimonInfo.Type == null) {
                             continue;
                         }
@@ -320,6 +320,10 @@ namespace AdvancedLauncher.Providers.Joymax {
                 }
             }
             return dTypes;
+        }
+
+        protected string DownloadContent(string url) {
+            return WebClientEx.DownloadContent(LogManager, url, 5, 15000);
         }
     }
 }

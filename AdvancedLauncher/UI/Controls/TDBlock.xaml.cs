@@ -46,10 +46,18 @@ namespace AdvancedLauncher.UI.Controls {
                 TamerModel.LoadCompleted += TamersLoadCompleted;
                 DigimonModel.LoadStarted += DigimonsLoadStarted;
                 DigimonModel.LoadCompleted += DigimonsLoadCompleted;
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+                LanguageManager.LanguageChanged += OnLanguageChanged;
             }
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
         }
 
         private void TamersLoadStarted(object sender, EventArgs e) {

@@ -42,9 +42,17 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             }
             this.WindowManager = WindowManager;
             this.LanguageManager = LanguageManager;
-            this.LanguageManager.LanguageChanged += (s, e) => {
-                this.DataContext = LanguageManager.Model;
-            };
+            this.LanguageManager.LanguageChanged += OnLanguageChanged;
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
         }
 
         protected void OnCloseClick(object sender, System.Windows.RoutedEventArgs e) {

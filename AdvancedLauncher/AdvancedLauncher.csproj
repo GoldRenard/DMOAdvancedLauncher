@@ -83,6 +83,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.AddIn" />
+    <Reference Include="System.AddIn.Contract" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -90,11 +92,13 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -112,9 +116,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\Context\ContextInitializer.cs" />
+    <Compile Include="Database\Context\ContextWrapper.cs" />
+    <Compile Include="Database\Context\MainContext.cs" />
+    <Compile Include="Database\MergeHelper.cs" />
+    <Compile Include="Database\Migrations\201503251143011_InitialMigration.cs" />
+    <Compile Include="Database\Migrations\201503251143011_InitialMigration.Designer.cs">
+      <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\Configuration.cs" />
+    <Compile Include="Management\Commands\PluginCommand.cs" />
     <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />
+    <Compile Include="Management\DatabaseManager.cs" />
+    <Compile Include="Management\PluginManager.cs" />
     <Compile Include="Management\UpdateManager.cs" />
     <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
     <Compile Include="Management\LogManager.cs" />
@@ -124,12 +140,12 @@
     <Compile Include="Management\WindowManager.cs" />
     <Compile Include="Model\AbstractContainerViewModel.cs" />
     <Compile Include="Model\AbstractItemViewModel.cs" />
-    <Compile Include="Model\Config\GameModel.cs" />
-    <Compile Include="Model\Config\Profile.cs" />
-    <Compile Include="Model\Config\NewsData.cs" />
-    <Compile Include="Model\Config\RotationData.cs" />
-    <Compile Include="Model\Config\Settings.cs" />
+    <Compile Include="Model\ConfigurationViewModel.cs" />
+    <Compile Include="Model\PluginContainer.cs" />
     <Compile Include="Model\Protected\ProxyCredentials.cs" />
+    <Compile Include="Model\Proxy\IEventAccessor.cs" />
+    <Compile Include="Model\Proxy\IWebProviderEventAccessor.cs" />
+    <Compile Include="Model\Proxy\WebProviderEventProxy.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
     <Compile Include="Tools\Utils.cs" />
@@ -387,6 +403,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Database\Migrations\201503251143011_InitialMigration.resx">
+      <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -1109,7 +1128,9 @@
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"
-    xcopy /s /y "$(ProjectDir)\NTLea\*.*" "$(TargetDir)"</PostBuildEvent>
+    xcopy /s /y "$(ProjectDir)\NTLea\*.*" "$(TargetDir)"
+    if not exist "$(TargetDir)Plugins" md "$(TargetDir)Plugins"
+    xcopy /s /y "$(SolutionDir)\PluginSample\bin\$(ConfigurationName)\PluginSample.*" "$(TargetDir)Plugins"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

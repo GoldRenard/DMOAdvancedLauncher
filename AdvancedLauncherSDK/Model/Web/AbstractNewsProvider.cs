@@ -21,7 +21,7 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
-    public abstract class AbstractNewsProvider : INewsProvider {
+    public abstract class AbstractNewsProvider : CrossDomainObject, INewsProvider {
 
         protected ILogManager LogManager {
             get;

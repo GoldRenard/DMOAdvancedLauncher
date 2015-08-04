@@ -31,6 +31,11 @@ namespace AdvancedLauncher.Management.Configuration {
             get; set;
         }
 
+        [Inject]
+        public IDatabaseManager DatabaseManager {
+            get; set;
+        }
+
         #region Common
 
         public override string Name {
@@ -128,11 +133,11 @@ namespace AdvancedLauncher.Management.Configuration {
         }
 
         public override IWebProvider CreateWebProvider() {
-            return new KoreaWebProvider(LogManager);
+            return new KoreaWebProvider(DatabaseManager, LogManager);
         }
 
         protected override IServersProvider CreateServersProvider() {
-            return new KoreaServersProvider();
+            return new KoreaServersProvider(DatabaseManager);
         }
 
         public override bool IsLoginRequired {

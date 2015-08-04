@@ -26,9 +26,9 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management {
 
-    public class FileSystemManager : IFileSystemManager {
+    public class FileSystemManager : CrossDomainObject, IFileSystemManager {
 
-        public class DMOFileEntry {
+        private class FileEntry {
             public uint Id;
             public long Offset;
             public uint SizeCurrent;
@@ -42,7 +42,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         private int ArchiveHeader = 0;
         private string HeaderFile, PackageFile;
-        private List<DMOFileEntry> ArchiveEntries = new List<DMOFileEntry>();
+        private List<FileEntry> ArchiveEntries = new List<FileEntry>();
 
         private bool _IsOpened = false;
 
@@ -136,10 +136,10 @@ namespace AdvancedLauncher.SDK.Management {
                 }
 
                 uint entryCount = reader.ReadUInt32();
-                DMOFileEntry entry;
+                FileEntry entry;
 
                 for (uint e = 0; e < entryCount; e++) {
-                    entry = new DMOFileEntry();
+                    entry = new FileEntry();
                     if (reader.ReadUInt32() != 1) {
                         if (LogManager != null) {
                             LogManager.Error("FileSystem open failed (FileFormatException)");
@@ -281,7 +281,7 @@ namespace AdvancedLauncher.SDK.Management {
 
                 MapWriter.Write(ArchiveHeader);
                 MapWriter.Write((uint)ArchiveEntries.Count);
-                foreach (DMOFileEntry entry in ArchiveEntries) {
+                foreach (FileEntry entry in ArchiveEntries) {
                     MapWriter.Write(1);
                     MapWriter.Write(entry.SizeCurrent);
                     MapWriter.Write(entry.SizeAvailable);
@@ -340,7 +340,7 @@ namespace AdvancedLauncher.SDK.Management {
             }
 
             int entryIndex = GetEntryIndex(entryId);
-            DMOFileEntry entry;
+            FileEntry entry;
 
             if (entryIndex > 0) {
                 ArchiveEntries[entryIndex].SizeCurrent = (uint)SourceStream.Length;
@@ -350,7 +350,7 @@ namespace AdvancedLauncher.SDK.Management {
                 }
                 entry = ArchiveEntries[entryIndex];
             } else {
-                entry = new DMOFileEntry();
+                entry = new FileEntry();
                 entry.Id = entryId;
                 entry.SizeCurrent = (uint)SourceStream.Length;
                 entry.SizeAvailable = (uint)SourceStream.Length;
@@ -458,7 +458,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         private int GetEntryIndex(uint fileId) {
             int entryIndex = -1;
-            entryIndex = ArchiveEntries.FindIndex(delegate (DMOFileEntry bk) {
+            entryIndex = ArchiveEntries.FindIndex(delegate (FileEntry bk) {
                 return bk.Id == fileId;
             });
             return entryIndex;

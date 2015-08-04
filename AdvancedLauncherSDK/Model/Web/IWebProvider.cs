@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.Generic;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
@@ -26,15 +25,13 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
     public interface IWebProvider : ILoggable {
 
-        event EventHandler DownloadStarted;
+        event SDK.Model.Events.EventHandler DownloadStarted;
 
         event DownloadCompleteEventHandler DownloadCompleted;
 
         event DownloadStatusChangedEventHandler StatusChanged;
 
-        void GetGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher, Server server, string guildName, bool isDetailed);
-
-        void SetDispatcher(System.Windows.Threading.Dispatcher ownerDispatcher);
+        void GetGuildAsync(Server server, string guildName, bool isDetailed);
 
         List<DigimonType> GetDigimonTypes();
 
@@ -42,7 +39,6 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
         Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval);
 
-        void GetActualGuildAsync(System.Windows.Threading.Dispatcher ownerDispatcher,
-            Server server, string guildName, bool isDetailed, int actualInterval);
+        void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval);
     }
 }

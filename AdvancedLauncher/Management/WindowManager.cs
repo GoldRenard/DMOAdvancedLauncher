@@ -33,8 +33,10 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class WindowManager : IWindowManager {
+    public class WindowManager : CrossDomainObject, IWindowManager {
         private bool MainMenuSeparatorAdded = false;
+
+        private bool IsStarted = false;
 
         private ConcurrentStack<IWindow> WindowStack {
             get;
@@ -120,17 +122,24 @@ namespace AdvancedLauncher.Management {
         #endregion Injection
 
         public void Initialize() {
-            this.MainWindow = App.Kernel.Get<MainWindow>(); // do not inject it directly, we should not export it as public property
-            Application.Current.MainWindow = MainWindow;
             EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
             ProfileManager.ProfileChanged += OnProfileChanged;
             ProfileManager.ProfileLocked += OnProfileLocked;
+        }
+
+        public void Start() {
+            if (IsStarted) {
+                return;
+            }
+            this.MainWindow = App.Kernel.Get<MainWindow>(); // do not inject it directly, we should not export it as public property
+            Application.Current.MainWindow = MainWindow;
             ShowWindow(new PagesWindow());
             BuildMenu();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 App.Kernel.Get<Splashscreen>().Close();
                 MainWindow.Show();
             }
+            IsStarted = true;
         }
 
         private void BuildMenu() {
@@ -260,8 +269,8 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private void OnProfileChanged(object sender, EventArgs e) {
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
+        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
             bool gameAvailable = ConfigurationManager.CheckGame(model);
 
             if (Community != null) {

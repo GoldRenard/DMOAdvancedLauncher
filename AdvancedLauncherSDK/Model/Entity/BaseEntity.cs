@@ -17,10 +17,11 @@
 // ======================================================================
 
 using System.ComponentModel.DataAnnotations;
+using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Entity {
 
-    public abstract class BaseEntity {
+    public abstract class BaseEntity : CrossDomainObject {
 
         [Key]
         public long Id {

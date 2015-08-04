@@ -81,7 +81,7 @@ namespace AdvancedLauncher.UI.Controls {
                 if (_UpdateManager == null) {
                     _UpdateManager = value;
                     _UpdateManager.FileSystemOpenError += UpdateManager_FileSystemOpenError;
-                    _UpdateManager.StatusChanged += _UpdateManager_StatusChanged;
+                    _UpdateManager.StatusChanged += OnUpdateStatusChanged;
                 }
             }
         }
@@ -102,17 +102,31 @@ namespace AdvancedLauncher.UI.Controls {
                 ElementHolder.RemoveChild(UpdateBlock);
                 WrapElement.Content = StartButton;
                 Application.Current.MainWindow.TaskbarItemInfo = TaskBar;
-                LanguageManager.LanguageChanged += (s, e) => {
-                    this.DataContext = LanguageManager.Model;
-                };
+                LanguageManager.LanguageChanged += OnLanguageChanged;
                 App.Kernel.Get<LoginManager>().LoginCompleted += OnGameStartCompleted;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
-                OnProfileChanged(this, EventArgs.Empty);
+                OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
             }
         }
 
-        private void OnProfileChanged(object sender, EventArgs e) {
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            this.DataContext = LanguageManager.Model;
+        }
+
+        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnProfileChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
             StartButton.IsEnabled = false;
             StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             CheckWorker.RunWorkerAsync();
@@ -140,7 +154,7 @@ namespace AdvancedLauncher.UI.Controls {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
             }));
 
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
 
             //Проверяем наличие необходимых файлов игры
             if (!ConfigurationManager.CheckGame(model)) {
@@ -181,7 +195,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private async Task<bool> ImportPackages() {
-            IGameModel model = ProfileManager.CurrentProfile.GameModel;
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
             if (Directory.Exists(ConfigurationManager.GetImportPath(model))) {
                 if (ProfileManager.CurrentProfile.UpdateEngineEnabled) {
                     ShowProgressBar();
@@ -240,12 +254,24 @@ namespace AdvancedLauncher.UI.Controls {
             return true;
         }
 
-        private async void UpdateManager_FileSystemOpenError(object sender, EventArgs e) {
+        private async void UpdateManager_FileSystemOpenError(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    UpdateManager_FileSystemOpenError(sender, e2);
+                }), sender, e);
+                return;
+            }
             await CheckGameAccessMessage();
             SetUpdateEnabled(false);
         }
 
-        private void _UpdateManager_StatusChanged(object sender, UpdateStatusEventEventArgs e) {
+        private void OnUpdateStatusChanged(object sender, UpdateStatusEventEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateStatusEventHandler((s, e2) => {
+                    OnUpdateStatusChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
             UpdateMainProgressBar(e.Progress, e.MaxProgress);
             UpdateSubProgressBar(e.SummaryProgress, e.SummaryMaxProgress);
 
@@ -275,8 +301,8 @@ namespace AdvancedLauncher.UI.Controls {
         private void StartGame(string args) {
             StartButton.IsEnabled = false;
 
-            IProfile currentProfile = ProfileManager.CurrentProfile;
-            IGameModel model = currentProfile.GameModel;
+            Profile currentProfile = ProfileManager.CurrentProfile;
+            GameModel model = currentProfile.GameModel;
             IConfiguration configuration = ConfigurationManager.GetConfiguration(model);
             ILauncher launcher = LauncherManager.GetLauncher(currentProfile);
             ConfigurationManager.UpdateRegistryPaths(model);
@@ -300,6 +326,12 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void OnGameStartCompleted(object sender, LoginCompleteEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LoginCompleteEventHandler((s, e2) => {
+                    OnGameStartCompleted(sender, e2);
+                }), sender, e);
+                return;
+            }
             //Если результат НЕУСПЕШЕН, возвращаем кнопку старта и возможность смены профиля
             if (e.Code != LoginCode.SUCCESS) {
                 StartButton.IsEnabled = true;

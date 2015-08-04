@@ -20,41 +20,46 @@ using System.Collections;
 using System.Collections.Generic;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management {
 
     public interface IConfigurationManager : IManager, IEnumerable, IEnumerable<IConfiguration> {
 
-        bool CheckGame(IGameModel model);
+        bool CheckGame(GameModel model);
 
-        bool CheckLauncher(IGameModel model);
+        bool CheckLauncher(GameModel model);
 
-        bool CheckUpdateAccess(IGameModel model);
+        bool CheckUpdateAccess(GameModel model);
 
-        string GetImportPath(IGameModel model);
+        string GetImportPath(GameModel model);
 
-        string GetLocalVersionFile(IGameModel model);
+        string GetLocalVersionFile(GameModel model);
 
-        string GetPFPath(IGameModel model);
+        string GetPFPath(GameModel model);
 
-        string GetHFPath(IGameModel model);
+        string GetHFPath(GameModel model);
 
-        string GetGameEXE(IGameModel model);
+        string GetGameEXE(GameModel model);
 
-        string GetLauncherEXE(IGameModel model);
+        string GetLauncherEXE(GameModel model);
 
-        string GetLauncherPath(IGameModel model);
+        string GetLauncherPath(GameModel model);
 
-        string GetGamePath(IGameModel model);
+        string GetGamePath(GameModel model);
 
-        IConfiguration GetConfiguration(IGameModel model);
+        IConfiguration GetConfiguration(GameModel model);
 
         IConfiguration GetConfiguration(string gameType);
 
         bool RegisterConfiguration(IConfiguration configuration);
 
-        bool UnRegisterConfiguration(string name);
+        bool UnRegisterConfiguration(IConfiguration configuration);
 
-        void UpdateRegistryPaths(IGameModel model);
+        void UpdateRegistryPaths(GameModel model);
+
+        event ConfigurationChangedEventHandler ConfigurationRegistered;
+
+        event ConfigurationChangedEventHandler ConfigurationUnRegistered;
     }
 }

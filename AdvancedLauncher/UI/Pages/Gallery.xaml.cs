@@ -74,7 +74,7 @@ namespace AdvancedLauncher.UI.Pages {
             EmptyText.Visibility = System.Windows.Visibility.Visible;
         }
 
-        protected override void ProfileChanged(object sender, EventArgs e) {
+        protected override void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             GalleryModel.UnLoadData();
             IsGalleryInitialized = false;
             if (IsPageVisible) {

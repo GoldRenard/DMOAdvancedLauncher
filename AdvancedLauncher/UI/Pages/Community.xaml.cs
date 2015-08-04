@@ -16,11 +16,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
+using AdvancedLauncher.Database;
 using AdvancedLauncher.Model;
-using AdvancedLauncher.Providers.Database;
+using AdvancedLauncher.Model.Proxy;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
@@ -32,7 +32,7 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {
 
-    public partial class Community : AbstractPage {
+    public partial class Community : AbstractPage, IWebProviderEventAccessor {
 
         private delegate void DoOneText(string text);
 
@@ -42,9 +42,11 @@ namespace AdvancedLauncher.UI.Pages {
 
         private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
 
-        private Guild CURRENT_GUILD = new Guild() {
+        private Guild CurrentGuild = new Guild() {
             Id = -1
         };
+
+        private WebProviderEventProxy<Community> Proxy;
 
         [Inject]
         public IConfigurationManager ConfigurationManager {
@@ -56,21 +58,24 @@ namespace AdvancedLauncher.UI.Pages {
             get; set;
         }
 
+        [Inject]
+        public MergeHelper MergeHelper {
+            get; set;
+        }
+
         public Community() {
+            Proxy = new WebProviderEventProxy<Community>(this);
             InitializeComponent();
             GuildInfo.DataContext = GuildInfoModel;
         }
 
-        protected override void ProfileChanged(object sender, EventArgs e) {
+        protected override void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
             IConfiguration currentConfiguration = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             serversProvider = currentConfiguration.ServersProvider;
             webProvider = currentConfiguration.CreateWebProvider();
             GuildInfoModel.UnLoadData();
             TDBlock_.ClearAll();
             IsDetailedCheckbox.IsChecked = false;
-            if (webProvider != null) {
-                webProvider.SetDispatcher(this.Dispatcher);
-            }
             // use lazy ServerList initialization to prevent first long EF6 database
             // init causes the long app start time
             if (IsPageActivated) {
@@ -86,7 +91,7 @@ namespace AdvancedLauncher.UI.Pages {
         private void LoadServerList() {
             //Загружаем новый список серверов
             ComboBoxServer.ItemsSource = serversProvider.ServerList;
-            IProfile currentProfile = ProfileManager.CurrentProfile;
+            Profile currentProfile = ProfileManager.CurrentProfile;
             //Если есть название гильдии в ротации, вводим его и сервер
             if (!string.IsNullOrEmpty(currentProfile.Rotation.Guild)) {
                 foreach (Server serv in ComboBoxServer.Items) {
@@ -107,72 +112,12 @@ namespace AdvancedLauncher.UI.Pages {
             }
         }
 
-        private void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
-            switch (e.Code) {
-                case DMODownloadStatusCode.GETTING_GUILD:
-                    {
-                        LoadProgressStatus.Text = LanguageManager.Model.CommSearchingGuild;
-                        break;
-                    }
-                case DMODownloadStatusCode.GETTING_TAMER:
-                    {
-                        LoadProgressStatus.Text = string.Format(LanguageManager.Model.CommGettingTamer, e.Info);
-                        break;
-                    }
-            }
-            LoadProgressBar.Maximum = e.MaxProgress;
-            LoadProgressBar.Value = e.Progress;
-        }
-
-        private void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
-            BlockControls(false);
-
-            webProvider.DownloadStarted -= OnDownloadStarted;
-            webProvider.DownloadCompleted -= OnDownloadCompleted;
-            webProvider.StatusChanged -= OnStatusChanged;
-
-            ProgressBlock.Visibility = System.Windows.Visibility.Collapsed;
-            switch (e.Code) {
-                case DMODownloadResultCode.OK:
-                    {
-                        CURRENT_GUILD = MergeHelper.Merge(e.Guild);
-                        GuildInfoModel.LoadData(CURRENT_GUILD);
-                        TDBlock_.SetGuild(CURRENT_GUILD);
-                        break;
-                    }
-                case DMODownloadResultCode.CANT_GET:
-                    {
-                        DialogManager.ShowErrorDialog(LanguageManager.Model.CantGetError);
-                        break;
-                    }
-                case DMODownloadResultCode.NOT_FOUND:
-                    {
-                        DialogManager.ShowErrorDialog(LanguageManager.Model.GuildNotFoundError);
-                        break;
-                    }
-                case DMODownloadResultCode.WEB_ACCESS_ERROR:
-                    {
-                        DialogManager.ShowErrorDialog(LanguageManager.Model.ConnectionError);
-                        break;
-                    }
-            }
-        }
-
-        private void OnDownloadStarted(object sender, EventArgs e) {
-            BlockControls(true);
-            LoadProgressBar.Value = 0;
-            LoadProgressBar.Maximum = 100;
-            LoadProgressStatus.Text = string.Empty;
-            ProgressBlock.Visibility = System.Windows.Visibility.Visible;
-        }
-
         private void OnGetInfoClick(object sender, RoutedEventArgs e) {
             if (IsValidName(GuildNameTextBox.Text)) {
-                webProvider.DownloadStarted += OnDownloadStarted;
-                webProvider.DownloadCompleted += OnDownloadCompleted;
-                webProvider.StatusChanged += OnStatusChanged;
-                webProvider.GetActualGuildAsync(this.Dispatcher,
-                    (Server)ComboBoxServer.SelectedValue,
+                webProvider.DownloadStarted += Proxy.OnDownloadStarted;
+                webProvider.DownloadCompleted += Proxy.OnDownloadCompleted;
+                webProvider.StatusChanged += Proxy.OnStatusChanged;
+                webProvider.GetActualGuildAsync((Server)ComboBoxServer.SelectedValue,
                     GuildNameTextBox.Text,
                     (bool)IsDetailedCheckbox.IsChecked,
                     1);
@@ -203,5 +148,87 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         #endregion Обработка поля ввода имени гильдии
+
+        #region Event handlers
+
+        public void OnDownloadStarted(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnDownloadStarted(s, e2);
+                }), sender, e);
+                return;
+            }
+            BlockControls(true);
+            LoadProgressBar.Value = 0;
+            LoadProgressBar.Maximum = 100;
+            LoadProgressStatus.Text = string.Empty;
+            ProgressBlock.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        public void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadCompleteEventHandler((s, e2) => {
+                    OnDownloadCompleted(s, e2);
+                }), sender, e);
+                return;
+            }
+
+            BlockControls(false);
+
+            webProvider.DownloadStarted -= Proxy.OnDownloadStarted;
+            webProvider.DownloadCompleted -= Proxy.OnDownloadCompleted;
+            webProvider.StatusChanged -= Proxy.OnStatusChanged;
+
+            ProgressBlock.Visibility = Visibility.Collapsed;
+            switch (e.Code) {
+                case DMODownloadResultCode.OK:
+                    {
+                        CurrentGuild = MergeHelper.Merge(e.Guild);
+                        GuildInfoModel.LoadData(CurrentGuild);
+                        TDBlock_.SetGuild(CurrentGuild);
+                        break;
+                    }
+                case DMODownloadResultCode.CANT_GET:
+                    {
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.CantGetError);
+                        break;
+                    }
+                case DMODownloadResultCode.NOT_FOUND:
+                    {
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.GuildNotFoundError);
+                        break;
+                    }
+                case DMODownloadResultCode.WEB_ACCESS_ERROR:
+                    {
+                        DialogManager.ShowErrorDialog(LanguageManager.Model.ConnectionError);
+                        break;
+                    }
+            }
+        }
+
+        public void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DownloadStatusChangedEventHandler((s, e2) => {
+                    OnStatusChanged(s, e2);
+                }), sender, e);
+                return;
+            }
+            switch (e.Code) {
+                case DMODownloadStatusCode.GETTING_GUILD:
+                    {
+                        LoadProgressStatus.Text = LanguageManager.Model.CommSearchingGuild;
+                        break;
+                    }
+                case DMODownloadStatusCode.GETTING_TAMER:
+                    {
+                        LoadProgressStatus.Text = string.Format(LanguageManager.Model.CommGettingTamer, e.Info);
+                        break;
+                    }
+            }
+            LoadProgressBar.Maximum = e.MaxProgress;
+            LoadProgressBar.Value = e.Progress;
+        }
+
+        #endregion Event handlers
     }
 }

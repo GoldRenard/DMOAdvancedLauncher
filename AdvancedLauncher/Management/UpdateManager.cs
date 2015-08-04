@@ -31,8 +31,8 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class UpdateManager : IUpdateManager {
-        private ConcurrentDictionary<IGameModel, IFileSystemManager> FileSystems = new ConcurrentDictionary<IGameModel, IFileSystemManager>();
+    public class UpdateManager : CrossDomainObject, IUpdateManager {
+        private ConcurrentDictionary<GameModel, IFileSystemManager> FileSystems = new ConcurrentDictionary<GameModel, IFileSystemManager>();
 
         [Inject]
         public IConfigurationManager ConfigurationManager {
@@ -43,7 +43,7 @@ namespace AdvancedLauncher.Management {
             // nothing to do here
         }
 
-        private IFileSystemManager GetFileSystem(IGameModel model) {
+        private IFileSystemManager GetFileSystem(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -59,7 +59,7 @@ namespace AdvancedLauncher.Management {
             return fileSystem;
         }
 
-        public bool ImportPackages(IGameModel model) {
+        public bool ImportPackages(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -85,7 +85,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
-        public bool DownloadUpdates(IGameModel model, VersionPair versionPair) {
+        public bool DownloadUpdates(GameModel model, VersionPair versionPair) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -174,7 +174,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public VersionPair CheckUpdates(IGameModel model) {
+        public VersionPair CheckUpdates(GameModel model) {
             if (model == null) {
                 throw new ArgumentException("model argument cannot be null");
             }
@@ -233,13 +233,13 @@ namespace AdvancedLauncher.Management {
 
         #region Event handlers
 
-        public event EventHandler FileSystemOpenError;
+        public event SDK.Model.Events.EventHandler FileSystemOpenError;
 
         public event UpdateStatusEventHandler StatusChanged;
 
         private void OnFileSystemOpenError() {
             if (FileSystemOpenError != null) {
-                FileSystemOpenError(this, new EventArgs());
+                FileSystemOpenError(this, new SDK.Model.Events.EventArgs());
             }
         }
 

@@ -16,18 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.Providers.Database.Migrations {
+namespace AdvancedLauncher.Database.Migrations {
 
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<AdvancedLauncher.Providers.Database.Context.MainContext> {
+    public sealed class Configuration : DbMigrationsConfiguration<AdvancedLauncher.Database.Context.MainContext> {
 
         public Configuration() {
             AutomaticMigrationsEnabled = true;
             MigrationsDirectory = @"Database\Migrations";
         }
 
-        protected override void Seed(AdvancedLauncher.Providers.Database.Context.MainContext context) {
+        protected override void Seed(AdvancedLauncher.Database.Context.MainContext context) {
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method

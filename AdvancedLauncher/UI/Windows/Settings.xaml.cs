@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -28,9 +29,11 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Model;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
+using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.Tools;
@@ -79,22 +82,57 @@ namespace AdvancedLauncher.UI.Windows {
             get; set;
         }
 
-        private IProfile SelectedProfile {
+        private Profile SelectedProfile {
             get {
-                return ProfileList.SelectedItem as IProfile;
+                return ProfileList.SelectedItem as Profile;
             }
         }
 
-        private Dictionary<IProfile, LoginData> Credentials = new Dictionary<IProfile, LoginData>();
+        public ObservableCollection<Server> ServerList {
+            get;
+            set;
+        } = new ObservableCollection<Server>();
+
+        public ObservableCollection<ConfigurationViewModel> Configurations {
+            get;
+            set;
+        } = new ObservableCollection<ConfigurationViewModel>();
+
+        public ILauncher ProfileLauncher {
+            get {
+                Profile profile = ProfileList.SelectedValue as Profile;
+                return profile != null ? LauncherManager.GetLauncher(profile) : null;
+            }
+            set {
+                Profile profile = ProfileList.SelectedValue as Profile;
+                if (profile != null && value != null) {
+                    profile.LaunchMode = value.Mnemonic;
+                }
+            }
+        }
+
+        private Dictionary<Profile, LoginData> Credentials = new Dictionary<Profile, LoginData>();
 
         public Settings() {
             InitializeComponent();
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
                 ProfileList.DataContext = ProfileManager;
                 ProfileList.ItemsSource = ProfileManager.PendingProfiles;
-                ConfigurationCb.ItemsSource = ConfigurationManager;
+                ComboBoxServer.ItemsSource = ServerList;
+                ComboBoxLauncher.DataContext = this;
+                SetUpConfigurations();
             }
+        }
+
+        private void SetUpConfigurations() {
+            // Construct new list to avoid plugin's transparent proxy issues
+            ConfigurationCb.ItemsSource = Configurations;
+            foreach (IConfiguration configuration in ConfigurationManager) {
+                Configurations.Add(new ConfigurationViewModel(configuration));
+            }
+            ConfigurationManager.ConfigurationRegistered += OnConfigurationRegistered;
+            ConfigurationManager.ConfigurationUnRegistered += OnConfigurationUnRegistered;
         }
 
         public override void OnShow() {
@@ -105,7 +143,7 @@ namespace AdvancedLauncher.UI.Windows {
             ProfileManager.RevertChanges();
             Credentials.Clear();
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (IProfile p in ProfileManager.PendingProfiles) {
+            foreach (Profile p in ProfileManager.PendingProfiles) {
                 if (p.Id == ProfileManager.CurrentProfile.Id) {
                     ProfileList.SelectedItem = p;
                 }
@@ -122,6 +160,7 @@ namespace AdvancedLauncher.UI.Windows {
             }
             ValidatePaths();
             NotifyPropertyChanged("IsSelectedNotDefault");
+            NotifyPropertyChanged("ProfileLauncher");
 
             LoginData login = null;
             IsPreventLoginChange = true;
@@ -148,13 +187,18 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnTypeSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            IProfile profile = SelectedProfile;
-            IConfiguration config = ConfigurationCb.SelectedItem as IConfiguration;
+            Profile profile = SelectedProfile;
+            ConfigurationViewModel config = ConfigurationCb.SelectedItem as ConfigurationViewModel;
             if (config != null && profile != null) {
                 if (config.IsWebAvailable) {
-                    Server serv = config.ServersProvider.ServerList.FirstOrDefault();
-                    if (serv != null) {
-                        profile.Rotation.ServerId = serv.Identifier;
+                    ComboBoxServer.SelectedIndex = -1;
+                    ServerList.Clear();
+                    if (config.Configuration.ServersProvider.ServerList.Count > 0) {
+                        // Construct new list to avoid plugin's transparent proxy issues
+                        foreach (Server server in config.Configuration.ServersProvider.ServerList) {
+                            ServerList.Add(new Server(server));
+                        }
+                        ComboBoxServer.SelectedIndex = 0;
                     }
                 }
             }
@@ -175,7 +219,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnAddClick(object sender, RoutedEventArgs e) {
-            IProfile profile = ProfileManager.CreateProfile();
+            Profile profile = ProfileManager.CreateProfile();
             Credentials.Add(profile, new LoginData());
         }
 
@@ -184,7 +228,7 @@ namespace AdvancedLauncher.UI.Windows {
                 DialogManager.ShowErrorDialog(LanguageManager.Model.Settings_LastProfile);
                 return;
             }
-            IProfile profile = SelectedProfile;
+            Profile profile = SelectedProfile;
             if (ProfileList.SelectedIndex != ProfileList.Items.Count - 1) {
                 ProfileList.SelectedIndex++;
             } else {
@@ -207,7 +251,7 @@ namespace AdvancedLauncher.UI.Windows {
         #region Path Browse Section
 
         private async void OnGameBrowse(object sender, RoutedEventArgs e) {
-            IProfile profile = SelectedProfile;
+            Profile profile = SelectedProfile;
             Folderdialog.Description = LanguageManager.Model.Settings_SelectGameDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -226,7 +270,7 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private async void OnLauncherBrowse(object sender, RoutedEventArgs e) {
-            IProfile profile = SelectedProfile;
+            Profile profile = SelectedProfile;
             Folderdialog.Description = LanguageManager.Model.Settings_SelectLauncherDir;
             while (true) {
                 if (Folderdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
@@ -300,7 +344,7 @@ namespace AdvancedLauncher.UI.Windows {
             ProfileManager.ApplyChanges();
 
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (IProfile profile in ProfileManager.Profiles) {
+            foreach (Profile profile in ProfileManager.Profiles) {
                 LoginData data = null;
                 Credentials.TryGetValue(profile, out data);
                 loginManager.UpdateCredentials(profile, data);
@@ -314,6 +358,29 @@ namespace AdvancedLauncher.UI.Windows {
         #endregion Global Actions Section
 
         #region Service
+
+        private void OnConfigurationUnRegistered(object sender, SDK.Model.Events.ConfigurationChangedEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.ConfigurationChangedEventHandler((s, e2) => {
+                    OnConfigurationUnRegistered(sender, e2);
+                }), sender, e);
+                return;
+            }
+            ConfigurationViewModel viewModel = Configurations.FirstOrDefault(c => c.Configuration.Equals(e.Configuration));
+            if (viewModel != null) {
+                Configurations.Remove(viewModel);
+            }
+        }
+
+        private void OnConfigurationRegistered(object sender, SDK.Model.Events.ConfigurationChangedEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.ConfigurationChangedEventHandler((s, e2) => {
+                    OnConfigurationRegistered(sender, e2);
+                }), sender, e);
+                return;
+            }
+            Configurations.Add(new ConfigurationViewModel(e.Configuration));
+        }
 
         private void UsernameChanged(object sender, TextChangedEventArgs e) {
             if (IsPreventLoginChange) {
@@ -336,10 +403,22 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void LauncherHelp_Loaded(object sender, RoutedEventArgs e) {
-            Run run = sender as Run;
             LanguageManager.LanguageChanged += (s, e2) => {
-                run.Text = LanguageManager.Model.Settings_AppLocale_Help;
+                OnLanguageChanged(sender, e2);
             };
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            Run run = sender as Run;
+            if (run != null) {
+                run.Text = LanguageManager.Model.Settings_AppLocale_Help;
+            }
         }
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {

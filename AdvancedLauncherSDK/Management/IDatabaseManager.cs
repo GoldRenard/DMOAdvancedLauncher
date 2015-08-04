@@ -16,28 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Model.Config {
+namespace AdvancedLauncher.SDK.Management {
 
-    public interface IRotationData {
+    public interface IDatabaseManager : IManager {
 
-        string Guild {
-            set;
-            get;
-        }
-
-        string Tamer {
-            set;
-            get;
-        }
-
-        byte ServerId {
-            set;
-            get;
-        }
-
-        int UpdateInterval {
-            set;
-            get;
-        }
+        IDatabaseContext CreateContext();
     }
 }

@@ -29,6 +29,12 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             Guilds = new List<Guild>();
         }
 
+        public Server(Server server) {
+            this.Identifier = server.Identifier;
+            this.Name = server.Name;
+            this.Type = server.Type;
+        }
+
         public enum ServerType {
             KDMO = 1, KDMO_IMBC = 2, GDMO = 3, ADMO = 4
         }
@@ -55,6 +61,10 @@ namespace AdvancedLauncher.SDK.Model.Entity {
         public virtual ICollection<Guild> Guilds {
             get;
             set;
+        }
+
+        public override string ToString() {
+            return Name;
         }
     }
 }

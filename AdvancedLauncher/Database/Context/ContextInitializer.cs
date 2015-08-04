@@ -19,7 +19,7 @@
 using System.Data.Entity;
 using AdvancedLauncher.SDK.Model.Entity;
 
-namespace AdvancedLauncher.Providers.Database.Context {
+namespace AdvancedLauncher.Database.Context {
 
     public class ContextInitializer
 #if DEBUG

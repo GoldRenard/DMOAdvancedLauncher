@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.ObjectModel;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
@@ -25,25 +24,27 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface IProfileManager : IManager {
 
-        IProfile DefaultProfile {
+        void Start();
+
+        Profile DefaultProfile {
             set; get;
         }
 
-        ObservableCollection<IProfile> Profiles {
+        ObservableCollection<Profile> Profiles {
             get;
         }
 
-        IProfile CurrentProfile {
-            get;
-            set;
-        }
-
-        ObservableCollection<IProfile> PendingProfiles {
+        Profile CurrentProfile {
             get;
             set;
         }
 
-        IProfile PendingDefaultProfile {
+        ObservableCollection<Profile> PendingProfiles {
+            get;
+            set;
+        }
+
+        Profile PendingDefaultProfile {
             get;
             set;
         }
@@ -52,13 +53,13 @@ namespace AdvancedLauncher.SDK.Management {
 
         void ApplyChanges();
 
-        IProfile CreateProfile();
+        Profile CreateProfile();
 
-        bool RemoveProfile(IProfile profile);
+        bool RemoveProfile(Profile profile);
 
-        event EventHandler ProfileChanged;
+        event Model.Events.EventHandler ProfileChanged;
 
-        event EventHandler CollectionChanged;
+        event Model.Events.EventHandler CollectionChanged;
 
         event LockedChangedHandler ProfileLocked;
 

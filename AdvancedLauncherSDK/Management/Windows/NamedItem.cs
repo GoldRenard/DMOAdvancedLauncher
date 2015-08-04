@@ -21,7 +21,7 @@ using System.ComponentModel;
 
 namespace AdvancedLauncher.SDK.Management.Windows {
 
-    public abstract class NamedItem : INotifyPropertyChanged {
+    public abstract class NamedItem : CrossDomainObject, INotifyPropertyChanged {
         protected ILanguageManager LanguageManager;
 
         protected readonly string BindingName;

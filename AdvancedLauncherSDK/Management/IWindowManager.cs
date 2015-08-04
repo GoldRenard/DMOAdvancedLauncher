@@ -31,6 +31,8 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
+        void Start();
+
         void ShowWindow(IWindow window);
 
         void GoHome();

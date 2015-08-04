@@ -16,10 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Data.Entity;
+using System;
 
-namespace AdvancedLauncher.Providers.Database.Context {
+namespace AdvancedLauncher.SDK.Management {
 
-    public abstract class BaseContext : DbContext {
+    public abstract class CrossDomainObject : MarshalByRefObject {
+        /*[SecurityCritical]
+        public override object InitializeLifetimeService() {
+            ILease lease = (ILease)base.InitializeLifetimeService();
+            if (lease.CurrentState == LeaseState.Initial) {
+                lease.InitialLeaseTime = TimeSpan.Zero;
+            }
+            return lease;
+        }*/
     }
 }

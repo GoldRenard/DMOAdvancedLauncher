@@ -16,18 +16,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Model.Config {
+using AdvancedLauncher.SDK.Model.Events;
 
-    public interface INewsData {
+namespace AdvancedLauncher.Model.Proxy {
 
-        byte FirstTab {
-            set;
-            get;
-        }
+    public interface IWebProviderEventAccessor : IEventAccessor {
 
-        string TwitterUrl {
-            set;
-            get;
-        }
+        void OnDownloadStarted(object sender, SDK.Model.Events.EventArgs e);
+
+        void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e);
+
+        void OnStatusChanged(object sender, DownloadStatusEventArgs e);
     }
 }

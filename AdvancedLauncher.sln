@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedLauncher", "AdvancedLauncher\AdvancedLauncher.csproj", "{91A457B6-E472-4D26-8666-BBCCF930707E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47B7AFF9-B1E6-418F-ACD4-1541E7CDF570} = {47B7AFF9-B1E6-418F-ACD4-1541E7CDF570}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedLauncher.Providers", "AdvancedLauncherProviders\AdvancedLauncher.Providers.csproj", "{283FCE16-15FC-4DD2-BA55-0C8E622E1D2F}"
 EndProject

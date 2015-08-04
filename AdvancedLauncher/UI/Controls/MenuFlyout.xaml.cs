@@ -22,8 +22,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using Ninject;
 
@@ -48,7 +48,7 @@ namespace AdvancedLauncher.UI.Controls {
                 ProfileManager.ProfileChanged += ReloadCurrentProfile;
                 ProfileManager.ProfileLocked += OnProfileLocked;
                 ProfileManager.CollectionChanged += ReloadProfiles;
-                ReloadProfiles(this, EventArgs.Empty);
+                ReloadProfiles(this, SDK.Model.Events.EventArgs.Empty);
                 CommandList.ItemsSource = WindowManager.MenuItems;
             }
         }
@@ -62,6 +62,12 @@ namespace AdvancedLauncher.UI.Controls {
         #region Profile Selection
 
         private void OnProfileLocked(object sender, LockedEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new LockedChangedHandler((s, e2) => {
+                    OnProfileLocked(sender, e2);
+                }), sender, e);
+                return;
+            }
             IsChangeEnabled = !e.IsLocked;
         }
 
@@ -69,14 +75,26 @@ namespace AdvancedLauncher.UI.Controls {
          * ProfileList.ItemsSource or ProfileList.SelectedItem by outside profiles reloading */
         private bool IsPreventChange = false;
 
-        private void ReloadProfiles(object sender, EventArgs e) {
+        private void ReloadProfiles(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    ReloadProfiles(sender, e2);
+                }), sender, e);
+                return;
+            }
             IsPreventChange = true;
             ProfileList.ItemsSource = ProfileManager.Profiles;
             ProfileList.SelectedItem = ProfileManager.CurrentProfile;
             IsPreventChange = false;
         }
 
-        private void ReloadCurrentProfile(object sender, EventArgs e) {
+        private void ReloadCurrentProfile(object sender, SDK.Model.Events.EventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                    ReloadCurrentProfile(sender, e2);
+                }), sender, e);
+                return;
+            }
             IsPreventChange = true;
             ProfileList.SelectedItem = ProfileManager.CurrentProfile;
             IsPreventChange = false;

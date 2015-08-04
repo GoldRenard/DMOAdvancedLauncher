@@ -25,7 +25,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class DialogManager : IDialogManager {
+    public class DialogManager : CrossDomainObject, IDialogManager {
 
         [Inject]
         public ILanguageManager LanguageManager {

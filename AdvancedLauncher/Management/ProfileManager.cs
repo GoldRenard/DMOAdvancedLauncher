@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using AdvancedLauncher.Model.Config;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
@@ -32,31 +31,32 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal class ProfileManager : IProfileManager, INotifyPropertyChanged {
+    internal class ProfileManager : CrossDomainObject, IProfileManager, INotifyPropertyChanged {
+        private bool IsLoaded = false;
 
         #region Properties
 
-        private ObservableCollection<IProfile> _Profiles = new ObservableCollection<IProfile>();
+        private ObservableCollection<Profile> _Profiles = new ObservableCollection<Profile>();
 
-        public ObservableCollection<IProfile> Profiles {
+        public ObservableCollection<Profile> Profiles {
             get {
                 return _Profiles;
             }
         }
 
-        public ObservableCollection<IProfile> PendingProfiles {
+        public ObservableCollection<Profile> PendingProfiles {
             get;
             set;
-        } = new ObservableCollection<IProfile>();
+        } = new ObservableCollection<Profile>();
 
-        public IProfile PendingDefaultProfile {
+        public Profile PendingDefaultProfile {
             get;
             set;
         }
 
-        private IProfile _CurrentProfile = null;
+        private Profile _CurrentProfile = null;
 
-        public IProfile CurrentProfile {
+        public Profile CurrentProfile {
             get {
                 return _CurrentProfile;
             }
@@ -66,9 +66,9 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private IProfile _DefaultProfile;
+        private Profile _DefaultProfile;
 
-        public IProfile DefaultProfile {
+        public Profile DefaultProfile {
             get {
                 return _DefaultProfile;
             }
@@ -89,14 +89,60 @@ namespace AdvancedLauncher.Management {
             get; set;
         }
 
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
+
         public void Initialize() {
             // nothing to do here
+            ConfigurationManager.ConfigurationUnRegistered += OnConfigurationUnRegistered;
+        }
+
+        public void Start() {
+            lock (this) {
+                if (IsLoaded) {
+                    return;
+                }
+                PendingProfiles.Clear();
+                foreach (Profile p in EnvironmentManager.Settings.Profiles) {
+                    PendingProfiles.Add(new Profile(p));
+                }
+                if (PendingProfiles.Count == 0) {
+                    CreateProfile();
+                }
+                if (EnvironmentManager.Settings.DefaultProfile != null) {
+                    PendingDefaultProfile = new Profile(EnvironmentManager.Settings.DefaultProfile);
+                } else {
+                    PendingDefaultProfile = PendingProfiles.First();
+                }
+                ApplyChanges();
+                IsLoaded = true;
+            }
+        }
+
+        private void OnConfigurationUnRegistered(object sender, ConfigurationChangedEventArgs e) {
+            List<Profile> invalidProfiles = Profiles.Where(p => e.Configuration.GameType.Equals(p.GameModel.Type)).ToList();
+            if (invalidProfiles.Count == 0) {
+                return;
+            }
+            bool updateCurrent = false;
+            string newType = ConfigurationManager.First().GameType;
+            foreach (Profile p in invalidProfiles) {
+                p.GameModel.Type = newType;
+                updateCurrent = updateCurrent || p.Equals(CurrentProfile);
+            }
+            RevertChanges();
+            OnCollectionChanged();
+            if (updateCurrent) {
+                OnCurrentChanged();
+            }
         }
 
         public void RevertChanges() {
             PendingDefaultProfile = new Profile(DefaultProfile);
             PendingProfiles.Clear();
-            foreach (IProfile profile in Profiles) {
+            foreach (Profile profile in Profiles) {
                 PendingProfiles.Add(new Profile(profile));
             }
         }
@@ -105,8 +151,8 @@ namespace AdvancedLauncher.Management {
             ApplyChanges(PendingProfiles, PendingDefaultProfile.Id);
         }
 
-        public IProfile CreateProfile() {
-            IProfile pNew = new Profile() {
+        public Profile CreateProfile() {
+            var pNew = new Profile() {
                 Name = "NewProfile",
                 Id = PendingProfiles.Count > 0 ? PendingProfiles.Max(p => p.Id) + 1 : 1
             };
@@ -124,14 +170,14 @@ namespace AdvancedLauncher.Management {
                 }
             }
             pNew.News.TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE;
-            pNew.Launcher = LauncherManager.Default;
+            pNew.GameModel.Type = LauncherManager.Default.Mnemonic;
 
             PendingProfiles.Add(pNew);
             OnCollectionChanged();
             return pNew;
         }
 
-        public bool RemoveProfile(IProfile profile) {
+        public bool RemoveProfile(Profile profile) {
             if (profile == null) {
                 throw new ArgumentException("profile argument cannot be null");
             }
@@ -149,14 +195,19 @@ namespace AdvancedLauncher.Management {
             return result;
         }
 
-        private void ApplyChanges(ICollection<IProfile> profiles, int defaultProfileId) {
+        private void ApplyChanges(ICollection<Profile> profiles, int defaultProfileId) {
             if (profiles == null) {
                 throw new ArgumentException("profiles argument cannot be null");
             }
             this.Profiles.Clear();
             //Add clones of instances
-            foreach (IProfile p in profiles) {
-                Profiles.Add(new Profile(p));
+            foreach (Profile p in profiles) {
+                Profile newProfile = new Profile(p);
+                IConfiguration config = ConfigurationManager.GetConfiguration(p.GameModel);
+                if (config == null) {
+                    newProfile.GameModel.Type = ConfigurationManager.First().GameType;
+                }
+                Profiles.Add(newProfile);
             }
 
             DefaultProfile = Profiles.FirstOrDefault(i => i.Id == defaultProfileId);
@@ -186,20 +237,20 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public event EventHandler ProfileChanged;
+        public event SDK.Model.Events.EventHandler ProfileChanged;
 
         protected void OnCurrentChanged() {
             NotifyPropertyChanged("CurrentProfile");
             if (ProfileChanged != null) {
-                ProfileChanged(this, EventArgs.Empty);
+                ProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
             }
         }
 
-        public event EventHandler CollectionChanged;
+        public event SDK.Model.Events.EventHandler CollectionChanged;
 
         protected void OnCollectionChanged() {
             if (CollectionChanged != null) {
-                CollectionChanged(this, EventArgs.Empty);
+                CollectionChanged(this, SDK.Model.Events.EventArgs.Empty);
             }
         }
 

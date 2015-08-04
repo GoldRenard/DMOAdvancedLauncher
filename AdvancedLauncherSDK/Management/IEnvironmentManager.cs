@@ -23,7 +23,7 @@ namespace AdvancedLauncher.SDK.Management {
 
     public interface IEnvironmentManager : IManager {
 
-        ISettings Settings {
+        Settings Settings {
             get;
         }
 
@@ -60,6 +60,10 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         string PluginsPath {
+            get;
+        }
+
+        string DatabaseFile {
             get;
         }
 

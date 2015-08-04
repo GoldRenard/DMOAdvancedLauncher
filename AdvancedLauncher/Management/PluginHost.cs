@@ -21,7 +21,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class PluginHost : IPluginHost {
+    public class PluginHost : CrossDomainObject, IPluginHost {
 
         [Inject]
         public ILogManager LogManager {
@@ -34,6 +34,60 @@ namespace AdvancedLauncher.Management {
             get;
             set;
         }
+
+        [Inject]
+        public IConfigurationManager ConfigurationManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IDatabaseManager DatabaseManager {
+            get;
+            set;
+        }
+
+        /*[Inject]
+        public IDialogManager DialogManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public ILauncherManager LauncherManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IProfileManager ProfileManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public ITaskManager TaskManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IUpdateManager UpdateManager {
+            get;
+            set;
+        }
+
+        [Inject]
+        public IWindowManager WindowManager {
+            get;
+            set;
+        }*/
 
         public void Initialize() {
             // nothing to do

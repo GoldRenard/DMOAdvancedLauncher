@@ -16,23 +16,32 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Model.Config {
+using AdvancedLauncher.SDK.Management.Configuration;
 
-    public interface IGameModel {
+namespace AdvancedLauncher.SDK.Model.Events {
 
-        string Type {
+    /// <summary>
+    /// Configuration change event handler
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Event arguments</param>
+    public delegate void ConfigurationChangedEventHandler(object sender, ConfigurationChangedEventArgs e);
+
+    /// <summary>
+    /// Configuration change event args
+    /// </summary>
+    public class ConfigurationChangedEventArgs : EventArgs {
+
+        /// <summary>
+        /// Related configuration
+        /// </summary>
+        public IConfiguration Configuration {
             get;
-            set;
+            private set;
         }
 
-        string GamePath {
-            get;
-            set;
-        }
-
-        string LauncherPath {
-            get;
-            set;
+        public ConfigurationChangedEventArgs(IConfiguration Configuration) {
+            this.Configuration = Configuration;
         }
     }
 }

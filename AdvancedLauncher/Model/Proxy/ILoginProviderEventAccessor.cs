@@ -16,17 +16,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.SDK.Model.Web {
+namespace AdvancedLauncher.Model.Proxy {
 
-    public interface ILoginProvider : ILoggable {
+    public interface ILoginProviderEventAccessor : IEventAccessor {
 
-        event LoginCompleteEventHandler LoginCompleted;
+        void OnLoginStateChanged(object sender, LoginStateEventArgs e);
 
-        event LoginStateEventHandler LoginStateChanged;
-
-        void TryLogin(string UserId, string Password);
+        void OnLoginCompleted(object sender, LoginCompleteEventArgs e);
     }
 }

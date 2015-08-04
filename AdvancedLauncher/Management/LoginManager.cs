@@ -20,6 +20,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using AdvancedLauncher.Model.Protected;
+using AdvancedLauncher.Model.Proxy;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
@@ -31,7 +32,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal sealed class LoginManager {
+    internal sealed class LoginManager : ILoginProviderEventAccessor {
         private HashSet<string> failedLogin = new HashSet<string>();
 
         private ProgressDialogController controller;
@@ -39,6 +40,8 @@ namespace AdvancedLauncher.Management {
         public event LoginCompleteEventHandler LoginCompleted;
 
         private ConcurrentDictionary<Profile, LoginData> CredentialsCollection = new ConcurrentDictionary<Profile, LoginData>();
+
+        private LoginProviderEventAccessor<LoginManager> eventAccessor;
 
         [Inject]
         public ILanguageManager LanguageManager {
@@ -53,6 +56,10 @@ namespace AdvancedLauncher.Management {
         [Inject]
         public IConfigurationManager ConfigurationManager {
             get; set;
+        }
+
+        public LoginManager() {
+            eventAccessor = new LoginProviderEventAccessor<LoginManager>(this);
         }
 
         public void Login(Profile profile) {
@@ -107,9 +114,9 @@ namespace AdvancedLauncher.Management {
                 ColorScheme = MetroDialogColorScheme.Accented
             };
             controller = await MainWindow.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, false, settings);
-            loginProvider.LoginStateChanged += OnLoginStateChanged;
-            loginProvider.LoginCompleted += OnLoginCompleted;
-            loginProvider.TryLogin(loginData.Username, PassEncrypt.ConvertToSecureString(loginData.Password));
+            loginProvider.LoginStateChanged += eventAccessor.OnLoginStateChanged;
+            loginProvider.LoginCompleted += eventAccessor.OnLoginCompleted;
+            loginProvider.TryLogin(loginData.Username, loginData.Password);
         }
 
         private async void ShowLastSessionDialog(Profile profile) {
@@ -134,7 +141,7 @@ namespace AdvancedLauncher.Management {
             ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, credentials.User);
         }
 
-        private async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
+        public async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
             await controller.CloseAsync();
             if (e.Code == LoginCode.WRONG_USER) {
                 failedLogin.Add(e.UserName);
@@ -146,7 +153,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private void OnLoginStateChanged(object sender, LoginStateEventArgs e) {
+        public void OnLoginStateChanged(object sender, LoginStateEventArgs e) {
             if (e.Code == LoginState.LOGINNING) {
                 controller.SetTitle(LanguageManager.Model.LoginLogIn);
             } else if (e.Code == LoginState.GETTING_DATA) {

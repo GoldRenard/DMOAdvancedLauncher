@@ -16,17 +16,27 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Security.Permissions;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.SDK.Model.Web {
+namespace AdvancedLauncher.Model.Proxy {
 
-    public interface ILoginProvider : ILoggable {
+    [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+    public class LoginProviderEventAccessor<T> : CrossDomainObject
+        where T : ILoginProviderEventAccessor {
+        private readonly T Object;
 
-        event LoginCompleteEventHandler LoginCompleted;
+        public LoginProviderEventAccessor(T Object) {
+            this.Object = Object;
+        }
 
-        event LoginStateEventHandler LoginStateChanged;
+        public void OnLoginStateChanged(object sender, LoginStateEventArgs e) {
+            Object.OnLoginStateChanged(sender, e);
+        }
 
-        void TryLogin(string UserId, string Password);
+        public void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
+            Object.OnLoginCompleted(sender, e);
+        }
     }
 }

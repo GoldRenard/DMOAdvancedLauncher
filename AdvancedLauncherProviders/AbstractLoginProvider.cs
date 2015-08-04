@@ -56,6 +56,10 @@ namespace AdvancedLauncher.Providers {
             this.LogManager = logManager;
         }
 
+        public void TryLogin(string UserId, string Password) {
+            TryLogin(UserId, SecureStringConverter.ConvertToSecureString(Password));
+        }
+
         public abstract void TryLogin(string UserId, SecureString Password);
 
         protected void TryParseInfo(string content) {

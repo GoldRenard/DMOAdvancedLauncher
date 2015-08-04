@@ -36,6 +36,10 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
+        IEnvironmentManager EnvironmentManager {
+            get;
+        }
+
         /*IDialogManager DialogManager {
             get;
         }
@@ -45,10 +49,6 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         IProfileManager ProfileManager {
-            get;
-        }
-
-        IEnvironmentManager EnvironmentManager {
             get;
         }
 

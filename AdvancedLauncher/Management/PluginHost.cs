@@ -47,6 +47,12 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get;
+            set;
+        }
+
         /*[Inject]
         public IDialogManager DialogManager {
             get;
@@ -61,12 +67,6 @@ namespace AdvancedLauncher.Management {
 
         [Inject]
         public IProfileManager ProfileManager {
-            get;
-            set;
-        }
-
-        [Inject]
-        public IEnvironmentManager EnvironmentManager {
             get;
             set;
         }

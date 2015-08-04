@@ -42,6 +42,11 @@ namespace AdvancedLauncher.UI.Controls {
         public AbstractFlyout() {
             App.Kernel.Inject(this);
             LanguageManager.LanguageChanged += OnLanguageChanged;
+            MouseLeave += OnMouseLeave;
+        }
+
+        private void OnMouseLeave(object sender, System.Windows.Input.MouseEventArgs e) {
+            IsOpen = false;
         }
 
         private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {

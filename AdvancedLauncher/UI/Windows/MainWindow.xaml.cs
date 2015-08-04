@@ -72,7 +72,6 @@ namespace AdvancedLauncher.UI.Windows {
                     e.Cancel = IsCloseLocked;
                     App.Kernel.Get<ITaskManager>().CloseApp(true);
                 };
-                this.MouseDown += MainWindow_MouseDown;
                 OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
 #if DEBUG
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
@@ -89,16 +88,6 @@ namespace AdvancedLauncher.UI.Windows {
                 return;
             }
             this.DataContext = LanguageManager.Model;
-        }
-
-        private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Point p = e.GetPosition(this);
-            if (MenuFlyout.IsOpen && this.Width - p.X > MenuFlyout.Width) {
-                MenuFlyout.IsOpen = false;
-            }
-            if (SettingsFlyout.IsOpen && this.Width - p.X > SettingsFlyout.Width) {
-                SettingsFlyout.IsOpen = false;
-            }
         }
 
         private void OnClosingLocked(object sender, LockedEventArgs e) {

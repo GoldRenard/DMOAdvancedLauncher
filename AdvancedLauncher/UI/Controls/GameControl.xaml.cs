@@ -305,7 +305,9 @@ namespace AdvancedLauncher.UI.Controls {
             GameModel model = currentProfile.GameModel;
             IConfiguration configuration = ConfigurationManager.GetConfiguration(model);
             ILauncher launcher = LauncherManager.GetLauncher(currentProfile);
-            ConfigurationManager.UpdateRegistryPaths(model);
+            ConfigurationManager CM = ConfigurationManager as ConfigurationManager;
+            // we should not provide this api as public.
+            CM.UpdateRegistryPaths(model);
 
             bool executed = launcher.Execute(
                 UpdateRequired ? ConfigurationManager.GetLauncherEXE(model) : ConfigurationManager.GetGameEXE(model),

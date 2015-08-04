@@ -160,8 +160,11 @@ namespace AdvancedLauncher.Management {
             IConfiguration config = ConfigurationManager.FirstOrDefault();
             if (config != null) {
                 pNew.GameModel.Type = config.GameType;
-                pNew.GameModel.GamePath = config.GetGamePathFromRegistry();
-                pNew.GameModel.LauncherPath = config.GetLauncherPathFromRegistry();
+
+                ConfigurationManager CM = ConfigurationManager as ConfigurationManager;
+                // we should not provide this api as public
+                pNew.GameModel.GamePath = CM.GetGamePathFromRegistry(config);
+                pNew.GameModel.LauncherPath = CM.GetLauncherPathFromRegistry(config);
                 if (config.IsWebAvailable) {
                     Server serv = config.ServersProvider.ServerList.FirstOrDefault();
                     if (serv != null) {

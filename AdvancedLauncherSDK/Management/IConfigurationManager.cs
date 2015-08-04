@@ -56,8 +56,6 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool UnRegisterConfiguration(IConfiguration configuration);
 
-        void UpdateRegistryPaths(GameModel model);
-
         event ConfigurationChangedEventHandler ConfigurationRegistered;
 
         event ConfigurationChangedEventHandler ConfigurationUnRegistered;

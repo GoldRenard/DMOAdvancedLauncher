@@ -29,7 +29,7 @@ namespace AdvancedLauncher.Providers.Korea {
 
         #region Getting user login commandline
 
-        public virtual void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+        private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
             if (LogManager != null) {
                 LogManager.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             }

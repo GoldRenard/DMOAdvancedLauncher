@@ -17,7 +17,6 @@
 // ======================================================================
 
 using AdvancedLauncher.SDK.Model.Web;
-using Microsoft.Win32;
 
 namespace AdvancedLauncher.SDK.Management.Configuration {
 
@@ -120,18 +119,6 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         protected abstract IServersProvider CreateServersProvider();
-
-        public string GetGamePathFromRegistry() {
-            using (RegistryKey reg = Registry.CurrentUser.CreateSubKey(GamePathRegKey)) {
-                return (string)reg.GetValue(GamePathRegVal);
-            }
-        }
-
-        public string GetLauncherPathFromRegistry() {
-            using (RegistryKey reg = Registry.CurrentUser.CreateSubKey(LauncherPathRegKey)) {
-                return (string)reg.GetValue(LauncherPathRegVal);
-            }
-        }
 
         public virtual string ConvertGameStartArgs(string args) {
             return args;

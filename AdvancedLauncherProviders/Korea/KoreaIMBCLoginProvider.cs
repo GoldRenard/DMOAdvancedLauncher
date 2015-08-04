@@ -22,14 +22,14 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.Providers.Korea {
 
-    public class KoreaIMBCLoginProvider : KoreaLoginProvider {
+    public class KoreaIMBCLoginProvider : AbstractLoginProvider {
 
         public KoreaIMBCLoginProvider(ILogManager logManager) : base(logManager) {
         }
 
         #region Getting user login commandline
 
-        public override void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+        private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
             if (LogManager != null) {
                 LogManager.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             }

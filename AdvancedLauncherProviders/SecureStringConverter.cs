@@ -25,9 +25,8 @@ namespace AdvancedLauncher.Providers {
     public static class SecureStringConverter {
 
         public static string ConvertToUnsecureString(this SecureString securePassword) {
-            if (securePassword == null) {
+            if (securePassword == null)
                 return null;
-            }
 
             IntPtr unmanagedString = IntPtr.Zero;
             try {
@@ -36,6 +35,18 @@ namespace AdvancedLauncher.Providers {
             } finally {
                 Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
             }
+        }
+
+        public static SecureString ConvertToSecureString(string password) {
+            if (password == null)
+                throw new ArgumentNullException("password");
+
+            var securePassword = new SecureString();
+            foreach (char c in password.ToCharArray()) {
+                securePassword.AppendChar(c);
+            }
+            securePassword.MakeReadOnly();
+            return securePassword;
         }
     }
 }

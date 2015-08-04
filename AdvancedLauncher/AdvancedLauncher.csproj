@@ -144,7 +144,9 @@
     <Compile Include="Model\PluginContainer.cs" />
     <Compile Include="Model\Protected\ProxyCredentials.cs" />
     <Compile Include="Model\Proxy\IEventAccessor.cs" />
+    <Compile Include="Model\Proxy\ILoginProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\IWebProviderEventAccessor.cs" />
+    <Compile Include="Model\Proxy\LoginProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\WebProviderEventProxy.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
@@ -209,7 +211,6 @@
     <Compile Include="Management\CommandManager.cs" />
     <Compile Include="Management\Commands\HelpCommand.cs" />
     <Compile Include="Management\Commands\EchoCommand.cs" />
-    <Compile Include="Management\Commands\ExecCommand.cs" />
     <Compile Include="Management\Commands\ExitCommand.cs" />
     <Compile Include="Management\Commands\LicenseCommand.cs" />
     <Compile Include="Model\Protected\ProxySetting.cs" />

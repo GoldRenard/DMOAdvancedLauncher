@@ -29,7 +29,7 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Plugins;
 using Ninject;
 
-namespace AdvancedLauncher.Management {
+namespace AdvancedLauncher.Management.Internal {
 
     internal sealed class PluginManager {
 
@@ -100,17 +100,17 @@ namespace AdvancedLauncher.Management {
 
             permissions.AddPermission(new FileIOPermission(
               FileIOPermissionAccess.PathDiscovery |
-              FileIOPermissionAccess.Write |
               FileIOPermissionAccess.Read,
               new string[] {
                   AppDomain.CurrentDomain.BaseDirectory,
-                  EnvironmentManager.Resources3rdPath,
+                  EnvironmentManager.ResourcesPath,
               }));
 
             permissions.AddPermission(new FileIOPermission(
               FileIOPermissionAccess.PathDiscovery |
+              FileIOPermissionAccess.Write |
               FileIOPermissionAccess.Read,
-              EnvironmentManager.ResourcesPath));
+              EnvironmentManager.Resources3rdPath));
 
             // debug = REMOVE
             //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));

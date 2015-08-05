@@ -18,7 +18,7 @@
 
 using System.Security.Principal;
 using System.Windows;
-using AdvancedLauncher.Management;
+using AdvancedLauncher.Management.Internal;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;

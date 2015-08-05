@@ -30,7 +30,7 @@ using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;
 
-namespace AdvancedLauncher.Management {
+namespace AdvancedLauncher.Management.Internal {
 
     internal sealed class LoginManager : ILoginProviderEventAccessor {
         private HashSet<string> failedLogin = new HashSet<string>();

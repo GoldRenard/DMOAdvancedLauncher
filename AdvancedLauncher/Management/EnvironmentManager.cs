@@ -22,6 +22,7 @@ using System.IO;
 using System.Security.Permissions;
 using System.Windows;
 using System.Xml.Serialization;
+using AdvancedLauncher.Management.Internal;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.Providers;
 using AdvancedLauncher.SDK.Management;

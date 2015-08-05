@@ -20,6 +20,7 @@ using AdvancedLauncher.Database;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Commands;
 using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Management.Internal;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
@@ -44,11 +45,7 @@ namespace AdvancedLauncher.Tools {
             Bind<ILanguageManager>().To<LanguageManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ILogManager>().To<LogManager>().InSingletonScope().OnActivation(m => m.Initialize());
             Bind<ITaskManager>().To<TaskManager>().InSingletonScope().OnActivation(m => m.Initialize());
-
             Bind<IDatabaseManager>().To<DatabaseManager>().InSingletonScope().OnActivation(m => m.Initialize());
-
-            // Multiinstance services
-            Bind<IUpdateManager>().To<UpdateManager>().OnActivation(m => m.Initialize());
             Bind<IFileSystemManager>().To<FileSystemManager>().OnActivation(m => m.Initialize(App.Kernel.Get<ILogManager>()));
 
             // Launchers
@@ -100,6 +97,7 @@ namespace AdvancedLauncher.Tools {
             Bind<ProxyManager>().ToSelf().InSingletonScope();
             Bind<IconHolder>().ToSelf().InSingletonScope();
             Bind<MergeHelper>().ToSelf();
+            Bind<UpdateManager>().ToSelf();
 
             // Plugin System
             Bind<PluginManager>().To<PluginManager>().InSingletonScope();

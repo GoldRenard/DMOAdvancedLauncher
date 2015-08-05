@@ -132,12 +132,12 @@
     <Compile Include="Management\DatabaseManager.cs" />
     <Compile Include="Management\Execution\AbstractLauncher.cs" />
     <Compile Include="Management\Execution\ILauncher.cs" />
-    <Compile Include="Management\PluginManager.cs" />
-    <Compile Include="Management\UpdateManager.cs" />
+    <Compile Include="Management\Internal\PluginManager.cs" />
+    <Compile Include="Management\Internal\UpdateManager.cs" />
     <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
     <Compile Include="Management\LogManager.cs" />
     <Compile Include="Management\PluginHost.cs" />
-    <Compile Include="Management\ProxyManager.cs" />
+    <Compile Include="Management\Internal\ProxyManager.cs" />
     <Compile Include="Management\ServiceHolder.cs" />
     <Compile Include="Management\WindowManager.cs" />
     <Compile Include="Model\AbstractContainerViewModel.cs" />
@@ -171,7 +171,7 @@
     <Compile Include="UI\Controls\RotationElement.xaml.cs">
       <DependentUpon>RotationElement.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Management\LoginManager.cs" />
+    <Compile Include="Management\Internal\LoginManager.cs" />
     <Compile Include="UI\Controls\EnabledTextBlock.cs" />
     <Compile Include="UI\Controls\LogoControl.xaml.cs">
       <DependentUpon>LogoControl.xaml</DependentUpon>
@@ -237,7 +237,7 @@
     </Compile>
     <Compile Include="Management\DialogManager.cs" />
     <Compile Include="UI\Extension\DispatcherHelper.cs" />
-    <Compile Include="Management\LauncherManager.cs" />
+    <Compile Include="Management\Internal\LauncherManager.cs" />
     <Compile Include="Management\Execution\NTLeaLauncher.cs" />
     <Compile Include="Management\Execution\AppLocaleLauncher.cs" />
     <Compile Include="Management\Execution\DirectLauncher.cs" />

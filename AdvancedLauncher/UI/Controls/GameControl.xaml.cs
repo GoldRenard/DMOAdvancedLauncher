@@ -26,6 +26,7 @@ using System.Windows.Data;
 using System.Windows.Shell;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
+using AdvancedLauncher.Management.Internal;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model;
@@ -64,21 +65,7 @@ namespace AdvancedLauncher.UI.Controls {
             get; set;
         }
 
-        private IUpdateManager _UpdateManager;
-
-        [Inject]
-        public IUpdateManager UpdateManager {
-            get {
-                return _UpdateManager;
-            }
-            set {
-                if (_UpdateManager == null) {
-                    _UpdateManager = value;
-                    _UpdateManager.FileSystemOpenError += UpdateManager_FileSystemOpenError;
-                    _UpdateManager.StatusChanged += OnUpdateStatusChanged;
-                }
-            }
-        }
+        private readonly UpdateManager UpdateManager;
 
         public delegate void SetProgressBar(double value, double maxvalue);
 
@@ -92,6 +79,9 @@ namespace AdvancedLauncher.UI.Controls {
                 Owner = this
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                UpdateManager = App.Kernel.Get<UpdateManager>();
+                UpdateManager.FileSystemOpenError += UpdateManager_FileSystemOpenError;
+                UpdateManager.StatusChanged += OnUpdateStatusChanged;
                 ElementHolder.RemoveChild(StartButton);
                 ElementHolder.RemoveChild(UpdateBlock);
                 WrapElement.Content = StartButton;

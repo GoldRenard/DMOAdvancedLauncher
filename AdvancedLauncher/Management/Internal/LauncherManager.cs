@@ -26,7 +26,7 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using Ninject;
 
-namespace AdvancedLauncher.Management {
+namespace AdvancedLauncher.Management.Internal {
 
     internal sealed class LauncherManager : IManager, IEnumerable, IEnumerable<ILauncher> {
         private readonly ConcurrentDictionary<string, ILauncher> CollectionByMnemonic = new ConcurrentDictionary<string, ILauncher>();

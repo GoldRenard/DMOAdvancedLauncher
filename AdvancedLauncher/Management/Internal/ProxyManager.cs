@@ -20,7 +20,7 @@ using System.Net;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.Providers;
 
-namespace AdvancedLauncher.Management {
+namespace AdvancedLauncher.Management.Internal {
 
     internal sealed class ProxyManager {
 

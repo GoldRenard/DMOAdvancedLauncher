@@ -104,7 +104,6 @@
     <Compile Include="Management\Commands\ICommand.cs" />
     <Compile Include="Management\ICommandManager.cs" />
     <Compile Include="Management\IEnvironmentManager.cs" />
-    <Compile Include="Management\IUpdateManager.cs" />
     <Compile Include="Management\IManager.cs" />
     <Compile Include="Management\IProfileManager.cs" />
     <Compile Include="Management\ITaskManager.cs" />

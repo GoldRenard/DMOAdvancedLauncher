@@ -29,9 +29,9 @@ using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using Ninject;
 
-namespace AdvancedLauncher.Management {
+namespace AdvancedLauncher.Management.Internal {
 
-    public class UpdateManager : CrossDomainObject, IUpdateManager {
+    internal sealed class UpdateManager {
         private ConcurrentDictionary<GameModel, IFileSystemManager> FileSystems = new ConcurrentDictionary<GameModel, IFileSystemManager>();
 
         [Inject]

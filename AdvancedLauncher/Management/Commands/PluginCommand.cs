@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using AdvancedLauncher.Management.Internal;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management.Commands;
 using Ninject;

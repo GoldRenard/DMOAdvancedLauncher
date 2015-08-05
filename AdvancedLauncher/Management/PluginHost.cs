@@ -65,19 +65,13 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        /*
         [Inject]
         public ITaskManager TaskManager {
             get;
             set;
         }
 
-        [Inject]
-        public IUpdateManager UpdateManager {
-            get;
-            set;
-        }
-
+        /*
         [Inject]
         public IWindowManager WindowManager {
             get;

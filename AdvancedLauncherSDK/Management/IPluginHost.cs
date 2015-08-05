@@ -48,18 +48,14 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
-        /*
         ITaskManager TaskManager {
             get;
         }
 
-        IUpdateManager UpdateManager {
-            get;
-        }
-
+        /*
         IWindowManager WindowManager {
             get;
         }
-*/
+        */
     }
 }

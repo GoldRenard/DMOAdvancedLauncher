@@ -21,6 +21,10 @@ using AdvancedLauncher.SDK.Management;
 namespace AdvancedLauncher.SDK.Model {
 
     public class TaskEntry : CrossDomainObject {
-        public object Owner;
+        private readonly object Owner;
+
+        public TaskEntry(object Owner) {
+            this.Owner = Owner;
+        }
     }
 }

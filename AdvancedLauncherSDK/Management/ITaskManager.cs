@@ -16,16 +16,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.Concurrent;
 using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.SDK.Management {
 
     public interface ITaskManager : IManager {
 
-        ConcurrentBag<TaskEntry> Tasks {
-            get;
-        }
+        void AquireLock(TaskEntry entry);
+
+        bool ReleaseLock(TaskEntry entry);
 
         bool IsBusy {
             get;

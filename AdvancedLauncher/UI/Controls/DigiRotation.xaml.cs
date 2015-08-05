@@ -119,9 +119,7 @@ namespace AdvancedLauncher.UI.Controls {
             EventProxy = new WebProviderEventAccessor(this);
             App.Kernel.Inject(this);
             InitializeComponent();
-            LoadingTask = new TaskEntry() {
-                Owner = this
-            };
+            LoadingTask = new TaskEntry(this);
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 LanguageManager.LanguageChanged += OnLanguageChanged;
                 ProfileManager.ProfileChanged += OnProfileChanged;
@@ -158,7 +156,7 @@ namespace AdvancedLauncher.UI.Controls {
                 if (!IsSourceLoaded) {
                     Profile currentProfile = ProfileManager.CurrentProfile;
                     //Добавляем задачу загрузки
-                    TaskManager.Tasks.Add(LoadingTask);
+                    TaskManager.AquireLock(LoadingTask);
                     //Показываем анимацию загрузки
                     IsLoadingAnim(true, true);
                     IsStatic = false;
@@ -189,7 +187,7 @@ namespace AdvancedLauncher.UI.Controls {
                         //Закрываем анимацию, устанавливаем флаг загрузки
                         IsLoadingAnim(false);
                     }
-                    TaskManager.Tasks.TryTake(out LoadingTask);
+                    TaskManager.ReleaseLock(LoadingTask);
                     IsSourceLoaded = true;
                 }
 

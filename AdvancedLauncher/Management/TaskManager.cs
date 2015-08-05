@@ -17,7 +17,7 @@
 // ======================================================================
 
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using AdvancedLauncher.SDK.Management;
@@ -34,12 +34,17 @@ namespace AdvancedLauncher.Management {
         }
 
         /// <summary> Список задач </summary>
-        private ConcurrentBag<TaskEntry> _Tasks = new ConcurrentBag<TaskEntry>();
+        private List<TaskEntry> _Tasks = new List<TaskEntry>();
 
-        /// <summary> Предоставляет ссылку на список задач </summary>
-        public ConcurrentBag<TaskEntry> Tasks {
-            get {
-                return _Tasks;
+        public void AquireLock(TaskEntry entry) {
+            lock (_Tasks) {
+                _Tasks.Add(entry);
+            }
+        }
+
+        public bool ReleaseLock(TaskEntry entry) {
+            lock (_Tasks) {
+                return _Tasks.Remove(entry);
             }
         }
 

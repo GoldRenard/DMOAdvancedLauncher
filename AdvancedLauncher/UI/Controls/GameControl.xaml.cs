@@ -75,9 +75,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         public GameControl() {
             InitializeComponent();
-            UpdateTask = new TaskEntry() {
-                Owner = this
-            };
+            UpdateTask = new TaskEntry(this);
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 UpdateManager = App.Kernel.Get<UpdateManager>();
                 UpdateManager.FileSystemOpenError += UpdateManager_FileSystemOpenError;
@@ -118,7 +116,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void RemoveTask() {
             try {
-                TaskManager.Tasks.TryTake(out UpdateTask);
+                TaskManager.ReleaseLock(UpdateTask);
             } catch (ArgumentOutOfRangeException) {
                 // TODO Wtf this happening here?
             }
@@ -129,7 +127,7 @@ namespace AdvancedLauncher.UI.Controls {
         private async void CheckWorker_DoWork(object sender, DoWorkEventArgs e) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                 //Добавляем задачу обновления
-                TaskManager.Tasks.Add(UpdateTask);
+                TaskManager.AquireLock(UpdateTask);
                 ProfileManager.OnProfileLocked(true);
                 EnvironmentManager.OnFileSystemLocked(true);
                 EnvironmentManager.OnClosingLocked(true);

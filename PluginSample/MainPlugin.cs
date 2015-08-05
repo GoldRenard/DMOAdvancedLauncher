@@ -20,7 +20,6 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Plugins;
-using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace PluginSample {
@@ -37,9 +36,6 @@ namespace PluginSample {
             }
 
             public override bool DoCommand(string[] args) {
-                Profile p = PluginHost.ProfileManager.CreateProfile();
-                PluginHost.ProfileManager.RemoveProfile(p);
-                PluginHost.ProfileManager.ApplyChanges();
                 PluginHost.LogManager.Info("SimplePlugin - Did it!");
                 return true;
             }

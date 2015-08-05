@@ -100,13 +100,13 @@ namespace AdvancedLauncher.UI.Controls {
                 App.Kernel.Get<LoginManager>().LoginCompleted += OnGameStartCompleted;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 CheckWorker.DoWork += CheckWorker_DoWork;
-                OnProfileChanged(this, SDK.Model.Events.BaseEventArgs.Empty);
+                OnProfileChanged(this, BaseEventArgs.Empty);
             }
         }
 
-        private void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
+        private void OnLanguageChanged(object sender, BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
                     OnLanguageChanged(sender, e2);
                 }), sender, e);
                 return;
@@ -114,9 +114,9 @@ namespace AdvancedLauncher.UI.Controls {
             this.DataContext = LanguageManager.Model;
         }
 
-        private void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
+        private void OnProfileChanged(object sender, BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
                     OnProfileChanged(sender, e2);
                 }), sender, e);
                 return;
@@ -248,9 +248,9 @@ namespace AdvancedLauncher.UI.Controls {
             return true;
         }
 
-        private async void UpdateManager_FileSystemOpenError(object sender, SDK.Model.Events.BaseEventArgs e) {
+        private async void UpdateManager_FileSystemOpenError(object sender, BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
                     UpdateManager_FileSystemOpenError(sender, e2);
                 }), sender, e);
                 return;

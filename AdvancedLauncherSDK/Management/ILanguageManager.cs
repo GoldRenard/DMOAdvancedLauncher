@@ -17,6 +17,7 @@
 // ======================================================================
 
 using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management {
 
@@ -36,7 +37,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         string[] GetTranslations();
 
-        event SDK.Model.Events.BaseEventHandler LanguageChanged;
+        event BaseEventHandler LanguageChanged;
 
         string GetDefaultName();
 

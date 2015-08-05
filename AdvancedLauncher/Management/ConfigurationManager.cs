@@ -28,6 +28,7 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 using AdvancedLauncher.Tools;
 using Microsoft.Win32;
 using Ninject;
@@ -40,10 +41,6 @@ namespace AdvancedLauncher.Management {
         private const string puImportDir = @"Pack01";
 
         private ConcurrentDictionary<string, IConfiguration> Configurations = new ConcurrentDictionary<string, IConfiguration>();
-
-        public event ConfigurationChangedEventHandler ConfigurationRegistered;
-
-        public event ConfigurationChangedEventHandler ConfigurationUnRegistered;
 
         public void Initialize() {
             foreach (IConfiguration config in App.Kernel.GetAll<IConfiguration>()) {
@@ -301,6 +298,8 @@ namespace AdvancedLauncher.Management {
 
         #endregion Registry
 
+        #endregion Getters/Setters
+
         public IEnumerator<IConfiguration> GetEnumerator() {
             return Configurations.Values.GetEnumerator();
         }
@@ -309,11 +308,23 @@ namespace AdvancedLauncher.Management {
             return Configurations.Values.GetEnumerator();
         }
 
+        public event ConfigurationChangedEventHandler ConfigurationRegistered;
+
         protected virtual void OnConfigurationRegistered(IConfiguration configuration) {
             if (ConfigurationRegistered != null) {
                 ConfigurationRegistered(this, new ConfigurationChangedEventArgs(configuration));
             }
         }
+
+        public void ConfigurationRegisteredProxy(EventProxy<ConfigurationChangedEventArgs> proxy, bool subscribe = true) {
+            if (subscribe) {
+                ConfigurationRegistered += proxy.Handler;
+            } else {
+                ConfigurationRegistered -= proxy.Handler;
+            }
+        }
+
+        public event ConfigurationChangedEventHandler ConfigurationUnRegistered;
 
         protected virtual void OnConfigurationUnRegistered(IConfiguration configuration) {
             if (ConfigurationUnRegistered != null) {
@@ -321,6 +332,12 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        #endregion Getters/Setters
+        public void ConfigurationUnRegisteredProxy(EventProxy<ConfigurationChangedEventArgs> proxy, bool subscribe = true) {
+            if (subscribe) {
+                ConfigurationUnRegistered += proxy.Handler;
+            } else {
+                ConfigurationUnRegistered -= proxy.Handler;
+            }
+        }
     }
 }

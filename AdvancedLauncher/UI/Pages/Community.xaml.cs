@@ -69,7 +69,7 @@ namespace AdvancedLauncher.UI.Pages {
             GuildInfo.DataContext = GuildInfoModel;
         }
 
-        protected override void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
+        protected override void OnProfileChanged(object sender, BaseEventArgs e) {
             IConfiguration currentConfiguration = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             serversProvider = currentConfiguration.ServersProvider;
             webProvider = currentConfiguration.CreateWebProvider();
@@ -151,9 +151,9 @@ namespace AdvancedLauncher.UI.Pages {
 
         #region Event handlers
 
-        public void OnDownloadStarted(object sender, SDK.Model.Events.BaseEventArgs e) {
+        public void OnDownloadStarted(object sender, BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
                     OnDownloadStarted(s, e2);
                 }), sender, e);
                 return;

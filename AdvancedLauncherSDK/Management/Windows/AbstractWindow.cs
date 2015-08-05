@@ -18,6 +18,7 @@
 
 using System;
 using System.Windows.Controls;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management.Windows {
 
@@ -45,9 +46,9 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             this.LanguageManager.LanguageChanged += OnLanguageChanged;
         }
 
-        private void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
+        private void OnLanguageChanged(object sender, BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
                     OnLanguageChanged(sender, e2);
                 }), sender, e);
                 return;

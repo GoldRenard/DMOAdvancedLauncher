@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.Management {
 
@@ -129,11 +130,11 @@ namespace AdvancedLauncher.Management {
 
         #region Event Handlers
 
-        public event SDK.Model.Events.BaseEventHandler LanguageChanged;
+        public event BaseEventHandler LanguageChanged;
 
         private void OnChanged() {
             if (LanguageChanged != null) {
-                LanguageChanged(Model, SDK.Model.Events.BaseEventArgs.Empty);
+                LanguageChanged(Model, BaseEventArgs.Empty);
             }
         }
 

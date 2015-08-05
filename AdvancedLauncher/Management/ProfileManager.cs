@@ -252,16 +252,16 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public event SDK.Model.Events.BaseEventHandler ProfileChanged;
+        public event BaseEventHandler ProfileChanged;
 
         protected void OnCurrentChanged() {
             NotifyPropertyChanged("CurrentProfile");
             if (ProfileChanged != null) {
-                ProfileChanged(this, SDK.Model.Events.BaseEventArgs.Empty);
+                ProfileChanged(this, BaseEventArgs.Empty);
             }
         }
 
-        public void ProfileChangedProxy(EventProxy<SDK.Model.Events.BaseEventArgs> proxy, bool subscribe = true) {
+        public void ProfileChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true) {
             if (subscribe) {
                 ProfileChanged += proxy.Handler;
             } else {
@@ -269,15 +269,15 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public event SDK.Model.Events.BaseEventHandler CollectionChanged;
+        public event BaseEventHandler CollectionChanged;
 
         protected void OnCollectionChanged() {
             if (CollectionChanged != null) {
-                CollectionChanged(this, SDK.Model.Events.BaseEventArgs.Empty);
+                CollectionChanged(this, BaseEventArgs.Empty);
             }
         }
 
-        public void CollectionChangedProxy(EventProxy<SDK.Model.Events.BaseEventArgs> proxy, bool subscribe = true) {
+        public void CollectionChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true) {
             if (subscribe) {
                 CollectionChanged += proxy.Handler;
             } else {

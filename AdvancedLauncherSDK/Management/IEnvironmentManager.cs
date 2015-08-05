@@ -18,6 +18,7 @@
 
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace AdvancedLauncher.SDK.Management {
 
@@ -73,9 +74,13 @@ namespace AdvancedLauncher.SDK.Management {
 
         event LockedChangedHandler FileSystemLocked;
 
+        void FileSystemLockedProxy(EventProxy<LockedEventArgs> proxy, bool subscribe = true);
+
         void OnFileSystemLocked(bool IsLocked);
 
         event LockedChangedHandler ClosingLocked;
+
+        void ClosingLockedProxy(EventProxy<LockedEventArgs> proxy, bool subscribe = true);
 
         void OnClosingLocked(bool IsLocked);
     }

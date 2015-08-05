@@ -48,7 +48,7 @@ namespace AdvancedLauncher.UI.Controls {
                 ProfileManager.ProfileChanged += ReloadCurrentProfile;
                 ProfileManager.ProfileLocked += OnProfileLocked;
                 ProfileManager.CollectionChanged += ReloadProfiles;
-                ReloadProfiles(this, SDK.Model.Events.BaseEventArgs.Empty);
+                ReloadProfiles(this, BaseEventArgs.Empty);
                 CommandList.ItemsSource = WindowManager.MenuItems;
             }
         }
@@ -75,9 +75,9 @@ namespace AdvancedLauncher.UI.Controls {
          * ProfileList.ItemsSource or ProfileList.SelectedItem by outside profiles reloading */
         private bool IsPreventChange = false;
 
-        private void ReloadProfiles(object sender, SDK.Model.Events.BaseEventArgs e) {
+        private void ReloadProfiles(object sender, BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
                     ReloadProfiles(sender, e2);
                 }), sender, e);
                 return;
@@ -88,9 +88,9 @@ namespace AdvancedLauncher.UI.Controls {
             IsPreventChange = false;
         }
 
-        private void ReloadCurrentProfile(object sender, SDK.Model.Events.BaseEventArgs e) {
+        private void ReloadCurrentProfile(object sender, BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
                     ReloadCurrentProfile(sender, e2);
                 }), sender, e);
                 return;

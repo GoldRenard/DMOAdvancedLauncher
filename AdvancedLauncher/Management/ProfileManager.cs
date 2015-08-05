@@ -117,6 +117,9 @@ namespace AdvancedLauncher.Management {
                     PendingDefaultProfile = PendingProfiles.First();
                 }
                 ApplyChanges();
+                if (EnvironmentManager.Settings.Profiles.Count == 0) {
+                    EnvironmentManager.Save();
+                }
                 IsLoaded = true;
             }
         }

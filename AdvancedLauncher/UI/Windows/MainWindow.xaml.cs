@@ -23,10 +23,10 @@ using System.Windows.Media;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Tools;
 using AdvancedLauncher.Tools;
 using MahApps.Metro.Controls;
 using Ninject;
-using AdvancedLauncher.SDK.Tools;
 
 namespace AdvancedLauncher.UI.Windows {
 
@@ -73,11 +73,13 @@ namespace AdvancedLauncher.UI.Windows {
                     e.Cancel = IsCloseLocked;
                     App.Kernel.Get<ITaskManager>().CloseApp(true);
                 };
+                this.Loaded += (s, e) => {
+                    CheckUpdates();
+                };
                 OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
 #if DEBUG
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
-                CheckUpdates();
             }
         }
 

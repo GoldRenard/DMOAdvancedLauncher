@@ -16,7 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Management.Execution {
+namespace AdvancedLauncher.Management.Execution {
 
     public interface ILauncher {
 

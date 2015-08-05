@@ -31,7 +31,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    internal class ProfileManager : CrossDomainObject, IProfileManager, INotifyPropertyChanged {
+    public class ProfileManager : CrossDomainObject, IProfileManager, INotifyPropertyChanged {
         private bool IsLoaded = false;
 
         #region Properties
@@ -81,11 +81,6 @@ namespace AdvancedLauncher.Management {
 
         [Inject]
         public IConfigurationManager ConfigurationManager {
-            get; set;
-        }
-
-        [Inject]
-        public ILauncherManager LauncherManager {
             get; set;
         }
 
@@ -176,7 +171,7 @@ namespace AdvancedLauncher.Management {
                 }
             }
             pNew.News.TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE;
-            pNew.LaunchMode = LauncherManager.Default.Mnemonic;
+            pNew.LaunchMode = App.Kernel.Get<LauncherManager>().Default.Mnemonic;
 
             PendingProfiles.Add(pNew);
             OnCollectionChanged();

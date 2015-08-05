@@ -59,12 +59,7 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        /*[Inject]
-        public ILauncherManager LauncherManager {
-            get;
-            set;
-        }
-
+        /*
         [Inject]
         public IProfileManager ProfileManager {
             get;

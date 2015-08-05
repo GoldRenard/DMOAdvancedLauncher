@@ -130,6 +130,8 @@
     <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMODMConfiguration.cs" />
     <Compile Include="Management\DatabaseManager.cs" />
+    <Compile Include="Management\Execution\AbstractLauncher.cs" />
+    <Compile Include="Management\Execution\ILauncher.cs" />
     <Compile Include="Management\PluginManager.cs" />
     <Compile Include="Management\UpdateManager.cs" />
     <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />

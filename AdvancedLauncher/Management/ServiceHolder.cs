@@ -24,24 +24,6 @@ namespace AdvancedLauncher.Management {
 
     public class ServiceHolder {
 
-        public IProfileManager ProfileManager {
-            get {
-                return App.Kernel.Get<IProfileManager>();
-            }
-        }
-
-        public IConfigurationManager ConfigurationManager {
-            get {
-                return App.Kernel.Get<IConfigurationManager>();
-            }
-        }
-
-        public ILauncherManager LauncherManager {
-            get {
-                return App.Kernel.Get<ILauncherManager>();
-            }
-        }
-
         public LanguageModel LanguageModel {
             get {
                 return App.Kernel.Get<ILanguageManager>().Model;

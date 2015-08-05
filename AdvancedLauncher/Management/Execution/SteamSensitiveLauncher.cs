@@ -18,7 +18,6 @@
 
 using System.Diagnostics;
 using System.IO;
-using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.Management.Execution {

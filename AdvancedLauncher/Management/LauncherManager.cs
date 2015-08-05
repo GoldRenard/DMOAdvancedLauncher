@@ -23,13 +23,12 @@ using System.Collections.Generic;
 using System.Linq;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.SDK.Model.Config;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
-    public class LauncherManager : CrossDomainObject, ILauncherManager {
+    internal sealed class LauncherManager : IManager, IEnumerable, IEnumerable<ILauncher> {
         private readonly ConcurrentDictionary<string, ILauncher> CollectionByMnemonic = new ConcurrentDictionary<string, ILauncher>();
 
         private readonly ConcurrentDictionary<Type, ILauncher> CollectionByType = new ConcurrentDictionary<Type, ILauncher>();

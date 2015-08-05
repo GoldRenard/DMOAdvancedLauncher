@@ -28,7 +28,6 @@ using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
-using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
@@ -49,11 +48,6 @@ namespace AdvancedLauncher.UI.Controls {
         private Binding StartButtonBinding = new Binding("StartButton");
         private Binding WaitingButtonBinding = new Binding("GameButton_Waiting");
         private Binding UpdateButtonBinding = new Binding("GameButton_UpdateGame");
-
-        [Inject]
-        public ILauncherManager LauncherManager {
-            get; set;
-        }
 
         [Inject]
         public ITaskManager TaskManager {
@@ -300,7 +294,7 @@ namespace AdvancedLauncher.UI.Controls {
 
         private void StartGame(string args) {
             StartButton.IsEnabled = false;
-
+            LauncherManager LauncherManager = App.Kernel.Get<LauncherManager>();
             Profile currentProfile = ProfileManager.CurrentProfile;
             GameModel model = currentProfile.GameModel;
             IConfiguration configuration = ConfigurationManager.GetConfiguration(model);

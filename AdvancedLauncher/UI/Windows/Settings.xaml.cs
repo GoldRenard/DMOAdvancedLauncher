@@ -33,7 +33,6 @@ using AdvancedLauncher.Model;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
-using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Tools;
@@ -68,8 +67,7 @@ namespace AdvancedLauncher.UI.Windows {
             get; set;
         }
 
-        [Inject]
-        public ILauncherManager LauncherManager {
+        private LauncherManager LauncherManager {
             get; set;
         }
 
@@ -101,6 +99,9 @@ namespace AdvancedLauncher.UI.Windows {
 
         public ILauncher ProfileLauncher {
             get {
+                if (LauncherManager == null) {
+                    return null;
+                }
                 Profile profile = ProfileList.SelectedValue as Profile;
                 return profile != null ? LauncherManager.GetLauncher(profile) : null;
             }
@@ -117,7 +118,9 @@ namespace AdvancedLauncher.UI.Windows {
         public Settings() {
             InitializeComponent();
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                LauncherManager = App.Kernel.Get<LauncherManager>();
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+                ComboBoxLauncher.ItemsSource = LauncherManager;
                 ProfileList.DataContext = ProfileManager;
                 ProfileList.ItemsSource = ProfileManager.PendingProfiles;
                 ComboBoxServer.ItemsSource = ServerList;

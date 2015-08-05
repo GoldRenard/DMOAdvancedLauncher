@@ -99,12 +99,9 @@
     <Compile Include="Model\Web\ILoginProvider.cs" />
     <Compile Include="Management\Commands\AbstractCommand.cs" />
     <Compile Include="Management\Commands\ICommand.cs" />
-    <Compile Include="Management\Execution\AbstractLauncher.cs" />
-    <Compile Include="Management\Execution\ILauncher.cs" />
     <Compile Include="Management\ICommandManager.cs" />
     <Compile Include="Management\IEnvironmentManager.cs" />
     <Compile Include="Management\IUpdateManager.cs" />
-    <Compile Include="Management\ILauncherManager.cs" />
     <Compile Include="Management\IManager.cs" />
     <Compile Include="Management\IProfileManager.cs" />
     <Compile Include="Management\ITaskManager.cs" />

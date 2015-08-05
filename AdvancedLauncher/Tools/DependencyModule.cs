@@ -19,11 +19,11 @@
 using AdvancedLauncher.Database;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Commands;
+using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Configuration;
-using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.UI.Windows;
 using Ninject;
 using Ninject.Activation.Strategies;
@@ -52,7 +52,7 @@ namespace AdvancedLauncher.Tools {
             Bind<IFileSystemManager>().To<FileSystemManager>().OnActivation(m => m.Initialize(App.Kernel.Get<ILogManager>()));
 
             // Launchers
-            Bind<ILauncherManager>().To<LauncherManager>().InSingletonScope().OnActivation(m => m.Initialize());
+            Bind<LauncherManager>().ToSelf().InSingletonScope().OnActivation(m => m.Initialize());
             Kernel.Bind(e => {
                 e.FromThisAssembly()
                 .SelectAllClasses()

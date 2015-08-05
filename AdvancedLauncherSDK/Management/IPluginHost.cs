@@ -45,10 +45,6 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /*
-        ILauncherManager LauncherManager {
-            get;
-        }
-
         IProfileManager ProfileManager {
             get;
         }

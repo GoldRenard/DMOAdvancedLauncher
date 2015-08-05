@@ -21,16 +21,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Permissions;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 using AdvancedLauncher.Tools;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
+    [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
     public class ProfileManager : CrossDomainObject, IProfileManager, INotifyPropertyChanged {
         private bool IsLoaded = false;
 
@@ -61,6 +64,9 @@ namespace AdvancedLauncher.Management {
                 return _CurrentProfile;
             }
             set {
+                if (!Profiles.Contains(value)) {
+                    throw new Exception("This profile is not listed as current");
+                }
                 _CurrentProfile = value;
                 OnCurrentChanged();
             }
@@ -72,7 +78,7 @@ namespace AdvancedLauncher.Management {
             get {
                 return _DefaultProfile;
             }
-            set {
+            private set {
                 _DefaultProfile = value;
             }
         }
@@ -238,20 +244,44 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        public event SDK.Model.Events.EventHandler ProfileChanged;
+        public void LockedChangedProxy(EventProxy<LockedEventArgs> proxy, bool subscribe = true) {
+            if (subscribe) {
+                ProfileLocked += proxy.Handler;
+            } else {
+                ProfileLocked -= proxy.Handler;
+            }
+        }
+
+        public event SDK.Model.Events.BaseEventHandler ProfileChanged;
 
         protected void OnCurrentChanged() {
             NotifyPropertyChanged("CurrentProfile");
             if (ProfileChanged != null) {
-                ProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
+                ProfileChanged(this, SDK.Model.Events.BaseEventArgs.Empty);
             }
         }
 
-        public event SDK.Model.Events.EventHandler CollectionChanged;
+        public void ProfileChangedProxy(EventProxy<SDK.Model.Events.BaseEventArgs> proxy, bool subscribe = true) {
+            if (subscribe) {
+                ProfileChanged += proxy.Handler;
+            } else {
+                ProfileChanged -= proxy.Handler;
+            }
+        }
+
+        public event SDK.Model.Events.BaseEventHandler CollectionChanged;
 
         protected void OnCollectionChanged() {
             if (CollectionChanged != null) {
-                CollectionChanged(this, SDK.Model.Events.EventArgs.Empty);
+                CollectionChanged(this, SDK.Model.Events.BaseEventArgs.Empty);
+            }
+        }
+
+        public void CollectionChangedProxy(EventProxy<SDK.Model.Events.BaseEventArgs> proxy, bool subscribe = true) {
+            if (subscribe) {
+                CollectionChanged += proxy.Handler;
+            } else {
+                CollectionChanged -= proxy.Handler;
             }
         }
 

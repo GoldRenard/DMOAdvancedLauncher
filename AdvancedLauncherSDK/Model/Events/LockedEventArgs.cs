@@ -20,7 +20,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
 
     public delegate void LockedChangedHandler(object sender, LockedEventArgs e);
 
-    public class LockedEventArgs : EventArgs {
+    public class LockedEventArgs : BaseEventArgs {
 
         public bool IsLocked {
             get;

@@ -40,7 +40,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// <summary>
     /// Login complete event arguments
     /// </summary>
-    public class LoginCompleteEventArgs : EventArgs {
+    public class LoginCompleteEventArgs : BaseEventArgs {
 
         /// <summary>
         /// Login status code

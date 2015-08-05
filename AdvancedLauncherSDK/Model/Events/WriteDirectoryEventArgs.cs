@@ -28,7 +28,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// <summary>
     /// Write directory status change event args
     /// </summary>
-    public class WriteDirectoryEventArgs : EventArgs {
+    public class WriteDirectoryEventArgs : BaseEventArgs {
 
         /// <summary>
         /// Current file number

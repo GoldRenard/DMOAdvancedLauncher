@@ -47,7 +47,7 @@ namespace AdvancedLauncher.UI.Windows {
                 NavControl.ItemsSource = App.Kernel.Get<IWindowManager>().PageItems;
                 EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 ProfileManager.ProfileChanged += OnProfileChanged;
-                OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
+                OnProfileChanged(this, SDK.Model.Events.BaseEventArgs.Empty);
             }
         }
 
@@ -80,9 +80,9 @@ namespace AdvancedLauncher.UI.Windows {
             }
         }
 
-        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnProfileChanged(sender, e2);
                 }), sender, e);
                 return;

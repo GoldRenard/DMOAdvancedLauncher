@@ -29,7 +29,7 @@ namespace AdvancedLauncher.UI.Pages {
             InitializeComponent();
         }
 
-        protected override void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        protected override void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             // nothing to do
         }
     }

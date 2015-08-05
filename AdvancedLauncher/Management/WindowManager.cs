@@ -272,7 +272,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
-        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             GameModel model = ProfileManager.CurrentProfile.GameModel;
             bool gameAvailable = ConfigurationManager.CheckGame(model);
 

@@ -36,7 +36,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         string[] GetTranslations();
 
-        event SDK.Model.Events.EventHandler LanguageChanged;
+        event SDK.Model.Events.BaseEventHandler LanguageChanged;
 
         string GetDefaultName();
 

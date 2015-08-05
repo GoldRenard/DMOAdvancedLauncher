@@ -20,10 +20,13 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Plugins;
+using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace PluginSample {
 
     public class MainPlugin : AbstractPlugin {
+        private IPluginHost PluginHost;
 
         public class TestCommand : AbstractCommand {
             private readonly IPluginHost PluginHost;
@@ -34,6 +37,9 @@ namespace PluginSample {
             }
 
             public override bool DoCommand(string[] args) {
+                Profile p = PluginHost.ProfileManager.CreateProfile();
+                PluginHost.ProfileManager.RemoveProfile(p);
+                PluginHost.ProfileManager.ApplyChanges();
                 PluginHost.LogManager.Info("SimplePlugin - Did it!");
                 return true;
             }
@@ -55,11 +61,17 @@ namespace PluginSample {
 
         private IConfiguration Configuration;
 
+        private BaseEventProxy ProfileChangedProxy;
+
         public override void OnActivate(IPluginHost PluginHost) {
+            this.PluginHost = PluginHost;
+            this.ProfileChangedProxy = new BaseEventProxy(OnProfileChanged);
             DoItCommand = new TestCommand(PluginHost);
             Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
             PluginHost.CommandManager.RegisterCommand(DoItCommand);
             PluginHost.ConfigurationManager.RegisterConfiguration(Configuration);
+
+            PluginHost.ProfileManager.ProfileChangedProxy(ProfileChangedProxy);
         }
 
         public override void OnStop(IPluginHost PluginHost) {
@@ -69,6 +81,11 @@ namespace PluginSample {
             if (Configuration != null) {
                 PluginHost.ConfigurationManager.UnRegisterConfiguration(Configuration);
             }
+            PluginHost.ProfileManager.ProfileChangedProxy(ProfileChangedProxy, false);
+        }
+
+        public void OnProfileChanged(object sender, AdvancedLauncher.SDK.Model.Events.BaseEventArgs e) {
+            PluginHost.LogManager.Info("ProfileChanged!");
         }
     }
 }

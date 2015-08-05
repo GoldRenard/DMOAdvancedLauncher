@@ -36,7 +36,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// <summary>
     /// Download status event arguments
     /// </summary>
-    public class DownloadStatusEventArgs : EventArgs {
+    public class DownloadStatusEventArgs : BaseEventArgs {
 
         /// <summary>
         /// Download status code

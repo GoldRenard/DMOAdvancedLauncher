@@ -54,7 +54,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
          * 4 - web page is not supported or guild not found
          * */
 
-        public event SDK.Model.Events.EventHandler DownloadStarted;
+        public event SDK.Model.Events.BaseEventHandler DownloadStarted;
 
         public event DownloadCompleteEventHandler DownloadCompleted;
 
@@ -65,7 +65,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
                 LogManager.Info("GuildInfo obtaining started.");
             }
             if (DownloadStarted != null) {
-                DownloadStarted(this, SDK.Model.Events.EventArgs.Empty);
+                DownloadStarted(this, SDK.Model.Events.BaseEventArgs.Empty);
             }
         }
 

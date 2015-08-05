@@ -16,6 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Security;
+using System.Security.Permissions;
 using AdvancedLauncher.UI.Windows;
 using log4net.Appender;
 using log4net.Core;
@@ -25,17 +27,9 @@ namespace AdvancedLauncher.Tools {
 
     public class LogAppender : AppenderSkeleton {
 
-        private Logger Logger {
-            get; set;
-        }
-
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         protected override void Append(LoggingEvent loggingEvent) {
-            lock (this) {
-                if (Logger == null) {
-                    Logger = App.Kernel.Get<Logger>();
-                }
-                Logger.AddEntry(loggingEvent);
-            }
+            App.Kernel.Get<Logger>().AddEntry(loggingEvent);
         }
     }
 }

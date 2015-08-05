@@ -233,13 +233,13 @@ namespace AdvancedLauncher.Management {
 
         #region Event handlers
 
-        public event SDK.Model.Events.EventHandler FileSystemOpenError;
+        public event SDK.Model.Events.BaseEventHandler FileSystemOpenError;
 
         public event UpdateStatusEventHandler StatusChanged;
 
         private void OnFileSystemOpenError() {
             if (FileSystemOpenError != null) {
-                FileSystemOpenError(this, new SDK.Model.Events.EventArgs());
+                FileSystemOpenError(this, new SDK.Model.Events.BaseEventArgs());
             }
         }
 

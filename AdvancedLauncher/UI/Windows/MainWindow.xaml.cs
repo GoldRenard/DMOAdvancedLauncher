@@ -76,16 +76,16 @@ namespace AdvancedLauncher.UI.Windows {
                 this.Loaded += (s, e) => {
                     CheckUpdates();
                 };
-                OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
+                OnProfileChanged(this, SDK.Model.Events.BaseEventArgs.Empty);
 #if DEBUG
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
             }
         }
 
-        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnLanguageChanged(sender, e2);
                 }), sender, e);
                 return;
@@ -112,9 +112,9 @@ namespace AdvancedLauncher.UI.Windows {
                 e.IsLocked ? NativeMethods.MF_DISABLED | NativeMethods.MF_GRAYED : NativeMethods.MF_ENABLED);
         }
 
-        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnProfileChanged(sender, e2);
                 }), sender, e);
                 return;

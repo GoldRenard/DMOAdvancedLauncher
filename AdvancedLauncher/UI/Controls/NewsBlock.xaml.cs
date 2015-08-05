@@ -129,13 +129,13 @@ namespace AdvancedLauncher.UI.Controls {
                         }), JoymaxNews);
                     }
                 };
-                ReloadNews(this, SDK.Model.Events.EventArgs.Empty);
+                ReloadNews(this, SDK.Model.Events.BaseEventArgs.Empty);
             }
         }
 
-        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnLanguageChanged(sender, e2);
                 }), sender, e);
                 return;
@@ -149,9 +149,9 @@ namespace AdvancedLauncher.UI.Controls {
             }
         }
 
-        private void ReloadNews(object sender, SDK.Model.Events.EventArgs e) {
+        private void ReloadNews(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     ReloadNews(sender, e2);
                 }), sender, e);
                 return;

@@ -78,7 +78,7 @@ namespace AdvancedLauncher.UI.Controls {
             public BitmapImage Image;
         }
 
-        private WebProviderEventProxy<DigiRotation> EventProxy;
+        private WebProviderEventAccessor EventProxy;
 
         [Inject]
         public ILanguageManager LanguageManager {
@@ -116,7 +116,7 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         public DigiRotation() {
-            EventProxy = new WebProviderEventProxy<DigiRotation>(this);
+            EventProxy = new WebProviderEventAccessor(this);
             App.Kernel.Inject(this);
             InitializeComponent();
             LoadingTask = new TaskEntry() {
@@ -131,9 +131,9 @@ namespace AdvancedLauncher.UI.Controls {
             }
         }
 
-        private void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnProfileChanged(sender, e2);
                 }), sender, e);
                 return;
@@ -141,9 +141,9 @@ namespace AdvancedLauncher.UI.Controls {
             IsSourceLoaded = false;
         }
 
-        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnLanguageChanged(sender, e2);
                 }), sender, e);
                 return;
@@ -340,7 +340,7 @@ namespace AdvancedLauncher.UI.Controls {
             }
         }
 
-        public void OnDownloadStarted(object sender, SDK.Model.Events.EventArgs e) {
+        public void OnDownloadStarted(object sender, SDK.Model.Events.BaseEventArgs e) {
             // nothing to do
         }
 

@@ -196,7 +196,6 @@ namespace AdvancedLauncher.Management {
                 foreach (ProtectedProfile protectedProfile in settings.Profiles) {
                     Profile safeProfile = new Profile();
                     safeProfile.Id = protectedProfile.Id;
-                    safeProfile.Guid = protectedProfile.Guid;
                     safeProfile.Name = protectedProfile.Name;
                     safeProfile.ImagePath = protectedProfile.ImagePath;
                     safeProfile.KBLCServiceEnabled = protectedProfile.KBLCServiceEnabled;

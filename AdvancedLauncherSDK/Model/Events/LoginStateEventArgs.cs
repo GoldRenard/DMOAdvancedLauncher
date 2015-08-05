@@ -37,7 +37,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// <summary>
     /// Login state event arguments
     /// </summary>
-    public class LoginStateEventArgs : EventArgs {
+    public class LoginStateEventArgs : BaseEventArgs {
 
         /// <summary>
         /// Login state code

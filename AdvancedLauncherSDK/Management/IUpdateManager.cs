@@ -30,7 +30,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool DownloadUpdates(GameModel model, VersionPair versionPair);
 
-        event Model.Events.EventHandler FileSystemOpenError;
+        event Model.Events.BaseEventHandler FileSystemOpenError;
 
         event UpdateStatusEventHandler StatusChanged;
     }

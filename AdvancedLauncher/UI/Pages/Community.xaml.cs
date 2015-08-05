@@ -46,7 +46,7 @@ namespace AdvancedLauncher.UI.Pages {
             Id = -1
         };
 
-        private WebProviderEventProxy<Community> Proxy;
+        private WebProviderEventAccessor Proxy;
 
         [Inject]
         public IConfigurationManager ConfigurationManager {
@@ -64,12 +64,12 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         public Community() {
-            Proxy = new WebProviderEventProxy<Community>(this);
+            Proxy = new WebProviderEventAccessor(this);
             InitializeComponent();
             GuildInfo.DataContext = GuildInfoModel;
         }
 
-        protected override void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        protected override void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             IConfiguration currentConfiguration = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             serversProvider = currentConfiguration.ServersProvider;
             webProvider = currentConfiguration.CreateWebProvider();
@@ -151,9 +151,9 @@ namespace AdvancedLauncher.UI.Pages {
 
         #region Event handlers
 
-        public void OnDownloadStarted(object sender, SDK.Model.Events.EventArgs e) {
+        public void OnDownloadStarted(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnDownloadStarted(s, e2);
                 }), sender, e);
                 return;

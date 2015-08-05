@@ -37,19 +37,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
             }
         }
 
-        private string _Guid;
-
-        public string Guid {
-            get {
-                if (_Guid == null) {
-                    _Guid = System.Guid.NewGuid().ToString();
-                }
-                return _Guid;
-            }
-            set {
-                _Guid = value;
-            }
-        }
+        private string Guid;
 
         private string _Name = "Default";
 
@@ -196,6 +184,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         #region Constructors
 
         public Profile() {
+            this.Guid = System.Guid.NewGuid().ToString();
             this.Rotation = new RotationData();
             this.News = new NewsData();
             this.GameModel = new GameModel();
@@ -234,15 +223,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
                 return false;
             }
             Profile other = (Profile)obj;
-
-            if (Guid == null) {
-                if (other.Guid != null) {
-                    return false;
-                }
-            } else if (!Guid.Equals(other.Guid)) {
+            if (!Guid.Equals(other.Guid)) {
                 return false;
             }
-
             return this.GetHashCode() == obj.GetHashCode();
         }
 

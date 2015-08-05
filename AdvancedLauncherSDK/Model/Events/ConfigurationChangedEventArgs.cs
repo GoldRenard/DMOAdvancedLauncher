@@ -30,7 +30,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// <summary>
     /// Configuration change event args
     /// </summary>
-    public class ConfigurationChangedEventArgs : EventArgs {
+    public class ConfigurationChangedEventArgs : BaseEventArgs {
 
         /// <summary>
         /// Related configuration

@@ -33,9 +33,9 @@ namespace AdvancedLauncher.UI.Pages {
             }
         }
 
-        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnLanguageChanged(sender, e2);
                 }), sender, e);
                 return;
@@ -45,7 +45,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         public virtual void PageActivate() {
             if (!IsPageActivated) {
-                OnProfileChangedInternal(this, SDK.Model.Events.EventArgs.Empty);
+                OnProfileChangedInternal(this, SDK.Model.Events.BaseEventArgs.Empty);
             }
             IsPageActivated = true;
             IsPageVisible = true;
@@ -55,9 +55,9 @@ namespace AdvancedLauncher.UI.Pages {
             IsPageVisible = false;
         }
 
-        private void OnProfileChangedInternal(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnProfileChangedInternal(object sender, SDK.Model.Events.BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.BaseEventHandler((s, e2) => {
                     OnProfileChangedInternal(sender, e2);
                 }), sender, e);
                 return;
@@ -65,6 +65,6 @@ namespace AdvancedLauncher.UI.Pages {
             OnProfileChanged(sender, e);
         }
 
-        protected abstract void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e);
+        protected abstract void OnProfileChanged(object sender, SDK.Model.Events.BaseEventArgs e);
     }
 }

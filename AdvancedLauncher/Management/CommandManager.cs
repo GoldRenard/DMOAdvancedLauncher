@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using Ninject;
@@ -72,22 +73,15 @@ namespace AdvancedLauncher.Management {
             Commands.TryAdd(command.GetName(), command);
         }
 
-        public bool UnRegisterCommand(string name) {
-            if (name == null) {
-                throw new ArgumentException("name argument cannot be null");
-            }
-            ICommand command;
-            if (Commands.TryGetValue(name, out command)) {
-                return Commands.TryRemove(name, out command);
-            }
-            return false;
-        }
-
         public bool UnRegisterCommand(ICommand command) {
             if (command == null) {
                 throw new ArgumentException("command argument cannot be null");
             }
-            return UnRegisterCommand(command.GetName());
+            var configToRemove = Commands.FirstOrDefault(kvp => kvp.Value.Equals(command));
+            if (configToRemove.Key != null) {
+                return Commands.TryRemove(configToRemove.Key, out command);
+            }
+            return false;
         }
 
         public IDictionary<string, ICommand> GetCommands() {

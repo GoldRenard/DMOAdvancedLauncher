@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.Generic;
 using AdvancedLauncher.SDK.Management.Commands;
 
@@ -28,11 +27,9 @@ namespace AdvancedLauncher.SDK.Management {
 
         void RegisterCommand(ICommand Command);
 
-        bool UnRegisterCommand(string name);
-
         bool UnRegisterCommand(ICommand command);
 
-        IDictionary<String, ICommand> GetCommands();
+        IDictionary<string, ICommand> GetCommands();
 
         List<string> GetRecent();
     }

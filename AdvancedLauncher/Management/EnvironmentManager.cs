@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Permissions;
 using System.Windows;
 using System.Xml.Serialization;
 using AdvancedLauncher.Model.Protected;
@@ -262,6 +263,7 @@ namespace AdvancedLauncher.Management {
                 toSave.Profiles.Add(protectedProfile);
             }
 
+            new FileIOPermission(FileIOPermissionAccess.Write, SettingsFile).Assert();
             XmlSerializer writer = new XmlSerializer(typeof(ProtectedSettings));
             using (var file = new StreamWriter(SettingsFile)) {
                 writer.Serialize(file, toSave);
@@ -280,7 +282,7 @@ namespace AdvancedLauncher.Management {
         }
 
         public string ResolveResource(string folder, string file, string downloadUrl = null) {
-            string resource = Path.Combine(InitFolder(ResourcesPath, folder), file);
+            string resource = Path.Combine(ResourcesPath, folder, file);
             string resource3rd = Path.Combine(InitFolder(Resources3rdPath, folder), file);
             if (File.Exists(resource)) {
                 return resource;

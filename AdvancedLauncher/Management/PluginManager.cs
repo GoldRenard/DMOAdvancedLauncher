@@ -101,7 +101,15 @@ namespace AdvancedLauncher.Management {
               FileIOPermissionAccess.PathDiscovery |
               FileIOPermissionAccess.Write |
               FileIOPermissionAccess.Read,
-              AppDomain.CurrentDomain.BaseDirectory));
+              new string[] {
+                  AppDomain.CurrentDomain.BaseDirectory,
+                  EnvironmentManager.Resources3rdPath,
+              }));
+
+            permissions.AddPermission(new FileIOPermission(
+              FileIOPermissionAccess.PathDiscovery |
+              FileIOPermissionAccess.Read,
+              EnvironmentManager.ResourcesPath));
 
             // debug = REMOVE
             //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));

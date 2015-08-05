@@ -85,7 +85,10 @@
     <Compile Include="Model\Entity\TamerType.cs" />
     <Compile Include="Model\Events\DownloadCompleteEventArgs.cs" />
     <Compile Include="Model\Events\DownloadStatusEventArgs.cs" />
-    <Compile Include="Model\Events\EventArgs.cs" />
+    <Compile Include="Model\Events\BaseEventArgs.cs" />
+    <Compile Include="Model\Events\Proxy\ConfigurationChangedProxy.cs" />
+    <Compile Include="Model\Events\Proxy\BaseEventProxy.cs" />
+    <Compile Include="Model\Events\Proxy\EventProxy.cs" />
     <Compile Include="Model\Events\LoginCompleteEventArgs.cs" />
     <Compile Include="Model\Events\LoginStateEventArgs.cs" />
     <Compile Include="Model\Events\ConfigurationChangedEventArgs.cs" />

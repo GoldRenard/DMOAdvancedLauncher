@@ -40,7 +40,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// <summary>
     /// Downloading event arguments
     /// </summary>
-    public class DownloadCompleteEventArgs : EventArgs {
+    public class DownloadCompleteEventArgs : BaseEventArgs {
 
         /// <summary>
         /// Download Code

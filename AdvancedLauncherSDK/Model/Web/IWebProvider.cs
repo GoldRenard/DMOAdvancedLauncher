@@ -25,7 +25,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
     public interface IWebProvider : ILoggable {
 
-        event SDK.Model.Events.EventHandler DownloadStarted;
+        event BaseEventHandler DownloadStarted;
 
         event DownloadCompleteEventHandler DownloadCompleted;
 

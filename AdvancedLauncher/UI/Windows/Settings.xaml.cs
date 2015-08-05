@@ -35,6 +35,7 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Tools;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
@@ -412,9 +413,9 @@ namespace AdvancedLauncher.UI.Windows {
             };
         }
 
-        private void OnLanguageChanged(object sender, SDK.Model.Events.EventArgs e) {
+        private void OnLanguageChanged(object sender, BaseEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new SDK.Model.Events.EventHandler((s, e2) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
                     OnLanguageChanged(sender, e2);
                 }), sender, e);
                 return;

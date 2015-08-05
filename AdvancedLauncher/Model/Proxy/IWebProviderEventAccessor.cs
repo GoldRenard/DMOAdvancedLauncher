@@ -22,7 +22,7 @@ namespace AdvancedLauncher.Model.Proxy {
 
     public interface IWebProviderEventAccessor : IEventAccessor {
 
-        void OnDownloadStarted(object sender, SDK.Model.Events.EventArgs e);
+        void OnDownloadStarted(object sender, BaseEventArgs e);
 
         void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e);
 

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace AdvancedLauncher.SDK.Management {
 
@@ -56,7 +57,11 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool UnRegisterConfiguration(IConfiguration configuration);
 
+        void ConfigurationRegisteredProxy(EventProxy<ConfigurationChangedEventArgs> proxy, bool subscribe = true);
+
         event ConfigurationChangedEventHandler ConfigurationRegistered;
+
+        void ConfigurationUnRegisteredProxy(EventProxy<ConfigurationChangedEventArgs> proxy, bool subscribe = true);
 
         event ConfigurationChangedEventHandler ConfigurationUnRegistered;
     }

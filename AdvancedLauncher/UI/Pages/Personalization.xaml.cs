@@ -26,6 +26,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
 using Microsoft.Win32;
 using Ninject;
@@ -83,7 +84,7 @@ namespace AdvancedLauncher.UI.Pages {
         /// <summary>
         /// Во время смены профиля нам нужно считать файл ресурсов и сбросить настройки
         /// </summary>
-        protected override void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        protected override void OnProfileChanged(object sender, BaseEventArgs e) {
             FileSystem = App.Kernel.Get<IFileSystemManager>();
             LoadResourceList();
             ResetCurrent();

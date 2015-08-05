@@ -59,13 +59,13 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        /*
         [Inject]
         public IProfileManager ProfileManager {
             get;
             set;
         }
 
+        /*
         [Inject]
         public ITaskManager TaskManager {
             get;

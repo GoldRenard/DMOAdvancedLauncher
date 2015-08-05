@@ -26,6 +26,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Commands;
 using Ninject;
@@ -74,7 +75,7 @@ namespace AdvancedLauncher.UI.Pages {
             EmptyText.Visibility = System.Windows.Visibility.Visible;
         }
 
-        protected override void OnProfileChanged(object sender, SDK.Model.Events.EventArgs e) {
+        protected override void OnProfileChanged(object sender, BaseEventArgs e) {
             GalleryModel.UnLoadData();
             IsGalleryInitialized = false;
             if (IsPageVisible) {

@@ -20,7 +20,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
 
     public delegate void UpdateStatusEventHandler(object sender, UpdateStatusEventEventArgs e);
 
-    public class UpdateStatusEventEventArgs : EventArgs {
+    public class UpdateStatusEventEventArgs : BaseEventArgs {
 
         public enum Stage {
             DOWNLOADING,

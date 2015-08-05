@@ -44,11 +44,11 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
-        /*
         IProfileManager ProfileManager {
             get;
         }
 
+        /*
         ITaskManager TaskManager {
             get;
         }

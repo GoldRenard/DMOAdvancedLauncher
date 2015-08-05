@@ -16,13 +16,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Security.Permissions;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.SDK.Model.Events {
+namespace AdvancedLauncher.Model.Proxy {
 
-    public delegate void EventHandler(object sender, EventArgs e);
+    [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+    public class WebProviderEventAccessor : CrossDomainObject {
+        private readonly IWebProviderEventAccessor Object;
 
-    public class EventArgs : CrossDomainObject {
-        public static EventArgs Empty = new EventArgs();
+        public WebProviderEventAccessor(IWebProviderEventAccessor Object) {
+            this.Object = Object;
+        }
+
+        public void OnDownloadStarted(object sender, BaseEventArgs e) {
+            Object.OnDownloadStarted(sender, e);
+        }
+
+        public void OnDownloadCompleted(object sender, DownloadCompleteEventArgs e) {
+            Object.OnDownloadCompleted(sender, e);
+        }
+
+        public void OnStatusChanged(object sender, DownloadStatusEventArgs e) {
+            Object.OnStatusChanged(sender, e);
+        }
     }
 }

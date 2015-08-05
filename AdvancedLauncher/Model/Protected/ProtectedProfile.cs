@@ -32,21 +32,6 @@ namespace AdvancedLauncher.Model.Protected {
             set;
         }
 
-        private string _Guid;
-
-        [XmlAttribute("Guid")]
-        public string Guid {
-            get {
-                if (_Guid == null) {
-                    _Guid = System.Guid.NewGuid().ToString();
-                }
-                return _Guid;
-            }
-            set {
-                _Guid = value;
-            }
-        }
-
         [XmlAttribute("Name")]
         public string Name {
             get;
@@ -112,9 +97,8 @@ namespace AdvancedLauncher.Model.Protected {
         public ProtectedProfile() {
         }
 
-        public ProtectedProfile(SDK.Model.Config.Profile profile) {
+        public ProtectedProfile(Profile profile) {
             this.Id = profile.Id;
-            this.Guid = profile.Guid;
             this.Name = profile.Name;
             this.ImagePath = profile.ImagePath;
             this.LaunchMode = profile.LaunchMode;

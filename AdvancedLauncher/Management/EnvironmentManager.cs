@@ -27,6 +27,7 @@ using AdvancedLauncher.Providers;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 using MahApps.Metro;
 using Ninject;
 
@@ -196,7 +197,6 @@ namespace AdvancedLauncher.Management {
                 foreach (ProtectedProfile protectedProfile in settings.Profiles) {
                     Profile safeProfile = new Profile();
                     safeProfile.Id = protectedProfile.Id;
-                    safeProfile.Guid = protectedProfile.Guid;
                     safeProfile.Name = protectedProfile.Name;
                     safeProfile.ImagePath = protectedProfile.ImagePath;
                     safeProfile.KBLCServiceEnabled = protectedProfile.KBLCServiceEnabled;
@@ -326,9 +326,25 @@ namespace AdvancedLauncher.Management {
             }
         }
 
+        public void FileSystemLockedProxy(EventProxy<LockedEventArgs> proxy, bool subscribe = true) {
+            if (subscribe) {
+                FileSystemLocked += proxy.Handler;
+            } else {
+                FileSystemLocked -= proxy.Handler;
+            }
+        }
+
         public void OnClosingLocked(bool IsLocked) {
             if (ClosingLocked != null) {
                 ClosingLocked(null, new LockedEventArgs(IsLocked));
+            }
+        }
+
+        public void ClosingLockedProxy(EventProxy<LockedEventArgs> proxy, bool subscribe = true) {
+            if (subscribe) {
+                ClosingLocked += proxy.Handler;
+            } else {
+                ClosingLocked -= proxy.Handler;
             }
         }
 

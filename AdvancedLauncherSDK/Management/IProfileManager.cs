@@ -19,6 +19,7 @@
 using System.Collections.ObjectModel;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace AdvancedLauncher.SDK.Management {
 
@@ -27,7 +28,7 @@ namespace AdvancedLauncher.SDK.Management {
         void Start();
 
         Profile DefaultProfile {
-            set; get;
+            get;
         }
 
         ObservableCollection<Profile> Profiles {
@@ -57,12 +58,22 @@ namespace AdvancedLauncher.SDK.Management {
 
         bool RemoveProfile(Profile profile);
 
-        event Model.Events.EventHandler ProfileChanged;
+        #region Event Handlers
 
-        event Model.Events.EventHandler CollectionChanged;
+        void ProfileChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true);
+
+        event BaseEventHandler ProfileChanged;
+
+        void CollectionChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true);
+
+        event BaseEventHandler CollectionChanged;
+
+        void LockedChangedProxy(EventProxy<LockedEventArgs> proxy, bool subscribe = true);
 
         event LockedChangedHandler ProfileLocked;
 
         void OnProfileLocked(bool IsLocked);
+
+        #endregion Event Handlers
     }
 }

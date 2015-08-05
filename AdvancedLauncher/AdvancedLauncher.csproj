@@ -149,7 +149,7 @@
     <Compile Include="Model\Proxy\ILoginProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\IWebProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\LoginProviderEventAccessor.cs" />
-    <Compile Include="Model\Proxy\WebProviderEventProxy.cs" />
+    <Compile Include="Model\Proxy\WebProviderEventAccessor.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
     <Compile Include="Tools\Utils.cs" />

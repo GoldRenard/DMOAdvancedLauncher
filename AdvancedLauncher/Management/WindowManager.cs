@@ -133,11 +133,14 @@ namespace AdvancedLauncher.Management {
             }
             this.MainWindow = App.Kernel.Get<MainWindow>(); // do not inject it directly, we should not export it as public property
             Application.Current.MainWindow = MainWindow;
-            ShowWindow(new PagesWindow());
-            BuildMenu();
+            MainWindow.Loaded += (s, e) => {
+                BuildMenu();
+                ShowWindow(new PagesWindow());
+            };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 App.Kernel.Get<Splashscreen>().Close();
                 MainWindow.Show();
+                OnProfileChanged(null, null); // force update tab availability
             }
             IsStarted = true;
         }

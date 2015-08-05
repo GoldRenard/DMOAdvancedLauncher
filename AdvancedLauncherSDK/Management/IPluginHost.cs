@@ -40,10 +40,11 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
-        /*IDialogManager DialogManager {
+        IDialogManager DialogManager {
             get;
         }
 
+        /*
         ILauncherManager LauncherManager {
             get;
         }

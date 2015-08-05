@@ -252,17 +252,20 @@ namespace AdvancedLauncher.Management {
             ProtectedSettings toSave = new ProtectedSettings(Settings);
             toSave.Proxy = new ProxySetting(App.Kernel.Get<ProxyManager>().Settings);
             IProfileManager ProfileManager = App.Kernel.Get<IProfileManager>();
-            toSave.DefaultProfile = ProfileManager.DefaultProfile.Id;
-            LoginManager loginManager = App.Kernel.Get<LoginManager>();
-            foreach (Profile profile in ProfileManager.Profiles) {
-                ProtectedProfile protectedProfile = new ProtectedProfile(profile);
-                LoginData login = loginManager.GetCredentials(profile);
-                if (login != null) {
-                    protectedProfile.Login = new LoginData(login);
-                }
-                toSave.Profiles.Add(protectedProfile);
+            if (ProfileManager.DefaultProfile != null) {
+                toSave.DefaultProfile = ProfileManager.DefaultProfile.Id;
             }
-
+            if (ProfileManager.Profiles != null) {
+                LoginManager loginManager = App.Kernel.Get<LoginManager>();
+                foreach (Profile profile in ProfileManager.Profiles) {
+                    ProtectedProfile protectedProfile = new ProtectedProfile(profile);
+                    LoginData login = loginManager.GetCredentials(profile);
+                    if (login != null) {
+                        protectedProfile.Login = new LoginData(login);
+                    }
+                    toSave.Profiles.Add(protectedProfile);
+                }
+            }
             new FileIOPermission(FileIOPermissionAccess.Write, SettingsFile).Assert();
             XmlSerializer writer = new XmlSerializer(typeof(ProtectedSettings));
             using (var file = new StreamWriter(SettingsFile)) {

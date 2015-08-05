@@ -23,6 +23,7 @@ using System.Windows.Media;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Tools;
 using AdvancedLauncher.Tools;
 using MahApps.Metro.Controls;
 using Ninject;
@@ -72,11 +73,13 @@ namespace AdvancedLauncher.UI.Windows {
                     e.Cancel = IsCloseLocked;
                     App.Kernel.Get<ITaskManager>().CloseApp(true);
                 };
+                this.Loaded += (s, e) => {
+                    CheckUpdates();
+                };
                 OnProfileChanged(this, SDK.Model.Events.EventArgs.Empty);
 #if DEBUG
                 this.Title += " (development build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 #endif
-                CheckUpdates();
             }
         }
 
@@ -143,7 +146,7 @@ namespace AdvancedLauncher.UI.Windows {
                             + System.Environment.NewLine
                             + LanguageManager.Model.UpdateDownloadQuestion;
                         string caption = string.Format(LanguageManager.Model.UpdateAvailableCaption, remote.Version);
-                        if (await App.Kernel.Get<IDialogManager>().ShowYesNoDialog(caption, content)) {
+                        if (await App.Kernel.Get<IDialogManager>().ShowYesNoDialog(caption, content).Wait()) {
                             URLUtils.OpenSite(remote.DownloadUrl);
                         }
                     }

@@ -89,6 +89,7 @@ namespace AdvancedLauncher.Management {
             PermissionSet permissions = new PermissionSet(PermissionState.None);
             permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
             permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new WebBrowserPermission(PermissionState.Unrestricted));
             permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
 
             permissions.AddPermission(new SecurityPermission(
@@ -114,6 +115,8 @@ namespace AdvancedLauncher.Management {
             // debug = REMOVE
             //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
             //permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
+
+            //permissions = new PermissionSet(PermissionState.Unrestricted);
 
             AppDomain domain = AppDomain.CreateDomain(
               string.Format("PluginDomain [{0}]", Path.GetFileNameWithoutExtension(info.AssemblyPath)),

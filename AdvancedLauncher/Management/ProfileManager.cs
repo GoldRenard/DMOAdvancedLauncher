@@ -117,6 +117,9 @@ namespace AdvancedLauncher.Management {
                     PendingDefaultProfile = PendingProfiles.First();
                 }
                 ApplyChanges();
+                if (EnvironmentManager.Settings.Profiles.Count == 0) {
+                    EnvironmentManager.Save();
+                }
                 IsLoaded = true;
             }
         }
@@ -173,7 +176,7 @@ namespace AdvancedLauncher.Management {
                 }
             }
             pNew.News.TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE;
-            pNew.GameModel.Type = LauncherManager.Default.Mnemonic;
+            pNew.LaunchMode = LauncherManager.Default.Mnemonic;
 
             PendingProfiles.Add(pNew);
             OnCollectionChanged();

@@ -17,14 +17,19 @@
 // ======================================================================
 
 using System;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Tools;
 using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls.Dialogs;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
+    // TODO Figure out what exactly permissions required by MahApps DialogManager to work properly.
+    // In partual trust environment it shows only transparent overlay, but not dialog itself.
+    [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
     public class DialogManager : CrossDomainObject, IDialogManager {
 
         [Inject]
@@ -66,8 +71,8 @@ namespace AdvancedLauncher.Management {
         /// <summary> Error MessageBox Async </summary>
         /// <param name="text">Content of error</param>
         /// <returns>Dummy True to able wait the return</returns>
-        public async Task<bool> ShowErrorDialogAsync(string text) {
-            return await ShowMessageDialogAsync(LanguageManager.Model.Error, text);
+        private async Task<bool> ShowErrorDialogAsyncInternal(string text) {
+            return await ShowMessageDialogAsyncInternal(LanguageManager.Model.Error, text);
         }
 
         /// <summary>
@@ -76,11 +81,11 @@ namespace AdvancedLauncher.Management {
         /// <param name="title">Title</param>
         /// <param name="message">Message</param>
         /// <returns>True if Yes clicked</returns>
-        public async Task<bool> ShowMessageDialogAsync(string title, string message) {
+        private async Task<bool> ShowMessageDialogAsyncInternal(string title, string message) {
             MainWindow MainWindow = App.Kernel.Get<MainWindow>();
             if (MainWindow.Dispatcher != null && !MainWindow.Dispatcher.CheckAccess()) {
                 return await MainWindow.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
-                    return await ShowMessageDialogAsync(title, message);
+                    return await ShowMessageDialogAsyncInternal(title, message);
                 }));
             }
             await MainWindow.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings() {
@@ -96,11 +101,11 @@ namespace AdvancedLauncher.Management {
         /// <param name="title">Title</param>
         /// <param name="message">Message</param>
         /// <returns>True if yes clicked</returns>
-        public async Task<bool> ShowYesNoDialog(string title, string message) {
+        private async Task<bool> ShowYesNoDialogInternal(string title, string message) {
             MainWindow MainWindow = App.Kernel.Get<MainWindow>();
             if (MainWindow.Dispatcher != null && !MainWindow.Dispatcher.CheckAccess()) {
                 return await MainWindow.Dispatcher.Invoke<Task<bool>>(new Func<Task<bool>>(async () => {
-                    return await ShowYesNoDialog(title, message);
+                    return await ShowYesNoDialogInternal(title, message);
                 }));
             }
             MessageDialogResult result = await MainWindow.ShowMessageAsync(title, message,
@@ -110,6 +115,18 @@ namespace AdvancedLauncher.Management {
                     ColorScheme = MetroDialogColorScheme.Accented
                 });
             return result == MessageDialogResult.Affirmative;
+        }
+
+        public RemoteTask<bool> ShowErrorDialogAsync(string text) {
+            return new RemoteTask<bool>(ShowErrorDialogAsyncInternal(text));
+        }
+
+        public RemoteTask<bool> ShowMessageDialogAsync(string title, string message) {
+            return new RemoteTask<bool>(ShowMessageDialogAsyncInternal(title, message));
+        }
+
+        public RemoteTask<bool> ShowYesNoDialog(string title, string message) {
+            return new RemoteTask<bool>(ShowYesNoDialogInternal(title, message));
         }
     }
 }

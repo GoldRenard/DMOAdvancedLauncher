@@ -16,7 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Threading.Tasks;
+using AdvancedLauncher.SDK.Tools;
 
 namespace AdvancedLauncher.SDK.Management {
 
@@ -26,10 +26,10 @@ namespace AdvancedLauncher.SDK.Management {
 
         void ShowMessageDialog(string title, string message);
 
-        Task<bool> ShowErrorDialogAsync(string text);
+        RemoteTask<bool> ShowErrorDialogAsync(string text);
 
-        Task<bool> ShowMessageDialogAsync(string title, string message);
+        RemoteTask<bool> ShowMessageDialogAsync(string title, string message);
 
-        Task<bool> ShowYesNoDialog(string title, string message);
+        RemoteTask<bool> ShowYesNoDialog(string title, string message);
     }
 }

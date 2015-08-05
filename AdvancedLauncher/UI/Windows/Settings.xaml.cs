@@ -36,6 +36,7 @@ using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Execution;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Entity;
+using AdvancedLauncher.SDK.Tools;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Extension;
 using Ninject;
@@ -262,7 +263,7 @@ namespace AdvancedLauncher.UI.Windows {
                     }
                     profile.GameModel.GamePath = defaultPath;
                     await DialogManager.ShowMessageDialogAsync(LanguageManager.Model.Settings_GamePath,
-                        LanguageManager.Model.Settings_SelectGameDirError);
+                        LanguageManager.Model.Settings_SelectGameDirError).Wait();
                 } else {
                     break;
                 }
@@ -282,7 +283,7 @@ namespace AdvancedLauncher.UI.Windows {
                     }
                     profile.GameModel.LauncherPath = defaultPath;
                     await DialogManager.ShowMessageDialogAsync(LanguageManager.Model.Settings_LauncherPath,
-                        LanguageManager.Model.Settings_SelectLauncherDirError);
+                        LanguageManager.Model.Settings_SelectLauncherDirError).Wait();
                 } else {
                     break;
                 }
@@ -322,7 +323,7 @@ namespace AdvancedLauncher.UI.Windows {
             }
             message += System.Environment.NewLine + System.Environment.NewLine + LanguageManager.Model.AppLocale_FixQuestion;
 
-            if (await DialogManager.ShowYesNoDialog(LanguageManager.Model.AppLocale_Error, message)) {
+            if (await DialogManager.ShowYesNoDialog(LanguageManager.Model.AppLocale_Error, message).Wait()) {
                 if (!AppLocaleLauncher.IsInstalled) {
                     System.Diagnostics.Process.Start(LINK_MS_APPLOCALE);
                 }

@@ -53,13 +53,13 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        /*[Inject]
+        [Inject]
         public IDialogManager DialogManager {
             get;
             set;
         }
 
-        [Inject]
+        /*[Inject]
         public ILauncherManager LauncherManager {
             get;
             set;

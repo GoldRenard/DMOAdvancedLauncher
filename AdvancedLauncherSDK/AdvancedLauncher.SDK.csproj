@@ -121,6 +121,7 @@
     <Compile Include="Management\IPluginHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ApplicationHostComponent.cs" />
+    <Compile Include="Tools\RemoteTask.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

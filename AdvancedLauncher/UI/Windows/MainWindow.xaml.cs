@@ -26,6 +26,7 @@ using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
 using MahApps.Metro.Controls;
 using Ninject;
+using AdvancedLauncher.SDK.Tools;
 
 namespace AdvancedLauncher.UI.Windows {
 
@@ -143,7 +144,7 @@ namespace AdvancedLauncher.UI.Windows {
                             + System.Environment.NewLine
                             + LanguageManager.Model.UpdateDownloadQuestion;
                         string caption = string.Format(LanguageManager.Model.UpdateAvailableCaption, remote.Version);
-                        if (await App.Kernel.Get<IDialogManager>().ShowYesNoDialog(caption, content)) {
+                        if (await App.Kernel.Get<IDialogManager>().ShowYesNoDialog(caption, content).Wait()) {
                             URLUtils.OpenSite(remote.DownloadUrl);
                         }
                     }

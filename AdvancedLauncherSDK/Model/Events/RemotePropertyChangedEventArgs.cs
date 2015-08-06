@@ -16,20 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows.Controls;
+namespace AdvancedLauncher.SDK.Model.Events {
 
-namespace AdvancedLauncher.SDK.Model {
+    public delegate void RemotePropertyChangedEventHandler(object sender, RemotePropertyChangedEventArgs e);
 
-    public class PageItem : NamedItem {
+    public class RemotePropertyChangedEventArgs : BaseEventArgs {
 
-        public PageItem(string Name, Control Content, bool IsNameBinding = false)
-            : base(Name, IsNameBinding) {
-            this.Content = Content;
+        public virtual string PropertyName {
+            get;
         }
 
-        public Control Content {
-            get;
-            private set;
+        public RemotePropertyChangedEventArgs(string PropertyName) {
+            this.PropertyName = PropertyName;
         }
     }
 }

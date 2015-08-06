@@ -28,20 +28,21 @@ namespace AdvancedLauncher.Model.Proxy {
 
         public MenuItemViewModel(MenuItem Item, ILanguageManager LanguageManager)
             : base(Item, LanguageManager) {
-            if (Item.IconName != null) {
-                var IconCanvas = App.Current.TryFindResource(Item.IconName) as System.Windows.Controls.Canvas;
-                if (IconCanvas != null) {
-                    if (!IconCanvas.Resources.Contains("BlackBrush")) {
-                        IconCanvas.Resources.Add("BlackBrush", Brush);
-                    }
-                    IconBrush = new VisualBrush(IconCanvas);
-                }
-            }
         }
 
         public VisualBrush IconBrush {
-            get;
-            private set;
+            get {
+                if (Item.IconName != null) {
+                    var IconCanvas = App.Current.TryFindResource(Item.IconName) as System.Windows.Controls.Canvas;
+                    if (IconCanvas != null) {
+                        if (!IconCanvas.Resources.Contains("BlackBrush")) {
+                            IconCanvas.Resources.Add("BlackBrush", Brush);
+                        }
+                        return new VisualBrush(IconCanvas);
+                    }
+                }
+                return null;
+            }
         }
 
         public Thickness IconMargin {
@@ -50,6 +51,12 @@ namespace AdvancedLauncher.Model.Proxy {
                     return Item.IconMargin.ToRealThickness();
                 }
                 return new Thickness(0);
+            }
+        }
+
+        public bool IsSeparator {
+            get {
+                return Item.IsSeparator;
             }
         }
 
@@ -62,6 +69,13 @@ namespace AdvancedLauncher.Model.Proxy {
         public Visibility ItemVisibility {
             get {
                 return Item.ItemVisibility;
+            }
+        }
+
+        protected override void NotifyPropertyChanged(string propertyName) {
+            base.NotifyPropertyChanged(propertyName);
+            if ("IconName".Equals(propertyName)) {
+                NotifyPropertyChanged("IconBrush");
             }
         }
     }

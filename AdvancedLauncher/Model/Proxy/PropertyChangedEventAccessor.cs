@@ -16,20 +16,22 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows.Controls;
+using System.Security.Permissions;
+using AdvancedLauncher.SDK.Management;
+using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.SDK.Model {
+namespace AdvancedLauncher.Model.Proxy {
 
-    public class PageItem : NamedItem {
+    [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+    public class PropertyChangedEventAccessor : CrossDomainObject {
+        private readonly IPropertyChangedEventAccessor Object;
 
-        public PageItem(string Name, Control Content, bool IsNameBinding = false)
-            : base(Name, IsNameBinding) {
-            this.Content = Content;
+        public PropertyChangedEventAccessor(IPropertyChangedEventAccessor Object) {
+            this.Object = Object;
         }
 
-        public Control Content {
-            get;
-            private set;
+        public void OnPropertyChanged(object sender, RemotePropertyChangedEventArgs e) {
+            Object.OnPropertyChanged(sender, e);
         }
     }
 }

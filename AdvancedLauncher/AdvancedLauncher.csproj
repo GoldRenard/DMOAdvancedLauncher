@@ -147,10 +147,12 @@
     <Compile Include="Model\Protected\ProxyCredentials.cs" />
     <Compile Include="Model\Proxy\IEventAccessor.cs" />
     <Compile Include="Model\Proxy\ILoginProviderEventAccessor.cs" />
+    <Compile Include="Model\Proxy\IPropertyChangedEventAccessor.cs" />
     <Compile Include="Model\Proxy\IWebProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\LoginProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\MenuItemViewModel.cs" />
     <Compile Include="Model\Proxy\NamedItemViewModel.cs" />
+    <Compile Include="Model\Proxy\PropertyChangedEventAccessor.cs" />
     <Compile Include="Model\Proxy\WebProviderEventAccessor.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />

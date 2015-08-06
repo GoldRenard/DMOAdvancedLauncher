@@ -73,6 +73,8 @@
     <Compile Include="Management\Windows\ApplicationWindowControl.cs" />
     <Compile Include="Management\Windows\WindowContainer.cs" />
     <Compile Include="Management\Windows\IWindow.cs" />
+    <Compile Include="Model\IRemotePropertyChanged.cs" />
+    <Compile Include="Model\Events\RemotePropertyChangedEventArgs.cs" />
     <Compile Include="Model\PageItem.cs" />
     <Compile Include="Model\NamedItem.cs" />
     <Compile Include="Model\Config\GameModel.cs" />

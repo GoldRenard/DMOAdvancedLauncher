@@ -24,8 +24,9 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.Model.Proxy {
 
-    public class NamedItemViewModel<T> : IDisposable, INotifyPropertyChanged
+    public class NamedItemViewModel<T> : IDisposable, INotifyPropertyChanged, IPropertyChangedEventAccessor
         where T : NamedItem {
+        private PropertyChangedEventAccessor PropertyChangedAccessor;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,7 +39,7 @@ namespace AdvancedLauncher.Model.Proxy {
 
         public string Name {
             get {
-                if (LanguageManager == null || !Item.IsBinding) {
+                if (LanguageManager == null || !IsBinding) {
                     if (Item.Name != null) {
                         return Item.Name;
                     }
@@ -51,6 +52,12 @@ namespace AdvancedLauncher.Model.Proxy {
             }
         }
 
+        public bool IsBinding {
+            get {
+                return Item.IsBinding;
+            }
+        }
+
         public bool IsEnabled {
             get {
                 return Item.IsEnabled;
@@ -58,12 +65,16 @@ namespace AdvancedLauncher.Model.Proxy {
         }
 
         public NamedItemViewModel(T Item, ILanguageManager LanguageManager) {
+            this.PropertyChangedAccessor = new PropertyChangedEventAccessor(this);
             this.Item = Item;
+            this.Item.PropertyChanged += PropertyChangedAccessor.OnPropertyChanged;
             this.LanguageManager = LanguageManager;
             this.LanguageManager.LanguageChanged += OnLanguageChanged;
         }
 
-        protected void NotifyPropertyChanged(string propertyName) {
+        #region Events
+
+        protected virtual void NotifyPropertyChanged(string propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
@@ -73,6 +84,12 @@ namespace AdvancedLauncher.Model.Proxy {
         protected void OnLanguageChanged(object sender, BaseEventArgs e) {
             NotifyPropertyChanged("Name");
         }
+
+        public void OnPropertyChanged(object sender, RemotePropertyChangedEventArgs e) {
+            NotifyPropertyChanged(e.PropertyName);
+        }
+
+        #endregion Events
 
         #region IDisposable Support
 

@@ -21,7 +21,7 @@ using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.UI.Windows {
 
-    public partial class About : AbstractWindow {
+    public partial class About : AbstractWindowControl {
         private const string LICENSE_FILE = "Docs\\LICENSE.txt";
 
         public About() {

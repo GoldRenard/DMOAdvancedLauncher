@@ -37,6 +37,10 @@ namespace PluginSample {
 
             public override bool DoCommand(string[] args) {
                 PluginHost.LogManager.Info("SimplePlugin - Did it!");
+
+                TestWindowControl control = new TestWindowControl(PluginHost.LanguageManager, PluginHost.WindowManager);
+
+                PluginHost.WindowManager.ShowWindow(control.Container);
                 return true;
             }
         }

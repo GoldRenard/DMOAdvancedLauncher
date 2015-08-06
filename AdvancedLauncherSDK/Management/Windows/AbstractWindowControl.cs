@@ -19,22 +19,28 @@
 using System;
 using System.Windows.Controls;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace AdvancedLauncher.SDK.Management.Windows {
 
-    public class AbstractWindow : UserControl, IWindow {
+    public abstract class AbstractWindowControl : UserControl {
 
-        public ILanguageManager LanguageManager {
+        protected ILanguageManager LanguageManager {
             get;
             private set;
         }
 
-        public IWindowManager WindowManager {
+        protected IWindowManager WindowManager {
             get;
             private set;
         }
 
-        public AbstractWindow(ILanguageManager LanguageManager, IWindowManager WindowManager) {
+        public IWindow Container {
+            get;
+            private set;
+        }
+
+        public AbstractWindowControl(ILanguageManager LanguageManager, IWindowManager WindowManager) {
             if (LanguageManager == null) {
                 throw new ArgumentException("LanguageManager cannot be null");
             }
@@ -43,7 +49,8 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             }
             this.WindowManager = WindowManager;
             this.LanguageManager = LanguageManager;
-            this.LanguageManager.LanguageChanged += OnLanguageChanged;
+            this.LanguageManager.LanguageChangedProxy(new BaseEventProxy(OnLanguageChanged));
+            this.Container = new WindowContainer(this, WindowManager);
         }
 
         private void OnLanguageChanged(object sender, BaseEventArgs e) {
@@ -68,7 +75,7 @@ namespace AdvancedLauncher.SDK.Management.Windows {
         /// Returns to last opened window. You're free to override this method.
         /// </summary>
         public virtual void Close() {
-            WindowManager.GoBack(this);
+            WindowManager.GoBack(Container);
         }
     }
 }

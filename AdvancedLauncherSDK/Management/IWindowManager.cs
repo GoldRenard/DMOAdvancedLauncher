@@ -16,20 +16,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Collections.ObjectModel;
 using AdvancedLauncher.SDK.Management.Windows;
 
 namespace AdvancedLauncher.SDK.Management {
 
     public interface IWindowManager : IManager {
-
-        ObservableCollection<MenuItem> MenuItems {
-            get;
-        }
-
-        ObservableCollection<PageItem> PageItems {
-            get;
-        }
 
         void Start();
 

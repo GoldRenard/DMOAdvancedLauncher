@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace AdvancedLauncher.Management {
 
@@ -135,6 +136,14 @@ namespace AdvancedLauncher.Management {
         private void OnChanged() {
             if (LanguageChanged != null) {
                 LanguageChanged(Model, BaseEventArgs.Empty);
+            }
+        }
+
+        public void LanguageChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true) {
+            if (subscribe) {
+                LanguageChanged += proxy.Handler;
+            } else {
+                LanguageChanged -= proxy.Handler;
             }
         }
 

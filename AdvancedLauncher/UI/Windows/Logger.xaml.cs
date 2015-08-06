@@ -28,7 +28,7 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
-    public partial class Logger : AbstractWindow {
+    public partial class Logger : AbstractWindowControl {
         private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(Logger));
 
         private delegate void AddLogHandler(LoggingEvent logEvent);

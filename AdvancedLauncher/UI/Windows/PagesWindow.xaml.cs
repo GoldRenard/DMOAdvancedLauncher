@@ -19,6 +19,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model.Events;
@@ -27,7 +28,7 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
-    public partial class PagesWindow : AbstractWindow {
+    public partial class PagesWindow : AbstractWindowControl {
         private AbstractPage currentTab;
 
         [Inject]
@@ -44,7 +45,8 @@ namespace AdvancedLauncher.UI.Windows {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-                NavControl.ItemsSource = App.Kernel.Get<IWindowManager>().PageItems;
+                WindowManager WM = App.Kernel.Get<IWindowManager>() as WindowManager;
+                NavControl.ItemsSource = WM.PageItems;
                 EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 OnProfileChanged(this, BaseEventArgs.Empty);

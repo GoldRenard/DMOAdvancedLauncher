@@ -18,7 +18,7 @@
 // ======================================================================
 -->
 
-<win:AbstractWindow x:Class="AdvancedLauncher.UI.Windows.Settings"
+<win:AbstractWindowControl x:Class="AdvancedLauncher.UI.Windows.Settings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:Validation="clr-namespace:AdvancedLauncher.UI.Validation"
              xmlns:controls="clr-namespace:AdvancedLauncher.UI.Controls"
@@ -34,14 +34,14 @@
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="900"
              DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
-    <win:AbstractWindow.Resources>
+    <win:AbstractWindowControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </win:AbstractWindow.Resources>
+    </win:AbstractWindowControl.Resources>
     <Grid x:Name="LayoutRoot" d:Visibility="Collapsed">
         <Grid.Resources>
             <ex:BindingProxy x:Key="selectedModel" Data="{Binding ElementName=ProfileList, Path=SelectedValue.GameModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -406,4 +406,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-</win:AbstractWindow>
+</win:AbstractWindowControl>

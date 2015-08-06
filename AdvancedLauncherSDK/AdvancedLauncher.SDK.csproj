@@ -34,11 +34,13 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.AddIn.Contract" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -67,7 +69,8 @@
     <Compile Include="Management\Plugins\AbstractPlugin.cs" />
     <Compile Include="Management\Plugins\PluginInfo.cs" />
     <Compile Include="Management\Plugins\PluginProxy.cs" />
-    <Compile Include="Management\Windows\AbstractWindow.cs" />
+    <Compile Include="Management\Windows\AbstractWindowControl.cs" />
+    <Compile Include="Management\Windows\WindowContainer.cs" />
     <Compile Include="Management\Windows\IWindow.cs" />
     <Compile Include="Management\Windows\PageItem.cs" />
     <Compile Include="Management\Windows\NamedItem.cs" />

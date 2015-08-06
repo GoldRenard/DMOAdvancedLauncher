@@ -17,9 +17,13 @@
 // ======================================================================
 
 using System;
+using System.AddIn.Contract;
+using System.AddIn.Pipeline;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.SDK.Management;
@@ -29,6 +33,7 @@ using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Pages;
 using AdvancedLauncher.UI.Windows;
+using MahApps.Metro.Controls;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
@@ -37,6 +42,10 @@ namespace AdvancedLauncher.Management {
         private bool MainMenuSeparatorAdded = false;
 
         private bool IsStarted = false;
+
+        private bool IsCurrentContract = false;
+
+        private TransitionType DefaultTransition = TransitionType.Left;
 
         private ConcurrentStack<IWindow> WindowStack {
             get;
@@ -49,11 +58,13 @@ namespace AdvancedLauncher.Management {
         }
 
         public ObservableCollection<SDK.Management.Windows.MenuItem> MenuItems {
+            [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
             get;
             private set;
         } = new ObservableCollection<SDK.Management.Windows.MenuItem>();
 
         public ObservableCollection<PageItem> PageItems {
+            [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
             get;
             private set;
         } = new ObservableCollection<PageItem>();
@@ -133,9 +144,10 @@ namespace AdvancedLauncher.Management {
             }
             this.MainWindow = App.Kernel.Get<MainWindow>(); // do not inject it directly, we should not export it as public property
             Application.Current.MainWindow = MainWindow;
+            DefaultTransition = MainWindow.transitionLayer.Transition;
             MainWindow.Loaded += (s, e) => {
                 BuildMenu();
-                ShowWindow(new PagesWindow());
+                ShowWindow(new PagesWindow().Container);
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 App.Kernel.Get<Splashscreen>().Close();
@@ -151,11 +163,11 @@ namespace AdvancedLauncher.Management {
                 MainWindow.SettingsFlyout.IsOpen = true;
             })));
             MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
-                ShowWindow(Logger);
+                ShowWindow(Logger.Container);
                 MainWindow.MenuFlyout.IsOpen = false;
             })));
             MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                ShowWindow(App.Kernel.Get<About>());
+                ShowWindow(App.Kernel.Get<About>().Container);
                 MainWindow.MenuFlyout.IsOpen = false;
             })));
 
@@ -173,21 +185,33 @@ namespace AdvancedLauncher.Management {
             OwnedItems.AddRange(PageItems);
         }
 
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public void ShowWindow(IWindow window) {
             if (window == null) {
                 throw new ArgumentException("Window argument cannot be null");
             }
-            Control control = window as Control;
-            if (control == null) {
-                throw new ArgumentException("Window must inherit from WPF Control");
-            }
-            if (CurrentWindow != null) {
-                WindowStack.Push(CurrentWindow);
-            }
 
-            CurrentWindow = window;
-            CurrentWindow.OnShow();
-            MainWindow.transitionLayer.Content = control;
+            bool IsContract = false;
+            object Control = null;
+            try {
+                Control = window.GetControl();
+            } catch (SerializationException e) {
+                INativeHandleContract contract = window.GetControl(true) as INativeHandleContract;
+                if (contract != null) {
+                    Control = FrameworkElementAdapters.ContractToViewAdapter(contract);
+                    IsContract = true;
+                }
+            }
+            if (Control != null) {
+                if (CurrentWindow != null) {
+                    WindowStack.Push(CurrentWindow);
+                }
+                CurrentWindow = window;
+                CurrentWindow.OnShow();
+                MainWindow.transitionLayer.Transition = IsCurrentContract || IsContract ? TransitionType.Normal : DefaultTransition;
+                MainWindow.transitionLayer.Content = Control;
+                IsCurrentContract = IsContract;
+            }
         }
 
         public void GoHome() {

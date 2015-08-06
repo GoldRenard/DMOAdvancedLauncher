@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
@@ -49,7 +50,8 @@ namespace AdvancedLauncher.UI.Controls {
                 ProfileManager.ProfileLocked += OnProfileLocked;
                 ProfileManager.CollectionChanged += ReloadProfiles;
                 ReloadProfiles(this, BaseEventArgs.Empty);
-                CommandList.ItemsSource = WindowManager.MenuItems;
+                WindowManager WM = WindowManager as WindowManager;
+                CommandList.ItemsSource = WM.MenuItems;
             }
         }
 
@@ -147,7 +149,7 @@ namespace AdvancedLauncher.UI.Controls {
             if (SettingsWindow == null) {
                 SettingsWindow = App.Kernel.Get<Windows.Settings>();
             }
-            WindowManager.ShowWindow(SettingsWindow);
+            WindowManager.ShowWindow(SettingsWindow.Container);
             this.IsOpen = false;
         }
     }

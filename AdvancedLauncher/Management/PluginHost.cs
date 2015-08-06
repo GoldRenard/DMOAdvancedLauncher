@@ -71,12 +71,17 @@ namespace AdvancedLauncher.Management {
             set;
         }
 
-        /*
         [Inject]
         public IWindowManager WindowManager {
             get;
             set;
-        }*/
+        }
+
+        [Inject]
+        public ILanguageManager LanguageManager {
+            get;
+            set;
+        }
 
         public void Initialize() {
             // nothing to do

@@ -20,6 +20,8 @@ namespace AdvancedLauncher.SDK.Management.Windows {
 
     public interface IWindow {
 
+        object GetControl(bool contractAdapter = false);
+
         void Close();
 
         void OnShow();

@@ -264,7 +264,7 @@
     <Compile Include="UI\Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Windows\AbstractWindow.cs" />
+    <Compile Include="UI\Windows\AbstractWindowControl.cs" />
     <Compile Include="UI\Windows\BugWindow.xaml.cs">
       <DependentUpon>BugWindow.xaml</DependentUpon>
     </Compile>

@@ -27,6 +27,12 @@ namespace AdvancedLauncher.SDK.Management.Windows {
 
         private Control Control;
 
+        public bool EnableAirspaceFix {
+            get {
+                return true;
+            }
+        }
+
         public WindowContainer(Control Control, IWindowManager WindowManager) {
             if (Control == null) {
                 throw new ArgumentException("WindowManager cannot be null");

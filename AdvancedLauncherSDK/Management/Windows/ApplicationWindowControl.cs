@@ -20,57 +20,61 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 
-namespace AdvancedLauncher.SDK.Tools {
+namespace AdvancedLauncher.SDK.Management.Windows {
 
-    public class ApplicationHostComponent : UserControl {
+    public class ApplicationWindowControl : AbstractWindowControl {
 
         [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        protected static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        protected static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         [DllImport("user32")]
-        private static extern IntPtr SetParent(IntPtr hWnd, IntPtr hWndParent);
+        protected static extern IntPtr SetParent(IntPtr hWnd, IntPtr hWndParent);
 
         [DllImport("user32")]
-        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int uFlags);
+        protected static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int uFlags);
 
-        private const int SWP_NOZORDER = 0x0004;
-        private const int SWP_NOACTIVATE = 0x0010;
-        private const int GWL_STYLE = -16;
-        private const int WS_CAPTION = 0x00C00000;
-        private const int WS_THICKFRAME = 0x00040000;
+        protected const int SWP_NOZORDER = 0x0004;
+        protected const int SWP_NOACTIVATE = 0x0010;
+        protected const int GWL_STYLE = -16;
+        protected const int WS_CAPTION = 0x00C00000;
+        protected const int WS_THICKFRAME = 0x00040000;
 
-        private readonly int WaitTimeout = 0;
+        protected readonly int WaitTimeout = 0;
 
-        private readonly ProcessStartInfo StartInfo;
+        protected readonly ProcessStartInfo StartInfo;
 
-        private Process Process;
+        protected Process Process;
 
-        private System.Windows.Forms.Panel Panel;
+        protected System.Windows.Forms.Panel Panel;
 
-        public ApplicationHostComponent(ProcessStartInfo StartInfo, int WaitTimeout = 0) {
+        public ApplicationWindowControl(ProcessStartInfo StartInfo, ILanguageManager LanguageManager, IWindowManager WindowManager, int WaitTimeout = 0) : base(LanguageManager, WindowManager) {
             this.StartInfo = StartInfo;
             this.WaitTimeout = WaitTimeout;
             WindowsFormsHost FormsHost = new WindowsFormsHost();
             Panel = new System.Windows.Forms.Panel();
             FormsHost.Child = Panel;
             AddChild(FormsHost);
-            this.Loaded += ApplicationHostComponent_Loaded;
-            this.SizeChanged += ApplicationHostComponent_SizeChanged;
+            this.Loaded += OnLoaded;
+            this.SizeChanged += OnSizeChanged;
         }
 
-        private void ApplicationHostComponent_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e) {
+        protected virtual void OnSizeChanged(object sender, System.Windows.SizeChangedEventArgs e) {
             ResizeEmbeddedApp();
         }
 
-        private void ApplicationHostComponent_Loaded(object sender, System.Windows.RoutedEventArgs e) {
-            Process = Process.Start(StartInfo);
-            Process.WaitForInputIdle();
+        protected virtual void OnLoaded(object sender, System.Windows.RoutedEventArgs e) {
+            this.Process = new Process();
+            this.Process.StartInfo = StartInfo;
+            this.Process.Exited += OnProcessExited;
+            this.Process.Start();
+            //this.Process.StartInfo.CreateNoWindow = true;
+            this.Process.EnableRaisingEvents = true;
+            this.Process.WaitForInputIdle();
             Thread.Sleep(WaitTimeout);
             SetParent(Process.MainWindowHandle, Panel.Handle);
 
@@ -83,9 +87,14 @@ namespace AdvancedLauncher.SDK.Tools {
             ResizeEmbeddedApp();
         }
 
-        private void ResizeEmbeddedApp() {
-            if (Process == null)
+        protected virtual void OnProcessExited(object sender, EventArgs e) {
+            Close();
+        }
+
+        protected virtual void ResizeEmbeddedApp() {
+            if (Process == null) {
                 return;
+            }
             SetWindowPos(Process.MainWindowHandle, IntPtr.Zero, 0, 0, (int)Panel.ClientSize.Width, (int)Panel.ClientSize.Height, SWP_NOZORDER | SWP_NOACTIVATE);
         }
     }

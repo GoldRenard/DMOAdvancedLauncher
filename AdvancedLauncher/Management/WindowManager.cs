@@ -41,11 +41,15 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     public class WindowManager : CrossDomainObject, IWindowManager {
+
+        private delegate void UpdateTransitionDelegate(object Control, TransitionType TransitionType);
+
         private bool MainMenuSeparatorAdded = false;
 
         private bool IsStarted = false;
 
-        private bool IsCurrentContract = false;
+        private bool IsContract = false;
+        private bool IsAirspaceDecoration = false;
 
         private TransitionType DefaultTransition = TransitionType.Left;
 
@@ -195,6 +199,7 @@ namespace AdvancedLauncher.Management {
             }
 
             bool IsContract = false;
+            bool IsAirspaceDecoration = false;
             object Control = null;
             try {
                 Control = window.GetControl();
@@ -203,6 +208,7 @@ namespace AdvancedLauncher.Management {
                 if (contract != null) {
                     Control = FrameworkElementAdapters.ContractToViewAdapter(contract);
                     IsContract = true;
+                    IsAirspaceDecoration = window.EnableAirspaceFix;
                 }
             }
             if (Control != null) {
@@ -210,7 +216,7 @@ namespace AdvancedLauncher.Management {
                     WindowStack.Push(CurrentWindow);
                 }
 
-                if (IsContract) {
+                if (IsContract && IsAirspaceDecoration) {
                     Control = new AirspaceDecorator() {
                         AirspaceMode = AirspaceMode.Redirect,
                         IsInputRedirectionEnabled = true,
@@ -222,10 +228,23 @@ namespace AdvancedLauncher.Management {
 
                 CurrentWindow = window;
                 CurrentWindow.OnShow();
-                //MainWindow.transitionLayer.Transition = IsCurrentContract || IsContract ? TransitionType.Normal : DefaultTransition;
-                MainWindow.transitionLayer.Content = Control;
-                IsCurrentContract = IsContract;
+                UpdateTransition(Control, ((IsContract && !IsAirspaceDecoration) || (this.IsContract && !this.IsAirspaceDecoration))
+                    ? TransitionType.Normal
+                    : DefaultTransition);
+                this.IsContract = IsContract;
+                this.IsAirspaceDecoration = IsAirspaceDecoration;
             }
+        }
+
+        private void UpdateTransition(object Control, TransitionType TransitionType) {
+            if (!MainWindow.Dispatcher.CheckAccess()) {
+                MainWindow.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateTransitionDelegate((c, t) => {
+                    UpdateTransition(c, t);
+                }), Control, TransitionType);
+                return;
+            }
+            MainWindow.transitionLayer.Transition = TransitionType;
+            MainWindow.transitionLayer.Content = Control;
         }
 
         public void GoHome() {

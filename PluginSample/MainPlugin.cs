@@ -16,11 +16,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Diagnostics;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Plugins;
+using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model.Events.Proxy;
+using AdvancedLauncher.SDK.Tools;
 
 namespace PluginSample {
 
@@ -37,10 +40,9 @@ namespace PluginSample {
 
             public override bool DoCommand(string[] args) {
                 PluginHost.LogManager.Info("SimplePlugin - Did it!");
-
-                TestWindowControl control = new TestWindowControl(PluginHost.LanguageManager, PluginHost.WindowManager);
-
-                PluginHost.WindowManager.ShowWindow(control.Container);
+                /*ProcessStartInfo pInfo = new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe");
+                ApplicationWindowControl appWindow = new ApplicationWindowControl(pInfo, PluginHost.LanguageManager, PluginHost.WindowManager);
+                PluginHost.WindowManager.ShowWindow(appWindow.Container);*/
                 return true;
             }
         }

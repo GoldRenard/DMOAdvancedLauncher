@@ -20,6 +20,10 @@ namespace AdvancedLauncher.SDK.Management.Windows {
 
     public interface IWindow {
 
+        bool EnableAirspaceFix {
+            get;
+        }
+
         object GetControl(bool contractAdapter = false);
 
         void Close();

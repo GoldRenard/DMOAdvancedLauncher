@@ -480,6 +480,10 @@
       <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
       <Name>AdvancedLauncher.Providers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.DwayneNeed.Minimal\Microsoft.DwayneNeed.Minimal.csproj">
+      <Project>{80a10b86-6615-4440-93b0-c943df5b8693}</Project>
+      <Name>Microsoft.DwayneNeed.Minimal</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Docs\LICENSE.txt">

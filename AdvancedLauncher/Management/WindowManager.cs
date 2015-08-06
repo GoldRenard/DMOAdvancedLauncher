@@ -26,6 +26,7 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model.Config;
@@ -34,6 +35,7 @@ using AdvancedLauncher.UI.Commands;
 using AdvancedLauncher.UI.Pages;
 using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls;
+using Microsoft.DwayneNeed.Interop;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
@@ -147,7 +149,8 @@ namespace AdvancedLauncher.Management {
             DefaultTransition = MainWindow.transitionLayer.Transition;
             MainWindow.Loaded += (s, e) => {
                 BuildMenu();
-                ShowWindow(new PagesWindow().Container);
+                //ShowWindow(new PagesWindow().Container);
+                ShowWindow(Logger.Container);
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 App.Kernel.Get<Splashscreen>().Close();
@@ -206,9 +209,20 @@ namespace AdvancedLauncher.Management {
                 if (CurrentWindow != null) {
                     WindowStack.Push(CurrentWindow);
                 }
+
+                if (IsContract) {
+                    Control = new AirspaceDecorator() {
+                        AirspaceMode = AirspaceMode.Redirect,
+                        IsInputRedirectionEnabled = true,
+                        IsOutputRedirectionEnabled = true,
+                        Background = Brushes.White,
+                        Content = Control
+                    };
+                }
+
                 CurrentWindow = window;
                 CurrentWindow.OnShow();
-                MainWindow.transitionLayer.Transition = IsCurrentContract || IsContract ? TransitionType.Normal : DefaultTransition;
+                //MainWindow.transitionLayer.Transition = IsCurrentContract || IsContract ? TransitionType.Normal : DefaultTransition;
                 MainWindow.transitionLayer.Content = Control;
                 IsCurrentContract = IsContract;
             }

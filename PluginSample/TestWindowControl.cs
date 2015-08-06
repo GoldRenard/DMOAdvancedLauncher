@@ -11,6 +11,7 @@ namespace PluginSample {
             btn.Click += (s, e) => {
                 Close();
             };
+            btn.Margin = new System.Windows.Thickness(20);
             btn.Content = LanguageManager.Model.CloseButton;
             AddChild(btn);
         }

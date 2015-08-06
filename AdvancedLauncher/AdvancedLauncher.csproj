@@ -149,6 +149,8 @@
     <Compile Include="Model\Proxy\ILoginProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\IWebProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\LoginProviderEventAccessor.cs" />
+    <Compile Include="Model\Proxy\MenuItemViewModel.cs" />
+    <Compile Include="Model\Proxy\NamedItemViewModel.cs" />
     <Compile Include="Model\Proxy\WebProviderEventAccessor.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
@@ -222,6 +224,8 @@
     <Compile Include="Model\Protected\ProtectedSettings.cs" />
     <Compile Include="Tools\LogAppender.cs" />
     <Compile Include="UI\Extension\GameModelContainer.cs" />
+    <Compile Include="UI\Extension\MenuClickAction.cs" />
+    <Compile Include="UI\Extension\ObservableCollectionExtension.cs" />
     <Compile Include="UI\Pages\AbstractPage.cs" />
     <Compile Include="UI\Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>

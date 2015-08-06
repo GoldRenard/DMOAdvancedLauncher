@@ -16,37 +16,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Management.Windows;
+using System.Windows;
+using System.Windows.Interactivity;
 using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.SDK.Management {
+namespace AdvancedLauncher.UI.Extension {
 
-    public interface IWindowManager : IManager {
+    public sealed class MenuClickAction : TriggerAction<FrameworkElement> {
+        public static readonly DependencyProperty MenuItemProperty = DependencyProperty.Register("MenuItem", typeof(MenuItem), typeof(MenuClickAction), null);
 
-        void Start();
+        public MenuItem MenuItem {
+            get {
+                return (MenuItem)this.GetValue(MenuItemProperty);
+            }
+            set {
+                this.SetValue(MenuItemProperty, value);
+            }
+        }
 
-        void ShowWindow(IWindow window);
-
-        void GoHome();
-
-        /// <summary>
-        /// Returns to last opened window.
-        /// </summary>
-        /// <param name="currentWindow"></param>
-        void GoBack();
-
-        /// <summary>
-        /// Returns to last opened window in case that current window is passed as parameter
-        /// </summary>
-        /// <param name="currentWindow">Desired current window. It does nothing if argument is not current window.</param>
-        void GoBack(IWindow currentWindow);
-
-        void AddMenuItem(MenuItem menuItem);
-
-        bool RemoveMenuItem(MenuItem menuItem);
-
-        void AddPageItem(PageItem pageItem);
-
-        bool RemovePageItem(PageItem pageItem);
+        protected override void Invoke(object parameter) {
+            if (this.AssociatedObject == null || this.MenuItem == null) {
+                return;
+            }
+            this.MenuItem.OnClick(null, BaseEventArgs.Empty);
+        }
     }
 }

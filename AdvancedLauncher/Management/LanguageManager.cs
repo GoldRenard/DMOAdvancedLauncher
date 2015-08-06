@@ -16,9 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -144,15 +142,6 @@ namespace AdvancedLauncher.Management {
                 LanguageChanged += proxy.Handler;
             } else {
                 LanguageChanged -= proxy.Handler;
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName) {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) {
-                handler(null, new PropertyChangedEventArgs(propertyName));
             }
         }
 

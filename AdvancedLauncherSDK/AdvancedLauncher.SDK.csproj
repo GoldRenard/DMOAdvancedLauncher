@@ -73,8 +73,8 @@
     <Compile Include="Management\Windows\ApplicationWindowControl.cs" />
     <Compile Include="Management\Windows\WindowContainer.cs" />
     <Compile Include="Management\Windows\IWindow.cs" />
-    <Compile Include="Management\Windows\PageItem.cs" />
-    <Compile Include="Management\Windows\NamedItem.cs" />
+    <Compile Include="Model\PageItem.cs" />
+    <Compile Include="Model\NamedItem.cs" />
     <Compile Include="Model\Config\GameModel.cs" />
     <Compile Include="Model\Config\NewsData.cs" />
     <Compile Include="Model\Config\Profile.cs" />
@@ -97,7 +97,8 @@
     <Compile Include="Model\Events\LoginStateEventArgs.cs" />
     <Compile Include="Model\Events\ConfigurationChangedEventArgs.cs" />
     <Compile Include="Model\LanguageModel.cs" />
-    <Compile Include="Management\Windows\MenuItem.cs" />
+    <Compile Include="Model\MenuItem.cs" />
+    <Compile Include="Model\Thickness.cs" />
     <Compile Include="Model\Web\AbstractNewsProvider.cs" />
     <Compile Include="Model\Web\AbstractServersProvider.cs" />
     <Compile Include="Model\Web\AbstractWebProvider.cs" />

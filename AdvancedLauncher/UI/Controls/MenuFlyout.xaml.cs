@@ -23,9 +23,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Management;
+using AdvancedLauncher.Model.Proxy;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.UI.Extension;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
@@ -35,6 +37,8 @@ namespace AdvancedLauncher.UI.Controls {
         public event PropertyChangedEventHandler PropertyChanged;
 
         private bool _IsChangeEnabled = true;
+
+        private Windows.Settings SettingsWindow = null;
 
         [Inject]
         public IWindowManager WindowManager {
@@ -51,15 +55,10 @@ namespace AdvancedLauncher.UI.Controls {
                 ProfileManager.CollectionChanged += ReloadProfiles;
                 ReloadProfiles(this, BaseEventArgs.Empty);
                 WindowManager WM = WindowManager as WindowManager;
-                CommandList.ItemsSource = WM.MenuItems;
+                var values = WM.MenuItems.GetLinkedProxy<SDK.Model.MenuItem, MenuItemViewModel>(LanguageManager);
+                CommandList.ItemsSource = values;
             }
         }
-
-        #region Commands
-
-        private Windows.Settings SettingsWindow = null;
-
-        #endregion Commands
 
         #region Profile Selection
 

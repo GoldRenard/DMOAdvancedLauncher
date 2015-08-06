@@ -16,8 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.UI;
 
 namespace AdvancedLauncher.SDK.Management {
 
@@ -25,7 +25,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         void Start();
 
-        void ShowWindow(IWindow window);
+        void ShowWindow(IRemoteControl window);
 
         void GoHome();
 
@@ -39,7 +39,7 @@ namespace AdvancedLauncher.SDK.Management {
         /// Returns to last opened window in case that current window is passed as parameter
         /// </summary>
         /// <param name="currentWindow">Desired current window. It does nothing if argument is not current window.</param>
-        void GoBack(IWindow currentWindow);
+        void GoBack(IRemoteControl currentWindow);
 
         void AddMenuItem(MenuItem menuItem);
 

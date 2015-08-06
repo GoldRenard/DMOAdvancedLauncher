@@ -20,39 +20,43 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Controls;
 using System.Windows.Forms.Integration;
+using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management.Windows {
 
-    public class ApplicationWindowControl : AbstractWindowControl {
+    public class ApplicationWindowControl : UserControl {
 
         [DllImport("user32.dll")]
-        protected static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
         [DllImport("user32.dll", SetLastError = true)]
-        protected static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         [DllImport("user32")]
-        protected static extern IntPtr SetParent(IntPtr hWnd, IntPtr hWndParent);
+        private static extern IntPtr SetParent(IntPtr hWnd, IntPtr hWndParent);
 
         [DllImport("user32")]
-        protected static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int uFlags);
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int uFlags);
 
-        protected const int SWP_NOZORDER = 0x0004;
-        protected const int SWP_NOACTIVATE = 0x0010;
-        protected const int GWL_STYLE = -16;
-        protected const int WS_CAPTION = 0x00C00000;
-        protected const int WS_THICKFRAME = 0x00040000;
+        private const int SWP_NOZORDER = 0x0004;
+        private const int SWP_NOACTIVATE = 0x0010;
+        private const int GWL_STYLE = -16;
+        private const int WS_CAPTION = 0x00C00000;
+        private const int WS_THICKFRAME = 0x00040000;
 
-        protected readonly int WaitTimeout = 0;
+        private readonly int WaitTimeout = 0;
 
-        protected readonly ProcessStartInfo StartInfo;
+        private readonly ProcessStartInfo StartInfo;
 
-        protected Process Process;
+        private Process Process;
 
-        protected System.Windows.Forms.Panel Panel;
+        private System.Windows.Forms.Panel Panel;
 
-        public ApplicationWindowControl(ProcessStartInfo StartInfo, ILanguageManager LanguageManager, IWindowManager WindowManager, int WaitTimeout = 0) : base(LanguageManager, WindowManager) {
+        public BaseEventHandler Exited;
+
+        public ApplicationWindowControl(ProcessStartInfo StartInfo, int WaitTimeout = 0) {
             this.StartInfo = StartInfo;
             this.WaitTimeout = WaitTimeout;
             WindowsFormsHost FormsHost = new WindowsFormsHost();
@@ -88,7 +92,9 @@ namespace AdvancedLauncher.SDK.Management.Windows {
         }
 
         protected virtual void OnProcessExited(object sender, EventArgs e) {
-            Close();
+            if (Exited != null) {
+                Exited(sender, BaseEventArgs.Empty);
+            }
         }
 
         protected virtual void ResizeEmbeddedApp() {

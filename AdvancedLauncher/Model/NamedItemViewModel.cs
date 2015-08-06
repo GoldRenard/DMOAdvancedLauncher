@@ -18,11 +18,12 @@
 
 using System;
 using System.ComponentModel;
+using AdvancedLauncher.Model.Proxy;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.Model.Proxy {
+namespace AdvancedLauncher.Model {
 
     public class NamedItemViewModel<T> : IDisposable, INotifyPropertyChanged, IPropertyChangedEventAccessor
         where T : NamedItem {

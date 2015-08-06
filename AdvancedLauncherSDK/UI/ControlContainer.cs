@@ -19,13 +19,12 @@
 using System;
 using System.AddIn.Pipeline;
 using System.Windows.Controls;
+using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.SDK.Management.Windows {
+namespace AdvancedLauncher.SDK.UI {
 
-    public class WindowContainer : CrossDomainObject, IWindow {
-        protected readonly IWindowManager WindowManager;
-
-        private Control Control;
+    public class ControlContainer : CrossDomainObject, IRemoteControl {
+        protected Control Control;
 
         public bool EnableAirspaceFix {
             get {
@@ -33,15 +32,11 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             }
         }
 
-        public WindowContainer(Control Control, IWindowManager WindowManager) {
+        public ControlContainer(Control Control) {
             if (Control == null) {
-                throw new ArgumentException("WindowManager cannot be null");
-            }
-            if (WindowManager == null) {
-                throw new ArgumentException("WindowManager cannot be null");
+                throw new ArgumentException("Control cannot be null");
             }
             this.Control = Control;
-            this.WindowManager = WindowManager;
         }
 
         public object GetControl(bool contractAdapter = false) {
@@ -52,17 +47,11 @@ namespace AdvancedLauncher.SDK.Management.Windows {
         }
 
         public virtual void OnShow() {
-            AbstractWindowControl windowControl = Control as AbstractWindowControl;
-            if (windowControl != null) {
-                windowControl.OnShow();
-            }
+            // nothing to do
         }
 
-        /// <summary>
-        /// Returns to last opened window. You're free to override this method.
-        /// </summary>
-        public virtual void Close() {
-            WindowManager.GoBack(this);
+        public virtual void OnClose() {
+            // nothing to do
         }
     }
 }

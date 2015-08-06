@@ -16,11 +16,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Diagnostics;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Plugins;
+using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model;
-using AdvancedLauncher.SDK.Tools;
+using AdvancedLauncher.SDK.UI;
 
 namespace PluginSample {
 
@@ -45,23 +47,21 @@ namespace PluginSample {
 
         public override void OnActivate(IPluginHost PluginHost) {
             this.PluginHost = PluginHost;
-            this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
+            /*this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
             PluginHost.ConfigurationManager.RegisterConfiguration(Configuration);
 
-            item = new MenuItem("lol", "appbar_information", new Thickness(9, 4, 9, 4), false);
+            item = new MenuItem("DMOTranslator", "appbar_information", new Thickness(9, 4, 9, 4), false);
             item.Click += OnClick;
             PluginHost.WindowManager.AddMenuItem(item);
+
+            ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
+            PageItem pageItem = new PageItem("DMOTranslator", appWindow);
+            PluginHost.WindowManager.AddPageItem(pageItem);*/
         }
 
         private void OnClick(object sender, AdvancedLauncher.SDK.Model.Events.BaseEventArgs e) {
-            /*ProcessStartInfo pInfo = new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe");
-            ApplicationWindowControl appWindow = new ApplicationWindowControl(pInfo, PluginHost.LanguageManager, PluginHost.WindowManager);
-            PluginHost.WindowManager.ShowWindow(appWindow.Container);*/
-            item.Name = "Settings";
-            item.IsBinding = true;
-            item.IconName = "appbar_settings";
-            item.IconMargin = new Thickness(5, 5, 5, 5);
-            item.IsEnabled = false;
+            ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
+            PluginHost.WindowManager.ShowWindow(new WindowContainer(appWindow, PluginHost.WindowManager));
         }
 
         public override void OnStop(IPluginHost PluginHost) {

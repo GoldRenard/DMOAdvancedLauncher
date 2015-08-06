@@ -16,17 +16,31 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
+using System.Windows.Controls;
 using AdvancedLauncher.SDK.Management;
-using Ninject;
 
-namespace AdvancedLauncher.UI.Windows {
+namespace AdvancedLauncher.SDK.UI {
 
-    public abstract class AbstractWindowControl : SDK.UI.AbstractWindowControl {
+    public class WindowContainer : ControlContainer {
+        protected readonly IWindowManager WindowManager;
 
-        public AbstractWindowControl()
-            : base(App.Kernel.Get<ILanguageManager>(),
-                   App.Kernel.Get<IWindowManager>()) {
-            App.Kernel.Inject(this);
+        public WindowContainer(Control Control, IWindowManager WindowManager) : base(Control) {
+            if (WindowManager == null) {
+                throw new ArgumentException("WindowManager cannot be null");
+            }
+            this.WindowManager = WindowManager;
+        }
+
+        public override void OnShow() {
+            AbstractWindowControl windowControl = this.Control as AbstractWindowControl;
+            if (windowControl != null) {
+                windowControl.OnShow();
+            }
+        }
+
+        public override void OnClose() {
+            WindowManager.GoBack(this);
         }
     }
 }

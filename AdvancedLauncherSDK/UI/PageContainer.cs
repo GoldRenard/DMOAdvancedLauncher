@@ -16,17 +16,27 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Management;
-using Ninject;
+using System.Windows.Controls;
 
-namespace AdvancedLauncher.UI.Windows {
+namespace AdvancedLauncher.SDK.UI {
 
-    public abstract class AbstractWindowControl : SDK.UI.AbstractWindowControl {
+    public class PageContainer : ControlContainer {
 
-        public AbstractWindowControl()
-            : base(App.Kernel.Get<ILanguageManager>(),
-                   App.Kernel.Get<IWindowManager>()) {
-            App.Kernel.Inject(this);
+        public PageContainer(Control Control) : base(Control) {
+        }
+
+        public override void OnShow() {
+            AbstractPageControl pageControl = this.Control as AbstractPageControl;
+            if (pageControl != null) {
+                pageControl.OnShowInternal();
+            }
+        }
+
+        public override void OnClose() {
+            AbstractPageControl pageControl = this.Control as AbstractPageControl;
+            if (pageControl != null) {
+                pageControl.OnCloseInternal();
+            }
         }
     }
 }

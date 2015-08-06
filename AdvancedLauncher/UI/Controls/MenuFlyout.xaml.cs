@@ -23,7 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AdvancedLauncher.Management;
-using AdvancedLauncher.Model.Proxy;
+using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;

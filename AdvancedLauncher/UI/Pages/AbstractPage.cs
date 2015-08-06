@@ -16,56 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Windows;
-using AdvancedLauncher.SDK.Model.Events;
-using AdvancedLauncher.UI.Controls;
+using AdvancedLauncher.SDK.Management;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {
 
-    public abstract class AbstractPage : AbstractUserControl {
-        protected bool IsPageActivated = false;
+    public abstract class AbstractPage : SDK.UI.AbstractPageControl {
 
-        protected bool IsPageVisible = false;
-
-        public AbstractPage() : base() {
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                ProfileManager.ProfileChanged += OnProfileChangedInternal;
-                LanguageManager.LanguageChanged += OnLanguageChanged;
-            }
+        public AbstractPage()
+            : base(App.Kernel.Get<ILanguageManager>(),
+                   App.Kernel.Get<IWindowManager>(),
+                   App.Kernel.Get<IProfileManager>()) {
+            App.Kernel.Inject(this);
         }
-
-        private void OnLanguageChanged(object sender, BaseEventArgs e) {
-            if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
-                    OnLanguageChanged(sender, e2);
-                }), sender, e);
-                return;
-            }
-            this.DataContext = LanguageManager.Model;
-        }
-
-        public virtual void PageActivate() {
-            if (!IsPageActivated) {
-                OnProfileChangedInternal(this, BaseEventArgs.Empty);
-            }
-            IsPageActivated = true;
-            IsPageVisible = true;
-        }
-
-        public virtual void PageClose() {
-            IsPageVisible = false;
-        }
-
-        private void OnProfileChangedInternal(object sender, BaseEventArgs e) {
-            if (!this.Dispatcher.CheckAccess()) {
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
-                    OnProfileChangedInternal(sender, e2);
-                }), sender, e);
-                return;
-            }
-            OnProfileChanged(sender, e);
-        }
-
-        protected abstract void OnProfileChanged(object sender, BaseEventArgs e);
     }
 }

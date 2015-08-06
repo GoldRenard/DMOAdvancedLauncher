@@ -21,7 +21,7 @@ using System.Windows.Media;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 
-namespace AdvancedLauncher.Model.Proxy {
+namespace AdvancedLauncher.Model {
 
     public class MenuItemViewModel : NamedItemViewModel<MenuItem> {
         private static SolidColorBrush Brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));

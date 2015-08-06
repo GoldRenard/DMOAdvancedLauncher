@@ -16,18 +16,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-namespace AdvancedLauncher.SDK.Management.Windows {
+using AdvancedLauncher.SDK.Management;
 
-    public interface IWindow {
+namespace AdvancedLauncher.SDK.UI {
 
-        bool EnableAirspaceFix {
-            get;
+    public abstract class AbstractWindowControl : AbstractUserControl {
+
+        public AbstractWindowControl(ILanguageManager LanguageManager, IWindowManager WindowManager)
+            : base(LanguageManager, WindowManager) {
+            this.Container = new WindowContainer(this, WindowManager);
         }
 
-        object GetControl(bool contractAdapter = false);
+        protected void OnCloseClick(object sender, System.Windows.RoutedEventArgs e) {
+            Close();
+        }
 
-        void Close();
+        public virtual void OnShow() {
+            // nothing to do here
+        }
 
-        void OnShow();
+        /// <summary>
+        /// Returns to last opened window. You're free to override this method.
+        /// </summary>
+        public virtual void Close() {
+            WindowManager.GoBack(Container);
+        }
     }
 }

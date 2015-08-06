@@ -27,10 +27,10 @@ using System.Security.Permissions;
 using System.Windows;
 using System.Windows.Media;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.UI;
 using AdvancedLauncher.UI.Pages;
 using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls;
@@ -40,6 +40,7 @@ using Ninject;
 namespace AdvancedLauncher.Management {
 
     public class WindowManager : CrossDomainObject, IWindowManager {
+        private bool IsMenuSeparatorInserted = false;
 
         private delegate void UpdateTransitionDelegate(object Control, TransitionType TransitionType);
 
@@ -51,12 +52,12 @@ namespace AdvancedLauncher.Management {
 
         private TransitionType DefaultTransition = TransitionType.Left;
 
-        private ConcurrentStack<IWindow> WindowStack {
+        private ConcurrentStack<IRemoteControl> WindowStack {
             get;
             set;
-        } = new ConcurrentStack<IWindow>();
+        } = new ConcurrentStack<IRemoteControl>();
 
-        private IWindow CurrentWindow {
+        private IRemoteControl CurrentWindow {
             get;
             set;
         }
@@ -150,8 +151,7 @@ namespace AdvancedLauncher.Management {
             DefaultTransition = MainWindow.transitionLayer.Transition;
             MainWindow.Loaded += (s, e) => {
                 BuildMenu();
-                //ShowWindow(new PagesWindow().Container);
-                ShowWindow(Logger.Container);
+                ShowWindow(new PagesWindow().Container);
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 App.Kernel.Get<Splashscreen>().Close();
@@ -180,26 +180,35 @@ namespace AdvancedLauncher.Management {
                 MainWindow.MenuFlyout.IsOpen = false;
             };
 
+            List<MenuItem> extraMenuItems = new List<MenuItem>(MenuItems);
+            MenuItems.Clear();
             MenuItems.Add(settingsItem);
             MenuItems.Add(consoleItem);
             MenuItems.Add(aboutItem);
+            OwnedItems.AddRange(MenuItems);
+            foreach (MenuItem item in extraMenuItems) {
+                MenuItems.Add(item);
+            }
 
-            MainPage = new PageItem("MainWindow_NewsTab", new MainPage(), true);
-            Gallery = new PageItem("MainWindow_GalleryTab", new Gallery(), true);
-            Community = new PageItem("MainWindow_CommunityTab", new Community(), true);
-            Personalization = new PageItem("MainWindow_PersonalizationTab", new Personalization(), true);
+            MainPage = new PageItem("MainWindow_NewsTab", new MainPage().Container, true);
+            Gallery = new PageItem("MainWindow_GalleryTab", new Gallery().Container, true);
+            Community = new PageItem("MainWindow_CommunityTab", new Community().Container, true);
+            Personalization = new PageItem("MainWindow_PersonalizationTab", new Personalization().Container, true);
 
+            List<PageItem> extraPages = new List<PageItem>(PageItems);
+            PageItems.Clear();
             PageItems.Add(MainPage);
             PageItems.Add(Gallery);
             PageItems.Add(Community);
             PageItems.Add(Personalization);
-
-            OwnedItems.AddRange(MenuItems);
             OwnedItems.AddRange(PageItems);
+            foreach (PageItem item in extraPages) {
+                PageItems.Add(item);
+            }
         }
 
         [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
-        public void ShowWindow(IWindow window) {
+        public void ShowWindow(IRemoteControl window) {
             if (window == null) {
                 throw new ArgumentException("Window argument cannot be null");
             }
@@ -254,7 +263,7 @@ namespace AdvancedLauncher.Management {
         }
 
         public void GoHome() {
-            IWindow homeWindow = CurrentWindow;
+            IRemoteControl homeWindow = CurrentWindow;
             while (WindowStack.Count > 0) {
                 WindowStack.TryPop(out homeWindow);
             }
@@ -264,14 +273,14 @@ namespace AdvancedLauncher.Management {
 
         public void GoBack() {
             if (WindowStack.Count > 0) {
-                IWindow previous;
+                IRemoteControl previous;
                 WindowStack.TryPop(out previous);
                 this.CurrentWindow = null;
                 ShowWindow(previous);
             }
         }
 
-        public void GoBack(IWindow window) {
+        public void GoBack(IRemoteControl window) {
             if (window == null) {
                 throw new ArgumentException("Window argument cannot be null");
             }
@@ -284,6 +293,10 @@ namespace AdvancedLauncher.Management {
 
         [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public void AddMenuItem(SDK.Model.MenuItem menuItem) {
+            if (!IsMenuSeparatorInserted) {
+                MenuItems.Add(MenuItem.Separator);
+                IsMenuSeparatorInserted = true;
+            }
             MenuItems.Add(menuItem);
         }
 

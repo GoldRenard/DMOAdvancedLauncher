@@ -20,7 +20,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using AdvancedLauncher.Model.Proxy;
+using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 

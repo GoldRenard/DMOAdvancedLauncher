@@ -17,17 +17,23 @@
 // ======================================================================
 
 using System.Windows.Controls;
+using AdvancedLauncher.SDK.UI;
 
 namespace AdvancedLauncher.SDK.Model {
 
     public class PageItem : NamedItem {
 
-        public PageItem(string Name, Control Content, bool IsNameBinding = false)
+        public PageItem(string Name, IRemoteControl Content, bool IsNameBinding = false)
             : base(Name, IsNameBinding) {
             this.Content = Content;
         }
 
-        public Control Content {
+        public PageItem(string Name, Control Content, bool IsNameBinding = false)
+            : base(Name, IsNameBinding) {
+            this.Content = new PageContainer(Content);
+        }
+
+        public IRemoteControl Content {
             get;
             private set;
         }

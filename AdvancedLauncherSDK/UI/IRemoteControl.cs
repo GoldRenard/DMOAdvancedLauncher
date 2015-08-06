@@ -16,17 +16,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Management;
-using Ninject;
+namespace AdvancedLauncher.SDK.UI {
 
-namespace AdvancedLauncher.UI.Windows {
+    public interface IRemoteControl {
 
-    public abstract class AbstractWindowControl : SDK.UI.AbstractWindowControl {
-
-        public AbstractWindowControl()
-            : base(App.Kernel.Get<ILanguageManager>(),
-                   App.Kernel.Get<IWindowManager>()) {
-            App.Kernel.Inject(this);
+        bool EnableAirspaceFix {
+            get;
         }
+
+        object GetControl(bool contractAdapter = false);
+
+        void OnShow();
+
+        void OnClose();
     }
 }

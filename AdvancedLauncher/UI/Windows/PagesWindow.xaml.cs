@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -67,7 +68,9 @@ namespace AdvancedLauncher.UI.Windows {
                     return;
                 }
                 if (currentTab != null) {
-                    currentTab.OnClose();
+                    try {
+                        currentTab.OnClose();
+                    } catch (AppDomainUnloadedException) { }
                 }
                 currentTab = selectedPage;
                 currentTab.OnShow();

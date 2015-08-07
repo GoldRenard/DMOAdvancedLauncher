@@ -22,6 +22,7 @@ using System.AddIn.Pipeline;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Windows;
@@ -41,6 +42,8 @@ namespace AdvancedLauncher.Management {
 
     public class WindowManager : CrossDomainObject, IWindowManager {
         private bool IsMenuSeparatorInserted = false;
+
+        private int InternalMenuCount = 0;
 
         private delegate void UpdateTransitionDelegate(object Control, TransitionType TransitionType);
 
@@ -185,6 +188,7 @@ namespace AdvancedLauncher.Management {
             MenuItems.Add(settingsItem);
             MenuItems.Add(consoleItem);
             MenuItems.Add(aboutItem);
+            InternalMenuCount = MenuItems.Count;
             OwnedItems.AddRange(MenuItems);
             foreach (MenuItem item in extraMenuItems) {
                 MenuItems.Add(item);
@@ -265,7 +269,7 @@ namespace AdvancedLauncher.Management {
         public void GoHome() {
             IRemoteControl homeWindow = CurrentWindow;
             while (WindowStack.Count > 0) {
-                WindowStack.TryPop(out homeWindow);
+                homeWindow = PopAvailableWindow();
             }
             this.CurrentWindow = null;
             ShowWindow(homeWindow);
@@ -273,8 +277,7 @@ namespace AdvancedLauncher.Management {
 
         public void GoBack() {
             if (WindowStack.Count > 0) {
-                IRemoteControl previous;
-                WindowStack.TryPop(out previous);
+                IRemoteControl previous = PopAvailableWindow();
                 this.CurrentWindow = null;
                 ShowWindow(previous);
             }
@@ -285,27 +288,52 @@ namespace AdvancedLauncher.Management {
                 throw new ArgumentException("Window argument cannot be null");
             }
             if (window.Equals(CurrentWindow) && WindowStack.Count > 0) {
-                WindowStack.TryPop(out window);
+                window = PopAvailableWindow();
                 this.CurrentWindow = null;
                 ShowWindow(window);
             }
         }
 
+        private IRemoteControl PopAvailableWindow() {
+            bool IsSuccess = false;
+            IRemoteControl control = null;
+            while (!IsSuccess) {
+                try {
+                    WindowStack.TryPop(out control);
+                    var boolEnabled = control.EnableAirspaceFix;
+                    IsSuccess = true;
+                } catch (AppDomainUnloadedException) { }
+            }
+            return control;
+        }
+
         [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public void AddMenuItem(SDK.Model.MenuItem menuItem) {
-            if (!IsMenuSeparatorInserted) {
-                MenuItems.Add(MenuItem.Separator);
-                IsMenuSeparatorInserted = true;
+            lock (MenuItems) {
+                if (!IsMenuSeparatorInserted) {
+                    MenuItems.Add(MenuItem.Separator);
+                    IsMenuSeparatorInserted = true;
+                }
+                MenuItems.Add(menuItem);
             }
-            MenuItems.Add(menuItem);
         }
 
         [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public bool RemoveMenuItem(SDK.Model.MenuItem menuItem) {
-            if (OwnedItems.Contains(menuItem)) {
-                throw new ArgumentException("You are not allowed to remove default MenuItem");
+            lock (MenuItems) {
+                if (OwnedItems.Contains(menuItem)) {
+                    throw new ArgumentException("You are not allowed to remove default MenuItem");
+                }
+                bool result = MenuItems.Remove(menuItem);
+                if (MenuItems.Count == InternalMenuCount + 1) {
+                    var obj = MenuItems.Last();
+                    if (obj.IsSeparator) {
+                        MenuItems.Remove(obj);
+                        IsMenuSeparatorInserted = false;
+                    }
+                }
+                return result;
             }
-            return MenuItems.Remove(menuItem);
         }
 
         [PermissionSet(SecurityAction.Assert, Unrestricted = true)]

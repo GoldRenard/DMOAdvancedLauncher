@@ -22,6 +22,7 @@ using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Plugins;
 using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Tools;
 using AdvancedLauncher.SDK.UI;
 
 namespace PluginSample {
@@ -45,9 +46,13 @@ namespace PluginSample {
 
         private MenuItem item;
 
+        private PageItem pageItem;
+
+
         public override void OnActivate(IPluginHost PluginHost) {
+            return;
             this.PluginHost = PluginHost;
-            /*this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
+            this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
             PluginHost.ConfigurationManager.RegisterConfiguration(Configuration);
 
             item = new MenuItem("DMOTranslator", "appbar_information", new Thickness(9, 4, 9, 4), false);
@@ -55,18 +60,25 @@ namespace PluginSample {
             PluginHost.WindowManager.AddMenuItem(item);
 
             ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
-            PageItem pageItem = new PageItem("DMOTranslator", appWindow);
-            PluginHost.WindowManager.AddPageItem(pageItem);*/
+            pageItem = new PageItem("DMOTranslator", appWindow);
+            PluginHost.WindowManager.AddPageItem(pageItem);
         }
 
         private void OnClick(object sender, AdvancedLauncher.SDK.Model.Events.BaseEventArgs e) {
             ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
+            WindowContainer WindowContainer = new WindowContainer(appWindow, PluginHost.WindowManager);
             PluginHost.WindowManager.ShowWindow(new WindowContainer(appWindow, PluginHost.WindowManager));
         }
 
         public override void OnStop(IPluginHost PluginHost) {
             if (Configuration != null) {
                 PluginHost.ConfigurationManager.UnRegisterConfiguration(Configuration);
+            }
+            if (item != null) {
+                PluginHost.WindowManager.RemoveMenuItem(item);
+            }
+            if (pageItem != null) {
+                PluginHost.WindowManager.RemovePageItem(pageItem);
             }
         }
     }

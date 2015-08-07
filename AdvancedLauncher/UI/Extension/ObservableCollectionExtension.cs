@@ -45,7 +45,7 @@ namespace AdvancedLauncher.UI.Extension {
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        foreach (T Item in e.NewItems) {
+                        foreach (T Item in e.OldItems) {
                             P proxy = ProxyCollection.FirstOrDefault(p => p.Item.Equals(Item));
                             if (proxy != null) {
                                 ProxyCollection.Remove(proxy);

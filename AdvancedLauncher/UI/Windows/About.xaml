@@ -18,7 +18,7 @@
 // ======================================================================
 -->
 
-<win:AbstractWindow x:Class="AdvancedLauncher.UI.Windows.About"
+<win:AbstractWindowControl x:Class="AdvancedLauncher.UI.Windows.About"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mg="clr-namespace:AdvancedLauncher.Management"
@@ -30,13 +30,13 @@
              mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
              DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
-    <win:AbstractWindow.Resources>
+    <win:AbstractWindowControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </win:AbstractWindow.Resources>
+    </win:AbstractWindowControl.Resources>
     <Grid x:Name="LayoutRoot" d:Visibility="Collapsed">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -93,4 +93,4 @@
         </StackPanel>
         <Button x:Name="BtnClose" Grid.Row="2" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding CloseButton}" Click="OnCloseClick" />
     </Grid>
-</win:AbstractWindow>
+</win:AbstractWindowControl>

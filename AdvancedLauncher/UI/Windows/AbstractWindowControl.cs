@@ -21,9 +21,11 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
-    public abstract class AbstractWindow : AdvancedLauncher.SDK.Management.Windows.AbstractWindow {
+    public abstract class AbstractWindowControl : SDK.UI.AbstractWindowControl {
 
-        public AbstractWindow() : base(App.Kernel.Get<ILanguageManager>(), App.Kernel.Get<IWindowManager>()) {
+        public AbstractWindowControl()
+            : base(App.Kernel.Get<ILanguageManager>(),
+                   App.Kernel.Get<IWindowManager>()) {
             App.Kernel.Inject(this);
         }
     }

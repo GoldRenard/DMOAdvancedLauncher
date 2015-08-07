@@ -18,6 +18,7 @@
 
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace AdvancedLauncher.SDK.Management {
 
@@ -38,6 +39,8 @@ namespace AdvancedLauncher.SDK.Management {
         string[] GetTranslations();
 
         event BaseEventHandler LanguageChanged;
+
+        void LanguageChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true);
 
         string GetDefaultName();
 

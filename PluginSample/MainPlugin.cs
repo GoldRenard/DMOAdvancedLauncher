@@ -16,30 +16,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Diagnostics;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Plugins;
-using AdvancedLauncher.SDK.Model.Events.Proxy;
+using AdvancedLauncher.SDK.Management.Windows;
+using AdvancedLauncher.SDK.Model;
+using AdvancedLauncher.SDK.Tools;
+using AdvancedLauncher.SDK.UI;
 
 namespace PluginSample {
 
     public class MainPlugin : AbstractPlugin {
         private IPluginHost PluginHost;
-
-        public class TestCommand : AbstractCommand {
-            private readonly IPluginHost PluginHost;
-
-            public TestCommand(IPluginHost PluginHost)
-                : base("doit", "Just the test command") {
-                this.PluginHost = PluginHost;
-            }
-
-            public override bool DoCommand(string[] args) {
-                PluginHost.LogManager.Info("SimplePlugin - Did it!");
-                return true;
-            }
-        }
 
         public override string Author {
             get {
@@ -53,35 +42,44 @@ namespace PluginSample {
             }
         }
 
-        private ICommand DoItCommand;
-
         private IConfiguration Configuration;
 
-        private BaseEventProxy ProfileChangedProxy;
+        private MenuItem item;
+
+        private PageItem pageItem;
+
 
         public override void OnActivate(IPluginHost PluginHost) {
+            return;
             this.PluginHost = PluginHost;
-            this.ProfileChangedProxy = new BaseEventProxy(OnProfileChanged);
-            DoItCommand = new TestCommand(PluginHost);
-            Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
-            PluginHost.CommandManager.RegisterCommand(DoItCommand);
+            this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
             PluginHost.ConfigurationManager.RegisterConfiguration(Configuration);
 
-            PluginHost.ProfileManager.ProfileChangedProxy(ProfileChangedProxy);
+            item = new MenuItem("DMOTranslator", "appbar_information", new Thickness(9, 4, 9, 4), false);
+            item.Click += OnClick;
+            PluginHost.WindowManager.AddMenuItem(item);
+
+            ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
+            pageItem = new PageItem("DMOTranslator", appWindow);
+            PluginHost.WindowManager.AddPageItem(pageItem);
+        }
+
+        private void OnClick(object sender, AdvancedLauncher.SDK.Model.Events.BaseEventArgs e) {
+            ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
+            WindowContainer WindowContainer = new WindowContainer(appWindow, PluginHost.WindowManager);
+            PluginHost.WindowManager.ShowWindow(new WindowContainer(appWindow, PluginHost.WindowManager));
         }
 
         public override void OnStop(IPluginHost PluginHost) {
-            if (DoItCommand != null) {
-                PluginHost.CommandManager.UnRegisterCommand(DoItCommand);
-            }
             if (Configuration != null) {
                 PluginHost.ConfigurationManager.UnRegisterConfiguration(Configuration);
             }
-            PluginHost.ProfileManager.ProfileChangedProxy(ProfileChangedProxy, false);
-        }
-
-        public void OnProfileChanged(object sender, AdvancedLauncher.SDK.Model.Events.BaseEventArgs e) {
-            PluginHost.LogManager.Info("ProfileChanged!");
+            if (item != null) {
+                PluginHost.WindowManager.RemoveMenuItem(item);
+            }
+            if (pageItem != null) {
+                PluginHost.WindowManager.RemovePageItem(pageItem);
+            }
         }
     }
 }

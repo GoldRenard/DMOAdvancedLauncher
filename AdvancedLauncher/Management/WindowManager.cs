@@ -17,43 +17,62 @@
 // ======================================================================
 
 using System;
+using System.AddIn.Contract;
+using System.AddIn.Pipeline;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Media;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Windows;
+using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
-using AdvancedLauncher.UI.Commands;
+using AdvancedLauncher.SDK.UI;
 using AdvancedLauncher.UI.Pages;
 using AdvancedLauncher.UI.Windows;
+using MahApps.Metro.Controls;
+using Microsoft.DwayneNeed.Interop;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
 
     public class WindowManager : CrossDomainObject, IWindowManager {
-        private bool MainMenuSeparatorAdded = false;
+        private bool IsMenuSeparatorInserted = false;
+
+        private int InternalMenuCount = 0;
+
+        private delegate void UpdateTransitionDelegate(object Control, TransitionType TransitionType);
 
         private bool IsStarted = false;
 
-        private ConcurrentStack<IWindow> WindowStack {
+        private bool IsContract = false;
+
+        private bool IsAirspaceDecoration = false;
+
+        private TransitionType DefaultTransition = TransitionType.Left;
+
+        private ConcurrentStack<IRemoteControl> WindowStack {
             get;
             set;
-        } = new ConcurrentStack<IWindow>();
+        } = new ConcurrentStack<IRemoteControl>();
 
-        private IWindow CurrentWindow {
+        private IRemoteControl CurrentWindow {
             get;
             set;
         }
 
-        public ObservableCollection<SDK.Management.Windows.MenuItem> MenuItems {
+        public ObservableCollection<SDK.Model.MenuItem> MenuItems {
+            [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
             get;
             private set;
-        } = new ObservableCollection<SDK.Management.Windows.MenuItem>();
+        } = new ObservableCollection<SDK.Model.MenuItem>();
 
         public ObservableCollection<PageItem> PageItems {
+            [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
             get;
             private set;
         } = new ObservableCollection<PageItem>();
@@ -124,7 +143,6 @@ namespace AdvancedLauncher.Management {
         public void Initialize() {
             EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
             ProfileManager.ProfileChanged += OnProfileChanged;
-            ProfileManager.ProfileLocked += OnProfileLocked;
         }
 
         public void Start() {
@@ -133,9 +151,10 @@ namespace AdvancedLauncher.Management {
             }
             this.MainWindow = App.Kernel.Get<MainWindow>(); // do not inject it directly, we should not export it as public property
             Application.Current.MainWindow = MainWindow;
+            DefaultTransition = MainWindow.transitionLayer.Transition;
             MainWindow.Loaded += (s, e) => {
                 BuildMenu();
-                ShowWindow(new PagesWindow());
+                ShowWindow(new PagesWindow().Container);
             };
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 App.Kernel.Get<Splashscreen>().Close();
@@ -146,54 +165,111 @@ namespace AdvancedLauncher.Management {
         }
 
         private void BuildMenu() {
-            MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "Settings", FindResource<Canvas>("appbar_settings"), new Thickness(5, 5, 5, 5), new ModelCommand((p) => {
+            var settingsItem = new SDK.Model.MenuItem("Settings", "appbar_settings", new SDK.Tools.Thickness(5, 5, 5, 5), true);
+            settingsItem.Click += (s, e) => {
                 MainWindow.SettingsFlyout.Width = MainWindow.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
                 MainWindow.SettingsFlyout.IsOpen = true;
-            })));
-            MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "Console", FindResource<Canvas>("appbar_app"), new Thickness(5, 7, 5, 7), new ModelCommand((p) => {
-                ShowWindow(Logger);
-                MainWindow.MenuFlyout.IsOpen = false;
-            })));
-            MenuItems.Add(new SDK.Management.Windows.MenuItem(LanguageManager, "About", FindResource<Canvas>("appbar_information"), new Thickness(9, 4, 9, 4), new ModelCommand((p) => {
-                ShowWindow(App.Kernel.Get<About>());
-                MainWindow.MenuFlyout.IsOpen = false;
-            })));
+            };
 
-            MainPage = new PageItem(LanguageManager, "MainWindow_NewsTab", new MainPage());
-            Gallery = new PageItem(LanguageManager, "MainWindow_GalleryTab", new Gallery());
-            Community = new PageItem(LanguageManager, "MainWindow_CommunityTab", new Community());
-            Personalization = new PageItem(LanguageManager, "MainWindow_PersonalizationTab", new Personalization());
+            var consoleItem = new SDK.Model.MenuItem("Console", "appbar_app", new SDK.Tools.Thickness(5, 7, 5, 7), true);
+            consoleItem.Click += (s, e) => {
+                ShowWindow(Logger.Container);
+                MainWindow.MenuFlyout.IsOpen = false;
+            };
 
+            var aboutItem = new SDK.Model.MenuItem("About", "appbar_information", new SDK.Tools.Thickness(9, 4, 9, 4), true);
+            aboutItem.Click += (s, e) => {
+                ShowWindow(App.Kernel.Get<About>().Container);
+                MainWindow.MenuFlyout.IsOpen = false;
+            };
+
+            List<MenuItem> extraMenuItems = new List<MenuItem>(MenuItems);
+            MenuItems.Clear();
+            MenuItems.Add(settingsItem);
+            MenuItems.Add(consoleItem);
+            MenuItems.Add(aboutItem);
+            InternalMenuCount = MenuItems.Count;
+            OwnedItems.AddRange(MenuItems);
+            foreach (MenuItem item in extraMenuItems) {
+                MenuItems.Add(item);
+            }
+
+            MainPage = new PageItem("MainWindow_NewsTab", new MainPage().Container, true);
+            Gallery = new PageItem("MainWindow_GalleryTab", new Gallery().Container, true);
+            Community = new PageItem("MainWindow_CommunityTab", new Community().Container, true);
+            Personalization = new PageItem("MainWindow_PersonalizationTab", new Personalization().Container, true);
+
+            List<PageItem> extraPages = new List<PageItem>(PageItems);
+            PageItems.Clear();
             PageItems.Add(MainPage);
             PageItems.Add(Gallery);
             PageItems.Add(Community);
             PageItems.Add(Personalization);
-
-            OwnedItems.AddRange(MenuItems);
             OwnedItems.AddRange(PageItems);
+            foreach (PageItem item in extraPages) {
+                PageItems.Add(item);
+            }
         }
 
-        public void ShowWindow(IWindow window) {
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+        public void ShowWindow(IRemoteControl window) {
             if (window == null) {
                 throw new ArgumentException("Window argument cannot be null");
             }
-            Control control = window as Control;
-            if (control == null) {
-                throw new ArgumentException("Window must inherit from WPF Control");
-            }
-            if (CurrentWindow != null) {
-                WindowStack.Push(CurrentWindow);
-            }
 
-            CurrentWindow = window;
-            CurrentWindow.OnShow();
-            MainWindow.transitionLayer.Content = control;
+            bool IsContract = false;
+            bool IsAirspaceDecoration = false;
+            object Control = null;
+            try {
+                Control = window.GetControl();
+            } catch (SerializationException) {
+                INativeHandleContract contract = window.GetControl(true) as INativeHandleContract;
+                if (contract != null) {
+                    Control = FrameworkElementAdapters.ContractToViewAdapter(contract);
+                    IsContract = true;
+                    IsAirspaceDecoration = window.EnableAirspaceFix;
+                }
+            }
+            if (Control != null) {
+                if (CurrentWindow != null) {
+                    WindowStack.Push(CurrentWindow);
+                }
+
+                if (IsContract && IsAirspaceDecoration) {
+                    Control = new AirspaceDecorator() {
+                        AirspaceMode = AirspaceMode.Redirect,
+                        IsInputRedirectionEnabled = true,
+                        IsOutputRedirectionEnabled = true,
+                        Background = Brushes.White,
+                        Content = Control
+                    };
+                }
+
+                CurrentWindow = window;
+                CurrentWindow.OnShow();
+                UpdateTransition(Control, ((IsContract && !IsAirspaceDecoration) || (this.IsContract && !this.IsAirspaceDecoration))
+                    ? TransitionType.Normal
+                    : DefaultTransition);
+                this.IsContract = IsContract;
+                this.IsAirspaceDecoration = IsAirspaceDecoration;
+            }
+        }
+
+        private void UpdateTransition(object Control, TransitionType TransitionType) {
+            if (!MainWindow.Dispatcher.CheckAccess()) {
+                MainWindow.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateTransitionDelegate((c, t) => {
+                    UpdateTransition(c, t);
+                }), Control, TransitionType);
+                return;
+            }
+            MainWindow.transitionLayer.Transition = TransitionType;
+            MainWindow.transitionLayer.Content = Control;
         }
 
         public void GoHome() {
-            IWindow homeWindow = CurrentWindow;
+            IRemoteControl homeWindow = CurrentWindow;
             while (WindowStack.Count > 0) {
-                WindowStack.TryPop(out homeWindow);
+                homeWindow = PopAvailableWindow();
             }
             this.CurrentWindow = null;
             ShowWindow(homeWindow);
@@ -201,43 +277,71 @@ namespace AdvancedLauncher.Management {
 
         public void GoBack() {
             if (WindowStack.Count > 0) {
-                IWindow previous;
-                WindowStack.TryPop(out previous);
+                IRemoteControl previous = PopAvailableWindow();
                 this.CurrentWindow = null;
                 ShowWindow(previous);
             }
         }
 
-        public void GoBack(IWindow window) {
+        public void GoBack(IRemoteControl window) {
             if (window == null) {
                 throw new ArgumentException("Window argument cannot be null");
             }
             if (window.Equals(CurrentWindow) && WindowStack.Count > 0) {
-                WindowStack.TryPop(out window);
+                window = PopAvailableWindow();
                 this.CurrentWindow = null;
                 ShowWindow(window);
             }
         }
 
-        public void AddMenuItem(SDK.Management.Windows.MenuItem menuItem) {
-            if (!MainMenuSeparatorAdded) {
-                MenuItems.Add(SDK.Management.Windows.MenuItem.Separator);
-                MainMenuSeparatorAdded = true;
+        private IRemoteControl PopAvailableWindow() {
+            bool IsSuccess = false;
+            IRemoteControl control = null;
+            while (!IsSuccess) {
+                try {
+                    WindowStack.TryPop(out control);
+                    var boolEnabled = control.EnableAirspaceFix;
+                    IsSuccess = true;
+                } catch (AppDomainUnloadedException) { }
             }
-            MenuItems.Add(menuItem);
+            return control;
         }
 
-        public bool RemoveMenuItem(SDK.Management.Windows.MenuItem menuItem) {
-            if (OwnedItems.Contains(menuItem)) {
-                throw new ArgumentException("You are not allowed to remove default MenuItem");
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+        public void AddMenuItem(SDK.Model.MenuItem menuItem) {
+            lock (MenuItems) {
+                if (!IsMenuSeparatorInserted) {
+                    MenuItems.Add(MenuItem.Separator);
+                    IsMenuSeparatorInserted = true;
+                }
+                MenuItems.Add(menuItem);
             }
-            return MenuItems.Remove(menuItem);
         }
 
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+        public bool RemoveMenuItem(SDK.Model.MenuItem menuItem) {
+            lock (MenuItems) {
+                if (OwnedItems.Contains(menuItem)) {
+                    throw new ArgumentException("You are not allowed to remove default MenuItem");
+                }
+                bool result = MenuItems.Remove(menuItem);
+                if (MenuItems.Count == InternalMenuCount + 1) {
+                    var obj = MenuItems.Last();
+                    if (obj.IsSeparator) {
+                        MenuItems.Remove(obj);
+                        IsMenuSeparatorInserted = false;
+                    }
+                }
+                return result;
+            }
+        }
+
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public void AddPageItem(PageItem pageItem) {
             PageItems.Add(pageItem);
         }
 
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public bool RemovePageItem(PageItem pageItem) {
             if (OwnedItems.Contains(pageItem)) {
                 throw new ArgumentException("You are not allowed to remove default PageItem");
@@ -245,17 +349,7 @@ namespace AdvancedLauncher.Management {
             return PageItems.Remove(pageItem);
         }
 
-        public T FindResource<T>(string name) {
-            return (T)MainWindow.FindResource(name);
-        }
-
         #region Event handlers
-
-        private void OnProfileLocked(object sender, LockedEventArgs e) {
-            foreach (SDK.Management.Windows.MenuItem item in MenuItems) {
-                item.NotifyEnabled();
-            }
-        }
 
         private void OnFileSystemLocked(object sender, LockedEventArgs e) {
             if (Personalization == null) {

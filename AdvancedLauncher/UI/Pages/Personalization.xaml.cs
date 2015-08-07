@@ -58,6 +58,11 @@ namespace AdvancedLauncher.UI.Pages {
         }
 
         [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
+
+        [Inject]
         public IDialogManager DialogManager {
             get; set;
         }
@@ -95,8 +100,7 @@ namespace AdvancedLauncher.UI.Pages {
         /// Активация страницы. При активации нам необходимо проверить не загружено ли изображение.
         /// Если не загружено и загружен список ресурсов - загружаем изображение
         /// </summary>
-        public override void PageActivate() {
-            base.PageActivate();
+        protected override void OnShow() {
             try {
                 GameModel model = ProfileManager.CurrentProfile.GameModel;
                 FileSystem.Open(FileAccess.ReadWrite, 16, ConfigurationManager.GetHFPath(model), ConfigurationManager.GetPFPath(model));
@@ -112,8 +116,7 @@ namespace AdvancedLauncher.UI.Pages {
             }
         }
 
-        public override void PageClose() {
-            base.PageClose();
+        protected override void OnClose() {
             if (FileSystem != null) {
                 if (FileSystem.IsOpened) {
                     FileSystem.Close();

@@ -22,10 +22,11 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
+using AdvancedLauncher.SDK.Model.Events;
 
-namespace AdvancedLauncher.SDK.Tools {
+namespace AdvancedLauncher.SDK.Management.Windows {
 
-    public class ApplicationHostComponent : UserControl {
+    public class ApplicationWindowControl : UserControl {
 
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
@@ -53,24 +54,31 @@ namespace AdvancedLauncher.SDK.Tools {
 
         private System.Windows.Forms.Panel Panel;
 
-        public ApplicationHostComponent(ProcessStartInfo StartInfo, int WaitTimeout = 0) {
+        public BaseEventHandler Exited;
+
+        public ApplicationWindowControl(ProcessStartInfo StartInfo, int WaitTimeout = 0) {
             this.StartInfo = StartInfo;
             this.WaitTimeout = WaitTimeout;
             WindowsFormsHost FormsHost = new WindowsFormsHost();
             Panel = new System.Windows.Forms.Panel();
             FormsHost.Child = Panel;
             AddChild(FormsHost);
-            this.Loaded += ApplicationHostComponent_Loaded;
-            this.SizeChanged += ApplicationHostComponent_SizeChanged;
+            this.Loaded += OnLoaded;
+            this.SizeChanged += OnSizeChanged;
         }
 
-        private void ApplicationHostComponent_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e) {
+        protected virtual void OnSizeChanged(object sender, System.Windows.SizeChangedEventArgs e) {
             ResizeEmbeddedApp();
         }
 
-        private void ApplicationHostComponent_Loaded(object sender, System.Windows.RoutedEventArgs e) {
-            Process = Process.Start(StartInfo);
-            Process.WaitForInputIdle();
+        protected virtual void OnLoaded(object sender, System.Windows.RoutedEventArgs e) {
+            this.Process = new Process();
+            this.Process.StartInfo = StartInfo;
+            this.Process.Exited += OnProcessExited;
+            this.Process.Start();
+            //this.Process.StartInfo.CreateNoWindow = true;
+            this.Process.EnableRaisingEvents = true;
+            this.Process.WaitForInputIdle();
             Thread.Sleep(WaitTimeout);
             SetParent(Process.MainWindowHandle, Panel.Handle);
 
@@ -83,9 +91,16 @@ namespace AdvancedLauncher.SDK.Tools {
             ResizeEmbeddedApp();
         }
 
-        private void ResizeEmbeddedApp() {
-            if (Process == null)
+        protected virtual void OnProcessExited(object sender, EventArgs e) {
+            if (Exited != null) {
+                Exited(sender, BaseEventArgs.Empty);
+            }
+        }
+
+        protected virtual void ResizeEmbeddedApp() {
+            if (Process == null) {
                 return;
+            }
             SetWindowPos(Process.MainWindowHandle, IntPtr.Zero, 0, 0, (int)Panel.ClientSize.Width, (int)Panel.ClientSize.Height, SWP_NOZORDER | SWP_NOACTIVATE);
         }
     }

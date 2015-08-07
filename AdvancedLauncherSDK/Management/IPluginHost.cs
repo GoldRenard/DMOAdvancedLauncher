@@ -52,10 +52,12 @@ namespace AdvancedLauncher.SDK.Management {
             get;
         }
 
-        /*
         IWindowManager WindowManager {
             get;
         }
-        */
+
+        ILanguageManager LanguageManager {
+            get;
+        }
     }
 }

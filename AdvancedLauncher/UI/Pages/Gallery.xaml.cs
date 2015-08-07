@@ -60,8 +60,7 @@ namespace AdvancedLauncher.UI.Pages {
             Templates.DataContext = GalleryModel;
         }
 
-        public override void PageActivate() {
-            base.PageActivate();
+        protected override void OnShow() {
             string gamePath = ConfigurationManager.GetGamePath(ProfileManager.CurrentProfile.GameModel);
             if (Directory.Exists(gamePath + SCREENSHOTS_DIR)) {
                 if (Directory.GetFiles(gamePath + SCREENSHOTS_DIR, "*.jpg").Length > 0) {
@@ -79,7 +78,7 @@ namespace AdvancedLauncher.UI.Pages {
             GalleryModel.UnLoadData();
             IsGalleryInitialized = false;
             if (IsPageVisible) {
-                PageActivate();
+                OnShow();
             }
         }
 

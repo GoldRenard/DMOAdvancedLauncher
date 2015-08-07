@@ -18,7 +18,7 @@
 // ======================================================================
 -->
 
-<win:AbstractWindow x:Class="AdvancedLauncher.UI.Windows.PagesWindow"
+<win:AbstractWindowControl x:Class="AdvancedLauncher.UI.Windows.PagesWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:controls="clr-namespace:AdvancedLauncher.UI.Controls"
              xmlns:Page="clr-namespace:AdvancedLauncher.UI.Pages"
@@ -29,14 +29,14 @@
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="900"
              DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
-    <win:AbstractWindow.Resources>
+    <win:AbstractWindowControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/SharedLite.xaml" />
                 <ResourceDictionary Source="/AdvancedLauncher;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </win:AbstractWindow.Resources>
+    </win:AbstractWindowControl.Resources>
     <Grid x:Name="LayoutRoot">
         <TabControl x:Name="NavControl" SelectionChanged="OnTabChanged" Margin="0,0,0,30">
             <TabControl.ItemContainerStyle>
@@ -49,4 +49,4 @@
         </TabControl>
         <controls:Footer Height="30" VerticalAlignment="Bottom" />
     </Grid>
-</win:AbstractWindow>
+</win:AbstractWindowControl>

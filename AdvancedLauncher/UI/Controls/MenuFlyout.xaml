@@ -26,6 +26,7 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              xmlns:ui="clr-namespace:AdvancedLauncher.UI.Controls"
+             xmlns:ext="clr-namespace:AdvancedLauncher.UI.Extension"
              xmlns:ALControls="clr-namespace:AdvancedLauncher.UI.Controls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d"
@@ -153,7 +154,7 @@
                             <Grid Background="Transparent">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                                        <i:InvokeCommandAction Command="{Binding Command}" />
+                                        <ext:MenuClickAction MenuItem="{Binding Item}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
 

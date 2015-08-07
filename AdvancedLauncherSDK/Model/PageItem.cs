@@ -17,41 +17,25 @@
 // ======================================================================
 
 using System.Windows.Controls;
-using System.Windows.Media;
+using AdvancedLauncher.SDK.UI;
 
-namespace AdvancedLauncher.SDK.Management.Windows {
+namespace AdvancedLauncher.SDK.Model {
 
     public class PageItem : NamedItem {
-        private bool _IsEnabled = true;
 
-        private static SolidColorBrush Brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-
-        public PageItem(string Label, Control Content)
-            : this(Label, null, null, Content) {
-        }
-
-        public PageItem(ILanguageManager LanguageManager, string BindingName, Control Content)
-            : this(null, LanguageManager, BindingName, Content) {
-        }
-
-        private PageItem(string Label, ILanguageManager LanguageManager, string bindingName, Control Content)
-            : base(Label, LanguageManager, bindingName) {
+        public PageItem(string Name, IRemoteControl Content, bool IsNameBinding = false)
+            : base(Name, IsNameBinding) {
             this.Content = Content;
         }
 
-        public Control Content {
-            get;
-            set;
+        public PageItem(string Name, Control Content, bool IsNameBinding = false)
+            : base(Name, IsNameBinding) {
+            this.Content = new PageContainer(Content);
         }
 
-        public bool IsEnabled {
-            set {
-                _IsEnabled = value;
-                NotifyPropertyChanged("IsEnabled");
-            }
-            get {
-                return _IsEnabled;
-            }
+        public IRemoteControl Content {
+            get;
+            private set;
         }
     }
 }

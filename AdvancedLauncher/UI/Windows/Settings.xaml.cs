@@ -43,7 +43,7 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
-    public partial class Settings : AbstractWindow, INotifyPropertyChanged {
+    public partial class Settings : AbstractWindowControl, INotifyPropertyChanged {
         private string LINK_EAL_INSTALLING_RUS = "http://www.bolden.ru/index.php?option=com_content&task=view&id=76";
         private string LINK_EAL_INSTALLING = "http://www.voom.net/install-files-for-east-asian-languages-windows-xp";
         private string LINK_MS_APPLOCALE = "http://www.microsoft.com/en-us/download/details.aspx?id=2043";

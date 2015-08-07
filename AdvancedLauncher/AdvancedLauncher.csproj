@@ -147,8 +147,13 @@
     <Compile Include="Model\Protected\ProxyCredentials.cs" />
     <Compile Include="Model\Proxy\IEventAccessor.cs" />
     <Compile Include="Model\Proxy\ILoginProviderEventAccessor.cs" />
+    <Compile Include="Model\Proxy\IPropertyChangedEventAccessor.cs" />
     <Compile Include="Model\Proxy\IWebProviderEventAccessor.cs" />
     <Compile Include="Model\Proxy\LoginProviderEventAccessor.cs" />
+    <Compile Include="Model\MenuItemViewModel.cs" />
+    <Compile Include="Model\NamedItemViewModel.cs" />
+    <Compile Include="Model\PageItemViewModel.cs" />
+    <Compile Include="Model\Proxy\PropertyChangedEventAccessor.cs" />
     <Compile Include="Model\Proxy\WebProviderEventAccessor.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
@@ -222,6 +227,8 @@
     <Compile Include="Model\Protected\ProtectedSettings.cs" />
     <Compile Include="Tools\LogAppender.cs" />
     <Compile Include="UI\Extension\GameModelContainer.cs" />
+    <Compile Include="UI\Extension\MenuClickAction.cs" />
+    <Compile Include="UI\Extension\ObservableCollectionExtension.cs" />
     <Compile Include="UI\Pages\AbstractPage.cs" />
     <Compile Include="UI\Pages\Community.xaml.cs">
       <DependentUpon>Community.xaml</DependentUpon>
@@ -264,7 +271,7 @@
     <Compile Include="UI\Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Windows\AbstractWindow.cs" />
+    <Compile Include="UI\Windows\AbstractWindowControl.cs" />
     <Compile Include="UI\Windows\BugWindow.xaml.cs">
       <DependentUpon>BugWindow.xaml</DependentUpon>
     </Compile>
@@ -479,6 +486,10 @@
     <ProjectReference Include="..\AdvancedLauncherProviders\AdvancedLauncher.Providers.csproj">
       <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
       <Name>AdvancedLauncher.Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.DwayneNeed.Minimal\Microsoft.DwayneNeed.Minimal.csproj">
+      <Project>{80a10b86-6615-4440-93b0-c943df5b8693}</Project>
+      <Name>Microsoft.DwayneNeed.Minimal</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

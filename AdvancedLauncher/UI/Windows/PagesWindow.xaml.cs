@@ -16,19 +16,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using AdvancedLauncher.Management;
+using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.SDK.Management.Windows;
+using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Events;
-using AdvancedLauncher.UI.Pages;
+using AdvancedLauncher.SDK.UI;
+using AdvancedLauncher.UI.Extension;
 using Ninject;
 
 namespace AdvancedLauncher.UI.Windows {
 
-    public partial class PagesWindow : AbstractWindow {
-        private AbstractPage currentTab;
+    public partial class PagesWindow : AbstractWindowControl {
+        private PageContainer currentTab;
 
         [Inject]
         public IEnvironmentManager EnvironmentManager {
@@ -44,7 +48,8 @@ namespace AdvancedLauncher.UI.Windows {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-                NavControl.ItemsSource = App.Kernel.Get<IWindowManager>().PageItems;
+                WindowManager WM = App.Kernel.Get<IWindowManager>() as WindowManager;
+                NavControl.ItemsSource = WM.PageItems.GetLinkedProxy<PageItem, PageItemViewModel>(LanguageManager);
                 EnvironmentManager.FileSystemLocked += OnFileSystemLocked;
                 ProfileManager.ProfileChanged += OnProfileChanged;
                 OnProfileChanged(this, BaseEventArgs.Empty);
@@ -52,20 +57,24 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         private void OnTabChanged(object sender, SelectionChangedEventArgs e) {
-            PageItem selectedTab = NavControl.SelectedValue as PageItem;
+            PageItemViewModel selectedTab = NavControl.SelectedValue as PageItemViewModel;
             if (selectedTab == null) {
                 return;
             }
-            AbstractPage selectedPage = (AbstractPage)selectedTab.Content;
-            //Prevent handling over changing inside tab item
-            if (currentTab == selectedPage) {
-                return;
+            PageContainer selectedPage = selectedTab.Item.Content as PageContainer;
+            if (selectedPage != null) {
+                //Prevent handling over changing inside tab item
+                if (currentTab == selectedPage) {
+                    return;
+                }
+                if (currentTab != null) {
+                    try {
+                        currentTab.OnClose();
+                    } catch (AppDomainUnloadedException) { }
+                }
+                currentTab = selectedPage;
+                currentTab.OnShow();
             }
-            if (currentTab != null) {
-                currentTab.PageClose();
-            }
-            currentTab = selectedPage;
-            currentTab.PageActivate();
         }
 
         private void OnFileSystemLocked(object sender, LockedEventArgs e) {

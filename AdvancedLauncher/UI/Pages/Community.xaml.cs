@@ -83,8 +83,7 @@ namespace AdvancedLauncher.UI.Pages {
             }
         }
 
-        public override void PageActivate() {
-            base.PageActivate();
+        protected override void OnShow() {
             LoadServerList();
         }
 

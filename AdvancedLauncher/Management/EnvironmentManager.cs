@@ -179,7 +179,11 @@ namespace AdvancedLauncher.Management {
             ApplyAppTheme(ProtectedSettings);
             ApplyProxySettings(ProtectedSettings);
             InitializeSafeSettings(ProtectedSettings);
-            Settings.LanguageFile = LanguageManager.Initialize(InitFolder(AppPath, LOCALE_DIR), _Settings.LanguageFile);
+
+            LanguageManager LM = LanguageManager as LanguageManager;
+            if (LM != null) {
+                Settings.LanguageFile = LM.Initialize(InitFolder(AppPath, LOCALE_DIR), _Settings.LanguageFile);
+            }
 
             if (createSettingsFile) {
                 Save();

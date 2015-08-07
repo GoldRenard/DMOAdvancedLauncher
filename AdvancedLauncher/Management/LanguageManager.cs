@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using AdvancedLauncher.SDK.Management;
@@ -39,7 +40,8 @@ namespace AdvancedLauncher.Management {
         private LanguageModel _Model = new LanguageModel();
 
         public LanguageModel Model {
-            set {
+            [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
+            private set {
                 _Model = value;
                 OnChanged();
             }
@@ -55,6 +57,7 @@ namespace AdvancedLauncher.Management {
 
         #region Save/Read/Load
 
+        [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
         public void Save(string filename, LanguageModel model) {
             XmlSerializer writer = new XmlSerializer(typeof(LanguageModel));
             StreamWriter file = new StreamWriter(filename);
@@ -62,6 +65,7 @@ namespace AdvancedLauncher.Management {
             file.Close();
         }
 
+        [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
         public LanguageModel Read(string tFile) {
             LanguageModel language = null;
             Collection.TryGetValue(tFile, out language);
@@ -79,6 +83,7 @@ namespace AdvancedLauncher.Management {
             // nothing to do here
         }
 
+        [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
         public string Initialize(string languagesPath, string currentLanguage) {
             this.LanguagesPath = languagesPath;
             if (string.IsNullOrEmpty(currentLanguage)) {
@@ -97,6 +102,7 @@ namespace AdvancedLauncher.Management {
             return currentLanguage;
         }
 
+        [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
         public bool Load(string tName) {
             if (tName == DefaultName) {
                 Model = Default;
@@ -111,6 +117,7 @@ namespace AdvancedLauncher.Management {
             return true;
         }
 
+        [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
         public string[] GetTranslations() {
             string[] translations = null;
             Regex regex = new Regex(@"^[a-z]{2,3}(?:-[A-Z]{2,3}(?:-[a-zA-Z]{4})?)?$");

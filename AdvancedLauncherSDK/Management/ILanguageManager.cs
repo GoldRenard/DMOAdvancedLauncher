@@ -23,6 +23,7 @@ using AdvancedLauncher.SDK.Model.Events.Proxy;
 namespace AdvancedLauncher.SDK.Management {
 
     public interface ILanguageManager : IManager {
+        /* Internal API
 
         string LanguagesPath {
             get;
@@ -38,14 +39,14 @@ namespace AdvancedLauncher.SDK.Management {
 
         string[] GetTranslations();
 
+        string GetDefaultName();
+        */
+
         event BaseEventHandler LanguageChanged;
 
         void LanguageChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true);
 
-        string GetDefaultName();
-
         LanguageModel Model {
-            set;
             get;
         }
     }

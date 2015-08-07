@@ -25,6 +25,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Internal;
 using AdvancedLauncher.Model.Protected;
 using AdvancedLauncher.SDK.Model.Config;
@@ -120,22 +121,26 @@ namespace AdvancedLauncher.UI.Controls {
         }
 
         private void InitializeLanguages() {
-            List<LanguageEntry> Langs = new List<LanguageEntry>() { new LanguageEntry() {
-                Code = LanguageManager.GetDefaultName()
-            }};
-            foreach (string lang in LanguageManager.GetTranslations()) {
-                Langs.Add(new LanguageEntry() {
-                    Code = Path.GetFileNameWithoutExtension(lang)
-                });
+            LanguageManager LM = LanguageManager as LanguageManager;
+            if (LM != null) {
+                List<LanguageEntry> Langs = new List<LanguageEntry>() { new LanguageEntry() {
+                Code = LM.GetDefaultName()
+                }};
+                foreach (string lang in LM.GetTranslations()) {
+                    Langs.Add(new LanguageEntry() {
+                        Code = Path.GetFileNameWithoutExtension(lang)
+                    });
+                }
+                ComboBoxLanguage.ItemsSource = Langs;
+                ComboBoxLanguage.SelectedItem = Langs.FirstOrDefault(e => e.Code == EnvironmentManager.Settings.LanguageFile);
+                CurrentLangIndex = Langs.IndexOf((LanguageEntry)ComboBoxLanguage.SelectedItem);
             }
-            ComboBoxLanguage.ItemsSource = Langs;
-            ComboBoxLanguage.SelectedItem = Langs.FirstOrDefault(e => e.Code == EnvironmentManager.Settings.LanguageFile);
-            CurrentLangIndex = Langs.IndexOf((LanguageEntry)ComboBoxLanguage.SelectedItem);
         }
 
         private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (this.IsLoaded) {
-                LanguageManager.Load(ComboBoxLanguage.SelectedValue.ToString());
+            LanguageManager LM = LanguageManager as LanguageManager;
+            if (this.IsLoaded && LM != null) {
+                LM.Load(ComboBoxLanguage.SelectedValue.ToString());
             }
         }
 

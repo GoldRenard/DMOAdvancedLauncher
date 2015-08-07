@@ -48,10 +48,9 @@ namespace PluginSample {
 
         private PageItem pageItem;
 
-
         public override void OnActivate(IPluginHost PluginHost) {
-            return;
             this.PluginHost = PluginHost;
+            return;
             this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
             PluginHost.ConfigurationManager.RegisterConfiguration(Configuration);
 

@@ -35,14 +35,18 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
         public void LoadInfos() {
             Type pluginType = typeof(IPlugin);
             foreach (var assemblyPath in PluginLibs) {
-                var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(assemblyPath).FullName);
-                foreach (Type type in assembly.GetExportedTypes()) {
-                    if (type.IsAbstract) {
-                        continue;
+                try {
+                    var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(assemblyPath).FullName);
+                    foreach (Type type in assembly.GetExportedTypes()) {
+                        if (type.IsAbstract) {
+                            continue;
+                        }
+                        if (pluginType.IsAssignableFrom(type)) {
+                            PluginInfos.Add(new PluginInfo(assemblyPath, type.FullName));
+                        }
                     }
-                    if (pluginType.IsAssignableFrom(type)) {
-                        PluginInfos.Add(new PluginInfo(assemblyPath, type.FullName));
-                    }
+                } catch (Exception e) {
+                    continue;
                 }
             }
         }

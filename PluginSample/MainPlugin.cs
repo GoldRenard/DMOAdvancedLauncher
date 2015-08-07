@@ -50,7 +50,7 @@ namespace PluginSample {
 
         public override void OnActivate(IPluginHost PluginHost) {
             this.PluginHost = PluginHost;
-            return;
+            //return;
             this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
             PluginHost.ConfigurationManager.RegisterConfiguration(Configuration);
 
@@ -58,9 +58,9 @@ namespace PluginSample {
             item.Click += OnClick;
             PluginHost.WindowManager.AddMenuItem(item);
 
-            ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
+            /*ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
             pageItem = new PageItem("DMOTranslator", appWindow);
-            PluginHost.WindowManager.AddPageItem(pageItem);
+            PluginHost.WindowManager.AddPageItem(pageItem);*/
         }
 
         private void OnClick(object sender, AdvancedLauncher.SDK.Model.Events.BaseEventArgs e) {

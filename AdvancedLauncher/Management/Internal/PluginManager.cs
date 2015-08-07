@@ -138,17 +138,19 @@ namespace AdvancedLauncher.Management.Internal {
                         return false;
                     }
                 }
-
-                Instance.OnActivate(PluginHost);
+                try {
+                    Instance.OnActivate(PluginHost);
+                } finally {
+                    Instance.OnStop(PluginHost);
+                }
                 container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.ACTIVE, domain);
-            } catch (Exception) {
+            } catch (Exception e) {
                 AppDomain.Unload(domain);
                 if (pluginName != null && Instance != null) {
-                    container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.FAILED, domain);
+                    container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.FAILED, e);
                 }
                 return false;
             }
-
             return Plugins.AddOrUpdate(pluginName, container, (key, oldValue) => container) != null;
         }
 

@@ -53,13 +53,26 @@ namespace AdvancedLauncher.Model {
             get; private set;
         }
 
-        public PluginContainer(IPlugin Plugin, PluginInfo Info, RuntimeStatus Status, AppDomain Domain) {
+        public Exception FailException {
+            get; private set;
+        }
+
+        public PluginContainer(IPlugin Plugin, PluginInfo Info, RuntimeStatus Status, AppDomain Domain)
+            : this(Plugin, Info, Status, Domain, null) {
+        }
+
+        public PluginContainer(IPlugin Plugin, PluginInfo Info, RuntimeStatus Status, Exception FailException)
+            : this(Plugin, Info, Status, null, FailException) {
+        }
+
+        private PluginContainer(IPlugin Plugin, PluginInfo Info, RuntimeStatus Status, AppDomain Domain, Exception FailException) {
             this.Name = Plugin.Name;
             this.Author = Plugin.Author;
             this.Plugin = Plugin;
             this.Info = Info;
             this.Status = Status;
             this.Domain = Domain;
+            this.FailException = FailException;
         }
 
         public PluginContainer(PluginContainer container, RuntimeStatus Status) {

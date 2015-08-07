@@ -22,24 +22,26 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
 
     [Serializable]
     public struct PluginInfo {
-        private string assemblyPath;
-        private string typeName;
 
-        public PluginInfo(string assemblyPath, string typeName) {
-            this.assemblyPath = assemblyPath;
-            this.typeName = typeName;
+        public PluginInfo(string AssemblyPath, string TypeName, byte[] AssemblyToken) {
+            this.AssemblyPath = AssemblyPath;
+            this.TypeName = TypeName;
+            this.AssemblyToken = AssemblyToken;
         }
 
         public string AssemblyPath {
-            get {
-                return assemblyPath;
-            }
+            get;
+            private set;
+        }
+
+        public byte[] AssemblyToken {
+            get;
+            private set;
         }
 
         public string TypeName {
-            get {
-                return typeName;
-            }
+            get;
+            private set;
         }
     }
 }

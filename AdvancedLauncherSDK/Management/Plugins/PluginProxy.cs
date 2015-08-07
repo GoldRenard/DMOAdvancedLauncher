@@ -37,12 +37,13 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
             foreach (var assemblyPath in PluginLibs) {
                 try {
                     var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(assemblyPath).FullName);
+                    byte[] asmToken = assembly.GetName().GetPublicKeyToken();
                     foreach (Type type in assembly.GetExportedTypes()) {
                         if (type.IsAbstract) {
                             continue;
                         }
                         if (pluginType.IsAssignableFrom(type)) {
-                            PluginInfos.Add(new PluginInfo(assemblyPath, type.FullName));
+                            PluginInfos.Add(new PluginInfo(assemblyPath, type.FullName, asmToken));
                         }
                     }
                 } catch (Exception e) {

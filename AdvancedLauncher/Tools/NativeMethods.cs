@@ -48,5 +48,8 @@ namespace AdvancedLauncher.Tools {
         [DllImport("ntdll.dll")]
         public static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass,
             ref ParentProcessUtilities processInformation, int processInformationLength, out int returnLength);
+
+        [DllImport("mscoree.dll", CharSet = CharSet.Unicode)]
+        public static extern bool StrongNameSignatureVerificationEx(string wszFilePath, bool fForceVerification, ref bool pfWasVerified);
     }
 }

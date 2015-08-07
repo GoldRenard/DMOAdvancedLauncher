@@ -102,7 +102,7 @@ namespace AdvancedLauncher.Management.Internal {
                 return;
             }
             if (LoginCompleted != null) {
-                LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.CANCELLED, string.Empty, result.Username));
+                LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.CANCELLED, string.Empty, result != null ? result.Username : string.Empty));
             }
         }
 

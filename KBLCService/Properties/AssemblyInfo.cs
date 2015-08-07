@@ -47,3 +47,4 @@ using System.Windows;
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("3.0.*")]
+[assembly: AssemblyKeyFile("../signkey.snk")]

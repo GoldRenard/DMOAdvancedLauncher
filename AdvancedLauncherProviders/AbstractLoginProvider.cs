@@ -65,18 +65,18 @@ namespace AdvancedLauncher.Providers {
         protected void TryParseInfo(string content) {
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(content);
-            string result_text = doc.DocumentNode.SelectSingleNode("//body").InnerText;
+            string resultText = doc.DocumentNode.SelectSingleNode("//body").InnerText;
 
-            result_text = result_text.Replace("\r\n-\r\n", "");
-            result_text = result_text.Replace("\r\n", "");
-            result_text = System.Net.WebUtility.HtmlDecode(result_text);
+            resultText = resultText.Replace("\r\n-\r\n", "");
+            resultText = resultText.Replace("\r\n", "");
+            resultText = System.Net.WebUtility.HtmlDecode(resultText);
 
             HtmlDocument result = new HtmlDocument();
-            result.LoadHtml(result_text);
+            result.LoadHtml(resultText);
 
-            int res_code = Convert.ToInt32(result.DocumentNode.SelectSingleNode("//result").Attributes["value"].Value);
+            int resultCode = Convert.ToInt32(result.DocumentNode.SelectSingleNode("//result").Attributes["value"].Value);
             string Args = string.Empty;
-            if (res_code == 0) {
+            if (resultCode == 0) {
                 foreach (HtmlNode node in result.DocumentNode.SelectNodes("//param")) {
                     try {
                         Args += node.Attributes["value"].Value + " ";
@@ -85,7 +85,7 @@ namespace AdvancedLauncher.Providers {
                 }
                 OnCompleted(LoginCode.SUCCESS, Args, UserId);
             } else {
-                LastError = res_code;
+                LastError = resultCode;
                 StartTry++;
                 TryLogin(UserId, Password);
             }

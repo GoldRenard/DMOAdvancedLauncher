@@ -27,6 +27,7 @@ using System.Security.Permissions;
 using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Plugins;
+using AdvancedLauncher.Tools;
 using Ninject;
 
 namespace AdvancedLauncher.Management.Internal {
@@ -55,6 +56,7 @@ namespace AdvancedLauncher.Management.Internal {
         }
 
         private List<PluginInfo> LoadFrom(string pluginsDirectory) {
+            string engineAssemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AdvancedLauncher.SDK.dll");
             string[] pluginList = Directory.GetFiles(pluginsDirectory, "*.dll");
 
             AppDomainSetup domainSetup = new AppDomainSetup();
@@ -69,7 +71,6 @@ namespace AdvancedLauncher.Management.Internal {
             List<PluginInfo> result;
             var pluginLoader = AppDomain.CreateDomain("PluginLoader", null, domainSetup, permissions);
             try {
-                string engineAssemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AdvancedLauncher.SDK.dll");
                 Proxy proxy = (Proxy)pluginLoader.CreateInstanceAndUnwrap(AssemblyName.GetAssemblyName(engineAssemblyPath).FullName, typeof(Proxy).FullName);
                 proxy.PluginInfos = new List<PluginInfo>();
                 proxy.PluginLibs = pluginList;
@@ -86,37 +87,40 @@ namespace AdvancedLauncher.Management.Internal {
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
             domainSetup.PrivateBinPath = @"Plugins;bin";
 
-            PermissionSet permissions = new PermissionSet(PermissionState.None);
-            permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
-            permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
-            permissions.AddPermission(new WebBrowserPermission(PermissionState.Unrestricted));
-            permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
+            PermissionSet permissions;
+            if (!VerifyPlugin(info)) {
+                permissions = new PermissionSet(PermissionState.None);
+                permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
+                permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
+                permissions.AddPermission(new WebBrowserPermission(PermissionState.Unrestricted));
+                permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
 
-            permissions.AddPermission(new SecurityPermission(
-              SecurityPermissionFlag.Execution |
-              SecurityPermissionFlag.UnmanagedCode |
-              SecurityPermissionFlag.SerializationFormatter |
-              SecurityPermissionFlag.Assertion));
+                permissions.AddPermission(new SecurityPermission(
+                  SecurityPermissionFlag.Execution |
+                  SecurityPermissionFlag.UnmanagedCode |
+                  SecurityPermissionFlag.SerializationFormatter |
+                  SecurityPermissionFlag.Assertion));
 
-            permissions.AddPermission(new FileIOPermission(
-              FileIOPermissionAccess.PathDiscovery |
-              FileIOPermissionAccess.Read,
-              new string[] {
+                permissions.AddPermission(new FileIOPermission(
+                  FileIOPermissionAccess.PathDiscovery |
+                  FileIOPermissionAccess.Read,
+                  new string[] {
                   AppDomain.CurrentDomain.BaseDirectory,
                   EnvironmentManager.ResourcesPath,
-              }));
+                  }));
 
-            permissions.AddPermission(new FileIOPermission(
-              FileIOPermissionAccess.PathDiscovery |
-              FileIOPermissionAccess.Write |
-              FileIOPermissionAccess.Read,
-              EnvironmentManager.Resources3rdPath));
+                permissions.AddPermission(new FileIOPermission(
+                  FileIOPermissionAccess.PathDiscovery |
+                  FileIOPermissionAccess.Write |
+                  FileIOPermissionAccess.Read,
+                  EnvironmentManager.Resources3rdPath));
 
-            // debug = REMOVE
-            //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
-            //permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
-
-            //permissions = new PermissionSet(PermissionState.Unrestricted);
+                // debug = REMOVE
+                //permissions.AddPermission(new ReflectionPermission(PermissionState.Unrestricted));
+                //permissions.AddPermission(new SecurityPermission(PermissionState.Unrestricted));
+            } else {
+                permissions = new PermissionSet(PermissionState.Unrestricted);
+            }
 
             AppDomain domain = AppDomain.CreateDomain(
               string.Format("PluginDomain [{0}]", Path.GetFileNameWithoutExtension(info.AssemblyPath)),
@@ -138,17 +142,19 @@ namespace AdvancedLauncher.Management.Internal {
                         return false;
                     }
                 }
-
-                Instance.OnActivate(PluginHost);
+                try {
+                    Instance.OnActivate(PluginHost);
+                } catch (Exception e) {
+                    Instance.OnStop(PluginHost);
+                }
                 container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.ACTIVE, domain);
-            } catch (Exception) {
+            } catch (Exception e) {
                 AppDomain.Unload(domain);
                 if (pluginName != null && Instance != null) {
-                    container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.FAILED, domain);
+                    container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.FAILED, e);
                 }
                 return false;
             }
-
             return Plugins.AddOrUpdate(pluginName, container, (key, oldValue) => container) != null;
         }
 
@@ -169,6 +175,36 @@ namespace AdvancedLauncher.Management.Internal {
 
         public bool StartPlugin(PluginContainer container) {
             return LoadPlugin(container.Info);
+        }
+
+        /// <summary>
+        /// Check an plugin to see if it has the same public key token and valid strong name
+        /// </summary>
+        /// <param name='pluginInfo'>Plugin information structure</param>
+        /// <returns>true if the plugin was signed with a key that has launcher and has valid strong name, false otherwise</returns>
+        public static bool VerifyPlugin(PluginInfo pluginInfo) {
+            bool fWasVerified = false;
+            bool verified = NativeMethods.StrongNameSignatureVerificationEx(pluginInfo.AssemblyPath, true, ref fWasVerified);
+            if (!verified || pluginInfo.AssemblyToken == null) {
+                return false;
+            }
+
+            byte[] expectedToken = Assembly.GetAssembly(typeof(PluginManager)).GetName().GetPublicKeyToken();
+            try {
+                if (pluginInfo.AssemblyToken.Length != expectedToken.Length) {
+                    return false;
+                }
+                for (int i = 0; i < pluginInfo.AssemblyToken.Length; i++) {
+                    if (pluginInfo.AssemblyToken[i] != expectedToken[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            } catch (FileNotFoundException) {
+                return false;
+            } catch (BadImageFormatException) {
+                return false;
+            }
         }
     }
 }

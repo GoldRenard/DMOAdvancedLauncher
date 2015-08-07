@@ -297,16 +297,18 @@ namespace AdvancedLauncher.UI.Controls {
                 MemoryStream img_stream = new MemoryStream();
                 str.CopyTo(img_stream);
                 str.Close();
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.StreamSource = img_stream;
-                bitmap.EndInit();
-                bitmap.Freeze();
-                ImagesCollection.Add(new DigiImage() {
-                    Image = bitmap,
-                    Id = digimonId
-                });
-                return bitmap;
+                try {
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.StreamSource = img_stream;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+                    ImagesCollection.Add(new DigiImage() {
+                        Image = bitmap,
+                        Id = digimonId
+                    });
+                    return bitmap;
+                } catch (Exception) { }
             }
             return null;
         }

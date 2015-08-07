@@ -22,7 +22,6 @@ using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Management.Plugins;
 using AdvancedLauncher.SDK.Management.Windows;
 using AdvancedLauncher.SDK.Model;
-using AdvancedLauncher.SDK.Tools;
 using AdvancedLauncher.SDK.UI;
 
 namespace PluginSample {
@@ -50,15 +49,14 @@ namespace PluginSample {
 
         public override void OnActivate(IPluginHost PluginHost) {
             this.PluginHost = PluginHost;
-            //return;
-            this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
+            /*this.Configuration = new TestConfig(PluginHost.DatabaseManager, PluginHost.LogManager);
             PluginHost.ConfigurationManager.RegisterConfiguration(Configuration);
 
             item = new MenuItem("DMOTranslator", "appbar_information", new Thickness(9, 4, 9, 4), false);
             item.Click += OnClick;
             PluginHost.WindowManager.AddMenuItem(item);
 
-            /*ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
+            ApplicationWindowControl appWindow = new ApplicationWindowControl(new ProcessStartInfo(@"D:\Games\GDMO\DMOTools\DMOTranslator.exe"));
             pageItem = new PageItem("DMOTranslator", appWindow);
             PluginHost.WindowManager.AddPageItem(pageItem);*/
         }

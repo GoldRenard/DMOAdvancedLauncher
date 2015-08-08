@@ -60,12 +60,7 @@ if ([string]::IsNullOrEmpty($inSalt) -or [string]::IsNullOrEmpty($inSalt) -or [s
     exit;
 }
 
-# just for testing
-Write-Host $inSalt;
-Write-Host $inPassphrase;
-Write-Host $inInit;
-
-Decrypt-File "./signkey.release.enc" "./signkey.snk" $inSalt $inPassphrase $inInit;
+Decrypt-File "C:\Projects\DMOAdvancedLauncher\signkey.release.enc" "C:\Projects\DMOAdvancedLauncher\signkey.snk" $inSalt $inPassphrase $inInit;
 
 $md5 = New-Object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider;
 $hash = [System.BitConverter]::ToString($md5.ComputeHash([System.IO.File]::ReadAllBytes("signkey.snk")));

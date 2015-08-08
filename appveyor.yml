@@ -10,6 +10,8 @@ install:
 - choco install InnoSetup
 - set PATH=%PATH%;"C:\Program Files (x86)\Inno Setup 5"
 - set PATH="C:\Program Files (x86)\MSBuild\14.0\Bin";%PATH% 
+before_build:
+- echo My passphrase is %SNK_PASSPHRASE%
 build:
   project: AdvancedLauncher.sln
   verbosity: minimal

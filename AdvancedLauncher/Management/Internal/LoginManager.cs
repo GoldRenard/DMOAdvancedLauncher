@@ -68,19 +68,12 @@ namespace AdvancedLauncher.Management.Internal {
             }
             LoginData credentials = GetCredentials(profile);
             if (credentials != null) {
-                if (!failedLogin.Contains(credentials.User)) {
-                    if (ConfigurationManager.GetConfiguration(profile.GameModel).IsLastSessionAvailable && !string.IsNullOrEmpty(credentials.LastSessionArgs)) {
-                        ShowLastSessionDialog(profile);
-                        return;
-                    }
-                    if (credentials.IsCorrect) {
-                        LoginDialogData loginData = new LoginDialogData() {
-                            Username = credentials.User,
-                            Password = PassEncrypt.ConvertToUnsecureString(credentials.SecurePassword)
-                        };
-                        ShowLoggingInDialog(loginData);
-                        return;
-                    }
+                if (ConfigurationManager.GetConfiguration(profile.GameModel).IsLastSessionAvailable && !string.IsNullOrEmpty(credentials.LastSessionArgs)) {
+                    ShowLastSessionDialog(profile);
+                    return;
+                }
+                if (PerformLogin(credentials)) {
+                    return;
                 }
             }
             ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, credentials.User);
@@ -113,7 +106,7 @@ namespace AdvancedLauncher.Management.Internal {
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented
             };
-            controller = await MainWindow.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, false, settings);
+            controller = await MainWindow.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, true, settings);
             loginProvider.LoginStateChanged += eventAccessor.OnLoginStateChanged;
             loginProvider.LoginCompleted += eventAccessor.OnLoginCompleted;
             loginProvider.TryLogin(loginData.Username, loginData.Password);
@@ -135,6 +128,8 @@ namespace AdvancedLauncher.Management.Internal {
                         LoginCompleted(this, new LoginCompleteEventArgs(LoginCode.SUCCESS,
                             credentials.LastSessionArgs, credentials.User));
                     }
+                    return;
+                } else if (PerformLogin(credentials)) {
                     return;
                 }
             }
@@ -164,6 +159,13 @@ namespace AdvancedLauncher.Management.Internal {
                 message += string.Format(" ({0} {1})", LanguageManager.Model.LoginWasError, e.LastError);
             }
             controller.SetMessage(message);
+
+            if (controller.IsCanceled) {
+                ILoginProvider loginProvider = sender as ILoginProvider;
+                if (loginProvider != null) {
+                    loginProvider.CancelLogin();
+                }
+            }
         }
 
         public bool UpdateCredentials(Profile profile, LoginData data) {
@@ -184,6 +186,20 @@ namespace AdvancedLauncher.Management.Internal {
                 return data;
             }
             return null;
+        }
+
+        private bool PerformLogin(LoginData credentials) {
+            if (!failedLogin.Contains(credentials.User)) {
+                if (credentials.IsCorrect) {
+                    LoginDialogData loginData = new LoginDialogData() {
+                        Username = credentials.User,
+                        Password = PassEncrypt.ConvertToUnsecureString(credentials.SecurePassword)
+                    };
+                    ShowLoggingInDialog(loginData);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

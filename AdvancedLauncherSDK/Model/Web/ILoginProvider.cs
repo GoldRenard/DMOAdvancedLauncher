@@ -28,5 +28,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
         event LoginStateEventHandler LoginStateChanged;
 
         void TryLogin(string UserId, string Password);
+
+        void CancelLogin();
     }
 }

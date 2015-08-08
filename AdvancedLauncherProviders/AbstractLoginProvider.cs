@@ -26,6 +26,8 @@ using HtmlAgilityPack;
 namespace AdvancedLauncher.Providers {
 
     public abstract class AbstractLoginProvider : CrossDomainObject, ILoginProvider {
+        protected bool IsCancelled = false;
+
         protected string UserId;
 
         protected SecureString Password;
@@ -63,6 +65,10 @@ namespace AdvancedLauncher.Providers {
         public abstract void TryLogin(string UserId, SecureString Password);
 
         protected void TryParseInfo(string content) {
+            if (IsCancelled) {
+                OnCompleted(LoginCode.CANCELLED, string.Empty, UserId);
+                return;
+            }
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(content);
             string resultText = doc.DocumentNode.SelectSingleNode("//body").InnerText;
@@ -108,6 +114,10 @@ namespace AdvancedLauncher.Providers {
             if (LoginStateChanged != null) {
                 LoginStateChanged(this, new LoginStateEventArgs(state, StartTry + 1, LastError));
             }
+        }
+
+        public void CancelLogin() {
+            IsCancelled = true;
         }
     }
 }

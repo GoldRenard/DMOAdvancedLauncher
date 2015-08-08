@@ -155,6 +155,7 @@ namespace AdvancedLauncher.UI.Windows {
                 LoginData data = loginManager.GetCredentials(p);
                 Credentials.Add(p, new LoginData(data));
             }
+            OnProfileSelectionChanged(this, null);
         }
 
         #region Profile Section

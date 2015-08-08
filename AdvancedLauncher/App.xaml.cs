@@ -16,7 +16,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
 using AdvancedLauncher.Management.Internal;
@@ -25,7 +24,13 @@ using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
 using log4net.Config;
 using Ninject;
+
+#if RELEASE
+
+using System.Reflection;
 using static AdvancedLauncher.Tools.ExceptionHandler;
+
+#endif
 
 namespace AdvancedLauncher {
 
@@ -42,6 +47,7 @@ namespace AdvancedLauncher {
         }
 
         public App() {
+#if RELEASE
             if (ExceptionHandler.IsAvailable) {
                 var currentAsm = Assembly.GetExecutingAssembly();
                 AssemblyTitleAttribute title = currentAsm.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0] as AssemblyTitleAttribute;
@@ -55,6 +61,7 @@ namespace AdvancedLauncher {
                 ExceptionHandler.SupportPort = 30700;
                 ExceptionHandler.SupportURL = "https://github.com/GoldRenard/DMOAdvancedLauncher/issues";
             }
+#endif
         }
 
         private void Application_Startup(object sender, StartupEventArgs e) {

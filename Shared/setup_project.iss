@@ -1,7 +1,7 @@
 [Setup]
 AppId={{F95215F2-3DC9-4B42-9DC8-3E46B448B055}
 AppName=DMO Advanced Launcher
-AppVersion=3.0
+AppVersion=3.1
 AppPublisher=GoldRenard & DragonVs
 DefaultDirName={pf}\GoldRenard\DMOAdvancedLauncher
 AppendDefaultDirName=no
@@ -25,6 +25,7 @@ Name: "portuguese";   MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "french";       MessagesFile: "compiler:Languages\French.isl"
 Name: "german";       MessagesFile: "compiler:Languages\German.isl"
 Name: "portuguese";   MessagesFile: "compiler:Languages\Portuguese.isl"
+Name: "italian";      MessagesFile: "compiler:Languages\Italian.isl"
 
 [Tasks]
 Name: "desktopicon";     Description: "{cm:CreateDesktopIcon}";     GroupDescription: "{cm:AdditionalIcons}";
@@ -35,9 +36,13 @@ Source: "..\AdvancedLauncher\bin\Release\*";    DestDir: "{app}";          Flags
 Source: "apploc.msi";                           DestDir: "{tmp}";          Flags: ignoreversion deleteafterinstall;
 Source: "AppLoc.exe";                           DestDir: "{win}\apppatch"; Flags: ignoreversion uninsneveruninstall;    BeforeInstall: InstallAL('{tmp}\apploc.msi')
 Source: "dotNetFx45_Full_setup.exe";            DestDir: "{tmp}";          Flags: ignoreversion deleteafterinstall;     Check: not IsRequiredDotNetDetected 
+Source: "vc_redist.x64.exe";                    DestDir: "{tmp}";          Flags: ignoreversion deleteafterinstall; 
+Source: "vc_redist.x86.exe";                    DestDir: "{tmp}";          Flags: ignoreversion deleteafterinstall; 
 
 [Run]
 Filename: {tmp}\dotNetFx45_Full_setup.exe; Parameters: "/q:a /c:""install /l /q"""; Check: not IsRequiredDotNetDetected; StatusMsg: Microsoft .NET Framework 4.5 is being installed. Please wait... 
+Filename: {tmp}\vc_redist.x64.exe; Parameters: "/q"; Check: IsWin64; StatusMsg: Visual C++ Redistributable for Visual Studio 2015 (x64) is being installed. Please wait... 
+Filename: {tmp}\vc_redist.x86.exe; Parameters: "/q"; StatusMsg: Visual C++ Redistributable for Visual Studio 2015 (x86) is being installed. Please wait... 
 
 [Icons]
 Name: "{group}\Digimon Masters Online"; Filename: "{app}\AdvancedLauncher.exe";

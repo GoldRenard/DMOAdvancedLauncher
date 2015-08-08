@@ -50,14 +50,19 @@ namespace AdvancedLauncher.Management.Internal {
 
         public void Start() {
             var pluginInfos = LoadFrom(EnvironmentManager.PluginsPath);
-            foreach (PluginInfo pluginInfo in pluginInfos) {
-                LoadPlugin(pluginInfo);
+            if (pluginInfos != null) {
+                foreach (PluginInfo pluginInfo in pluginInfos) {
+                    LoadPlugin(pluginInfo);
+                }
             }
         }
 
         private List<PluginInfo> LoadFrom(string pluginsDirectory) {
             string engineAssemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AdvancedLauncher.SDK.dll");
             string[] pluginList = Directory.GetFiles(pluginsDirectory, "*.dll");
+            if (pluginList.Length == 0) {
+                return null;
+            }
 
             AppDomainSetup domainSetup = new AppDomainSetup();
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;

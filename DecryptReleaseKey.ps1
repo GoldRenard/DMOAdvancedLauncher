@@ -53,6 +53,12 @@ $inInit       = $env:SNK_SEC_INIT;
 #$inPassphrase = "mypassphrase";
 #$inInit       = "mysecinit";
 
+if ([string]::IsNullOrEmpty($inSalt) -or [string]::IsNullOrEmpty($inSalt) -or [string]::IsNullOrEmpty($inSalt)) {
+    Write-Host "Unknown encryption data, skipping release key decryption...";
+    exit;
+}
+
+# just for testing
 Write-Host $inSalt;
 Write-Host $inPassphrase;
 Write-Host $inInit;

@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
 using AdvancedLauncher.Management.Internal;
@@ -24,10 +25,7 @@ using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
 using log4net.Config;
 using Ninject;
-
-#if DEBUG
-
-#endif
+using static AdvancedLauncher.Tools.ExceptionHandler;
 
 namespace AdvancedLauncher {
 
@@ -40,6 +38,22 @@ namespace AdvancedLauncher {
                     _Kernel = new StandardKernel(new DependencyModule());
                 }
                 return _Kernel;
+            }
+        }
+
+        public App() {
+            if (ExceptionHandler.IsAvailable) {
+                var currentAsm = Assembly.GetExecutingAssembly();
+                AssemblyTitleAttribute title = currentAsm.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0] as AssemblyTitleAttribute;
+                ExceptionHandler.AppName = title.Title;
+                ExceptionHandler.AppVersion = currentAsm.GetName().Version.ToString();
+                ExceptionHandler.DumpType = MinidumpType.Normal;
+                ExceptionHandler.Flags = FlagsType.DetailedMode | FlagsType.EditMail;
+                ExceptionHandler.ReportFormat = ReportFormatType.Text;
+                ExceptionHandler.SupportEMail = "goldrenard@gmail.com";
+                ExceptionHandler.SupportHost = "bugtrap.renamon.ru";
+                ExceptionHandler.SupportPort = 30700;
+                ExceptionHandler.SupportURL = "https://github.com/GoldRenard/DMOAdvancedLauncher/issues";
             }
         }
 
@@ -65,13 +79,6 @@ namespace AdvancedLauncher {
             var identity = WindowsIdentity.GetCurrent();
             var principal = new WindowsPrincipal(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
-        }
-
-        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
-            BugWindow bw = new BugWindow(sender, e);
-            bw.ShowDialog();
-            e.Handled = true;
-            Application.Current.Shutdown();
         }
     }
 }

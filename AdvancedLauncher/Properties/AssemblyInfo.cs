@@ -5,11 +5,11 @@ using System.Windows;
 // Управление общими сведениями о сборке осуществляется с помощью
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Advanced DMO Launcher")]
-[assembly: AssemblyDescription("Advanced Digimon Masters Online Launcher")]
+[assembly: AssemblyTitle("DMO AdvancedLauncher")]
+[assembly: AssemblyDescription("Digimon Masters Online Advanced Launcher")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GoldRenard")]
-[assembly: AssemblyProduct("Advanced DMO Launcher")]
+[assembly: AssemblyProduct("DMO AdvancedLauncher")]
 [assembly: AssemblyCopyright("GoldRenard, DragonVs © 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

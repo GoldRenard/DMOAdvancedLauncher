@@ -149,7 +149,7 @@ namespace AdvancedLauncher.Management.Internal {
                 }
                 try {
                     Instance.OnActivate(PluginHost);
-                } catch (Exception e) {
+                } catch (Exception) {
                     Instance.OnStop(PluginHost);
                 }
                 container = new PluginContainer(Instance, info, PluginContainer.RuntimeStatus.ACTIVE, domain);

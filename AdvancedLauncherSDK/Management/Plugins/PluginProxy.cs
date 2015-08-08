@@ -46,7 +46,7 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
                             PluginInfos.Add(new PluginInfo(assemblyPath, type.FullName, asmToken));
                         }
                     }
-                } catch (Exception e) {
+                } catch (Exception) {
                     continue;
                 }
             }

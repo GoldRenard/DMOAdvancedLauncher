@@ -25,6 +25,10 @@ namespace AdvancedLauncher.SDK.Model {
 
         public event BaseEventHandler Click;
 
+        public MenuItem(string Name, bool IsNameBinding = false)
+            : this(Name, null, null, false, IsNameBinding) {
+        }
+
         public MenuItem(string Name, string IconName, Thickness IconMargin, bool IsNameBinding = false)
             : this(Name, IconName, IconMargin, false, IsNameBinding) {
         }

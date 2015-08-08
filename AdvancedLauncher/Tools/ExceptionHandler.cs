@@ -80,7 +80,7 @@ namespace AdvancedLauncher.Tools {
                     try {
                         Assembly bugTrap = Assembly.LoadFrom((IntPtr.Size == 4) ? X86_LIBRARY : X64_LIBRARY);
                         _BaseType = bugTrap.GetType(EXCEPTION_HANDLER_TYPE);
-                    } catch (Exception e) {
+                    } catch (Exception) {
                         _BaseType = null;
                     }
                 }
@@ -88,7 +88,14 @@ namespace AdvancedLauncher.Tools {
             }
         }
 
-        public static int HttpPort;
+        public static int HttpPort {
+            get {
+                return (int)GetFieldValue("HttpPort");
+            }
+            set {
+                SetFieldValue("Activity", (int)value);
+            }
+        }
 
         public static ActivityType Activity {
             get {
@@ -225,6 +232,14 @@ namespace AdvancedLauncher.Tools {
 
         private static void SetPropertyValue(string propertyName, object PropertyValue) {
             BaseType.GetProperty(propertyName).SetValue(null, PropertyValue);
+        }
+
+        private static object GetFieldValue(string propertyName) {
+            return BaseType.GetField(propertyName).GetValue(null);
+        }
+
+        private static void SetFieldValue(string propertyName, object PropertyValue) {
+            BaseType.GetField(propertyName).SetValue(null, PropertyValue);
         }
 
         /*public static event UnhandledExceptionDelegate AfterUnhandledException;

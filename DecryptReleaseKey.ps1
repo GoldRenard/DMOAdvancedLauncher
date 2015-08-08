@@ -1,5 +1,7 @@
 [Reflection.Assembly]::LoadWithPartialName("System.Security");
 
+Get-Location;
+
 function Encrypt-File($File, $EncryptedFile, $Salt, $Passphrase, $Init) {
 Write-Host  test $Passphrase;
 	$pass = [Text.Encoding]::UTF8.GetBytes($Passphrase);
@@ -63,7 +65,7 @@ Write-Host $inSalt;
 Write-Host $inPassphrase;
 Write-Host $inInit;
 
-Decrypt-File "signkey.release.enc" "signkey.snk" $inSalt $inPassphrase $inInit;
+Decrypt-File "./signkey.release.enc" "./signkey.snk" $inSalt $inPassphrase $inInit;
 
 $md5 = New-Object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider;
 $hash = [System.BitConverter]::ToString($md5.ComputeHash([System.IO.File]::ReadAllBytes("signkey.snk")));

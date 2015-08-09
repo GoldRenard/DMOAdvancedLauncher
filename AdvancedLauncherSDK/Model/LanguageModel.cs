@@ -364,8 +364,7 @@ namespace AdvancedLauncher.SDK.Model {
                 _About_Version = value;
             }
             get {
-                Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                return string.Format("{0}: {1}.{2} (build {3})", _About_Version, version.Major, version.Minor, version.Build);
+                return _About_Version;
             }
         }
 

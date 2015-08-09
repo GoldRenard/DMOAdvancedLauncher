@@ -16,16 +16,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows.Navigation;
 using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.UI.Windows {
 
     public partial class About : AbstractWindowControl {
-        private const string LICENSE_FILE = "Docs\\LICENSE.txt";
 
         public About() {
             InitializeComponent();
+            UpdataVersionText();
+            LanguageManager.LanguageChanged += (s, e) => {
+                UpdataVersionText();
+            };
+        }
+
+        private void UpdataVersionText() {
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            VersionBlock.Text = string.Format("{0}: {1}.{2} (build {3})",
+                LanguageManager.Model.About_Version, version.Major, version.Minor, version.Build);
         }
 
         private void OnRequestNavigate(object sender, RequestNavigateEventArgs e) {

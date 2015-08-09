@@ -25,8 +25,8 @@ test: off
 artifacts:
 - path: '\Shared\Installer\DMOAdvancedLauncher_install.exe'
   name: DMOAdvancedLauncher_install
-- path: '\AdvancedLauncherSDK\docs'
-  name: AdvancedLauncherSDK_docs
+- path: '\AdvancedLauncherSDK\bin\Release'
+  name: AdvancedLauncherSDK
   type: zip
 deploy:
 - provider: GitHub

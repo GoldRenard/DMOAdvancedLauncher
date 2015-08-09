@@ -23,7 +23,7 @@ PROJECT_NUMBER         = v1.0.0.0
 PROJECT_BRIEF          = 
 OUTPUT_LANGUAGE        = English
 INPUT                  = $(DOXYGEN_PROJECT_DIR)
-OUTPUT_DIRECTORY       = $(DOXYGEN_PROJECT_DIR)/docs
+OUTPUT_DIRECTORY       = $(DOXYGEN_PROJECT_DIR)/bin/Release/docs
 PROJECT_LOGO           = $(DOXYGEN_PROJECT_DIR)/../Shared/icon.bmp
 EXCLUDE                = $(DOXYGEN_PROJECT_DIR)/bin \
                          $(DOXYGEN_PROJECT_DIR)/obj \

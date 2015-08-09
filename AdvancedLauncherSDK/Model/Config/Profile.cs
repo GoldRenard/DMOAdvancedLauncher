@@ -25,9 +25,15 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Config {
 
+    /// <summary>
+    /// User profile settings
+    /// </summary>
     public class Profile : CrossDomainObject, INotifyPropertyChanged {
         private int _Id = 0;
 
+        /// <summary>
+        /// Profile identifier
+        /// </summary>
         public int Id {
             set {
                 _Id = value; NotifyPropertyChanged("Id");
@@ -41,6 +47,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private string _Name = "Default";
 
+        /// <summary>
+        /// Profile name
+        /// </summary>
         public string Name {
             set {
                 _Name = value;
@@ -54,6 +63,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private string _LaunchMode;
 
+        /// <summary>
+        /// Profile launch mode. It defines full name of launcher type.
+        /// </summary>
         public string LaunchMode {
             set {
                 _LaunchMode = value;
@@ -66,6 +78,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private bool _UpdateEngineEnabled = false;
 
+        /// <summary>
+        /// If <b>True</b>, internal update engine will be enabled for this profile.
+        /// Otherwise, user will be forced to stock launcher for game update.
+        /// </summary>
         public bool UpdateEngineEnabled {
             set {
                 _UpdateEngineEnabled = value; NotifyPropertyChanged("UpdateEngineEnabled");
@@ -77,6 +93,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private bool _KBLCServiceEnabled = false;
 
+        /// <summary>
+        /// If <b>True</b>, Leyboard Layout Change Service will be enabled. It will fix
+        /// in-game layout changing.
+        /// </summary>
         public bool KBLCServiceEnabled {
             set {
                 _KBLCServiceEnabled = value; NotifyPropertyChanged("KBLCServiceEnabled");
@@ -90,6 +110,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private RotationData _Rotation;
 
+        /// <summary>
+        /// DigiRotation data
+        /// </summary>
+        /// <seealso cref="RotationData"/>
         public RotationData Rotation {
             set {
                 _Rotation = value; NotifyPropertyChanged("Rotation");
@@ -101,6 +125,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private NewsData _News;
 
+        /// <summary>
+        /// News data
+        /// </summary>
+        /// <seealso cref="NewsData"/>
         public NewsData News {
             set {
                 _News = value; NotifyPropertyChanged("News");
@@ -112,6 +140,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private GameModel _GameModel;
 
+        /// <summary>
+        /// Game model data
+        /// </summary>
+        /// <seealso cref="Config.GameModel"/>
         public GameModel GameModel {
             set {
                 _GameModel = value;
@@ -129,6 +161,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private string _ImagePath;
 
+        /// <summary>
+        /// Avatar image path
+        /// </summary>
         public string ImagePath {
             set {
                 _ImagePath = value;
@@ -145,6 +180,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private string _ImagePathLoaded;
         private ImageSource _Image;
 
+        /// <summary>
+        /// Avatar image source
+        /// </summary>
         public ImageSource Image {
             set {
                 if (_Image != value) {
@@ -167,12 +205,18 @@ namespace AdvancedLauncher.SDK.Model.Config {
             }
         }
 
+        /// <summary>
+        /// <b>True</b> if user have avatar image
+        /// </summary>
         public bool HasImage {
             get {
                 return Image != null;
             }
         }
 
+        /// <summary>
+        /// <b>True</b> if user doesn't have avatar image
+        /// </summary>
         public bool NoImage {
             get {
                 return Image == null;
@@ -190,6 +234,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
             this.GameModel = new GameModel();
         }
 
+        /// <summary>
+        /// Creates new <see cref="Profile"/> based on another
+        /// </summary>
+        /// <param name="p">Source <see cref="Profile"/></param>
         public Profile(Profile p) {
             this.Id = p.Id;
             this.Guid = p.Guid;

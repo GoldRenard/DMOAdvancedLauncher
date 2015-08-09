@@ -21,14 +21,31 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// Login provider interface
+    /// </summary>
     public interface ILoginProvider : ILoggable {
 
+        /// <summary>
+        /// Login completed event handler
+        /// </summary>
         event LoginCompleteEventHandler LoginCompleted;
 
+        /// <summary>
+        /// Login state changed event handler
+        /// </summary>
         event LoginStateEventHandler LoginStateChanged;
 
+        /// <summary>
+        /// Try to login with specified user and password
+        /// </summary>
+        /// <param name="UserId">User login</param>
+        /// <param name="Password">User password</param>
         void TryLogin(string UserId, string Password);
 
+        /// <summary>
+        /// Cancel login operation
+        /// </summary>
         void CancelLogin();
     }
 }

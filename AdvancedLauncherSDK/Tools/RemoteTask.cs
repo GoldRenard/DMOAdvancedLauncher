@@ -23,21 +23,37 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Tools {
 
+    /// <summary>
+    /// <see cref="Task"/> wrapper. Async calls across AppDomains aren't supported out the box, so this is an workaround.
+    /// </summary>
+    /// <typeparam name="T">Async return type</typeparam>
     public class RemoteTask<T> : CrossDomainObject {
         private readonly EventWaitHandle CompletionEvent;
 
+        /// <summary>
+        /// Task identifier
+        /// </summary>
         public string Id {
             get; private set;
         }
 
+        /// <summary>
+        /// Gets <b>True</b> if task execution was completed
+        /// </summary>
         public bool IsCompleted {
             get; private set;
         }
 
+        /// <summary>
+        /// Gets <b>True</b> if task execution was failed
+        /// </summary>
         public bool IsFaulted {
             get; private set;
         }
 
+        /// <summary>
+        /// Gets result of task execution
+        /// </summary>
         public T Result {
             get; private set;
         }
@@ -68,8 +84,17 @@ namespace AdvancedLauncher.SDK.Tools {
         }
     }
 
+    /// <summary>
+    /// Extension to return real <see cref="Task"/>, linked with  <see cref="RemoteTask{T}"/>, so we can use await call
+    /// </summary>
     public static class RemoteTaskExt {
 
+        /// <summary>
+        /// Waits until <see cref="RemoteTask{T}"/> completion
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="worker">Current <see cref="RemoteTask{T}"/> worker</param>
+        /// <returns></returns>
         public static Task<T> Wait<T>(this RemoteTask<T> worker) {
             return Task.Factory.StartNew<T>(() => {
                 var waiter = new EventWaitHandle(false, EventResetMode.ManualReset, worker.Id);

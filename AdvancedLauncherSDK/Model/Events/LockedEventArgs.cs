@@ -18,10 +18,21 @@
 
 namespace AdvancedLauncher.SDK.Model.Events {
 
+    /// <summary>
+    /// LockedChanged event handler
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     public delegate void LockedChangedHandler(object sender, LockedEventArgs e);
 
+    /// <summary>
+    /// Locked Event args
+    /// </summary>
     public class LockedEventArgs : BaseEventArgs {
 
+        /// <summary>
+        /// Is caller was locked
+        /// </summary>
         public bool IsLocked {
             get;
             private set;

@@ -39,7 +39,7 @@ namespace AdvancedLauncher.SDK.Management {
         void ShowMessageDialog(string title, string message);
 
         /// <summary>
-        /// Asynchronous shows error dialog
+        /// Asynchronously shows error dialog
         /// </summary>
         /// <param name="text">Text of error</param>
         /// <returns>
@@ -49,7 +49,7 @@ namespace AdvancedLauncher.SDK.Management {
         RemoteTask<bool> ShowErrorDialogAsync(string text);
 
         /// <summary>
-        /// Asynchronous usual message dialog
+        /// Asynchronously shows usual message dialog
         /// </summary>
         /// <param name="title">Title of dialog</param>
         /// <param name="message">Message of dialog</param>
@@ -59,7 +59,7 @@ namespace AdvancedLauncher.SDK.Management {
         RemoteTask<bool> ShowMessageDialogAsync(string title, string message);
 
         /// <summary>
-        /// Asynchronous shows yes/no confirmation dialog
+        /// Asynchronously shows yes/no confirmation dialog
         /// </summary>
         /// <param name="title">Title of dialog</param>
         /// <param name="message">Message of dialog</param>

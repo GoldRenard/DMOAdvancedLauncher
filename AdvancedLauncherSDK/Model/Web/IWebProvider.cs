@@ -23,22 +23,72 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// Web provider interface to gram guild info from remote source
+    /// </summary>
     public interface IWebProvider : ILoggable {
 
+        /// <summary>
+        /// Download started event handler
+        /// </summary>
         event BaseEventHandler DownloadStarted;
 
+        /// <summary>
+        /// Download complete event handler
+        /// </summary>
         event DownloadCompleteEventHandler DownloadCompleted;
 
+        /// <summary>
+        /// Download status changing event handler
+        /// </summary>
         event DownloadStatusChangedEventHandler StatusChanged;
 
+        /// <summary>
+        /// Asynchronously starts guild obtaining
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <seealso cref="DownloadStarted"/>
+        /// <seealso cref="DownloadCompleted"/>
+        /// <seealso cref="StatusChanged"/>
         void GetGuildAsync(Server server, string guildName, bool isDetailed);
 
+        /// <summary>
+        /// Returns digimon types
+        /// </summary>
+        /// <returns>Digimon types</returns>
         List<DigimonType> GetDigimonTypes();
 
+        /// <summary>
+        /// Returns guild
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <returns>Guild</returns>
         Guild GetGuild(Server server, string guildName, bool isDetailed);
 
+        /// <summary>
+        /// Returns guild
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <param name="actualInterval">Interval of actual data in days</param>
+        /// <returns>Guild</returns>
         Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval);
 
+        /// <summary>
+        /// Asynchronously starts guild obtaining
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <param name="actualInterval">Interval of actual data in days</param>
+        /// <seealso cref="DownloadStarted"/>
+        /// <seealso cref="DownloadCompleted"/>
+        /// <seealso cref="StatusChanged"/>
         void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval);
     }
 }

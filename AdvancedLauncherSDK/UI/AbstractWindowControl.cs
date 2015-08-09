@@ -20,6 +20,9 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.UI {
 
+    /// <summary>
+    /// Base <see cref="AbstractWindowControl"/> implementation for <see cref="IWindowManager"/>'s windows.
+    /// </summary>
     public abstract class AbstractWindowControl : AbstractUserControl {
 
         public AbstractWindowControl(ILanguageManager LanguageManager, IWindowManager WindowManager)
@@ -31,6 +34,9 @@ namespace AdvancedLauncher.SDK.UI {
             Close();
         }
 
+        /// <summary>
+        /// Window show handler
+        /// </summary>
         public virtual void OnShow() {
             // nothing to do here
         }

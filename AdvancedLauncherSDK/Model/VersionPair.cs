@@ -20,18 +20,30 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// Version pair for game update logic
+    /// </summary>
     public class VersionPair : CrossDomainObject {
 
+        /// <summary>
+        /// Gets local game version
+        /// </summary>
         public int Local {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets remote game version
+        /// </summary>
         public int Remote {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets <b>True</b> if game update required (<see cref="Remote"/> greater than <see cref="Local"/>)
+        /// </summary>
         public bool IsUpdateRequired {
             get {
                 return Remote > Local;

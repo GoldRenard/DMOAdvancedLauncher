@@ -22,10 +22,18 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Config {
 
+    /// <summary>
+    /// Game model configuration
+    /// </summary>
+    /// <seealso cref="Profile"/>
+    /// <seealso cref="IConfigurationManager"/>
     [XmlType(TypeName = "GameEnv")]
     public class GameModel : CrossDomainObject, INotifyPropertyChanged {
         private string _Type;
 
+        /// <summary>
+        /// Game type
+        /// </summary>
         [XmlAttribute("Type")]
         public string Type {
             set {
@@ -39,6 +47,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private string _GamePath;
 
+        /// <summary>
+        /// Path to game
+        /// </summary>
         [XmlElement("GamePath")]
         public string GamePath {
             set {
@@ -52,6 +63,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         private string _LauncherPath;
 
+        /// <summary>
+        /// Path to stock launcher
+        /// </summary>
         [XmlElement("DefLauncherPath")]
         public string LauncherPath {
             set {
@@ -66,6 +80,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
         public GameModel() {
         }
 
+        /// <summary>
+        /// Creates new <see cref="GameModel"/> based on another
+        /// </summary>
+        /// <param name="another">Source <see cref="GameModel"/></param>
         public GameModel(GameModel another) {
             this.Type = another.Type;
             this.GamePath = another.GamePath;

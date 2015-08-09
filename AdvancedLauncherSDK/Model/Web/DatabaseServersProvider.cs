@@ -22,6 +22,9 @@ using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// Servers provider that allows to read server list from database
+    /// </summary>
     public abstract class DatabaseServersProvider : AbstractServersProvider {
         protected readonly IDatabaseManager DatabaseManager;
 
@@ -29,6 +32,10 @@ namespace AdvancedLauncher.SDK.Model.Web {
             this.DatabaseManager = DatabaseManager;
         }
 
+        /// <summary>
+        /// Creates new read-only server collection for storing in <see cref="ServerList"/>.
+        /// </summary>
+        /// <returns></returns>
         protected override ReadOnlyCollection<Server> CreateServerList() {
             using (IDatabaseContext context = DatabaseManager.CreateContext()) {
                 return new ReadOnlyCollection<Server>(context.FindServerByServerType(ServerType));

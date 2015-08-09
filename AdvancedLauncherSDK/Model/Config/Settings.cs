@@ -23,30 +23,51 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Config {
 
+    /// <summary>
+    /// User settings
+    /// </summary>
     public class Settings : CrossDomainObject, INotifyPropertyChanged {
 
+        /// <summary>
+        /// Selected language file
+        /// </summary>
         public string LanguageFile {
             get; set;
         }
 
+        /// <summary>
+        /// Application theme
+        /// </summary>
         public string AppTheme {
             get; set;
         }
 
+        /// <summary>
+        /// Application theme accent
+        /// </summary>
         public string ThemeAccent {
             get; set;
         }
 
+        /// <summary>
+        /// Default profile at app start
+        /// </summary>
         public Profile DefaultProfile {
             get;
             set;
         }
 
+        /// <summary>
+        /// Profile collection
+        /// </summary>
         public List<Profile> Profiles {
             get;
             set;
         }
 
+        /// <summary>
+        /// <b>True</b> to allow app update checking
+        /// </summary>
         public bool CheckForUpdates {
             get;
             set;
@@ -56,6 +77,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
             // default constructor
         }
 
+        /// <summary>
+        /// Creates new <see cref="Settings"/> based on another
+        /// </summary>
+        /// <param name="source">Source <see cref="Settings"/></param>
         public Settings(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
@@ -63,6 +88,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
             this.CheckForUpdates = source.CheckForUpdates;
         }
 
+        /// <summary>
+        /// Merge data of other <see cref="Settings"/> into current
+        /// </summary>
+        /// <param name="source">Source <see cref="Settings"/></param>
         public void MergeConfig(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;

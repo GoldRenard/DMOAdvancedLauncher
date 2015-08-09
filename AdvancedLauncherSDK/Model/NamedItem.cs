@@ -21,6 +21,9 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// Base item with name and IsEnabled properties, used for <see cref="MenuItem"/> or <see cref="PageItem"/>.
+    /// </summary>
     public abstract class NamedItem : CrossDomainObject, IRemotePropertyChanged {
 
         public event RemotePropertyChangedEventHandler PropertyChanged;
@@ -32,6 +35,9 @@ namespace AdvancedLauncher.SDK.Model {
 
         private string _Name;
 
+        /// <summary>
+        /// Name of item
+        /// </summary>
         public string Name {
             get {
                 return _Name;
@@ -46,6 +52,9 @@ namespace AdvancedLauncher.SDK.Model {
 
         private bool _IsBinding;
 
+        /// <summary>
+        /// Is this name is binging name
+        /// </summary>
         public bool IsBinding {
             get {
                 return _IsBinding;
@@ -61,6 +70,9 @@ namespace AdvancedLauncher.SDK.Model {
 
         private bool _IsEnabled = true;
 
+        /// <summary>
+        /// Is this item enabled
+        /// </summary>
         public bool IsEnabled {
             get {
                 return _IsEnabled;

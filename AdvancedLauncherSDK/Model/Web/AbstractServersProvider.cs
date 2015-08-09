@@ -24,9 +24,17 @@ using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// Base <see cref="IServersProvider"/> implementation
+    /// </summary>
+    /// <seealso cref="IServersProvider"/>
+    /// <seealso cref="Server"/>
     public abstract class AbstractServersProvider : CrossDomainObject, IServersProvider {
         protected ICollection<Server> _ServerList;
 
+        /// <summary>
+        /// Returns server list for this provider
+        /// </summary>
         public ICollection<Server> ServerList {
             get {
                 if (_ServerList == null) {
@@ -45,10 +53,19 @@ namespace AdvancedLauncher.SDK.Model.Web {
             this.ServerType = serverType;
         }
 
+        /// <summary>
+        /// Returns server by its id
+        /// </summary>
+        /// <param name="serverId">Server id</param>
+        /// <returns>Server entity</returns>
         public Server GetServerById(long serverId) {
             return ServerList.Where(i => i.Identifier == serverId).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Creates new read-only server collection for storing in <see cref="ServerList"/>.
+        /// </summary>
+        /// <returns></returns>
         protected abstract ReadOnlyCollection<Server> CreateServerList();
     }
 }

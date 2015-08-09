@@ -21,8 +21,14 @@ using AdvancedLauncher.SDK.Tools;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// Main menu item container
+    /// </summary>
     public class MenuItem : NamedItem {
 
+        /// <summary>
+        /// Click event handler
+        /// </summary>
         public event BaseEventHandler Click;
 
         public MenuItem(string Name, bool IsNameBinding = false)
@@ -42,6 +48,10 @@ namespace AdvancedLauncher.SDK.Model {
 
         private string _IconName;
 
+        /// <summary>
+        /// Icon name for menu item. It is resource name. You can use MahApps.Metro.Resources icons:
+        /// https://github.com/MahApps/MahApps.Metro/MahApps.Metro.Resources/Icons.xaml
+        /// </summary>
         public string IconName {
             get {
                 return _IconName;
@@ -56,6 +66,9 @@ namespace AdvancedLauncher.SDK.Model {
 
         private Thickness _IconMargin;
 
+        /// <summary>
+        /// Icon margin
+        /// </summary>
         public Thickness IconMargin {
             get {
                 return _IconMargin;
@@ -70,6 +83,9 @@ namespace AdvancedLauncher.SDK.Model {
 
         private bool _IsSeparator;
 
+        /// <summary>
+        /// Is it separator instead of usual item
+        /// </summary>
         public bool IsSeparator {
             get {
                 return _IsSeparator;
@@ -84,24 +100,38 @@ namespace AdvancedLauncher.SDK.Model {
             }
         }
 
+        /// <summary>
+        /// Separator visibility based on <see cref="IsSeparator"/>
+        /// </summary>
         public System.Windows.Visibility SeparatorVisibility {
             get {
                 return IsSeparator ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
 
+        /// <summary>
+        /// Item visibility based on not being <see cref="IsSeparator"/>
+        /// </summary>
         public System.Windows.Visibility ItemVisibility {
             get {
                 return !IsSeparator ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
 
+        /// <summary>
+        /// Returns new separator item
+        /// </summary>
         public static MenuItem Separator {
             get {
                 return new MenuItem("", null, new Thickness(), true, false);
             }
         }
 
+        /// <summary>
+        /// OnClick handler accessor
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
         public void OnClick(object sender, BaseEventArgs args) {
             if (Click != null) {
                 Click(sender, args);

@@ -26,6 +26,9 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management.Windows {
 
+    /// <summary>
+    /// WindowsFormsHost Control wrapper. Runs specified program inside this control.
+    /// </summary>
     public class ApplicationWindowControl : UserControl {
 
         [DllImport("user32.dll")]

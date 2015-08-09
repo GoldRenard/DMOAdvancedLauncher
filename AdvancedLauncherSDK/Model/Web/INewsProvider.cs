@@ -21,8 +21,17 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// News provider interface
+    /// </summary>
+    /// <seealso cref="AbstractNewsProvider"/>
+    /// <seealso cref="NewsItem"/>
     public interface INewsProvider : ILoggable {
 
+        /// <summary>
+        /// Obtains news from remote source
+        /// </summary>
+        /// <returns>News collection</returns>
         List<NewsItem> GetNews();
     }
 }

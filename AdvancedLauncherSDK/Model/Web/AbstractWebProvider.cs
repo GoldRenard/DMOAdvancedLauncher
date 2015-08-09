@@ -25,6 +25,9 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// Base implementation of <see cref="IWebProvider"/>
+    /// </summary>
     public abstract class AbstractWebProvider : CrossDomainObject, IWebProvider {
 
         protected ILogManager LogManager {
@@ -45,19 +48,19 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
         #region EVENTS
 
-        /* Complete results:
-         * 0 - all good
-         * 1 - can't connect to database
-         * 2 - web access error
-         * 404 - guild not found
-         * 3 - can't get guild info
-         * 4 - web page is not supported or guild not found
-         * */
-
+        /// <summary>
+        /// Download started event handler
+        /// </summary>
         public event BaseEventHandler DownloadStarted;
 
+        /// <summary>
+        /// Download complete event handler
+        /// </summary>
         public event DownloadCompleteEventHandler DownloadCompleted;
 
+        /// <summary>
+        /// Download status changing event handler
+        /// </summary>
         public event DownloadStatusChangedEventHandler StatusChanged;
 
         protected virtual void OnStarted() {
@@ -89,6 +92,15 @@ namespace AdvancedLauncher.SDK.Model.Web {
 
         #endregion EVENTS
 
+        /// <summary>
+        /// Asynchronously starts guild obtaining
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <seealso cref="DownloadStarted"/>
+        /// <seealso cref="DownloadCompleted"/>
+        /// <seealso cref="StatusChanged"/>
         public void GetGuildAsync(Server server, string guildName, bool isDetailed) {
             BackgroundWorker bw = new BackgroundWorker();
             bw.DoWork += (s1, e2) => {
@@ -97,20 +109,73 @@ namespace AdvancedLauncher.SDK.Model.Web {
             bw.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// Returns digimon types
+        /// </summary>
+        /// <returns>Digimon types</returns>
         public abstract List<DigimonType> GetDigimonTypes();
 
+        /// <summary>
+        /// Returns guild
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <returns>Guild</returns>
         public abstract Guild GetGuild(Server server, string guildName, bool isDetailed);
 
+        /// <summary>
+        /// Updates guild information
+        /// </summary>
+        /// <param name="guild">Guild reference</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <returns><b>True</b> on success</returns>
         protected abstract bool GetGuildInfo(ref Guild guild, bool isDetailed);
 
+        /// <summary>
+        /// Returns digimon list for tamer
+        /// </summary>
+        /// <param name="tamer">Tamer to update</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <returns>Digimon list</returns>
         protected abstract List<Digimon> GetDigimons(Tamer tamer, bool isDetailed);
 
+        /// <summary>
+        /// Returns tamer's starter detailed information
+        /// </summary>
+        /// <param name="digimon">Starter reference</param>
+        /// <param name="tamer">Tamer</param>
+        /// <returns><b>True</b> on success</returns>
         protected abstract bool GetStarterInfo(ref Digimon digimon, Tamer tamer);
 
+        /// <summary>
+        /// Returns tamer's mercenary detailed information
+        /// </summary>
+        /// <param name="digimon">Mercenary reference</param>
+        /// <param name="tamer">Tamer</param>
+        /// <returns><b>True</b> on success</returns>
         protected abstract bool GetMercenaryInfo(ref Digimon digimon, Tamer tamer);
 
+        /// <summary>
+        /// Returns guild
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <param name="actualInterval">Interval of actual data in days</param>
+        /// <returns>Guild</returns>
         public abstract Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval);
 
+        /// <summary>
+        /// Asynchronously starts guild obtaining
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <param name="actualInterval">Interval of actual data in days</param>
+        /// <seealso cref="DownloadStarted"/>
+        /// <seealso cref="DownloadCompleted"/>
+        /// <seealso cref="StatusChanged"/>
         public abstract void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval);
     }
 }

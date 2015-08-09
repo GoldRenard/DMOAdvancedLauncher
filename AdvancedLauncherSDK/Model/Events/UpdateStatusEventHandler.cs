@@ -18,10 +18,21 @@
 
 namespace AdvancedLauncher.SDK.Model.Events {
 
-    public delegate void UpdateStatusEventHandler(object sender, UpdateStatusEventEventArgs e);
+    /// <summary>
+    /// Game update status changed event handler
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
+    public delegate void UpdateStatusEventHandler(object sender, UpdateStatusEventArgs e);
 
-    public class UpdateStatusEventEventArgs : BaseEventArgs {
+    /// <summary>
+    /// Game update status changed event args
+    /// </summary>
+    public class UpdateStatusEventArgs : BaseEventArgs {
 
+        /// <summary>
+        /// Update stage enumeration
+        /// </summary>
         public enum Stage {
             DOWNLOADING,
             EXTRACTING,
@@ -63,7 +74,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
             private set;
         }
 
-        public UpdateStatusEventEventArgs(Stage UpdateStage, int CurrentPatch, int MaxPatch, double Progress, double MaxProgress, double SummaryProgress, double SummaryMaxProgress) {
+        public UpdateStatusEventArgs(Stage UpdateStage, int CurrentPatch, int MaxPatch, double Progress, double MaxProgress, double SummaryProgress, double SummaryMaxProgress) {
             this.CurrentPatch = CurrentPatch;
             this.MaxPatch = MaxPatch;
             this.UpdateStage = UpdateStage;

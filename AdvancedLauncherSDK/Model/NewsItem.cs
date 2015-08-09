@@ -20,6 +20,10 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// News container
+    /// </summary>
+    /// <seealso cref="Model.Web.INewsProvider"/>
     public class NewsItem : CrossDomainObject {
         public string Mode;
         public string Subject;

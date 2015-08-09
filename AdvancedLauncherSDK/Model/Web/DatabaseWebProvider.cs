@@ -24,6 +24,9 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// WebProvider allows to read and store information to database
+    /// </summary>
     public abstract class DatabaseWebProvider : AbstractWebProvider {
         protected readonly IDatabaseManager DatabaseManager;
 
@@ -31,6 +34,14 @@ namespace AdvancedLauncher.SDK.Model.Web {
             this.DatabaseManager = DatabaseManager;
         }
 
+        /// <summary>
+        /// Returns guild
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <param name="actualInterval">Interval of actual data in days</param>
+        /// <returns>Guild</returns>
         public override Guild GetActualGuild(Server server, string guildName, bool isDetailed, int actualInterval) {
             bool fetchCurrent = false;
             using (IDatabaseContext context = DatabaseManager.CreateContext()) {
@@ -52,6 +63,16 @@ namespace AdvancedLauncher.SDK.Model.Web {
             return GetGuild(server, guildName, isDetailed);
         }
 
+        /// <summary>
+        /// Asynchronously starts guild obtaining
+        /// </summary>
+        /// <param name="server">Guild server</param>
+        /// <param name="guildName">Guild name</param>
+        /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
+        /// <param name="actualInterval">Interval of actual data in days</param>
+        /// <seealso cref="DownloadStarted"/>
+        /// <seealso cref="DownloadCompleted"/>
+        /// <seealso cref="StatusChanged"/>
         public override void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval) {
             bool fetchCurrent = false;
 

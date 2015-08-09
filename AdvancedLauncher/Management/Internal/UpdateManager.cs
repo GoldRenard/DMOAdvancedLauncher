@@ -54,7 +54,7 @@ namespace AdvancedLauncher.Management.Internal {
             fileSystem = App.Kernel.Get<IFileSystemManager>();
             FileSystems.TryAdd(model, fileSystem);
             fileSystem.WriteStatusChanged += (s, e) => {
-                OnStatusChanged(UpdateStatusEventEventArgs.Stage.INSTALLING, 1, 1, e.FileNumber, e.FileCount, 0, 1);
+                OnStatusChanged(UpdateStatusEventArgs.Stage.INSTALLING, 1, 1, e.FileNumber, e.FileCount, 0, 1);
             };
             return fileSystem;
         }
@@ -103,14 +103,14 @@ namespace AdvancedLauncher.Management.Internal {
                 Uri patchUri = new Uri(string.Format(ConfigurationManager.GetConfiguration(model).PatchRemoteURL, i));
                 string packageFile = Path.Combine(ConfigurationManager.GetGamePath(model), string.Format("UPDATE{0}.zip", i));
 
-                OnStatusChanged(UpdateStatusEventEventArgs.Stage.DOWNLOADING, i, versionPair.Remote, downloadedContentLenght, WholeContentLength, 0, 100);
+                OnStatusChanged(UpdateStatusEventArgs.Stage.DOWNLOADING, i, versionPair.Remote, downloadedContentLenght, WholeContentLength, 0, 100);
                 double CurrentContentLength = GetFileLength(patchUri);
 
                 using (WebClientEx webClient = new WebClientEx()) {
                     DownloadProgressChangedEventHandler progressChangedEventHandler = (s, e) => {
                         double dataReceived = (e.BytesReceived / (1024.0 * 1024.0));
                         double dataTotal = (e.TotalBytesToReceive / (1024.0 * 1024.0));
-                        OnStatusChanged(UpdateStatusEventEventArgs.Stage.DOWNLOADING,
+                        OnStatusChanged(UpdateStatusEventArgs.Stage.DOWNLOADING,
                             i, versionPair.Remote,
                             downloadedContentLenght + e.BytesReceived, WholeContentLength,
                             dataReceived, dataTotal);
@@ -148,7 +148,7 @@ namespace AdvancedLauncher.Management.Internal {
             using (var zf = new ZipFile(archiveFilenameIn)) {
                 int zEntryNumber = 1;
                 foreach (ZipEntry zipEntry in zf) {
-                    OnStatusChanged(UpdateStatusEventEventArgs.Stage.EXTRACTING, updateNumber, updateMaxNumber, progress, maxProgress, zEntryNumber, zf.Count);
+                    OnStatusChanged(UpdateStatusEventArgs.Stage.EXTRACTING, updateNumber, updateMaxNumber, progress, maxProgress, zEntryNumber, zf.Count);
                     if (!zipEntry.IsFile) {
                         continue;
                     }
@@ -243,12 +243,12 @@ namespace AdvancedLauncher.Management.Internal {
             }
         }
 
-        private void OnStatusChanged(UpdateStatusEventEventArgs.Stage stage,
+        private void OnStatusChanged(UpdateStatusEventArgs.Stage stage,
             int currentPatch, int maxPatch,
             double progress, double maxProgress,
             double summaryProgress, double summaryMaxProgress) {
             if (StatusChanged != null) {
-                StatusChanged(this, new UpdateStatusEventEventArgs(stage, currentPatch, maxPatch, progress, maxProgress, summaryProgress, summaryMaxProgress));
+                StatusChanged(this, new UpdateStatusEventArgs(stage, currentPatch, maxPatch, progress, maxProgress, summaryProgress, summaryMaxProgress));
             }
         }
 

@@ -24,6 +24,9 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// Main globalization string collection
+    /// </summary>
     [XmlType("Language")]
     public sealed class LanguageModel : CrossDomainObject {
         private static string sep = ": ";

@@ -23,9 +23,18 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.UI {
 
+    /// <summary>
+    /// Base <see cref="IRemoteControl"/> implementation
+    /// </summary>
+    /// <seealso cref="IRemoteControl"/>
+    /// <seealso cref="WindowContainer"/>
+    /// <seealso cref="PageContainer"/>
     public class ControlContainer : CrossDomainObject, IRemoteControl {
         protected Control Control;
 
+        /// <summary>
+        /// If <b>True</b>, <see cref="Management.IWindowManager"/> try to fix the WPF Airspace issue
+        /// </summary>
         public bool EnableAirspaceFix {
             get {
                 return true;
@@ -39,6 +48,11 @@ namespace AdvancedLauncher.SDK.UI {
             this.Control = Control;
         }
 
+        /// <summary>
+        /// By default returns real control object.
+        /// </summary>
+        /// <param name="contractAdapter">If <b>True</b>, the <see cref="System.AddIn.Contract.INativeHandleContract"/> instance returned.</param>
+        /// <returns>Control object</returns>
         public object GetControl(bool contractAdapter = false) {
             if (contractAdapter) {
                 return FrameworkElementAdapters.ViewToContractAdapter(Control);
@@ -46,10 +60,16 @@ namespace AdvancedLauncher.SDK.UI {
             return Control;
         }
 
+        /// <summary>
+        /// Control show handler
+        /// </summary>
         public virtual void OnShow() {
             // nothing to do
         }
 
+        /// <summary>
+        /// Control close handler
+        /// </summary>
         public virtual void OnClose() {
             // nothing to do
         }

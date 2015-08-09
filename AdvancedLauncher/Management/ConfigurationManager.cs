@@ -56,11 +56,10 @@ namespace AdvancedLauncher.Management {
             }
             IConfiguration config = GetConfiguration(model);
             string pGamePath = GetGamePath(model);
-
-            new FileIOPermission(FileIOPermissionAccess.Read, pGamePath).Assert();
             if (string.IsNullOrEmpty(pGamePath)) {
                 return false;
             }
+            new FileIOPermission(FileIOPermissionAccess.Read, pGamePath).Assert();
             if (!File.Exists(Path.Combine(pGamePath, config.VersionLocalPath)) || !File.Exists(Path.Combine(pGamePath, config.GameExecutable))) {
                 return false;
             }
@@ -94,6 +93,10 @@ namespace AdvancedLauncher.Management {
             string gameEXE = GetGameEXE(model);
             string pfFile = GetPFPath(model);
             string hfFile = GetHFPath(model);
+            if (string.IsNullOrEmpty(gameEXE) || string.IsNullOrEmpty(pfFile) || string.IsNullOrEmpty(hfFile)) {
+                return false;
+            }
+
             new FileIOPermission(FileIOPermissionAccess.Read | FileIOPermissionAccess.Write, new string[] { gameEXE, pfFile, hfFile }).Assert();
             return !Utils.IsFileLocked(gameEXE) && !Utils.IsFileLocked(pfFile) && !Utils.IsFileLocked(hfFile);
         }

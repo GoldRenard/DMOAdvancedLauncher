@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['icommand',['ICommand',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_commands_1_1_i_command.html',1,'AdvancedLauncher::SDK::Management::Commands']]],
+  ['icommandmanager',['ICommandManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_command_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['iconfiguration',['IConfiguration',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_i_configuration.html',1,'AdvancedLauncher::SDK::Management::Configuration']]],
+  ['iconfigurationmanager',['IConfigurationManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_configuration_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['idatabasecontext',['IDatabaseContext',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_database_context.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['idatabasemanager',['IDatabaseManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_database_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['idialogmanager',['IDialogManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_dialog_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['ienvironmentmanager',['IEnvironmentManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['ifilesystemmanager',['IFileSystemManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_file_system_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['ilanguagemanager',['ILanguageManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_language_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['iloggable',['ILoggable',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_loggable.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['iloginprovider',['ILoginProvider',['../interface_advanced_launcher_1_1_s_d_k_1_1_model_1_1_web_1_1_i_login_provider.html',1,'AdvancedLauncher::SDK::Model::Web']]],
+  ['ilogmanager',['ILogManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_log_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['imanager',['IManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['inewsprovider',['INewsProvider',['../interface_advanced_launcher_1_1_s_d_k_1_1_model_1_1_web_1_1_i_news_provider.html',1,'AdvancedLauncher::SDK::Model::Web']]],
+  ['iplugin',['IPlugin',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_plugins_1_1_i_plugin.html',1,'AdvancedLauncher::SDK::Management::Plugins']]],
+  ['ipluginhost',['IPluginHost',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_plugin_host.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['iprofilemanager',['IProfileManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_profile_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['iremotecontrol',['IRemoteControl',['../interface_advanced_launcher_1_1_s_d_k_1_1_u_i_1_1_i_remote_control.html',1,'AdvancedLauncher::SDK::UI']]],
+  ['iremotepropertychanged',['IRemotePropertyChanged',['../interface_advanced_launcher_1_1_s_d_k_1_1_model_1_1_i_remote_property_changed.html',1,'AdvancedLauncher::SDK::Model']]],
+  ['iserversprovider',['IServersProvider',['../interface_advanced_launcher_1_1_s_d_k_1_1_model_1_1_web_1_1_i_servers_provider.html',1,'AdvancedLauncher::SDK::Model::Web']]],
+  ['itaskmanager',['ITaskManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_task_manager.html',1,'AdvancedLauncher::SDK::Management']]],
+  ['iwebprovider',['IWebProvider',['../interface_advanced_launcher_1_1_s_d_k_1_1_model_1_1_web_1_1_i_web_provider.html',1,'AdvancedLauncher::SDK::Model::Web']]],
+  ['iwindowmanager',['IWindowManager',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_window_manager.html',1,'AdvancedLauncher::SDK::Management']]]
+];

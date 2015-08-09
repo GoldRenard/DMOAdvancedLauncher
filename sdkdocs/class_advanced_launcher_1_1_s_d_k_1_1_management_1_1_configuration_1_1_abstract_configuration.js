@@ -1,0 +1,26 @@
+var class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration =
+[
+    [ "ConvertGameStartArgs", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a8fab3a56a0f5f1ac7fa1f23149aa2f66", null ],
+    [ "ConvertLauncherStartArgs", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#ae09a2a4da7b788d592cca7e6aa9357f6", null ],
+    [ "CreateLoginProvider", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a4127999876fd9062c30aebff4da5d5f9", null ],
+    [ "CreateNewsProvider", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a69b39dfd37ad06236cecd6b9afb05b4a", null ],
+    [ "CreateServersProvider", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a53f36506f65bb03ea0cafeb9b3430787", null ],
+    [ "CreateWebProvider", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a47b1b5f05ed59cf92b94ae3279cc079e", null ],
+    [ "GameExecutable", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#abf5f91bbc0afadcaacf0d8423e642ad1", null ],
+    [ "GamePathRegKey", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a22de920bf5d7628ac70d5699fd9d87a3", null ],
+    [ "GamePathRegVal", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a0924cef514f375dc00b0bbc5d836872e", null ],
+    [ "GameType", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a08567eed796d74437f660acfdb60b8ef", null ],
+    [ "IsLastSessionAvailable", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#acd370a4d1b20377fc58d778f1a453408", null ],
+    [ "IsLoginRequired", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#afe6eba2b7c23f038dfae29bcf1bf7e3c", null ],
+    [ "IsNewsAvailable", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a1ed7203fa17933a4b426c61c41c9fdc0", null ],
+    [ "IsWebAvailable", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#ab7077363ee96247b3d9ca4f4a9a735df", null ],
+    [ "LauncherExecutable", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a39dba01c23b8bfd577eb11fee8ff6d81", null ],
+    [ "LauncherPathRegKey", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#add52b747bef8408d473d11a96bd9dc07", null ],
+    [ "LauncherPathRegVal", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#ab671b9750ff2b6838c90ae3fed8d4999", null ],
+    [ "Name", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a13185c9d70609a55c69d7a59da55c440", null ],
+    [ "PatchRemoteURL", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#acd32e86a3efd87b0c49b4efe09518d59", null ],
+    [ "ServerName", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a7c434a9ebb6e8d1c9f4addaac2d5ef95", null ],
+    [ "ServersProvider", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#aeb52a575bb964279025d0478232a0b81", null ],
+    [ "VersionLocalPath", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#a4b756087895bc923ac5b0b9f34eda628", null ],
+    [ "VersionRemoteURL", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_configuration_1_1_abstract_configuration.html#adee773864f004a0a2991613005627cc9", null ]
+];

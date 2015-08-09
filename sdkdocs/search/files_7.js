@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['icommand_2ecs',['ICommand.cs',['../_i_command_8cs.html',1,'']]],
+  ['icommandmanager_2ecs',['ICommandManager.cs',['../_i_command_manager_8cs.html',1,'']]],
+  ['iconfiguration_2ecs',['IConfiguration.cs',['../_i_configuration_8cs.html',1,'']]],
+  ['iconfigurationmanager_2ecs',['IConfigurationManager.cs',['../_i_configuration_manager_8cs.html',1,'']]],
+  ['idatabasecontext_2ecs',['IDatabaseContext.cs',['../_i_database_context_8cs.html',1,'']]],
+  ['idatabasemanager_2ecs',['IDatabaseManager.cs',['../_i_database_manager_8cs.html',1,'']]],
+  ['idialogmanager_2ecs',['IDialogManager.cs',['../_i_dialog_manager_8cs.html',1,'']]],
+  ['ienvironmentmanager_2ecs',['IEnvironmentManager.cs',['../_i_environment_manager_8cs.html',1,'']]],
+  ['ifilesystemmanager_2ecs',['IFileSystemManager.cs',['../_i_file_system_manager_8cs.html',1,'']]],
+  ['ilanguagemanager_2ecs',['ILanguageManager.cs',['../_i_language_manager_8cs.html',1,'']]],
+  ['iloggable_2ecs',['ILoggable.cs',['../_i_loggable_8cs.html',1,'']]],
+  ['iloginprovider_2ecs',['ILoginProvider.cs',['../_i_login_provider_8cs.html',1,'']]],
+  ['ilogmanager_2ecs',['ILogManager.cs',['../_i_log_manager_8cs.html',1,'']]],
+  ['imanager_2ecs',['IManager.cs',['../_i_manager_8cs.html',1,'']]],
+  ['inewsprovider_2ecs',['INewsProvider.cs',['../_i_news_provider_8cs.html',1,'']]],
+  ['iplugin_2ecs',['IPlugin.cs',['../_i_plugin_8cs.html',1,'']]],
+  ['ipluginhost_2ecs',['IPluginHost.cs',['../_i_plugin_host_8cs.html',1,'']]],
+  ['iprofilemanager_2ecs',['IProfileManager.cs',['../_i_profile_manager_8cs.html',1,'']]],
+  ['iremotecontrol_2ecs',['IRemoteControl.cs',['../_i_remote_control_8cs.html',1,'']]],
+  ['iremotepropertychanged_2ecs',['IRemotePropertyChanged.cs',['../_i_remote_property_changed_8cs.html',1,'']]],
+  ['iserversprovider_2ecs',['IServersProvider.cs',['../_i_servers_provider_8cs.html',1,'']]],
+  ['itaskmanager_2ecs',['ITaskManager.cs',['../_i_task_manager_8cs.html',1,'']]],
+  ['iwebprovider_2ecs',['IWebProvider.cs',['../_i_web_provider_8cs.html',1,'']]],
+  ['iwindowmanager_2ecs',['IWindowManager.cs',['../_i_window_manager_8cs.html',1,'']]]
+];

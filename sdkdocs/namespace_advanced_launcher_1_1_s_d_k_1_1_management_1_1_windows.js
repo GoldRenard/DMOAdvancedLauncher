@@ -1,0 +1,4 @@
+var namespace_advanced_launcher_1_1_s_d_k_1_1_management_1_1_windows =
+[
+    [ "ApplicationWindowControl", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_windows_1_1_application_window_control.html", "class_advanced_launcher_1_1_s_d_k_1_1_management_1_1_windows_1_1_application_window_control" ]
+];

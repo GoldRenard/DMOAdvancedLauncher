@@ -49,7 +49,7 @@ namespace AdvancedLauncher.SDK.Management {
         /// <param name="Command">Your <see cref="ICommand"/> interface.</param>
         /// <seealso cref="ICommand"/>
         /// <returns><b>True</b> on success</returns>
-        bool UnRegisterCommand(ICommand command);
+        bool UnRegisterCommand(ICommand Command);
 
         /// <summary>
         /// Returns dictionary of registered commands

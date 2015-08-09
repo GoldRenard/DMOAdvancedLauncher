@@ -93,8 +93,8 @@ namespace AdvancedLauncher.SDK.Management {
         /// <summary>
         /// Returns random digimon by specified tamer and level range
         /// </summary>
-        /// <param name="guild">The guild of digimon</param>
-        /// <param name="tamer">Minimum level of digimon</param>
+        /// <param name="tamer">The tamer of digimon</param>
+        /// <param name="minlvl">Minimum level of digimon</param>
         /// <returns>Digimon or null</returns>
         Digimon FindRandomDigimon(Tamer tamer, int minlvl);
 

@@ -521,7 +521,7 @@ namespace AdvancedLauncher.SDK.Management {
 
         /// <summary> Checks access to file </summary>
         /// <param name="file">Full path to file</param>
-        /// <returns> <see langword="True"/> if file is locked </returns>
+        /// <returns> <b>True</b> if file is locked </returns>
         public static bool IsFileLocked(string file) {
             FileStream stream = null;
 

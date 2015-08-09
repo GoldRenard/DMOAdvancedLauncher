@@ -20,7 +20,7 @@ build:
 after_build:
 - echo "Running Inno Setup:"
 - iscc Shared\setup_project.iss
-- dir Shared\Installer
+- doxygen.exe "%DOXYGEN_PROJECT_DIR%\Doxyfile"
 test: off
 artifacts:
 - path: '\Shared\Installer\DMOAdvancedLauncher_install.exe'

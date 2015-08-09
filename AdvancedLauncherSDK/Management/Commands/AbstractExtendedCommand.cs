@@ -20,13 +20,27 @@ using System.Collections.Generic;
 
 namespace AdvancedLauncher.SDK.Management.Commands {
 
+    /// <summary>
+    /// Extended command base class with subcommands support
+    /// </summary>
+    /// <seealso cref="ICommandManager"/>
+    /// <seealso cref="AbstractCommand"/>
+    /// <seealso cref="ICommand"/>
     public abstract class AbstractExtendedCommand : AbstractCommand {
         private const string HELP_COMMAND_NAME = "help";
 
+        /// <summary>
+        /// Subcommand delegate
+        /// </summary>
+        /// <param name="args">Arguments</param>
+        /// <returns>Returns <B>true</B> if command successfully executed, <B>false</B> otherwise.</returns>
         protected delegate bool SubCommand(string[] args);
 
         private Dictionary<string, SubCommand> _SubCommands;
 
+        /// <summary>
+        /// The subcommand dictionary. Key is name, Value is action to execute (<see cref="SubCommand"/>).
+        /// </summary>
         protected Dictionary<string, SubCommand> SubCommands {
             get {
                 if (_SubCommands == null) {
@@ -40,9 +54,19 @@ namespace AdvancedLauncher.SDK.Management.Commands {
             }
         }
 
+        /// <summary>
+        /// Main constructor
+        /// </summary>
+        /// <param name="commandName">Base command name to execute. See <see cref="ICommand.GetName"/></param>
+        /// <param name="commandDescription">Command description for help. See <see cref="ICommand.GetDescription"/></param>
         public AbstractExtendedCommand(string commandName, string commandDescription) : base(commandName, commandDescription) {
         }
 
+        /// <summary>
+        /// The command action
+        /// </summary>
+        /// <param name="args">Input arguments</param>
+        /// <returns>Returns <B>true</B> if command successfully executed, <B>false</B> otherwise.</returns>
         public override bool DoCommand(string[] args) {
             if (!CheckInput(args)) {
                 return false;
@@ -52,14 +76,31 @@ namespace AdvancedLauncher.SDK.Management.Commands {
             return SubCommand(args);
         }
 
+        /// <summary>
+        /// Subcommand generation method. You must define your subcommands here.
+        /// </summary>
+        /// <returns>The subcommand dictionary. Key is name, Value is action to execute (<see cref="SubCommand"/>).</returns>
         protected abstract Dictionary<string, SubCommand> CreateCommands();
 
+        /// <summary>
+        /// You must define console output method here (usually <see cref="ILogManager.Info(object)"/>)
+        /// </summary>
+        /// <param name="value">Value you want to log</param>
         protected abstract void LogInfo(string value);
 
+        /// <summary>
+        /// Checks if specified command defined in subcommands list
+        /// </summary>
+        /// <param name="command">Command name</param>
+        /// <returns>Returns <B>true</B> if command is defined, <B>false</B> otherwise.</returns>
         protected bool CheckSubCommand(string command) {
             return SubCommands.ContainsKey(command);
         }
 
+        /// <summary>
+        /// Returns help list of all available subcommands
+        /// </summary>
+        /// <returns>Help list of all available subcommands</returns>
         protected List<string> GetCommandList() {
             List<string> output = new List<string>();
             output.Add("Available commands:");
@@ -70,6 +111,11 @@ namespace AdvancedLauncher.SDK.Management.Commands {
             return output;
         }
 
+        /// <summary>
+        /// Input validation
+        /// </summary>
+        /// <param name="args">Arguments</param>
+        /// <returns>Returns <B>true</B> if input is valid, <B>false</B> otherwise.</returns>
         private bool CheckInput(string[] args) {
             bool valid = true;
             if (args == null) {
@@ -89,6 +135,11 @@ namespace AdvancedLauncher.SDK.Management.Commands {
             return valid;
         }
 
+        /// <summary>
+        /// Prints help
+        /// </summary>
+        /// <param name="args">Arguments (not used)</param>
+        /// <returns>Not used. Always <b>true</b>.</returns>
         private bool HelpCommand(string[] args) {
             foreach (string output in GetCommandList()) {
                 LogInfo(output);

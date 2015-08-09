@@ -20,8 +20,14 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// Interface used for property syncronization between real object and remote transparent proxy
+    /// </summary>
     public interface IRemotePropertyChanged {
 
+        /// <summary>
+        /// Property changed event handler
+        /// </summary>
         event RemotePropertyChangedEventHandler PropertyChanged;
     }
 }

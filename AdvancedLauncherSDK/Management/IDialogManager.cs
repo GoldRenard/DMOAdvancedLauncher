@@ -20,16 +20,52 @@ using AdvancedLauncher.SDK.Tools;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Dialog manager, allow to show different dialogs at UI.
+    /// </summary>
     public interface IDialogManager : IManager {
 
+        /// <summary>
+        /// Shows error dialog
+        /// </summary>
+        /// <param name="text">Text of error</param>
         void ShowErrorDialog(string text);
 
+        /// <summary>
+        /// Shows usual message dialog
+        /// </summary>
+        /// <param name="title">Title of dialog</param>
+        /// <param name="message">Message of dialog</param>
         void ShowMessageDialog(string title, string message);
 
+        /// <summary>
+        /// Asynchronously shows error dialog
+        /// </summary>
+        /// <param name="text">Text of error</param>
+        /// <returns>
+        /// Returns <see cref="RemoteTask{T}"/> instance.
+        /// You can use await statement with <see cref="RemoteTaskExt.Wait{T}(RemoteTask{T})"/> call.
+        /// </returns>
         RemoteTask<bool> ShowErrorDialogAsync(string text);
 
+        /// <summary>
+        /// Asynchronously shows usual message dialog
+        /// </summary>
+        /// <param name="title">Title of dialog</param>
+        /// <param name="message">Message of dialog</param>
+        /// Returns <see cref="RemoteTask{T}"/> instance.
+        /// You can use await statement with <see cref="RemoteTaskExt.Wait{T}(RemoteTask{T})"/> call.
+        /// </returns>
         RemoteTask<bool> ShowMessageDialogAsync(string title, string message);
 
+        /// <summary>
+        /// Asynchronously shows yes/no confirmation dialog
+        /// </summary>
+        /// <param name="title">Title of dialog</param>
+        /// <param name="message">Message of dialog</param>
+        /// Returns <see cref="RemoteTask{T}"/> instance.
+        /// You can use await statement with <see cref="RemoteTaskExt.Wait{T}(RemoteTask{T})"/> call.
+        /// </returns>
         RemoteTask<bool> ShowYesNoDialog(string title, string message);
     }
 }

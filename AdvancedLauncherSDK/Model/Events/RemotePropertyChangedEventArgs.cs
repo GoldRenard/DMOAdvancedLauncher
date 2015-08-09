@@ -18,8 +18,16 @@
 
 namespace AdvancedLauncher.SDK.Model.Events {
 
+    /// <summary>
+    /// Remote property changed event handler
+    /// </summary>
+    /// <param name="sender">Sender </param>
+    /// <param name="e">Event arguments</param>
     public delegate void RemotePropertyChangedEventHandler(object sender, RemotePropertyChangedEventArgs e);
 
+    /// <summary>
+    /// Remote property changed event arguments
+    /// </summary>
     public class RemotePropertyChangedEventArgs : BaseEventArgs {
 
         public virtual string PropertyName {

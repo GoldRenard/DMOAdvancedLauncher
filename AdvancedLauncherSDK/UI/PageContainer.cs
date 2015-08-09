@@ -20,11 +20,20 @@ using System.Windows.Controls;
 
 namespace AdvancedLauncher.SDK.UI {
 
+    /// <summary>
+    /// <see cref="ControlContainer"/> implementation for <see cref="IWindowManager"/>'s pages.
+    /// </summary>
+    /// <seealso cref="IRemoteControl"/>
+    /// <seealso cref="WindowContainer"/>
+    /// <seealso cref="ControlContainer"/>
     public class PageContainer : ControlContainer {
 
         public PageContainer(Control Control) : base(Control) {
         }
 
+        /// <summary>
+        /// Page show handler
+        /// </summary>
         public override void OnShow() {
             AbstractPageControl pageControl = this.Control as AbstractPageControl;
             if (pageControl != null) {
@@ -32,6 +41,9 @@ namespace AdvancedLauncher.SDK.UI {
             }
         }
 
+        /// <summary>
+        /// Page close handler
+        /// </summary>
         public override void OnClose() {
             AbstractPageControl pageControl = this.Control as AbstractPageControl;
             if (pageControl != null) {

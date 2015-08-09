@@ -21,6 +21,9 @@ using AdvancedLauncher.SDK.UI;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// MainPage item with control
+    /// </summary>
     public class PageItem : NamedItem {
 
         public PageItem(string Name, IRemoteControl Content, bool IsNameBinding = false)
@@ -33,6 +36,9 @@ namespace AdvancedLauncher.SDK.Model {
             this.Content = new PageContainer(Content);
         }
 
+        /// <summary>
+        /// Content of item
+        /// </summary>
         public IRemoteControl Content {
             get;
             private set;

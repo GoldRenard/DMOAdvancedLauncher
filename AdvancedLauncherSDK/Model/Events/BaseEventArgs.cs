@@ -20,8 +20,16 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Events {
 
+    /// <summary>
+    /// Base event handler
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public delegate void BaseEventHandler(object sender, BaseEventArgs e);
 
+    /// <summary>
+    /// Base cross-domain event args
+    /// </summary>
     public class BaseEventArgs : CrossDomainObject {
         public static BaseEventArgs Empty = new BaseEventArgs();
     }

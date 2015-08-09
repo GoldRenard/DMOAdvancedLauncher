@@ -21,32 +21,63 @@ using AdvancedLauncher.SDK.UI;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Window manager API. Allow add/remove menu items, mainpage tabs, show new windows
+    /// </summary>
     public interface IWindowManager : IManager {
 
-        void Start();
-
+        /// <summary>
+        /// Shows specifies <see cref="IRemoteControl"/>.
+        /// </summary>
+        /// <param name="window"><see cref="IRemoteControl"/> to show.</param>
+        /// <seealso cref="IRemoteControl"/>
         void ShowWindow(IRemoteControl window);
 
+        /// <summary>
+        /// Returns to the home window.
+        /// </summary>
         void GoHome();
 
         /// <summary>
         /// Returns to last opened window.
         /// </summary>
-        /// <param name="currentWindow"></param>
         void GoBack();
 
         /// <summary>
         /// Returns to last opened window in case that current window is passed as parameter
         /// </summary>
         /// <param name="currentWindow">Desired current window. It does nothing if argument is not current window.</param>
+        /// <seealso cref="IRemoteControl"/>
         void GoBack(IRemoteControl currentWindow);
 
+        /// <summary>
+        /// Add new menu item.
+        /// </summary>
+        /// <param name="menuItem">Menu item to add</param>
+        /// <seealso cref="MenuItem"/>
         void AddMenuItem(MenuItem menuItem);
 
+        /// <summary>
+        /// Removes menu item.
+        /// </summary>
+        /// <param name="menuItem">Menu item to remove</param>
+        /// <seealso cref="MenuItem"/>
+        /// <returns><b>True</b> on success.</returns>
         bool RemoveMenuItem(MenuItem menuItem);
 
+        /// <summary>
+        /// Add new page item.
+        /// </summary>
+        /// <param name="pageItem">Page item to add</param>
+        /// <seealso cref="PageItem"/>
         void AddPageItem(PageItem pageItem);
 
+        /// <summary>
+        /// Removes page item.
+        /// </summary>
+        /// <param name="pageItem">Page item to remove</param>
+        /// <seealso cref="PageItem"/>
+        /// <returns><b>True</b> on success.</returns>
         bool RemovePageItem(PageItem pageItem);
     }
 }

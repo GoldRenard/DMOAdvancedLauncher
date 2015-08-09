@@ -6,10 +6,18 @@ os: Visual Studio 2015
 configuration: Release
 platform: Any CPU
 clone_folder: C:\Projects\DMOAdvancedLauncher
+assembly_info:
+  patch: true
+  file: AdvancedLauncher\Properties\AssemblyInfo.cs
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
 install:
 - choco install InnoSetup
+- choco install doxygen.portable
 - set PATH=%PATH%;"C:\Program Files (x86)\Inno Setup 5"
 - set PATH="C:\Program Files (x86)\MSBuild\14.0\Bin";%PATH% 
+- set DOXYGEN_PROJECT_DIR=C:\Projects\DMOAdvancedLauncher\AdvancedLauncherSDK
 before_build:
 - ps: ./DecryptReleaseKey.ps1
 build:
@@ -18,11 +26,14 @@ build:
 after_build:
 - echo "Running Inno Setup:"
 - iscc Shared\setup_project.iss
-- dir Shared\Installer
+- doxygen.exe "%DOXYGEN_PROJECT_DIR%\Doxyfile"
 test: off
 artifacts:
 - path: '\Shared\Installer\DMOAdvancedLauncher_install.exe'
   name: DMOAdvancedLauncher_install
+- path: '\AdvancedLauncherSDK\bin\Release'
+  name: AdvancedLauncherSDK
+  type: zip
 deploy:
 - provider: GitHub
   tag: v$(appveyor_build_version)

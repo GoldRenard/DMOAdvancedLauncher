@@ -24,6 +24,9 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// Main globalization string collection
+    /// </summary>
     [XmlType("Language")]
     public sealed class LanguageModel : CrossDomainObject {
         private static string sep = ": ";
@@ -364,8 +367,7 @@ namespace AdvancedLauncher.SDK.Model {
                 _About_Version = value;
             }
             get {
-                Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                return string.Format("{0}: {1}.{2} (build {3})", _About_Version, version.Major, version.Minor, version.Build);
+                return _About_Version;
             }
         }
 
@@ -1592,6 +1594,17 @@ namespace AdvancedLauncher.SDK.Model {
         #endregion Community
 
         #region Update Checker
+
+        private string _CheckForUpdates = "Check for updates";
+
+        public string CheckForUpdates {
+            set {
+                _CheckForUpdates = value;
+            }
+            get {
+                return _CheckForUpdates;
+            }
+        }
 
         private string _UpdateAvailableText = "New version {0} available. Changelog:";
 

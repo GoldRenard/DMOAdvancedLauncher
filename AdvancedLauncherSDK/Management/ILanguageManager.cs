@@ -22,30 +22,29 @@ using AdvancedLauncher.SDK.Model.Events.Proxy;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Language manager API. Provides access to strings and changing event.
+    /// </summary>
+    /// <seealso cref="LanguageModel"/>
     public interface ILanguageManager : IManager {
-        /* Internal API
 
-        string LanguagesPath {
-            get;
-        }
-
-        string Initialize(string languagesPath, string currentLanguage);
-
-        void Save(string filename, LanguageModel model);
-
-        LanguageModel Read(string tFile);
-
-        bool Load(string tName);
-
-        string[] GetTranslations();
-
-        string GetDefaultName();
-        */
-
+        /// <summary>
+        /// LanguageChanged event. You should not use this directly, is doesn't work correctly for
+        /// cross-domain transparent proxy instances.
+        /// Use <see cref="LanguageChangedProxy(EventProxy{BaseEventArgs}, bool)"/> instead.
+        /// </summary>
         event BaseEventHandler LanguageChanged;
 
+        /// <summary>
+        /// Registers new event listener for language change event.
+        /// </summary>
+        /// <param name="proxy"><see cref="EventProxy{T}"/> instance</param>
+        /// <param name="subscribe"><b>True</b> if you want to subscribe, <b>false</b> otherwise.</param>
         void LanguageChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true);
 
+        /// <summary>
+        /// Language model (stringa accessor)
+        /// </summary>
         LanguageModel Model {
             get;
         }

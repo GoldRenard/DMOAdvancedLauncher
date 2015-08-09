@@ -22,11 +22,24 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.UI {
 
+    /// <summary>
+    /// Base <see cref="AbstractUserControl"/> implementation for <see cref="IWindowManager"/> page items.
+    /// </summary>
     public abstract class AbstractPageControl : AbstractUserControl {
+
+        /// <summary>
+        /// <b>True</b> if page was already activated
+        /// </summary>
         protected bool IsPageActivated = false;
 
+        /// <summary>
+        /// <b>True</b> if page is visible
+        /// </summary>
         protected bool IsPageVisible = false;
 
+        /// <summary>
+        /// Gets <see cref="IProfileManager"/> API
+        /// </summary>
         protected IProfileManager ProfileManager {
             get;
             private set;
@@ -41,6 +54,9 @@ namespace AdvancedLauncher.SDK.UI {
             }
         }
 
+        /// <summary>
+        /// Internal <see cref="OnShow"/> handler
+        /// </summary>
         public void OnShowInternal() {
             if (!IsPageActivated) {
                 OnProfileChangedInternal(this, BaseEventArgs.Empty);
@@ -50,14 +66,23 @@ namespace AdvancedLauncher.SDK.UI {
             OnShow();
         }
 
+        /// <summary>
+        /// Internal <see cref="OnClose"/> handler
+        /// </summary>
         public virtual void OnCloseInternal() {
             IsPageVisible = false;
             OnClose();
         }
 
+        /// <summary>
+        /// Page show handler
+        /// </summary>
         protected virtual void OnShow() {
         }
 
+        /// <summary>
+        /// Page close handler
+        /// </summary>
         protected virtual void OnClose() {
         }
 
@@ -71,6 +96,11 @@ namespace AdvancedLauncher.SDK.UI {
             OnProfileChanged(sender, e);
         }
 
+        /// <summary>
+        /// <see cref="IProfileManager.ProfileChanged"/> event handler
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Arguments</param>
         protected abstract void OnProfileChanged(object sender, BaseEventArgs e);
     }
 }

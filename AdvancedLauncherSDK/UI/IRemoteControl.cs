@@ -18,16 +18,33 @@
 
 namespace AdvancedLauncher.SDK.UI {
 
+    /// <summary>
+    /// Interface that represents remote UI control
+    /// </summary>
     public interface IRemoteControl {
 
+        /// <summary>
+        /// If <b>True</b>, <see cref="Management.IWindowManager"/> try to fix the WPF Airspace issue
+        /// </summary>
         bool EnableAirspaceFix {
             get;
         }
 
+        /// <summary>
+        /// By default returns real control object.
+        /// </summary>
+        /// <param name="contractAdapter">If <b>True</b>, the <see cref="System.AddIn.Contract.INativeHandleContract"/> instance returned.</param>
+        /// <returns>Control object</returns>
         object GetControl(bool contractAdapter = false);
 
+        /// <summary>
+        /// Control show handler
+        /// </summary>
         void OnShow();
 
+        /// <summary>
+        /// Control close handler
+        /// </summary>
         void OnClose();
     }
 }

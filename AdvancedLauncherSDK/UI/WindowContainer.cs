@@ -22,6 +22,12 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.UI {
 
+    /// <summary>
+    /// <see cref="ControlContainer"/> implementation for <see cref="IWindowManager"/>'s windows.
+    /// </summary>
+    /// <seealso cref="IRemoteControl"/>
+    /// <seealso cref="ControlContainer"/>
+    /// <seealso cref="PageContainer"/>
     public class WindowContainer : ControlContainer {
         protected readonly IWindowManager WindowManager;
 
@@ -32,6 +38,9 @@ namespace AdvancedLauncher.SDK.UI {
             this.WindowManager = WindowManager;
         }
 
+        /// <summary>
+        /// Window show handler
+        /// </summary>
         public override void OnShow() {
             AbstractWindowControl windowControl = this.Control as AbstractWindowControl;
             if (windowControl != null) {
@@ -39,6 +48,9 @@ namespace AdvancedLauncher.SDK.UI {
             }
         }
 
+        /// <summary>
+        /// Window close handler
+        /// </summary>
         public override void OnClose() {
             WindowManager.GoBack(this);
         }

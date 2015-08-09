@@ -21,32 +21,51 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Config {
 
+    /// <summary>
+    /// DigiRotation configuration
+    /// </summary>
     public class RotationData : CrossDomainObject {
 
+        /// <summary>
+        /// Guild to DigiRotation
+        /// </summary>
         [XmlAttribute("Guild")]
         public string Guild {
             set;
             get;
         }
 
+        /// <summary>
+        /// Tamer to DigiRotation
+        /// </summary>
         [XmlAttribute("Tamer")]
         public string Tamer {
             set;
             get;
         }
 
+        /// <summary>
+        /// Server id of Guild
+        /// </summary>
         [XmlAttribute("ServerId")]
         public byte ServerId {
             set;
             get;
         }
 
+        /// <summary>
+        /// Update interval (days)
+        /// </summary>
         [XmlAttribute("UpdateInterval")]
         public int UpdateInterval {
             set;
             get;
         } = 1;
 
+        /// <summary>
+        /// Creates new <see cref="RotationData"/> based on another
+        /// </summary>
+        /// <param name="rd">Source <see cref="RotationData"/></param>
         public RotationData(RotationData rd) {
             Guild = rd.Guild;
             Tamer = rd.Tamer;

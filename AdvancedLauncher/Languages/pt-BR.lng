@@ -152,6 +152,7 @@
   <CommHeader_Name>Nome</CommHeader_Name>
   <CommHeader_Size>Tamanho</CommHeader_Size>
 
+  <CheckForUpdates>Verificar atualizações</CheckForUpdates>
   <UpdateAvailableText>Nova Versao {0} Disponivel. Changelog:</UpdateAvailableText>
   <UpdateAvailableCaption>Nova Versao {0} Disponivel</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Voce quer fazer o download agora?</UpdateDownloadQuestion>

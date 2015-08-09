@@ -21,10 +21,23 @@ using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// Server provider interface
+    /// </summary>
+    /// <seealso cref="AbstractServersProvider"/>
+    /// <seealso cref="Server"/>
     public interface IServersProvider {
 
+        /// <summary>
+        /// Returns server by its id
+        /// </summary>
+        /// <param name="serverId">Server id</param>
+        /// <returns>Server entity</returns>
         Server GetServerById(long serverId);
 
+        /// <summary>
+        /// Returns server list for this provider
+        /// </summary>
         ICollection<Server> ServerList {
             get;
         }

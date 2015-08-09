@@ -233,7 +233,7 @@ namespace AdvancedLauncher.Database.Context {
         }
 
         public TEntity FindById<TEntity>(long id) where TEntity : BaseEntity {
-            return this.Set<TEntity>().First(e => e.Id == id);
+            return this.Set<TEntity>().FirstOrDefault(e => e.Id == id);
         }
 
         #endregion universal methods

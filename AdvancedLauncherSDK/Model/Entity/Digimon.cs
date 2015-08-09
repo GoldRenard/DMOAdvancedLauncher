@@ -57,9 +57,6 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             set;
         }
 
-        /// <summary>
-        /// Do not forget to rename from Lvl in viewModels
-        /// </summary>
         public byte Level {
             get;
             set;

@@ -118,7 +118,11 @@
                           SelectedValuePath="Code"
                           SelectionChanged="OnLanguageSelectionChanged"
                           IsSynchronizedWithCurrentItem="True" />
-
+                <Controls:ToggleSwitch x:Name="UpdateCheck"
+                                       Margin="0,0,0,5"
+                                       FontSize="10"
+                                       Content="{Binding Path=DataContext.CheckForUpdates, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
+                                       IsChecked="{Binding CheckForUpdates, Mode=TwoWay}" />
                 <TextBlock Text="{Binding Settings_ThemeGroup}" Style="{DynamicResource TitleText}" />
                 <ListBox x:Name="BaseColorsList"
                      Style="{DynamicResource ColorList}"

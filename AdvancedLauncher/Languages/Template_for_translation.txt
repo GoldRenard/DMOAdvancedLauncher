@@ -152,6 +152,7 @@
   <CommHeader_Name>Name</CommHeader_Name>
   <CommHeader_Size>Size</CommHeader_Size>
   
+  <CheckForUpdates>Check for updates</CheckForUpdates>
   <UpdateAvailableText>New version {0} available. Changelog:</UpdateAvailableText>
   <UpdateAvailableCaption>New version {0} available</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Do you want to download it now?</UpdateDownloadQuestion>

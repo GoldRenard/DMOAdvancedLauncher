@@ -21,16 +21,46 @@ using AdvancedLauncher.SDK.Management.Commands;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Command manager interface. You can register and unregister your commands here.
+    /// </summary>'
+    /// <seealso cref="ICommand"/>
+    /// <seealso cref="AbstractCommand"/>
+    /// <seealso cref="AbstractExtendedCommand"/>
     public interface ICommandManager : IManager {
 
+        /// <summary>
+        /// Executes the specified command
+        /// </summary>
+        /// <param name="input">Command line</param>
+        /// <returns><b>True</b> on success</returns>
         bool Send(string input);
 
+        /// <summary>
+        /// Registers specified command
+        /// </summary>
+        /// <param name="Command">Your <see cref="ICommand"/> interface.</param>
+        /// <seealso cref="ICommand"/>
         void RegisterCommand(ICommand Command);
 
-        bool UnRegisterCommand(ICommand command);
+        /// <summary>
+        /// Unregisters specified command
+        /// </summary>
+        /// <param name="Command">Your <see cref="ICommand"/> interface.</param>
+        /// <seealso cref="ICommand"/>
+        /// <returns><b>True</b> on success</returns>
+        bool UnRegisterCommand(ICommand Command);
 
+        /// <summary>
+        /// Returns dictionary of registered commands
+        /// </summary>
+        /// <returns>Dictionary of registered commands</returns>
         IDictionary<string, ICommand> GetCommands();
 
+        /// <summary>
+        /// Returns recent executed commands
+        /// </summary>
+        /// <returns>Recent executed commands</returns>
         List<string> GetRecent();
     }
 }

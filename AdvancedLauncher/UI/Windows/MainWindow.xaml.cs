@@ -132,6 +132,9 @@ namespace AdvancedLauncher.UI.Windows {
         }
 
         public void CheckUpdates() {
+            if (!EnvironmentManager.Settings.CheckForUpdates) {
+                return;
+            }
             BackgroundWorker updateWorker = new BackgroundWorker();
             updateWorker.DoWork += async (s1, e2) => {
                 RemoteVersion remote = RemoteVersion.Instance;

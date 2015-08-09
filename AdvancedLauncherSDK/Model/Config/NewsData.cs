@@ -21,26 +21,39 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Config {
 
+    /// <summary>
+    /// News data model
+    /// </summary>
     public class NewsData : CrossDomainObject {
 
+        /// <summary>
+        /// Tab index to show at app start
+        /// </summary>
         [XmlAttribute("FirstTab")]
         public byte FirstTab {
             set;
             get;
         }
 
+        /// <summary>
+        /// Twitter user timeline source URL
+        /// </summary>
         [XmlAttribute("TwitterUrl")]
         public string TwitterUrl {
             set;
             get;
         }
 
-        public NewsData(NewsData nd) {
-            FirstTab = nd.FirstTab;
-            TwitterUrl = nd.TwitterUrl;
+        public NewsData() {
         }
 
-        public NewsData() {
+        /// <summary>
+        /// Creates new <see cref="NewsData"/> based on another
+        /// </summary>
+        /// <param name="nd">Source <see cref="NewsData"/></param>
+        public NewsData(NewsData nd) {
+            this.FirstTab = nd.FirstTab;
+            this.TwitterUrl = nd.TwitterUrl;
         }
     }
 }

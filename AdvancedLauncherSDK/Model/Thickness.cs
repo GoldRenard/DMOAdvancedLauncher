@@ -20,24 +20,39 @@ using System;
 
 namespace AdvancedLauncher.SDK.Tools {
 
+    /// <summary>
+    /// <see cref="System.Windows.Thickness"/> serializable wrapper
+    /// </summary>
     [Serializable]
     public sealed class Thickness {
 
+        /// <summary>
+        /// Gets or sets the width, in pixels, of the left side of the bounding rectangle.
+        /// </summary>
         public double Left {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the width, in pixels, of the upper side of the bounding rectangle.
+        /// </summary>
         public double Top {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the width, in pixels, of the right side of the bounding rectangle.
+        /// </summary>
         public double Right {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the width, in pixels, of the lower side of the bounding rectangle.
+        /// </summary>
         public double Bottom {
             get;
             set;
@@ -69,6 +84,10 @@ namespace AdvancedLauncher.SDK.Tools {
             return (this == thickness);
         }
 
+        /// <summary>
+        /// Returns <see cref="System.Windows.Thickness"/> that represents this wrapper.
+        /// </summary>
+        /// <returns><see cref="System.Windows.Thickness"/> that represents this wrapper</returns>
         public System.Windows.Thickness ToRealThickness() {
             return new System.Windows.Thickness(Left, Top, Right, Bottom);
         }

@@ -43,6 +43,19 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
+
+        <TextBlock VerticalAlignment="Top"
+                   HorizontalAlignment="Right"
+                   Margin="5,10">
+            <Hyperlink NavigateUri="https://github.com/GoldRenard/DMOAdvancedLauncher" RequestNavigate="OnRequestNavigate">
+                <Rectangle Width="80" Height="64">
+                    <Rectangle.Fill>
+                        <VisualBrush Visual="{StaticResource appbar_github_accent}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Hyperlink>
+        </TextBlock>
+
         <ALControls:LogoControl HorizontalAlignment="Center" Margin="50,20,50,0" />
         <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
             <TextBlock Margin="0,0,0,0" Width="300" TextAlignment="Center" Text="{Binding About_Version}" x:Name="VersionBlock" />
@@ -72,16 +85,18 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <TextBlock Text="{Binding About_Acknowledgments}" />
-                    <TextBlock Margin="0,10,0,0" Text="Plüss Roland (DMO Pack Manager)" />
+                    <TextBlock Text="{Binding About_Acknowledgments}" Margin="0,0,0,10" />
+                    <TextBlock Text="Plüss Roland (DMO Pack Manager)" />
                     <TextBlock Text="David Polomis (TargaImage)" />
+                    <TextBlock Text="Dwayne Need (Microsoft.DwayneNeed)" />
                     <TextBlock Text="Html Agility Pack Team" />
+                    <TextBlock Text="Newtonsoft (JSON.NET)" />
                     <TextBlock Text="MahApps.Metro" />
                     <TextBlock Text="SharpZipLib" />
                 </StackPanel>
                 <StackPanel Margin="10,00,0,0" Grid.Column="1" VerticalAlignment="Top">
-                    <TextBlock Text="{Binding About_Translators}" />
-                    <TextBlock Margin="0,10,0,0" Text="English - GoldRenard (Egorov Ilya)" />
+                    <TextBlock Text="{Binding About_Translators}" Margin="0,0,0,10" />
+                    <TextBlock Text="English - GoldRenard (Egorov Ilya)" />
                     <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
                     <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />
                     <TextBlock Text="French - Rei Ayanami" />

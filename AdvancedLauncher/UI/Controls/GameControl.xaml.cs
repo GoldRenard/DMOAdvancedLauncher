@@ -247,7 +247,7 @@ namespace AdvancedLauncher.UI.Controls {
             SetUpdateEnabled(false);
         }
 
-        private void OnUpdateStatusChanged(object sender, UpdateStatusEventEventArgs e) {
+        private void OnUpdateStatusChanged(object sender, UpdateStatusEventArgs e) {
             if (!this.Dispatcher.CheckAccess()) {
                 this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateStatusEventHandler((s, e2) => {
                     OnUpdateStatusChanged(sender, e2);
@@ -259,15 +259,15 @@ namespace AdvancedLauncher.UI.Controls {
 
             string updateText = string.Empty;
             switch (e.UpdateStage) {
-                case UpdateStatusEventEventArgs.Stage.DOWNLOADING:
+                case UpdateStatusEventArgs.Stage.DOWNLOADING:
                     updateText = string.Format(LanguageManager.Model.UpdateDownloading, e.CurrentPatch, e.MaxPatch, e.SummaryProgress, e.SummaryMaxProgress);
                     break;
 
-                case UpdateStatusEventEventArgs.Stage.EXTRACTING:
+                case UpdateStatusEventArgs.Stage.EXTRACTING:
                     updateText = string.Format(LanguageManager.Model.UpdateExtracting, e.CurrentPatch, e.MaxPatch, e.SummaryProgress, e.SummaryMaxProgress);
                     break;
 
-                case UpdateStatusEventEventArgs.Stage.INSTALLING:
+                case UpdateStatusEventArgs.Stage.INSTALLING:
                     updateText = string.Format(LanguageManager.Model.UpdateInstalling, e.Progress, e.MaxProgress);
                     break;
             }

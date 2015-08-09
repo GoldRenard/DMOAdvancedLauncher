@@ -21,6 +21,10 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Web {
 
+    /// <summary>
+    /// Base class for <see cref="INewsProvider"/> interface
+    /// </summary>
+    /// <seealso cref="INewsProvider"/>
     public abstract class AbstractNewsProvider : CrossDomainObject, INewsProvider {
 
         protected ILogManager LogManager {
@@ -35,6 +39,10 @@ namespace AdvancedLauncher.SDK.Model.Web {
             Initialize(logManager);
         }
 
+        /// <summary>
+        /// Obtains news from remote source
+        /// </summary>
+        /// <returns>News collection</returns>
         public abstract List<NewsItem> GetNews();
 
         public void Initialize(ILogManager logManager) {

@@ -98,6 +98,7 @@ namespace AdvancedLauncher.UI.Controls {
             ComboBoxLanguage.SelectedIndex = CurrentLangIndex;
             BaseColorsList.SelectedItem = CurrentAppTheme;
             AccentColorsList.SelectedItem = CurrentAccent;
+            UpdateCheck.DataContext = settingsContainer;
         }
 
         #region Language changing

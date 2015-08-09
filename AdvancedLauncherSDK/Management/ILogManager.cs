@@ -20,6 +20,9 @@ using System;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Log manager API
+    /// </summary>
     public interface ILogManager : IManager {
 
         //

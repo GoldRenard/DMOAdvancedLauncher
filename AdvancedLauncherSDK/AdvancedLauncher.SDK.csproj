@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\AdvancedLauncher.SDK.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\AdvancedLauncher.SDK.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -68,7 +70,7 @@
     <Compile Include="Management\IWindowManager.cs" />
     <Compile Include="Management\Plugins\AbstractPlugin.cs" />
     <Compile Include="Management\Plugins\PluginInfo.cs" />
-    <Compile Include="Management\Plugins\PluginProxy.cs" />
+    <Compile Include="Management\Plugins\Proxy.cs" />
     <Compile Include="UI\AbstractUserControl.cs" />
     <Compile Include="UI\AbstractPageControl.cs" />
     <Compile Include="UI\AbstractWindowControl.cs" />
@@ -132,7 +134,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\RemoteTask.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Doxyfile" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

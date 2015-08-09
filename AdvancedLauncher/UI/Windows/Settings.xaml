@@ -289,14 +289,14 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="105" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Text="{Binding Settings_LocaleFix}" 
+                            <TextBlock
+                                Text="{Binding Settings_LocaleFix}"
                                 FontFamily="Segoe UI Semibold, Segoe UI, Lucida Sans Unicode, Verdana"
-                                FontSize="12" 
+                                FontSize="12"
                                 VerticalAlignment="Center" />
                             <ComboBox Grid.Column="1" x:Name="ComboBoxLauncher" Margin="0,5" Height="30"
                                   SelectedItem="{Binding ProfileLauncher, Mode=TwoWay}"
-                                  DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True" >
+                                  DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True">
                                 <ComboBox.ItemContainerStyle>
                                     <Style TargetType="ComboBoxItem">
                                         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
@@ -365,7 +365,6 @@
                                 </ComboBox.ItemContainerStyle>
                             </ComboBox>
                         </Grid>
-                        
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Margin="0,5" Header="{Binding Settings_AccountGroup}"

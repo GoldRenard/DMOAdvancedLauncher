@@ -18,44 +18,88 @@
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// API accessor for plugins
+    /// </summary>
+    /// <seealso cref="Plugins.IPlugin"/>
     public interface IPluginHost : IManager {
 
+        /// <summary>
+        /// Returns <see cref="ILogManager"/> API.
+        /// </summary>
+        /// <seealso cref="ILogManager"/>
         ILogManager LogManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="ICommandManager"/> API.
+        /// </summary>
+        /// <seealso cref="ICommandManager"/>
         ICommandManager CommandManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="IConfigurationManager"/> API.
+        /// </summary>
+        /// <seealso cref="IConfigurationManager"/>
         IConfigurationManager ConfigurationManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="IDatabaseManager"/> API.
+        /// </summary>
+        /// <seealso cref="IDatabaseManager"/>
         IDatabaseManager DatabaseManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="IEnvironmentManager"/> API.
+        /// </summary>
+        /// <seealso cref="IEnvironmentManager"/>
         IEnvironmentManager EnvironmentManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="IDialogManager"/> API.
+        /// </summary>
+        /// <seealso cref="IDialogManager"/>
         IDialogManager DialogManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="IProfileManager"/> API.
+        /// </summary>
+        /// <seealso cref="IProfileManager"/>
         IProfileManager ProfileManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="ITaskManager"/> API.
+        /// </summary>
+        /// <seealso cref="ITaskManager"/>
         ITaskManager TaskManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="IWindowManager"/> API.
+        /// </summary>
+        /// <seealso cref="IWindowManager"/>
         IWindowManager WindowManager {
             get;
         }
 
+        /// <summary>
+        /// Returns <see cref="ILanguageManager"/> API.
+        /// </summary>
+        /// <seealso cref="ILanguageManager"/>
         ILanguageManager LanguageManager {
             get;
         }

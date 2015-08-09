@@ -20,6 +20,9 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model {
 
+    /// <summary>
+    /// Task entry for <see cref="Management.ITaskManager"/> interface.
+    /// </summary>
     public class TaskEntry : CrossDomainObject {
         private readonly object Owner;
 

@@ -18,8 +18,16 @@
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Loggable interface
+    /// </summary>
+    /// <seealso cref="ILogManager"/>
     public interface ILoggable {
 
+        /// <summary>
+        /// Initializes instance with specified <see cref="ILogManager"/>.
+        /// </summary>
+        /// <param name="logManager"><see cref="ILogManager"/> to log things.</param>
         void Initialize(ILogManager logManager);
     }
 }

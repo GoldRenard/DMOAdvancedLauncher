@@ -13,7 +13,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type interop:AirspaceDecorator}">
                     <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter/>
+                        <ContentPresenter />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -27,7 +27,7 @@
                                 Background="{TemplateBinding ClippingBackground}"
                                 CopyBitsBehavior="{TemplateBinding ClippingCopyBitsBehavior}">
                                 <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter/>
+                                    <ContentPresenter />
                                 </Border>
                             </interop:HwndSourceHost>
                         </ControlTemplate>
@@ -38,14 +38,14 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type interop:AirspaceDecorator}">
-                            <interop:RedirectedHwndSourceHost 
+                            <interop:RedirectedHwndSourceHost
                                 RedirectionVisibility="{TemplateBinding RedirectionVisibility}"
-                                IsOutputRedirectionEnabled="{TemplateBinding IsOutputRedirectionEnabled}" 
-                                OutputRedirectionPeriod="{TemplateBinding OutputRedirectionPeriod}" 
-                                IsInputRedirectionEnabled="{TemplateBinding IsInputRedirectionEnabled}" 
+                                IsOutputRedirectionEnabled="{TemplateBinding IsOutputRedirectionEnabled}"
+                                OutputRedirectionPeriod="{TemplateBinding OutputRedirectionPeriod}"
+                                IsInputRedirectionEnabled="{TemplateBinding IsInputRedirectionEnabled}"
                                 InputRedirectionPeriod="{TemplateBinding InputRedirectionPeriod}">
                                 <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter/>
+                                    <ContentPresenter />
                                 </Border>
                             </interop:RedirectedHwndSourceHost>
                         </ControlTemplate>
@@ -61,15 +61,15 @@
                 <ControlTemplate TargetType="{x:Type interop:AirspaceScrollViewer}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <interop:AirspaceDecorator Grid.Row="0" Grid.Column="0" 
+                        <interop:AirspaceDecorator Grid.Row="0" Grid.Column="0"
                             Background="{TemplateBinding Background}"
                             AirspaceMode="{TemplateBinding AirspaceMode}"
                             ClippingBackground="{TemplateBinding ClippingBackground}"
@@ -79,7 +79,7 @@
                             OutputRedirectionPeriod="{TemplateBinding OutputRedirectionPeriod}"
                             IsInputRedirectionEnabled="{TemplateBinding IsInputRedirectionEnabled}"
                             InputRedirectionPeriod="{TemplateBinding InputRedirectionPeriod}">
-                            <ScrollContentPresenter/>
+                            <ScrollContentPresenter />
                         </interop:AirspaceDecorator>
 
                         <ScrollBar Name="PART_VerticalScrollBar"
@@ -88,7 +88,7 @@
                             Value="{TemplateBinding VerticalOffset}"
                             Maximum="{TemplateBinding ScrollableHeight}"
                             ViewportSize="{TemplateBinding ViewportHeight}"
-                            Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                            Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
                         <ScrollBar Name="PART_HorizontalScrollBar"
                             Grid.Row="1"
                             Grid.Column="0"
@@ -96,11 +96,10 @@
                             Value="{TemplateBinding HorizontalOffset}"
                             Maximum="{TemplateBinding ScrollableWidth}"
                             ViewportSize="{TemplateBinding ViewportWidth}"
-                            Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                            Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
 </ResourceDictionary>

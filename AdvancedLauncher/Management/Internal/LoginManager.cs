@@ -155,7 +155,7 @@ namespace AdvancedLauncher.Management.Internal {
             } else if (e.Code == LoginState.GETTING_DATA) {
                 controller.SetTitle(LanguageManager.Model.LoginGettingData);
             }
-            string message = string.Format(LanguageManager.Model.LoginTry, e.TryNumber);
+            string message = string.Format(LanguageManager.Model.LoginTry, e.AttemptNumber);
             if (e.LastError != -1) {
                 message += string.Format(" ({0} {1})", LanguageManager.Model.LoginWasError, e.LastError);
             }

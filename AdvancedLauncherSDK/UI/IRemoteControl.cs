@@ -24,7 +24,7 @@ namespace AdvancedLauncher.SDK.UI {
     public interface IRemoteControl {
 
         /// <summary>
-        /// If <b>True</b>, <see cref="Management.IWindowManager"/> try to fix the WPF Airspace issue
+        /// Gets <b>True</b>, so <see cref="Management.IWindowManager"/> try to fix the WPF Airspace issue
         /// </summary>
         bool EnableAirspaceFix {
             get;

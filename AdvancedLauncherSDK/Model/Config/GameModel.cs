@@ -32,7 +32,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private string _Type;
 
         /// <summary>
-        /// Game type
+        /// Gets or sets game type
         /// </summary>
         [XmlAttribute("Type")]
         public string Type {
@@ -48,7 +48,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private string _GamePath;
 
         /// <summary>
-        /// Path to game
+        /// Gets or sets path to game
         /// </summary>
         [XmlElement("GamePath")]
         public string GamePath {
@@ -64,7 +64,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private string _LauncherPath;
 
         /// <summary>
-        /// Path to stock launcher
+        /// Gets or sets path to stock launcher
         /// </summary>
         [XmlElement("DefLauncherPath")]
         public string LauncherPath {
@@ -77,11 +77,14 @@ namespace AdvancedLauncher.SDK.Model.Config {
             }
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="GameModel"/> instance
+        /// </summary>
         public GameModel() {
         }
 
         /// <summary>
-        /// Creates new <see cref="GameModel"/> based on another
+        /// Initializes a new <see cref="GameModel"/> based on another
         /// </summary>
         /// <param name="another">Source <see cref="GameModel"/></param>
         public GameModel(GameModel another) {
@@ -90,6 +93,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
             this.LauncherPath = another.LauncherPath;
         }
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="GameModel"/>
+        /// </summary>
+        /// <returns>Hash code for this <see cref="GameModel"/></returns>
         public override int GetHashCode() {
             int prime = 31;
             int result = 1;
@@ -99,6 +106,11 @@ namespace AdvancedLauncher.SDK.Model.Config {
             return result;
         }
 
+        /// <summary>
+        /// Determines whether this instance and another specified <see cref="GameModel"/> are the same
+        /// </summary>
+        /// <param name="obj">The object to compare to this instance</param>
+        /// <returns><b>True</b> of the object of the obj parameter is the same as the current instance</returns>
         public override bool Equals(object obj) {
             if (this == obj) {
                 return true;
@@ -135,6 +147,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         #region Property Change Handler
 
+        /// <summary>
+        /// Property changed event handler
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName) {

@@ -19,6 +19,7 @@
 using System;
 
 namespace AdvancedLauncher.SDK.Management {
+#pragma warning disable 1591
 
     /// <summary>
     /// Log manager API

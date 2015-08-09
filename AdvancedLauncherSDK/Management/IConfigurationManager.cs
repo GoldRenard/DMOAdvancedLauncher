@@ -34,14 +34,14 @@ namespace AdvancedLauncher.SDK.Management {
     public interface IConfigurationManager : IManager, IEnumerable, IEnumerable<IConfiguration> {
 
         /// <summary>
-        /// Game validation (existing of currect executable, version file, game archives)
+        /// Validates game environment (existing of currect executable, version file, game archives)
         /// </summary>
         /// <param name="model"><see cref="GameModel"/> to process</param>
         /// <returns><b>True</b> on success</returns>
         bool CheckGame(GameModel model);
 
         /// <summary>
-        /// Stock launcher validation (existing of executable)
+        /// Validated stock launcher environment (existing of executable)
         /// </summary>
         /// <param name="model"><see cref="GameModel"/> to process</param>
         /// <returns><b>True</b> on success</returns>

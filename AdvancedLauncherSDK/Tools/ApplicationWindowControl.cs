@@ -57,8 +57,16 @@ namespace AdvancedLauncher.SDK.Management.Windows {
 
         private System.Windows.Forms.Panel Panel;
 
+        /// <summary>
+        /// Process exit event handler
+        /// </summary>
         public BaseEventHandler Exited;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ApplicationWindowControl"/> for specified <see cref="ProcessStartInfo"/> and wait timeout.
+        /// </summary>
+        /// <param name="StartInfo">Process start information</param>
+        /// <param name="WaitTimeout">Event action (0 by default)</param>
         public ApplicationWindowControl(ProcessStartInfo StartInfo, int WaitTimeout = 0) {
             this.StartInfo = StartInfo;
             this.WaitTimeout = WaitTimeout;
@@ -70,11 +78,11 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             this.SizeChanged += OnSizeChanged;
         }
 
-        protected virtual void OnSizeChanged(object sender, System.Windows.SizeChangedEventArgs e) {
+        private void OnSizeChanged(object sender, System.Windows.SizeChangedEventArgs e) {
             ResizeEmbeddedApp();
         }
 
-        protected virtual void OnLoaded(object sender, System.Windows.RoutedEventArgs e) {
+        private void OnLoaded(object sender, System.Windows.RoutedEventArgs e) {
             this.Process = new Process();
             this.Process.StartInfo = StartInfo;
             this.Process.Exited += OnProcessExited;
@@ -94,13 +102,13 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             ResizeEmbeddedApp();
         }
 
-        protected virtual void OnProcessExited(object sender, EventArgs e) {
+        private void OnProcessExited(object sender, EventArgs e) {
             if (Exited != null) {
                 Exited(sender, BaseEventArgs.Empty);
             }
         }
 
-        protected virtual void ResizeEmbeddedApp() {
+        private void ResizeEmbeddedApp() {
             if (Process == null) {
                 return;
             }

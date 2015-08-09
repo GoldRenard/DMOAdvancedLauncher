@@ -28,84 +28,84 @@ namespace AdvancedLauncher.SDK.Management {
     public interface IEnvironmentManager : IManager {
 
         /// <summary>
-        /// Returns user settings instance
+        /// Gets user settings
         /// </summary>
         Settings Settings {
             get;
         }
 
         /// <summary>
-        /// Returns application path
+        /// Gets application path
         /// </summary>
         string AppPath {
             get;
         }
 
         /// <summary>
-        /// Returns application data path
+        /// Get application data path
         /// </summary>
         string AppDataPath {
             get;
         }
 
         /// <summary>
-        /// Returns settings file path
+        /// Gets settings file path
         /// </summary>
         string SettingsFile {
             get;
         }
 
         /// <summary>
-        /// Returns KBLCService execution file path
+        /// Gets KBLCService execution file path
         /// </summary>
         string KBLCFile {
             get;
         }
 
         /// <summary>
-        /// Returns NTLEA execution file path
+        /// Gets NTLEA execution file path
         /// </summary>
         string NTLEAFile {
             get;
         }
 
         /// <summary>
-        /// Returns languages directory path
+        /// Gets languages directory path
         /// </summary>
         string LanguagesPath {
             get;
         }
 
         /// <summary>
-        /// Returns 3rd-party resources directory path
+        /// Gets 3rd-party resources directory path
         /// </summary>
         string Resources3rdPath {
             get;
         }
 
         /// <summary>
-        /// Returns resources directory path
+        /// Gets resources directory path
         /// </summary>
         string ResourcesPath {
             get;
         }
 
         /// <summary>
-        /// Returns plugins directory path
+        /// Gets plugins directory path
         /// </summary>
         string PluginsPath {
             get;
         }
 
         /// <summary>
-        /// Returns database file path
+        /// Gets database file path
         /// </summary>
         string DatabaseFile {
             get;
         }
 
         /// <summary>
-        /// Save environment changes to <see cref="SettingsFile"/>.
+        /// Saves environment changes to <see cref="SettingsFile"/>.
         /// </summary>
         void Save();
 

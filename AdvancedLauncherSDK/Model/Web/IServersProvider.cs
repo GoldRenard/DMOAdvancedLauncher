@@ -36,7 +36,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
         Server GetServerById(long serverId);
 
         /// <summary>
-        /// Returns server list for this provider
+        /// Gets server list for this provider
         /// </summary>
         ICollection<Server> ServerList {
             get;

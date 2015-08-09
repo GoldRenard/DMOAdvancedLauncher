@@ -29,11 +29,23 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// Login status code
     /// </summary>
     public enum LoginCode {
+
+        /// <summary>Success login code</summary>
         SUCCESS = 0,
+
+        /// <summary>Wrong user code</summary>
         WRONG_USER = 1,
+
+        /// <summary>Wrong page code</summary>
         WRONG_PAGE = 2,
+
+        /// <summary>Unknown URL code</summary>
         UNKNOWN_URL = 3,
+
+        /// <summary>Error code</summary>
         EXECUTE_ERROR = 4,
+
+        /// <summary>Cancelled code</summary>
         CANCELLED = 5
     }
 
@@ -43,7 +55,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     public class LoginCompleteEventArgs : BaseEventArgs {
 
         /// <summary>
-        /// Login status code
+        /// Gets login status code
         /// </summary>
         public LoginCode Code {
             get;
@@ -51,7 +63,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
         }
 
         /// <summary>
-        /// Login status code
+        /// Gets username
         /// </summary>
         public string UserName {
             get;
@@ -59,21 +71,36 @@ namespace AdvancedLauncher.SDK.Model.Events {
         }
 
         /// <summary>
-        /// Command line arguments to start the game
+        /// Gets command line arguments to start the game
         /// </summary>
         public string Arguments {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="LoginCompleteEventArgs"/> for specified <see cref="LoginCode"/>.
+        /// </summary>
+        /// <param name="Code">Login code</param>
         public LoginCompleteEventArgs(LoginCode Code)
             : this(Code, string.Empty) {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="LoginCompleteEventArgs"/> for specified <see cref="LoginCode"/> and arguments.
+        /// </summary>
+        /// <param name="Code">Login code</param>
+        /// <param name="Arguments">Arguments</param>
         public LoginCompleteEventArgs(LoginCode Code, string Arguments)
             : this(Code, Arguments, string.Empty) {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="LoginCompleteEventArgs"/> for specified <see cref="LoginCode"/>, arguments and user name.
+        /// </summary>
+        /// <param name="Code">Login code</param>
+        /// <param name="Arguments">Arguments</param>
+        /// <param name="UserName">User name</param>
         public LoginCompleteEventArgs(LoginCode Code, string Arguments, string UserName) {
             this.Code = Code;
             this.Arguments = Arguments;

@@ -29,8 +29,18 @@ namespace AdvancedLauncher.SDK.UI {
     /// <seealso cref="ControlContainer"/>
     /// <seealso cref="PageContainer"/>
     public class WindowContainer : ControlContainer {
+
+        /// <summary>
+        /// Gets <see cref="IWindowManager"/> API
+        /// </summary>
         protected readonly IWindowManager WindowManager;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ControlContainer"/> for specified <see cref="Control"/>
+        /// and <see cref="IWindowManager"/>.
+        /// </summary>
+        /// <param name="Control">Control</param>
+        /// <param name="WindowManager">WindowManager API</param>
         public WindowContainer(Control Control, IWindowManager WindowManager) : base(Control) {
             if (WindowManager == null) {
                 throw new ArgumentException("WindowManager cannot be null");

@@ -22,8 +22,14 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// Login state
     /// </summary>
     public enum LoginState {
+
+        /// <summary>Logging in state</summary>
         LOGINNING = 0,
+
+        /// <summary>Getting data state</summary>
         GETTING_DATA = 1,
+
+        /// <summary>Error state</summary>
         WAS_ERROR = 2
     }
 
@@ -40,7 +46,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     public class LoginStateEventArgs : BaseEventArgs {
 
         /// <summary>
-        /// Login state code
+        /// Gets login state code
         /// </summary>
         public LoginState Code {
             get;
@@ -48,24 +54,31 @@ namespace AdvancedLauncher.SDK.Model.Events {
         }
 
         /// <summary>
-        /// Login try number
+        /// Gets login attempt number
         /// </summary>
-        public int TryNumber {
+        public int AttemptNumber {
             get;
             private set;
         }
 
         /// <summary>
-        /// Login last error code
+        /// Gets login last error code
         /// </summary>
         public int LastError {
             get;
             private set;
         }
 
-        public LoginStateEventArgs(LoginState Code, int TryNumber, int LastError) {
+        /// <summary>
+        /// Initializes a new instance of <see cref="LoginStateEventArgs"/> for specified <see cref="LoginState"/>,
+        /// AttemptNumber and LastError code.
+        /// </summary>
+        /// <param name="Code">Login state code</param>
+        /// <param name="AttemptNumber">Attempt number</param>
+        /// <param name="LastError">Last error code</param>
+        public LoginStateEventArgs(LoginState Code, int AttemptNumber, int LastError) {
             this.Code = Code;
-            this.TryNumber = TryNumber;
+            this.AttemptNumber = AttemptNumber;
             this.LastError = LastError;
         }
     }

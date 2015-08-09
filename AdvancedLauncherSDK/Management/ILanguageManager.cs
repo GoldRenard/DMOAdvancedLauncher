@@ -43,7 +43,7 @@ namespace AdvancedLauncher.SDK.Management {
         void LanguageChangedProxy(EventProxy<BaseEventArgs> proxy, bool subscribe = true);
 
         /// <summary>
-        /// Language model (stringa accessor)
+        /// Gets language model
         /// </summary>
         LanguageModel Model {
             get;

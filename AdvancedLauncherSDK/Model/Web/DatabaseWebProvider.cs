@@ -28,8 +28,17 @@ namespace AdvancedLauncher.SDK.Model.Web {
     /// WebProvider allows to read and store information to database
     /// </summary>
     public abstract class DatabaseWebProvider : AbstractWebProvider {
+
+        /// <summary>
+        /// Gets DatabaseManager API
+        /// </summary>
         protected readonly IDatabaseManager DatabaseManager;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="DatabaseWebProvider"/> for specified <see cref="IDatabaseManager"/> and <see cref="ILogManager"/>.
+        /// </summary>
+        /// <param name="DatabaseManager">DatabaseManager API</param>
+        /// <param name="logManager">LogManager API</param>
         public DatabaseWebProvider(IDatabaseManager DatabaseManager, ILogManager logManager) : base(logManager) {
             this.DatabaseManager = DatabaseManager;
         }
@@ -70,9 +79,9 @@ namespace AdvancedLauncher.SDK.Model.Web {
         /// <param name="guildName">Guild name</param>
         /// <param name="isDetailed">Shoul it be detailed data (like digimon size, real name, etc)</param>
         /// <param name="actualInterval">Interval of actual data in days</param>
-        /// <seealso cref="DownloadStarted"/>
-        /// <seealso cref="DownloadCompleted"/>
-        /// <seealso cref="StatusChanged"/>
+        /// <seealso cref="AbstractWebProvider.DownloadStarted"/>
+        /// <seealso cref="AbstractWebProvider.DownloadCompleted"/>
+        /// <seealso cref="AbstractWebProvider.StatusChanged"/>
         public override void GetActualGuildAsync(Server server, string guildName, bool isDetailed, int actualInterval) {
             bool fetchCurrent = false;
 

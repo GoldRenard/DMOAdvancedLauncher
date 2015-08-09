@@ -19,34 +19,34 @@
 namespace AdvancedLauncher.SDK.Management.Plugins {
 
     /// <summary>
-    /// Common plugin base class (implementing <see cref="CrossDomainObject"/>).
+    /// Base <see cref="IPlugin"/> implementation
     /// </summary>
     /// <seealso cref="IPluginHost"/>
     /// <seealso cref="IPlugin"/>
     public abstract class AbstractPlugin : CrossDomainObject, IPlugin {
 
         /// <summary>
-        /// Name of plugin
+        /// Gets name of plugin
         /// </summary>
         public abstract string Name {
             get;
         }
 
         /// <summary>
-        /// Author of plugin
+        /// Gets author's name of plugin
         /// </summary>
         public abstract string Author {
             get;
         }
 
         /// <summary>
-        /// It is called on plugin activation
+        /// Plugin activation entry point
         /// </summary>
         /// <param name="PluginHost">The <see cref="IPluginHost"/> interface with accessable API</param>
         public abstract void OnActivate(IPluginHost PluginHost);
 
         /// <summary>
-        /// It is called on plugin stop. You MUST free all your resources here,
+        /// Plugin stop entry point. You MUST free all your resources here,
         /// remove added menus, windows, pages, configurations, etc.
         /// </summary>
         /// <param name="PluginHost">The <see cref="IPluginHost"/> interface with accessable API</param>

@@ -27,7 +27,7 @@ namespace AdvancedLauncher.SDK.Management {
     public interface ITaskManager : IManager {
 
         /// <summary>
-        /// Aquire new lock for specified <see cref="TaskEntry"/>
+        /// Aquires new lock for specified <see cref="TaskEntry"/>
         /// </summary>
         /// <param name="entry"><see cref="TaskEntry"/> to lock</param>
         void AquireLock(TaskEntry entry);
@@ -40,14 +40,14 @@ namespace AdvancedLauncher.SDK.Management {
         bool ReleaseLock(TaskEntry entry);
 
         /// <summary>
-        /// Is any lock exist
+        /// Gets <b>True</b> if any lock exists
         /// </summary>
         bool IsBusy {
             get;
         }
 
         /// <summary>
-        /// Call application closing task. It waits until all lock release and then closes the application.
+        /// Schedules application closing. It waits until all locks releases and then closes the application.
         /// </summary>
         /// <param name="forceClose">If <b>True</b>, it will close app directly event with locks.</param>
         void CloseApp(bool forceClose = false);

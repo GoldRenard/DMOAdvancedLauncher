@@ -30,10 +30,17 @@ namespace AdvancedLauncher.SDK.UI {
     /// <seealso cref="WindowContainer"/>
     /// <seealso cref="PageContainer"/>
     public class ControlContainer : CrossDomainObject, IRemoteControl {
-        protected Control Control;
 
         /// <summary>
-        /// If <b>True</b>, <see cref="Management.IWindowManager"/> try to fix the WPF Airspace issue
+        /// Gets Control related with this container
+        /// </summary>
+        protected Control Control {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets <b>True</b>, so <see cref="IWindowManager"/> try to fix the WPF Airspace issue
         /// </summary>
         public bool EnableAirspaceFix {
             get {
@@ -41,6 +48,10 @@ namespace AdvancedLauncher.SDK.UI {
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ControlContainer"/> for specified <see cref="Control"/>.
+        /// </summary>
+        /// <param name="Control">Control</param>
         public ControlContainer(Control Control) {
             if (Control == null) {
                 throw new ArgumentException("Control cannot be null");

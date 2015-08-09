@@ -33,13 +33,17 @@ namespace AdvancedLauncher.SDK.Model.Events {
     public class ConfigurationChangedEventArgs : BaseEventArgs {
 
         /// <summary>
-        /// Related configuration
+        /// Gets related configuration
         /// </summary>
         public IConfiguration Configuration {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ConfigurationChangedEventArgs"/> for specified <see cref="IConfiguration"/>.
+        /// </summary>
+        /// <param name="Configuration">Configuration</param>
         public ConfigurationChangedEventArgs(IConfiguration Configuration) {
             this.Configuration = Configuration;
         }

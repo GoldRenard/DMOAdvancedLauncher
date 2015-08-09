@@ -26,27 +26,27 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
     public interface IPlugin {
 
         /// <summary>
-        /// Name of plugin
+        /// Gets name of plugin
         /// </summary>
         string Name {
             get;
         }
 
         /// <summary>
-        /// Author of plugin
+        /// Gets author's name of plugin
         /// </summary>
         string Author {
             get;
         }
 
         /// <summary>
-        /// It is called on plugin activation
+        /// Plugin activation entry point
         /// </summary>
         /// <param name="PluginHost">The <see cref="IPluginHost"/> interface with accessable API</param>
         void OnActivate(IPluginHost PluginHost);
 
         /// <summary>
-        /// It is called on plugin stop. You MUST free all your resources here,
+        /// Plugin stop entry point. You MUST free all your resources here,
         /// remove added menus, windows, pages, configurations, etc.
         /// </summary>
         /// <param name="PluginHost">The <see cref="IPluginHost"/> interface with accessable API</param>

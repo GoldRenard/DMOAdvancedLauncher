@@ -26,8 +26,16 @@ namespace AdvancedLauncher.SDK.Model {
     /// </summary>
     public abstract class NamedItem : CrossDomainObject, IRemotePropertyChanged {
 
+        /// <summary>
+        /// Property changed event handler
+        /// </summary>
         public event RemotePropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="NamedItem"/> for specified name and binding flag (false by default).
+        /// </summary>
+        /// <param name="Name">Item name</param>
+        /// <param name="IsBinding">Is it binding name</param>
         public NamedItem(string Name, bool IsBinding = false) {
             this.Name = Name;
             this.IsBinding = IsBinding;
@@ -36,7 +44,7 @@ namespace AdvancedLauncher.SDK.Model {
         private string _Name;
 
         /// <summary>
-        /// Name of item
+        /// Gets or sets name of item
         /// </summary>
         public string Name {
             get {
@@ -53,7 +61,7 @@ namespace AdvancedLauncher.SDK.Model {
         private bool _IsBinding;
 
         /// <summary>
-        /// Is this name is binging name
+        /// Gets or sets value that determines is item name is binging name
         /// </summary>
         public bool IsBinding {
             get {
@@ -71,7 +79,7 @@ namespace AdvancedLauncher.SDK.Model {
         private bool _IsEnabled = true;
 
         /// <summary>
-        /// Is this item enabled
+        /// Gets or sets value that determines is this item enabled
         /// </summary>
         public bool IsEnabled {
             get {
@@ -85,6 +93,10 @@ namespace AdvancedLauncher.SDK.Model {
             }
         }
 
+        /// <summary>
+        /// Notifies property changing
+        /// </summary>
+        /// <param name="propertyName">Changed property name</param>
         protected void NotifyPropertyChanged(string propertyName) {
             if (PropertyChanged != null) {
                 PropertyChanged(this, new RemotePropertyChangedEventArgs(propertyName));

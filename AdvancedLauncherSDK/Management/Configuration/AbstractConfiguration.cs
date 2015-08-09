@@ -29,14 +29,14 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         private IServersProvider _ServersProvider;
 
         /// <summary>
-        /// The name of configuration (short server name, server publisher, etc). Used for UI.
+        /// Gets the name of configuration (short server name, server publisher, etc). Used for UI.
         /// </summary>
         public abstract string Name {
             get;
         }
 
         /// <summary>
-        /// Full server name, including <see cref="GameType"/> and <see cref="Name"/>. Used for Settings UI gametype selection.
+        /// Gets full server name, including <see cref="GameType"/> and <see cref="Name"/>. Used for UI game type selection.
         /// </summary>
         public virtual string ServerName {
             get {
@@ -45,35 +45,35 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
-        /// Short game type name like <b>GDMO</b>, <b>KDMO</b>, etc.
+        /// Gets short game type name like <b>GDMO</b>, <b>KDMO</b>, etc.
         /// </summary>
         public abstract string GameType {
             get;
         }
 
         /// <summary>
-        /// Game executable name
+        /// Gets game executable name
         /// </summary>
         public abstract string GameExecutable {
             get;
         }
 
         /// <summary>
-        /// Defines registry key name for game path (without HKLM, HKCU).
+        /// Gets registry key name for game path (without HKLM, HKCU).
         /// </summary>
         public abstract string GamePathRegKey {
             get;
         }
 
         /// <summary>
-        /// Defines registry value name for game path (without HKLM, HKCU).
+        /// Gets registry value name for game path (without HKLM, HKCU).
         /// </summary>
         public abstract string GamePathRegVal {
             get;
         }
 
         /// <summary>
-        /// Is this configuration support "Last session" feature that skips authorization and uses
+        /// Gets <b>True</b> if this configuration supports "Last session" feature that skips authorization and uses
         /// the last auth token for game start.
         /// </summary>
         public abstract bool IsLastSessionAvailable {
@@ -81,49 +81,49 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
-        /// Launcher executable name
+        /// Gets launcher executable name
         /// </summary>
         public abstract string LauncherExecutable {
             get;
         }
 
         /// <summary>
-        /// Defines registry key name for stock launcher path (without HKLM, HKCU).
+        /// Gets registry key name for stock launcher path (without HKLM, HKCU).
         /// </summary>
         public abstract string LauncherPathRegKey {
             get;
         }
 
         /// <summary>
-        /// Defines registry value name for stock launcher path (without HKLM, HKCU).
+        /// Gets registry value name for stock launcher path (without HKLM, HKCU).
         /// </summary>
         public abstract string LauncherPathRegVal {
             get;
         }
 
         /// <summary>
-        /// Patch URL with format <b>http://host/path/{0}.zip</b> where <b>{0}</b> is patch number
+        /// Gets patch URL with format <b>http://host/path/{0}.zip</b> where <b>{0}</b> is patch number
         /// </summary>
         public abstract string PatchRemoteURL {
             get;
         }
 
         /// <summary>
-        /// Relative path to version ini file (root is game root with <see cref="GameExecutable"/> location)
+        /// Gets relative path to version ini file (under <see cref="GameExecutable"/> location)
         /// </summary>
         public abstract string VersionLocalPath {
             get;
         }
 
         /// <summary>
-        /// URL for remote version ini file
+        /// Gets URL for remote version ini file
         /// </summary>
         public abstract string VersionRemoteURL {
             get;
         }
 
         /// <summary>
-        /// Defines is <see cref="IWebProvider"/> available.
+        /// Gets <b>True</b> if <see cref="IWebProvider"/> is available.
         /// </summary>
         public virtual bool IsWebAvailable {
             get {
@@ -132,7 +132,7 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
-        /// Defines is <see cref="INewsProvider"/> available.
+        /// Gets <b>True</b> if <see cref="INewsProvider"/> is available.
         /// </summary>
         public virtual bool IsNewsAvailable {
             get {
@@ -141,7 +141,7 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
-        /// Defines is <see cref="IWILoginProviderebProvider"/> available.
+        /// Gets <b>True</b> if <see cref="ILoginProvider"/> is available.
         /// </summary>
         public virtual bool IsLoginRequired {
             get {
@@ -177,7 +177,7 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
-        /// Returns servers provider interface.
+        /// Gets servers provider interface.
         /// </summary>
         /// <seealso cref="IServersProvider"/>
         public IServersProvider ServersProvider {

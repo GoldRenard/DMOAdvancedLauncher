@@ -29,28 +29,28 @@ namespace AdvancedLauncher.SDK.Model.Config {
     public class Settings : CrossDomainObject, INotifyPropertyChanged {
 
         /// <summary>
-        /// Selected language file
+        /// Gets or sets selected language file
         /// </summary>
         public string LanguageFile {
             get; set;
         }
 
         /// <summary>
-        /// Application theme
+        /// Gets or sets application theme
         /// </summary>
         public string AppTheme {
             get; set;
         }
 
         /// <summary>
-        /// Application theme accent
+        /// Gets or sets application theme accent
         /// </summary>
         public string ThemeAccent {
             get; set;
         }
 
         /// <summary>
-        /// Default profile at app start
+        /// Gets or sets default profile at app start
         /// </summary>
         public Profile DefaultProfile {
             get;
@@ -58,7 +58,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// Profile collection
+        /// Gets or sets profile collection
         /// </summary>
         public List<Profile> Profiles {
             get;
@@ -66,19 +66,22 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// <b>True</b> to allow app update checking
+        /// Gets or sets value to determine is update checking will be enabled
         /// </summary>
         public bool CheckForUpdates {
             get;
             set;
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="Settings"/> instance
+        /// </summary>
         public Settings() {
             // default constructor
         }
 
         /// <summary>
-        /// Creates new <see cref="Settings"/> based on another
+        /// Initializes a new <see cref="Settings"/> based on another
         /// </summary>
         /// <param name="source">Source <see cref="Settings"/></param>
         public Settings(Settings source) {
@@ -99,6 +102,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
             this.CheckForUpdates = source.CheckForUpdates;
         }
 
+        /// <summary>
+        /// Property changed event handler
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(String propertyName) {

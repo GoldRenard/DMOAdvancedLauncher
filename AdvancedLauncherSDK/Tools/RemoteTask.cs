@@ -31,7 +31,7 @@ namespace AdvancedLauncher.SDK.Tools {
         private readonly EventWaitHandle CompletionEvent;
 
         /// <summary>
-        /// Task identifier
+        /// Gets task identifier
         /// </summary>
         public string Id {
             get; private set;
@@ -62,6 +62,10 @@ namespace AdvancedLauncher.SDK.Tools {
             get; set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="RemoteTask{T}"/> for specified <see cref="Task{T}"/>.
+        /// </summary>
+        /// <param name="WorkerTask">Original task instance</param>
         public RemoteTask(Task<T> WorkerTask) {
             this.WorkerTask = WorkerTask;
             Id = Guid.NewGuid().ToString();
@@ -78,6 +82,9 @@ namespace AdvancedLauncher.SDK.Tools {
             });
         }
 
+        /// <summary>
+        /// Calls on task finish
+        /// </summary>
         protected void Finished() {
             Result = WorkerTask.Result;
             CompletionEvent.Set();

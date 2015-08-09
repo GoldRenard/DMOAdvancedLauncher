@@ -27,7 +27,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
     public class NewsData : CrossDomainObject {
 
         /// <summary>
-        /// Tab index to show at app start
+        /// Gets or sets tab index to show at app start
         /// </summary>
         [XmlAttribute("FirstTab")]
         public byte FirstTab {
@@ -36,7 +36,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// Twitter user timeline source URL
+        /// Gets or sets Twitter user timeline source URL
         /// </summary>
         [XmlAttribute("TwitterUrl")]
         public string TwitterUrl {
@@ -44,11 +44,14 @@ namespace AdvancedLauncher.SDK.Model.Config {
             get;
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="NewsData"/> instance
+        /// </summary>
         public NewsData() {
         }
 
         /// <summary>
-        /// Creates new <see cref="NewsData"/> based on another
+        /// Initializes a new <see cref="NewsData"/> based on another
         /// </summary>
         /// <param name="nd">Source <see cref="NewsData"/></param>
         public NewsData(NewsData nd) {

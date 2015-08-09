@@ -37,11 +37,11 @@ namespace AdvancedLauncher.Providers.Korea {
                 //loginning
                 case "/help/Login/MemberLogin.aspx":
                     {
-                        if (LoginTryNum >= 1) {
+                        if (LoginAttemptNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
                             return;
                         }
-                        LoginTryNum++;
+                        LoginAttemptNum++;
 
                         bool isFound = true;
                         try {
@@ -88,7 +88,7 @@ namespace AdvancedLauncher.Providers.Korea {
                 return;
             }
 
-            LoginTryNum = 0;
+            LoginAttemptNum = 0;
             if (wb != null)
                 wb.Dispose();
             wb = new System.Windows.Forms.WebBrowser() {

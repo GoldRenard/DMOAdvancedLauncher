@@ -27,7 +27,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
     public class RotationData : CrossDomainObject {
 
         /// <summary>
-        /// Guild to DigiRotation
+        /// Gets or sets guild name of DigiRotation
         /// </summary>
         [XmlAttribute("Guild")]
         public string Guild {
@@ -36,7 +36,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// Tamer to DigiRotation
+        /// Gets or sets Tamer name of DigiRotation
         /// </summary>
         [XmlAttribute("Tamer")]
         public string Tamer {
@@ -45,7 +45,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// Server id of Guild
+        /// Gets or sets server id of Guild
         /// </summary>
         [XmlAttribute("ServerId")]
         public byte ServerId {
@@ -54,7 +54,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// Update interval (days)
+        /// Gets or sets update interval (days)
         /// </summary>
         [XmlAttribute("UpdateInterval")]
         public int UpdateInterval {
@@ -63,7 +63,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         } = 1;
 
         /// <summary>
-        /// Creates new <see cref="RotationData"/> based on another
+        /// Initializes a new <see cref="RotationData"/> based on another
         /// </summary>
         /// <param name="rd">Source <see cref="RotationData"/></param>
         public RotationData(RotationData rd) {
@@ -73,6 +73,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
             UpdateInterval = rd.UpdateInterval;
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="RotationData"/> instance
+        /// </summary>
         public RotationData() {
         }
     }

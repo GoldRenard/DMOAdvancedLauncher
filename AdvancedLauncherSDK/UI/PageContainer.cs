@@ -21,13 +21,17 @@ using System.Windows.Controls;
 namespace AdvancedLauncher.SDK.UI {
 
     /// <summary>
-    /// <see cref="ControlContainer"/> implementation for <see cref="IWindowManager"/>'s pages.
+    /// <see cref="ControlContainer"/> implementation for <see cref="Management.IWindowManager"/>'s pages.
     /// </summary>
     /// <seealso cref="IRemoteControl"/>
     /// <seealso cref="WindowContainer"/>
     /// <seealso cref="ControlContainer"/>
     public class PageContainer : ControlContainer {
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="PageContainer"/> for specified <see cref="Control"/>.
+        /// </summary>
+        /// <param name="Control">Control</param>
         public PageContainer(Control Control) : base(Control) {
         }
 

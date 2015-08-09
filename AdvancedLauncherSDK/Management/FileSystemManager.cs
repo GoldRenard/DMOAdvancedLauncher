@@ -51,7 +51,7 @@ namespace AdvancedLauncher.SDK.Management {
         private bool _IsOpened = false;
 
         /// <summary>
-        /// Is game archives was opened
+        /// Gets <b>True</b> if game archives was opened
         /// </summary>
         public bool IsOpened {
             get {
@@ -78,7 +78,7 @@ namespace AdvancedLauncher.SDK.Management {
         /// <seealso cref="WriteStatusChangedEventHandler"/>
         public event WriteStatusChangedEventHandler WriteStatusChanged;
 
-        protected virtual void OnFileWrited(int fileNum, int fileCount) {
+        private void OnFileWrited(int fileNum, int fileCount) {
             if (LogManager != null) {
                 LogManager.DebugFormat("OnFileWrited: fileNum={0}, fileCount={1}", fileNum, fileCount);
             }
@@ -109,6 +109,9 @@ namespace AdvancedLauncher.SDK.Management {
             this.OwnerDispatcher = OwnerDispatcher;
         }
 
+        /// <summary>
+        /// API initialization method
+        /// </summary>
         public void Initialize() {
             // nothing to do here
         }
@@ -200,17 +203,24 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Close game archive
+        /// Closes game archive
         /// </summary>
         public void Close() {
             this.Dispose();
         }
 
+        /// <summary>
+        /// Object dispose method
+        /// </summary>
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Object dispose method
+        /// </summary>
+        /// <param name="disposing"><b>True</b> for managed resources</param>
         protected virtual void Dispose(bool disposing) {
             if (_IsOpened && disposing) {
                 if (MapWriter != null) {
@@ -230,7 +240,7 @@ namespace AdvancedLauncher.SDK.Management {
         #region Read Section
 
         /// <summary>
-        /// Read file by name
+        /// Reads file by name
         /// </summary>
         /// <param name="name">File name</param>
         /// <returns>File stream</returns>
@@ -242,7 +252,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Read file by id
+        /// Reads file by id
         /// </summary>
         /// <param name="id">File id</param>
         /// <returns>File stream</returns>
@@ -254,7 +264,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Read file by entry index
+        /// Reads file by entry index
         /// </summary>
         /// <param name="entryIndex">File entry index</param>
         /// <returns>File stream</returns>
@@ -311,7 +321,7 @@ namespace AdvancedLauncher.SDK.Management {
         #region Write Section
 
         /// <summary>
-        /// Writed map file (header file)
+        /// Writes map file (header file)
         /// </summary>
         /// <returns><b>True</b> on success</returns>
         private bool WriteMapFile() {
@@ -401,7 +411,7 @@ namespace AdvancedLauncher.SDK.Management {
         /// <summary>
         /// Writes stream to archive.
         /// </summary>
-        /// <param name="sourceStream">Source stream</param>
+        /// <param name="SourceStream">Source stream</param>
         /// <param name="entryId">ID of destination file</param>
         /// <returns><b>True</b> on success</returns>
         private bool _WriteStream(Stream SourceStream, uint entryId) {

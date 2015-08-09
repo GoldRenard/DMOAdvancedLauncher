@@ -30,11 +30,11 @@ namespace AdvancedLauncher.SDK.Management.Commands {
         /// The command action
         /// </summary>
         /// <param name="args">Input arguments</param>
-        /// <returns>Returns <B>true</B> if command successfully executed, <B>false</B> otherwise.</returns>
+        /// <returns><B>True</B> if command successfully executed, <B>False</B> otherwise.</returns>
         bool DoCommand(string[] args);
 
         /// <summary>
-        /// Command description for help
+        /// Command description
         /// </summary>
         /// <returns>Command description</returns>
         string GetDescription();

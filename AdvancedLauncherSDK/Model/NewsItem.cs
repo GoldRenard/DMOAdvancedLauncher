@@ -23,17 +23,54 @@ namespace AdvancedLauncher.SDK.Model {
     /// <summary>
     /// News container
     /// </summary>
-    /// <seealso cref="Model.Web.INewsProvider"/>
+    /// <seealso cref="Web.INewsProvider"/>
     public class NewsItem : CrossDomainObject {
-        public string Mode;
-        public string Subject;
-        public string Date;
-        public string Content;
-        public string Url;
 
+        /// <summary>
+        /// Gets or sets news mode
+        /// </summary>
+        public string Mode {
+            get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets news subject
+        /// </summary>
+        public string Subject {
+            get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets news publish date
+        /// </summary>
+        public string Date {
+            get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets news content
+        /// </summary>
+        public string Content {
+            get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets news default URL
+        /// </summary>
+        public string Url {
+            get; set;
+        }
+
+        /// <summary>
+        /// Initializes a new <see cref="NewsItem"/> instance
+        /// </summary>
         public NewsItem() {
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="NewsItem"/> based on another
+        /// </summary>
+        /// <param name="item">Source <see cref="NewsItem"/></param>
         public NewsItem(NewsItem item) {
             this.Mode = item.Mode;
             this.Subject = item.Subject;

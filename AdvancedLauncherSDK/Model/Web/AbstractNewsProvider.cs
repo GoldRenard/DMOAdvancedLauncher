@@ -27,24 +27,38 @@ namespace AdvancedLauncher.SDK.Model.Web {
     /// <seealso cref="INewsProvider"/>
     public abstract class AbstractNewsProvider : CrossDomainObject, INewsProvider {
 
+        /// <summary>
+        /// Gets LogManager API
+        /// </summary>
         protected ILogManager LogManager {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="AbstractNewsProvider"/> instance
+        /// </summary>
         public AbstractNewsProvider() {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbstractNewsProvider"/> for specified <see cref="ILogManager"/>.
+        /// </summary>
+        /// <param name="logManager">LogManager API</param>
         public AbstractNewsProvider(ILogManager logManager) {
             Initialize(logManager);
         }
 
         /// <summary>
-        /// Obtains news from remote source
+        /// Returns news collection
         /// </summary>
         /// <returns>News collection</returns>
         public abstract List<NewsItem> GetNews();
 
+        /// <summary>
+        /// Initializes instance with specified <see cref="ILogManager"/>.
+        /// </summary>
+        /// <param name="logManager"><see cref="ILogManager"/> to log things.</param>
         public void Initialize(ILogManager logManager) {
             this.LogManager = logManager;
         }

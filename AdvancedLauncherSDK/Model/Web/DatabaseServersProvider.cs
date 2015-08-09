@@ -26,14 +26,23 @@ namespace AdvancedLauncher.SDK.Model.Web {
     /// Servers provider that allows to read server list from database
     /// </summary>
     public abstract class DatabaseServersProvider : AbstractServersProvider {
+
+        /// <summary>
+        /// DatabaseManager API
+        /// </summary>
         protected readonly IDatabaseManager DatabaseManager;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="DatabaseServersProvider"/> for specified <see cref="IDatabaseManager"/> and <see cref="Server.ServerType"/>.
+        /// </summary>
+        /// <param name="DatabaseManager">DatabaseManager API</param>
+        /// <param name="serverType">Server type</param>
         public DatabaseServersProvider(IDatabaseManager DatabaseManager, Server.ServerType serverType) : base(serverType) {
             this.DatabaseManager = DatabaseManager;
         }
 
         /// <summary>
-        /// Creates new read-only server collection for storing in <see cref="ServerList"/>.
+        /// Creates new read-only server collection for storing in <see cref="AbstractServersProvider.ServerList"/>.
         /// </summary>
         /// <returns></returns>
         protected override ReadOnlyCollection<Server> CreateServerList() {

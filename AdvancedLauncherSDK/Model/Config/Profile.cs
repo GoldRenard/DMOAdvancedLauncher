@@ -32,7 +32,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private int _Id = 0;
 
         /// <summary>
-        /// Profile identifier
+        /// Gets or sets profile identifier
         /// </summary>
         public int Id {
             set {
@@ -48,7 +48,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private string _Name = "Default";
 
         /// <summary>
-        /// Profile name
+        /// Gets or sets profile name
         /// </summary>
         public string Name {
             set {
@@ -64,7 +64,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private string _LaunchMode;
 
         /// <summary>
-        /// Profile launch mode. It defines full name of launcher type.
+        /// Gets or sets profile launch mode. It defines full name of launcher type.
         /// </summary>
         public string LaunchMode {
             set {
@@ -79,8 +79,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private bool _UpdateEngineEnabled = false;
 
         /// <summary>
-        /// If <b>True</b>, internal update engine will be enabled for this profile.
-        /// Otherwise, user will be forced to stock launcher for game update.
+        /// Gets or sets value that determines is internal update engine will be enabled for this profile.
         /// </summary>
         public bool UpdateEngineEnabled {
             set {
@@ -94,7 +93,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private bool _KBLCServiceEnabled = false;
 
         /// <summary>
-        /// If <b>True</b>, Leyboard Layout Change Service will be enabled. It will fix
+        /// Gets or sets value that determines is Keyboard Leyboard Layout Change Service will be enabled. It will fix
         /// in-game layout changing.
         /// </summary>
         public bool KBLCServiceEnabled {
@@ -111,7 +110,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private RotationData _Rotation;
 
         /// <summary>
-        /// DigiRotation data
+        /// Gets or sets digiRotation data
         /// </summary>
         /// <seealso cref="RotationData"/>
         public RotationData Rotation {
@@ -126,7 +125,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private NewsData _News;
 
         /// <summary>
-        /// News data
+        /// Gets or sets news data
         /// </summary>
         /// <seealso cref="NewsData"/>
         public NewsData News {
@@ -141,7 +140,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private GameModel _GameModel;
 
         /// <summary>
-        /// Game model data
+        /// Gets or sets game model data
         /// </summary>
         /// <seealso cref="Config.GameModel"/>
         public GameModel GameModel {
@@ -162,7 +161,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private string _ImagePath;
 
         /// <summary>
-        /// Avatar image path
+        /// Gets or sets avatar image path
         /// </summary>
         public string ImagePath {
             set {
@@ -181,7 +180,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         private ImageSource _Image;
 
         /// <summary>
-        /// Avatar image source
+        /// Gets or sets avatar image source
         /// </summary>
         public ImageSource Image {
             set {
@@ -206,7 +205,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// <b>True</b> if user have avatar image
+        /// Gets <b>True</b> if user have avatar image
         /// </summary>
         public bool HasImage {
             get {
@@ -215,7 +214,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// <b>True</b> if user doesn't have avatar image
+        /// Gets <b>True</b> if user doesn't have avatar image
         /// </summary>
         public bool NoImage {
             get {
@@ -227,6 +226,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new <see cref="Profile"/> instance
+        /// </summary>
         public Profile() {
             this.Guid = System.Guid.NewGuid().ToString();
             this.Rotation = new RotationData();
@@ -235,7 +237,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         }
 
         /// <summary>
-        /// Creates new <see cref="Profile"/> based on another
+        /// Initializes a  new <see cref="Profile"/> based on another
         /// </summary>
         /// <param name="p">Source <see cref="Profile"/></param>
         public Profile(Profile p) {
@@ -253,6 +255,10 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         #endregion Constructors
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="Profile"/>
+        /// </summary>
+        /// <returns>Hash code for this <see cref="Profile"/></returns>
         public override int GetHashCode() {
             int prime = 31;
             int result = 1;
@@ -260,6 +266,11 @@ namespace AdvancedLauncher.SDK.Model.Config {
             return result;
         }
 
+        /// <summary>
+        /// Determines whether this instance and another specified <see cref="Profile"/> are the same
+        /// </summary>
+        /// <param name="obj">The object to compare to this instance</param>
+        /// <returns><b>True</b> of the object of the obj parameter is the same as the current instance</returns>
         public override bool Equals(object obj) {
             if (this == obj) {
                 return true;
@@ -279,6 +290,9 @@ namespace AdvancedLauncher.SDK.Model.Config {
 
         #region Property Change Handler
 
+        /// <summary>
+        /// Property changed event handler
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(String propertyName) {

@@ -21,14 +21,24 @@ using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model.Entity {
 
+    /// <summary>
+    /// Base database entity
+    /// </summary>
     public abstract class BaseEntity : CrossDomainObject {
 
+        /// <summary>
+        /// Gets or sets entity identifier
+        /// </summary>
         [Key]
         public long Id {
             get;
             set;
         }
 
+        /// <summary>
+        /// Returns the hash code for this entity
+        /// </summary>
+        /// <returns>Hash code for this entity</returns>
         public override int GetHashCode() {
             int prime = 31;
             int result = 1;
@@ -36,6 +46,11 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             return result;
         }
 
+        /// <summary>
+        /// Determines whether this instance and another specified entity are the same
+        /// </summary>
+        /// <param name="obj">The object to compare to this instance</param>
+        /// <returns><b>True</b> of the object of the obj parameter is the same as the current instance</returns>
         public override bool Equals(object obj) {
             if (this == obj) {
                 return true;

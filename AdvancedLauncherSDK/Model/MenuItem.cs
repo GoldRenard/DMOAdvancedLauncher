@@ -31,14 +31,34 @@ namespace AdvancedLauncher.SDK.Model {
         /// </summary>
         public event BaseEventHandler Click;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="MenuItem"/> for specified name and binding flag (false by default).
+        /// </summary>
+        /// <param name="Name">Item name</param>
+        /// <param name="IsNameBinding">Is it binding name</param>
         public MenuItem(string Name, bool IsNameBinding = false)
             : this(Name, null, null, false, IsNameBinding) {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="MenuItem"/> for specified name, icon and binding flag (false by default).
+        /// </summary>
+        /// <param name="Name">Item name</param>
+        /// <param name="IconName">Icon name</param>
+        /// <param name="IconMargin">Icon margin</param>
+        /// <param name="IsNameBinding">Is it binding name</param>
         public MenuItem(string Name, string IconName, Thickness IconMargin, bool IsNameBinding = false)
             : this(Name, IconName, IconMargin, false, IsNameBinding) {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="MenuItem"/> for specified name, icon, separator flag and binding flag (false by default).
+        /// </summary>
+        /// <param name="Name">Item name</param>
+        /// <param name="IconName">Icon name</param>
+        /// <param name="IconMargin">Icon margin</param>
+        /// <param name="IsSeparator">Value that determines is it separator item instead of usual item</param>
+        /// <param name="IsNameBinding">Is it binding name</param>
         private MenuItem(string Name, string IconName, Thickness IconMargin, bool IsSeparator, bool IsNameBinding = false)
             : base(Name, IsNameBinding) {
             this.IconMargin = IconMargin;
@@ -49,7 +69,7 @@ namespace AdvancedLauncher.SDK.Model {
         private string _IconName;
 
         /// <summary>
-        /// Icon name for menu item. It is resource name. You can use MahApps.Metro.Resources icons:
+        /// Gets or sets icon name for menu item. It is resource name. You can use MahApps.Metro.Resources icons:
         /// https://github.com/MahApps/MahApps.Metro/MahApps.Metro.Resources/Icons.xaml
         /// </summary>
         public string IconName {
@@ -67,7 +87,7 @@ namespace AdvancedLauncher.SDK.Model {
         private Thickness _IconMargin;
 
         /// <summary>
-        /// Icon margin
+        /// Gets or sets icon margin
         /// </summary>
         public Thickness IconMargin {
             get {
@@ -84,7 +104,7 @@ namespace AdvancedLauncher.SDK.Model {
         private bool _IsSeparator;
 
         /// <summary>
-        /// Is it separator instead of usual item
+        /// Gets or sets value that determines is it separator item instead of usual item
         /// </summary>
         public bool IsSeparator {
             get {
@@ -101,7 +121,7 @@ namespace AdvancedLauncher.SDK.Model {
         }
 
         /// <summary>
-        /// Separator visibility based on <see cref="IsSeparator"/>
+        /// Gets separator visibility based on <see cref="IsSeparator"/>
         /// </summary>
         public System.Windows.Visibility SeparatorVisibility {
             get {
@@ -110,7 +130,7 @@ namespace AdvancedLauncher.SDK.Model {
         }
 
         /// <summary>
-        /// Item visibility based on not being <see cref="IsSeparator"/>
+        /// Gets item visibility based on not being <see cref="IsSeparator"/>
         /// </summary>
         public System.Windows.Visibility ItemVisibility {
             get {
@@ -119,7 +139,7 @@ namespace AdvancedLauncher.SDK.Model {
         }
 
         /// <summary>
-        /// Returns new separator item
+        /// Gets new separator item
         /// </summary>
         public static MenuItem Separator {
             get {

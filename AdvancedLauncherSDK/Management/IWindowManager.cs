@@ -51,7 +51,7 @@ namespace AdvancedLauncher.SDK.Management {
         void GoBack(IRemoteControl currentWindow);
 
         /// <summary>
-        /// Add new menu item.
+        /// Adds new menu item.
         /// </summary>
         /// <param name="menuItem">Menu item to add</param>
         /// <seealso cref="MenuItem"/>
@@ -66,7 +66,7 @@ namespace AdvancedLauncher.SDK.Management {
         bool RemoveMenuItem(MenuItem menuItem);
 
         /// <summary>
-        /// Add new page item.
+        /// Adds new page item.
         /// </summary>
         /// <param name="pageItem">Page item to add</param>
         /// <seealso cref="PageItem"/>

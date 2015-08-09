@@ -36,11 +36,11 @@ namespace AdvancedLauncher.Providers.Aeria {
                 //loginning
                 case "/dialog/oauth":
                     {
-                        if (LoginTryNum >= 1) {
+                        if (LoginAttemptNum >= 1) {
                             OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
                             return;
                         }
-                        LoginTryNum++;
+                        LoginAttemptNum++;
 
                         bool isFound = true;
                         try {
@@ -97,7 +97,7 @@ namespace AdvancedLauncher.Providers.Aeria {
                 return;
             }
 
-            LoginTryNum = 0;
+            LoginAttemptNum = 0;
             wb.DocumentCompleted += LoginDocumentCompleted;
             wb.Navigate("http://www.aeriagames.com/dialog/oauth?response_type=code&client_id=f24233f2506681f0ba2022418e6a5b44050b5216f&https://agoa-dmo.joymax.com/code2token.html&&state=xyz");
             OnStateChanged(LoginState.LOGINNING);

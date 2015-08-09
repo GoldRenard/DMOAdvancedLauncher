@@ -31,6 +31,10 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// Base cross-domain event args
     /// </summary>
     public class BaseEventArgs : CrossDomainObject {
+
+        /// <summary>
+        /// Empty event args
+        /// </summary>
         public static BaseEventArgs Empty = new BaseEventArgs();
     }
 }

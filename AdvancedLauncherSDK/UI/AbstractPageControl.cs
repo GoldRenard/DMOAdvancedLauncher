@@ -45,6 +45,13 @@ namespace AdvancedLauncher.SDK.UI {
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbstractPageControl"/> for specified <see cref="ILanguageManager"/>,
+        /// <see cref="IWindowManager"/> and <see cref="IProfileManager"/>.
+        /// </summary>
+        /// <param name="LanguageManager">LanguageManager API</param>
+        /// <param name="WindowManager">WindowManager API</param>
+        /// <param name="ProfileManager">ProfileManager API</param>
         public AbstractPageControl(ILanguageManager LanguageManager, IWindowManager WindowManager, IProfileManager ProfileManager)
             : base(LanguageManager, WindowManager) {
             this.Container = new PageContainer(this);

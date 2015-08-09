@@ -28,14 +28,14 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
     public class Proxy : CrossDomainObject {
 
         /// <summary>
-        /// Patch to plugin assemblies to scan
+        /// Gets or sets plugin assemblies to scan
         /// </summary>
         public string[] PluginLibs {
             get; set;
         }
 
         /// <summary>
-        /// Loaded information structures of plugins found
+        /// Gets or sets information about all found plugins
         /// </summary>
         public List<PluginInfo> PluginInfos {
             get; set;

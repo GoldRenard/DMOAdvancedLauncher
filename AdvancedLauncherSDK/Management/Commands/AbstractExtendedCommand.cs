@@ -21,11 +21,11 @@ using System.Collections.Generic;
 namespace AdvancedLauncher.SDK.Management.Commands {
 
     /// <summary>
-    /// Extended command base class with subcommands support
+    /// Extended <see cref="ICommand"/> base implementation with subcommands support
     /// </summary>
+    /// <seealso cref="ICommand"/>
     /// <seealso cref="ICommandManager"/>
     /// <seealso cref="AbstractCommand"/>
-    /// <seealso cref="ICommand"/>
     public abstract class AbstractExtendedCommand : AbstractCommand {
         private const string HELP_COMMAND_NAME = "help";
 
@@ -33,13 +33,13 @@ namespace AdvancedLauncher.SDK.Management.Commands {
         /// Subcommand delegate
         /// </summary>
         /// <param name="args">Arguments</param>
-        /// <returns>Returns <B>true</B> if command successfully executed, <B>false</B> otherwise.</returns>
+        /// <returns><B>True</B> if command successfully executed, <B>False</B> otherwise.</returns>
         protected delegate bool SubCommand(string[] args);
 
         private Dictionary<string, SubCommand> _SubCommands;
 
         /// <summary>
-        /// The subcommand dictionary. Key is name, Value is action to execute (<see cref="SubCommand"/>).
+        /// Subcommand dictionary. Key is name, Value is action to execute (<see cref="SubCommand"/>).
         /// </summary>
         protected Dictionary<string, SubCommand> SubCommands {
             get {
@@ -58,15 +58,15 @@ namespace AdvancedLauncher.SDK.Management.Commands {
         /// Main constructor
         /// </summary>
         /// <param name="commandName">Base command name to execute. See <see cref="ICommand.GetName"/></param>
-        /// <param name="commandDescription">Command description for help. See <see cref="ICommand.GetDescription"/></param>
+        /// <param name="commandDescription">Command description. See <see cref="ICommand.GetDescription"/></param>
         public AbstractExtendedCommand(string commandName, string commandDescription) : base(commandName, commandDescription) {
         }
 
         /// <summary>
-        /// The command action
+        /// Root command action
         /// </summary>
         /// <param name="args">Input arguments</param>
-        /// <returns>Returns <B>true</B> if command successfully executed, <B>false</B> otherwise.</returns>
+        /// <returns><B>True</B> if command successfully executed, <B>False</B> otherwise.</returns>
         public override bool DoCommand(string[] args) {
             if (!CheckInput(args)) {
                 return false;
@@ -92,7 +92,7 @@ namespace AdvancedLauncher.SDK.Management.Commands {
         /// Checks if specified command defined in subcommands list
         /// </summary>
         /// <param name="command">Command name</param>
-        /// <returns>Returns <B>true</B> if command is defined, <B>false</B> otherwise.</returns>
+        /// <returns><B>Yrue</B> if command is defined, <B>false</B> otherwise.</returns>
         protected bool CheckSubCommand(string command) {
             return SubCommands.ContainsKey(command);
         }
@@ -115,7 +115,7 @@ namespace AdvancedLauncher.SDK.Management.Commands {
         /// Input validation
         /// </summary>
         /// <param name="args">Arguments</param>
-        /// <returns>Returns <B>true</B> if input is valid, <B>false</B> otherwise.</returns>
+        /// <returns><B>True</B> if input is valid, <B>False</B> otherwise.</returns>
         private bool CheckInput(string[] args) {
             bool valid = true;
             if (args == null) {
@@ -139,7 +139,7 @@ namespace AdvancedLauncher.SDK.Management.Commands {
         /// Prints help
         /// </summary>
         /// <param name="args">Arguments (not used)</param>
-        /// <returns>Not used. Always <b>true</b>.</returns>
+        /// <returns>Not used. Always <b>True</b>.</returns>
         private bool HelpCommand(string[] args) {
             foreach (string output in GetCommandList()) {
                 LogInfo(output);

@@ -31,9 +31,25 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// Result of downloading
     /// </summary>
     public enum DMODownloadResultCode {
+
+        /// <summary>
+        /// Success code
+        /// </summary>
         OK = 0,
+
+        /// <summary>
+        /// Web access error code
+        /// </summary>
         WEB_ACCESS_ERROR = 1,
+
+        /// <summary>
+        /// Target not found code
+        /// </summary>
         NOT_FOUND = 404,
+
+        /// <summary>
+        /// Internal error code
+        /// </summary>
         CANT_GET = 2
     }
 
@@ -43,7 +59,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     public class DownloadCompleteEventArgs : BaseEventArgs {
 
         /// <summary>
-        /// Download Code
+        /// Gets download Code
         /// </summary>
         public DMODownloadResultCode Code {
             get;
@@ -51,13 +67,19 @@ namespace AdvancedLauncher.SDK.Model.Events {
         }
 
         /// <summary>
-        /// Target guild
+        /// Gets target guild
         /// </summary>
         public Guild Guild {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="DownloadCompleteEventArgs"/> for
+        /// specified <see cref="DMODownloadResultCode"/> and <see cref="Guild"/>.
+        /// </summary>
+        /// <param name="Code">Result code</param>
+        /// <param name="Guild">Guild instance</param>
         public DownloadCompleteEventArgs(DMODownloadResultCode Code, Guild Guild) {
             this.Code = Code;
             this.Guild = Guild;

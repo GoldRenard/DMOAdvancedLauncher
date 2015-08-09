@@ -29,7 +29,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
     public interface INewsProvider : ILoggable {
 
         /// <summary>
-        /// Obtains news from remote source
+        /// Obtains news collection
         /// </summary>
         /// <returns>News collection</returns>
         List<NewsItem> GetNews();

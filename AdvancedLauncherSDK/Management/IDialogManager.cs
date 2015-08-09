@@ -42,8 +42,7 @@ namespace AdvancedLauncher.SDK.Management {
         /// Asynchronously shows error dialog
         /// </summary>
         /// <param name="text">Text of error</param>
-        /// <returns>
-        /// Returns <see cref="RemoteTask{T}"/> instance.
+        /// <returns><see cref="RemoteTask{T}"/> instance.
         /// You can use await statement with <see cref="RemoteTaskExt.Wait{T}(RemoteTask{T})"/> call.
         /// </returns>
         RemoteTask<bool> ShowErrorDialogAsync(string text);
@@ -53,7 +52,7 @@ namespace AdvancedLauncher.SDK.Management {
         /// </summary>
         /// <param name="title">Title of dialog</param>
         /// <param name="message">Message of dialog</param>
-        /// Returns <see cref="RemoteTask{T}"/> instance.
+        /// <returns><see cref="RemoteTask{T}"/> instance.
         /// You can use await statement with <see cref="RemoteTaskExt.Wait{T}(RemoteTask{T})"/> call.
         /// </returns>
         RemoteTask<bool> ShowMessageDialogAsync(string title, string message);
@@ -63,7 +62,7 @@ namespace AdvancedLauncher.SDK.Management {
         /// </summary>
         /// <param name="title">Title of dialog</param>
         /// <param name="message">Message of dialog</param>
-        /// Returns <see cref="RemoteTask{T}"/> instance.
+        /// <returns><see cref="RemoteTask{T}"/> instance.
         /// You can use await statement with <see cref="RemoteTaskExt.Wait{T}(RemoteTask{T})"/> call.
         /// </returns>
         RemoteTask<bool> ShowYesNoDialog(string title, string message);

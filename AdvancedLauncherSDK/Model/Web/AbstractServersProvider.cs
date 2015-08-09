@@ -30,10 +30,10 @@ namespace AdvancedLauncher.SDK.Model.Web {
     /// <seealso cref="IServersProvider"/>
     /// <seealso cref="Server"/>
     public abstract class AbstractServersProvider : CrossDomainObject, IServersProvider {
-        protected ICollection<Server> _ServerList;
+        private ICollection<Server> _ServerList;
 
         /// <summary>
-        /// Returns server list for this provider
+        /// Gets server list for this provider
         /// </summary>
         public ICollection<Server> ServerList {
             get {
@@ -44,11 +44,21 @@ namespace AdvancedLauncher.SDK.Model.Web {
             }
         }
 
+        /// <summary>
+        /// ServerType related with this instance
+        /// </summary>
         protected readonly Server.ServerType ServerType;
 
+        /// <summary>
+        /// Initializes a new <see cref="AbstractServersProvider"/> instance
+        /// </summary>
         public AbstractServersProvider() {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbstractServersProvider"/> for specified <see cref="Server.ServerType"/>.
+        /// </summary>
+        /// <param name="serverType">Server type</param>
         public AbstractServersProvider(Server.ServerType serverType) {
             this.ServerType = serverType;
         }
@@ -65,7 +75,7 @@ namespace AdvancedLauncher.SDK.Model.Web {
         /// <summary>
         /// Creates new read-only server collection for storing in <see cref="ServerList"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Server list collection</returns>
         protected abstract ReadOnlyCollection<Server> CreateServerList();
     }
 }

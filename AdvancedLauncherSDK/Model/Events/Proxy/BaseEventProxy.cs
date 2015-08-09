@@ -26,6 +26,10 @@ namespace AdvancedLauncher.SDK.Model.Events.Proxy {
 
         private event BaseEventHandler EventHandler;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="BaseEventProxy"/> for specified <see cref="BaseEventHandler"/>.
+        /// </summary>
+        /// <param name="action">Event action</param>
         public BaseEventProxy(BaseEventHandler action) {
             EventHandler += action;
         }

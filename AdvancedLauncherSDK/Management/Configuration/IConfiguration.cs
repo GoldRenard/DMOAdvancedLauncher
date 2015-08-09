@@ -28,28 +28,28 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
     public interface IConfiguration {
 
         /// <summary>
-        /// The name of configuration (short server name, server publisher, etc). Used for UI.
+        /// Gets the name of configuration (short server name, server publisher, etc). Used for UI.
         /// </summary>
         string Name {
             get;
         }
 
         /// <summary>
-        /// Full server name, including <see cref="GameType"/> and <see cref="Name"/>. Used for Settings UI gametype selection.
+        /// Gets full server name, including <see cref="GameType"/> and <see cref="Name"/>. Used for UI game type selection.
         /// </summary>
         string ServerName {
             get;
         }
 
         /// <summary>
-        /// Short game type name like <b>GDMO</b>, <b>KDMO</b>, etc.
+        /// Gets short game type name like <b>GDMO</b>, <b>KDMO</b>, etc.
         /// </summary>
         string GameType {
             get;
         }
 
         /// <summary>
-        /// Is this configuration support "Last session" feature that skips authorization and uses
+        /// Gets <b>True</b> if this configuration supports "Last session" feature that skips authorization and uses
         /// the last auth token for game start.
         /// </summary>
         bool IsLastSessionAvailable {
@@ -57,63 +57,63 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
-        /// Defines registry key name for game path (without HKLM, HKCU).
+        /// Gets registry key name for game path (without HKLM, HKCU).
         /// </summary>
         string GamePathRegKey {
             get;
         }
 
         /// <summary>
-        /// Defines registry value name for game path (without HKLM, HKCU).
+        /// Gets registry value name for game path (without HKLM, HKCU).
         /// </summary>
         string GamePathRegVal {
             get;
         }
 
         /// <summary>
-        /// Defines registry key name for stock launcher path (without HKLM, HKCU).
+        /// Gets registry key name for stock launcher path (without HKLM, HKCU).
         /// </summary>
         string LauncherPathRegKey {
             get;
         }
 
         /// <summary>
-        /// Defines registry value name for stock launcher path (without HKLM, HKCU).
+        /// Gets registry value name for stock launcher path (without HKLM, HKCU).
         /// </summary>
         string LauncherPathRegVal {
             get;
         }
 
         /// <summary>
-        /// Game executable name
+        /// Gets game executable name
         /// </summary>
         string GameExecutable {
             get;
         }
 
         /// <summary>
-        /// Launcher executable name
+        /// Gets launcher executable name
         /// </summary>
         string LauncherExecutable {
             get;
         }
 
         /// <summary>
-        /// Relative path to version ini file (root is game root with <see cref="GameExecutable"/> location)
+        /// Gets relative path to version ini file (under <see cref="GameExecutable"/> location)
         /// </summary>
         string VersionLocalPath {
             get;
         }
 
         /// <summary>
-        /// URL for remote version ini file
+        /// Gets URL for remote version ini file
         /// </summary>
         string VersionRemoteURL {
             get;
         }
 
         /// <summary>
-        /// Patch URL with format <b>http://host/path/{0}.zip</b> where <b>{0}</b> is patch number
+        /// Gets patch URL with format <b>http://host/path/{0}.zip</b> where <b>{0}</b> is patch number
         /// </summary>
         string PatchRemoteURL {
             get;
@@ -150,21 +150,21 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
-        /// Defines is <see cref="IWebProvider"/> available.
+        /// Gets <b>True</b> if <see cref="IWebProvider"/> is available.
         /// </summary>
         bool IsWebAvailable {
             get;
         }
 
         /// <summary>
-        /// Defines is <see cref="INewsProvider"/> available.
+        /// Gets <b>True</b> if <see cref="INewsProvider"/> is available.
         /// </summary>
         bool IsNewsAvailable {
             get;
         }
 
         /// <summary>
-        /// Defines is <see cref="IWILoginProviderebProvider"/> available.
+        /// Gets <b>True</b> if <see cref="ILoginProvider"/> is available.
         /// </summary>
         bool IsLoginRequired {
             get;

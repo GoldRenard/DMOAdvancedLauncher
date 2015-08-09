@@ -31,13 +31,17 @@ namespace AdvancedLauncher.SDK.Model.Events {
     public class LockedEventArgs : BaseEventArgs {
 
         /// <summary>
-        /// Is caller was locked
+        /// Gets <b>True</b> if it locking event
         /// </summary>
         public bool IsLocked {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="LockedEventArgs"/> for specified locking state.
+        /// </summary>
+        /// <param name="IsLocked"><b>True</b> is locking event, otherwide unlocking</param>
         public LockedEventArgs(bool IsLocked) {
             this.IsLocked = IsLocked;
         }

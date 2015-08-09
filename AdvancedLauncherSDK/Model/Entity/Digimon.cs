@@ -21,8 +21,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdvancedLauncher.SDK.Model.Entity {
 
+    /// <summary>
+    /// Digimon entity
+    /// </summary>
     public class Digimon : BaseEntity {
 
+        /// <summary>
+        /// Gets or sets master Tamer id
+        /// </summary>
         [Required]
         [ForeignKey("Tamer")]
         public long TamerId {
@@ -30,48 +36,76 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             set;
         }
 
+        /// <summary>
+        /// Gets or sets master Tamer entity
+        /// </summary>
         [InverseProperty("Digimons")]
         public virtual Tamer Tamer {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets name
+        /// </summary>
         [Required]
         public string Name {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets type id
+        /// </summary>
         public long TypeId {
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets type entity
+        /// </summary>
 
         public virtual DigimonType Type {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets rank score
+        /// </summary>
         public long Rank {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets level
+        /// </summary>
         public byte Level {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets size in centimeters
+        /// </summary>
         public double SizeCm {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets size persentage
+        /// </summary>
         public int SizePc {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets size rank
+        /// </summary>
         public int SizeRank {
             get;
             set;

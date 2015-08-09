@@ -32,7 +32,7 @@ namespace AdvancedLauncher.Providers {
 
         protected SecureString Password;
 
-        protected int LoginTryNum, StartTry = 0, LastError = -1;
+        protected int LoginAttemptNum, StartAttempt = 0, LastError = -1;
 
         public event LoginCompleteEventHandler LoginCompleted;
 
@@ -92,7 +92,7 @@ namespace AdvancedLauncher.Providers {
                 OnCompleted(LoginCode.SUCCESS, Args, UserId);
             } else {
                 LastError = resultCode;
-                StartTry++;
+                StartAttempt++;
                 TryLogin(UserId, Password);
             }
         }
@@ -112,7 +112,7 @@ namespace AdvancedLauncher.Providers {
                 LogManager.InfoFormat("Logging state changed: state={0}", state);
             }
             if (LoginStateChanged != null) {
-                LoginStateChanged(this, new LoginStateEventArgs(state, StartTry + 1, LastError));
+                LoginStateChanged(this, new LoginStateEventArgs(state, StartAttempt + 1, LastError));
             }
         }
 

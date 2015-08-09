@@ -25,7 +25,7 @@ namespace AdvancedLauncher.SDK.Management {
     public interface IPluginHost : IManager {
 
         /// <summary>
-        /// Returns <see cref="ILogManager"/> API.
+        /// Gets <see cref="ILogManager"/> API.
         /// </summary>
         /// <seealso cref="ILogManager"/>
         ILogManager LogManager {
@@ -33,7 +33,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="ICommandManager"/> API.
+        /// Gets <see cref="ICommandManager"/> API.
         /// </summary>
         /// <seealso cref="ICommandManager"/>
         ICommandManager CommandManager {
@@ -41,7 +41,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="IConfigurationManager"/> API.
+        /// Gets <see cref="IConfigurationManager"/> API.
         /// </summary>
         /// <seealso cref="IConfigurationManager"/>
         IConfigurationManager ConfigurationManager {
@@ -49,7 +49,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="IDatabaseManager"/> API.
+        /// Gets <see cref="IDatabaseManager"/> API.
         /// </summary>
         /// <seealso cref="IDatabaseManager"/>
         IDatabaseManager DatabaseManager {
@@ -57,7 +57,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="IEnvironmentManager"/> API.
+        /// Gets <see cref="IEnvironmentManager"/> API.
         /// </summary>
         /// <seealso cref="IEnvironmentManager"/>
         IEnvironmentManager EnvironmentManager {
@@ -65,7 +65,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="IDialogManager"/> API.
+        /// Gets <see cref="IDialogManager"/> API.
         /// </summary>
         /// <seealso cref="IDialogManager"/>
         IDialogManager DialogManager {
@@ -73,7 +73,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="IProfileManager"/> API.
+        /// Gets <see cref="IProfileManager"/> API.
         /// </summary>
         /// <seealso cref="IProfileManager"/>
         IProfileManager ProfileManager {
@@ -81,7 +81,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="ITaskManager"/> API.
+        /// Gets <see cref="ITaskManager"/> API.
         /// </summary>
         /// <seealso cref="ITaskManager"/>
         ITaskManager TaskManager {
@@ -89,7 +89,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="IWindowManager"/> API.
+        /// Gets <see cref="IWindowManager"/> API.
         /// </summary>
         /// <seealso cref="IWindowManager"/>
         IWindowManager WindowManager {
@@ -97,7 +97,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns <see cref="ILanguageManager"/> API.
+        /// Gets <see cref="ILanguageManager"/> API.
         /// </summary>
         /// <seealso cref="ILanguageManager"/>
         ILanguageManager LanguageManager {

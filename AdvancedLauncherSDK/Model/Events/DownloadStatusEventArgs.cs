@@ -29,7 +29,15 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// Download status code
     /// </summary>
     public enum DMODownloadStatusCode {
+
+        /// <summary>
+        /// Guild getting status code
+        /// </summary>
         GETTING_GUILD = 0,
+
+        /// <summary>
+        /// Tamer getting status code
+        /// </summary>
         GETTING_TAMER = 1
     }
 
@@ -39,7 +47,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     public class DownloadStatusEventArgs : BaseEventArgs {
 
         /// <summary>
-        /// Download status code
+        /// Gets download status code
         /// </summary>
         public DMODownloadStatusCode Code {
             get;
@@ -47,7 +55,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
         }
 
         /// <summary>
-        /// Download informations (e.g. Guild Name or Tamer Name)
+        /// Gets download information (e.g. Guild Name or Tamer Name)
         /// </summary>
         public string Info {
             get;
@@ -55,7 +63,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
         }
 
         /// <summary>
-        /// Download current progress
+        /// Gets download current progress
         /// </summary>
         public int Progress {
             get;
@@ -63,13 +71,21 @@ namespace AdvancedLauncher.SDK.Model.Events {
         }
 
         /// <summary>
-        /// Download max desired progress
+        /// Gets download max desired progress
         /// </summary>
         public int MaxProgress {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="DownloadStatusEventArgs"/> for
+        /// specified <see cref="DMODownloadStatusCode"/>, Info, Progress and MaxProgress.
+        /// </summary>
+        /// <param name="Code">Status code</param>
+        /// <param name="Info">Information string</param>
+        /// <param name="Progress">Progress</param>
+        /// <param name="MaxProgress">Max progress</param>
         public DownloadStatusEventArgs(DMODownloadStatusCode Code, string Info, int Progress, int MaxProgress) {
             this.Code = Code;
             this.Info = Info;

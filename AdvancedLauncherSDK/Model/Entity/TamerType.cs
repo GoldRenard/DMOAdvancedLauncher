@@ -21,14 +21,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AdvancedLauncher.SDK.Model.Entity {
 
+    /// <summary>
+    /// TamerType entity
+    /// </summary>
     public class TamerType : BaseEntity {
 
+        /// <summary>
+        /// Gets or sets code
+        /// </summary>
         [Required]
         public int Code {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets ma,e
+        /// </summary>
         [Required]
         [StringLength(50)]
         public string Name {
@@ -36,6 +45,9 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             set;
         }
 
+        /// <summary>
+        /// Gets or sets tamers collection
+        /// </summary>
         public virtual ICollection<Tamer> Tamers {
             get;
             set;

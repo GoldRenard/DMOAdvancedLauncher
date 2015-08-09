@@ -31,7 +31,7 @@ namespace AdvancedLauncher.SDK.Model.Events {
     public class WriteDirectoryEventArgs : BaseEventArgs {
 
         /// <summary>
-        /// Current file number
+        /// Gets current file number
         /// </summary>
         public int FileNumber {
             get;
@@ -39,13 +39,18 @@ namespace AdvancedLauncher.SDK.Model.Events {
         }
 
         /// <summary>
-        /// Files count
+        /// Gets files count
         /// </summary>
         public int FileCount {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WriteDirectoryEventArgs"/> for specified file number and files count<see cref="ConfigurationChangedEventHandler"/>.
+        /// </summary>
+        /// <param name="FileNumber">File number</param>
+        /// <param name="FileCount">Files count</param>
         public WriteDirectoryEventArgs(int FileNumber, int FileCount) {
             this.FileNumber = FileNumber;
             this.FileCount = FileCount;

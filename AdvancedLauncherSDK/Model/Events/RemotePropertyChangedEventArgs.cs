@@ -30,10 +30,17 @@ namespace AdvancedLauncher.SDK.Model.Events {
     /// </summary>
     public class RemotePropertyChangedEventArgs : BaseEventArgs {
 
+        /// <summary>
+        /// Gets changed property name
+        /// </summary>
         public virtual string PropertyName {
             get;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="RemotePropertyChangedEventArgs"/> for specified property name.
+        /// </summary>
+        /// <param name="PropertyName">Changed property name</param>
         public RemotePropertyChangedEventArgs(string PropertyName) {
             this.PropertyName = PropertyName;
         }

@@ -25,18 +25,30 @@ using System.Linq;
 
 namespace AdvancedLauncher.SDK.Model.Entity {
 
+    /// <summary>
+    /// Guild entity
+    /// </summary>
     public class Guild : BaseEntity {
 
+        /// <summary>
+        /// Initializes a new <see cref="Guild"/> instance
+        /// </summary>
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Guild() {
             Tamers = new List<Tamer>();
         }
 
+        /// <summary>
+        /// Gets or sets remote identifier
+        /// </summary>
         public int Identifier {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets server id
+        /// </summary>
         [Required]
         [ForeignKey("Server")]
         public long ServerId {
@@ -44,38 +56,59 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             set;
         }
 
+        /// <summary>
+        /// Gets or sets server entity
+        /// </summary>
         [InverseProperty("Guilds")]
         public virtual Server Server {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets name
+        /// </summary>
         [Required]
         public string Name {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets reputation score
+        /// </summary>
         public long Rep {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets rank score
+        /// </summary>
         public long Rank {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets last update time
+        /// </summary>
         public DateTime? UpdateTime {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets value that determines is detailed data was merged last time
+        /// </summary>
         public bool IsDetailed {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets master Tamer instance
+        /// </summary>
         [NotMapped]
         public Tamer Master {
             get {
@@ -83,11 +116,18 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             }
         }
 
+        /// <summary>
+        /// Gets or sets
+        /// </summary>
         public virtual ICollection<Tamer> Tamers {
             get;
             set;
         }
 
+        /// <summary>
+        /// Returns string representation of this object
+        /// </summary>
+        /// <returns>String representation of this object</returns>
         public override string ToString() {
             return string.Format("Guild [Identifier={0}, Name={1}]", Identifier, Name);
         }

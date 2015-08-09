@@ -39,7 +39,7 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
         }
 
         /// <summary>
-        /// Plugin assembly path
+        /// Gets plugin assembly path
         /// </summary>
         public string AssemblyPath {
             get;
@@ -47,7 +47,7 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
         }
 
         /// <summary>
-        /// Plugin assembly PublicKey token
+        /// Gets plugin assembly PublicKey token
         /// </summary>
         public byte[] AssemblyToken {
             get;
@@ -55,7 +55,7 @@ namespace AdvancedLauncher.SDK.Management.Plugins {
         }
 
         /// <summary>
-        /// Plugin type name
+        /// Gets plugin type name
         /// </summary>
         public string TypeName {
             get;

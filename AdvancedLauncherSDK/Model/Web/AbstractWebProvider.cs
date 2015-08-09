@@ -30,18 +30,32 @@ namespace AdvancedLauncher.SDK.Model.Web {
     /// </summary>
     public abstract class AbstractWebProvider : CrossDomainObject, IWebProvider {
 
+        /// <summary>
+        /// Gets LogManager API
+        /// </summary>
         protected ILogManager LogManager {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="AbstractWebProvider"/> instance
+        /// </summary>
         public AbstractWebProvider() {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbstractWebProvider"/> for specified <see cref="ILogManager"/>.
+        /// </summary>
+        /// <param name="logManager">LogManager API</param>
         public AbstractWebProvider(ILogManager logManager) {
             Initialize(logManager);
         }
 
+        /// <summary>
+        /// Initializes instance with specified <see cref="ILogManager"/>.
+        /// </summary>
+        /// <param name="logManager"><see cref="ILogManager"/> to log things.</param>
         public void Initialize(ILogManager logManager) {
             LogManager = logManager;
         }
@@ -63,6 +77,9 @@ namespace AdvancedLauncher.SDK.Model.Web {
         /// </summary>
         public event DownloadStatusChangedEventHandler StatusChanged;
 
+        /// <summary>
+        /// Calls on download start
+        /// </summary>
         protected virtual void OnStarted() {
             if (LogManager != null) {
                 LogManager.Info("GuildInfo obtaining started.");
@@ -72,6 +89,11 @@ namespace AdvancedLauncher.SDK.Model.Web {
             }
         }
 
+        /// <summary>
+        /// Calls on download complete
+        /// </summary>
+        /// <param name="code">Result code</param>
+        /// <param name="result">Result guild instance</param>
         protected virtual void OnCompleted(DMODownloadResultCode code, Guild result) {
             if (LogManager != null) {
                 LogManager.Info(String.Format("GuildInfo obtaining completed: code={0}, result={1}", code, result));
@@ -81,12 +103,19 @@ namespace AdvancedLauncher.SDK.Model.Web {
             }
         }
 
-        protected virtual void OnStatusChanged(DMODownloadStatusCode code, string info, int p, int pm) {
+        /// <summary>
+        /// Calls on status changing
+        /// </summary>
+        /// <param name="code">Status code</param>
+        /// <param name="info">Information string</param>
+        /// <param name="progress">Current progress</param>
+        /// <param name="maxProgress">Max progress</param>
+        protected virtual void OnStatusChanged(DMODownloadStatusCode code, string info, int progress, int maxProgress) {
             if (LogManager != null) {
-                LogManager.Info(String.Format("GuildInfo obtaining status changed: code={0}, info={1}, p={2}, pm={3}", code, info, p, pm));
+                LogManager.Info(String.Format("GuildInfo obtaining status changed: code={0}, info={1}, p={2}, pm={3}", code, info, progress, maxProgress));
             }
             if (StatusChanged != null) {
-                StatusChanged(this, new DownloadStatusEventArgs(code, info, p, pm));
+                StatusChanged(this, new DownloadStatusEventArgs(code, info, progress, maxProgress));
             }
         }
 

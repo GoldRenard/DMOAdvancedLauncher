@@ -21,11 +21,15 @@ using AdvancedLauncher.SDK.Management;
 namespace AdvancedLauncher.SDK.Model {
 
     /// <summary>
-    /// Task entry for <see cref="Management.ITaskManager"/> interface.
+    /// Task entry for <see cref="ITaskManager"/> interface.
     /// </summary>
     public class TaskEntry : CrossDomainObject {
         private readonly object Owner;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="TaskEntry"/> for specified owner object.
+        /// </summary>
+        /// <param name="Owner">Event action</param>
         public TaskEntry(object Owner) {
             this.Owner = Owner;
         }

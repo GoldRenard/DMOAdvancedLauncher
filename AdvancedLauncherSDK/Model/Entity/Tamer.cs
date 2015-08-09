@@ -24,21 +24,30 @@ using System.Linq;
 
 namespace AdvancedLauncher.SDK.Model.Entity {
 
+    /// <summary>
+    /// Tamer entity
+    /// </summary>
     public class Tamer : BaseEntity {
 
+        /// <summary>
+        /// Initializes a new <see cref="Tamer"/> instance
+        /// </summary>
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Tamer() {
             Digimons = new List<Digimon>();
         }
 
         /// <summary>
-        /// Legacy: Id
+        /// Gets or sets remote account id
         /// </summary>
         public int AccountId {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets guild id
+        /// </summary>
         [Required]
         [ForeignKey("Guild")]
         public long GuildId {
@@ -46,43 +55,68 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             set;
         }
 
+        /// <summary>
+        /// Gets or sets guild entity
+        /// </summary>
         [InverseProperty("Tamers")]
         public virtual Guild Guild {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets name
+        /// </summary>
         [Required]
         public string Name {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets level
+        /// </summary>
         public byte Level {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets rank score
+        /// </summary>
         public long Rank {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets type id
+        /// </summary>
         public long? TypeId {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets type entity
+        /// </summary>
+        /// <seealso cref="TamerType"/>
         public virtual TamerType Type {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets value that determines is it master of related guild
+        /// </summary>
         public bool IsMaster {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets partner digimon
+        /// </summary>
         [NotMapped]
         public Digimon Partner {
             get {
@@ -90,6 +124,9 @@ namespace AdvancedLauncher.SDK.Model.Entity {
             }
         }
 
+        /// <summary>
+        /// Gets or sets digimon collection
+        /// </summary>
         public virtual ICollection<Digimon> Digimons {
             get;
             set;

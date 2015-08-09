@@ -23,6 +23,7 @@ using System.Xml.Serialization;
 using AdvancedLauncher.SDK.Management;
 
 namespace AdvancedLauncher.SDK.Model {
+#pragma warning disable 1591
 
     /// <summary>
     /// Main globalization string collection

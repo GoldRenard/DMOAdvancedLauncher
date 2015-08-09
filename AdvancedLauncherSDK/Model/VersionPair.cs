@@ -50,6 +50,11 @@ namespace AdvancedLauncher.SDK.Model {
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="VersionPair"/> for specified Local and Remote versions.
+        /// </summary>
+        /// <param name="Local"></param>
+        /// <param name="Remote"></param>
         public VersionPair(int Local, int Remote) {
             this.Local = Local;
             this.Remote = Remote;

@@ -53,6 +53,12 @@ namespace AdvancedLauncher.SDK.UI {
             protected set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbstractUserControl"/> for specified <see cref="ILanguageManager"/>
+        /// and <see cref="IWindowManager"/>.
+        /// </summary>
+        /// <param name="LanguageManager">LanguageManager API</param>
+        /// <param name="WindowManager">WindowManager API</param>
         public AbstractUserControl(ILanguageManager LanguageManager, IWindowManager WindowManager) {
             if (LanguageManager == null) {
                 throw new ArgumentException("LanguageManager cannot be null");

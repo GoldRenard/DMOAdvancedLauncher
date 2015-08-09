@@ -34,46 +34,84 @@ namespace AdvancedLauncher.SDK.Model.Events {
         /// Update stage enumeration
         /// </summary>
         public enum Stage {
+
+            /// <summary>Download update stage</summary>
             DOWNLOADING,
+
+            /// <summary>Extracting update stage</summary>
             EXTRACTING,
+
+            /// <summary>Installing update stage</summary>
             INSTALLING
         }
 
+        /// <summary>
+        /// Gets or sets update stage
+        /// </summary>
         public Stage UpdateStage {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets current patch number
+        /// </summary>
         public int CurrentPatch {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets max patch number
+        /// </summary>
         public int MaxPatch {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets current progress
+        /// </summary>
         public double Progress {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets max progress
+        /// </summary>
         public double MaxProgress {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets summary progress
+        /// </summary>
         public double SummaryProgress {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets summary max progress
+        /// </summary>
         public double SummaryMaxProgress {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="UpdateStatusEventArgs"/> for specified: <see cref="Stage"/>, CurrentPatch, MaxPatch,
+        /// Progress, MaxProgress, SummaryProgress and SummaryMaxProgress
+        /// </summary>
+        /// <param name="UpdateStage">Update stage</param>
+        /// <param name="CurrentPatch">Current patch number</param>
+        /// <param name="MaxPatch">Max patch number</param>
+        /// <param name="Progress">Current progress</param>
+        /// <param name="MaxProgress">Max progress</param>
+        /// <param name="SummaryProgress">Summary progress</param>
+        /// <param name="SummaryMaxProgress">Summary max progress</param>
         public UpdateStatusEventArgs(Stage UpdateStage, int CurrentPatch, int MaxPatch, double Progress, double MaxProgress, double SummaryProgress, double SummaryMaxProgress) {
             this.CurrentPatch = CurrentPatch;
             this.MaxPatch = MaxPatch;

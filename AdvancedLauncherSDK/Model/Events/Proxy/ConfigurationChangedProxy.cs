@@ -26,6 +26,10 @@ namespace AdvancedLauncher.SDK.Model.Events.Proxy {
 
         private event ConfigurationChangedEventHandler EventHandler;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ConfigurationChangedProxy"/> for specified <see cref="ConfigurationChangedEventHandler"/>.
+        /// </summary>
+        /// <param name="action">Event action</param>
         public ConfigurationChangedProxy(ConfigurationChangedEventHandler action) {
             EventHandler += action;
         }

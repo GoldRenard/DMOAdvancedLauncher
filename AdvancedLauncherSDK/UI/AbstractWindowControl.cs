@@ -25,11 +25,22 @@ namespace AdvancedLauncher.SDK.UI {
     /// </summary>
     public abstract class AbstractWindowControl : AbstractUserControl {
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbstractWindowControl"/> for specified <see cref="ILanguageManager"/>
+        /// and <see cref="IWindowManager"/>.
+        /// </summary>
+        /// <param name="LanguageManager">LanguageManager API</param>
+        /// <param name="WindowManager">WindowManager API</param>
         public AbstractWindowControl(ILanguageManager LanguageManager, IWindowManager WindowManager)
             : base(LanguageManager, WindowManager) {
             this.Container = new WindowContainer(this, WindowManager);
         }
 
+        /// <summary>
+        /// Close click event handler
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Arguments</param>
         protected void OnCloseClick(object sender, System.Windows.RoutedEventArgs e) {
             Close();
         }

@@ -23,7 +23,7 @@ using System.Text;
 namespace AdvancedLauncher.SDK.Management.Commands {
 
     /// <summary>
-    /// Common command class
+    /// Base <see cref="ICommand"/> implementation
     /// </summary>
     /// <seealso cref="ICommandManager"/>
     /// <seealso cref="ICommand"/>
@@ -46,11 +46,11 @@ namespace AdvancedLauncher.SDK.Management.Commands {
         /// The command action
         /// </summary>
         /// <param name="args">Input arguments</param>
-        /// <returns>Returns <B>true</B> if command successfully executed, <B>false</B> otherwise.</returns>
+        /// <returns><B>True</B> if command successfully executed, <B>false</B> otherwise.</returns>
         public abstract bool DoCommand(string[] args);
 
         /// <summary>
-        /// Command description for help
+        /// Command description
         /// </summary>
         /// <returns>Command description</returns>
         public virtual string GetDescription() {

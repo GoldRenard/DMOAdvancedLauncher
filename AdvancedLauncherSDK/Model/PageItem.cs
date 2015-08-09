@@ -26,11 +26,23 @@ namespace AdvancedLauncher.SDK.Model {
     /// </summary>
     public class PageItem : NamedItem {
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="PageItem"/> for specified name, <see cref="IRemoteControl"/> and binding flag (false by default).
+        /// </summary>
+        /// <param name="Name">Item name</param>
+        /// <param name="Content">Content or item</param>
+        /// <param name="IsNameBinding">Is it binding name</param>
         public PageItem(string Name, IRemoteControl Content, bool IsNameBinding = false)
             : base(Name, IsNameBinding) {
             this.Content = Content;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="PageItem"/> for specified name, <see cref="Control"/> and binding flag (false by default).
+        /// </summary>
+        /// <param name="Name">Item name</param>
+        /// <param name="Content">Content or item</param>
+        /// <param name="IsNameBinding">Is it binding name</param>
         public PageItem(string Name, Control Content, bool IsNameBinding = false)
             : base(Name, IsNameBinding) {
             this.Content = new PageContainer(Content);

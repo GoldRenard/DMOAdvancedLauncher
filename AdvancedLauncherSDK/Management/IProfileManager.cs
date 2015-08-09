@@ -30,21 +30,21 @@ namespace AdvancedLauncher.SDK.Management {
     public interface IProfileManager : IManager {
 
         /// <summary>
-        /// Returns default profile on application start
+        /// Gets default profile on application start
         /// </summary>
         Profile DefaultProfile {
             get;
         }
 
         /// <summary>
-        /// Returns current profiles collection
+        /// Gets current profiles collection
         /// </summary>
         ObservableCollection<Profile> Profiles {
             get;
         }
 
         /// <summary>
-        /// Returns current selected profile
+        /// Gets or sets current selected profile
         /// </summary>
         Profile CurrentProfile {
             get;
@@ -52,7 +52,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns profile collection with pending changes.
+        /// Gets or sets profile collection with pending changes.
         /// </summary>
         ObservableCollection<Profile> PendingProfiles {
             get;
@@ -60,7 +60,7 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
-        /// Returns pending default profile.
+        /// Gets or sets pending default profile.
         /// </summary>
         Profile PendingDefaultProfile {
             get;
@@ -73,19 +73,19 @@ namespace AdvancedLauncher.SDK.Management {
         void RevertChanges();
 
         /// <summary>
-        /// Apply changes from <see cref="PendingProfiles"/> and <see cref="PendingDefaultProfile"/>
+        /// Applies changes from <see cref="PendingProfiles"/> and <see cref="PendingDefaultProfile"/>
         /// to <see cref="Profiles"/> and <see cref="DefaultProfile"/>.
         /// </summary>
         void ApplyChanges();
 
         /// <summary>
-        /// Create new profile in <see cref="PendingProfiles"/> collection
+        /// Creates new profile in <see cref="PendingProfiles"/> collection
         /// </summary>
         /// <returns>Created profile</returns>
         Profile CreateProfile();
 
         /// <summary>
-        /// Remove specified profile from <see cref="PendingProfiles"/> collection.
+        /// Removes specified profile from <see cref="PendingProfiles"/> collection.
         /// </summary>
         /// <param name="profile">Profile to remove</param>
         /// <returns><b>True</b> on success</returns>

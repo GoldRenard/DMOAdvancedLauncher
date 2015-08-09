@@ -22,6 +22,9 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// FileSystem API
+    /// </summary>
     public interface IFileSystemManager : IManager, ILoggable, IDisposable {
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace AdvancedLauncher.SDK.Management {
         event WriteStatusChangedEventHandler WriteStatusChanged;
 
         /// <summary>
-        /// Is game archives was opened
+        /// Gets <b>True</b> if game archives was opened
         /// </summary>
         bool IsOpened {
             get;
@@ -48,19 +51,19 @@ namespace AdvancedLauncher.SDK.Management {
         bool Open(FileAccess access, int archiveHeader, string headerFile, string packageFile);
 
         /// <summary>
-        /// Close game archive
+        /// Closes game archive
         /// </summary>
         void Close();
 
         /// <summary>
-        /// Read file by name
+        /// Reads file by name
         /// </summary>
         /// <param name="name">File name</param>
         /// <returns>File stream</returns>
         Stream ReadFile(string name);
 
         /// <summary>
-        /// Read file by id
+        /// Reads file by id
         /// </summary>
         /// <param name="id">File id</param>
         /// <returns>File stream</returns>

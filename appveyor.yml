@@ -11,7 +11,7 @@ install:
 - choco install doxygen.portable
 - set PATH=%PATH%;"C:\Program Files (x86)\Inno Setup 5"
 - set PATH="C:\Program Files (x86)\MSBuild\14.0\Bin";%PATH% 
-- set DOXYGEN_PROJECT_DIR="C:\Projects\DMOAdvancedLauncher\AdvancedLauncherSDK"
+- set DOXYGEN_PROJECT_DIR=C:\Projects\DMOAdvancedLauncher\AdvancedLauncherSDK
 before_build:
 - ps: ./DecryptReleaseKey.ps1
 build:

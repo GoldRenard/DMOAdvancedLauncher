@@ -20,25 +20,43 @@ using System;
 
 namespace AdvancedLauncher.SDK.Management.Plugins {
 
+    /// <summary>
+    /// Plugin information structure for internal use
+    /// </summary>
     [Serializable]
     public struct PluginInfo {
 
+        /// <summary>
+        /// Main constructor
+        /// </summary>
+        /// <param name="AssemblyPath">Plugin assembly path</param>
+        /// <param name="TypeName">Plugin type name</param>
+        /// <param name="AssemblyToken">Plugin assembly PublicKey token</param>
         public PluginInfo(string AssemblyPath, string TypeName, byte[] AssemblyToken) {
             this.AssemblyPath = AssemblyPath;
             this.TypeName = TypeName;
             this.AssemblyToken = AssemblyToken;
         }
 
+        /// <summary>
+        /// Plugin assembly path
+        /// </summary>
         public string AssemblyPath {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Plugin assembly PublicKey token
+        /// </summary>
         public byte[] AssemblyToken {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Plugin type name
+        /// </summary>
         public string TypeName {
             get;
             private set;

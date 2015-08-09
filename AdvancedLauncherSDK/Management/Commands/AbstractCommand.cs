@@ -22,25 +22,55 @@ using System.Text;
 
 namespace AdvancedLauncher.SDK.Management.Commands {
 
+    /// <summary>
+    /// Common command class
+    /// </summary>
+    /// <seealso cref="ICommandManager"/>
+    /// <seealso cref="ICommand"/>
+    /// <seealso cref="AbstractExtendedCommand"/>
     public abstract class AbstractCommand : CrossDomainObject, ICommand {
         private readonly string commandName;
         private readonly string commandDescription;
 
+        /// <summary>
+        /// Main constructor
+        /// </summary>
+        /// <param name="commandName">Command name to execute. See <see cref="ICommand.GetName"/></param>
+        /// <param name="commandDescription">Command description for help. See <see cref="ICommand.GetDescription"/></param>
         public AbstractCommand(string commandName, string commandDescription) {
             this.commandName = commandName;
             this.commandDescription = commandDescription;
         }
 
+        /// <summary>
+        /// The command action
+        /// </summary>
+        /// <param name="args">Input arguments</param>
+        /// <returns>Returns <B>true</B> if command successfully executed, <B>false</B> otherwise.</returns>
         public abstract bool DoCommand(string[] args);
 
+        /// <summary>
+        /// Command description for help
+        /// </summary>
+        /// <returns>Command description</returns>
         public virtual string GetDescription() {
             return commandDescription;
         }
 
+        /// <summary>
+        /// Command name to execute
+        /// </summary>
+        /// <returns>Command name</returns>
         public virtual string GetName() {
             return commandName;
         }
 
+        /// <summary>
+        /// Prints data in table view.
+        /// </summary>
+        /// <param name="ColumnNames">List of column headers</param>
+        /// <param name="columns">List of columns data. This array should be the same size with ColumnNames param.</param>
+        /// <returns></returns>
         protected List<string> PrintTable(List<string> ColumnNames, params List<string>[] columns) {
             int[] lenghts = new int[ColumnNames.Count];
             for (int i = 0; i < ColumnNames.Count; i++) {

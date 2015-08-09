@@ -26,6 +26,10 @@ using AdvancedLauncher.SDK.Model.Events;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// The DMO File System manager
+    /// </summary>
+    /// <seealso cref="IFileSystemManager"/>
     public class FileSystemManager : CrossDomainObject, IFileSystemManager {
 
         private class FileEntry {
@@ -46,6 +50,9 @@ namespace AdvancedLauncher.SDK.Management {
 
         private bool _IsOpened = false;
 
+        /// <summary>
+        /// Is game archives was opened
+        /// </summary>
         public bool IsOpened {
             get {
                 return _IsOpened;
@@ -65,6 +72,10 @@ namespace AdvancedLauncher.SDK.Management {
 
         #region EVENTS
 
+        /// <summary>
+        /// Fires on status changing.
+        /// </summary>
+        /// <seealso cref="WriteStatusChangedEventHandler"/>
         public event WriteStatusChangedEventHandler WriteStatusChanged;
 
         protected virtual void OnFileWrited(int fileNum, int fileCount) {
@@ -84,9 +95,16 @@ namespace AdvancedLauncher.SDK.Management {
 
         #endregion EVENTS
 
+        /// <summary>
+        /// Base constructor
+        /// </summary>
         public FileSystemManager() {
         }
 
+        /// <summary>
+        /// Constructon with UI Dispatcher to invoke the events.
+        /// </summary>
+        /// <param name="OwnerDispatcher">UI Dispatcher</param>
         public FileSystemManager(Dispatcher OwnerDispatcher) {
             this.OwnerDispatcher = OwnerDispatcher;
         }
@@ -95,10 +113,22 @@ namespace AdvancedLauncher.SDK.Management {
             // nothing to do here
         }
 
+        /// <summary>
+        /// Initializes with specified <see cref="ILogManager"/> for logging
+        /// </summary>
+        /// <param name="logManager">The <see cref="ILogManager"/> interface</param>
         public void Initialize(ILogManager logManager) {
             LogManager = logManager;
         }
 
+        /// <summary>
+        /// Opens game archives
+        /// </summary>
+        /// <param name="access">File access mode.</param>
+        /// <param name="archiveHeader">Archives header number. Usually it is 16 for common game archive</param>
+        /// <param name="headerFile">Header file path</param>
+        /// <param name="packageFile">Packages file path</param>
+        /// <returns></returns>
         public bool Open(FileAccess access, int archiveHeader, string headerFile, string packageFile) {
             if (LogManager != null) {
                 LogManager.DebugFormat("Opening FileSystem: access={0}, archiveHeader={1}, headerFile={2}, packageFile={3}",
@@ -169,6 +199,9 @@ namespace AdvancedLauncher.SDK.Management {
             return true;
         }
 
+        /// <summary>
+        /// Close game archive
+        /// </summary>
         public void Close() {
             this.Dispose();
         }
@@ -196,6 +229,11 @@ namespace AdvancedLauncher.SDK.Management {
 
         #region Read Section
 
+        /// <summary>
+        /// Read file by name
+        /// </summary>
+        /// <param name="name">File name</param>
+        /// <returns>File stream</returns>
         public Stream ReadFile(string name) {
             if (LogManager != null) {
                 LogManager.DebugFormat("Reading file: name=\"{0}\"", name);
@@ -203,6 +241,11 @@ namespace AdvancedLauncher.SDK.Management {
             return ReadFile(GetEntryIndex(FileHash(name)));
         }
 
+        /// <summary>
+        /// Read file by id
+        /// </summary>
+        /// <param name="id">File id</param>
+        /// <returns>File stream</returns>
         public Stream ReadFile(uint id) {
             if (LogManager != null) {
                 LogManager.DebugFormat("Reading file: id={0}", id);
@@ -210,7 +253,12 @@ namespace AdvancedLauncher.SDK.Management {
             return ReadFile(GetEntryIndex(id));
         }
 
-        public Stream ReadFile(int entryIndex) {
+        /// <summary>
+        /// Read file by entry index
+        /// </summary>
+        /// <param name="entryIndex">File entry index</param>
+        /// <returns>File stream</returns>
+        private Stream ReadFile(int entryIndex) {
             if (LogManager != null) {
                 LogManager.DebugFormat("Reading file: entryIndex={0}", entryIndex);
             }
@@ -262,6 +310,10 @@ namespace AdvancedLauncher.SDK.Management {
 
         #region Write Section
 
+        /// <summary>
+        /// Writed map file (header file)
+        /// </summary>
+        /// <returns><b>True</b> on success</returns>
         private bool WriteMapFile() {
             if (LogManager != null) {
                 LogManager.Debug("Writing map file...");
@@ -297,6 +349,12 @@ namespace AdvancedLauncher.SDK.Management {
             return true;
         }
 
+        /// <summary>
+        /// Writes file to archive.
+        /// </summary>
+        /// <param name="sourceFile">Source file (physical on the disk)</param>
+        /// <param name="destination">Destination file (internal file path inside archive)</param>
+        /// <returns><b>True</b> on success</returns>
         public bool WriteFile(string sourceFile, string destination) {
             if (LogManager != null) {
                 LogManager.DebugFormat("Writing file: sourceFile=\"{0}\", destination=\"{1}\"", sourceFile, destination);
@@ -311,6 +369,12 @@ namespace AdvancedLauncher.SDK.Management {
             return WriteStream(sourceStream, destination);
         }
 
+        /// <summary>
+        /// Writes stream to archive.
+        /// </summary>
+        /// <param name="sourceStream">Source stream</param>
+        /// <param name="destination">Destination file (internal file path inside archive)</param>
+        /// <returns><b>True</b> on success</returns>
         public bool WriteStream(Stream sourceStream, string destination) {
             if (LogManager != null) {
                 LogManager.DebugFormat("Writing stream: destination=\"{0}\"", destination);
@@ -318,6 +382,12 @@ namespace AdvancedLauncher.SDK.Management {
             return WriteStream(sourceStream, FileHash(destination));
         }
 
+        /// <summary>
+        /// Writes stream to archive.
+        /// </summary>
+        /// <param name="sourceStream">Source stream</param>
+        /// <param name="entryId">ID of destination file</param>
+        /// <returns><b>True</b> on success</returns>
         public bool WriteStream(Stream sourceStream, uint entryId) {
             if (!_WriteStream(sourceStream, entryId)) {
                 return false;
@@ -328,6 +398,12 @@ namespace AdvancedLauncher.SDK.Management {
             return true;
         }
 
+        /// <summary>
+        /// Writes stream to archive.
+        /// </summary>
+        /// <param name="sourceStream">Source stream</param>
+        /// <param name="entryId">ID of destination file</param>
+        /// <returns><b>True</b> on success</returns>
         private bool _WriteStream(Stream SourceStream, uint entryId) {
             if (LogManager != null) {
                 LogManager.DebugFormat("Writing stream: entryId=\"{0}\"", entryId);
@@ -362,6 +438,12 @@ namespace AdvancedLauncher.SDK.Management {
             return true;
         }
 
+        /// <summary>
+        /// Writes the full directory content into game archive
+        /// </summary>
+        /// <param name="path">Directory path</param>
+        /// <param name="deleteOnComplete">Set <b>True</b> of you want delete this directory awter write.</param>
+        /// <returns><b>True</b> on success</returns>
         public bool WriteDirectory(string path, bool deleteOnComplete) {
             if (LogManager != null) {
                 LogManager.DebugFormat("Writing directory: path=\"{0}\", DeleteOnComplete={1}", path, deleteOnComplete);
@@ -407,6 +489,12 @@ namespace AdvancedLauncher.SDK.Management {
 
         #region Tools
 
+        /// <summary>
+        /// Calculates file hash (internal file ID).
+        /// Is is hash function over the game path (not the file itself).
+        /// </summary>
+        /// <param name="filePath">File path</param>
+        /// <returns>Internal file ID</returns>
         public uint FileHash(string filePath) {
             uint result = 5381;
             int HASH_TRANS_SIZE = 0x400, charIndex = 0, len;
@@ -449,6 +537,11 @@ namespace AdvancedLauncher.SDK.Management {
             return false;
         }
 
+        /// <summary>
+        /// Convert long to uint
+        /// </summary>
+        /// <param name="l">Long value</param>
+        /// <returns>uint value</returns>
         private uint ConvertToUint32(long l) {
             while (l > UInt32.MaxValue) {
                 l -= UInt32.MaxValue;
@@ -456,6 +549,11 @@ namespace AdvancedLauncher.SDK.Management {
             return Convert.ToUInt32(l);
         }
 
+        /// <summary>
+        /// Get internal entry index
+        /// </summary>
+        /// <param name="fileId">File internal Id</param>
+        /// <returns>Entry index</returns>
         private int GetEntryIndex(uint fileId) {
             int entryIndex = -1;
             entryIndex = ArchiveEntries.FindIndex(delegate (FileEntry bk) {

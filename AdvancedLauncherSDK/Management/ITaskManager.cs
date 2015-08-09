@@ -20,16 +20,36 @@ using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Task manager API. It locks application closing until all tasks complete.
+    /// </summary>
+    /// <seealso cref="TaskEntry"/>
     public interface ITaskManager : IManager {
 
+        /// <summary>
+        /// Aquire new lock for specified <see cref="TaskEntry"/>
+        /// </summary>
+        /// <param name="entry"><see cref="TaskEntry"/> to lock</param>
         void AquireLock(TaskEntry entry);
 
+        /// <summary>
+        /// Releases specified <see cref="TaskEntry"/>
+        /// </summary>
+        /// <param name="entry"><see cref="TaskEntry"/> to release</param>
+        /// <returns><b>True</b> on success</returns>
         bool ReleaseLock(TaskEntry entry);
 
+        /// <summary>
+        /// Is any lock exist
+        /// </summary>
         bool IsBusy {
             get;
         }
 
+        /// <summary>
+        /// Call application closing task. It waits until all lock release and then closes the application.
+        /// </summary>
+        /// <param name="forceClose">If <b>True</b>, it will close app directly event with locks.</param>
         void CloseApp(bool forceClose = false);
     }
 }

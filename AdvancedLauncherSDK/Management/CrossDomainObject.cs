@@ -20,6 +20,9 @@ using System;
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// The base class for all cross-domain communicated types
+    /// </summary>
     public abstract class CrossDomainObject : MarshalByRefObject {
         /*[SecurityCritical]
         public override object InitializeLifetimeService() {

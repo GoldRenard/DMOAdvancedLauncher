@@ -18,8 +18,14 @@
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Base API interface
+    /// </summary>
     public interface IManager {
 
+        /// <summary>
+        /// API initialization method
+        /// </summary>
         void Initialize();
     }
 }

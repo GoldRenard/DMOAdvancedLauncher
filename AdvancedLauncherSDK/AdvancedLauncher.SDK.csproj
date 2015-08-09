@@ -68,7 +68,7 @@
     <Compile Include="Management\IWindowManager.cs" />
     <Compile Include="Management\Plugins\AbstractPlugin.cs" />
     <Compile Include="Management\Plugins\PluginInfo.cs" />
-    <Compile Include="Management\Plugins\PluginProxy.cs" />
+    <Compile Include="Management\Plugins\Proxy.cs" />
     <Compile Include="UI\AbstractUserControl.cs" />
     <Compile Include="UI\AbstractPageControl.cs" />
     <Compile Include="UI\AbstractWindowControl.cs" />

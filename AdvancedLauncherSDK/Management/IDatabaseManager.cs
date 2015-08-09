@@ -18,8 +18,17 @@
 
 namespace AdvancedLauncher.SDK.Management {
 
+    /// <summary>
+    /// Database manager, <see cref="IDatabaseContext"/> builder.
+    /// </summary>
+    /// <seealso cref="IDatabaseContext"/>
     public interface IDatabaseManager : IManager {
 
+        /// <summary>
+        /// Creates new <see cref="IDatabaseContext"/>.
+        /// Do not forget to close context or just use it in using(...) statement.
+        /// </summary>
+        /// <returns>New <see cref="IDatabaseContext"/></returns>
         IDatabaseContext CreateContext();
     }
 }

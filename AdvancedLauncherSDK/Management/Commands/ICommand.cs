@@ -18,12 +18,31 @@
 
 namespace AdvancedLauncher.SDK.Management.Commands {
 
+    /// <summary>
+    /// Command interface
+    /// </summary>
+    /// <seealso cref="ICommandManager"/>
+    /// <seealso cref="AbstractCommand"/>
+    /// <seealso cref="AbstractExtendedCommand"/>
     public interface ICommand {
 
+        /// <summary>
+        /// The command action
+        /// </summary>
+        /// <param name="args">Input arguments</param>
+        /// <returns>Returns <B>true</B> if command successfully executed, <B>false</B> otherwise.</returns>
         bool DoCommand(string[] args);
 
+        /// <summary>
+        /// Command description for help
+        /// </summary>
+        /// <returns>Command description</returns>
         string GetDescription();
 
+        /// <summary>
+        /// Command name to execute
+        /// </summary>
+        /// <returns>Command name</returns>
         string GetName();
     }
 }

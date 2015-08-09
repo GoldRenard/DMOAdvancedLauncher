@@ -22,16 +22,28 @@ using System.Reflection;
 
 namespace AdvancedLauncher.SDK.Management.Plugins {
 
+    /// <summary>
+    /// Plugin loader proxy for internal use
+    /// </summary>
     public class Proxy : CrossDomainObject {
 
+        /// <summary>
+        /// Patch to plugin assemblies to scan
+        /// </summary>
         public string[] PluginLibs {
             get; set;
         }
 
+        /// <summary>
+        /// Loaded information structures of plugins found
+        /// </summary>
         public List<PluginInfo> PluginInfos {
             get; set;
         }
 
+        /// <summary>
+        /// Scans specified <see cref="PluginLibs"/> for types implementing <see cref="IPlugin"/>.
+        /// </summary>
         public void LoadInfos() {
             Type pluginType = typeof(IPlugin);
             foreach (var assemblyPath in PluginLibs) {

@@ -104,7 +104,8 @@ namespace AdvancedLauncher.Management.Internal {
             GameModel model = ProfileManager.CurrentProfile.GameModel;
             ILoginProvider loginProvider = ConfigurationManager.GetConfiguration(model).CreateLoginProvider();
             MetroDialogSettings settings = new MetroDialogSettings() {
-                ColorScheme = MetroDialogColorScheme.Accented
+                ColorScheme = MetroDialogColorScheme.Accented,
+                NegativeButtonText = LanguageManager.Model.CancelButton
             };
             controller = await MainWindow.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, true, settings);
             loginProvider.LoginStateChanged += eventAccessor.OnLoginStateChanged;

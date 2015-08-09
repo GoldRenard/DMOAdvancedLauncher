@@ -152,6 +152,7 @@
   <CommHeader_Name>Ім'я</CommHeader_Name>
   <CommHeader_Size>Розмір</CommHeader_Size>
 
+  <CheckForUpdates>Перевіряти наявність оновлень</CheckForUpdates>
   <UpdateAvailableText>Доступна нова версія лаунчера - {0}. Список змін:</UpdateAvailableText>
   <UpdateAvailableCaption>Доступна нова версія лаунчера - {0}</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Хочете перейти на сторінку завантаження прямо зараз?</UpdateDownloadQuestion>

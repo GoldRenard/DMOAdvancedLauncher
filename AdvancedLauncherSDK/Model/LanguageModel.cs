@@ -1593,6 +1593,17 @@ namespace AdvancedLauncher.SDK.Model {
 
         #region Update Checker
 
+        private string _CheckForUpdates = "Check for updates";
+
+        public string CheckForUpdates {
+            set {
+                _CheckForUpdates = value;
+            }
+            get {
+                return _CheckForUpdates;
+            }
+        }
+
         private string _UpdateAvailableText = "New version {0} available. Changelog:";
 
         public string UpdateAvailableText {

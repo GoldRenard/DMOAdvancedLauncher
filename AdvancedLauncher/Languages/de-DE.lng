@@ -152,6 +152,7 @@
   <CommHeader_Name>Name</CommHeader_Name>
   <CommHeader_Size>Groesse</CommHeader_Size>
 
+  <CheckForUpdates>Auf Updates prüfen</CheckForUpdates>
   <UpdateAvailableText>Neue Version {0} ist verfuegbar. Changelog:</UpdateAvailableText>
   <UpdateAvailableCaption>Neue Version {0} ist verfuegbar</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Moechten Sie jetzt updaten?</UpdateDownloadQuestion>

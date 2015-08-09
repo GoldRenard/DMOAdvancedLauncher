@@ -151,7 +151,8 @@
   <CommHeader_Mercenary>Mercenario</CommHeader_Mercenary>
   <CommHeader_Name>Nome</CommHeader_Name>
   <CommHeader_Size>Dimensione</CommHeader_Size>
-  
+
+  <CheckForUpdates>Verifica aggiornamenti</CheckForUpdates>
   <UpdateAvailableText>Nuova versione {0} disponibile. Changelog:</UpdateAvailableText>
   <UpdateAvailableCaption>Nuova versione {0} disponibile</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Vuoi scaricarla ora?</UpdateDownloadQuestion>

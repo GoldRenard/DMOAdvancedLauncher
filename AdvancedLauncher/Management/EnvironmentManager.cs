@@ -195,6 +195,7 @@ namespace AdvancedLauncher.Management {
             _Settings.AppTheme = settings.AppTheme;
             _Settings.LanguageFile = settings.Language;
             _Settings.ThemeAccent = settings.ThemeAccent;
+            _Settings.CheckForUpdates = settings.CheckForUpdates;
 
             _Settings.Profiles = new List<Profile>();
             LoginManager loginManager = App.Kernel.Get<LoginManager>();

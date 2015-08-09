@@ -40,6 +40,11 @@ namespace AdvancedLauncher.Model.Protected {
             get; set;
         }
 
+        [XmlElement("CheckForUpdates")]
+        public bool CheckForUpdates {
+            get; set;
+        }
+
         [XmlElement("DefaultProfile")]
         public int DefaultProfile {
             get; set;
@@ -60,12 +65,14 @@ namespace AdvancedLauncher.Model.Protected {
         }
 
         public ProtectedSettings() {
+            this.CheckForUpdates = true;
         }
 
         public ProtectedSettings(Settings settings) {
             this.Language = settings.LanguageFile;
             this.AppTheme = settings.AppTheme;
             this.ThemeAccent = settings.ThemeAccent;
+            this.CheckForUpdates = settings.CheckForUpdates;
             this.Profiles = new List<ProtectedProfile>();
         }
     }

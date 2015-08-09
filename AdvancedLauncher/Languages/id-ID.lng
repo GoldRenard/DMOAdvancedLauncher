@@ -151,7 +151,8 @@
   <CommHeader_Mercenary>Mercenary</CommHeader_Mercenary>
   <CommHeader_Name>Nama</CommHeader_Name>
   <CommHeader_Size>Ukuran</CommHeader_Size>
-  
+
+  <CheckForUpdates>Memeriksa pembaruan</CheckForUpdates>
   <UpdateAvailableText>Versi baru {0} tersedia. Log perubahan:</UpdateAvailableText>
   <UpdateAvailableCaption>Versi baru {0} tersedia</UpdateAvailableCaption>
   <UpdateDownloadQuestion>Apakah anda ingin mengunduhnya sekarang?</UpdateDownloadQuestion>

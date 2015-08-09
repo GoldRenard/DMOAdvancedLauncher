@@ -47,6 +47,11 @@ namespace AdvancedLauncher.SDK.Model.Config {
             set;
         }
 
+        public bool CheckForUpdates {
+            get;
+            set;
+        }
+
         public Settings() {
             // default constructor
         }
@@ -55,12 +60,14 @@ namespace AdvancedLauncher.SDK.Model.Config {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
+            this.CheckForUpdates = source.CheckForUpdates;
         }
 
         public void MergeConfig(Settings source) {
             this.LanguageFile = source.LanguageFile;
             this.AppTheme = source.AppTheme;
             this.ThemeAccent = source.ThemeAccent;
+            this.CheckForUpdates = source.CheckForUpdates;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

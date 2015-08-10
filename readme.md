@@ -40,20 +40,20 @@ Please [send an email](mailto:goldrenard@gmail.com) with your translations.
 - Moreover, launcher can get only ONE digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of launcher. Usually it's a latest hatched Digimon.
 - Long logon process for KDMO IMBC. Error 705 is ok, you should just wait for successful login. If you're getting error 705 10 or more times, check your account data.
 
-## Changelog (Version 3.0)
+## Changelog (Version 3.1)
 #### Common
- - New interface based on great [MahApps.Metro](http://mahapps.com/).
- - Appearance: dark/light themes with different color schemes (thanks to MahApps.Metro)
- - Implemented proxy-server support
- - Indonesian translation (thanks to Bayu Laksana)
- - Global refactoring and clean up which means different bug fixes (and might also means new bugs o_O, but we'll fix them all!)
+ - NT Locale Emulator Advance support (AppLocale not working on Windows 10)
+ - Improved UI performance
+ - Support for cancellation of logging in
+ - "Check for updates" option
+ - Joymax guild info grabber improvements
+ - Italian translation (thanks to Andrea Milano)
 
-#### Others
- - Every third-party dependency was updated to actual version
- - Migration to Entity Framework + SQLCE database management
- - Migration to .NET Framework 4.5
+#### Plugin system
+ - In order to support plugin system, new modular architecture was implemented using IoC paradigm and Ninject library.
+ - For more information about plugin system and SDK please visit [wiki page](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Plugin-system).
 
-You can read the full changelog [here](https://github.com/GoldRenard/DMOAdvancedLauncher/blob/master/AdvancedLauncher/Docs/changelog.md).
+You can read the full changelog [here](hhttps://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Changelog).
  
 ### Licence
 [GNU GENERAL PUBLIC LICENSE](https://www.gnu.org/copyleft/gpl.html).

@@ -34,6 +34,7 @@ namespace AdvancedLauncher.SDK.Management {
         /// </summary>
         /// <param name="input">Command line</param>
         /// <returns><b>True</b> on success</returns>
+        /// <permission cref="System.Security.PermissionSet">Requires Unrestricted permissionSet</permission>
         bool Send(string input);
 
         /// <summary>

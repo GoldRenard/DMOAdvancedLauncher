@@ -95,14 +95,14 @@ namespace AdvancedLauncher.Management.Internal {
             PermissionSet permissions;
             if (!VerifyPlugin(info)) {
                 permissions = new PermissionSet(PermissionState.None);
-                permissions.AddPermission(new UIPermission(PermissionState.Unrestricted));
+                
+                permissions.AddPermission(new UIPermission(UIPermissionWindow.AllWindows, UIPermissionClipboard.NoClipboard));
                 permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
                 permissions.AddPermission(new WebBrowserPermission(PermissionState.Unrestricted));
-                permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
+                permissions.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.NoFlags));
 
                 permissions.AddPermission(new SecurityPermission(
                   SecurityPermissionFlag.Execution |
-                  SecurityPermissionFlag.UnmanagedCode |
                   SecurityPermissionFlag.SerializationFormatter |
                   SecurityPermissionFlag.Assertion));
 

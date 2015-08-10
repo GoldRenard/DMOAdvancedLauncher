@@ -20,6 +20,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using Ninject;
@@ -41,6 +42,7 @@ namespace AdvancedLauncher.Management {
             }
         }
 
+        [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
         public bool Send(string input) {
             if (string.IsNullOrEmpty(input)) {
                 LOGGER.Info(ENTER_COMMAND);

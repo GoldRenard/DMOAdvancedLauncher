@@ -418,6 +418,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="app.manifest" />
+    <None Include="Docs\plugins.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Docs\changelog.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

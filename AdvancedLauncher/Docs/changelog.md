@@ -1,5 +1,21 @@
 # DMO Advanced Launcher Changelog:
 
+## Version 3.1
+#### Common
+ - NT Locale Emulator Advance support (AppLocale not working on Windows 10)
+ - Improved UI performance
+ - Support for cancellation of logging in
+ - "Check for updates" option
+ - Joymax guild info grabber improvements
+ - Italian translation (thanks to Andrea Milano)
+
+#### Plugin system
+ - In order to support plugin system, new modular architecture was implemented using IoC paradigm and Ninject library.
+ - For more information about plugin system and SDK please visit [wiki page](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Plugin-system).
+
+#### Others
+ - BugTrap intergration (automatic error and exception logging, tracking, and reporting)
+
 ## Version 3.0
 #### Common
  - New interface based on great [MahApps.Metro](http://mahapps.com/).

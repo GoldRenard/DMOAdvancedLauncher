@@ -28,7 +28,7 @@ Functionality is distributed into different categories:
 - [S] Profile system. You can make many profiles for every server/account/etc.
 
 ### System Requirements
-- Windows Vista SP2 / Windows 7 SP1 / Windows 8 / Windows 8.1
+- Windows Vista SP2 / Windows 7 SP1 / Windows 8 / Windows 8.1 / Windows 10
 - Microsoft .NET Framework 4.5
 
 ### Help with Translations

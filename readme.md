@@ -53,6 +53,9 @@ Please [send an email](mailto:goldrenard@gmail.com) with your translations.
  - In order to support plugin system, new modular architecture was implemented using IoC paradigm and Ninject library.
  - For more information about plugin system and SDK please visit [wiki page](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Plugin-system).
 
+#### Others
+ - BugTrap intergration (automatic error and exception logging, tracking, and reporting)
+
 You can read the full changelog [here](hhttps://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Changelog).
  
 ### Licence

@@ -13,6 +13,9 @@
  - In order to support plugin system, new modular architecture was implemented using IoC paradigm and Ninject library.
  - For more information about plugin system and SDK please visit [wiki page](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Plugin-system).
 
+#### Others
+ - BugTrap intergration (automatic error and exception logging, tracking, and reporting)
+
 ## Version 3.0
 #### Common
  - New interface based on great [MahApps.Metro](http://mahapps.com/).

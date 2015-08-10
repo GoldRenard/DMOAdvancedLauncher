@@ -56,7 +56,7 @@ Please [send an email](mailto:goldrenard@gmail.com) with your translations.
 #### Others
  - BugTrap intergration (automatic error and exception logging, tracking, and reporting)
 
-You can read the full changelog [here](hhttps://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Changelog).
+You can read the full changelog [here](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Changelog).
  
 ### Licence
 [GNU GENERAL PUBLIC LICENSE](https://www.gnu.org/copyleft/gpl.html).

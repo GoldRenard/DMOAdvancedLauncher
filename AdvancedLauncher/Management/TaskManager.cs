@@ -67,6 +67,10 @@ namespace AdvancedLauncher.Management {
                 }
             };
             queueWorker.RunWorkerCompleted += (s, e) => {
+                if (Application.Current == null) {
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                    return;
+                }
                 if (!Application.Current.Dispatcher.CheckAccess()) {
                     Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
                         Application.Current.Shutdown();

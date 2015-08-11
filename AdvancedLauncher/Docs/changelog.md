@@ -1,5 +1,8 @@
 # DMO Advanced Launcher Changelog:
 
+## Version 3.x (For future releases)
+ - Fixed application crash on closing
+
 ## Version 3.1
 #### Common
  - NT Locale Emulator Advance support (AppLocale not working on Windows 10)

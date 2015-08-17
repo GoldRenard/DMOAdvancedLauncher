@@ -621,6 +621,10 @@ div.mark-any { background-color: #24C324; }
     padding-right: 0;
     margin-left: 0;
   }
+  #adsense {
+    width: 100% ! important;
+    height: 150px ! important;
+  }
 }
 
 .del {
@@ -640,3 +644,8 @@ sub, sup {
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {}
 
+#adsense {
+  margin-top: 20px;
+  width: 200px;
+  height: 600px;
+}

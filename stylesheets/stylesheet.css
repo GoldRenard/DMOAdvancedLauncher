@@ -645,7 +645,6 @@ sub, sup {
 @media only screen and (max-width: 479px) {}
 
 #adsense {
-  margin-top: 20px;
   width: 200px;
   height: 600px;
 }

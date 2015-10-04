@@ -622,8 +622,8 @@ div.mark-any { background-color: #24C324; }
     margin-left: 0;
   }
   #adsense {
-    width: 100% ! important;
-    height: 150px ! important;
+    width: auto ! important;
+    height: auto ! important;
   }
 }
 

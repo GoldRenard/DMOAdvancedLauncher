@@ -16,49 +16,55 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Globalization;
 using System.IO;
-using AdvancedLauncher.Tools;
+using AdvancedLauncher.SDK.Management;
+using Ninject;
 
 namespace AdvancedLauncher.Management.Execution {
 
     /// <summary>
-    /// AppLocale application launcher
+    /// LocaleEmulator application launcher
     /// </summary>
-    public class AppLocaleLauncher : SteamSensitiveLauncher {
+    public class LELauncher : SteamSensitiveLauncher {
+
+        private const string CONFIG_FORMAT = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<LEConfig>
+  <Profiles>
+    <Profile Name = ""DMO"" Guid=""c34766ff-d847-4f6c-a986-4f0e3c37a852"" MainMenu=""false"">
+      <Parameter>{0}</Parameter>
+      <Location>ko-KR</Location>
+      <Timezone>Tokyo Standard Time</Timezone>
+      <RunAsAdmin>true</RunAsAdmin>
+      <RedirectRegistry>true</RedirectRegistry>
+      <RunWithSuspend>false</RunWithSuspend>
+    </Profile>
+  </Profiles>
+</LEConfig>";
+
+        private const string CONFIG_FILE = "LEConfig.xml";
+
+        private const string RUN_PARAMS = "-runas c34766ff-d847-4f6c-a986-4f0e3c37a852 \"{0}\"";
+
+        [Inject]
+        public IEnvironmentManager EnvironmentManager {
+            get; set;
+        }
 
         /// <summary>
         /// Name of this launcher
         /// </summary>
         public override string Name {
             get {
-                return "AppLocale";
-            }
-        }
-
-        public static bool IsInstalled {
-            get {
-                string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
-                return File.Exists(appLocalePath);
-            }
-        }
-
-        public static bool IsKoreanSupported {
-            get {
-                foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.InstalledWin32Cultures))
-                    if (ci.TwoLetterISOLanguageName == "ko") {
-                        return true;
-                    }
-                return false;
+                return "Locale Emulator";
             }
         }
 
         /// <summary>
-        /// Is AppLocale supported in the envronment
+        /// Is NTLEA supported in the envronment
         /// </summary>
         public override bool IsSupported {
             get {
-                return IsInstalled && IsKoreanSupported && !OsVersionInfo.IsWindows10OrGreater();
+                return File.Exists(EnvironmentManager.LEFile);
             }
         }
 
@@ -69,12 +75,8 @@ namespace AdvancedLauncher.Management.Execution {
         /// <param name="arguments">Arguments</param>
         /// <returns><see langword="true"/> if it succeeds, <see langword="false"/> if it fails.</returns>
         public override bool ExecuteInternal(string application, string arguments) {
-            string appLocalePath = System.Environment.GetEnvironmentVariable("windir") + "\\apppatch\\AppLoc.exe";
-            if (!string.IsNullOrEmpty(arguments)) {
-                return StartProcess(appLocalePath, "\"" + application + "\" \"" + arguments + "\" \"/L0412\"");
-            } else {
-                return StartProcess(appLocalePath, "\"" + application + "\" \"/L0412\"");
-            }
+            File.WriteAllText(Path.Combine(EnvironmentManager.AppPath, CONFIG_FILE), string.Format(CONFIG_FORMAT, arguments));
+            return StartProcess(EnvironmentManager.LEFile, string.Format(RUN_PARAMS, application));
         }
     }
 }

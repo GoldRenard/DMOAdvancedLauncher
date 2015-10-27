@@ -41,6 +41,7 @@ namespace AdvancedLauncher.Management {
         public const string PLUGINS_DIR = "Plugins";
         private const string KBLC_SERVICE_EXECUTABLE = "KBLCService.exe";
         private const string NTLEA_EXECUTABLE = "ntleas.exe";
+        private const string LE_EXECUTABLE = "LEProc.exe";
 
         [Inject]
         public ILanguageManager LanguageManager {
@@ -98,6 +99,17 @@ namespace AdvancedLauncher.Management {
                     _NTLEAFile = Path.Combine(AppPath, NTLEA_EXECUTABLE);
                 }
                 return _NTLEAFile;
+            }
+        }
+
+        private string _LEFile = null;
+
+        public string LEFile {
+            get {
+                if (_LEFile == null) {
+                    _LEFile = Path.Combine(AppPath, LE_EXECUTABLE);
+                }
+                return _LEFile;
             }
         }
 

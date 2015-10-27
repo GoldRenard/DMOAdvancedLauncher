@@ -70,6 +70,13 @@ namespace AdvancedLauncher.SDK.Management {
         }
 
         /// <summary>
+        /// Gets Locale Emulator execution file path
+        /// </summary>
+        string LEFile {
+            get;
+        }
+
+        /// <summary>
         /// Gets languages directory path
         /// </summary>
         string LanguagesPath {

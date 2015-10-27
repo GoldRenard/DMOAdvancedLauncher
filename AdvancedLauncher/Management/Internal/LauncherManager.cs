@@ -24,6 +24,7 @@ using System.Linq;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
+using AdvancedLauncher.Tools;
 using Ninject;
 
 namespace AdvancedLauncher.Management.Internal {
@@ -54,11 +55,11 @@ namespace AdvancedLauncher.Management.Internal {
             get {
                 var os = System.Environment.OSVersion;
 
-                // first os all, for windows 10 we should use NTLEA as default event if AppLocale doesnt exists
-                NTLeaLauncher ntLeaLauncher = findByType<NTLeaLauncher>(typeof(NTLeaLauncher));
-                if (ntLeaLauncher != null) {
-                    if (os.Platform == PlatformID.Win32NT && os.Version.Major >= 10 && ntLeaLauncher.IsSupported) {
-                        return ntLeaLauncher;
+                // first os all, for windows 10 we should use LocaleEmulator
+                LELauncher leLauncher = findByType<LELauncher>(typeof(LELauncher));
+                if (leLauncher != null) {
+                    if (OsVersionInfo.IsWindows10OrGreater() && leLauncher.IsSupported) {
+                        return leLauncher;
                     }
                 }
 
@@ -70,12 +71,13 @@ namespace AdvancedLauncher.Management.Internal {
                     }
                 }
 
-                // and now if we havent AppLocale, try to use NTLea
-                if (ntLeaLauncher != null) {
-                    if (ntLeaLauncher.IsSupported) {
-                        return ntLeaLauncher;
+                // if we havent AppLocale, still try to use Locale Emulator
+                if (leLauncher != null) {
+                    if (leLauncher.IsSupported) {
+                        return leLauncher;
                     }
                 }
+
                 return findByType<DirectLauncher>(typeof(DirectLauncher));
             }
         }

@@ -1,8 +1,8 @@
 # DMO Advanced Launcher Changelog:
 
-## Version 3.1.119 (hotfix)
+## Version 3.1.120 (hotfix)
  - Fixed application crash on closing
- - Partial GameKing migration (ranking not available yet)
+ - GameKing migration for Aeria and Joymax (ranking not available yet)
  - Locale Emulator 2.1.0.0 support (it is compatible with GameGuard)
 
 ## Version 3.1

@@ -94,7 +94,7 @@ namespace AdvancedLauncher.Management.Configuration {
 
         public override string PatchRemoteURL {
             get {
-                return "http://patch.dmo.joymax.com/Aeria/GDMO{0}.zip";
+                return "http://gdmo-cdn.gameking.com/Aeria/Live/GDMO{0}.zip";
             }
         }
 
@@ -106,7 +106,7 @@ namespace AdvancedLauncher.Management.Configuration {
 
         public override string VersionRemoteURL {
             get {
-                return "http://patch.dmo.joymax.com/Aeria/PatchInfo_GDMO.ini";
+                return "http://gdmo-cdn.gameking.com/Aeria/Live/PatchInfo_GDMO.ini";
             }
         }
 

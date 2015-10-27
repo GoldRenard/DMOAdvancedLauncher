@@ -23,13 +23,13 @@ using System.ComponentModel;
 
 namespace AdvancedLauncher.Model {
 
-    public class JoymaxViewModel : INotifyPropertyChanged {
+    public class ServerNewsViewModel : INotifyPropertyChanged {
 
-        public JoymaxViewModel() {
-            this.Items = new ObservableCollection<JoymaxItemViewModel>();
+        public ServerNewsViewModel() {
+            this.Items = new ObservableCollection<ServerNewsItemViewModel>();
         }
 
-        public ObservableCollection<JoymaxItemViewModel> Items {
+        public ObservableCollection<ServerNewsItemViewModel> Items {
             get;
             private set;
         }
@@ -39,9 +39,9 @@ namespace AdvancedLauncher.Model {
             private set;
         }
 
-        public void LoadData(List<JoymaxItemViewModel> List) {
+        public void LoadData(List<ServerNewsItemViewModel> List) {
             this.IsDataLoaded = true;
-            foreach (JoymaxItemViewModel item in List) {
+            foreach (ServerNewsItemViewModel item in List) {
                 this.Items.Add(item);
             }
         }

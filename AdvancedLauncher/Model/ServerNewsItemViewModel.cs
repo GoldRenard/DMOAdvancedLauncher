@@ -21,7 +21,7 @@ using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.Model {
 
-    public class JoymaxItemViewModel : AbstractItemViewModel<NewsItem> {
+    public class ServerNewsItemViewModel : AbstractItemViewModel<NewsItem> {
 
         protected override void LanguageChanged() {
             NotifyPropertyChanged("Type");

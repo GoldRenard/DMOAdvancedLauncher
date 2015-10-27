@@ -123,7 +123,7 @@ namespace AdvancedLauncher.Management.Configuration {
         }
 
         public override INewsProvider CreateNewsProvider() {
-            return new JoymaxNewsProvider(LogManager);
+            return new GameKingNewsProvider(LogManager);
         }
 
         protected override IServersProvider CreateServersProvider() {

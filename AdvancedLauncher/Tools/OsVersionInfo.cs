@@ -29,7 +29,7 @@ namespace AdvancedLauncher.Tools {
                 var wmi = new ManagementObjectSearcher("select * from Win32_OperatingSystem").Get().Cast<ManagementObject>().First();
                 Version version = new Version((string)wmi["Version"]);
                 return version.Major >= 10;
-            } catch (Exception e) {
+            } catch (Exception) {
                 return false;
             }
         }

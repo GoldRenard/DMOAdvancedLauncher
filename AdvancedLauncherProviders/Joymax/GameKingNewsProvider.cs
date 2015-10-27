@@ -25,11 +25,11 @@ using HtmlAgilityPack;
 
 namespace AdvancedLauncher.Providers.Joymax {
 
-    public class JoymaxNewsProvider : AbstractNewsProvider {
-        private static string STR_URL_NEW_PAGE = "http://www.joymax.com/dmo/Property_Front.aspx?workurl=http://dmocp.joymax.com{0}";
+    public class GameKingNewsProvider : AbstractNewsProvider {
+        private static string STR_URL_NEW_PAGE = "http://dmo.gameking.com{0}";
         private static string STR_DATE_FORMAT_REGEX = "(\\d\\d)(-)(\\d\\d)(-)(\\d\\d)";
 
-        public JoymaxNewsProvider(ILogManager logManager) : base(logManager) {
+        public GameKingNewsProvider(ILogManager logManager) : base(logManager) {
         }
 
         public override List<NewsItem> GetNews() {
@@ -41,7 +41,7 @@ namespace AdvancedLauncher.Providers.Joymax {
             HtmlNodeCollection newsNode = null;
             int tryCount = 5;
             while (newsNode == null && tryCount > 0) {
-                string html = WebClientEx.DownloadContent(LogManager, "http://dmocp.joymax.com/Main/HomeMain.aspx", 5000);
+                string html = WebClientEx.DownloadContent(LogManager, "http://dmo.gameking.com/Main/Main.aspx", 5000);
                 doc.LoadHtml(html);
                 newsNode = doc.DocumentNode.SelectNodes("//div[@class='news-list']/ul/li");
                 tryCount--;
@@ -70,7 +70,7 @@ namespace AdvancedLauncher.Providers.Joymax {
 
                     foreach (HtmlAttribute atr in newsWrap.SelectNodes("//div[@class='view']/div[@class='btn-right']/span[@class='read-more']/a")[i].Attributes) {
                         if (atr.Name == "href") {
-                            ni.Url = string.Format(STR_URL_NEW_PAGE, atr.Value.Replace("&", "^"));
+                            ni.Url = string.Format(STR_URL_NEW_PAGE, atr.Value);
                             break;
                         }
                     }

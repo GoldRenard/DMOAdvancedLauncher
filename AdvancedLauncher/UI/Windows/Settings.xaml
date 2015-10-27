@@ -206,7 +206,7 @@
                                       SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.News.FirstTab, Mode=TwoWay}"
                                       IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsNewsAvailable}">
                                 <ComboBoxItem Content="Twitter" />
-                                <ComboBoxItem Content="Joymax" />
+                                <ComboBoxItem Content="GameKing" />
                             </ComboBox>
                         </StackPanel>
                     </StackPanel>

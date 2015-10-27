@@ -45,10 +45,10 @@ namespace AdvancedLauncher.UI.Controls {
 
     public partial class NewsBlock : AbstractUserControl, IDisposable {
         private readonly BackgroundWorker bwLoadTwitter = new BackgroundWorker();
-        private readonly BackgroundWorker bwLoadJoymax = new BackgroundWorker();
+        private readonly BackgroundWorker bwLoadServerNews = new BackgroundWorker();
 
         private Storyboard ShowTwitter = new Storyboard();
-        private Storyboard ShowJoymax = new Storyboard();
+        private Storyboard ShowServerNews = new Storyboard();
 
         private int AnimSpeed = 300;
 
@@ -59,12 +59,12 @@ namespace AdvancedLauncher.UI.Controls {
 
         private delegate void DoLoadTwitter(List<TwitterItemViewModel> statuses);
 
-        private JoymaxViewModel JoymaxVM = new JoymaxViewModel();
-        private List<JoymaxItemViewModel> JoymaxNews = new List<JoymaxItemViewModel>();
+        private ServerNewsViewModel ServerVM = new ServerNewsViewModel();
+        private List<ServerNewsItemViewModel> ServerNews = new List<ServerNewsItemViewModel>();
 
-        private delegate void DoAddJoyNews(List<NewsItem> news);
+        private delegate void DoAddServerNews(List<NewsItem> news);
 
-        private delegate void DoLoadJoymax(List<JoymaxItemViewModel> news);
+        private delegate void DoLoadServerNews(List<ServerNewsItemViewModel> news);
 
         private string _jsonUrlLoaded;
         private string _jsonUrl;
@@ -80,17 +80,17 @@ namespace AdvancedLauncher.UI.Controls {
                 ProfileManager.ProfileChanged += ReloadNews;
                 LanguageManager.LanguageChanged += OnLanguageChanged;
                 TwitterNewsList.DataContext = TwitterVM;
-                JoymaxNewsList.DataContext = JoymaxVM;
+                ServerNewsList.DataContext = ServerVM;
 
                 //Init animations for News
-                DoubleAnimation dShowJoymax = new DoubleAnimation(1, new Duration(TimeSpan.FromMilliseconds(AnimSpeed)));
-                Storyboard.SetTarget(dShowJoymax, JoymaxNewsList);
-                Storyboard.SetTargetProperty(dShowJoymax, new PropertyPath(OpacityProperty));
+                DoubleAnimation dShowServerNews = new DoubleAnimation(1, new Duration(TimeSpan.FromMilliseconds(AnimSpeed)));
+                Storyboard.SetTarget(dShowServerNews, ServerNewsList);
+                Storyboard.SetTargetProperty(dShowServerNews, new PropertyPath(OpacityProperty));
                 DoubleAnimation dShowTwitter = new DoubleAnimation(1, new Duration(TimeSpan.FromMilliseconds(AnimSpeed)));
                 Storyboard.SetTarget(dShowTwitter, TwitterNewsList);
                 Storyboard.SetTargetProperty(dShowTwitter, new PropertyPath(OpacityProperty));
 
-                ShowJoymax.Children.Add(dShowJoymax);
+                ShowServerNews.Children.Add(dShowServerNews);
                 ShowTwitter.Children.Add(dShowTwitter);
 
                 bwLoadTwitter.RunWorkerCompleted += (s, e) => {
@@ -114,20 +114,20 @@ namespace AdvancedLauncher.UI.Controls {
                     }
                 };
 
-                bwLoadJoymax.RunWorkerCompleted += (s, e) => {
+                bwLoadServerNews.RunWorkerCompleted += (s, e) => {
                     this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => {
-                        ShowJoymax.Begin();
-                        IsJoymaxLoadingAnim(false);
+                        ShowServerNews.Begin();
+                        IsServerNewsLoadingAnim(false);
                     }));
                 };
-                bwLoadJoymax.DoWork += (s1, e1) => {
-                    if (!JoymaxVM.IsDataLoaded) {
-                        IsJoymaxLoadingAnim(true);
-                        GetJoymaxNews();
-                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadJoymax((list) => {
+                bwLoadServerNews.DoWork += (s1, e1) => {
+                    if (!ServerVM.IsDataLoaded) {
+                        IsServerNewsLoadingAnim(true);
+                        GetServerNews();
+                        this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoLoadServerNews((list) => {
                             if (list != null)
-                                JoymaxVM.LoadData(list);
-                        }), JoymaxNews);
+                                ServerVM.LoadData(list);
+                        }), ServerNews);
                     }
                 };
                 ReloadNews(this, BaseEventArgs.Empty);
@@ -162,12 +162,12 @@ namespace AdvancedLauncher.UI.Controls {
                 _jsonUrl = currentProfile.News.TwitterUrl;
             }
 
-            JoymaxVM.UnLoadData();
-            JoymaxNews.Clear();
+            ServerVM.UnLoadData();
+            ServerNews.Clear();
             TwitterVM.UnLoadData();
 
             bool newsSupported = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel).IsNewsAvailable;
-            NavJoymax.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
+            NavServer.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             NavTwitter.Visibility = newsSupported ? Visibility.Visible : Visibility.Hidden;
             byte index = newsSupported ? currentProfile.News.FirstTab : (byte)0;
             NewsTabControl.SelectedIndex = index;
@@ -180,8 +180,8 @@ namespace AdvancedLauncher.UI.Controls {
             }
             if (tab == 0 && !bwLoadTwitter.IsBusy) {
                 bwLoadTwitter.RunWorkerAsync();
-            } else if (!bwLoadJoymax.IsBusy) {
-                bwLoadJoymax.RunWorkerAsync();
+            } else if (!bwLoadServerNews.IsBusy) {
+                bwLoadServerNews.RunWorkerAsync();
             }
         }
 
@@ -475,9 +475,9 @@ namespace AdvancedLauncher.UI.Controls {
 
         #endregion Twitter statuses
 
-        #region Joymax news
+        #region Server news
 
-        private void GetJoymaxNews() {
+        private void GetServerNews() {
             IConfiguration config = ConfigurationManager.GetConfiguration(ProfileManager.CurrentProfile.GameModel);
             INewsProvider newsProvider = config.CreateNewsProvider();
             if (newsProvider != null) {
@@ -496,7 +496,7 @@ namespace AdvancedLauncher.UI.Controls {
                     });
                 }
 
-                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddJoyNews((s) => {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new DoAddServerNews((s) => {
                     Rect viewbox;
                     string mode;
                     foreach (NewsItem n in news) {
@@ -514,20 +514,20 @@ namespace AdvancedLauncher.UI.Controls {
                             viewbox = new Rect(215, 0, 90, 18);
                         }
 
-                        JoymaxItemViewModel item = App.Kernel.Get<JoymaxItemViewModel>();
+                        ServerNewsItemViewModel item = App.Kernel.Get<ServerNewsItemViewModel>();
                         item.Title = n.Subject;
                         item.Content = n.Content;
                         item.Date = n.Date;
                         item.TypeName = mode;
                         item.Link = n.Url;
                         item.ImgVB = viewbox;
-                        JoymaxNews.Add(item);
+                        ServerNews.Add(item);
                     }
                 }), news);
             }
         }
 
-        #endregion Joymax news
+        #endregion Server news
 
         #region Interface processing
 
@@ -541,9 +541,9 @@ namespace AdvancedLauncher.UI.Controls {
             }));
         }
 
-        private void IsJoymaxLoadingAnim(bool state) {
+        private void IsServerNewsLoadingAnim(bool state) {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(delegate () {
-                JoymaxProgressRing.IsActive = state;
+                ServerNewsProgressRing.IsActive = state;
             }));
         }
 
@@ -557,7 +557,7 @@ namespace AdvancedLauncher.UI.Controls {
         protected virtual void Dispose(bool dispose) {
             if (dispose) {
                 bwLoadTwitter.Dispose();
-                bwLoadJoymax.Dispose();
+                bwLoadServerNews.Dispose();
             }
         }
     }

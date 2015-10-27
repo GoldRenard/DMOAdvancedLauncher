@@ -82,7 +82,7 @@ namespace AdvancedLauncher.Tools {
             // ViewModels
             Bind<DigimonItemViewModel>().ToSelf();
             Bind<GuildInfoItemViewModel>().ToSelf();
-            Bind<JoymaxItemViewModel>().ToSelf();
+            Bind<ServerNewsItemViewModel>().ToSelf();
             Bind<TamerItemViewModel>().ToSelf();
             Bind<TwitterItemViewModel>().ToSelf();
 

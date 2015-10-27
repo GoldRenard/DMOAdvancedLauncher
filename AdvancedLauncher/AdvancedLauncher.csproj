@@ -210,8 +210,8 @@
     <Compile Include="UI\Controls\NewsBlock.xaml.cs">
       <DependentUpon>NewsBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\JoymaxViewModel.cs" />
-    <Compile Include="Model\JoymaxItemViewModel.cs" />
+    <Compile Include="Model\ServerNewsViewModel.cs" />
+    <Compile Include="Model\ServerNewsItemViewModel.cs" />
     <Compile Include="Model\TwitterItemViewModel.cs" />
     <Compile Include="Model\TwitterViewModel.cs" />
     <Compile Include="Model\DigimonViewModel.cs" />
@@ -314,7 +314,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="Model\JoymaxViewModelSampleData.xaml">
+    <DesignData Include="Model\ServerNewsViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>

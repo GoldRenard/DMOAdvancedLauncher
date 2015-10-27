@@ -24,7 +24,7 @@ using Ninject;
 
 namespace AdvancedLauncher.Management.Configuration {
 
-    public class JoymaxConfiguration : AbstractConfiguration {
+    public class GameKingConfiguration : AbstractConfiguration {
 
         [Inject]
         public ILogManager LogManager {
@@ -40,7 +40,7 @@ namespace AdvancedLauncher.Management.Configuration {
 
         public override string Name {
             get {
-                return "Joymax";
+                return "GameKing";
             }
         }
 
@@ -58,7 +58,7 @@ namespace AdvancedLauncher.Management.Configuration {
 
         public override string LauncherPathRegKey {
             get {
-                return "Software\\Joymax\\DMO";
+                return "Software\\MoveGames\\DMO_GSP";
             }
         }
 
@@ -76,7 +76,7 @@ namespace AdvancedLauncher.Management.Configuration {
 
         public override string GamePathRegKey {
             get {
-                return "Software\\Joymax\\DMO";
+                return "Software\\MoveGames\\DMO_GSP";
             }
         }
 
@@ -94,7 +94,7 @@ namespace AdvancedLauncher.Management.Configuration {
 
         public override string PatchRemoteURL {
             get {
-                return "http://patch.dmo.joymax.com/GDMO{0}.zip";
+                return "http://gdmo-cdn.gameking.com/GSP/Live/GDMO{0}.zip";
             }
         }
 
@@ -106,7 +106,7 @@ namespace AdvancedLauncher.Management.Configuration {
 
         public override string VersionRemoteURL {
             get {
-                return "http://patch.dmo.joymax.com/PatchInfo_GDMO.ini";
+                return "http://gdmo-cdn.gameking.com/GSP/Live/PatchInfo_GDMO.ini";
             }
         }
 

@@ -135,7 +135,7 @@
     <Compile Include="Management\Execution\LELauncher.cs" />
     <Compile Include="Management\Internal\PluginManager.cs" />
     <Compile Include="Management\Internal\UpdateManager.cs" />
-    <Compile Include="Management\Configuration\JoymaxConfiguration.cs" />
+    <Compile Include="Management\Configuration\GameKingConfiguration.cs" />
     <Compile Include="Management\LogManager.cs" />
     <Compile Include="Management\PluginHost.cs" />
     <Compile Include="Management\Internal\ProxyManager.cs" />

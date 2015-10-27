@@ -23,7 +23,7 @@ using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Web;
 using HtmlAgilityPack;
 
-namespace AdvancedLauncher.Providers.Joymax {
+namespace AdvancedLauncher.Providers.GameKing {
 
     public class GameKingNewsProvider : AbstractNewsProvider {
         private static string STR_URL_NEW_PAGE = "http://dmo.gameking.com{0}";

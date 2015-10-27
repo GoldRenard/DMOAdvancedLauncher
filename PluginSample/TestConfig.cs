@@ -1,4 +1,4 @@
-﻿using AdvancedLauncher.Providers.Joymax;
+﻿using AdvancedLauncher.Providers.GameKing;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Web;
@@ -97,7 +97,7 @@ namespace PluginSample {
         #region Providers
 
         public override IWebProvider CreateWebProvider() {
-            return new JoymaxWebProvider(DatabaseManager, LogManager);
+            return new GameKingWebProvider(DatabaseManager, LogManager);
         }
 
         public override INewsProvider CreateNewsProvider() {
@@ -105,7 +105,7 @@ namespace PluginSample {
         }
 
         protected override IServersProvider CreateServersProvider() {
-            return new JoymaxServersProvider(DatabaseManager);
+            return new GameKingServersProvider(DatabaseManager);
         }
 
         public override bool IsLoginRequired {

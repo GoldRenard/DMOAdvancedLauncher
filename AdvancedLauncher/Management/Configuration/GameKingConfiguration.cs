@@ -16,7 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.Providers.Joymax;
+using AdvancedLauncher.Providers.GameKing;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Web;
@@ -119,7 +119,7 @@ namespace AdvancedLauncher.Management.Configuration {
         #region Providers
 
         public override IWebProvider CreateWebProvider() {
-            return new JoymaxWebProvider(DatabaseManager, LogManager);
+            return new GameKingWebProvider(DatabaseManager, LogManager);
         }
 
         public override INewsProvider CreateNewsProvider() {
@@ -127,7 +127,7 @@ namespace AdvancedLauncher.Management.Configuration {
         }
 
         protected override IServersProvider CreateServersProvider() {
-            return new JoymaxServersProvider(DatabaseManager);
+            return new GameKingServersProvider(DatabaseManager);
         }
 
         public override bool IsLoginRequired {

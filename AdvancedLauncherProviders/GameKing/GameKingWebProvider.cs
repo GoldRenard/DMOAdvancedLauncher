@@ -26,21 +26,21 @@ using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Web;
 using HtmlAgilityPack;
 
-namespace AdvancedLauncher.Providers.Joymax {
+namespace AdvancedLauncher.Providers.GameKing {
 
-    public class JoymaxWebProvider : DatabaseWebProvider {
+    public class GameKingWebProvider : DatabaseWebProvider {
         private static string STR_RANKING_NODE = "//div[@class='list bbs-ranking']";
         private static string STR_GUILD_ID_REGEX = "(\\/Ranking\\/GuildRankingDetail\\.aspx\\?gid=)(\\d+)(&srvn=)";
         private static string STR_TAMER_ID_REGEX = "(\\/Ranking\\/MainPop\\.aspx\\?tid=)(\\d+)(&srvn=)";
 
-        private static string STR_URL_TAMER_POPPAGE = "http://dmocp.joymax.com/us/Ranking/MainPop.aspx?tid={0}&srvn={1}";
-        private static string STR_URL_GUILD_PAGE = "http://dmocp.joymax.com/Ranking/GuildRankingDetail.aspx?gid={0}&srvn={1}";
-        private static string STR_URL_GUILD_RANK = "http://dmocp.joymax.com/Ranking/GuildRankingList.aspx?st=0&sw={0}&srvn={1}";
-        private static string STR_URL_MERC_SIZE_RANK = "http://dmocp.joymax.com/Ranking/SizeRankingList.aspx?sw={0}&srvn={1}&dtype={2}";
-        private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://dmocp.joymax.com/Ranking/SizeRankingList.aspx";
-        private static string STR_URL_STARTER_RANK = "http://dmocp.joymax.com/Ranking/PartnerRankingList.aspx?sw={0}&srvn={1}";
+        private static string STR_URL_TAMER_POPPAGE = "http://dmo.gameking.com/us/Ranking/MainPop.aspx?tid={0}&srvn={1}";
+        private static string STR_URL_GUILD_PAGE = "http://dmo.gameking.com/Ranking/GuildRankingDetail.aspx?gid={0}&srvn={1}";
+        private static string STR_URL_GUILD_RANK = "http://dmo.gameking.com/Ranking/GuildRankingList.aspx?st=0&sw={0}&srvn={1}";
+        private static string STR_URL_MERC_SIZE_RANK = "http://dmo.gameking.com/Ranking/SizeRankingList.aspx?sw={0}&srvn={1}&dtype={2}";
+        private static string STR_URL_MERC_SIZE_RANK_MAIN = "http://dmo.gameking.com/Ranking/SizeRankingList.aspx";
+        private static string STR_URL_STARTER_RANK = "http://dmo.gameking.com/Ranking/PartnerRankingList.aspx?sw={0}&srvn={1}";
 
-        public JoymaxWebProvider(IDatabaseManager DatabaseManager, ILogManager logManager) : base(DatabaseManager, logManager) {
+        public GameKingWebProvider(IDatabaseManager DatabaseManager, ILogManager logManager) : base(DatabaseManager, logManager) {
         }
 
         private HtmlNode tryLoadNode(string url, string nodeExpression) {

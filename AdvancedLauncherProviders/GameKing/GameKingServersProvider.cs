@@ -20,11 +20,11 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Web;
 
-namespace AdvancedLauncher.Providers.Joymax {
+namespace AdvancedLauncher.Providers.GameKing {
 
-    public class JoymaxServersProvider : DatabaseServersProvider {
+    public class GameKingServersProvider : DatabaseServersProvider {
 
-        public JoymaxServersProvider(IDatabaseManager DatabaseManager)
+        public GameKingServersProvider(IDatabaseManager DatabaseManager)
             : base(DatabaseManager, Server.ServerType.GDMO) {
         }
     }

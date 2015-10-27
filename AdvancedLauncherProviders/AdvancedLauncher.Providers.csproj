@@ -54,9 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aeria\AeriaServersProvider.cs" />
-    <Compile Include="Joymax\GameKingNewsProvider.cs" />
-    <Compile Include="Joymax\JoymaxServersProvider.cs" />
-    <Compile Include="Joymax\JoymaxWebProvider.cs" />
+    <Compile Include="GameKing\GameKingNewsProvider.cs" />
+    <Compile Include="GameKing\GameKingServersProvider.cs" />
+    <Compile Include="GameKing\GameKingWebProvider.cs" />
     <Compile Include="Korea\KoreaLoginProvider.cs" />
     <Compile Include="Korea\KoreaIMBCLoginProvider.cs" />
     <Compile Include="Korea\KoreaIMBCServersProvider.cs" />

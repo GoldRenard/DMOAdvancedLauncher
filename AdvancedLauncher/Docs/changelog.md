@@ -1,6 +1,6 @@
 # DMO Advanced Launcher Changelog:
 
-## Version 3.1.118 (hotfix)
+## Version 3.1.119 (hotfix)
  - Fixed application crash on closing
  - Partial GameKing migration (ranking not available yet)
  - Locale Emulator 2.1.0.0 support (it is compatible with GameGuard)

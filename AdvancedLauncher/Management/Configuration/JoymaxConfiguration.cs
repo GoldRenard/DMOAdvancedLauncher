@@ -111,7 +111,7 @@ namespace AdvancedLauncher.Management.Configuration {
         }
 
         public override string ConvertGameStartArgs(string args) {
-            return "true";
+            return "DiMaOAuthKey.value";
         }
 
         #endregion Common

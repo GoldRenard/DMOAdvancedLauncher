@@ -76,7 +76,7 @@ namespace AdvancedLauncher.Management.Internal {
                     return;
                 }
             }
-            ShowLoginDialog(LanguageManager.Model.LoginLogIn, String.Empty, credentials.User);
+            ShowLoginDialog(LanguageManager.Model.LoginLogIn, string.Empty, credentials.User);
         }
 
         private async void ShowLoginDialog(string title, string message, string initUserName) {

@@ -352,7 +352,9 @@ namespace AdvancedLauncher.UI.Windows {
             LoginManager loginManager = App.Kernel.Get<LoginManager>();
             foreach (Profile profile in ProfileManager.Profiles) {
                 LoginData data = null;
-                Credentials.TryGetValue(profile, out data);
+                if (!Credentials.TryGetValue(profile, out data)) {
+                    data = new LoginData();
+                }
                 loginManager.UpdateCredentials(profile, data);
             }
             Credentials.Clear();

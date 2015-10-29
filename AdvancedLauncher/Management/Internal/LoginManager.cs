@@ -138,7 +138,11 @@ namespace AdvancedLauncher.Management.Internal {
         }
 
         public async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
-            await controller.CloseAsync();
+            try {
+                await controller.CloseAsync();
+            } catch (InvalidOperationException) {
+                // sometimes login dialog wrapper is already closed, check for this
+            }
             if (e.Code == LoginCode.WRONG_USER) {
                 failedLogin.Add(e.UserName);
                 ShowLoginDialog(LanguageManager.Model.LoginLogIn, LanguageManager.Model.LoginBadAccount, string.Empty);

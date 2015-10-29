@@ -1,5 +1,8 @@
 # DMO Advanced Launcher Changelog:
 
+## Version 3.2.xxx
+ - Fixed an application crash caused by account logging in process
+
 ## Version 3.1.120 (hotfix)
  - Fixed application crash on closing
  - GameKing migration for Aeria and Joymax (ranking not available yet)

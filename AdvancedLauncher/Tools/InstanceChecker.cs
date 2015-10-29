@@ -40,22 +40,20 @@ namespace AdvancedLauncher.Tools {
                         InstanceRunning = true;
                         runningId = p.Id;
                         break;
-                    } else
-                        mutex.ReleaseMutex();
+                    } else {
+                        mutex.Close();
+                    }
                 }
             }
-
-            if (!InstanceRunning) {
-                mutex = new Mutex(true, mutexName + proc.Id.ToString());
-                mutex.ReleaseMutex();
-            } else {
+            if (InstanceRunning) {
                 IntPtr hWnd = Process.GetProcessById((int)runningId).MainWindowHandle;
                 if (NativeMethods.IsIconic(hWnd)) {
                     NativeMethods.ShowWindowAsync(hWnd, 9);
                 }
                 NativeMethods.SetForegroundWindow(hWnd);
+            } else {
+                mutex = new Mutex(true, mutexName + proc.Id.ToString());
             }
-
             return InstanceRunning;
         }
     }

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- Darwin Gonzalez -->
+  <CantOpenLink>No se puede abrir la direcciуn. Intenta cambiar el navegador por defecto. Error: </CantOpenLink>
+  <Error>Error</Error>
+  <Yes>Si</Yes>
+  <No>No</No>
+  <Console>Consola</Console>
+  <CreateButton>Crear</CreateButton>
+  <DeleteButton>Borrar</DeleteButton>
+  <BrowseButton>Buscar</BrowseButton>
+  <ApplyButton>Aplicar</ApplyButton>
+  <CancelButton>Cancelar</CancelButton>
+  <SendButton>Enviar</SendButton>
+  <LogInButton>Entrar</LogInButton>
+  <CloseButton>Cerrar</CloseButton>
+  <StartButton>GAME START</StartButton>
+  <DigiRotation>DigiRotation</DigiRotation>
+  <PleaseWait>Por favor espere</PleaseWait>
+  <ErrorOccured>A ocurrido un error!</ErrorOccured>
+  <ConnectionError>Revisa tu conexion a internet.</ConnectionError>
+  <CantGetError>No se puede obtener informaciуn remota.</CantGetError>
+  <GuildNotFoundError>Guild no encontrada. Revisa tus Ajustes.</GuildNotFoundError>
+  <GameFilesInUse>Unable to get access to the required game files. Please close all programs that use them.</GameFilesInUse>
+  <PleaseCloseGame>Por favor cierre el juego.</PleaseCloseGame>
+  <PleaseSelectGamePath>Por favor seleccione la ruta correcta del juego en los ajustes del launcher.</PleaseSelectGamePath>
+  <PleaseSelectLauncherPath>Por favor seleccione la ruta correcta del directorio por defecto en Ajustes.</PleaseSelectLauncherPath>
+  
+  <MainWindow_NewsTab>NOCITICAS</MainWindow_NewsTab>
+  <MainWindow_GalleryTab>GALERIA</MainWindow_GalleryTab>
+  <MainWindow_CommunityTab>COMUNIDAD</MainWindow_CommunityTab>
+  <MainWindow_PersonalizationTab>PERSONALIZACIУN</MainWindow_PersonalizationTab>
+  
+  <About>Acerca</About>
+  <About_Version>Versiуn</About_Version>
+  <About_Developer>Desarrollador</About_Developer>
+  <About_DesignHelp>Ayuda de Diseсo</About_DesignHelp>
+  <About_Acknowledgments>Conocimientos</About_Acknowledgments>
+  <About_Translators>Traductores</About_Translators>
+  
+  <ManageProfiles>Administrar Perfiles</ManageProfiles>
+  <Settings>Ajustes</Settings>
+  <Settings_Language>Idioma</Settings_Language>
+  <Settings_LastProfile>Es imposible eliminar el ъltimo perfil. El Launcher debe tener almenos un perfil.</Settings_LastProfile>
+  <Settings_MainGroup>Perfil</Settings_MainGroup>
+  <Settings_RotationGroup>DigiRotation</Settings_RotationGroup>
+  <Settings_NewsGroup>Noticias</Settings_NewsGroup>
+  <Settings_GameGroup>Juego</Settings_GameGroup>
+  <Settings_AccountGroup>Cuenta</Settings_AccountGroup>
+  <Settings_ThemeGroup>Tema</Settings_ThemeGroup>
+  <Settings_ColorSchemeGroup>Esquema de colores</Settings_ColorSchemeGroup>
+  <Settings_ConnectionGroup>Conexiуn</Settings_ConnectionGroup>
+  <Settings_ProxyGroup>Proxy</Settings_ProxyGroup>
+  <Settings_ProfileNameHint>Escribe el nombre del perfil</Settings_ProfileNameHint>
+  <Settings_SetAsDefaultButton>Seleccionar como perfil predeterminado.</Settings_SetAsDefaultButton>
+  <Settings_RotationGuildHint>Guild para Rotaciуn</Settings_RotationGuildHint>
+  <Settings_RotationTamerHint>Tamer para Rotaciуn (opcional)</Settings_RotationTamerHint>
+  <Settings_RotationUpdateFREQ>Frecuencia de actualizaciуn (dнas)</Settings_RotationUpdateFREQ>
+  <Settings_TwitterHint>Twitter URL (JSON-source)</Settings_TwitterHint>
+  <Settings_FirstNewsTab>Pestaсa de Primeras Noticias</Settings_FirstNewsTab>
+  <Settings_ClientType>Tipo de cliente</Settings_ClientType>
+  <Settings_GamePath>Directorio del juego.</Settings_GamePath>
+  <Settings_LauncherPath>Directorio para launcher por defecto.</Settings_LauncherPath>
+  <Settings_UpdateEngine>Motor de actualizaciуn integrado</Settings_UpdateEngine>
+  <Settings_AppLocale_Help>їPorque inactivo?</Settings_AppLocale_Help>
+  <Settings_KBLCService>Reparar distribuciуn de cambio de teclado</Settings_KBLCService>
+  <Settings_Account_User>Usuario</Settings_Account_User>
+  <Settings_Account_Password>Contraseсa</Settings_Account_Password>
+  <Settings_LocaleFix>Reparar local del juego</Settings_LocaleFix>
+  <Settings_SelectGameDir>Por favor, especifique el directorio donde se encuentra el juego.</Settings_SelectGameDir>
+  <Settings_SelectGameDirError>Debes especificar la carpeta correcta del juego</Settings_SelectGameDirError>
+  <Settings_SelectLauncherDir>Por favor, especifique el directorio donde se encuentra el launcher por defecto.</Settings_SelectLauncherDir>
+  <Settings_SelectLauncherDirError>Debes especificar la carpeta correcta del launcher por defecto.</Settings_SelectLauncherDirError>
+  <Settings_Proxy_Default>Sistema por defecto</Settings_Proxy_Default>
+  <Settings_Proxy_Authentication>Atenticaciуn</Settings_Proxy_Authentication>
+  <Settings_Proxy_HostWatermark>Host y puerto</Settings_Proxy_HostWatermark>
+  
+  <AppLocale_FailReasons>No se puede ejecutar el juego a travйs de AppLocale por las siguientes razones:</AppLocale_FailReasons>
+  <AppLocale_Error>Error de AppLocale de Microsoft</AppLocale_Error>
+  <AppLocale_NotInstalled> - Utilidad Microsoft AppLocale no estб instalada</AppLocale_NotInstalled>
+  <AppLocale_EALNotInstalled> - Soporte de idiomas para Asia oriental no estб instalado</AppLocale_EALNotInstalled>
+  <AppLocale_FixQuestion>їQuieres abrir la pбgina de descarga y/o las instrucciones para corregir estos errores ahora mismo?</AppLocale_FixQuestion>
+  
+  <RotationLevelText>nivel</RotationLevelText>
+  <RotationDownloading>Descargando datos...</RotationDownloading>
+  <RotationTamer>Tamer</RotationTamer>
+  
+  <News>Noticias</News>
+  <NewsPubDate>Fecha de publicaciуn</NewsPubDate>
+  <NewsReadMore>Leer mбs...</NewsReadMore>
+  <NewsTwitterError>Imposible obtener lista de tweets</NewsTwitterError>
+  <NewsType_Notice>aviso</NewsType_Notice>
+  <NewsType_Event>evento</NewsType_Event>
+  <NewsType_Patch>parche</NewsType_Patch>
+  
+  <GameButton_Waiting>ESPERANDO</GameButton_Waiting>
+  <GameButton_UpdateGame>ACTUALIZAR JUEGO</GameButton_UpdateGame>
+  <UpdateCantGetVersion>Imposible obtener la versiуn del juego.</UpdateCantGetVersion>
+  <UpdateCantConnect>Imposible conectar al servidor de actualizaciones.</UpdateCantConnect>
+  <UpdateDownloading>Descargando actualizaciуn {0} de {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
+  <UpdateExtracting>Descomprimiendo actualizaciуn {0} de {1}... [{2} / {3}]</UpdateExtracting>
+  <UpdateInstalling>Instalando actualizaciones... [{0} / {1}]</UpdateInstalling>
+  <UseLastSession>їQuieres utilizar la ъltima sesiуn exitosa?</UseLastSession>
+  
+  <LoginTry>Intento {0}...</LoginTry>
+  <LoginGettingData>Obteniendo datos...</LoginGettingData>
+  <LoginLogIn>Iniciar sesiуn...</LoginLogIn>
+  <LoginWasError>fue un error</LoginWasError>
+  <LoginBadAccount>No se puede iniciar sesiуn. Tu nombre de usuario o contraseсa pueden ser incorrectos.</LoginBadAccount>
+  <LoginEmptyUsername>Por favor escriba su nombre de usuario!</LoginEmptyUsername>
+  <LoginEmptyPassword>Por favor escriba su contraseсa!</LoginEmptyPassword>
+  <LoginWrongPage>La pбgina de inicio de sesiуn es incorrecta o ha cambiado. Por favor, pуngase en contacto con el desarrollador del launcher.</LoginWrongPage>
+  
+  <GalleryNoScreenshots>NO HAY IMБGENES</GalleryNoScreenshots>
+  <GalleryCantOpenImage>No se puede abrir la imagen. Error: </GalleryCantOpenImage>
+  
+  <PersonalizationWrongTGA>No es una imagen-TGA!</PersonalizationWrongTGA>
+  <PersonalizationCantSave>No se puede guardar la imagen.</PersonalizationCantSave>
+  <PersonalizationCantWrite>No se puede escribir la imagen en el juego!</PersonalizationCantWrite>
+  <PersonalizationSelectTitle>Selecciona Imagen:</PersonalizationSelectTitle>
+  <PersonalizationSelectMessage>Haz clic aquн para seleccionar la Imagen</PersonalizationSelectMessage>
+  <PersonalizationCurrentTitle>Imagen actual:</PersonalizationCurrentTitle>
+  <PersonalizationSaveButton>Guardar Imagen</PersonalizationSaveButton>
+  
+  <CommGuildName>Nombre de la Guild</CommGuildName>
+  <CommGuildNameEmpty>Por favor, intruzca el nombre de la Guild!</CommGuildNameEmpty>
+  <CommWrongGuildName>El nombre de la Guild contiene caracteres invбlidos!</CommWrongGuildName>
+  
+  <CommSearchingGuild>Buscando la guild</CommSearchingGuild>
+  <CommGettingTamer>Obteniendo Tamer: {0}</CommGettingTamer>
+  
+  <CommTamersTab>TAMERS</CommTamersTab>
+  <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
+  
+  <CommSelect_Guild>Que guild buscas</CommSelect_Guild>
+  <CommCheckBox_Detailed>Recibir datos detallados (largos)</CommCheckBox_Detailed>
+  <CommButton_Search>buscar una guild</CommButton_Search>
+  
+  <CommGMaster>Master</CommGMaster>
+  <CommGBest>Best</CommGBest>
+  <CommGRank>Ranking</CommGRank>
+  <CommGRep>Reputaciуn</CommGRep>
+  <CommGTCnt>Cantidad de tamers</CommGTCnt>
+  <CommGDCnt>Cantidad de digimons</CommGDCnt>
+  
+  <CommHeader_Type>Tipo</CommHeader_Type>
+  <CommHeader_Level>Nivel</CommHeader_Level>
+  <CommHeader_Ranking>Ranking</CommHeader_Ranking>
+  <CommHeader_Tamer>Tamer</CommHeader_Tamer>
+  <CommHeader_Partner>Partner</CommHeader_Partner>
+  <CommHeader_Mercenary>Mercenary</CommHeader_Mercenary>
+  <CommHeader_Name>Nombre</CommHeader_Name>
+  <CommHeader_Size>Tamaсo</CommHeader_Size>
+  
+  <CheckForUpdates>Buscar actualizaciones</CheckForUpdates>
+  <UpdateAvailableText>Nueva versiуn {0} disponible. Changelog:</UpdateAvailableText>
+  <UpdateAvailableCaption>Nueva versiуn {0} disponible</UpdateAvailableCaption>
+  <UpdateDownloadQuestion>їQuieres descargarla ahora?</UpdateDownloadQuestion>
+</Language>

@@ -53,10 +53,18 @@ namespace AdvancedLauncher.SDK.UI {
         }
 
         /// <summary>
+        /// Window close handler
+        /// </summary>
+        public virtual void OnClose() {
+            // nothing to do here
+        }
+
+        /// <summary>
         /// Returns to last opened window. You're free to override this method.
         /// </summary>
         public virtual void Close() {
             WindowManager.GoBack(Container);
+            OnClose();
         }
     }
 }

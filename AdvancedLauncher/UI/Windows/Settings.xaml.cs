@@ -142,6 +142,11 @@ namespace AdvancedLauncher.UI.Windows {
 
         public override void OnShow() {
             ReloadProfiles();
+            ProfileManager.OnProfileLocked(true);
+        }
+
+        public override void OnClose() {
+            ProfileManager.OnProfileLocked(false);
         }
 
         private void ReloadProfiles() {

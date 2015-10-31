@@ -159,9 +159,10 @@
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
     <Compile Include="Tools\ExceptionHandler.cs" />
-    <Compile Include="Tools\FilesystemSuggestionProvider.cs" />
+    <Compile Include="Tools\WikiSuggestionProvider.cs" />
     <Compile Include="Tools\OsVersionInfo.cs" />
     <Compile Include="Tools\Utils.cs" />
+    <Compile Include="Tools\WikiProvider.cs" />
     <Compile Include="UI\Controls\AbstractFlyout.cs" />
     <Compile Include="UI\Controls\AbstractUserControl.cs" />
     <Compile Include="UI\Controls\AutoCompleteBox\AutoCompleteTextBox.cs" />

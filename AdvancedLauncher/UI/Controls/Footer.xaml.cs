@@ -17,18 +17,57 @@
 // ======================================================================
 
 using System;
-using System.Windows.Controls;
+using System.Windows.Input;
+using AdvancedLauncher.Tools;
+using AdvancedLauncher.UI.Commands;
+using Ninject;
 
 namespace AdvancedLauncher.UI.Controls {
 
-    public partial class Footer : UserControl {
+    public partial class Footer : AbstractUserControl {
+
+        public ICommand SuggestionCommit {
+            get;
+            private set;
+        }
+
+        [Inject]
+        public WikiProvider Provider {
+            get; set;
+        }
 
         public Footer() {
             InitializeComponent();
+            this.DataContext = this;
             Version v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             string ver = v.Major.ToString() + "." + v.Minor.ToString();
             ver += " (build " + v.Build.ToString() + ")";
             VersionBlock.Text = string.Format(VersionBlock.Text, ver);
+            SuggestionCommit = new ModelCommand(Search);
+        }
+
+        public void Search(object obj) {
+            if (obj == null) {
+                return;
+            }
+            string url = null;
+            if (typeof(WikiProvider.Suggestion).IsAssignableFrom(obj.GetType())) {
+                url = Provider.URL + (obj as WikiProvider.Suggestion).Value;
+            }
+            if (typeof(string).IsAssignableFrom(obj.GetType())) {
+                if (!string.IsNullOrEmpty((string)obj)) {
+                    url = string.Format(Provider.Search, obj);
+                }
+            }
+            if (url != null) {
+                URLUtils.OpenSite(url);
+            }
+        }
+
+        private void AutoCompleteTextBox_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Return) {
+                Search(SearchBox.Text);
+            }
         }
     }
 }

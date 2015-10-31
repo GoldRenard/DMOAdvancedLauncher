@@ -28,6 +28,7 @@ using System.Windows.Threading;
 using AdvancedLauncher.UI.Extension;
 
 namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
+
     [TemplatePart(Name = AutoCompleteTextBox.PartEditor, Type = typeof(TextBox))]
     [TemplatePart(Name = AutoCompleteTextBox.PartPopup, Type = typeof(Popup))]
     [TemplatePart(Name = AutoCompleteTextBox.PartSelector, Type = typeof(Selector))]
@@ -54,6 +55,8 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(string.Empty));
 
+        public static readonly DependencyProperty SuggestionCommitProperty = DependencyProperty.Register("SuggestionCommit", typeof(ICommand), typeof(AutoCompleteTextBox));
+
         public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(string.Empty));
         private BindingEvaluator _bindingEvaluator;
 
@@ -75,8 +78,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
 
         private SuggestionsAdapter _suggestionsAdapter;
 
-
-        #endregion
+        #endregion "Fields"
 
         #region "Constructors"
 
@@ -84,7 +86,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(typeof(AutoCompleteTextBox)));
         }
 
-        #endregion
+        #endregion "Constructors"
 
         #region "Properties"
 
@@ -282,11 +284,11 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
 
         public string Text {
             get {
-                return (string)GetValue(TextProperty);
+                return _editor.Text;
             }
 
             set {
-                SetValue(TextProperty, value);
+                _editor.Text = value;
             }
         }
 
@@ -300,7 +302,16 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             }
         }
 
-        #endregion
+        public ICommand SuggestionCommit {
+            get {
+                return (ICommand)GetValue(SuggestionCommitProperty);
+            }
+            set {
+                SetValue(SuggestionCommitProperty, value);
+            }
+        }
+
+        #endregion "Properties"
 
         #region "Methods"
 
@@ -337,7 +348,6 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
                 if (SelectedItem != null) {
                     Editor.Text = BindingEvaluator.Evaluate(SelectedItem);
                 }
-
             }
 
             if (Popup != null) {
@@ -352,6 +362,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
                 SelectionAdapter.SelectionChanged += OnSelectionAdapterSelectionChanged;
             }
         }
+
         private string GetDisplayText(object dataItem) {
             if (BindingEvaluator == null) {
                 BindingEvaluator = new BindingEvaluator(new Binding(DisplayMember));
@@ -393,7 +404,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             SetSelectedItem(null);
             if (Editor.Text.Length > 0) {
                 IsLoading = true;
-                IsDropDownOpen = true;
+                IsDropDownOpen = false;
                 ItemsSelector.ItemsSource = null;
                 FetchTimer.IsEnabled = true;
                 FetchTimer.Start();
@@ -416,7 +427,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
 
         private void OnPopupClosed(object sender, EventArgs e) {
             if (!_selectionCancelled) {
-                OnSelectionAdapterCommit();
+                //OnSelectionAdapterCommit();
             }
         }
 
@@ -443,6 +454,11 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
                 SetSelectedItem(ItemsSelector.SelectedItem);
                 _isUpdatingText = false;
                 IsDropDownOpen = false;
+                if (SuggestionCommit != null) {
+                    if (SuggestionCommit.CanExecute(SelectedItem)) {
+                        SuggestionCommit.Execute(SelectedItem);
+                    }
+                }
             }
         }
 
@@ -464,7 +480,8 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             SelectedItem = item;
             _isUpdatingText = false;
         }
-        #endregion
+
+        #endregion "Methods"
 
         #region "Nested Types"
 
@@ -475,7 +492,8 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             private AutoCompleteTextBox _actb;
 
             private string _filter;
-            #endregion
+
+            #endregion "Fields"
 
             #region "Constructors"
 
@@ -483,7 +501,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
                 _actb = actb;
             }
 
-            #endregion
+            #endregion "Constructors"
 
             #region "Methods"
 
@@ -502,12 +520,14 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
                 if (_filter != filter) {
                     return;
                 }
-                if (_actb.IsDropDownOpen) {
-                    _actb.IsLoading = false;
-                    _actb.ItemsSelector.ItemsSource = suggestions;
-                    _actb.IsDropDownOpen = _actb.ItemsSelector.HasItems;
+                _actb.IsLoading = false;
+                Window window = _actb.FindAncestor<Window>();
+                if (window != null) {
+                    if (window.IsActive) {
+                        _actb.ItemsSelector.ItemsSource = suggestions;
+                        _actb.IsDropDownOpen = _actb.ItemsSelector.HasItems;
+                    }
                 }
-
             }
 
             private void GetSuggestionsAsync(object param) {
@@ -521,12 +541,9 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             });
             }
 
-            #endregion
-
+            #endregion "Methods"
         }
 
-        #endregion
-
+        #endregion "Nested Types"
     }
-
 }

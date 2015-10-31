@@ -193,8 +193,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="ContentBorder"
-                            Background="White">
+                    <Border x:Name="ContentBorder">
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -202,7 +201,7 @@
                                  Value="True">
                             <Setter Property="Background"
                                     TargetName="ContentBorder"
-                                    Value="{x:Static SystemColors.HighlightBrush}" />
+                                    Value="{DynamicResource AccentColorBrush4}" />
                             <Setter Property="IsSelected"
                                     Value="True" />
                         </Trigger>
@@ -210,7 +209,7 @@
                                  Value="True">
                             <Setter Property="Background"
                                     TargetName="ContentBorder"
-                                    Value="{x:Static SystemColors.HighlightBrush}" />
+                                    Value="{DynamicResource AccentColorBrush2}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -257,7 +256,7 @@
                     <Border x:Name="PART_Border"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="#44FFFFFF">
+                            Background="#33FFFFFF">
                         <Grid>
                             <DockPanel>
                                 <ContentPresenter ContentSource="Icon"
@@ -277,7 +276,7 @@
                                              VerticalAlignment="Center"
                                              Focusable="True"
                                              TabIndex="{TemplateBinding TabIndex}"
-                                             Foreground="#AA000000"
+                                             Foreground="{TemplateBinding Foreground}"
                                              Style="{StaticResource ResourceKey=TransparentTextBoxStyle}"
                                              Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
                                 </Grid>
@@ -289,15 +288,15 @@
                                    MinHeight="25"
                                    MaxHeight="600"
                                    AllowsTransparency="True"
-                                   PopupAnimation="Slide"
+                                   PopupAnimation="Fade"
+                                   Placement="Top"
                                    Focusable="False">
-                                <Border Background="White"
-                                        BorderThickness="1"
-                                        BorderBrush="Gray"
-                                        CornerRadius="5"
-                                        Padding="2">
+                                <Border Background="{DynamicResource WhiteBrush}"
+                                        BorderBrush="{DynamicResource AccentColorBrush}"
+                                        BorderThickness="1">
                                     <Grid>
                                         <ListBox x:Name="PART_Selector"
+                                                 Background="{x:Null}"
                                                  ItemTemplate="{TemplateBinding ItemTemplate}"
                                                  ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                                  Focusable="False"
@@ -329,7 +328,7 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="#77FFFFFF"
+                                        <ColorAnimation To="#55FFFFFF"
                                                         Storyboard.TargetName="PART_Border"
                                                         Storyboard.TargetProperty="(TextBox.Background).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.2" />
@@ -339,7 +338,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="#44FFFFFF"
+                                        <ColorAnimation To="#33FFFFFF"
                                                         Storyboard.TargetName="PART_Border" 
                                                         Storyboard.TargetProperty="(TextBox.Background).(SolidColorBrush.Color)" 
                                                         Duration="0:0:0.2" />

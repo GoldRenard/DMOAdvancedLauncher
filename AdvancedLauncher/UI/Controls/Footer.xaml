@@ -18,45 +18,28 @@
 // ======================================================================
 -->
 
-<UserControl x:Class="AdvancedLauncher.UI.Controls.Footer"
+<ui:AbstractUserControl x:Class="AdvancedLauncher.UI.Controls.Footer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:auc="clr-namespace:AdvancedLauncher.UI.Controls.AutoCompleteBox"
+             xmlns:ui="clr-namespace:AdvancedLauncher.UI.Controls"
              xmlns:t="clr-namespace:AdvancedLauncher.Tools"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:Converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="850">
     <UserControl.Resources>
-        <t:FilesystemSuggestionProvider x:Key="fsp" />
-
-        <DataTemplate x:Key="fsTemplate">
+        <t:WikiSuggestionProvider x:Key="wikiSuggestions" />
+        <DataTemplate x:Key="suggestionTemplate">
             <Border Padding="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Path=Name}"
+                <TextBlock Text="{Binding Path=Value}"
                                FontWeight="Bold" 
-                               Grid.Column="1" 
-                               Grid.Row="0"
                                FontFamily="Segoe UI"
-                               VerticalAlignment="Bottom"/>
-                    <TextBlock Text="{Binding Path=LastWriteTime, StringFormat='Last Modified: {0}'}"
-                               Grid.Column="1"
-                               Grid.Row="1"
-                               VerticalAlignment="Top"/>
-                </Grid>
+                               VerticalAlignment="Center"/>
             </Border>
         </DataTemplate>
-
         <Style TargetType="TextBlock" x:Key="CopyrightText">
             <Setter Property="FontSize" Value="9" />
             <Setter Property="TextWrapping" Value="WrapWithOverflow" />
@@ -95,16 +78,19 @@
         <Image Grid.Column="1" Source="/AdvancedLauncher;component/Resources/copy_icons.png" Stretch="None" />
         <TextBlock x:Name="VersionBlock" Grid.Column="2" Style="{StaticResource CopyrightText}" Text="Advanced DMO Launcher v{0}. Developer: GoldRenard. Design help: DragonVs." />
         <TextBlock Grid.Column="3" Style="{StaticResource CopyrightText}" Text="Akiyoshi Hongo, Toei Animation, MoveGames CO. LTD. All rights reserved." />
-        <auc:AutoCompleteTextBox Grid.Column="4" 
+        <auc:AutoCompleteTextBox x:Name="SearchBox"
+                                 Grid.Column="4" 
                                  Background="{DynamicResource AccentColorBrush4}"
                                  Margin="15,0,0,0"
-                                 DisplayMember="FullName"
+                                 DisplayMember="Value"
                                  BorderThickness="0"
-                                 ItemTemplate="{StaticResource fsTemplate}"
+                                 ItemTemplate="{StaticResource suggestionTemplate}"
                                  Watermark="Поиск в dmowiki.com..."
                                  IconPlacement="Left"
                                  IconVisibility="Visible"
-                                 Provider="{StaticResource ResourceKey=fsp}">
+                                 SuggestionCommit="{Binding SuggestionCommit}"
+                                 KeyDown="AutoCompleteTextBox_KeyDown"
+                                 Provider="{StaticResource ResourceKey=wikiSuggestions}">
             <auc:AutoCompleteTextBox.Foreground>
                 <MultiBinding Converter="{x:Static Converters:BackgroundToForegroundConverter.Instance}">
                     <Binding ElementName="LayoutRoot"
@@ -112,9 +98,6 @@
                              Mode="OneWay" />
                 </MultiBinding>
             </auc:AutoCompleteTextBox.Foreground>
-            <auc:AutoCompleteTextBox.LoadingContent>
-                <TextBlock Text="Loading..." Margin="5" FontSize="14" />
-            </auc:AutoCompleteTextBox.LoadingContent>
             <auc:AutoCompleteTextBox.Icon>
                 <Grid Margin="5,0,3,0" Opacity="0.7">
                     <Rectangle Width="14" Height="14">
@@ -145,4 +128,4 @@
             </auc:AutoCompleteTextBox.Icon>
         </auc:AutoCompleteTextBox>
     </Grid>
-</UserControl>
+</ui:AbstractUserControl>

@@ -159,10 +159,16 @@
     <Compile Include="Tools\ActivationStrategy.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
     <Compile Include="Tools\ExceptionHandler.cs" />
+    <Compile Include="Tools\FilesystemSuggestionProvider.cs" />
     <Compile Include="Tools\OsVersionInfo.cs" />
     <Compile Include="Tools\Utils.cs" />
     <Compile Include="UI\Controls\AbstractFlyout.cs" />
     <Compile Include="UI\Controls\AbstractUserControl.cs" />
+    <Compile Include="UI\Controls\AutoCompleteBox\AutoCompleteTextBox.cs" />
+    <Compile Include="UI\Controls\AutoCompleteBox\IconPlacement.cs" />
+    <Compile Include="UI\Controls\AutoCompleteBox\ISuggestionProvider.cs" />
+    <Compile Include="UI\Controls\AutoCompleteBox\SelectionAdapter.cs" />
+    <Compile Include="UI\Controls\AutoCompleteBox\SuggestionProvider.cs" />
     <Compile Include="UI\Converters\AbstractConverter.cs" />
     <Compile Include="UI\Converters\ProfileToConfigNameConverter.cs" />
     <Compile Include="UI\Converters\ProfileNameConverter.cs" />
@@ -171,6 +177,7 @@
     <Compile Include="Management\ConfigurationManager.cs" />
     <Compile Include="Management\LanguageManager.cs" />
     <Compile Include="Management\ProfileManager.cs" />
+    <Compile Include="UI\Extension\BindingEvaluator.cs" />
     <Compile Include="UI\Extension\BindingProxy.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Controls\HaguruLoader.xaml.cs">

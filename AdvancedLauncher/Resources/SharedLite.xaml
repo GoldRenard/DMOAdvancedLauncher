@@ -23,6 +23,7 @@
                     xmlns:core="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:AdvancedLauncher"
                     xmlns:conv="clr-namespace:AdvancedLauncher.UI.Converters"
+                    xmlns:auc="clr-namespace:AdvancedLauncher.UI.Controls.AutoCompleteBox"
                     xmlns:PFControls="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro">
@@ -185,4 +186,187 @@
         <Path Fill="{DynamicResource DigiBackgroundColorBrush}" Opacity="1.00" Data=" M 124.40 800.08 C 124.81 798.85 125.96 798.17 126.94 797.46 C 126.38 811.50 127.57 826.17 134.16 838.83 C 137.05 842.97 140.13 848.58 145.84 848.72 C 148.38 849.36 152.19 848.55 153.26 851.69 C 155.05 856.40 154.44 861.54 154.82 866.47 C 158.62 864.87 159.23 860.83 159.87 857.24 C 160.03 858.98 160.16 860.76 160.26 862.52 C 164.46 861.50 168.37 863.41 171.09 866.54 C 173.02 864.73 175.75 863.07 175.94 860.15 C 171.83 856.16 166.81 852.15 166.61 845.87 C 170.24 835.39 177.38 826.77 184.51 818.50 C 192.22 810.21 201.05 802.82 211.29 797.87 C 205.89 805.13 201.20 812.93 197.34 821.12 C 200.35 819.68 203.39 818.28 206.13 816.36 C 201.47 821.18 198.40 828.14 200.03 834.89 C 201.66 839.77 207.07 841.43 211.03 843.95 C 219.44 848.29 224.30 857.71 224.68 866.96 C 224.43 872.07 222.42 877.13 218.82 880.82 C 213.47 886.25 206.68 889.98 199.71 892.90 C 200.00 896.13 200.85 899.30 201.11 902.56 C 202.32 903.41 203.91 904.04 204.45 905.57 C 206.82 911.44 208.13 917.90 211.99 923.06 C 213.86 925.40 217.06 926.61 218.26 929.44 C 219.07 934.27 220.04 939.11 220.12 944.03 C 218.87 942.21 217.90 940.05 215.96 938.85 C 214.35 938.90 212.77 939.21 211.19 939.45 C 211.87 942.54 212.00 945.74 210.94 948.78 C 210.07 946.18 208.97 943.68 207.64 941.29 C 204.34 941.12 201.03 941.21 197.78 941.78 C 198.01 943.78 198.27 945.79 198.56 947.80 C 194.27 944.28 193.01 938.66 193.22 933.35 C 194.83 931.10 196.76 928.87 197.23 926.06 C 197.58 922.77 196.85 919.52 196.27 916.32 C 190.66 916.68 186.10 913.02 182.81 908.88 C 182.99 911.96 182.03 915.42 183.85 918.19 C 185.43 921.07 188.17 923.55 188.37 927.02 C 188.66 929.20 186.59 930.47 185.37 931.95 C 186.33 929.51 187.69 926.02 184.92 924.24 C 184.25 924.00 182.90 923.51 182.23 923.27 C 182.85 926.78 183.63 930.26 183.94 933.83 C 181.92 930.99 180.49 927.81 179.26 924.58 C 178.43 924.81 176.76 925.26 175.93 925.49 C 175.38 928.74 176.43 931.84 178.86 934.08 C 176.95 933.12 174.54 932.44 173.83 930.17 C 172.26 926.74 174.58 923.33 175.25 920.00 C 175.20 915.91 174.68 911.81 173.40 907.92 C 171.26 907.79 169.13 907.61 167.02 907.24 C 166.21 907.96 165.39 908.70 164.58 909.45 C 163.72 910.84 163.00 912.41 161.66 913.43 C 159.87 914.22 157.83 913.75 155.94 913.82 C 153.29 917.61 151.35 921.80 150.11 926.25 C 146.96 927.54 142.06 926.73 140.87 930.77 C 142.01 931.52 143.15 932.29 144.29 933.09 C 142.58 932.85 140.84 932.60 139.45 931.52 C 137.59 930.03 135.09 930.37 132.89 930.00 C 132.77 930.74 132.54 932.23 132.43 932.98 C 130.21 931.36 128.05 928.99 129.39 926.04 C 131.99 920.67 139.73 920.66 142.10 914.97 C 144.44 912.38 139.24 911.60 139.60 908.95 C 139.57 905.58 140.81 902.35 140.92 898.99 C 140.19 899.21 138.72 899.65 137.99 899.86 C 138.50 899.46 139.53 898.64 140.04 898.24 C 138.07 897.72 136.10 897.25 134.14 896.73 C 136.74 896.90 139.35 897.07 141.97 897.10 C 139.82 894.99 137.40 893.17 135.06 891.28 C 136.00 891.47 137.89 891.86 138.83 892.06 C 138.60 891.03 138.39 890.03 138.19 889.02 C 137.11 888.06 136.02 887.12 134.92 886.20 C 135.89 886.36 137.83 886.68 138.80 886.84 C 138.12 885.07 137.22 883.44 136.16 881.89 C 137.40 882.51 138.64 883.12 139.90 883.72 C 139.06 878.59 137.11 873.76 135.23 868.95 C 132.22 869.73 128.92 870.36 125.94 869.12 C 123.16 866.43 122.05 862.52 120.81 858.97 C 117.08 845.29 116.64 830.76 119.45 816.86 C 120.36 811.08 121.72 805.32 124.40 800.08 Z" />
         <Path Fill="{DynamicResource DigiBackgroundColorBrush}" Opacity="1.00" Data=" M 549.09 818.02 C 554.67 810.36 562.62 805.00 569.72 798.90 C 568.80 802.33 569.42 805.74 570.72 808.97 C 569.98 810.15 568.67 810.82 567.62 811.69 C 561.81 815.76 556.35 820.32 551.24 825.22 C 546.72 829.47 543.79 835.12 541.79 840.92 C 547.55 841.51 553.37 841.69 559.12 840.92 C 559.64 838.28 559.89 835.55 560.96 833.07 C 561.68 831.08 564.08 831.91 565.69 831.65 C 566.77 830.83 567.84 830.02 568.93 829.22 C 569.94 829.79 570.96 830.37 571.98 830.96 C 583.13 824.08 595.35 819.19 607.50 814.41 C 613.44 812.20 619.59 810.64 625.81 809.45 C 625.02 811.09 624.24 812.75 623.47 814.40 C 623.00 814.73 622.07 815.40 621.61 815.74 C 621.61 816.93 621.92 818.98 620.08 818.99 C 604.88 822.26 589.30 825.26 575.39 832.51 C 576.60 832.85 577.82 833.20 579.05 833.56 C 581.64 831.99 584.23 828.25 587.53 829.45 C 589.44 831.58 591.32 833.77 593.04 836.07 C 593.90 838.45 593.08 840.99 591.83 843.08 C 590.53 841.74 589.42 840.26 588.19 838.89 C 588.13 841.00 589.25 842.74 590.56 844.31 C 592.06 849.97 588.41 855.86 591.21 861.39 C 593.84 858.40 596.37 855.02 596.66 850.89 C 599.05 848.73 602.12 849.69 604.59 851.12 C 604.73 851.80 605.02 853.15 605.16 853.83 C 609.08 856.97 612.13 861.11 613.49 865.99 C 612.66 867.98 612.26 870.29 610.70 871.88 C 609.39 873.49 607.18 871.84 605.63 871.70 C 604.35 875.61 601.69 879.77 597.08 879.80 C 592.29 880.48 589.54 875.92 586.50 873.13 C 586.48 874.82 586.51 876.54 586.53 878.26 C 585.88 879.41 585.26 880.58 584.66 881.78 C 583.63 882.62 582.62 883.48 581.61 884.35 C 585.06 885.76 590.15 887.57 589.39 892.29 C 594.98 890.36 601.02 888.43 606.74 891.24 C 605.08 892.00 603.45 892.79 601.81 893.57 C 605.29 895.23 609.38 896.34 611.02 900.25 C 608.36 899.74 605.68 899.37 603.00 899.10 C 604.72 901.07 606.31 903.21 607.30 905.67 C 604.96 904.90 602.62 904.16 600.22 903.64 C 598.24 904.60 595.97 905.17 593.91 904.09 C 588.77 901.80 583.14 900.95 577.89 899.03 C 576.16 897.18 578.67 894.66 579.06 892.66 C 575.20 894.48 571.84 897.59 567.35 897.73 C 558.82 906.46 560.96 919.51 559.32 930.53 C 558.85 932.92 555.99 932.73 554.19 933.36 C 552.68 935.96 550.83 938.38 548.41 940.21 C 548.09 937.26 548.16 934.29 548.48 931.35 C 542.65 931.09 537.49 933.70 532.55 936.44 C 533.20 933.91 534.06 931.44 535.09 929.04 C 531.76 930.63 528.35 932.02 524.84 933.13 C 525.78 927.99 530.28 924.96 532.67 920.61 C 534.30 917.59 538.64 918.27 540.60 915.56 C 543.58 911.85 547.49 909.08 550.73 905.65 C 552.71 901.44 554.77 897.20 558.49 894.22 C 556.50 891.91 555.12 886.94 551.23 889.06 C 549.70 889.13 548.19 889.22 546.68 889.32 C 546.65 888.96 546.60 888.25 546.57 887.89 C 542.49 887.59 539.13 885.44 536.86 882.07 L 540.36 882.66 C 537.82 879.78 534.68 877.03 533.93 873.08 C 532.28 865.97 531.13 857.78 535.13 851.23 C 536.23 848.96 538.56 847.82 540.48 846.37 C 540.74 846.59 541.25 847.02 541.50 847.24 C 545.42 846.70 548.39 849.25 550.59 852.15 C 551.61 856.40 552.55 860.86 550.83 865.08 C 549.41 863.63 547.97 862.18 546.51 860.80 C 546.14 864.54 547.97 867.89 549.50 871.15 C 549.86 870.02 550.21 868.90 550.58 867.79 C 550.87 869.15 551.17 870.52 551.49 871.89 C 554.63 869.04 557.44 865.81 561.02 863.48 C 559.23 861.14 556.94 858.93 556.26 855.98 C 556.07 851.61 557.63 847.40 558.00 843.08 C 552.50 845.29 546.26 846.28 540.49 844.65 C 537.68 843.86 537.31 840.46 538.04 838.08 C 540.31 830.72 544.58 824.19 549.09 818.02 Z" />
     </Canvas>
+    
+    <!-- AutocompleteBox -->
+
+    <Style TargetType="ListBoxItem" x:Key="SuggestionItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="ContentBorder"
+                            Background="White">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    TargetName="ContentBorder"
+                                    Value="{x:Static SystemColors.HighlightBrush}" />
+                            <Setter Property="IsSelected"
+                                    Value="True" />
+                        </Trigger>
+                        <Trigger Property="IsSelected"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    TargetName="ContentBorder"
+                                    Value="{x:Static SystemColors.HighlightBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}"
+           x:Key="TransparentTextBoxStyle">
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
+        <Setter Property="Background" Value="#00FFFFFF" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Background="Transparent"
+                                      Focusable="True"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Hidden" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type auc:AutoCompleteTextBox}">
+        <Setter Property="Focusable"
+                Value="False" />
+        <Setter Property="IsTabStop" 
+                Value="True"/>
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="BorderBrush"
+                Value="Gray" />
+        <Setter Property="Validation.ErrorTemplate" 
+                Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type auc:AutoCompleteTextBox}">
+                    <Border x:Name="PART_Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="#44FFFFFF">
+                        <Grid>
+                            <DockPanel>
+                                <ContentPresenter ContentSource="Icon"
+                                                  x:Name="PART_Icon"
+                                                  Visibility="{TemplateBinding IconVisibility}" />
+                                <Grid>
+                                    <TextBlock x:Name="PART_Watermark" Opacity="0.7"
+                                               Text="{TemplateBinding Watermark}"
+                                               Visibility="Collapsed"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Focusable="False"
+                                               Foreground="{TemplateBinding Foreground}"
+                                               Margin="3,0" />
+                                    <TextBox x:Name="PART_Editor"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center"
+                                             Focusable="True"
+                                             TabIndex="{TemplateBinding TabIndex}"
+                                             Foreground="#AA000000"
+                                             Style="{StaticResource ResourceKey=TransparentTextBoxStyle}"
+                                             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
+                                </Grid>
+                            </DockPanel>
+                            <Popup x:Name="PART_Popup"
+                                   IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay}"
+                                   Width="{TemplateBinding ActualWidth}"
+                                   HorizontalOffset="0"
+                                   MinHeight="25"
+                                   MaxHeight="600"
+                                   AllowsTransparency="True"
+                                   PopupAnimation="Slide"
+                                   Focusable="False">
+                                <Border Background="White"
+                                        BorderThickness="1"
+                                        BorderBrush="Gray"
+                                        CornerRadius="5"
+                                        Padding="2">
+                                    <Grid>
+                                        <ListBox x:Name="PART_Selector"
+                                                 ItemTemplate="{TemplateBinding ItemTemplate}"
+                                                 ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                 Focusable="False"
+                                                 BorderThickness="0"
+                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                 ItemContainerStyle="{StaticResource ResourceKey=SuggestionItemStyle}">
+                                        </ListBox>
+                                        <Border Visibility="{Binding Path=IsLoading, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ResourceKey=BoolToHiddenConverter}}">
+                                            <ContentPresenter ContentSource="LoadingContent"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Popup>
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text"
+                                 Value=""
+                                 SourceName="PART_Editor">
+                            <Setter Property="Visibility"
+                                    Value="Visible"
+                                    TargetName="PART_Watermark" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" 
+                                 Value="True" 
+                                 SourceName="PART_Editor">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="#77FFFFFF"
+                                                        Storyboard.TargetName="PART_Border"
+                                                        Storyboard.TargetProperty="(TextBox.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="#44FFFFFF"
+                                                        Storyboard.TargetName="PART_Border" 
+                                                        Storyboard.TargetProperty="(TextBox.Background).(SolidColorBrush.Color)" 
+                                                        Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IconPlacement"
+                                 Value="Left">
+                            <Setter Property="DockPanel.Dock"
+                                    Value="Left"
+                                    TargetName="PART_Icon" />
+                        </Trigger>
+                        <Trigger Property="IconPlacement"
+                                 Value="Right">
+                            <Setter Property="DockPanel.Dock"
+                                    Value="Right"
+                                    TargetName="PART_Icon" />
+                        </Trigger>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter Property="BorderBrush"
+                                    Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

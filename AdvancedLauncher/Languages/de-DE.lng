@@ -25,6 +25,7 @@
   <PleaseCloseGame>Bitte schliessen Sie das Spiel.</PleaseCloseGame>
   <PleaseSelectGamePath>Bitte geben Sie einen Pfad zum Spielverzeichnis an.</PleaseSelectGamePath>
   <PleaseSelectLauncherPath>Bitte geben Sie einen Pfad zu Ihrem "Digimon Masters Online" Launcher an.</PleaseSelectLauncherPath>
+  <SearchOnWiki>Suche auf dem dmowiki.com</SearchOnWiki>
 
   <MainWindow_NewsTab>NEUIGKEITEN</MainWindow_NewsTab>
   <MainWindow_GalleryTab>GALLERIE</MainWindow_GalleryTab>

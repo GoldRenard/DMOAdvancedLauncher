@@ -25,6 +25,7 @@
   <PleaseCloseGame>Please close the game.</PleaseCloseGame>
   <PleaseSelectGamePath>Please select correct path to directory of game in settings of launcher.</PleaseSelectGamePath>
   <PleaseSelectLauncherPath>Please select correct path to directory of default launcher in settings.</PleaseSelectLauncherPath>
+  <SearchOnWiki>Search on dmowiki.com...</SearchOnWiki>
   
   <MainWindow_NewsTab>NEWS</MainWindow_NewsTab>
   <MainWindow_GalleryTab>GALLERY</MainWindow_GalleryTab>

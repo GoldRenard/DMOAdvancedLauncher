@@ -25,6 +25,7 @@
   <PleaseCloseGame>Будь ласка, закрийте гру.</PleaseCloseGame>
   <PleaseSelectGamePath>Будь ласка, введіть правильний шлях до папки з грою в налаштуваннях лаунчера.</PleaseSelectGamePath>
   <PleaseSelectLauncherPath>Будь ласка, вкажіть правильний шлях до папки зі стандартним лаунчером в налаштуваннях.</PleaseSelectLauncherPath>
+  <SearchOnWiki>Пошук по dmowiki.com</SearchOnWiki>
 
   <MainWindow_NewsTab>НОВИНИ</MainWindow_NewsTab>
   <MainWindow_GalleryTab>ГАЛЕРЕЯ</MainWindow_GalleryTab>

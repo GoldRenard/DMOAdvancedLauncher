@@ -98,6 +98,17 @@ namespace AdvancedLauncher.SDK.Model {
             set;
         } = "Close";
 
+        private string _StartButton = "GAME START";
+
+        public string StartButton {
+            set {
+                _StartButton = value;
+            }
+            get {
+                return _StartButton.ToUpper();
+            }
+        }
+
         public string DigiRotation {
             get;
             set;
@@ -148,16 +159,10 @@ namespace AdvancedLauncher.SDK.Model {
             set;
         } = "Please select correct path to directory of default launcher in settings.";
 
-        private string _StartButton = "GAME START";
-
-        public string StartButton {
-            set {
-                _StartButton = value;
-            }
-            get {
-                return _StartButton.ToUpper();
-            }
-        }
+        public string SearchOnWiki {
+            get;
+            set;
+        } = "Search on dmowiki.com";
 
         #endregion Shared Strings
 

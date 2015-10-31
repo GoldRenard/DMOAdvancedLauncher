@@ -18,6 +18,7 @@
 
 using System;
 using System.Windows.Input;
+using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Commands;
 using Ninject;
@@ -39,6 +40,17 @@ namespace AdvancedLauncher.UI.Controls {
             ver += " (build " + v.Build.ToString() + ")";
             VersionBlock.Text = string.Format(VersionBlock.Text, ver);
             SearchBox.SuggestionCommit = new ModelCommand(Search);
+            LanguageManager.LanguageChanged += OnLanguageChanged;
+        }
+
+        private void OnLanguageChanged(object sender, BaseEventArgs e) {
+            if (!this.Dispatcher.CheckAccess()) {
+                this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new BaseEventHandler((s, e2) => {
+                    OnLanguageChanged(sender, e2);
+                }), sender, e);
+                return;
+            }
+            SearchBox.DataContext = LanguageManager.Model;
         }
 
         public void Search(object obj) {

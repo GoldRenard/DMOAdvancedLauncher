@@ -25,6 +25,7 @@
   <PleaseCloseGame>Mohon tutup permainannya.</PleaseCloseGame>
   <PleaseSelectGamePath>Mohon pilih lokasi direktori permainan yang benar di pengaturan launcher.</PleaseSelectGamePath>
   <PleaseSelectLauncherPath>Mohon pilih lokasi direktori launcher permainan di pengaturan.</PleaseSelectLauncherPath>
+  <SearchOnWiki>Cari di dmowiki.com</SearchOnWiki>
   
   <MainWindow_NewsTab>BERITA</MainWindow_NewsTab>
   <MainWindow_GalleryTab>GALERI</MainWindow_GalleryTab>

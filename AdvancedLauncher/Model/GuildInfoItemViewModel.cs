@@ -30,7 +30,7 @@ namespace AdvancedLauncher.Model {
 
         public string Name {
             get {
-                return LanguageManager.Model[_Name];
+                return LanguageManager.Model[_Name] + ":";
             }
             set {
                 if (value != _Name) {

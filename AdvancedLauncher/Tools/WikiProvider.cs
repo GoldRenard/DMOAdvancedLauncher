@@ -61,7 +61,7 @@ namespace AdvancedLauncher.Tools {
             string.Join("&",
                 parameters.Select(kvp =>
                     string.Format("{0}={1}", HttpUtility.UrlEncode(kvp.Key), HttpUtility.UrlEncode(kvp.Value)))));
-            return WebClientEx.DownloadContent(url);
+            return WebClientEx.DownloadContent(url, 1, 1500);
         }
 
         public List<string> OpenSearch(string value) {

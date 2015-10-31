@@ -88,7 +88,6 @@
                                  Watermark="Поиск в dmowiki.com..."
                                  IconPlacement="Left"
                                  IconVisibility="Visible"
-                                 SuggestionCommit="{Binding SuggestionCommit}"
                                  KeyDown="AutoCompleteTextBox_KeyDown"
                                  Provider="{StaticResource ResourceKey=wikiSuggestions}">
             <auc:AutoCompleteTextBox.Foreground>

@@ -109,7 +109,7 @@
     <Grid x:Name="LayoutRoot">
         <ScrollViewer Margin="10,0,5,50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Margin="0,0,5,0">
-                <TextBlock Text="{Binding Settings_Language}" Style="{DynamicResource TitleText}" />
+                <TextBlock Text="{Binding Settings_Language, StringFormat='\{0\}:'}" Style="{DynamicResource TitleText}" />
                 <ComboBox x:Name="ComboBoxLanguage"
                           Margin="0,5"
                           Height="30"
@@ -123,21 +123,21 @@
                                        FontSize="10"
                                        Content="{Binding Path=DataContext.CheckForUpdates, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
                                        IsChecked="{Binding CheckForUpdates, Mode=TwoWay}" />
-                <TextBlock Text="{Binding Settings_ThemeGroup}" Style="{DynamicResource TitleText}" />
+                <TextBlock Text="{Binding Settings_ThemeGroup, StringFormat='\{0\}:'}" Style="{DynamicResource TitleText}" />
                 <ListBox x:Name="BaseColorsList"
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />
 
-                <TextBlock Text="{Binding Settings_ColorSchemeGroup}" Style="{DynamicResource TitleText}" />
+                <TextBlock Text="{Binding Settings_ColorSchemeGroup, StringFormat='\{0\}:'}" Style="{DynamicResource TitleText}" />
                 <ListBox x:Name="AccentColorsList"
                      Style="{DynamicResource ColorList}"
                      SelectionChanged="ChangeColorHandler" />
 
-                <TextBlock Text="{Binding Settings_ConnectionGroup}" Style="{DynamicResource TitleText}" />
+                <TextBlock Text="{Binding Settings_ConnectionGroup, StringFormat='\{0\}:'}" Style="{DynamicResource TitleText}" />
                 <StackPanel x:Name="ProxySettings">
                     <Controls:ToggleSwitch x:Name="ProxyEnabled"
                                            Margin="0,0,0,5"
-                                           Content="{Binding Path=DataContext.Settings_ProxyGroup, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
+                                           Content="{Binding Path=DataContext.Settings_ProxyGroup, StringFormat='\{0\}:', RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
                                            IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
                     <StackPanel Visibility="{Binding ElementName=ProxyEnabled, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <ComboBox Margin="0,5" Height="30" SelectedIndex="{Binding Mode, Mode=TwoWay}" IsSynchronizedWithCurrentItem="true">
@@ -161,7 +161,7 @@
                         </Grid>
                         <Controls:ToggleSwitch x:Name="ProxyAuthEnabled"
                                                Margin="0,10,0,5"
-                                               Content="{Binding Path=DataContext.Settings_Proxy_Authentication, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
+                                               Content="{Binding Path=DataContext.Settings_Proxy_Authentication, StringFormat='\{0\}:', RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
                                                IsChecked="{Binding Authentication, Mode=TwoWay}" />
                         <Grid Visibility="{Binding ElementName=ProxyAuthEnabled, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>

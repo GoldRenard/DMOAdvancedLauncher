@@ -68,12 +68,12 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding About_Developer}" HorizontalAlignment="Left" Margin="0,0,5,0" />
+                <TextBlock Text="{Binding About_Developer, StringFormat='\{0\}:'}" HorizontalAlignment="Left" Margin="0,0,5,0" />
                 <TextBlock Grid.Column="1" HorizontalAlignment="Left">
                     <Hyperlink NavigateUri="mailto:goldrenard@gmail.com" Style="{DynamicResource HyperLinkAccent}" RequestNavigate="OnRequestNavigate">GoldRenard (Egorov Ilya)</Hyperlink>
                 </TextBlock>
 
-                <TextBlock Grid.Row="1" Text="{Binding About_DesignHelp}" HorizontalAlignment="Left" Margin="0,0,5,0" />
+                <TextBlock Grid.Row="1" Text="{Binding About_DesignHelp, StringFormat='\{0\}:'}" HorizontalAlignment="Left" Margin="0,0,5,0" />
                 <TextBlock  Grid.Row="1"  Grid.Column="1" HorizontalAlignment="Left">
                     <Hyperlink NavigateUri="mailto:dragon_vs@live.ru" Style="{DynamicResource HyperLinkAccent}" RequestNavigate="OnRequestNavigate">DragonVs (Savinskiy Vladislav)</Hyperlink>
                 </TextBlock>
@@ -85,7 +85,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <TextBlock Text="{Binding About_Acknowledgments}" Margin="0,0,0,10" />
+                    <TextBlock Text="{Binding About_Acknowledgments, StringFormat='\{0\}:'}" Margin="0,0,0,10" />
                     <TextBlock Text="Plüss Roland (DMO Pack Manager)" />
                     <TextBlock Text="David Polomis (TargaImage)" />
                     <TextBlock Text="Dwayne Need (Microsoft.DwayneNeed)" />
@@ -96,7 +96,7 @@
                     <TextBlock Text="NTLEA and Locale-Emulator authors" />
                 </StackPanel>
                 <StackPanel Margin="10,00,0,0" Grid.Column="1" VerticalAlignment="Top">
-                    <TextBlock Text="{Binding About_Translators}" Margin="0,0,0,10" />
+                    <TextBlock Text="{Binding About_Translators, StringFormat='\{0\}:'}" Margin="0,0,0,10" />
                     <TextBlock Text="English - GoldRenard (Egorov Ilya)" />
                     <TextBlock Text="Russian - GoldRenard (Egorov Ilya)" />
                     <TextBlock Text="Ukrainian - DragonVs (Savinskiy Vladislav)" />

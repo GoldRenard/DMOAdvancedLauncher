@@ -26,11 +26,6 @@ namespace AdvancedLauncher.UI.Controls {
 
     public partial class Footer : AbstractUserControl {
 
-        public ICommand SuggestionCommit {
-            get;
-            private set;
-        }
-
         [Inject]
         public WikiProvider Provider {
             get; set;
@@ -43,7 +38,7 @@ namespace AdvancedLauncher.UI.Controls {
             string ver = v.Major.ToString() + "." + v.Minor.ToString();
             ver += " (build " + v.Build.ToString() + ")";
             VersionBlock.Text = string.Format(VersionBlock.Text, ver);
-            SuggestionCommit = new ModelCommand(Search);
+            SearchBox.SuggestionCommit = new ModelCommand(Search);
         }
 
         public void Search(object obj) {

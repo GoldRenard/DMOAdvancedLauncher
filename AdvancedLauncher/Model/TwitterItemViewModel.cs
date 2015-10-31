@@ -87,7 +87,7 @@ namespace AdvancedLauncher.Model {
 
         public string Date {
             get {
-                return LanguageManager.Model.NewsPubDate + _Date;
+                return LanguageManager.Model.NewsPubDate + ": " + _Date;
             }
             set {
                 if (value != _Date) {

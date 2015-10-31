@@ -16,19 +16,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using System.Text.RegularExpressions;
+using System;
+using System.Globalization;
 using System.Windows.Controls;
 
 namespace AdvancedLauncher.UI.Validation {
 
-    internal class URLValidationRule : AbstractValidationRule {
+    public class HostNameValidation : AbstractValidationRule {
 
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
-            Regex r = new Regex(@"^(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*$");
-            while (r.Match(value.ToString()).Success) {
-                return new ValidationResult(true, null);
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo) {
+            string hostName = value as string;
+            if (hostName != null) {
+                return new ValidationResult(Uri.CheckHostName(hostName) != UriHostNameType.Unknown, LanguageManager.Model.Error);
             }
-            return new ValidationResult(false, LanguageManager.Model.Error);
+            return new ValidationResult(true, null);
         }
     }
 }

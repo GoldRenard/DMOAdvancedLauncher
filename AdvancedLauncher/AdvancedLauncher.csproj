@@ -274,6 +274,7 @@
     <Compile Include="Tools\URLUtils.cs" />
     <Compile Include="UI\Validation\AbstractValidationRule.cs" />
     <Compile Include="UI\Validation\GuildNameValidationRule.cs" />
+    <Compile Include="UI\Validation\HostNameValidation.cs" />
     <Compile Include="UI\Validation\NameValidationRule.cs" />
     <Compile Include="UI\Validation\ProfileNameValidationRule.cs" />
     <Compile Include="UI\Validation\URLValidationRule.cs" />

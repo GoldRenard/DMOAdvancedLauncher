@@ -37,18 +37,18 @@ namespace AdvancedLauncher.UI.Validation {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (Container == null) {
-                return new ValidationResult(false, null);
+                return new ValidationResult(false, LanguageManager.Model.PleaseSelectGamePath);
             }
             if (Container.GameModel == null) {
-                return new ValidationResult(false, null);
+                return new ValidationResult(false, LanguageManager.Model.PleaseSelectGamePath);
             }
             if (Container.GameModel.Type == null) {
-                return new ValidationResult(false, null);
+                return new ValidationResult(false, LanguageManager.Model.PleaseSelectGamePath);
             }
             if (ConfigurationManager.CheckGame(Container.GameModel)) {
-                return new ValidationResult(true, null);
+                return new ValidationResult(true, LanguageManager.Model.PleaseSelectGamePath);
             }
-            return new ValidationResult(false, null);
+            return new ValidationResult(false, LanguageManager.Model.PleaseSelectGamePath);
         }
     }
 }

@@ -29,6 +29,8 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Events.Proxy;
+using AdvancedLauncher.Tools;
+using AdvancedLauncher.UI.Validation;
 using MahApps.Metro;
 using Ninject;
 
@@ -187,6 +189,7 @@ namespace AdvancedLauncher.Management {
             if (createSettingsFile) {
                 ProtectedSettings = new ProtectedSettings();
             }
+            ValidateSettings(ProtectedSettings);
 
             ApplyAppTheme(ProtectedSettings);
             ApplyProxySettings(ProtectedSettings);
@@ -330,6 +333,48 @@ namespace AdvancedLauncher.Management {
                 Directory.CreateDirectory(folder);
             }
             return folder;
+        }
+
+        private void ValidateSettings(ProtectedSettings settings) {
+            if (settings.Proxy == null) {
+                settings.Proxy = new ProxySetting();
+            }
+            ProxySetting proxy = settings.Proxy;
+            if (Uri.CheckHostName(proxy.Host) == UriHostNameType.Unknown) {
+                proxy.Host = string.Empty;
+            }
+            if (proxy.Port < 0 || proxy.Port > 65535) {
+                proxy.Port = 8080;
+            }
+            if (settings.Profiles != null) {
+                URLValidationRule urlValidator = new URLValidationRule();
+                GuildNameValidationRule guildNameValidator = new GuildNameValidationRule();
+                foreach (var profile in settings.Profiles) {
+                    if (profile.News == null) {
+                        profile.News = new NewsData();
+                    }
+                    if (profile.Login == null) {
+                        profile.Login = new LoginData();
+                    }
+                    if (profile.Rotation == null) {
+                        profile.Rotation = new RotationData();
+                    }
+                    if (profile.GameModel == null) {
+                        profile.GameModel = new GameModel();
+                    }
+
+                    if (profile.News.TwitterUrl != null) {
+                        if (!urlValidator.Validate(profile.News.TwitterUrl, null).IsValid) {
+                            profile.News.TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE;
+                        }
+                    }
+                    if (profile.Rotation.Guild != null) {
+                        if (!guildNameValidator.Validate(profile.Rotation.Guild, null).IsValid) {
+                            profile.Rotation.Guild = string.Empty;
+                        }
+                    }
+                }
+            }
         }
 
         #region Event handlers

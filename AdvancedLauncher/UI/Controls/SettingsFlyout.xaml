@@ -26,6 +26,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              xmlns:ui="clr-namespace:AdvancedLauncher.UI.Controls"
+             xmlns:v="clr-namespace:AdvancedLauncher.UI.Validation"
              mc:Ignorable="d"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              d:DesignHeight="700" d:DesignWidth="300"
@@ -151,8 +152,15 @@
                                 <ColumnDefinition Width="4" />
                                 <ColumnDefinition Width="70" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Text="{Binding Host}"
-                                     Controls:TextBoxHelper.Watermark="{Binding Path=DataContext.Settings_Proxy_HostWatermark, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" />
+                            <TextBox Controls:TextBoxHelper.Watermark="{Binding Path=DataContext.Settings_Proxy_HostWatermark, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}">
+                                <TextBox.Text>
+                                    <Binding Path="Host">
+                                        <Binding.ValidationRules>
+                                            <v:HostNameValidation />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                             <Controls:NumericUpDown Grid.Column="2"
                                                 Value="{Binding Port}"
                                                 Minimum="1"

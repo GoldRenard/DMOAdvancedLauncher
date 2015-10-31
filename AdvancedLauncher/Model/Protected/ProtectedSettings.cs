@@ -50,13 +50,11 @@ namespace AdvancedLauncher.Model.Protected {
             get; set;
         }
 
-        private ProxySetting _Proxy = new ProxySetting();
-
         [XmlElement("Proxy")]
         public ProxySetting Proxy {
             get;
             set;
-        }
+        } = new ProxySetting();
 
         [XmlArray("Profiles"), XmlArrayItem(typeof(ProtectedProfile), ElementName = "Profile")]
         public List<ProtectedProfile> Profiles {

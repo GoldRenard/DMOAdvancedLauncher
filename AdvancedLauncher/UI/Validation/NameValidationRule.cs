@@ -25,12 +25,12 @@ namespace AdvancedLauncher.UI.Validation {
 
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo) {
             if (value.ToString().IndexOfAny("(*^%@)&^@#><>!.,$|`~?:\":\\/';=-+_".ToCharArray()) != -1) {
-                return new ValidationResult(false, null);
+                return new ValidationResult(false, LanguageManager.Model.Error);
             }
 
             foreach (char chr in value.ToString()) {
                 if (Char.IsWhiteSpace(chr) || Char.IsControl(chr)) {
-                    return new ValidationResult(false, null);
+                    return new ValidationResult(false, LanguageManager.Model.Error);
                 }
             }
             return new ValidationResult(true, null);

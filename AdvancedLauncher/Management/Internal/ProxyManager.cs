@@ -38,6 +38,9 @@ namespace AdvancedLauncher.Management.Internal {
             IWebProxy proxy = null;
             if (Settings != null) {
                 if (Settings.IsEnabled) {
+                    if ((ProxyMode)Settings.Mode != ProxyMode.Default && string.IsNullOrEmpty(Settings.Host)) {
+                        return null;
+                    }
                     switch ((ProxyMode)Settings.Mode) {
                         case ProxyMode.Default:
                             proxy = WebRequest.GetSystemWebProxy();

@@ -30,152 +30,73 @@ namespace AdvancedLauncher.SDK.Model {
     /// </summary>
     [XmlType("Language")]
     public sealed class LanguageModel : CrossDomainObject {
-        private static string sep = ": ";
 
         #region Shared Strings
 
-        private string _CantOpenLink = "Can't open link. Try to change the default browser. Error: ";
-
         public string CantOpenLink {
-            set {
-                _CantOpenLink = value;
-            }
-            get {
-                return _CantOpenLink;
-            }
-        }
-
-        private string _Error = "Error";
+            set;
+            get;
+        } = "Can't open link. Try to change the default browser. Error: ";
 
         public string Error {
-            set {
-                _Error = value;
-            }
-            get {
-                return _Error;
-            }
-        }
-
-        private string _Yes = "Yes";
+            get;
+            set;
+        } = "Error";
 
         public string Yes {
-            set {
-                _Yes = value;
-            }
-            get {
-                return _Yes;
-            }
-        }
-
-        private string _No = "No";
+            get;
+            set;
+        } = "Yes";
 
         public string No {
-            set {
-                _No = value;
-            }
-            get {
-                return _No;
-            }
-        }
-
-        private string _Console = "Console";
+            get;
+            set;
+        } = "No";
 
         public string Console {
-            set {
-                _Console = value;
-            }
-            get {
-                return _Console;
-            }
-        }
-
-        private string _CreateButton = "Create";
+            get;
+            set;
+        } = "Console";
 
         public string CreateButton {
-            set {
-                _CreateButton = value;
-            }
-            get {
-                return _CreateButton;
-            }
-        }
-
-        private string _DeleteButton = "Delete";
+            get;
+            set;
+        } = "Create";
 
         public string DeleteButton {
-            set {
-                _DeleteButton = value;
-            }
-            get {
-                return _DeleteButton;
-            }
-        }
-
-        private string _BrowseButton = "Browse";
+            get;
+            set;
+        } = "Delete";
 
         public string BrowseButton {
-            set {
-                _BrowseButton = value;
-            }
-            get {
-                return _BrowseButton;
-            }
-        }
-
-        private string _ApplyButton = "Apply";
+            get;
+            set;
+        } = "Browse";
 
         public string ApplyButton {
-            set {
-                _ApplyButton = value;
-            }
-            get {
-                return _ApplyButton;
-            }
-        }
-
-        private string _CancelButton = "Cancel";
+            get;
+            set;
+        } = "Apply";
 
         public string CancelButton {
-            set {
-                _CancelButton = value;
-            }
-            get {
-                return _CancelButton;
-            }
-        }
-
-        private string _SendButton = "Send";
+            get;
+            set;
+        } = "Cancel";
 
         public string SendButton {
-            set {
-                _SendButton = value;
-            }
-            get {
-                return _SendButton;
-            }
-        }
-
-        private string _LogInButton = "LogIn";
+            get;
+            set;
+        } = "Send";
 
         public string LogInButton {
-            set {
-                _LogInButton = value;
-            }
-            get {
-                return _LogInButton;
-            }
-        }
-
-        private string _CloseButton = "Close";
+            get;
+            set;
+        } = "LogIn";
 
         public string CloseButton {
-            set {
-                _CloseButton = value;
-            }
-            get {
-                return _CloseButton;
-            }
-        }
+            get;
+            set;
+        } = "Close";
 
         private string _StartButton = "GAME START";
 
@@ -188,115 +109,60 @@ namespace AdvancedLauncher.SDK.Model {
             }
         }
 
-        private string _DigiRotation = "DigiRotation";
-
         public string DigiRotation {
-            set {
-                _DigiRotation = value;
-            }
-            get {
-                return _DigiRotation;
-            }
-        }
-
-        private string _PleaseWait = "Please wait";
+            get;
+            set;
+        } = "DigiRotation";
 
         public string PleaseWait {
-            set {
-                _PleaseWait = value;
-            }
-            get {
-                return _PleaseWait;
-            }
-        }
-
-        private string _ErrorOccured = "An error has occurred!";
+            get;
+            set;
+        } = "Please wait";
 
         public string ErrorOccured {
-            set {
-                _ErrorOccured = value;
-            }
-            get {
-                return _ErrorOccured;
-            }
-        }
-
-        private string _ConnectionError = "Check your Internet connection.";
+            get;
+            set;
+        } = "An error has occurred!";
 
         public string ConnectionError {
-            set {
-                _ConnectionError = value;
-            }
-            get {
-                return _ConnectionError;
-            }
-        }
-
-        private string _CantGetError = "Can't get remote information";
+            get;
+            set;
+        } = "Check your Internet connection.";
 
         public string CantGetError {
-            set {
-                _CantGetError = value;
-            }
-            get {
-                return _CantGetError;
-            }
-        }
-
-        private string _GuildNotFoundError = "Guild not found. Check your settings.";
+            get;
+            set;
+        } = "Can't get remote information";
 
         public string GuildNotFoundError {
-            set {
-                _GuildNotFoundError = value;
-            }
-            get {
-                return _GuildNotFoundError;
-            }
-        }
-
-        private string _GameFilesInUse = "Unable to get access to the required game files. Please close all programs that use them.";
+            get;
+            set;
+        } = "Guild not found. Check your settings.";
 
         public string GameFilesInUse {
-            set {
-                _GameFilesInUse = value;
-            }
-            get {
-                return _GameFilesInUse;
-            }
-        }
-
-        private string _PleaseCloseGame = "Please close the game.";
+            get;
+            set;
+        } = "Unable to get access to the required game files. Please close all programs that use them.";
 
         public string PleaseCloseGame {
-            set {
-                _PleaseCloseGame = value;
-            }
-            get {
-                return _PleaseCloseGame;
-            }
-        }
-
-        private string _PleaseSelectGamePath = "Please select correct path to directory of game in settings of launcher.";
+            get;
+            set;
+        } = "Please close the game.";
 
         public string PleaseSelectGamePath {
-            set {
-                _PleaseSelectGamePath = value;
-            }
-            get {
-                return _PleaseSelectGamePath;
-            }
-        }
-
-        private string _PleaseSelectLauncherPath = "Please select correct path to directory of default launcher in settings.";
+            get;
+            set;
+        } = "Please select correct path to directory of game in settings of launcher.";
 
         public string PleaseSelectLauncherPath {
-            set {
-                _PleaseSelectLauncherPath = value;
-            }
-            get {
-                return _PleaseSelectLauncherPath;
-            }
-        }
+            get;
+            set;
+        } = "Please select correct path to directory of default launcher in settings.";
+
+        public string SearchOnWiki {
+            get;
+            set;
+        } = "Search on dmowiki.com";
 
         #endregion Shared Strings
 
@@ -350,497 +216,245 @@ namespace AdvancedLauncher.SDK.Model {
 
         #region About Window
 
-        private string _About = "About";
-
         public string About {
-            set {
-                _About = value;
-            }
-            get {
-                return _About;
-            }
-        }
-
-        private string _About_Version = "Version";
+            get;
+            set;
+        } = "About";
 
         public string About_Version {
-            set {
-                _About_Version = value;
-            }
-            get {
-                return _About_Version;
-            }
-        }
-
-        private string _About_Developer = "Developer";
+            get;
+            set;
+        } = "Version";
 
         public string About_Developer {
-            set {
-                _About_Developer = value;
-            }
-            get {
-                return _About_Developer + sep;
-            }
-        }
-
-        private string _About_DesignHelp = "Design help";
+            get;
+            set;
+        } = "Developer";
 
         public string About_DesignHelp {
-            set {
-                _About_DesignHelp = value;
-            }
-            get {
-                return _About_DesignHelp + sep;
-            }
-        }
-
-        private string _About_Acknowledgments = "Acknowledgments";
+            get;
+            set;
+        } = "Design help";
 
         public string About_Acknowledgments {
-            set {
-                _About_Acknowledgments = value;
-            }
-            get {
-                return _About_Acknowledgments + sep;
-            }
-        }
-
-        private string _About_Translators = "Translators";
+            get;
+            set;
+        } = "Acknowledgments";
 
         public string About_Translators {
-            set {
-                _About_Translators = value;
-            }
-            get {
-                return _About_Translators + sep;
-            }
-        }
+            get;
+            set;
+        } = "Translators";
 
         #endregion About Window
 
         #region Settings Window
 
-        private string _ManageProfiles = "Manage profiles";
-
         public string ManageProfiles {
-            set {
-                _ManageProfiles = value;
-            }
-            get {
-                return _ManageProfiles;
-            }
-        }
-
-        private string _Settings = "Settings";
+            get;
+            set;
+        } = "Manage profiles";
 
         public string Settings {
-            set {
-                _Settings = value;
-            }
-            get {
-                return _Settings;
-            }
-        }
-
-        private string _Settings_Language = "Language";
+            get;
+            set;
+        } = "Settings";
 
         public string Settings_Language {
-            set {
-                _Settings_Language = value;
-            }
-            get {
-                return _Settings_Language + sep;
-            }
-        }
-
-        private string _Settings_LastProfile = "It is impossible to delete the latest profile. Launcher must has at least one profile.";
+            get;
+            set;
+        } = "Language";
 
         public string Settings_LastProfile {
-            set {
-                _Settings_LastProfile = value;
-            }
-            get {
-                return _Settings_LastProfile;
-            }
-        }
+            get;
+            set;
+        } = "It is impossible to delete the latest profile. Launcher must has at least one profile.";
 
         #region Group Names
 
-        private string _Settings_MainGroup = "Profile";
-
         public string Settings_MainGroup {
-            set {
-                _Settings_MainGroup = value;
-            }
-            get {
-                return _Settings_MainGroup;
-            }
-        }
-
-        private string _Settings_RotationGroup = "DigiRotation";
+            get;
+            set;
+        } = "Profile";
 
         public string Settings_RotationGroup {
-            set {
-                _Settings_RotationGroup = value;
-            }
-            get {
-                return _Settings_RotationGroup;
-            }
-        }
-
-        private string _Settings_NewsGroup = "News";
+            get;
+            set;
+        } = "DigiRotation";
 
         public string Settings_NewsGroup {
-            set {
-                _Settings_NewsGroup = value;
-            }
-            get {
-                return _Settings_NewsGroup;
-            }
-        }
-
-        private string _Settings_GameGroup = "Game";
+            get;
+            set;
+        } = "News";
 
         public string Settings_GameGroup {
-            set {
-                _Settings_GameGroup = value;
-            }
-            get {
-                return _Settings_GameGroup;
-            }
-        }
-
-        private string _Settings_AccountGroup = "Account";
+            get;
+            set;
+        } = "Game";
 
         public string Settings_AccountGroup {
-            set {
-                _Settings_AccountGroup = value;
-            }
-            get {
-                return _Settings_AccountGroup;
-            }
-        }
-
-        private string _Settings_ThemeGroup = "Theme";
+            get;
+            set;
+        } = "Account";
 
         public string Settings_ThemeGroup {
-            set {
-                _Settings_ThemeGroup = value;
-            }
-            get {
-                return _Settings_ThemeGroup + sep;
-            }
-        }
-
-        private string _Settings_ColorSchemeGroup = "Color scheme";
+            get;
+            set;
+        } = "Theme";
 
         public string Settings_ColorSchemeGroup {
-            set {
-                _Settings_ColorSchemeGroup = value;
-            }
-            get {
-                return _Settings_ColorSchemeGroup + sep;
-            }
-        }
-
-        private string _Settings_ConnectionGroup = "Connection";
+            get;
+            set;
+        } = "Color scheme";
 
         public string Settings_ConnectionGroup {
-            set {
-                _Settings_ConnectionGroup = value;
-            }
-            get {
-                return _Settings_ConnectionGroup + sep;
-            }
-        }
-
-        private string _Settings_ProxyGroup = "Proxy";
+            get;
+            set;
+        } = "Connection";
 
         public string Settings_ProxyGroup {
-            set {
-                _Settings_ProxyGroup = value;
-            }
-            get {
-                return _Settings_ProxyGroup + sep;
-            }
-        }
+            get;
+            set;
+        } = "Proxy";
 
         #endregion Group Names
 
         #region Profile
 
-        private string _Settings_ProfileNameHint = "Write profile name";
-
         public string Settings_ProfileNameHint {
-            set {
-                _Settings_ProfileNameHint = value;
-            }
-            get {
-                return _Settings_ProfileNameHint;
-            }
-        }
-
-        private string _Settings_SetAsDefaultButton = "Set as default profile";
+            get;
+            set;
+        } = "Write profile name";
 
         public string Settings_SetAsDefaultButton {
-            set {
-                _Settings_SetAsDefaultButton = value;
-            }
-            get {
-                return _Settings_SetAsDefaultButton;
-            }
-        }
+            get;
+            set;
+        } = "Set as default profile";
 
         #endregion Profile
 
         #region DigiRotation
 
-        private string _Settings_RotationGuildHint = "Guild for Rotation";
-
         public string Settings_RotationGuildHint {
-            set {
-                _Settings_RotationGuildHint = value;
-            }
-            get {
-                return _Settings_RotationGuildHint;
-            }
-        }
-
-        private string _Settings_RotationTamerHint = "Tamer for Rotation (optional)";
+            get;
+            set;
+        } = "Guild for Rotation";
 
         public string Settings_RotationTamerHint {
-            set {
-                _Settings_RotationTamerHint = value;
-            }
-            get {
-                return _Settings_RotationTamerHint;
-            }
-        }
-
-        private string _Settings_RotationUpdateFREQ = "Update frequency (days)";
+            get;
+            set;
+        } = "Tamer for Rotation (optional)";
 
         public string Settings_RotationUpdateFREQ {
-            set {
-                _Settings_RotationUpdateFREQ = value;
-            }
-            get {
-                return _Settings_RotationUpdateFREQ + sep;
-            }
-        }
+            get;
+            set;
+        } = "Update frequency (days)";
 
         #endregion DigiRotation
 
         #region News
 
-        private string _Settings_TwitterHint = "Twitter URL (JSON-source)";
-
         public string Settings_TwitterHint {
-            set {
-                _Settings_TwitterHint = value;
-            }
-            get {
-                return _Settings_TwitterHint;
-            }
-        }
-
-        private string _Settings_FirstNewsTab = "First news tab";
+            get;
+            set;
+        } = "Twitter URL (JSON-source)";
 
         public string Settings_FirstNewsTab {
-            set {
-                _Settings_FirstNewsTab = value;
-            }
-            get {
-                return _Settings_FirstNewsTab + sep;
-            }
-        }
+            get;
+            set;
+        } = "First news tab";
 
         #endregion News
 
         #region Game
 
-        private string _Settings_ClientType = "Type of client";
-
         public string Settings_ClientType {
-            set {
-                _Settings_ClientType = value;
-            }
-            get {
-                return _Settings_ClientType + sep;
-            }
-        }
-
-        private string _Settings_GamePath = "Path to game";
+            get;
+            set;
+        } = "Type of client";
 
         public string Settings_GamePath {
-            set {
-                _Settings_GamePath = value;
-            }
-            get {
-                return _Settings_GamePath + sep;
-            }
-        }
-
-        private string _Settings_LauncherPath = "Path to default launcher";
+            get;
+            set;
+        } = "Path to game";
 
         public string Settings_LauncherPath {
-            set {
-                _Settings_LauncherPath = value;
-            }
-            get {
-                return _Settings_LauncherPath + sep;
-            }
-        }
-
-        private string _Settings_UpdateEngine = "Integrated Update Engine";
+            get;
+            set;
+        } = "Path to default launcher";
 
         public string Settings_UpdateEngine {
-            set {
-                _Settings_UpdateEngine = value;
-            }
-            get {
-                return _Settings_UpdateEngine;
-            }
-        }
-
-        private string _Settings_AppLocale_Help = "Why inactive?";
+            get;
+            set;
+        } = "Integrated Update Engine";
 
         public string Settings_AppLocale_Help {
-            set {
-                _Settings_AppLocale_Help = value;
-            }
-            get {
-                return _Settings_AppLocale_Help;
-            }
-        }
-
-        private string _Settings_KBLCService = "Fix keyboard layout changing";
+            get;
+            set;
+        } = "Why inactive?";
 
         public string Settings_KBLCService {
-            set {
-                _Settings_KBLCService = value;
-            }
-            get {
-                return _Settings_KBLCService;
-            }
-        }
-
-        private string _Settings_LocaleFix = "Fix game locale";
+            get;
+            set;
+        } = "Fix keyboard layout changing";
 
         public string Settings_LocaleFix {
-            set {
-                _Settings_LocaleFix = value;
-            }
-            get {
-                return _Settings_LocaleFix;
-            }
-        }
-
-        private string _Settings_Account_User = "Username";
+            get;
+            set;
+        } = "Fix game locale";
 
         public string Settings_Account_User {
-            set {
-                _Settings_Account_User = value;
-            }
-            get {
-                return _Settings_Account_User;
-            }
-        }
-
-        private string _Settings_Account_Password = "Password";
+            get;
+            set;
+        } = "Username";
 
         public string Settings_Account_Password {
-            set {
-                _Settings_Account_Password = value;
-            }
-            get {
-                return _Settings_Account_Password;
-            }
-        }
+            get;
+            set;
+        } = "Password";
 
         #endregion Game
 
         #region Browse Messages
 
-        private string _Settings_SelectGameDir = "Please specify the directory where the game is located";
-
         public string Settings_SelectGameDir {
-            set {
-                _Settings_SelectGameDir = value;
-            }
-            get {
-                return _Settings_SelectGameDir;
-            }
-        }
-
-        private string _Settings_SelectGameDirError = "You must specify the correct folder of the game.";
+            get;
+            set;
+        } = "Please specify the directory where the game is located";
 
         public string Settings_SelectGameDirError {
-            set {
-                _Settings_SelectGameDirError = value;
-            }
-            get {
-                return _Settings_SelectGameDirError;
-            }
-        }
-
-        private string _Settings_SelectLauncherDir = "Please specify the directory where the default launcher is located";
+            get;
+            set;
+        } = "You must specify the correct folder of the game.";
 
         public string Settings_SelectLauncherDir {
-            set {
-                _Settings_SelectLauncherDir = value;
-            }
-            get {
-                return _Settings_SelectLauncherDir;
-            }
-        }
-
-        private string _Settings_SelectLauncherDirError = "You must specify the correct folder of the default launcher.";
+            get;
+            set;
+        } = "Please specify the directory where the default launcher is located";
 
         public string Settings_SelectLauncherDirError {
-            set {
-                _Settings_SelectLauncherDirError = value;
-            }
-            get {
-                return _Settings_SelectLauncherDirError;
-            }
-        }
+            get;
+            set;
+        } = "You must specify the correct folder of the default launcher.";
 
         #endregion Browse Messages
 
         #region Proxy Settings
 
-        private string _Settings_Proxy_Default = "System default";
-
         public string Settings_Proxy_Default {
-            set {
-                _Settings_Proxy_Default = value;
-            }
-            get {
-                return _Settings_Proxy_Default;
-            }
-        }
-
-        private string _Settings_Proxy_Authentication = "Authentication";
+            get;
+            set;
+        } = "System default";
 
         public string Settings_Proxy_Authentication {
-            set {
-                _Settings_Proxy_Authentication = value;
-            }
-            get {
-                return _Settings_Proxy_Authentication + sep;
-            }
-        }
-
-        private string _Settings_Proxy_HostWatermark = "Host and port";
+            get;
+            set;
+        } = "Authentication";
 
         public string Settings_Proxy_HostWatermark {
-            set {
-                _Settings_Proxy_HostWatermark = value;
-            }
-            get {
-                return _Settings_Proxy_HostWatermark;
-            }
-        }
+            get;
+            set;
+        } = "Host and port";
 
         #endregion Proxy Settings
 
@@ -848,178 +462,88 @@ namespace AdvancedLauncher.SDK.Model {
 
         #region AppLocale
 
-        private string _AppLocale_FailReasons = "Can't run the game through AppLocale for the following reasons:";
-
         public string AppLocale_FailReasons {
-            set {
-                _AppLocale_FailReasons = value;
-            }
-            get {
-                return _AppLocale_FailReasons;
-            }
-        }
-
-        private string _AppLocale_Error = "Microsoft AppLocale Error";
+            get;
+            set;
+        } = "Can't run the game through AppLocale for the following reasons:";
 
         public string AppLocale_Error {
-            set {
-                _AppLocale_Error = value;
-            }
-            get {
-                return _AppLocale_Error;
-            }
-        }
-
-        private string _AppLocale_NotInstalled = " - Microsoft AppLocale Utility is not installed";
+            get;
+            set;
+        } = "Microsoft AppLocale Error";
 
         public string AppLocale_NotInstalled {
-            set {
-                _AppLocale_NotInstalled = value;
-            }
-            get {
-                return _AppLocale_NotInstalled;
-            }
-        }
-
-        private string _AppLocale_EALNotInstalled = " - Support of East Asian languages is not installed";
+            get;
+            set;
+        } = " - Microsoft AppLocale Utility is not installed";
 
         public string AppLocale_EALNotInstalled {
-            set {
-                _AppLocale_EALNotInstalled = value;
-            }
-            get {
-                return _AppLocale_EALNotInstalled;
-            }
-        }
-
-        private string _AppLocale_FixQuestion = "Want to open the download page and/or instructions to fix these errors right now?";
+            get;
+            set;
+        } = " - Support of East Asian languages is not installed";
 
         public string AppLocale_FixQuestion {
-            set {
-                _AppLocale_FixQuestion = value;
-            }
-            get {
-                return _AppLocale_FixQuestion;
-            }
-        }
+            get;
+            set;
+        } = "Want to open the download page and/or instructions to fix these errors right now?";
 
         #endregion AppLocale
 
         #region DigiRotation
 
-        private string _RotationLevelText = "level";
-
         public string RotationLevelText {
-            set {
-                _RotationLevelText = value;
-            }
-            get {
-                return _RotationLevelText;
-            }
-        }
-
-        private string _RotationDownloading = "Downloading data...";
+            set;
+            get;
+        } = "level";
 
         public string RotationDownloading {
-            set {
-                _RotationDownloading = value;
-            }
-            get {
-                return _RotationDownloading;
-            }
-        }
-
-        private string _RotationTamer = "Tamer";
+            set;
+            get;
+        } = "Downloading data...";
 
         public string RotationTamer {
-            set {
-                _RotationTamer = value;
-            }
-            get {
-                return _RotationTamer;
-            }
-        }
+            set;
+            get;
+        } = "Tamer";
 
         #endregion DigiRotation
 
         #region NewsBlock
 
-        private string _News = "News";
-
         public string News {
-            set {
-                _News = value;
-            }
-            get {
-                return _News;
-            }
-        }
-
-        private string _NewsPubDate = "Publication date";
+            set;
+            get;
+        } = "News";
 
         public string NewsPubDate {
-            set {
-                _NewsPubDate = value;
-            }
-            get {
-                return _NewsPubDate + sep;
-            }
-        }
-
-        private string _NewsReadMore = "Read more...";
+            set;
+            get;
+        } = "Publication date";
 
         public string NewsReadMore {
-            set {
-                _NewsReadMore = value;
-            }
-            get {
-                return _NewsReadMore;
-            }
-        }
-
-        private string _NewsTwitterError = "Unable to get a list of tweets";
+            set;
+            get;
+        } = "Read more...";
 
         public string NewsTwitterError {
-            set {
-                _NewsTwitterError = value;
-            }
-            get {
-                return _NewsTwitterError;
-            }
-        }
-
-        private string _NewsType_Notice = "notice";
+            set;
+            get;
+        } = "Unable to get a list of tweets";
 
         public string NewsType_Notice {
-            set {
-                _NewsType_Notice = value;
-            }
-            get {
-                return _NewsType_Notice;
-            }
-        }
-
-        private string _NewsType_Event = "event";
+            set;
+            get;
+        } = "notice";
 
         public string NewsType_Event {
-            set {
-                _NewsType_Event = value;
-            }
-            get {
-                return _NewsType_Event;
-            }
-        }
-
-        private string _NewsType_Patch = "patch";
+            set;
+            get;
+        } = "event";
 
         public string NewsType_Patch {
-            set {
-                _NewsType_Patch = value;
-            }
-            get {
-                return _NewsType_Patch;
-            }
-        }
+            set;
+            get;
+        } = "patch";
 
         #endregion NewsBlock
 
@@ -1049,163 +573,79 @@ namespace AdvancedLauncher.SDK.Model {
             }
         }
 
-        private string _UpdateCantGetVersion = "Unable to get the version of the game.";
-
         public string UpdateCantGetVersion {
-            set {
-                _UpdateCantGetVersion = value;
-            }
-            get {
-                return _UpdateCantGetVersion;
-            }
-        }
-
-        private string _UpdateCantConnect = "Can't connect to the update servers.";
+            get;
+            set;
+        } = "Unable to get the version of the game.";
 
         public string UpdateCantConnect {
-            set {
-                _UpdateCantConnect = value;
-            }
-            get {
-                return _UpdateCantConnect;
-            }
-        }
-
-        private string _UpdateDownloading = "Downloading update {0} of {1}... [{2:0.00}MB / {3:0.00}MB]";
+            get;
+            set;
+        } = "Can't connect to the update servers.";
 
         public string UpdateDownloading {
-            set {
-                _UpdateDownloading = value;
-            }
-            get {
-                return _UpdateDownloading;
-            }
-        }
-
-        private string _UpdateExtracting = "Unpacking update {0} of {1}... [{2} / {3}]";
+            get;
+            set;
+        } = "Downloading update {0} of {1}... [{2:0.00}MB / {3:0.00}MB]";
 
         public string UpdateExtracting {
-            set {
-                _UpdateExtracting = value;
-            }
-            get {
-                return _UpdateExtracting;
-            }
-        }
-
-        private string _UpdateInstalling = "Installing updates... [{0} / {1}]";
+            get;
+            set;
+        } = "Unpacking update {0} of {1}... [{2} / {3}]";
 
         public string UpdateInstalling {
-            set {
-                _UpdateInstalling = value;
-            }
-            get {
-                return _UpdateInstalling;
-            }
-        }
-
-        private string _UseLastSession = "Do you want to use last successful session?";
+            get;
+            set;
+        } = "Installing updates... [{0} / {1}]";
 
         public string UseLastSession {
-            set {
-                _UseLastSession = value;
-            }
-            get {
-                return _UseLastSession;
-            }
-        }
+            get;
+            set;
+        } = "Do you want to use last successful session?";
 
         #endregion Update Section
 
         #region Login Section
 
-        private string _LoginTry = "Try {0}...";
-
         public string LoginTry {
-            set {
-                _LoginTry = value;
-            }
-            get {
-                return _LoginTry;
-            }
-        }
-
-        private string _LoginGettingData = "Obtaining data...";
+            set;
+            get;
+        } = "Login attempt {0}...";
 
         public string LoginGettingData {
-            set {
-                _LoginGettingData = value;
-            }
-            get {
-                return _LoginGettingData;
-            }
-        }
-
-        private string _LoginLogIn = "Log in...";
+            set;
+            get;
+        } = "Obtaining data...";
 
         public string LoginLogIn {
-            set {
-                _LoginLogIn = value;
-            }
-            get {
-                return _LoginLogIn;
-            }
-        }
-
-        private string _LoginWasError = "was error";
+            set;
+            get;
+        } = "Log in...";
 
         public string LoginWasError {
-            set {
-                _LoginWasError = value;
-            }
-            get {
-                return _LoginWasError;
-            }
-        }
-
-        private string _LoginBadAccount = "Can't login. Your username or password may be incorrect.";
+            set;
+            get;
+        } = "was error";
 
         public string LoginBadAccount {
-            set {
-                _LoginBadAccount = value;
-            }
-            get {
-                return _LoginBadAccount;
-            }
-        }
-
-        private string _LoginEmptyUsername = "Please type your username!";
+            set;
+            get;
+        } = "Can't login. Your username or password may be incorrect.";
 
         public string LoginEmptyUsername {
-            set {
-                _LoginEmptyUsername = value;
-            }
-            get {
-                return _LoginEmptyUsername;
-            }
-        }
-
-        private string _LoginEmptyPassword = "Please type your password!";
+            set;
+            get;
+        } = "Please type your username!";
 
         public string LoginEmptyPassword {
-            set {
-                _LoginEmptyPassword = value;
-            }
-            get {
-                return _LoginEmptyPassword;
-            }
-        }
-
-        private string _LoginWrongPage = "Login page is incorrect or has been changed. Please contact the developer of launcher.";
+            set;
+            get;
+        } = "Please type your password!";
 
         public string LoginWrongPage {
-            set {
-                _LoginWrongPage = value;
-            }
-            get {
-                return _LoginWrongPage;
-            }
-        }
+            set;
+            get;
+        } = "Login page is incorrect or has been changed. Please contact the developer of launcher.";
 
         #endregion Login Section
 
@@ -1224,156 +664,78 @@ namespace AdvancedLauncher.SDK.Model {
             }
         }
 
-        private string _GalleryCantOpenImage = "Can't open the image. Error: ";
-
         public string GalleryCantOpenImage {
-            set {
-                _GalleryCantOpenImage = value;
-            }
-            get {
-                return _GalleryCantOpenImage;
-            }
-        }
+            get;
+            set;
+        } = "Can't open the image. Error: ";
 
         #endregion Gallery
 
         #region Persinalization
 
-        private string _PersonalizationWrongTGA = "It is not a TGA-image!";
-
         public string PersonalizationWrongTGA {
-            set {
-                _PersonalizationWrongTGA = value;
-            }
-            get {
-                return _PersonalizationWrongTGA;
-            }
-        }
-
-        private string _PersonalizationCantSave = "Unable to save the Image.";
+            get;
+            set;
+        } = "It is not a TGA-image!";
 
         public string PersonalizationCantSave {
-            set {
-                _PersonalizationCantSave = value;
-            }
-            get {
-                return _PersonalizationCantSave;
-            }
-        }
-
-        private string _PersonalizationCantWrite = "Unable to write the Image into the game!";
+            get;
+            set;
+        } = "Unable to save the Image.";
 
         public string PersonalizationCantWrite {
-            set {
-                _PersonalizationCantWrite = value;
-            }
-            get {
-                return _PersonalizationCantWrite;
-            }
-        }
-
-        private string _PersonalizationSelectTitle = "Select Image:";
+            get;
+            set;
+        } = "Unable to write the Image into the game!";
 
         public string PersonalizationSelectTitle {
-            set {
-                _PersonalizationSelectTitle = value;
-            }
-            get {
-                return _PersonalizationSelectTitle;
-            }
-        }
-
-        private string _PersonalizationSelectMessage = "Click here to select the Image";
+            get;
+            set;
+        } = "Select Image:";
 
         public string PersonalizationSelectMessage {
-            set {
-                _PersonalizationSelectMessage = value;
-            }
-            get {
-                return _PersonalizationSelectMessage;
-            }
-        }
-
-        private string _PersonalizationCurrentTitle = "Current Image:";
+            get;
+            set;
+        } = "Click here to select the Image";
 
         public string PersonalizationCurrentTitle {
-            set {
-                _PersonalizationCurrentTitle = value;
-            }
-            get {
-                return _PersonalizationCurrentTitle;
-            }
-        }
-
-        private string _PersonalizationSaveButton = "Save Image";
+            get;
+            set;
+        } = "Current Image:";
 
         public string PersonalizationSaveButton {
-            set {
-                _PersonalizationSaveButton = value;
-            }
-            get {
-                return _PersonalizationSaveButton;
-            }
-        }
+            get;
+            set;
+        } = "Save Image";
 
         #endregion Persinalization
 
         #region Community
 
-        private string _CommGuildName = "Guild name";
-
         public string CommGuildName {
-            set {
-                _CommGuildName = value;
-            }
-            get {
-                return _CommGuildName;
-            }
-        }
-
-        private string _CommGuildNameEmpty = "Please enter the name of the guild!";
+            get;
+            set;
+        } = "Guild name";
 
         public string CommGuildNameEmpty {
-            set {
-                _CommGuildNameEmpty = value;
-            }
-            get {
-                return _CommGuildNameEmpty;
-            }
-        }
-
-        private string _CommWrongGuildName = "Guild's name contains invalid characters!";
+            get;
+            set;
+        } = "Please enter the name of the guild!";
 
         public string CommWrongGuildName {
-            set {
-                _CommWrongGuildName = value;
-            }
-            get {
-                return _CommWrongGuildName;
-            }
-        }
-
-        private string _CommSearchingGuild = "Searching the guild";
+            get;
+            set;
+        } = "Guild's name contains invalid characters!";
 
         public string CommSearchingGuild {
-            set {
-                _CommSearchingGuild = value;
-            }
-            get {
-                return _CommSearchingGuild;
-            }
-        }
-
-        private string _CommGettingTamer = "Obtaining Tamer: {0}";
+            get;
+            set;
+        } = "Searching the guild";
 
         public string CommGettingTamer {
-            set {
-                _CommGettingTamer = value;
-            }
-            get {
-                return _CommGettingTamer;
-            }
-        }
+            get;
+            set;
+        } = "Obtaining Tamer: {0}";
 
         #region Main DC
 
@@ -1399,196 +761,94 @@ namespace AdvancedLauncher.SDK.Model {
             }
         }
 
-        private string _CommSelect_Guild = "What guild you are looking for";
-
         public string CommSelect_Guild {
-            set {
-                _CommSelect_Guild = value;
-            }
-            get {
-                return _CommSelect_Guild + sep;
-            }
-        }
-
-        private string _CommCheckBox_Detailed = "Receive detailed data (long)";
+            get;
+            set;
+        } = "What guild you are looking for";
 
         public string CommCheckBox_Detailed {
-            set {
-                _CommCheckBox_Detailed = value;
-            }
-            get {
-                return _CommCheckBox_Detailed;
-            }
-        }
-
-        private string _CommButton_Search = "Search a guild";
+            get;
+            set;
+        } = "Receive detailed data (long)";
 
         public string CommButton_Search {
-            set {
-                _CommButton_Search = value;
-            }
-            get {
-                return _CommButton_Search;
-            }
-        }
-
-        private string _CommGMaster = "Master";
+            get;
+            set;
+        } = "Search a guild";
 
         public string CommGMaster {
-            set {
-                _CommGMaster = value;
-            }
-            get {
-                return _CommGMaster + sep;
-            }
-        }
-
-        private string _CommGBest = "Best";
+            get;
+            set;
+        } = "Master";
 
         public string CommGBest {
-            set {
-                _CommGBest = value;
-            }
-            get {
-                return _CommGBest + sep;
-            }
-        }
-
-        private string _CommGRank = "Ranking";
+            get;
+            set;
+        } = "Best";
 
         public string CommGRank {
-            set {
-                _CommGRank = value;
-            }
-            get {
-                return _CommGRank + sep;
-            }
-        }
-
-        private string _CommGRep = "Reputation";
+            get;
+            set;
+        } = "Ranking";
 
         public string CommGRep {
-            set {
-                _CommGRep = value;
-            }
-            get {
-                return _CommGRep + sep;
-            }
-        }
-
-        private string _CommGTCnt = "Quantity of tamers";
+            get;
+            set;
+        } = "Reputation";
 
         public string CommGTCnt {
-            set {
-                _CommGTCnt = value;
-            }
-            get {
-                return _CommGTCnt + sep;
-            }
-        }
-
-        private string _CommGDCnt = "Quantity of digimons";
+            get;
+            set;
+        } = "Quantity of tamers";
 
         public string CommGDCnt {
-            set {
-                _CommGDCnt = value;
-            }
-            get {
-                return _CommGDCnt + sep;
-            }
-        }
+            get;
+            set;
+        } = "Quantity of digimons";
 
         #endregion Main DC
 
         #region Headers
 
-        private string _CommHeader_Type = "Type";
-
         public string CommHeader_Type {
-            set {
-                _CommHeader_Type = value;
-            }
-            get {
-                return _CommHeader_Type;
-            }
-        }
-
-        private string _CommHeader_Level = "Level";
+            get;
+            set;
+        } = "Type";
 
         public string CommHeader_Level {
-            set {
-                _CommHeader_Level = value;
-            }
-            get {
-                return _CommHeader_Level;
-            }
-        }
-
-        private string _CommHeader_Ranking = "Ranking";
+            get;
+            set;
+        } = "Level";
 
         public string CommHeader_Ranking {
-            set {
-                _CommHeader_Ranking = value;
-            }
-            get {
-                return _CommHeader_Ranking;
-            }
-        }
-
-        private string _CommHeader_Tamer = "Tamer";
+            get;
+            set;
+        } = "Ranking";
 
         public string CommHeader_Tamer {
-            set {
-                _CommHeader_Tamer = value;
-            }
-            get {
-                return _CommHeader_Tamer;
-            }
-        }
-
-        private string _CommHeader_Partner = "Partner";
+            get;
+            set;
+        } = "Tamer";
 
         public string CommHeader_Partner {
-            set {
-                _CommHeader_Partner = value;
-            }
-            get {
-                return _CommHeader_Partner;
-            }
-        }
-
-        private string _CommHeader_Mercenary = "Mercenary";
+            get;
+            set;
+        } = "Partner";
 
         public string CommHeader_Mercenary {
-            set {
-                _CommHeader_Mercenary = value;
-            }
-            get {
-                return _CommHeader_Mercenary;
-            }
-        }
-
-        private string _CommHeader_Name = "Name";
+            get;
+            set;
+        } = "Mercenary";
 
         public string CommHeader_Name {
-            set {
-                _CommHeader_Name = value;
-            }
-            get {
-                return _CommHeader_Name;
-            }
-        }
-
-        private string _CommHeader_Size = "Size";
+            get;
+            set;
+        } = "Name";
 
         public string CommHeader_Size {
-            set {
-                _CommHeader_Size = value;
-            }
-            get {
-                return _CommHeader_Size;
-            }
-        }
+            get;
+            set;
+        } = "Size";
 
         #endregion Headers
 
@@ -1596,49 +856,25 @@ namespace AdvancedLauncher.SDK.Model {
 
         #region Update Checker
 
-        private string _CheckForUpdates = "Check for updates";
-
         public string CheckForUpdates {
-            set {
-                _CheckForUpdates = value;
-            }
-            get {
-                return _CheckForUpdates;
-            }
-        }
-
-        private string _UpdateAvailableText = "New version {0} available. Changelog:";
+            set;
+            get;
+        } = "Check for updates";
 
         public string UpdateAvailableText {
-            set {
-                _UpdateAvailableText = value;
-            }
-            get {
-                return _UpdateAvailableText;
-            }
-        }
-
-        private string _UpdateAvailableCaption = "New version {0} available";
+            set;
+            get;
+        } = "New version {0} is available. Changelog:";
 
         public string UpdateAvailableCaption {
-            set {
-                _UpdateAvailableCaption = value;
-            }
-            get {
-                return _UpdateAvailableCaption;
-            }
-        }
-
-        private string _UpdateDownloadQuestion = "Do you want to download it now?";
+            set;
+            get;
+        } = "New version {0} is available";
 
         public string UpdateDownloadQuestion {
-            set {
-                _UpdateDownloadQuestion = value;
-            }
-            get {
-                return _UpdateDownloadQuestion;
-            }
-        }
+            set;
+            get;
+        } = "Do you want to download it now?";
 
         #endregion Update Checker
 

@@ -16,42 +16,36 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Model.Entity;
+using System;
+using System.Collections;
 
-namespace AdvancedLauncher.Model {
+namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
 
-    public class GuildInfoItemViewModel : AbstractItemViewModel<Guild> {
+    public class SuggestionProvider : ISuggestionProvider {
 
-        protected override void LanguageChanged() {
-            NotifyPropertyChanged("Name");
+        #region Private Fields
+
+        private Func<string, IEnumerable> _method;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public SuggestionProvider(Func<string, IEnumerable> method) {
+            if (method == null) {
+                throw new ArgumentNullException("method");
+            }
+            _method = method;
         }
 
-        private string _Name;
+        #endregion Public Constructors
 
-        public string Name {
-            get {
-                return LanguageManager.Model[_Name] + ":";
-            }
-            set {
-                if (value != _Name) {
-                    _Name = value;
-                    NotifyPropertyChanged("Name");
-                }
-            }
+        #region Public Methods
+
+        public System.Collections.IEnumerable GetSuggestions(string filter) {
+            return _method(filter);
         }
 
-        private object _Value;
-
-        public object Value {
-            get {
-                return _Value;
-            }
-            set {
-                if (value != _Value) {
-                    _Value = value;
-                    NotifyPropertyChanged("Value");
-                }
-            }
-        }
+        #endregion Public Methods
     }
 }

@@ -25,6 +25,7 @@
   <PleaseCloseGame>Veuillez fermer le jeu.</PleaseCloseGame>
   <PleaseSelectGamePath>Veuillez sélectionner le répertoire correct du jeu dans les réglages du lanceur.</PleaseSelectGamePath>
   <PleaseSelectLauncherPath>Veuillez sélectionner le répertoire correct du lanceur par défaut dans les réglages.</PleaseSelectLauncherPath>
+  <SearchOnWiki>Recherche sur le dmowiki.com</SearchOnWiki>
 
   <MainWindow_NewsTab>NEWS</MainWindow_NewsTab>
   <MainWindow_GalleryTab>GALLERIE</MainWindow_GalleryTab>

@@ -223,7 +223,7 @@
                                             <ColumnDefinition Width="33*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Width="350" Padding="5" Text="{Binding Content}" HorizontalAlignment="Left" TextWrapping="Wrap" />
-                                        <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,0,0" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate}" TextWrapping="Wrap" />
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,0,0" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate, StringFormat='\{0\}: '}" TextWrapping="Wrap" />
                                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date}" TextWrapping="Wrap" />
                                         <TextBlock Grid.Row="1" Grid.Column="2" Padding="0,0,5,0" TextWrapping="Wrap" TextAlignment="Right" FontWeight="Bold">
                                             <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">

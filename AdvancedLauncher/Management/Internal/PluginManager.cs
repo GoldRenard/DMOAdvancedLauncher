@@ -95,7 +95,7 @@ namespace AdvancedLauncher.Management.Internal {
             PermissionSet permissions;
             if (!VerifyPlugin(info)) {
                 permissions = new PermissionSet(PermissionState.None);
-                
+
                 permissions.AddPermission(new UIPermission(UIPermissionWindow.AllWindows, UIPermissionClipboard.NoClipboard));
                 permissions.AddPermission(new WebPermission(PermissionState.Unrestricted));
                 permissions.AddPermission(new WebBrowserPermission(PermissionState.Unrestricted));

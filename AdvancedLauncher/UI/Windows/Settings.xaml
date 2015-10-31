@@ -166,7 +166,7 @@
                             </TextBox.Text>
                         </TextBox>
                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding Settings_RotationUpdateFREQ}" VerticalAlignment="Center" Margin="0,0,5,0" />
+                            <TextBlock Text="{Binding Settings_RotationUpdateFREQ, StringFormat='\{0\}:'}" VerticalAlignment="Center" Margin="0,0,5,0" />
                             <ComboBox x:Name="ComboBoxURate" Width="55" SelectedIndex="{Binding ElementName=ProfileList, Path=SelectedValue.Rotation.UpdateInterval, Mode=TwoWay}">
                                 <ComboBoxItem Content="1" />
                                 <ComboBoxItem Content="2" />
@@ -199,7 +199,7 @@
                             </TextBox.Text>
                         </TextBox>
                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding Settings_FirstNewsTab}" VerticalAlignment="Center" Margin="0,0,5,0" />
+                            <TextBlock Text="{Binding Settings_FirstNewsTab, StringFormat='\{0\}:'}" VerticalAlignment="Center" Margin="0,0,5,0" />
                             <ComboBox x:Name="ComboBoxNewsPage"
                                       Width="90"
                                       HorizontalAlignment="Right"
@@ -219,7 +219,7 @@
                 <GroupBox Margin="0,5" Header="{Binding Settings_GameGroup}">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding Settings_ClientType}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" />
+                            <TextBlock Text="{Binding Settings_ClientType, StringFormat='\{0\}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" />
                             <ComboBox x:Name="ConfigurationCb" SelectionChanged="OnTypeSelectionChanged" Width="200" HorizontalAlignment="Right"
                                       SelectedValue="{Binding ElementName=ProfileList, Path=SelectedValue.GameModel.Type, Mode=TwoWay}"
                                       SelectedValuePath="GameType"
@@ -233,7 +233,7 @@
                                 <ColumnDefinition Width="110" />
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="tbGamePath" Grid.Column="0" IsReadOnly="True"
-                                     Controls:TextBoxHelper.Watermark="{Binding Settings_GamePath}"
+                                     Controls:TextBoxHelper.Watermark="{Binding Settings_GamePath, StringFormat='\{0\}:'}"
                                      Controls:TextBoxHelper.UseFloatingWatermark="True">
                                 <TextBox.Text>
                                     <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.GamePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
@@ -256,7 +256,7 @@
                                 <ColumnDefinition Width="110" />
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="tbLauncherPath" Grid.Column="0" IsReadOnly="True"
-                                     Controls:TextBoxHelper.Watermark="{Binding Settings_LauncherPath}"
+                                     Controls:TextBoxHelper.Watermark="{Binding Settings_LauncherPath, StringFormat='\{0\}:'}"
                                      Controls:TextBoxHelper.UseFloatingWatermark="True">
                                 <TextBox.Text>
                                     <Binding ElementName="ProfileList" Path="SelectedValue.GameModel.LauncherPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">

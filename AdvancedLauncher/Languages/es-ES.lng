@@ -25,6 +25,7 @@
   <PleaseCloseGame>Por favor cierre el juego.</PleaseCloseGame>
   <PleaseSelectGamePath>Por favor seleccione la ruta correcta del juego en los ajustes del launcher.</PleaseSelectGamePath>
   <PleaseSelectLauncherPath>Por favor seleccione la ruta correcta del directorio por defecto en Ajustes.</PleaseSelectLauncherPath>
+  <SearchOnWiki>Buscar en el dmowiki.com</SearchOnWiki>
   
   <MainWindow_NewsTab>NOCITICAS</MainWindow_NewsTab>
   <MainWindow_GalleryTab>GALERIA</MainWindow_GalleryTab>

@@ -16,42 +16,39 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
-using AdvancedLauncher.SDK.Model.Entity;
+using System;
+using System.Linq;
+using AdvancedLauncher.UI.Controls.AutoCompleteBox;
+using Ninject;
 
-namespace AdvancedLauncher.Model {
+namespace AdvancedLauncher.Tools {
 
-    public class GuildInfoItemViewModel : AbstractItemViewModel<Guild> {
+    public class WikiSuggestionProvider : ISuggestionProvider {
 
-        protected override void LanguageChanged() {
-            NotifyPropertyChanged("Name");
+        [Inject]
+        public WikiProvider Provider {
+            get;
+            set;
         }
 
-        private string _Name;
-
-        public string Name {
-            get {
-                return LanguageManager.Model[_Name] + ":";
-            }
-            set {
-                if (value != _Name) {
-                    _Name = value;
-                    NotifyPropertyChanged("Name");
-                }
-            }
+        public WikiSuggestionProvider() {
+            App.Kernel.Inject(this);
         }
 
-        private object _Value;
-
-        public object Value {
-            get {
-                return _Value;
+        public System.Collections.IEnumerable GetSuggestions(string filter) {
+            if (string.IsNullOrEmpty(filter)) {
+                return null;
             }
-            set {
-                if (value != _Value) {
-                    _Value = value;
-                    NotifyPropertyChanged("Value");
+            if (filter.Length < 2) {
+                return null;
+            }
+            try {
+                var suggestions = Provider.OpenSearch(filter);
+                if (suggestions != null) {
+                    return suggestions.Select(x => new WikiProvider.Suggestion() { Value = x }).ToList();
                 }
-            }
+            } catch (Exception) { }
+            return null;
         }
     }
 }

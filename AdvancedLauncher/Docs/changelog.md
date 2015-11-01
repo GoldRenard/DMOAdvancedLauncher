@@ -1,7 +1,19 @@
-# DMO Advanced Launcher Changelog:
+﻿# DMO Advanced Launcher Changelog:
 
 ## Version 3.2.xxx
- - Fixed an application crash caused by account logging in process
+
+#### Bug fixes
+ - Fixed app crash caused by account logging in process
+ - Fixed app crash caused by instance check process
+ - Fixed app crash caused by changing current profile on Manage Profiles page
+ - Fixed app crash caused by invalid proxy server settings
+ - Game update engine bugfixes and stability improvements
+ - Game execution error handling
+
+#### Improvements
+ - Español translation (thanks to Darwin Gonzalez)
+ - "Search on dmowiki.com" feature
+ - Custom twitter user is back! Now launcher is subscribed for Russian twitter only for RU/UA regions. Rest of World will see @DMOWiki twitter. Finally :)
 
 ## Version 3.1.120 (hotfix)
  - Fixed application crash on closing

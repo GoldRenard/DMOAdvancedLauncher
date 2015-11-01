@@ -155,7 +155,10 @@ namespace AdvancedLauncher.Management.Internal {
                             webClient.DownloadProgressChanged -= progressChangedEventHandler;
                         }
                     }
-
+                    if (!ConfigurationManager.CheckUpdateAccess(model)) {
+                        updateSuccess = false;
+                        break;
+                    }
                     if (ExtractUpdate(i, versionPair.Remote,
                         downloadedContentLenght, WholeContentLength,
                         packageFile, ConfigurationManager.GetGamePath(model), true)) {
@@ -197,9 +200,9 @@ namespace AdvancedLauncher.Management.Internal {
                         Stream zipStream = zf.GetInputStream(zipEntry);
                         string fullZipToPath = Path.Combine(outFolder, zipEntry.Name);
                         string directoryName = Path.GetDirectoryName(fullZipToPath);
-                        if (directoryName.Length > 0)
+                        if (directoryName.Length > 0) {
                             Directory.CreateDirectory(directoryName);
-
+                        }
                         using (FileStream streamWriter = File.Create(fullZipToPath)) {
                             StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }

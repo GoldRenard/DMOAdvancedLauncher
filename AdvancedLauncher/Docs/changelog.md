@@ -1,6 +1,6 @@
 ﻿# DMO Advanced Launcher Changelog:
 
-## Version 3.2.xxx
+## Version 3.2.140
 
 #### Bug fixes
  - Fixed app crash caused by account logging in process
@@ -13,7 +13,7 @@
 #### Improvements
  - Español translation (thanks to Darwin Gonzalez)
  - "Search on dmowiki.com" feature
- - Custom twitter user is back! Now launcher is subscribed for Russian twitter only for RU/UA regions. Rest of World will see @DMOWiki twitter. Finally :)
+ - Custom twitter source is back! Now launcher is subscribed to @dmo_russian only for RU/UA regions. Rest of World will see @DMOWiki twitter by default. Moreover, you can select any other Twitter user. Finally :)
 
 ## Version 3.1.120 (hotfix)
  - Fixed application crash on closing

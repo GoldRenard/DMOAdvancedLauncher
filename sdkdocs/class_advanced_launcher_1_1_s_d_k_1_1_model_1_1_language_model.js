@@ -91,6 +91,7 @@ var class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model =
     [ "RotationDownloading", "class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#a5d91b9b365f966ab1d4ea8ea7b89c8bf", null ],
     [ "RotationLevelText", "class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#a3092b407901165bb864eef73e8f05c09", null ],
     [ "RotationTamer", "class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#a60eaec265d04bf704d2d284e087345a1", null ],
+    [ "SearchOnWiki", "class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#a696c2e600c3c2e909552a28f8e78cab6", null ],
     [ "SendButton", "class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#ac18a21ec28b43f300f44774632d68ddf", null ],
     [ "Settings", "class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#a085453bdfd885ebd64769cf3135c4e8e", null ],
     [ "Settings_Account_Password", "class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#a66389671f05092ebc2a097fc2f727f17", null ],

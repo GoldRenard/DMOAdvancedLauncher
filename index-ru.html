@@ -40,11 +40,11 @@
 			<p>Привет! Хотим представить вашему вниманию первый пользовательский Лаунчер для Digimon Masters Online! Мы вложили все усилия и душу в его создание, он совсем не похож на стандартный Лаунчер. Он: красивее, удобнее, функциональнее.</p>
 			
 			<h3>Обзор и возможности</h3>
-			<p><strong>DMO Advanced Launcher</strong> поддерживает ADMO (<a href="http://www.aeriagames.com/playnow/dmus/" target="_blank">Aeria</a>), GDMO (<a href="http://www.joymax.com/dmo/" target="_blank">Joymax</a>), KDMO (<a href="/GoldRenard/DMOAdvancedLauncher/blob/master/www.digimonmasters.com" target="_blank">www.digimonmasters.com</a> and <a href="http://dm.imbc.com/" target="_blank">IMBC</a>) серверы. Однако, не все возможности Лаунчера поддерживаются всеми серверами. Например, ДигиРотация и страница сообщества недоступны в режиме работы для сервера Aeria.
+			<p><strong>DMO Advanced Launcher</strong> поддерживает ADMO (<a href="http://www.aeriagames.com/playnow/dmus/" target="_blank">Aeria</a>), GDMO (<a href="http://dmo.gameking.com/" target="_blank">GameKing</a>), KDMO (<a href="http://www.digimonmasters.com" target="_blank">www.digimonmasters.com</a> and <a href="http://dm.imbc.com/" target="_blank">IMBC</a>) серверы. Однако, не все возможности Лаунчера поддерживаются всеми серверами. Например, ДигиРотация и страница сообщества недоступны в режиме работы для сервера Aeria.
 			Функциональность распределена по разным категориям:<br/>
 			<div style="margin:15px;">
 				<div class="mark mark-admo">A</div> - поддерживается в режиме <a href="http://www.aeriagames.com/playnow/dmus" target="_blank">Aeria</a><br/>
-				<div class="mark mark-gdmo">G</div> - поддерживается в режиме <a href="http://www.joymax.com/dmo/" target="_blank">Joymax</a><br/>
+				<div class="mark mark-gdmo">G</div> - поддерживается в режиме <a href="http://dmo.gameking.com/" target="_blank">GameKing</a><br/>
 				<div class="mark mark-kdmo">K</div> - поддерживается в режиме Korean (оба <a href="http://www.digimonmasters.com" target="_blank">www.digimonmasters.com</a> и <a href="http://dm.imbc.com" target="_blank">IMBC</a>)<br/>
 				<div class="mark mark-any">S</div> - поддерживается в любом режиме
 			</div>
@@ -52,13 +52,16 @@
 			<div style="margin:15px;">
 				<div class="mark mark-gdmo">G</div><div class="mark mark-kdmo">K</div> Ротация всех лидирующих Дигимонов Вашей гильдий<br/>
 				<div class="mark mark-gdmo">G</div><div class="mark mark-kdmo">K</div> Будьте в курсе! Получение информации о любой гильдии игры с любого сервера<br/>
-				<div class="mark mark-gdmo">G</div> Новости Joymax<br/>
-				<div class="mark mark-any">S</div> Cтатусы Твиттера нашего сообщества (или другого источника через Twitter API 1.1 JSON)<br/>
+				<div class="mark mark-gdmo">G</div> Новости GameKing<br/>
+				<div class="mark mark-any">S</div> Статусы Twitter сообщества (<a href="https://twitter.com/dmo_russian">@dmo_russian</a> по-умолчанию для русскоговорящего сообщества, <a href="https://twitter.com/DMOWiki">@DMOWiki</a> для остального мира)<br/>
 				<div class="mark mark-any">S</div> Автоматическая проверка и установка обновлений игры (отключено по-умолчанию)<br/>
 				<div class="mark mark-any">S</div> Галерея скриншотов<br/>
 				<div class="mark mark-any">S</div> Пускай игра встречает. Вы можете заменить фон окна ввода учетных данных и не только<br/>
-				<div class="mark mark-any">S</div> Долой транслит. Исправление кириллицы в чате игры, используя Microsoft AppLocale<br/>
+				<div class="mark mark-any">S</div> Долой транслит. Исправление кириллицы в чате игры, используя Microsoft AppLocale, NTLEA или Locale Emulator<br/>
 				<div class="mark mark-any">S</div> Система профилей. Вы можете создать много профилей для каждого сервера / аккаунта.
+			</div>
+			<div style="margin:15px;">
+				<span style="font-weight: bold;">Внимание:</span> Дигиротация и страница сообщества GameKing временно недоступны (GameKing пока что не предоставляет эту информацию на своем сайте).
 			</div>
 			</p>
 			
@@ -79,7 +82,7 @@
 			<h3>Известные проблемы</h3>
 			<p>
 				<ul>
-					<li>Страница сообщества и ДигиРотация используют информацию с веб-сайта игры. Не все Дигимоны предоставлены в рейтинге или страницах Теймеров (особенно у <span class="del">Failmax</span> Joymax). Поэтому их не будет и в Лаунчере.</li>
+					<li>Страница сообщества и ДигиРотация используют информацию с веб-сайта игры. Не все Дигимоны предоставлены в рейтинге или страницах Теймеров (особенно у <span class="del">Failmax</span> <span class="del">Joymax</span> GameKing). Поэтому их не будет и в Лаунчере.</li>
 					<li>К тому же, только ОДИН Дигимон ОДНОГО типа может быть получен с сайта игры. Так что, если у Вас, к примеру, два Импмона, то в Лаунчере будет только один из них.</li>
 					<li>Долгий процесс авторизации для KDMO IMBC. Ошибка 705 - это нормально, просто ждите успешного входа. Если вы получаете эту ошибку более десяти раз, проверьте данные вашей учетной записи.</li>
 				</ul>

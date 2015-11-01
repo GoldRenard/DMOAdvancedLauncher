@@ -4,6 +4,7 @@ var searchData=
   ['savechanges',['SaveChanges',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_database_context.html#a5eb6e61780fbc896537b37933c2dbdb3',1,'AdvancedLauncher::SDK::Management::IDatabaseContext']]],
   ['searchgdmo',['SearchGDMO',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_entity_1_1_digimon_type.html#aec006b636db92ed725b13d51bb6c169b',1,'AdvancedLauncher::SDK::Model::Entity::DigimonType']]],
   ['searchkdmo',['SearchKDMO',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_entity_1_1_digimon_type.html#a301c115b4d40cfb605b48dde2a8dc188',1,'AdvancedLauncher::SDK::Model::Entity::DigimonType']]],
+  ['searchonwiki',['SearchOnWiki',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#a696c2e600c3c2e909552a28f8e78cab6',1,'AdvancedLauncher::SDK::Model::LanguageModel']]],
   ['send',['Send',['../interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_command_manager.html#a3d4edd348a2f3411c96e058c3d559aa7',1,'AdvancedLauncher::SDK::Management::ICommandManager']]],
   ['sendbutton',['SendButton',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#ac18a21ec28b43f300f44774632d68ddf',1,'AdvancedLauncher::SDK::Model::LanguageModel']]],
   ['separator',['Separator',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_menu_item.html#a45b0b5f5b91e50b77c55318c2ad5463a',1,'AdvancedLauncher::SDK::Model::MenuItem']]],

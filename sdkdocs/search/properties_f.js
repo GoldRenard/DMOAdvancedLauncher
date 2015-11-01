@@ -2,6 +2,7 @@ var searchData=
 [
   ['searchgdmo',['SearchGDMO',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_entity_1_1_digimon_type.html#aec006b636db92ed725b13d51bb6c169b',1,'AdvancedLauncher::SDK::Model::Entity::DigimonType']]],
   ['searchkdmo',['SearchKDMO',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_entity_1_1_digimon_type.html#a301c115b4d40cfb605b48dde2a8dc188',1,'AdvancedLauncher::SDK::Model::Entity::DigimonType']]],
+  ['searchonwiki',['SearchOnWiki',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#a696c2e600c3c2e909552a28f8e78cab6',1,'AdvancedLauncher::SDK::Model::LanguageModel']]],
   ['sendbutton',['SendButton',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_language_model.html#ac18a21ec28b43f300f44774632d68ddf',1,'AdvancedLauncher::SDK::Model::LanguageModel']]],
   ['separator',['Separator',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_menu_item.html#a45b0b5f5b91e50b77c55318c2ad5463a',1,'AdvancedLauncher::SDK::Model::MenuItem']]],
   ['separatorvisibility',['SeparatorVisibility',['../class_advanced_launcher_1_1_s_d_k_1_1_model_1_1_menu_item.html#a6905f9f309bee05c7801fc3a34ddeb19',1,'AdvancedLauncher::SDK::Model::MenuItem']]],

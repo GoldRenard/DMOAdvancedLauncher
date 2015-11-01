@@ -11,6 +11,7 @@ var interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manag
     [ "DatabaseFile", "interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manager.html#a1fe314a1dbc0ed4922eb3b965a6c7426", null ],
     [ "KBLCFile", "interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manager.html#a6d01bee92aead0215be98fba434f40d7", null ],
     [ "LanguagesPath", "interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manager.html#a0b598b9dc403af8ac7fc0d38b2c47449", null ],
+    [ "LEFile", "interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manager.html#aae0bb81a2c0f9007eec532cdc9e81895", null ],
     [ "NTLEAFile", "interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manager.html#ad012cfd66d63f9d04c93bc566ca1c050", null ],
     [ "PluginsPath", "interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manager.html#a4723588c6db97d24b3c5dc015c368fca", null ],
     [ "Resources3rdPath", "interface_advanced_launcher_1_1_s_d_k_1_1_management_1_1_i_environment_manager.html#a3c3cdfb3d8b8be1a63c3926308b69e8f", null ],

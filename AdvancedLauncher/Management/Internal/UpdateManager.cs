@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using AdvancedLauncher.Providers;
@@ -95,8 +96,16 @@ namespace AdvancedLauncher.Management.Internal {
             bool updateSuccess = true;
             double downloadedContentLenght = 0;
             double WholeContentLength = 0;
-            for (int i = versionPair.Local + 1; i <= versionPair.Remote; i++) {
-                WholeContentLength += GetFileLength(new Uri(string.Format(ConfigurationManager.GetConfiguration(model).PatchRemoteURL, i)));
+
+            Dictionary<int, double> contentLenght = new Dictionary<int, double>();
+            try {
+                for (int i = versionPair.Local + 1; i <= versionPair.Remote; i++) {
+                    double patchSize = GetFileLength(new Uri(string.Format(ConfigurationManager.GetConfiguration(model).PatchRemoteURL, i)));
+                    WholeContentLength += patchSize;
+                    contentLenght.Add(i, patchSize);
+                }
+            } catch (WebException e) {
+                return false;
             }
 
             for (int i = versionPair.Local + 1; i <= versionPair.Remote; i++) {
@@ -104,8 +113,10 @@ namespace AdvancedLauncher.Management.Internal {
                 string packageFile = Path.Combine(ConfigurationManager.GetGamePath(model), string.Format("UPDATE{0}.zip", i));
 
                 OnStatusChanged(UpdateStatusEventArgs.Stage.DOWNLOADING, i, versionPair.Remote, downloadedContentLenght, WholeContentLength, 0, 100);
-                double CurrentContentLength = GetFileLength(patchUri);
-
+                double CurrentContentLength = 0;
+                if (!contentLenght.TryGetValue(i, out CurrentContentLength)) {
+                    break;
+                }
                 using (WebClientEx webClient = new WebClientEx()) {
                     DownloadProgressChangedEventHandler progressChangedEventHandler = (s, e) => {
                         double dataReceived = (e.BytesReceived / (1024.0 * 1024.0));

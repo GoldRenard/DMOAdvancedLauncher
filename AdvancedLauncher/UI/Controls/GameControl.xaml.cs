@@ -290,11 +290,14 @@ namespace AdvancedLauncher.UI.Controls {
             ConfigurationManager CM = ConfigurationManager as ConfigurationManager;
             // we should not provide this api as public.
             CM.UpdateRegistryPaths(model);
-
-            bool executed = launcher.Execute(
-                UpdateRequired ? ConfigurationManager.GetLauncherEXE(model) : ConfigurationManager.GetGameEXE(model),
-                UpdateRequired ? configuration.ConvertLauncherStartArgs(args) : configuration.ConvertGameStartArgs(args));
-
+            bool executed = false;
+            try {
+                executed = launcher.Execute(
+                    UpdateRequired ? ConfigurationManager.GetLauncherEXE(model) : ConfigurationManager.GetGameEXE(model),
+                    UpdateRequired ? configuration.ConvertLauncherStartArgs(args) : configuration.ConvertGameStartArgs(args));
+            } catch {
+                DialogManager.ShowMessageDialog(LanguageManager.Model.ErrorOccured, LanguageManager.Model.ErrorOccured);
+            }
             if (executed) {
                 StartButton.SetBinding(Button.ContentProperty, WaitingButtonBinding);
                 if (currentProfile.KBLCServiceEnabled) {

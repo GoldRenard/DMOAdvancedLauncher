@@ -8,31 +8,33 @@ Hello! We would like to present to you the custom Digimon Masters Online\* launc
 ![preview](https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/Shared/Assets/preview.png)
 
 ### Overview and features
-**DMO Advanced Launcher** supports ADMO ([Aeria](http://www.aeriagames.com/playnow/dmus/)), GDMO ([Joymax](http://www.joymax.com/dmo/)), KDMO ([www.digimonmasters.com](www.digimonmasters.com) and [IMBC](http://dm.imbc.com/)) servers. Unfortunately, not all features are supported for all servers. For example, Digimon Rotation and Community pages aren't available for ADMO.
+**DMO Advanced Launcher** supports ADMO ([Aeria](http://www.aeriagames.com/playnow/dmus/)), GDMO ([GameKing](http://dmo.gameking.com/)), KDMO ([www.digimonmasters.com](www.digimonmasters.com) and [IMBC](http://dm.imbc.com/)) servers. Unfortunately, not all features are supported for all servers. For example, Digimon Rotation and Community pages aren't available for ADMO.
 Functionality is distributed into different categories:
 
 - [A] - supported for Aeria mode;
-- [G] - supported for Joymax mode;
+- [G] - supported for GameKing mode;
 - [K] - supported for Korean mode (both www.digimonmasters.com and IMBC);
 - [S] - supported for any mode.
 
 #### Main features:
 - [G|K] Rotation of top Digimons of your guild
 - [G|K] Stay Up-to-Date! Getting information about any guild (ranking, reputation, list of tamers, digimons, etc)
-- [G] Joymax news
-- [S] Twitter statuses loaded by Twitter API 1.1 JSON user timeline
+- [G] GameKing news
+- [S] Community Twitter statuses (@DMOWiki by default or @dmo_russian for Russian users)
 - [S] Checking and installing game updates (disabled by default)
 - [S] Screenshot gallery
 - [S] Let the game meets. Possibility of change some game resources like login background, dialogs, etc.
-- [S] Launching game through AppLocale (fixing codepage troubles like bad cyrillic at guild chat)
+- [S] Launching the game through AppLocale, NTLEA or Locale Emulator (fixing codepage troubles like bad cyrillic at guild chat)
 - [S] Profile system. You can make many profiles for every server/account/etc.
+
+Note: GameKing DigiRotation and Community pages are temporary unavailable (GameKing still not provide digimon/guild ranking pages).
 
 ### System Requirements
 - Windows Vista SP2 / Windows 7 SP1 / Windows 8 / Windows 8.1 / Windows 10
 - Microsoft .NET Framework 4.5
 
 ### Help with Translations
-We will be happy to get your help with translation the launcher into other languages. Look at the [Languages](https://github.com/GoldRenard/DMOAdvancedLauncher/tree/master/AdvancedLauncher/Languages) folder of root launcher's folder. Use [Template_for_translation.txt](https://github.com/GoldRenard/DMOAdvancedLauncher/blob/master/AdvancedLauncher/Languages/Template_for_translation.txt) as template. Also you can correct my English translation. I know that current is bad xD
+We will be happy to get your help with translation the launcher into other languages. Look at the [Languages](https://github.com/GoldRenard/DMOAdvancedLauncher/tree/master/AdvancedLauncher/Languages) folder of root launcher's folder. Use [Template_for_translation.txt](https://github.com/GoldRenard/DMOAdvancedLauncher/blob/master/AdvancedLauncher/Languages/Template_for_translation.txt) as template. Also you can correct our English translation. I know that current is bad xD
 Please [send an email](mailto:goldrenard@gmail.com) with your translations.
 
 ### Known issues
@@ -40,25 +42,24 @@ Please [send an email](mailto:goldrenard@gmail.com) with your translations.
 - Moreover, launcher can get only ONE digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of launcher. Usually it's a latest hatched Digimon.
 - Long logon process for KDMO IMBC. Error 705 is ok, you should just wait for successful login. If you're getting error 705 10 or more times, check your account data.
 
-## Changelog (Version 3.1)
-#### Common
- - NT Locale Emulator Advance support (AppLocale not working on Windows 10)
- - Improved UI performance
- - Support for cancellation of logging in
- - "Check for updates" option
- - Joymax guild info grabber improvements
- - Italian translation (thanks to Andrea Milano)
+## Changelog (Version 3.2.140)
 
-#### Plugin system
- - In order to support plugin system, new modular architecture was implemented using IoC paradigm and Ninject library.
- - For more information about plugin system and SDK please visit [wiki page](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Plugin-system).
+#### Bug fixes
+ - Fixed app crash caused by account logging in process
+ - Fixed app crash caused by instance check process
+ - Fixed app crash caused by changing current profile on Manage Profiles page
+ - Fixed app crash caused by invalid proxy server settings
+ - Game update engine bugfixes and stability improvements
+ - Game execution error handling
 
-#### Others
- - BugTrap intergration (automatic error and exception logging, tracking, and reporting)
+#### Improvements
+ - Español translation (thanks to Darwin Gonzalez)
+ - "Search on dmowiki.com" feature
+ - Custom Twitter source is back! Now launcher is subscribed for [@dmo_russian](https://twitter.com/dmo_russian) only for RU/UA regions. Rest of World will see [@DMOWiki](https://twitter.com/DMOWiki) twitter by default. Moreover, you can select any other Twitter user. Finally :)
 
 You can read the full changelog [here](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Changelog).
  
-### Licence
+### License
 [GNU GENERAL PUBLIC LICENSE](https://www.gnu.org/copyleft/gpl.html).
 
 <sup>Digimon: © Akiyoshi Hongo, Toei Animation.

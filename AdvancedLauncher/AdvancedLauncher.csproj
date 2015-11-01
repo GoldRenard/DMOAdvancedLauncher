@@ -277,6 +277,7 @@
     <Compile Include="UI\Validation\HostNameValidation.cs" />
     <Compile Include="UI\Validation\NameValidationRule.cs" />
     <Compile Include="UI\Validation\ProfileNameValidationRule.cs" />
+    <Compile Include="UI\Validation\TwitterNameValidation.cs" />
     <Compile Include="UI\Validation\URLValidationRule.cs" />
     <Compile Include="UI\Validation\GamePathValidationRule.cs" />
     <Compile Include="UI\Validation\LauncherPathValidationRule.cs" />

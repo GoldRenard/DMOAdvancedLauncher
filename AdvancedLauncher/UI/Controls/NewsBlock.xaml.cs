@@ -158,8 +158,9 @@ namespace AdvancedLauncher.UI.Controls {
                 return;
             }
             Profile currentProfile = ProfileManager.CurrentProfile;
-            if (_jsonUrl != currentProfile.News.TwitterUrl) {
-                _jsonUrl = currentProfile.News.TwitterUrl;
+            string currentUrl = string.Format(URLUtils.TWITTER_PROXY, currentProfile.News.TwitterUser);
+            if (_jsonUrl != currentUrl) {
+                _jsonUrl = currentUrl;
             }
 
             ServerVM.UnLoadData();

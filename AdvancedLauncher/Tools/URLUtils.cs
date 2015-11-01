@@ -27,6 +27,7 @@ namespace AdvancedLauncher.Tools {
         public const string COMMUNITY_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/Community/{0}.png";
         public const string DIGIROTATION_IMAGE_REMOTE_FORMAT = "https://raw.githubusercontent.com/GoldRenard/DMOAdvancedLauncher/master/AdvancedLauncher/Resources/DigiRotation/{0}.png";
         public const string DEFAULT_TWITTER_SOURCE = "http://renamon.ru/launcher/dmor_timeline.php";
+        public const string TWITTER_PROXY = "http://renamon.ru/launcher/twitter.php?user={0}";
 
         /// <summary> Opens URL with default browser </summary>
         /// <param name="url">URL to web</param>

@@ -104,7 +104,7 @@ namespace AdvancedLauncher.Management.Internal {
                     WholeContentLength += patchSize;
                     contentLenght.Add(i, patchSize);
                 }
-            } catch (WebException e) {
+            } catch (WebException) {
                 return false;
             }
 

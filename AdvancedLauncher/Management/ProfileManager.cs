@@ -177,7 +177,7 @@ namespace AdvancedLauncher.Management {
                     }
                 }
             }
-            pNew.News.TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE;
+            pNew.News.TwitterUser = Utils.GetDefaultTwitter();
             pNew.LaunchMode = App.Kernel.Get<LauncherManager>().Default.Mnemonic;
 
             PendingProfiles.Add(pNew);

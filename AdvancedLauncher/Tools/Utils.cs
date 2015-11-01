@@ -16,11 +16,37 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace AdvancedLauncher.Tools {
 
-    public class Utils {
+    public static class Utils {
+        private const string RUS_TWITTER = "dmo_russian";
+
+        private const string ROW_TWITTER = "DMOWiki";
+
+        private static Dictionary<CultureInfo, string> DefaultTwitter = new Dictionary<CultureInfo, string>();
+
+        static Utils() {
+            DefaultTwitter.Add(CultureInfo.GetCultureInfo("ru"), RUS_TWITTER);
+            DefaultTwitter.Add(CultureInfo.GetCultureInfo("ru-RU"), RUS_TWITTER);
+            DefaultTwitter.Add(CultureInfo.GetCultureInfo("uk"), RUS_TWITTER);
+            DefaultTwitter.Add(CultureInfo.GetCultureInfo("uk-UA"), RUS_TWITTER);
+        }
+
+        /// <summary>
+        /// Returns default Twitter user for current CultureInfo
+        /// </summary>
+        /// <returns>Default Twitter user for current CultureInfo</returns>
+        public static string GetDefaultTwitter() {
+            string twitter = null;
+            if (DefaultTwitter.TryGetValue(CultureInfo.CurrentUICulture, out twitter)) {
+                return twitter;
+            }
+            return ROW_TWITTER;
+        }
 
         /// <summary> Checks access to file </summary>
         /// <param name="file">Full path to file</param>

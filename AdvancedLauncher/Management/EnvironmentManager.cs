@@ -347,7 +347,7 @@ namespace AdvancedLauncher.Management {
                 proxy.Port = 8080;
             }
             if (settings.Profiles != null) {
-                URLValidationRule urlValidator = new URLValidationRule();
+                TwitterNameValidation twitterValidator = new TwitterNameValidation();
                 GuildNameValidationRule guildNameValidator = new GuildNameValidationRule();
                 foreach (var profile in settings.Profiles) {
                     if (profile.News == null) {
@@ -362,11 +362,8 @@ namespace AdvancedLauncher.Management {
                     if (profile.GameModel == null) {
                         profile.GameModel = new GameModel();
                     }
-
-                    if (profile.News.TwitterUrl != null) {
-                        if (!urlValidator.Validate(profile.News.TwitterUrl, null).IsValid) {
-                            profile.News.TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE;
-                        }
+                    if (!twitterValidator.Validate(profile.News.TwitterUser, null).IsValid) {
+                        profile.News.TwitterUser = Utils.GetDefaultTwitter();
                     }
                     if (profile.Rotation.Guild != null) {
                         if (!guildNameValidator.Validate(profile.Rotation.Guild, null).IsValid) {

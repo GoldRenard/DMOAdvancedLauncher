@@ -38,8 +38,8 @@ namespace AdvancedLauncher.SDK.Model.Config {
         /// <summary>
         /// Gets or sets Twitter user timeline source URL
         /// </summary>
-        [XmlAttribute("TwitterUrl")]
-        public string TwitterUrl {
+        [XmlAttribute("TwitterUser")]
+        public string TwitterUser {
             set;
             get;
         }
@@ -56,7 +56,7 @@ namespace AdvancedLauncher.SDK.Model.Config {
         /// <param name="nd">Source <see cref="NewsData"/></param>
         public NewsData(NewsData nd) {
             this.FirstTab = nd.FirstTab;
-            this.TwitterUrl = nd.TwitterUrl;
+            this.TwitterUser = nd.TwitterUser;
         }
     }
 }

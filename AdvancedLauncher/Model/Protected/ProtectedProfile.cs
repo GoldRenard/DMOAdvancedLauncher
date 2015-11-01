@@ -80,7 +80,7 @@ namespace AdvancedLauncher.Model.Protected {
             set;
         } = new NewsData() {
             FirstTab = 0,
-            TwitterUrl = URLUtils.DEFAULT_TWITTER_SOURCE
+            TwitterUser = Utils.GetDefaultTwitter()
         };
 
         public string ImagePath {

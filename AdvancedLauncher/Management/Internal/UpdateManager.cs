@@ -159,7 +159,17 @@ namespace AdvancedLauncher.Management.Internal {
                     if (ExtractUpdate(i, versionPair.Remote,
                         downloadedContentLenght, WholeContentLength,
                         packageFile, ConfigurationManager.GetGamePath(model), true)) {
-                        File.WriteAllLines(ConfigurationManager.GetLocalVersionFile(model), new string[] { "[VERSION]", "version=" + i.ToString() });
+                        try {
+                            string versionFile = ConfigurationManager.GetLocalVersionFile(model);
+                            string directory = Path.GetDirectoryName(versionFile);
+                            if (!Directory.Exists(directory)) {
+                                Directory.CreateDirectory(directory);
+                            }
+                            File.WriteAllLines(versionFile, new string[] { "[VERSION]", "version=" + i.ToString() });
+                        } catch {
+                            updateSuccess = false;
+                            break;
+                        }
                         patchSuccess = true;
                     }
                     downloadAttempts--;

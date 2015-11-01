@@ -115,66 +115,89 @@ namespace AdvancedLauncher.Management.Internal {
                 OnStatusChanged(UpdateStatusEventArgs.Stage.DOWNLOADING, i, versionPair.Remote, downloadedContentLenght, WholeContentLength, 0, 100);
                 double CurrentContentLength = 0;
                 if (!contentLenght.TryGetValue(i, out CurrentContentLength)) {
+                    updateSuccess = false;
                     break;
                 }
-                using (WebClientEx webClient = new WebClientEx()) {
-                    DownloadProgressChangedEventHandler progressChangedEventHandler = (s, e) => {
-                        double dataReceived = (e.BytesReceived / (1024.0 * 1024.0));
-                        double dataTotal = (e.TotalBytesToReceive / (1024.0 * 1024.0));
-                        OnStatusChanged(UpdateStatusEventArgs.Stage.DOWNLOADING,
-                            i, versionPair.Remote,
-                            downloadedContentLenght + e.BytesReceived, WholeContentLength,
-                            dataReceived, dataTotal);
-                    };
 
-                    webClient.DownloadProgressChanged += progressChangedEventHandler;
+                int downloadAttempts = 5;
+                bool patchSuccess = false;
+                while (downloadAttempts > 0 && !patchSuccess) {
                     try {
-                        webClient.DownloadFileAsync(patchUri, packageFile);
-                        while (webClient.IsBusy) {
-                            System.Threading.Thread.Sleep(100);
+                        if (File.Exists(packageFile)) {
+                            File.Delete(packageFile);
                         }
-                        downloadedContentLenght += CurrentContentLength;
                     } catch {
                         updateSuccess = false;
-                    } finally {
-                        webClient.DownloadProgressChanged -= progressChangedEventHandler;
+                        break;
                     }
+
+                    using (WebClientEx webClient = new WebClientEx()) {
+                        DownloadProgressChangedEventHandler progressChangedEventHandler = (s, e) => {
+                            double dataReceived = (e.BytesReceived / (1024.0 * 1024.0));
+                            double dataTotal = (e.TotalBytesToReceive / (1024.0 * 1024.0));
+                            OnStatusChanged(UpdateStatusEventArgs.Stage.DOWNLOADING,
+                                i, versionPair.Remote,
+                                downloadedContentLenght + e.BytesReceived, WholeContentLength,
+                                dataReceived, dataTotal);
+                        };
+
+                        webClient.DownloadProgressChanged += progressChangedEventHandler;
+                        try {
+                            webClient.DownloadFileAsync(patchUri, packageFile);
+                            while (webClient.IsBusy) {
+                                System.Threading.Thread.Sleep(100);
+                            }
+                            downloadedContentLenght += CurrentContentLength;
+                        } catch {
+                            downloadAttempts--;
+                            continue;
+                        } finally {
+                            webClient.DownloadProgressChanged -= progressChangedEventHandler;
+                        }
+                    }
+
+                    if (ExtractUpdate(i, versionPair.Remote,
+                        downloadedContentLenght, WholeContentLength,
+                        packageFile, ConfigurationManager.GetGamePath(model), true)) {
+                        File.WriteAllLines(ConfigurationManager.GetLocalVersionFile(model), new string[] { "[VERSION]", "version=" + i.ToString() });
+                        patchSuccess = true;
+                    }
+                    downloadAttempts--;
                 }
-                if (!updateSuccess) {
+                if (!patchSuccess) {
+                    updateSuccess = false;
                     break;
                 }
-
-                ExtractUpdate(i, versionPair.Remote,
-                    downloadedContentLenght, WholeContentLength,
-                    packageFile, ConfigurationManager.GetGamePath(model), true);
-                File.WriteAllLines(ConfigurationManager.GetLocalVersionFile(model), new string[] { "[VERSION]", "version=" + i.ToString() });
             }
-
             return updateSuccess;
         }
 
-        private void ExtractUpdate(int updateNumber, int updateMaxNumber,
+        private bool ExtractUpdate(int updateNumber, int updateMaxNumber,
             double progress, double maxProgress,
             string archiveFilenameIn, string outFolder, bool DeleteAfterExtract) {
-            using (var zf = new ZipFile(archiveFilenameIn)) {
-                int zEntryNumber = 1;
-                foreach (ZipEntry zipEntry in zf) {
-                    OnStatusChanged(UpdateStatusEventArgs.Stage.EXTRACTING, updateNumber, updateMaxNumber, progress, maxProgress, zEntryNumber, zf.Count);
-                    if (!zipEntry.IsFile) {
-                        continue;
-                    }
-                    byte[] buffer = new byte[4096];
-                    Stream zipStream = zf.GetInputStream(zipEntry);
-                    string fullZipToPath = Path.Combine(outFolder, zipEntry.Name);
-                    string directoryName = Path.GetDirectoryName(fullZipToPath);
-                    if (directoryName.Length > 0)
-                        Directory.CreateDirectory(directoryName);
+            try {
+                using (var zf = new ZipFile(archiveFilenameIn)) {
+                    int zEntryNumber = 1;
+                    foreach (ZipEntry zipEntry in zf) {
+                        OnStatusChanged(UpdateStatusEventArgs.Stage.EXTRACTING, updateNumber, updateMaxNumber, progress, maxProgress, zEntryNumber, zf.Count);
+                        if (!zipEntry.IsFile) {
+                            continue;
+                        }
+                        byte[] buffer = new byte[4096];
+                        Stream zipStream = zf.GetInputStream(zipEntry);
+                        string fullZipToPath = Path.Combine(outFolder, zipEntry.Name);
+                        string directoryName = Path.GetDirectoryName(fullZipToPath);
+                        if (directoryName.Length > 0)
+                            Directory.CreateDirectory(directoryName);
 
-                    using (FileStream streamWriter = File.Create(fullZipToPath)) {
-                        StreamUtils.Copy(zipStream, streamWriter, buffer);
+                        using (FileStream streamWriter = File.Create(fullZipToPath)) {
+                            StreamUtils.Copy(zipStream, streamWriter, buffer);
+                        }
+                        zEntryNumber++;
                     }
-                    zEntryNumber++;
                 }
+            } catch (ZipException) {
+                return false;
             }
 
             if (DeleteAfterExtract) {
@@ -183,6 +206,7 @@ namespace AdvancedLauncher.Management.Internal {
                 } catch {
                 }
             }
+            return true;
         }
 
         public VersionPair CheckUpdates(GameModel model) {

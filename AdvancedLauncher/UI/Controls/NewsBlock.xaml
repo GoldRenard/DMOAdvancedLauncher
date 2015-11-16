@@ -26,6 +26,7 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:mg="clr-namespace:AdvancedLauncher.Management"
              xmlns:ui="clr-namespace:AdvancedLauncher.UI.Controls"
+             xmlns:ex="clr-namespace:AdvancedLauncher.UI.Extension"
              mc:Ignorable="d"
              d:DesignHeight="470" d:DesignWidth="900"
              DataContext="{Binding LanguageModel, Source={StaticResource ServiceHolder}}">
@@ -73,6 +74,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <ex:BindingProxy x:Key="blackBrushProxy" Data="{DynamicResource BlackBrush}" />
         </ResourceDictionary>
     </ui:AbstractUserControl.Resources>
     <Grid x:Name="LayoutRoot">
@@ -83,31 +85,35 @@
             <TabItem x:Name="NavTwitter" Controls:ControlsHelper.HeaderFontSize="12" Header="TWITTER">
                 <Grid Margin="365,30,10,10">
                     <ListBox x:Name="TwitterNewsList"
-                             ScrollViewer.CanContentScroll="False"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
                              Opacity="0"
+                             VirtualizingStackPanel.IsVirtualizing="True"
+                             VirtualizingStackPanel.VirtualizationMode="Standard"
                              d:DataContext="{d:DesignData /Model/TwitterViewModelSampleData.xaml}"
                              ItemContainerStyle="{DynamicResource MetroListBoxItem}"
                              ItemsSource="{Binding Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="0,5,5,0">
-                                    <Grid Background="{DynamicResource BlackBrush}" Opacity="0.07" />
-                                    <StackPanel Margin="5">
-                                        <TextBlock Loaded="ParseTextBlock" Text="{Binding Title}" TextWrapping="Wrap" />
-                                        <Grid Height="18">
-                                            <TextBlock Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Date}" />
-                                            <TextBlock Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding UserLink}" RequestNavigate="OnRequestNavigate">
-                                                    <Image Margin="0,3,0,-3" Height="15" Width="15" Source="{Binding Image}" Stretch="UniformToFill" />
-                                                    <Run Text="{Binding UserName}" />
-                                                </Hyperlink>
-                                            </TextBlock>
-                                        </Grid>
-                                    </StackPanel>
-                                </Grid>
+                                <StackPanel Margin="0,5,5,0" Background="{Binding Source={StaticResource blackBrushProxy}, Path=Data, Converter={StaticResource ColorOpacityConverter}}">
+                                    <TextBlock Margin="5,3,5,0" Loaded="ParseTextBlock" Text="{Binding Title}" TextWrapping="Wrap " />
+                                    <DockPanel Margin="5,0,5,3">
+                                        <TextBlock Opacity="0.6" Text="{Binding Date}" VerticalAlignment="Bottom" />
+                                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                            <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding UserLink}" RequestNavigate="OnRequestNavigate">
+                                                <Image Margin="0,3,0,-3" Height="15" Width="15" Source="{Binding Image}" Stretch="UniformToFill" />
+                                                <Run Text="{Binding UserName}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DockPanel>
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
                     </ListBox>
                     <Controls:ProgressRing x:Name="TwitterProgressRing" Height="70" Width="70" IsActive="False" />
                 </Grid>
@@ -116,8 +122,9 @@
                 <Grid Margin="365,30,10,10">
                     <ListBox x:Name="ServerNewsList"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             ScrollViewer.CanContentScroll="False"
                              ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             VirtualizingStackPanel.IsVirtualizing="True"
+                             VirtualizingStackPanel.VirtualizationMode="Standard"
                              Opacity="0"
                              ItemContainerStyle="{DynamicResource MetroListBoxItem}"
                              d:DataContext="{d:DesignData /Model/ServerNewsViewModelSampleData.xaml}"
@@ -234,6 +241,11 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
                     </ListBox>
                     <Controls:ProgressRing x:Name="ServerNewsProgressRing" Height="70" Width="70" IsActive="False" />
                 </Grid>

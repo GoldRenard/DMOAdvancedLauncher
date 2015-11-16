@@ -168,6 +168,9 @@ namespace AdvancedLauncher.Management {
             var settingsItem = new SDK.Model.MenuItem("Settings", "appbar_settings", new SDK.Tools.Thickness(5, 5, 5, 5), true);
             settingsItem.Click += (s, e) => {
                 MainWindow.SettingsFlyout.Width = MainWindow.ProfileSwitcher.ActualWidth + MainWindow.FLYOUT_WIDTH_MIN;
+                if (!MainWindow.SettingsFlyout.IsOpen) {
+                    MainWindow.SettingsFlyout.Visibility = Visibility.Hidden;
+                }
                 MainWindow.SettingsFlyout.IsOpen = true;
             };
 

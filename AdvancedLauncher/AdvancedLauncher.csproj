@@ -171,6 +171,7 @@
     <Compile Include="UI\Controls\AutoCompleteBox\SelectionAdapter.cs" />
     <Compile Include="UI\Controls\AutoCompleteBox\SuggestionProvider.cs" />
     <Compile Include="UI\Converters\AbstractConverter.cs" />
+    <Compile Include="UI\Converters\ColorOpacityConverter.cs" />
     <Compile Include="UI\Converters\ProfileToConfigNameConverter.cs" />
     <Compile Include="UI\Converters\ProfileNameConverter.cs" />
     <Compile Include="UI\Converters\GameTypeToNameConverter.cs" />

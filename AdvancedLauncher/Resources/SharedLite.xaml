@@ -32,6 +32,7 @@
     <conv:GameTypeToNameConverter x:Key="GameTypeToNameConverter" />
     <conv:ProfileNameConverter x:Key="ProfileNameConverter" />
     <conv:ProfileToConfigNameConverter x:Key="ProfileToConfigNameConverter" />
+    <conv:ColorOpacityConverter x:Key="ColorOpacityConverter" />
 
     <!-- CUSTOM CONTROLS-->
 

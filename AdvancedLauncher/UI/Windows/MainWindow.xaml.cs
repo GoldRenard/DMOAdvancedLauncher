@@ -125,6 +125,9 @@ namespace AdvancedLauncher.UI.Windows {
 
         private void ShowSettings(object sender, RoutedEventArgs e) {
             MenuFlyout.Width = ProfileSwitcher.ActualWidth + FLYOUT_WIDTH_MIN;
+            if (!MenuFlyout.IsOpen) {
+                MenuFlyout.Visibility = Visibility.Hidden;
+            }
             MenuFlyout.IsOpen = !MenuFlyout.IsOpen;
             if (MenuFlyout.IsOpen == false) {
                 SettingsFlyout.IsOpen = false;

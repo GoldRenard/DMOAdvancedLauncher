@@ -44,6 +44,10 @@ namespace AdvancedLauncher.UI.Controls {
             App.Kernel.Inject(this);
             LanguageManager.LanguageChanged += OnLanguageChangedInternal;
             MouseLeave += OnMouseLeave;
+            Visibility = System.Windows.Visibility.Collapsed;
+            ClosingFinished += (s, e) => {
+                Visibility = System.Windows.Visibility.Collapsed;
+            };
         }
 
         private void OnMouseLeave(object sender, System.Windows.Input.MouseEventArgs e) {

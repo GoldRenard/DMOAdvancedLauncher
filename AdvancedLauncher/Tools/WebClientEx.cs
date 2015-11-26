@@ -20,7 +20,7 @@ using System;
 using System.Net;
 using AdvancedLauncher.SDK.Management;
 
-namespace AdvancedLauncher.Providers {
+namespace AdvancedLauncher.Tools {
 
     public class WebClientEx : WebClient {
         public const int DEFAULT_TIMEOUT = 3000;

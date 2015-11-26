@@ -22,10 +22,11 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Web;
 using HtmlAgilityPack;
+using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.Providers {
 
-    public abstract class AbstractLoginProvider : CrossDomainObject, ILoginProvider {
+    internal abstract class AbstractLoginProvider : CrossDomainObject, ILoginProvider {
         protected bool IsCancelled = false;
 
         protected string UserId;

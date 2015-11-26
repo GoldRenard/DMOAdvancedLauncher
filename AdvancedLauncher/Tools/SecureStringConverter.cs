@@ -20,9 +20,9 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace AdvancedLauncher.Providers {
+namespace AdvancedLauncher.Tools {
 
-    public static class SecureStringConverter {
+    internal static class SecureStringConverter {
 
         public static string ConvertToUnsecureString(this SecureString securePassword) {
             if (securePassword == null)

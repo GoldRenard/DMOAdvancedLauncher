@@ -1,4 +1,4 @@
-﻿using AdvancedLauncher.Providers.GameKing;
+﻿using System;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Configuration;
 using AdvancedLauncher.SDK.Model.Web;
@@ -97,7 +97,7 @@ namespace PluginSample {
         #region Providers
 
         public override IWebProvider CreateWebProvider() {
-            return new GameKingWebProvider(DatabaseManager, LogManager);
+            throw new NotImplementedException();
         }
 
         public override INewsProvider CreateNewsProvider() {
@@ -105,7 +105,7 @@ namespace PluginSample {
         }
 
         protected override IServersProvider CreateServersProvider() {
-            return new GameKingServersProvider(DatabaseManager);
+            throw new NotImplementedException();
         }
 
         public override bool IsLoginRequired {

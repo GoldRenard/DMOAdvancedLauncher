@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Web;
+using AdvancedLauncher.Tools;
 using HtmlAgilityPack;
 
 namespace AdvancedLauncher.Providers.GameKing {

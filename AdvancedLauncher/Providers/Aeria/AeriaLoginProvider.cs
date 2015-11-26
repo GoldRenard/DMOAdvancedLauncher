@@ -20,10 +20,11 @@ using System.Security;
 using System.Web;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.Providers.Aeria {
 
-    public class AeriaLoginProvider : AbstractLoginProvider {
+    internal class AeriaLoginProvider : AbstractLoginProvider {
 
         public AeriaLoginProvider(ILogManager logManager) : base(logManager) {
         }

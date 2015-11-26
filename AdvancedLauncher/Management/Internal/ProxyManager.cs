@@ -18,7 +18,7 @@
 
 using System.Net;
 using AdvancedLauncher.Model.Protected;
-using AdvancedLauncher.Providers;
+using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.Management.Internal {
 

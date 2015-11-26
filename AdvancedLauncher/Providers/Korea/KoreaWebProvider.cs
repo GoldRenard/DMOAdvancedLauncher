@@ -25,6 +25,7 @@ using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Web;
+using AdvancedLauncher.Tools;
 using HtmlAgilityPack;
 
 namespace AdvancedLauncher.Providers.Korea {

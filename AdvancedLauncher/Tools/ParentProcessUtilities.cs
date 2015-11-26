@@ -26,7 +26,7 @@ namespace AdvancedLauncher.Tools {
     /// A utility class to determine a process parent.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct ParentProcessUtilities {
+    internal struct ParentProcessUtilities {
 
         // These members must match PROCESS_BASIC_INFORMATION
         internal IntPtr Reserved1;

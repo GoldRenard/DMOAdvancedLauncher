@@ -22,7 +22,7 @@ using System.IO;
 
 namespace AdvancedLauncher.Tools {
 
-    public static class Utils {
+    internal static class Utils {
         private const string RUS_TWITTER = "dmo_russian";
 
         private const string ROW_TWITTER = "DMOWiki";

@@ -19,10 +19,11 @@
 using System.Security;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.Tools;
 
 namespace AdvancedLauncher.Providers.Korea {
 
-    public class KoreaLoginProvider : AbstractLoginProvider {
+    internal class KoreaLoginProvider : AbstractLoginProvider {
 
         public KoreaLoginProvider(ILogManager logManager) : base(logManager) {
         }

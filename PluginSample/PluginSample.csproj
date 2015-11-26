@@ -57,10 +57,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AdvancedLauncherProviders\AdvancedLauncher.Providers.csproj">
-      <Project>{283fce16-15fc-4dd2-ba55-0c8e622e1d2f}</Project>
-      <Name>AdvancedLauncher.Providers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AdvancedLauncherSDK\AdvancedLauncher.SDK.csproj">
       <Project>{d1e7d106-9909-4162-9d22-8798317915af}</Project>
       <Name>AdvancedLauncher.SDK</Name>

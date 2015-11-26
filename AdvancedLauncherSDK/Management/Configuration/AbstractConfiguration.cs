@@ -28,6 +28,8 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
     public abstract class AbstractConfiguration : CrossDomainObject, IConfiguration {
         private IServersProvider _ServersProvider;
 
+        private object LockObject = new object();
+
         /// <summary>
         /// Gets the name of configuration (short server name, server publisher, etc). Used for UI.
         /// </summary>
@@ -182,7 +184,7 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         /// <seealso cref="IServersProvider"/>
         public IServersProvider ServersProvider {
             get {
-                lock (this) {
+                lock (LockObject) {
                     if (_ServersProvider == null) {
                         _ServersProvider = CreateServersProvider();
                     }

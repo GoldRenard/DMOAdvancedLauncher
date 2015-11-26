@@ -33,6 +33,7 @@ using Ninject;
 namespace AdvancedLauncher.Management.Internal {
 
     internal sealed class PluginManager {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(PluginManager));
 
         [Inject]
         public IEnvironmentManager EnvironmentManager {
@@ -88,12 +89,15 @@ namespace AdvancedLauncher.Management.Internal {
         }
 
         private bool LoadPlugin(PluginInfo info) {
+            bool verified = VerifyPlugin(info);
+            LOGGER.Info(string.Format("Plugin loading: TypeName={0}, Verified={1}, Path={2}", info.TypeName, verified, info.AssemblyPath));
+
             AppDomainSetup domainSetup = new AppDomainSetup();
             domainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
             domainSetup.PrivateBinPath = @"Plugins;bin";
 
             PermissionSet permissions;
-            if (!VerifyPlugin(info)) {
+            if (!verified) {
                 permissions = new PermissionSet(PermissionState.None);
 
                 permissions.AddPermission(new UIPermission(UIPermissionWindow.AllWindows, UIPermissionClipboard.NoClipboard));
@@ -189,7 +193,7 @@ namespace AdvancedLauncher.Management.Internal {
         /// <returns>true if the plugin was signed with a key that has launcher and has valid strong name, false otherwise</returns>
         public static bool VerifyPlugin(PluginInfo pluginInfo) {
             bool fWasVerified = false;
-            bool verified = NativeMethods.StrongNameSignatureVerificationEx(pluginInfo.AssemblyPath, true, ref fWasVerified);
+            bool verified = NativeMethods.StrongNameSignatureVerificationEx(pluginInfo.AssemblyPath, true, out fWasVerified);
             if (!verified || pluginInfo.AssemblyToken == null) {
                 return false;
             }

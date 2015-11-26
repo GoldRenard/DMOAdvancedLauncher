@@ -49,7 +49,11 @@ namespace AdvancedLauncher.Tools {
         public static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass,
             ref ParentProcessUtilities processInformation, int processInformationLength, out int returnLength);
 
-        [DllImport("mscoree.dll", CharSet = CharSet.Unicode)]
-        public static extern bool StrongNameSignatureVerificationEx(string wszFilePath, bool fForceVerification, ref bool pfWasVerified);
+        [DllImport("mscoree.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool StrongNameSignatureVerificationEx(
+           [MarshalAs(UnmanagedType.LPWStr)] string wszFilePath,
+           [MarshalAs(UnmanagedType.U1)] bool fForceVerification,
+           [MarshalAs(UnmanagedType.U1)] out bool pfWasVerified);
     }
 }

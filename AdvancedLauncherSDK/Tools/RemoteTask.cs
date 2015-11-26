@@ -27,7 +27,7 @@ namespace AdvancedLauncher.SDK.Tools {
     /// <see cref="Task"/> wrapper. Async calls across AppDomains aren't supported out the box, so this is an workaround.
     /// </summary>
     /// <typeparam name="T">Async return type</typeparam>
-    public class RemoteTask<T> : CrossDomainObject {
+    public class RemoteTask<T> : CrossDomainObject, IDisposable {
         private readonly EventWaitHandle CompletionEvent;
 
         /// <summary>
@@ -89,6 +89,33 @@ namespace AdvancedLauncher.SDK.Tools {
             Result = WorkerTask.Result;
             CompletionEvent.Set();
         }
+
+        #region IDisposable Support
+
+        private bool disposedValue = false; // To detect redundant calls
+
+        /// <summary>
+        ///  When overridden in a derived class, releases the unmanaged resources used by
+        ///  the <see cref="RemoteTask{T}"/>, and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    CompletionEvent.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+
+        /// <summary>
+        /// Releases all resources used by the current instance of the <see cref="RemoteTask{T}"/> class.
+        /// </summary>
+        public void Dispose() {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 
     /// <summary>

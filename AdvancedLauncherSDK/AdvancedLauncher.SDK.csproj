@@ -54,6 +54,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Management\Commands\AbstractExtendedCommand.cs" />
     <Compile Include="Management\Configuration\AbstractConfiguration.cs" />
     <Compile Include="Management\CrossDomainObject.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Management\Plugins\AbstractPlugin.cs" />
     <Compile Include="Management\Plugins\PluginInfo.cs" />
     <Compile Include="Management\Plugins\Proxy.cs" />
+    <Compile Include="Tools\NativeMethods.cs" />
     <Compile Include="UI\AbstractUserControl.cs" />
     <Compile Include="UI\AbstractPageControl.cs" />
     <Compile Include="UI\AbstractWindowControl.cs" />

@@ -36,6 +36,8 @@ namespace AdvancedLauncher.Management {
 
     [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
     public class ProfileManager : CrossDomainObject, IProfileManager, INotifyPropertyChanged {
+        private object lockObject = new object();
+
         private bool IsLoaded = false;
 
         #region Properties
@@ -102,7 +104,7 @@ namespace AdvancedLauncher.Management {
         }
 
         public void Start() {
-            lock (this) {
+            lock (lockObject) {
                 if (IsLoaded) {
                     return;
                 }

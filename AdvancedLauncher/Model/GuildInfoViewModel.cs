@@ -91,7 +91,7 @@ namespace AdvancedLauncher.Model {
             }
         }
 
-        void IDisposable.Dispose() {
+        public void Dispose() {
             Dispose(true);
         }
 

@@ -18,31 +18,18 @@
 
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using AdvancedLauncher.SDK.Model.Events;
+using AdvancedLauncher.SDK.Tools;
 
 namespace AdvancedLauncher.SDK.Management.Windows {
 
     /// <summary>
     /// WindowsFormsHost Control wrapper. Runs specified program inside this control.
     /// </summary>
-    public class ApplicationWindowControl : UserControl {
-
-        [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        [DllImport("user32")]
-        private static extern IntPtr SetParent(IntPtr hWnd, IntPtr hWndParent);
-
-        [DllImport("user32")]
-        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int uFlags);
-
+    public class ApplicationWindowControl : UserControl, IDisposable {
         private const int SWP_NOZORDER = 0x0004;
         private const int SWP_NOACTIVATE = 0x0010;
         private const int GWL_STYLE = -16;
@@ -70,10 +57,6 @@ namespace AdvancedLauncher.SDK.Management.Windows {
         public ApplicationWindowControl(ProcessStartInfo StartInfo, int WaitTimeout = 0) {
             this.StartInfo = StartInfo;
             this.WaitTimeout = WaitTimeout;
-            WindowsFormsHost FormsHost = new WindowsFormsHost();
-            Panel = new System.Windows.Forms.Panel();
-            FormsHost.Child = Panel;
-            AddChild(FormsHost);
             this.Loaded += OnLoaded;
             this.SizeChanged += OnSizeChanged;
         }
@@ -83,6 +66,10 @@ namespace AdvancedLauncher.SDK.Management.Windows {
         }
 
         private void OnLoaded(object sender, System.Windows.RoutedEventArgs e) {
+            WindowsFormsHost FormsHost = new WindowsFormsHost();
+            Panel = new System.Windows.Forms.Panel();
+            FormsHost.Child = Panel;
+            AddChild(FormsHost);
             this.Process = new Process();
             this.Process.StartInfo = StartInfo;
             this.Process.Exited += OnProcessExited;
@@ -91,12 +78,12 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             this.Process.EnableRaisingEvents = true;
             this.Process.WaitForInputIdle();
             Thread.Sleep(WaitTimeout);
-            SetParent(Process.MainWindowHandle, Panel.Handle);
+            NativeMethods.SetParent(Process.MainWindowHandle, Panel.Handle);
 
             // remove control box
-            int style = GetWindowLong(Process.MainWindowHandle, GWL_STYLE);
+            int style = NativeMethods.GetWindowLong(Process.MainWindowHandle, GWL_STYLE);
             style = style & ~WS_CAPTION & ~WS_THICKFRAME;
-            SetWindowLong(Process.MainWindowHandle, GWL_STYLE, style);
+            NativeMethods.SetWindowLong(Process.MainWindowHandle, GWL_STYLE, style);
 
             // resize embedded application & refresh
             ResizeEmbeddedApp();
@@ -112,7 +99,38 @@ namespace AdvancedLauncher.SDK.Management.Windows {
             if (Process == null) {
                 return;
             }
-            SetWindowPos(Process.MainWindowHandle, IntPtr.Zero, 0, 0, (int)Panel.ClientSize.Width, (int)Panel.ClientSize.Height, SWP_NOZORDER | SWP_NOACTIVATE);
+            NativeMethods.SetWindowPos(Process.MainWindowHandle, IntPtr.Zero, 0, 0, (int)Panel.ClientSize.Width, (int)Panel.ClientSize.Height, SWP_NOZORDER | SWP_NOACTIVATE);
         }
+
+        #region IDisposable Support
+
+        private bool disposedValue = false; // To detect redundant calls
+
+        /// <summary>
+        ///  When overridden in a derived class, releases the unmanaged resources used by
+        ///  the <see cref="ApplicationWindowControl"/>, and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    if (Process != null) {
+                        Process.Kill();
+                        Process.Dispose();
+                        Panel.Dispose();
+                    }
+                }
+                disposedValue = true;
+            }
+        }
+
+        /// <summary>
+        /// Releases all resources used by the current instance of the <see cref="ApplicationWindowControl"/> class.
+        /// </summary>
+        public void Dispose() {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 }

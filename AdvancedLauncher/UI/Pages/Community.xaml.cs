@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using AdvancedLauncher.Database;
@@ -32,7 +33,7 @@ using Ninject;
 
 namespace AdvancedLauncher.UI.Pages {
 
-    public partial class Community : AbstractPage, IWebProviderEventAccessor {
+    public partial class Community : AbstractPage, IWebProviderEventAccessor, IDisposable {
 
         private delegate void DoOneText(string text);
 
@@ -228,6 +229,25 @@ namespace AdvancedLauncher.UI.Pages {
             LoadProgressBar.Maximum = e.MaxProgress;
             LoadProgressBar.Value = e.Progress;
         }
+
+        #region IDisposable Support
+
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    GuildInfoModel.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose() {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
 
         #endregion Event handlers
     }

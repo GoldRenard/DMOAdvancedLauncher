@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Diagnostics;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -41,11 +42,11 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
 
         #region "Events"
 
-        public delegate void CancelEventHandler();
+        public delegate void CancelEventHandler(object sender, EventArgs e);
 
-        public delegate void CommitEventHandler();
+        public delegate void CommitEventHandler(object sender, EventArgs e);
 
-        public delegate void SelectionChangedEventHandler();
+        public delegate void SelectionChangedEventHandler(object sender, EventArgs e);
 
         public event CancelEventHandler Cancel;
 
@@ -83,21 +84,21 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
 
                 case Key.Enter:
                     if (Commit != null) {
-                        Commit();
+                        Commit(this, EventArgs.Empty);
                     }
 
                     break;
 
                 case Key.Escape:
                     if (Cancel != null) {
-                        Cancel();
+                        Cancel(this, EventArgs.Empty);
                     }
 
                     break;
 
                 case Key.Tab:
                     if (Commit != null) {
-                        Commit();
+                        Commit(this, EventArgs.Empty);
                     }
 
                     break;
@@ -111,7 +112,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
                 SelectorControl.SelectedIndex -= 1;
             }
             if (SelectionChanged != null) {
-                SelectionChanged();
+                SelectionChanged(this, EventArgs.Empty);
             }
         }
 
@@ -122,13 +123,13 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
                 SelectorControl.SelectedIndex += 1;
             }
             if (SelectionChanged != null) {
-                SelectionChanged();
+                SelectionChanged(this, EventArgs.Empty);
             }
         }
 
         private void OnSelectorMouseDown(object sender, MouseButtonEventArgs e) {
             if (Commit != null) {
-                Commit();
+                Commit(this, EventArgs.Empty);
             }
         }
 

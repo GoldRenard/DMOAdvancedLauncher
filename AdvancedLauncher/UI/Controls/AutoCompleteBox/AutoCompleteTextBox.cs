@@ -436,7 +436,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             ItemsSelector.SelectedItem = SelectedItem;
         }
 
-        private void OnSelectionAdapterCancel() {
+        private void OnSelectionAdapterCancel(object sender, EventArgs e) {
             _isUpdatingText = true;
             Editor.Text = SelectedItem == null ? Filter : GetDisplayText(SelectedItem);
             Editor.SelectionStart = Editor.Text.Length;
@@ -446,7 +446,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             _selectionCancelled = true;
         }
 
-        private void OnSelectionAdapterCommit() {
+        private void OnSelectionAdapterCommit(object sender, EventArgs e) {
             if (ItemsSelector.SelectedItem != null) {
                 SelectedItem = ItemsSelector.SelectedItem;
                 _isUpdatingText = true;
@@ -462,7 +462,7 @@ namespace AdvancedLauncher.UI.Controls.AutoCompleteBox {
             }
         }
 
-        private void OnSelectionAdapterSelectionChanged() {
+        private void OnSelectionAdapterSelectionChanged(object sender, EventArgs e) {
             _isUpdatingText = true;
             if (ItemsSelector.SelectedItem == null) {
                 Editor.Text = Filter;

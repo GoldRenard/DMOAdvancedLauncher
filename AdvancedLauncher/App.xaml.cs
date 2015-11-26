@@ -36,6 +36,15 @@ using static AdvancedLauncher.Tools.ExceptionHandler;
 namespace AdvancedLauncher {
 
     public partial class App : Application {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(App));
+
+        public static void PrintHeader() {
+            LOGGER.Info("Digimon Masters Online Advanced Launcher, Copyright (C) 2015 Egorov Ilya" + System.Environment.NewLine +
+                "This program comes with ABSOLUTELY NO WARRANTY; for details type `license'." + System.Environment.NewLine +
+                "This is free software, and you are welcome to redistribute it" + System.Environment.NewLine +
+                "under certain conditions; type `license' for details." + System.Environment.NewLine);
+        }
+
         private static IKernel _Kernel;
 
         public static IKernel Kernel {
@@ -48,6 +57,7 @@ namespace AdvancedLauncher {
         }
 
         public App() {
+            PrintHeader();
 #if RELEASE
             if (ExceptionHandler.IsAvailable) {
                 var currentAsm = Assembly.GetExecutingAssembly();

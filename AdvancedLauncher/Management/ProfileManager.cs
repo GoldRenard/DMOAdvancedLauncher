@@ -33,6 +33,7 @@ using AdvancedLauncher.Tools;
 using Ninject;
 
 namespace AdvancedLauncher.Management {
+
     [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
     public class ProfileManager : CrossDomainObject, IProfileManager, INotifyPropertyChanged {
         private bool IsLoaded = false;

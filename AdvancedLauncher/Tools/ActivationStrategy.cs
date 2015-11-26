@@ -26,12 +26,15 @@ using Ninject.Components;
 namespace AdvancedLauncher.Tools {
 
     internal class ActivationStrategy : NinjectComponent, IActivationStrategy {
+        private static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(ActivationStrategy));
 
         public void Activate(IContext context, InstanceReference reference) {
             Type instanceType = reference.Instance.GetType();
             if (!instanceType.IsAssignableFrom(typeof(Splashscreen))) {
                 Splashscreen splashscreen = App.Kernel.Get<Splashscreen>();
-                splashscreen.SetProgress(string.Format("{0} loading...", instanceType.Name));
+                string message = string.Format("{0} loading...", instanceType.Name);
+                LOGGER.Info(message);
+                splashscreen.SetProgress(message);
             }
         }
 

@@ -21,8 +21,8 @@ using System.Security;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.Model.Web;
-using HtmlAgilityPack;
 using AdvancedLauncher.Tools;
+using HtmlAgilityPack;
 
 namespace AdvancedLauncher.Providers {
 

@@ -18,11 +18,13 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
+using AdvancedLauncher.Tools;
 using log4net.Core;
 using Ninject;
 
@@ -35,8 +37,6 @@ namespace AdvancedLauncher.UI.Windows {
 
         private int recentIndex = -1;
 
-        private bool FirstShow = true;
-
         #region Properties and structs
 
         private enum LogLevel {
@@ -48,20 +48,15 @@ namespace AdvancedLauncher.UI.Windows {
             OTNER
         }
 
-        private ObservableCollection<LoggingEvent> _LogEntries = new ObservableCollection<LoggingEvent>();
-        private ObservableCollection<LoggingEvent> _LogEntriesFiltered = new ObservableCollection<LoggingEvent>();
-
         public ObservableCollection<LoggingEvent> LogEntries {
-            get {
-                return _LogEntries;
-            }
-        }
+            get;
+            private set;
+        } = new ObservableCollection<LoggingEvent>();
 
         public ObservableCollection<LoggingEvent> LogEntriesFiltered {
-            get {
-                return _LogEntriesFiltered;
-            }
-        }
+            get;
+            private set;
+        } = new ObservableCollection<LoggingEvent>();
 
         [Inject]
         public ICommandManager CommandManager {
@@ -72,25 +67,30 @@ namespace AdvancedLauncher.UI.Windows {
 
         public Logger() {
             InitializeComponent();
-            this.Items.ItemsSource = LogEntriesFiltered;
+            CommandManager.RegisterCommand(new ClearCommand(this));
+            LogAppender.Entries.ToList().ForEach(x => AddEntry(x));
+            LogAppender.CollectionChanged += LogAppender_CollectionChanged;
+            Items.ItemsSource = LogEntriesFiltered;
         }
 
-        public void PrintHeader() {
-            LOGGER.Info("Digimon Masters Online Advanced Launcher, Copyright (C) 2015 Egorov Ilya" + System.Environment.NewLine +
-                "This program comes with ABSOLUTELY NO WARRANTY; for details type `license'." + System.Environment.NewLine +
-                "This is free software, and you are welcome to redistribute it" + System.Environment.NewLine +
-                "under certain conditions; type `license' for details." + System.Environment.NewLine);
+        private void LogAppender_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
+            switch (e.Action) {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    e.NewItems.Cast<LoggingEvent>().ToList().ForEach(x => AddEntry(x));
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    LogEntries.Clear();
+                    LogEntriesFiltered.Clear();
+                    App.PrintHeader();
+                    break;
+            }
         }
 
         public override void OnShow() {
             this.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () {
                 ConsoleInput.Focus();
             }));
-            if (FirstShow) {
-                CommandManager.RegisterCommand(new ClearCommand(this));
-                PrintHeader();
-                FirstShow = false;
-            }
         }
 
         public void AddEntry(LoggingEvent logEvent) {
@@ -101,7 +101,7 @@ namespace AdvancedLauncher.UI.Windows {
                 return;
             }
             AddFilteredEntry(logEvent);
-            _LogEntries.Add(logEvent);
+            LogEntries.Add(logEvent);
         }
 
         public void AddFilteredEntry(LoggingEvent logEvent) {
@@ -112,14 +112,14 @@ namespace AdvancedLauncher.UI.Windows {
                 return;
             }
             if (IsApplicable(logEvent) == true) {
-                _LogEntriesFiltered.Add(logEvent);
+                LogEntriesFiltered.Add(logEvent);
             }
         }
 
         #region Filter Things
 
         private void OnFilterChecked(object sender, RoutedEventArgs e) {
-            _LogEntriesFiltered.Clear();
+            LogEntriesFiltered.Clear();
             foreach (LoggingEvent log in LogEntries) {
                 AddFilteredEntry(log);
             }
@@ -221,7 +221,7 @@ namespace AdvancedLauncher.UI.Windows {
             public override bool DoCommand(string[] args) {
                 Logger.LogEntries.Clear();
                 Logger.LogEntriesFiltered.Clear();
-                Logger.PrintHeader();
+                App.PrintHeader();
                 return true;
             }
         }

@@ -17,13 +17,17 @@
 // ======================================================================
 
 using System.Windows;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 
 namespace AdvancedLauncher.Model {
 
     public class ServerNewsItemViewModel : AbstractItemViewModel<NewsItem> {
 
-        protected override void LanguageChanged() {
+        public ServerNewsItemViewModel(ILanguageManager LanguageManager) : base(LanguageManager) {
+        }
+
+        protected override void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             NotifyPropertyChanged("Type");
         }
 

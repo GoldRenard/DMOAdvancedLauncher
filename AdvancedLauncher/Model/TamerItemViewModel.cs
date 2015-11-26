@@ -22,6 +22,10 @@ using AdvancedLauncher.SDK.Model.Entity;
 namespace AdvancedLauncher.Model {
 
     public class TamerItemViewModel : AbstractItemViewModel<Tamer> {
+
+        public TamerItemViewModel() : base(null) {
+        }
+
         private string _TName;
 
         public string TName {

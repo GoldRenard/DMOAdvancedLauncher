@@ -43,6 +43,7 @@ namespace AdvancedLauncher.Model {
             }
             items = new List<DigimonItemViewModel>();
             BindingOperations.EnableCollectionSynchronization(items, _stocksLock);
+            IconHolder IconHolder = App.Kernel.Get<IconHolder>();
             using (IDatabaseContext context = App.Kernel.Get<IDatabaseManager>().CreateContext()) {
                 foreach (Digimon item in tamer.Digimons) {
                     dtype = context.FindDigimonTypeByCode(item.Type.Code);
@@ -50,16 +51,16 @@ namespace AdvancedLauncher.Model {
                     if (dtype.NameAlt != null) {
                         typeName += " (" + dtype.NameAlt + ")";
                     }
-                    DigimonItemViewModel newItem = App.Kernel.Get<DigimonItemViewModel>();
-                    newItem.DName = item.Name;
-                    newItem.DType = typeName;
-                    newItem.Image = IconHolder.GetImage(item.Type.Code);
-                    newItem.TName = tamer.Name;
-                    newItem.Level = item.Level;
-                    newItem.SizePC = item.SizePc;
-                    newItem.Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc);
-                    newItem.Rank = item.Rank;
-                    items.Add(newItem);
+                    items.Add(new DigimonItemViewModel() {
+                        DName = item.Name,
+                        DType = typeName,
+                        Image = IconHolder.GetImage(item.Type.Code),
+                        TName = tamer.Name,
+                        Level = item.Level,
+                        SizePC = item.SizePc,
+                        Size = string.Format(SIZE_FORMAT, item.SizeCm, item.SizePc),
+                        Rank = item.Rank,
+                    });
                 }
             }
             ItemsCache.TryAdd(tamer, items);

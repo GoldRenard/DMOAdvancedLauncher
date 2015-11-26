@@ -30,16 +30,16 @@ namespace AdvancedLauncher.Tools {
 
         public void Activate(IContext context, InstanceReference reference) {
             Type instanceType = reference.Instance.GetType();
+            LOGGER.Info("Component activate: " + instanceType.Name);
             if (!instanceType.IsAssignableFrom(typeof(Splashscreen))) {
                 Splashscreen splashscreen = App.Kernel.Get<Splashscreen>();
-                string message = string.Format("{0} loading...", instanceType.Name);
-                LOGGER.Info(message);
-                splashscreen.SetProgress(message);
+                splashscreen.SetProgress(string.Format("{0} loading...", instanceType.Name));
             }
         }
 
         public void Deactivate(IContext context, InstanceReference reference) {
-            // nothing to do
+            Type instanceType = reference.Instance.GetType();
+            LOGGER.Info("Component deactivate: " + instanceType.Name);
         }
     }
 }

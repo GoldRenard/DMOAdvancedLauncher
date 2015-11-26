@@ -22,7 +22,7 @@ namespace AdvancedLauncher.Model {
 
     public class ConfigurationViewModel : AbstractItemViewModel<IConfiguration> {
 
-        public ConfigurationViewModel(IConfiguration Configuration) {
+        public ConfigurationViewModel(IConfiguration Configuration) : base(null) {
             this.Configuration = Configuration;
         }
 

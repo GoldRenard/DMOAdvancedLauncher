@@ -223,10 +223,10 @@ namespace AdvancedLauncher.UI.Controls {
         public void GetTwitterNewsAPI11(string url) {
             TwitterStatuses.Clear();
             if (string.IsNullOrEmpty(url)) {
-                TwitterItemViewModel item = App.Kernel.Get<TwitterItemViewModel>();
-                item.Title = LanguageManager.Model.NewsTwitterError + ": [ERRCODE 4 - No URL specified]";
-                item.Date = DateTime.Now.ToLongDateString();
-                TwitterStatuses.Add(item);
+                TwitterStatuses.Add(new TwitterItemViewModel(LanguageManager) {
+                    Title = LanguageManager.Model.NewsTwitterError + ": [ERRCODE 4 - No URL specified]",
+                    Date = DateTime.Now.ToLongDateString()
+                });
                 return;
             }
             Uri link = new Uri(url);
@@ -235,9 +235,10 @@ namespace AdvancedLauncher.UI.Controls {
                 try {
                     response = wc.DownloadString(link);
                 } catch (Exception e) {
-                    TwitterItemViewModel item = App.Kernel.Get<TwitterItemViewModel>();
-                    item.Title = LanguageManager.Model.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]";
-                    TwitterStatuses.Add(item);
+                    TwitterStatuses.Add(new TwitterItemViewModel(LanguageManager) {
+                        Title = LanguageManager.Model.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]",
+                        Date = DateTime.Now.ToLongDateString()
+                    });
                     return;
                 }
             }
@@ -246,9 +247,10 @@ namespace AdvancedLauncher.UI.Controls {
             try {
                 tList = JArray.Parse(System.Web.HttpUtility.HtmlDecode(response));
             } catch {
-                TwitterItemViewModel item = App.Kernel.Get<TwitterItemViewModel>();
-                item.Title = LanguageManager.Model.NewsTwitterError + " [ERRCODE 1 - Parse Error]";
-                TwitterStatuses.Add(item);
+                TwitterStatuses.Add(new TwitterItemViewModel(LanguageManager) {
+                    Title = LanguageManager.Model.NewsTwitterError + " [ERRCODE 1 - Parse Error]",
+                    Date = DateTime.Now.ToLongDateString()
+                });
                 return;
             }
 
@@ -295,15 +297,15 @@ namespace AdvancedLauncher.UI.Controls {
                 statuses.Add(status);
             }
             foreach (UserStatus status in statuses) {
-                TwitterItemViewModel item = App.Kernel.Get<TwitterItemViewModel>();
-                item.Title = status.Status;
-                item.Date = status.StatusDate.ToLongDateString()
-                    + " " + status.StatusDate.ToShortTimeString();
-                item.Image = status.ProfileImageBitmap;
-                item.StatusLink = "https://twitter.com/statuses/" + status.StatusId;
-                item.UserLink = "https://twitter.com/" + status.UserScreenName;
-                item.UserName = status.UserName;
-                TwitterStatuses.Add(item);
+                TwitterStatuses.Add(new TwitterItemViewModel(LanguageManager) {
+                    Title = status.Status,
+                    Date = status.StatusDate.ToLongDateString()
+                    + " " + status.StatusDate.ToShortTimeString(),
+                    Image = status.ProfileImageBitmap,
+                    StatusLink = "https://twitter.com/statuses/" + status.StatusId,
+                    UserLink = "https://twitter.com/" + status.UserScreenName,
+                    UserName = status.UserName
+                });
             }
         }
 
@@ -513,15 +515,14 @@ namespace AdvancedLauncher.UI.Controls {
                         } else {
                             viewbox = new Rect(215, 0, 90, 18);
                         }
-
-                        ServerNewsItemViewModel item = App.Kernel.Get<ServerNewsItemViewModel>();
-                        item.Title = n.Subject;
-                        item.Content = n.Content;
-                        item.Date = n.Date;
-                        item.TypeName = mode;
-                        item.Link = n.Url;
-                        item.ImgVB = viewbox;
-                        ServerNews.Add(item);
+                        ServerNews.Add(new ServerNewsItemViewModel(LanguageManager) {
+                            Title = n.Subject,
+                            Content = n.Content,
+                            Date = n.Date,
+                            TypeName = mode,
+                            Link = n.Url,
+                            ImgVB = viewbox,
+                        });
                     }
                 }), news);
             }

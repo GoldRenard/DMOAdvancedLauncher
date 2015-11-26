@@ -21,7 +21,6 @@ using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Commands;
 using AdvancedLauncher.Management.Execution;
 using AdvancedLauncher.Management.Internal;
-using AdvancedLauncher.Model;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Management.Commands;
 using AdvancedLauncher.SDK.Management.Configuration;
@@ -78,13 +77,6 @@ namespace AdvancedLauncher.Tools {
                 .BindAllInterfaces()
                 .Configure(c => c.InSingletonScope());
             });
-
-            // ViewModels
-            Bind<DigimonItemViewModel>().ToSelf();
-            Bind<GuildInfoItemViewModel>().ToSelf();
-            Bind<ServerNewsItemViewModel>().ToSelf();
-            Bind<TamerItemViewModel>().ToSelf();
-            Bind<TwitterItemViewModel>().ToSelf();
 
             // Components
             Bind<MainWindow>().ToSelf().InSingletonScope(); // be careful with injecting this on initialization of MainWindow itself (UserControls, etc)

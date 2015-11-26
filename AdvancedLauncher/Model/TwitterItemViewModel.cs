@@ -17,13 +17,17 @@
 // ======================================================================
 
 using System.Windows.Media;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.UI.Controls;
 
 namespace AdvancedLauncher.Model {
 
     public class TwitterItemViewModel : AbstractItemViewModel<NewsBlock.UserStatus> {
 
-        protected override void LanguageChanged() {
+        public TwitterItemViewModel(ILanguageManager LanguageManager) : base(LanguageManager) {
+        }
+
+        protected override void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             NotifyPropertyChanged("Date");
         }
 

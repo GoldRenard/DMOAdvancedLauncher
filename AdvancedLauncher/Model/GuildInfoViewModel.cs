@@ -20,20 +20,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Entity;
-using Ninject;
 
 namespace AdvancedLauncher.Model {
 
-    public class GuildInfoViewModel : AbstractContainerViewModel<Guild, GuildInfoItemViewModel> {
+    public class GuildInfoViewModel : AbstractContainerViewModel<Guild, GuildInfoItemViewModel>, IDisposable {
         private static object NO_DATA_CHAR = "-";
 
-        public GuildInfoViewModel()
+        private ILanguageManager LanguageManager {
+            get; set;
+        }
+
+        public GuildInfoViewModel(ILanguageManager LanguageManager)
             : base(null) {
-            LanguageManager.LanguageChanged += (s, e) => {
-                NotifyPropertyChanged("Items");
-            };
+            this.LanguageManager = LanguageManager;
+            this.LanguageManager.LanguageChanged += OnLanguageChanged;
+        }
+
+        private void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
+            NotifyPropertyChanged("Items");
         }
 
         public override void UnLoadData() {
@@ -65,11 +72,29 @@ namespace AdvancedLauncher.Model {
             if (body == null) {
                 body = ((UnaryExpression)expression.Body).Operand as MemberExpression;
             }
-
-            GuildInfoItemViewModel item = App.Kernel.Get<GuildInfoItemViewModel>();
-            item.Name = body.Member.Name;
-            item.Value = value;
-            this.Items.Add(item);
+            this.Items.Add(new GuildInfoItemViewModel(LanguageManager) {
+                Name = body.Member.Name,
+                Value = value
+            });
         }
+
+        #region IDisposable Support
+
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    this.LanguageManager.LanguageChanged -= OnLanguageChanged;
+                }
+                disposedValue = true;
+            }
+        }
+
+        void IDisposable.Dispose() {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 }

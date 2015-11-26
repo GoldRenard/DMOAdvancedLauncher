@@ -40,7 +40,7 @@ namespace AdvancedLauncher.UI.Pages {
 
         private IServersProvider serversProvider;
 
-        private GuildInfoViewModel GuildInfoModel = new GuildInfoViewModel();
+        private GuildInfoViewModel GuildInfoModel;
 
         private Guild CurrentGuild = new Guild() {
             Id = -1
@@ -66,6 +66,7 @@ namespace AdvancedLauncher.UI.Pages {
         public Community() {
             Proxy = new WebProviderEventAccessor(this);
             InitializeComponent();
+            GuildInfoModel = new GuildInfoViewModel(LanguageManager);
             GuildInfo.DataContext = GuildInfoModel;
         }
 

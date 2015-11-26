@@ -23,9 +23,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Threading;
-using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.Tools;
-using Ninject;
 
 namespace AdvancedLauncher.Model {
 
@@ -56,23 +53,12 @@ namespace AdvancedLauncher.Model {
             }
         }
 
-        [Inject]
-        public ILanguageManager LanguageManager {
-            get; set;
-        }
-
-        [Inject]
-        public IconHolder IconHolder {
-            get; set;
-        }
-
         protected ConcurrentDictionary<SourceType, ICollection<ItemViewModel>> ItemsCache {
             get;
             set;
         }
 
         public AbstractContainerViewModel(Dispatcher OwnerDispatcher) {
-            App.Kernel.Inject(this);
             this.OwnerDispatcher = OwnerDispatcher;
             this.Items = new ObservableCollection<ItemViewModel>();
             this.ItemsCache = new ConcurrentDictionary<SourceType, ICollection<ItemViewModel>>();

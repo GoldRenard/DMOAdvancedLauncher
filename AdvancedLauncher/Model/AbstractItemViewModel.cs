@@ -19,26 +19,24 @@
 using System;
 using System.ComponentModel;
 using AdvancedLauncher.SDK.Management;
-using Ninject;
 
 namespace AdvancedLauncher.Model {
 
-    public abstract class AbstractItemViewModel<T> : INotifyPropertyChanged {
+    public abstract class AbstractItemViewModel<T> : INotifyPropertyChanged, IDisposable {
 
-        [Inject]
-        public ILanguageManager LanguageManager {
-            get; set;
+        protected ILanguageManager LanguageManager {
+            get; private set;
         }
 
-        protected virtual void LanguageChanged() {
+        protected virtual void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             // nothing to do here
         }
 
-        public AbstractItemViewModel() {
-            App.Kernel.Inject(this);
-            LanguageManager.LanguageChanged += (s, e) => {
-                LanguageChanged();
-            };
+        public AbstractItemViewModel(ILanguageManager LanguageManager) {
+            if (LanguageManager != null) {
+                this.LanguageManager = LanguageManager;
+                this.LanguageManager.LanguageChanged += OnLanguageChanged;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -49,5 +47,26 @@ namespace AdvancedLauncher.Model {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        #region IDisposable Support
+
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    if (LanguageManager != null) {
+                        LanguageManager.LanguageChanged -= OnLanguageChanged;
+                    }
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose() {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 }

@@ -16,13 +16,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
 
 namespace AdvancedLauncher.Model {
 
     public class GuildInfoItemViewModel : AbstractItemViewModel<Guild> {
 
-        protected override void LanguageChanged() {
+        public GuildInfoItemViewModel(ILanguageManager LanguageManager) : base(LanguageManager) {
+        }
+
+        protected override void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             NotifyPropertyChanged("Name");
         }
 

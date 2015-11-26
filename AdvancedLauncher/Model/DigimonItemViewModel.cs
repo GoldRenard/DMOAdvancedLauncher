@@ -22,6 +22,10 @@ using AdvancedLauncher.SDK.Model.Entity;
 namespace AdvancedLauncher.Model {
 
     public class DigimonItemViewModel : AbstractItemViewModel<Digimon> {
+
+        public DigimonItemViewModel() : base(null) {
+        }
+
         private string _DName;
 
         public string DName {

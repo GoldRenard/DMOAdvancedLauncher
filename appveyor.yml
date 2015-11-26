@@ -22,6 +22,7 @@ install:
 - set DOXYGEN_PROJECT_DIR=C:\Projects\DMOAdvancedLauncher\AdvancedLauncherSDK
 before_build:
 - ps: ./DecryptReleaseKey.ps1
+- nuget restore
 build:
   project: AdvancedLauncher.sln
   verbosity: minimal

@@ -28,6 +28,10 @@ namespace AdvancedLauncher.Tools {
 
         private const string X64_LIBRARY = "BugTrapN-x64.dll";
 
+        private static Assembly BugTrapAssembly;
+
+        public delegate void UnhandledExceptionDelegate(object sender, EventArgs args);
+
         [Flags]
         public enum FlagsType {
             None = 0,
@@ -74,15 +78,21 @@ namespace AdvancedLauncher.Tools {
 
         private static Type _BaseType = null;
 
+        private static Type GetType(string typeName) {
+            try {
+                if (BugTrapAssembly == null) {
+                    BugTrapAssembly = Assembly.LoadFrom((IntPtr.Size == 4) ? X86_LIBRARY : X64_LIBRARY);
+                }
+                return BugTrapAssembly.GetType(typeName);
+            } catch (Exception) {
+                return null;
+            }
+        }
+
         private static Type BaseType {
             get {
                 if (_BaseType == null) {
-                    try {
-                        Assembly bugTrap = Assembly.LoadFrom((IntPtr.Size == 4) ? X86_LIBRARY : X64_LIBRARY);
-                        _BaseType = bugTrap.GetType(EXCEPTION_HANDLER_TYPE);
-                    } catch (Exception) {
-                        _BaseType = null;
-                    }
+                    _BaseType = GetType(EXCEPTION_HANDLER_TYPE);
                 }
                 return _BaseType;
             }
@@ -242,9 +252,30 @@ namespace AdvancedLauncher.Tools {
             BaseType.GetField(propertyName).SetValue(null, PropertyValue);
         }
 
-        /*public static event UnhandledExceptionDelegate AfterUnhandledException;
-        public static event UnhandledExceptionDelegate BeforeUnhandledException;
+        private static void RegisterEventHandler(string name, UnhandledExceptionDelegate action) {
+            try {
+                EventInfo BeforeUnhandledException = BaseType.GetEvent(name);
+                Type handlerType = BeforeUnhandledException.EventHandlerType;
+                MethodInfo invokeMethod = handlerType.GetMethod("Invoke");
+                ParameterInfo[] parms = invokeMethod.GetParameters();
+                Type[] parmTypes = new Type[parms.Length];
+                for (int i = 0; i < parms.Length; i++) {
+                    parmTypes[i] = parms[i].ParameterType;
+                }
+                Delegate d = Delegate.CreateDelegate(handlerType, action.Target, action.Method, true);
+                BeforeUnhandledException.AddEventHandler(BaseType, d);
+            } catch (Exception) { }
+        }
 
+        public static void AddBeforeUnhandledException(UnhandledExceptionDelegate action) {
+            RegisterEventHandler("BeforeUnhandledException", action);
+        }
+
+        public static void AddAfterUnhandledException(UnhandledExceptionDelegate action) {
+            RegisterEventHandler("AfterUnhandledException", action);
+        }
+
+        /*
         public static void ExportRegKey(string fileName, string key);
         public static void HandleException(Exception exception);
         public static void InstallHandler();

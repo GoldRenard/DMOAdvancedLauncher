@@ -25,6 +25,7 @@ using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
 using log4net.Config;
 using Ninject;
+using System;
 
 #if RELEASE
 
@@ -58,6 +59,12 @@ namespace AdvancedLauncher {
 
         public App() {
             PrintHeader();
+            Current.DispatcherUnhandledException += (s, e) => {
+                LOGGER.Error("DispatcherUnhandledException", e.Exception as Exception);
+            };
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => {
+                LOGGER.Error("UnhandledException", e.ExceptionObject as Exception);
+            };
 #if RELEASE
             if (ExceptionHandler.IsAvailable) {
                 var currentAsm = Assembly.GetExecutingAssembly();
@@ -71,6 +78,10 @@ namespace AdvancedLauncher {
                 ExceptionHandler.SupportHost = "bugtrap.renamon.ru";
                 ExceptionHandler.SupportPort = 30700;
                 ExceptionHandler.SupportURL = "https://github.com/GoldRenard/DMOAdvancedLauncher/issues";
+                ExceptionHandler.AddBeforeUnhandledException((s, e) => {
+                    dynamic args = e;
+                    LOGGER.Error("BugTrap BeforeUnhandledException", args.ExceptionObject);
+                });
             }
 #endif
         }

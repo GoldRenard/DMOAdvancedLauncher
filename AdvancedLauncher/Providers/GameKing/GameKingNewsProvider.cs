@@ -28,7 +28,7 @@ namespace AdvancedLauncher.Providers.GameKing {
 
     public class GameKingNewsProvider : AbstractNewsProvider {
         private static string STR_URL_NEW_PAGE = "http://dmo.gameking.com{0}";
-        private static string STR_DATE_FORMAT_REGEX = "(\\d\\d)(-)(\\d\\d)(-)(\\d\\d)";
+        private static string STR_DATE_FORMAT_REGEX = "(\\d{2})(-)(\\d{2})(-)(\\d{2})";
 
         public GameKingNewsProvider(ILogManager logManager) : base(logManager) {
         }
@@ -54,30 +54,31 @@ namespace AdvancedLauncher.Providers.GameKing {
 
             HtmlNode newsWrap = newsNode[0];
             HtmlNodeCollection newsList = doc.DocumentNode.SelectNodes("//div[@class='news-list']/ul/li");
-            NewsItem ni;
+            NewsItem item;
 
             if (newsList != null) {
                 for (int i = 0; i <= newsList.Count - 1; i++) {
-                    ni = new NewsItem();
-                    ni.Mode = newsWrap.SelectNodes("//div[@class='lead']/span[contains(@class, 'mode')]")[i].InnerText;
-                    ni.Subject = System.Web.HttpUtility.HtmlDecode(newsWrap.SelectNodes("//div[@class='lead']/span[@class='subj']")[i].InnerText);
-                    ni.Date = newsWrap.SelectNodes("//div[@class='lead']/span[@class='date']")[i].InnerText;
+                    item = new NewsItem();
+                    item.Mode = newsWrap.SelectNodes("//div[@class='lead']/span[contains(@class, 'mode')]")[i].InnerText;
+                    item.Subject = System.Web.HttpUtility.HtmlDecode(newsWrap.SelectNodes("//div[@class='lead']/span[@class='subj']")[i].InnerText);
+                    item.Date = newsWrap.SelectNodes("//div[@class='lead']/span[@class='date']")[i].InnerText;
 
                     Regex r = new Regex(STR_DATE_FORMAT_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                    Match m = r.Match(ni.Date);
+                    Match m = r.Match(item.Date);
                     if (m.Success) {
-                        ni.Date = m.Groups[3].ToString() + "." + m.Groups[1].ToString() + "." + m.Groups[5].ToString();
+                        item.Date = m.Groups[1].ToString() + "-" + m.Groups[3].ToString() + "-20" + m.Groups[5].ToString();
+                    } else {
+                        item.Date = null;
                     }
-
                     foreach (HtmlAttribute atr in newsWrap.SelectNodes("//div[@class='view']/div[@class='btn-right']/span[@class='read-more']/a")[i].Attributes) {
                         if (atr.Name == "href") {
-                            ni.Url = string.Format(STR_URL_NEW_PAGE, atr.Value);
+                            item.Url = string.Format(STR_URL_NEW_PAGE, atr.Value);
                             break;
                         }
                     }
-                    ni.Content = System.Web.HttpUtility.HtmlDecode(newsWrap.SelectNodes("//div[@class='view']/div[@class='memo']")[i].InnerText);
-                    ni.Content = ni.Content.Trim().Replace("\r\n\r\n", "\r\n").Replace("\t", "");
-                    news.Add(ni);
+                    item.Content = System.Web.HttpUtility.HtmlDecode(newsWrap.SelectNodes("//div[@class='view']/div[@class='memo']")[i].InnerText);
+                    item.Content = item.Content.Trim().Replace("\r\n\r\n", "\r\n").Replace("\t", "");
+                    news.Add(item);
                 }
             }
 

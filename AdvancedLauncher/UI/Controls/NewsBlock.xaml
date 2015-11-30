@@ -98,7 +98,7 @@
                                 <StackPanel Margin="0,5,5,0" Background="{Binding Source={StaticResource blackBrushProxy}, Path=Data, Converter={StaticResource ColorOpacityConverter}}">
                                     <TextBlock Margin="5,3,5,0" Loaded="ParseTextBlock" Text="{Binding Title}" TextWrapping="Wrap " />
                                     <DockPanel Margin="5,0,5,3">
-                                        <TextBlock Opacity="0.6" Text="{Binding Date}" VerticalAlignment="Bottom" />
+                                        <TextBlock Opacity="0.6" Text="{Binding LocalizedDate}" VerticalAlignment="Bottom" />
                                         <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                             <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding UserLink}" RequestNavigate="OnRequestNavigate">
                                                 <Image Margin="0,3,0,-3" Height="15" Width="15" Source="{Binding Image}" Stretch="UniformToFill" />
@@ -231,7 +231,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Width="350" Padding="5" Text="{Binding Content}" HorizontalAlignment="Left" TextWrapping="Wrap" />
                                         <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,0,0" Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsPubDate, StringFormat='\{0\}: '}" TextWrapping="Wrap" />
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date}" TextWrapping="Wrap" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding LocalizedDate}" TextWrapping="Wrap" />
                                         <TextBlock Grid.Row="1" Grid.Column="2" Padding="0,0,5,0" TextWrapping="Wrap" TextAlignment="Right" FontWeight="Bold">
                                             <Hyperlink Style="{DynamicResource HyperLinkAccent}" NavigateUri="{Binding Link}" RequestNavigate="OnRequestNavigate">
                                                 <Run Text="{Binding ElementName=LayoutRoot, Path=DataContext.NewsReadMore}" />

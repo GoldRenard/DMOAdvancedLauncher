@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Windows;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
@@ -29,6 +30,7 @@ namespace AdvancedLauncher.Model {
 
         protected override void OnLanguageChanged(object sender, SDK.Model.Events.BaseEventArgs e) {
             NotifyPropertyChanged("Type");
+            NotifyPropertyChanged("LocalizedDate");
         }
 
         private string _Title;
@@ -45,9 +47,9 @@ namespace AdvancedLauncher.Model {
             }
         }
 
-        private string _Date;
+        private DateTime? _Date;
 
-        public string Date {
+        public DateTime? Date {
             get {
                 return _Date;
             }
@@ -55,7 +57,17 @@ namespace AdvancedLauncher.Model {
                 if (value != _Date) {
                     _Date = value;
                     NotifyPropertyChanged("Date");
+                    NotifyPropertyChanged("LocalizedDate");
                 }
+            }
+        }
+
+        public string LocalizedDate {
+            get {
+                if (_Date == null) {
+                    return string.Empty;
+                }
+                return _Date.Value.ToLocalTime().ToShortDateString();
             }
         }
 

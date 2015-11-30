@@ -41,7 +41,7 @@ namespace AdvancedLauncher.SDK.Model {
         }
 
         /// <summary>
-        /// Gets or sets news publish date
+        /// Gets or sets news publish date (MM-dd-yyyy)
         /// </summary>
         public string Date {
             get; set;

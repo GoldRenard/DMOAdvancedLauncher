@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Xml.Serialization;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
@@ -105,16 +106,16 @@ namespace AdvancedLauncher.Management {
         [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
         public bool Load(string tName) {
             if (tName == DefaultName) {
+                UpdateCultureInfo(tName);
                 Model = Default;
                 return true;
             }
             LanguageModel newModel = Read(Path.Combine(LanguagesPath, tName + ".lng"));
-            if (newModel == null) {
-                return false;
-            } else {
+            if (newModel != null) {
+                UpdateCultureInfo(tName);
                 Model = newModel;
             }
-            return true;
+            return newModel != null;
         }
 
         [PermissionSet(SecurityAction.Demand, Unrestricted = true)]
@@ -130,6 +131,17 @@ namespace AdvancedLauncher.Management {
 
         public string GetDefaultName() {
             return DefaultName;
+        }
+
+        private void UpdateCultureInfo(string cultureName) {
+            try {
+                var cultureInfo = new CultureInfo(cultureName);
+                Thread.CurrentThread.CurrentCulture = cultureInfo;
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            } catch (CultureNotFoundException) {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentCulture;
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.DefaultThreadCurrentUICulture;
+            }
         }
 
         #endregion Save/Read/Load

@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -225,7 +226,7 @@ namespace AdvancedLauncher.UI.Controls {
             if (string.IsNullOrEmpty(url)) {
                 TwitterStatuses.Add(new TwitterItemViewModel(LanguageManager) {
                     Title = LanguageManager.Model.NewsTwitterError + ": [ERRCODE 4 - No URL specified]",
-                    Date = DateTime.Now.ToLongDateString()
+                    Date = DateTime.Now
                 });
                 return;
             }
@@ -237,7 +238,7 @@ namespace AdvancedLauncher.UI.Controls {
                 } catch (Exception e) {
                     TwitterStatuses.Add(new TwitterItemViewModel(LanguageManager) {
                         Title = LanguageManager.Model.NewsTwitterError + ": " + e.Message + " [ERRCODE 3 - Remote Error]",
-                        Date = DateTime.Now.ToLongDateString()
+                        Date = DateTime.Now
                     });
                     return;
                 }
@@ -249,7 +250,7 @@ namespace AdvancedLauncher.UI.Controls {
             } catch {
                 TwitterStatuses.Add(new TwitterItemViewModel(LanguageManager) {
                     Title = LanguageManager.Model.NewsTwitterError + " [ERRCODE 1 - Parse Error]",
-                    Date = DateTime.Now.ToLongDateString()
+                    Date = DateTime.Now
                 });
                 return;
             }
@@ -299,8 +300,7 @@ namespace AdvancedLauncher.UI.Controls {
             foreach (UserStatus status in statuses) {
                 TwitterStatuses.Add(new TwitterItemViewModel(LanguageManager) {
                     Title = status.Status,
-                    Date = status.StatusDate.ToLongDateString()
-                    + " " + status.StatusDate.ToShortTimeString(),
+                    Date = status.StatusDate,
                     Image = status.ProfileImageBitmap,
                     StatusLink = "https://twitter.com/statuses/" + status.StatusId,
                     UserLink = "https://twitter.com/" + status.UserScreenName,
@@ -518,10 +518,10 @@ namespace AdvancedLauncher.UI.Controls {
                         ServerNews.Add(new ServerNewsItemViewModel(LanguageManager) {
                             Title = n.Subject,
                             Content = n.Content,
-                            Date = n.Date,
+                            Date = string.IsNullOrEmpty(n.Date) ? null : (DateTime?)DateTime.ParseExact(n.Date, "MM-dd-yyyy", CultureInfo.InvariantCulture),
                             TypeName = mode,
                             Link = n.Url,
-                            ImgVB = viewbox,
+                            ImgVB = viewbox
                         });
                     }
                 }), news);

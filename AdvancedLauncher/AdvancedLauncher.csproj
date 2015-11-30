@@ -1168,6 +1168,9 @@ xcopy /s /y "$(SolutionDir)modules\Locale-Emulator\Build\$(ConfigurationName)\Lo
 xcopy /s /y "$(SolutionDir)modules\Locale-Emulator\Build\$(ConfigurationName)\LocaleEmulator.dll" "$(TargetDir)"
 rem xcopy /s /y "$(SolutionDir)\PluginSample\bin\$(ConfigurationName)\PluginSample.*" "$(TargetDir)Plugins"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>taskkill /f /fi "pid gt 0" /im "AdvancedLauncher.vshost.exe"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Security.Principal;
 using System.Windows;
 using AdvancedLauncher.Management;
@@ -25,7 +26,6 @@ using AdvancedLauncher.Tools;
 using AdvancedLauncher.UI.Windows;
 using log4net.Config;
 using Ninject;
-using System;
 
 #if RELEASE
 

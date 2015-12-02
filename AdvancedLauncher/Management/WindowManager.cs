@@ -111,11 +111,6 @@ namespace AdvancedLauncher.Management {
         #region Injection
 
         [Inject]
-        public Logger Logger {
-            get; set;
-        }
-
-        [Inject]
         public IEnvironmentManager EnvironmentManager {
             get;
             set;
@@ -176,7 +171,7 @@ namespace AdvancedLauncher.Management {
 
             var consoleItem = new SDK.Model.MenuItem("Console", "appbar_app", new SDK.Tools.Thickness(5, 7, 5, 7), true);
             consoleItem.Click += (s, e) => {
-                ShowWindow(Logger.Container);
+                ShowWindow(App.Kernel.Get<Logger>().Container);
                 MainWindow.MenuFlyout.IsOpen = false;
             };
 

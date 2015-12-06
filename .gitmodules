@@ -1,3 +1,3 @@
-[submodule "modules/Locale-Emulator"]
-	path = modules/Locale-Emulator
+[submodule "packages/Locale-Emulator"]
+	path = packages/Locale-Emulator
 	url = https://github.com/GoldRenard/Locale-Emulator.git

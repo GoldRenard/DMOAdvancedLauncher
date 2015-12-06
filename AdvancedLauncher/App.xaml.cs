@@ -27,13 +27,6 @@ using AdvancedLauncher.UI.Windows;
 using log4net.Config;
 using Ninject;
 
-#if RELEASE
-
-using System.Reflection;
-using static AdvancedLauncher.Tools.ExceptionHandler;
-
-#endif
-
 namespace AdvancedLauncher {
 
     public partial class App : Application {
@@ -46,49 +39,27 @@ namespace AdvancedLauncher {
                 "under certain conditions; type `license' for details." + System.Environment.NewLine);
         }
 
-        private static IKernel _Kernel;
-
         public static IKernel Kernel {
-            get {
-                if (_Kernel == null) {
-                    _Kernel = new StandardKernel(new DependencyModule());
-                }
-                return _Kernel;
-            }
+            get;
+            private set;
         }
 
-        public App() {
-            PrintHeader();
-            Current.DispatcherUnhandledException += (s, e) => {
-                LOGGER.Error("DispatcherUnhandledException", e.Exception as Exception);
-            };
+        static App() {
+#if RELEASE
+            BugTrapBootstrapper.Inject();
+#endif
+            Kernel = new StandardKernel(new DependencyModule());
             AppDomain.CurrentDomain.UnhandledException += (s, e) => {
                 LOGGER.Error("UnhandledException", e.ExceptionObject as Exception);
             };
-#if RELEASE
-            if (ExceptionHandler.IsAvailable) {
-                var currentAsm = Assembly.GetExecutingAssembly();
-                AssemblyTitleAttribute title = currentAsm.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0] as AssemblyTitleAttribute;
-                ExceptionHandler.AppName = title.Title;
-                ExceptionHandler.AppVersion = currentAsm.GetName().Version.ToString();
-                ExceptionHandler.DumpType = MinidumpType.Normal;
-                ExceptionHandler.Flags = FlagsType.DetailedMode | FlagsType.EditMail;
-                ExceptionHandler.ReportFormat = ReportFormatType.Text;
-                ExceptionHandler.SupportEMail = "goldrenard@gmail.com";
-                ExceptionHandler.SupportHost = "bugtrap.renamon.ru";
-                ExceptionHandler.SupportPort = 30700;
-                ExceptionHandler.SupportURL = "https://github.com/GoldRenard/DMOAdvancedLauncher/issues";
-                ExceptionHandler.AddBeforeUnhandledException((s, e) => {
-                    dynamic args = e;
-                    LOGGER.Error("BugTrap BeforeUnhandledException", args.ExceptionObject);
-                });
-            }
-#endif
         }
 
         private void Application_Startup(object sender, StartupEventArgs e) {
-            Kernel.Inject(this);
             XmlConfigurator.Configure();
+            PrintHeader();
+            Current.DispatcherUnhandledException += (s, ex) => {
+                LOGGER.Error("DispatcherUnhandledException", ex.Exception as Exception);
+            };
             if (IsAdministrator()) {
                 if (!InstanceChecker.AlreadyRunning("27ec7e49-6567-4ee2-9ad6-073705189109")) {
                     // initialization sequence

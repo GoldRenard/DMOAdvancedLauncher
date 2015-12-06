@@ -129,6 +129,7 @@
       <DependentUpon>201503251143011_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
+    <Compile Include="Management\Commands\BugTrapCommand.cs" />
     <Compile Include="Management\Commands\PluginCommand.cs" />
     <Compile Include="Management\Configuration\AeriaConfiguration.cs" />
     <Compile Include="Management\Configuration\KDMOIMBCConfiguration.cs" />
@@ -172,8 +173,8 @@
     <Compile Include="Providers\Korea\KoreaServersProvider.cs" />
     <Compile Include="Providers\Korea\KoreaWebProvider.cs" />
     <Compile Include="Tools\ActivationStrategy.cs" />
+    <Compile Include="Tools\BugTrapBootstrapper.cs" />
     <Compile Include="Tools\DependencyModule.cs" />
-    <Compile Include="Tools\ExceptionHandler.cs" />
     <Compile Include="Tools\SecureStringConverter.cs" />
     <Compile Include="Tools\WebClientEx.cs">
       <SubType>Component</SubType>
@@ -515,6 +516,11 @@
     <ProjectReference Include="..\Microsoft.DwayneNeed.Minimal\Microsoft.DwayneNeed.Minimal.csproj">
       <Project>{80a10b86-6615-4440-93b0-c943df5b8693}</Project>
       <Name>Microsoft.DwayneNeed.Minimal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\packages\BugTrap\source\Client\BugTrap.vs2015.vcxproj">
+      <Project>{e8cf1ada-264a-4127-86c2-fd7057d3792c}</Project>
+      <Name>BugTrap</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1161,7 +1167,6 @@ if not exist "$(TargetDir)Plugins" md "$(TargetDir)Plugins"
 xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
 xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"
 xcopy /s /y "$(SolutionDir)Shared\Dependencies\NTLea.1.0.0.44\*.*" "$(TargetDir)"
-xcopy /s /y "$(SolutionDir)Shared\Dependencies\BugTrap.1.3\*.*" "$(TargetDir)"
 xcopy /s /y "$(SolutionDir)packages\Locale-Emulator\Build\$(ConfigurationName)\LECommonLibrary.dll" "$(TargetDir)"
 xcopy /s /y "$(SolutionDir)packages\Locale-Emulator\Build\$(ConfigurationName)\LEProc.exe" "$(TargetDir)"
 xcopy /s /y "$(SolutionDir)packages\Locale-Emulator\Build\$(ConfigurationName)\LoaderDll.dll" "$(TargetDir)"
@@ -1175,7 +1180,23 @@ rem xcopy /s /y "$(SolutionDir)\PluginSample\bin\$(ConfigurationName)\PluginSamp
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <CallTarget Condition="'$(Platform)' == 'AnyCPU'" Targets="BuildBugTrap" />
+    <CallTarget Condition="'$(Platform)' == 'AnyCPU'" Targets="BuildBugTrap64" />
+  </Target>
+  <Target Name="BuildBugTrap">
+    <MSBuild Projects="$(SolutionDir)packages\BugTrap\source\zlib\zlib.vs2015.vcxproj" Properties="Configuration=MD $(Configuration);Platform=Win32" RunEachTargetSeparately="true" />
+    <MSBuild Projects="$(SolutionDir)packages\BugTrap\source\Client\BugTrap.vs2015.vcxproj" Properties="Configuration=.NET $(Configuration);Platform=Win32" RunEachTargetSeparately="true">
+      <Output TaskParameter="TargetOutputs" ItemName="BugTrapOutput" />
+    </MSBuild>
+    <Copy SourceFiles="%(BugTrapOutput.Identity)" DestinationFiles="$(OutputPath)\BugTrap.dll" />
+  </Target>
+  <Target Name="BuildBugTrap64">
+    <MSBuild Projects="$(SolutionDir)packages\BugTrap\source\zlib\zlib.vs2015.vcxproj" Properties="Configuration=MD $(Configuration);Platform=x64" RunEachTargetSeparately="true" />
+    <MSBuild Projects="$(SolutionDir)packages\BugTrap\source\Client\BugTrap.vs2015.vcxproj" Properties="Configuration=.NET $(Configuration);Platform=x64" RunEachTargetSeparately="true">
+      <Output TaskParameter="TargetOutputs" ItemName="BugTrapOutput64" />
+    </MSBuild>
+    <Copy SourceFiles="%(BugTrapOutput64.Identity)" DestinationFiles="$(OutputPath)\BugTrap-x64.dll" />
+  </Target>
 </Project>

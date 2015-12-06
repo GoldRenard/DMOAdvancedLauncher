@@ -1,3 +1,6 @@
 [submodule "packages/Locale-Emulator"]
 	path = packages/Locale-Emulator
 	url = https://github.com/GoldRenard/Locale-Emulator.git
+[submodule "packages/BugTrap"]
+	path = packages/BugTrap
+	url = https://github.com/GoldRenard/BugTrap.git

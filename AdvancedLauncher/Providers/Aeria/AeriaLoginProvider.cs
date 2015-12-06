@@ -46,7 +46,7 @@ namespace AdvancedLauncher.Providers.Aeria {
                         bool isFound = true;
                         try {
                             wb.Document.GetElementById("edit-id").SetAttribute("value", UserId);
-                            wb.Document.GetElementById("edit-pass").SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
+                            wb.Document.GetElementById("edit-pass").SetAttribute("value", PassEncrypt.ConvertToUnsecureString(Password));
                         } catch {
                             isFound = false;
                         }

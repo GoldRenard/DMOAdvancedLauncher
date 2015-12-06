@@ -19,7 +19,7 @@
 using System.Collections.Generic;
 using System.Windows.Threading;
 using AdvancedLauncher.SDK.Model.Entity;
-using AdvancedLauncher.Tools;
+using AdvancedLauncher.Tools.Imaging;
 using Ninject;
 
 namespace AdvancedLauncher.Model {

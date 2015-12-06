@@ -22,7 +22,7 @@ using System.Windows.Data;
 using System.Windows.Threading;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Entity;
-using AdvancedLauncher.Tools;
+using AdvancedLauncher.Tools.Imaging;
 using Ninject;
 
 namespace AdvancedLauncher.Model {

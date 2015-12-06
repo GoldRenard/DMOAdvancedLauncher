@@ -27,7 +27,7 @@ using System.Windows.Media.Imaging;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
-using AdvancedLauncher.Tools;
+using AdvancedLauncher.Tools.Imaging;
 using Microsoft.Win32;
 using Ninject;
 

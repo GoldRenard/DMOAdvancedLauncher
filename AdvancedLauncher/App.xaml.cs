@@ -23,6 +23,8 @@ using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Internal;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.Tools;
+using AdvancedLauncher.Tools.Container;
+using AdvancedLauncher.Tools.Execution;
 using AdvancedLauncher.UI.Windows;
 using log4net.Config;
 using Ninject;

@@ -32,10 +32,10 @@ using AdvancedLauncher.SDK.Model;
 using AdvancedLauncher.SDK.Model.Config;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.SDK.UI;
+using AdvancedLauncher.Tools.Interop;
 using AdvancedLauncher.UI.Pages;
 using AdvancedLauncher.UI.Windows;
 using MahApps.Metro.Controls;
-using Microsoft.DwayneNeed.Interop;
 using Ninject;
 
 namespace AdvancedLauncher.Management {

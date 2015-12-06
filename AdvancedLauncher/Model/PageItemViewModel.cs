@@ -22,7 +22,7 @@ using System.Runtime.Serialization;
 using System.Windows.Media;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model;
-using Microsoft.DwayneNeed.Interop;
+using AdvancedLauncher.Tools.Interop;
 
 namespace AdvancedLauncher.Model {
 

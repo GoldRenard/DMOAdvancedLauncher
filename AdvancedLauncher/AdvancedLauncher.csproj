@@ -172,10 +172,34 @@
     <Compile Include="Providers\Korea\KoreaLoginProvider.cs" />
     <Compile Include="Providers\Korea\KoreaServersProvider.cs" />
     <Compile Include="Providers\Korea\KoreaWebProvider.cs" />
-    <Compile Include="Tools\ActivationStrategy.cs" />
+    <Compile Include="Tools\Container\ActivationStrategy.cs" />
     <Compile Include="Tools\BugTrapBootstrapper.cs" />
-    <Compile Include="Tools\DependencyModule.cs" />
-    <Compile Include="Tools\SecureStringConverter.cs" />
+    <Compile Include="Tools\Container\DependencyModule.cs" />
+    <Compile Include="Tools\Extensions\ElementExtensions.cs" />
+    <Compile Include="Tools\Extensions\HwndHostExtensions.cs" />
+    <Compile Include="Tools\Extensions\HwndSourceExtensions.cs" />
+    <Compile Include="Tools\Extensions\PresentationSourceExtensions.cs" />
+    <Compile Include="Tools\Input\RoutedCommand.cs" />
+    <Compile Include="Tools\Interop\AirspaceDecorator.cs" />
+    <Compile Include="Tools\Interop\AirspaceMode.cs" />
+    <Compile Include="Tools\Interop\AirspaceScrollViewer.cs" />
+    <Compile Include="Tools\Interop\CopyBitsBehavior.cs" />
+    <Compile Include="Tools\Interop\DeviceContextCachePolicy.cs" />
+    <Compile Include="Tools\Interop\HwndHostCommands.cs" />
+    <Compile Include="Tools\Interop\HwndHostEx.cs" />
+    <Compile Include="Tools\Interop\HwndSourceHost.cs" />
+    <Compile Include="Tools\Interop\HwndSourceHostRoot.cs" />
+    <Compile Include="Tools\Interop\MouseActivateParameter.cs" />
+    <Compile Include="Tools\Interop\RedirectedHwndHost.cs" />
+    <Compile Include="Tools\Interop\RedirectedHwndSourceHost.cs" />
+    <Compile Include="Tools\Interop\RedirectedWindow.cs" />
+    <Compile Include="Tools\Interop\RedirectionVisibility.cs" />
+    <Compile Include="Tools\Interop\WindowBase.cs" />
+    <Compile Include="Tools\Interop\WindowClass.cs" />
+    <Compile Include="Tools\Interop\WindowClassType.cs" />
+    <Compile Include="Tools\Interop\WindowParameters.cs" />
+    <Compile Include="Tools\Interop\WindowShowState.cs" />
+    <Compile Include="Tools\NativeMacros.cs" />
     <Compile Include="Tools\WebClientEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -183,6 +207,33 @@
     <Compile Include="Tools\OsVersionInfo.cs" />
     <Compile Include="Tools\Utils.cs" />
     <Compile Include="Tools\WikiProvider.cs" />
+    <Compile Include="Tools\Win32\ComCtl32\StrongHWND.cs" />
+    <Compile Include="Tools\Win32\ComCtl32\StrongHWNDSubclass.cs" />
+    <Compile Include="Tools\Win32\ComCtl32\SUBCLASSPROC.cs" />
+    <Compile Include="Tools\Win32\ComCtl32\WindowSubclass.cs" />
+    <Compile Include="Tools\Win32\Gdi32\BI.cs" />
+    <Compile Include="Tools\Win32\Gdi32\BITMAPINFO.cs" />
+    <Compile Include="Tools\Win32\Gdi32\DIB.cs" />
+    <Compile Include="Tools\Win32\Gdi32\ROP.cs" />
+    <Compile Include="Tools\Win32\Kernel32\PAGE.cs" />
+    <Compile Include="Tools\Win32\Kernel32\SEC.cs" />
+    <Compile Include="Tools\Win32\User32\CS.cs" />
+    <Compile Include="Tools\Win32\User32\GA.cs" />
+    <Compile Include="Tools\Win32\User32\GWL.cs" />
+    <Compile Include="Tools\Win32\User32\HWND.cs" />
+    <Compile Include="Tools\Win32\User32\LWA.cs" />
+    <Compile Include="Tools\Win32\User32\MA.cs" />
+    <Compile Include="Tools\Win32\User32\POINT.cs" />
+    <Compile Include="Tools\Win32\User32\RDW.cs" />
+    <Compile Include="Tools\Win32\User32\RECT.cs" />
+    <Compile Include="Tools\Win32\User32\SW.cs" />
+    <Compile Include="Tools\Win32\User32\SWP.cs" />
+    <Compile Include="Tools\Win32\User32\WINDOWPOS.cs" />
+    <Compile Include="Tools\Win32\User32\WM.cs" />
+    <Compile Include="Tools\Win32\User32\WNDCLASSEX.cs" />
+    <Compile Include="Tools\Win32\User32\WNDPROC.cs" />
+    <Compile Include="Tools\Win32\User32\WS.cs" />
+    <Compile Include="Tools\Win32\User32\WS_EX.cs" />
     <Compile Include="UI\Controls\AbstractFlyout.cs" />
     <Compile Include="UI\Controls\AbstractUserControl.cs" />
     <Compile Include="UI\Controls\AutoCompleteBox\AutoCompleteTextBox.cs" />
@@ -222,7 +273,7 @@
     </Compile>
     <Compile Include="UI\Commands\SimpleCommand.cs" />
     <Compile Include="Model\GuildInfoItemViewModel.cs" />
-    <Compile Include="Tools\IconHolder.cs" />
+    <Compile Include="Tools\Imaging\IconHolder.cs" />
     <Compile Include="UI\Controls\TDBlock.xaml.cs">
       <DependentUpon>TDBlock.xaml</DependentUpon>
     </Compile>
@@ -282,15 +333,15 @@
     <Compile Include="Management\Execution\DirectLauncher.cs" />
     <Compile Include="Management\Execution\SteamSensitiveLauncher.cs" />
     <Compile Include="Tools\FingerPrint.cs" />
-    <Compile Include="Tools\InstanceChecker.cs" />
+    <Compile Include="Tools\Execution\InstanceChecker.cs" />
     <Compile Include="Management\EnvironmentManager.cs" />
-    <Compile Include="Tools\JpegEncoder.cs" />
+    <Compile Include="Tools\Imaging\JpegEncoder.cs" />
     <Compile Include="Tools\NativeMethods.cs" />
-    <Compile Include="Tools\ParentProcessUtilities.cs" />
+    <Compile Include="Tools\Execution\ParentProcessUtilities.cs" />
     <Compile Include="UI\Converters\BooleanConverter.cs" />
     <Compile Include="Tools\PassEncrypt.cs" />
     <Compile Include="UI\Extension\DependencyObjectExt.cs" />
-    <Compile Include="Tools\TargaImage.cs" />
+    <Compile Include="Tools\Imaging\TargaImage.cs" />
     <Compile Include="Management\TaskManager.cs" />
     <Compile Include="Tools\URLUtils.cs" />
     <Compile Include="UI\Validation\AbstractValidationRule.cs" />
@@ -512,10 +563,6 @@
     <ProjectReference Include="..\AdvancedLauncherSDK\AdvancedLauncher.SDK.csproj">
       <Project>{d1e7d106-9909-4162-9d22-8798317915af}</Project>
       <Name>AdvancedLauncher.SDK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Microsoft.DwayneNeed.Minimal\Microsoft.DwayneNeed.Minimal.csproj">
-      <Project>{80a10b86-6615-4440-93b0-c943df5b8693}</Project>
-      <Name>Microsoft.DwayneNeed.Minimal</Name>
     </ProjectReference>
     <ProjectReference Include="..\packages\BugTrap\source\Client\BugTrap.vs2015.vcxproj">
       <Project>{e8cf1ada-264a-4127-86c2-fd7057d3792c}</Project>

@@ -47,7 +47,7 @@ namespace AdvancedLauncher.Providers.Korea {
                         bool isFound = true;
                         try {
                             wb.Document.GetElementsByTagName("input").GetElementsByName("Uid")[0].SetAttribute("value", UserId);
-                            wb.Document.GetElementsByTagName("input").GetElementsByName("Password")[0].SetAttribute("value", SecureStringConverter.ConvertToUnsecureString(Password));
+                            wb.Document.GetElementsByTagName("input").GetElementsByName("Password")[0].SetAttribute("value", PassEncrypt.ConvertToUnsecureString(Password));
                         } catch {
                             isFound = false;
                         }

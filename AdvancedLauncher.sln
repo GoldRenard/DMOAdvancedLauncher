@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedLauncher.SDK", "Adv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginSample", "PluginSample\PluginSample.csproj", "{47B7AFF9-B1E6-418F-ACD4-1541E7CDF570}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.DwayneNeed.Minimal", "Microsoft.DwayneNeed.Minimal\Microsoft.DwayneNeed.Minimal.csproj", "{80A10B86-6615-4440-93B0-C943DF5B8693}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Locale-Emulator", "Locale-Emulator", "{0EDD6245-5512-45E5-BC4E-8B02CE5BAEC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LECommonLibrary", "packages\Locale-Emulator\LECommonLibrary\LECommonLibrary.csproj", "{C4DEF32B-8FBB-41B6-80DC-C60339402323}"
@@ -71,10 +69,6 @@ Global
 		{47B7AFF9-B1E6-418F-ACD4-1541E7CDF570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47B7AFF9-B1E6-418F-ACD4-1541E7CDF570}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47B7AFF9-B1E6-418F-ACD4-1541E7CDF570}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80A10B86-6615-4440-93B0-C943DF5B8693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80A10B86-6615-4440-93B0-C943DF5B8693}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80A10B86-6615-4440-93B0-C943DF5B8693}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80A10B86-6615-4440-93B0-C943DF5B8693}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4DEF32B-8FBB-41B6-80DC-C60339402323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C4DEF32B-8FBB-41B6-80DC-C60339402323}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4DEF32B-8FBB-41B6-80DC-C60339402323}.Release|Any CPU.ActiveCfg = Release|Any CPU

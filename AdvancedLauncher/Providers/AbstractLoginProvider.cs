@@ -60,7 +60,7 @@ namespace AdvancedLauncher.Providers {
         }
 
         public void TryLogin(string UserId, string Password) {
-            TryLogin(UserId, SecureStringConverter.ConvertToSecureString(Password));
+            TryLogin(UserId, PassEncrypt.ConvertToSecureString(Password));
         }
 
         public abstract void TryLogin(string UserId, SecureString Password);

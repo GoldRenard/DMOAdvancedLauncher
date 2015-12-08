@@ -45,7 +45,7 @@ namespace AdvancedLauncher.Tools {
             ExceptionHandler.DumpType = MinidumpType.Normal;
             ExceptionHandler.Flags = FlagsType.DetailedMode | FlagsType.EditMail;
             ExceptionHandler.ReportFormat = ReportFormatType.Text;
-            ExceptionHandler.SupportEMail = "goldrenard@gmail.com";
+            ExceptionHandler.SupportEMail = ExceptionHandler.NotificationEMail = "goldrenard@gmail.com";
             ExceptionHandler.SupportHost = "bugtrap.renamon.ru";
             ExceptionHandler.SupportPort = 30700;
             ExceptionHandler.SupportURL = "https://github.com/GoldRenard/DMOAdvancedLauncher/issues";

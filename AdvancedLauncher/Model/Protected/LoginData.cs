@@ -61,6 +61,12 @@ namespace AdvancedLauncher.Model.Protected {
             get;
         }
 
+        [XmlAttribute("IsManual")]
+        public bool IsManual {
+            set;
+            get;
+        }
+
         public LoginData(LoginData source) {
             if (source == null) {
                 return;
@@ -68,6 +74,7 @@ namespace AdvancedLauncher.Model.Protected {
             User = source.User;
             Password = source.Password;
             LastSessionArgs = source.LastSessionArgs;
+            IsManual = source.IsManual;
         }
 
         public LoginData() {

@@ -39,13 +39,18 @@ namespace AdvancedLauncher.Providers {
 
         public event LoginStateEventHandler LoginStateChanged;
 
-        protected System.Windows.Forms.WebBrowser wb = new System.Windows.Forms.WebBrowser() {
+        protected System.Windows.Forms.WebBrowser Browser = new System.Windows.Forms.WebBrowser() {
             ScriptErrorsSuppressed = true
         };
 
         protected ILogManager LogManager {
             get;
             private set;
+        }
+
+        protected bool IsManual {
+            get;
+            set;
         }
 
         public AbstractLoginProvider() {
@@ -59,7 +64,13 @@ namespace AdvancedLauncher.Providers {
             this.LogManager = logManager;
         }
 
+        public void TryManualLogin(string UserId, string Password) {
+            IsManual = true;
+            TryLogin(UserId, PassEncrypt.ConvertToSecureString(Password));
+        }
+
         public void TryLogin(string UserId, string Password) {
+            IsManual = false;
             TryLogin(UserId, PassEncrypt.ConvertToSecureString(Password));
         }
 

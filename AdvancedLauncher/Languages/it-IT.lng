@@ -68,6 +68,7 @@
   <Settings_LocaleFix>Correggi gioco locale</Settings_LocaleFix>
   <Settings_Account_User>Nome utente</Settings_Account_User>
   <Settings_Account_Password>Password</Settings_Account_Password>
+  <Settings_Account_Manual_Auth>Autenticazione manuale</Settings_Account_Manual_Auth>
   <Settings_SelectGameDir>Specifica la cartella in cui è situato il gioco</Settings_SelectGameDir>
   <Settings_SelectGameDirError>Devi specificare la corretta cartella del gioco.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Specifica la cartella in cui è situato il launcher predefinito</Settings_SelectLauncherDir>

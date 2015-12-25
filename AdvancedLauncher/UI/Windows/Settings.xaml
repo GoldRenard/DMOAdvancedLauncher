@@ -374,6 +374,14 @@
                 <GroupBox Margin="0,5" Header="{Binding Settings_AccountGroup}"
                           IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsLoginRequired}">
                     <StackPanel Margin="3,3,3,4">
+
+                        <Controls:ToggleSwitch x:Name="ManualLoginSupported"
+                                               FontSize="12"
+                                               Content="{Binding Settings_Account_Manual_Auth}"
+                                               Checked="ManualLoginSupportedChecked"
+                                               IsCheckedChanged="ManualLoginSupportedChecked"
+                                               IsEnabled="{Binding ElementName=ConfigurationCb, Path=SelectedItem.IsManualLoginSupported}" />
+
                         <TextBox x:Name="tbUser"
                                  TextChanged="UsernameChanged"
                                  Controls:TextBoxHelper.Watermark="{Binding Settings_Account_User}"

@@ -413,6 +413,11 @@ namespace AdvancedLauncher.SDK.Model {
             set;
         } = "Password";
 
+        public string Settings_Account_Manual_Auth {
+            get;
+            set;
+        } = "Manual authentication";
+
         #endregion Game
 
         #region Browse Messages

@@ -66,5 +66,11 @@ namespace AdvancedLauncher.Model {
                 return Configuration.IsLoginRequired;
             }
         }
+
+        public bool IsManualLoginSupported {
+            get {
+                return Configuration.IsManualLoginSupported;
+            }
+        }
     }
 }

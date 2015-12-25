@@ -68,6 +68,7 @@
   <Settings_LocaleFix>Fix Spiel locale</Settings_LocaleFix>
   <Settings_Account_User>Benutzername</Settings_Account_User>
   <Settings_Account_Password>Passwort</Settings_Account_Password>
+  <Settings_Account_Manual_Auth>Manuelle Authentifizierung</Settings_Account_Manual_Auth>
   <Settings_SelectGameDir>Bitte geben Sie den Pfad des Spielverzeichnisses an.</Settings_SelectGameDir>
   <Settings_SelectGameDirError>Fehler! Bitte geben sie den richtigen Pfad zu Ihrem Spielverzeichnis an.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Bitte geben Sie einen Pfad zu Ihrem DMO Launcher an.</Settings_SelectLauncherDir>

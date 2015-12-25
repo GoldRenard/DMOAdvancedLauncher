@@ -67,6 +67,7 @@
   <Settings_KBLCService>Reparar distribuciуn de cambio de teclado</Settings_KBLCService>
   <Settings_Account_User>Usuario</Settings_Account_User>
   <Settings_Account_Password>Contraseсa</Settings_Account_Password>
+  <Settings_Account_Manual_Auth>Autenticación manual</Settings_Account_Manual_Auth>
   <Settings_LocaleFix>Reparar local del juego</Settings_LocaleFix>
   <Settings_SelectGameDir>Por favor, especifique el directorio donde se encuentra el juego.</Settings_SelectGameDir>
   <Settings_SelectGameDirError>Debes especificar la carpeta correcta del juego</Settings_SelectGameDirError>

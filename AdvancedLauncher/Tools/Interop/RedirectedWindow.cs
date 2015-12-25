@@ -154,7 +154,9 @@ namespace AdvancedLauncher.Tools.Interop {
             NativeMethods.BitBlt(_hDC, 0, 0, _bitmapWidth, _bitmapHeight, hdcSrc, 0, 0, ROP.SRCCOPY);
             NativeMethods.ReleaseDC(Handle, hdcSrc);
 
-            _interopBitmap.Invalidate();
+            if (_interopBitmap != null) {
+                _interopBitmap.Invalidate();
+            }
 
             return _interopBitmap;
         }

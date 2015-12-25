@@ -68,6 +68,7 @@
   <Settings_AppLocale_Help>Почему неактивно?</Settings_AppLocale_Help>
   <Settings_Account_User>Имя пользователя</Settings_Account_User>
   <Settings_Account_Password>Пароль</Settings_Account_Password>
+  <Settings_Account_Manual_Auth>Ручная аутентификация</Settings_Account_Manual_Auth>
   <Settings_SelectGameDir>Пожалуйста, выберите папку с игрой</Settings_SelectGameDir>
   <Settings_SelectGameDirError>Вы должны указать правильную папку с игрой</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Пожалуйста, укажите папку со стандартным лаунчером</Settings_SelectLauncherDir>

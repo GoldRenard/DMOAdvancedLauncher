@@ -128,6 +128,12 @@ namespace AdvancedLauncher.Management.Configuration {
             }
         }
 
+        public override bool IsManualLoginSupported {
+            get {
+                return true;
+            }
+        }
+
         #endregion Providers
     }
 }

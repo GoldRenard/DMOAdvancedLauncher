@@ -81,6 +81,7 @@ namespace AdvancedLauncher.Tools.Container {
 
             // Components
             Bind<MainWindow>().ToSelf().InSingletonScope(); // be careful with injecting this on initialization of MainWindow itself (UserControls, etc)
+            Bind<WebWindow>().ToSelf();
             Bind<Logger>().ToSelf().InSingletonScope();
             Bind<About>().ToSelf().InSingletonScope();
             Bind<Settings>().ToSelf().InSingletonScope();

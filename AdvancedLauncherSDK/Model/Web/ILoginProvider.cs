@@ -44,6 +44,13 @@ namespace AdvancedLauncher.SDK.Model.Web {
         void TryLogin(string UserId, string Password);
 
         /// <summary>
+        /// Try to manual login with specified user and password
+        /// </summary>
+        /// <param name="UserId">User login</param>
+        /// <param name="Password">User password</param>
+        void TryManualLogin(string UserId, string Password);
+
+        /// <summary>
         /// Cancel login operation
         /// </summary>
         void CancelLogin();

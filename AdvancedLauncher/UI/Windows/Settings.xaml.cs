@@ -186,12 +186,18 @@ namespace AdvancedLauncher.UI.Windows {
                 if (tbUser != null) {
                     tbUser.Text = login.User;
                 }
+                if (ManualLoginSupported != null) {
+                    ManualLoginSupported.IsChecked = login.IsManual;
+                }
             } else {
                 if (tbUser != null) {
                     tbUser.Clear();
                 }
                 if (pbPass != null) {
                     pbPass.Clear();
+                }
+                if (ManualLoginSupported != null) {
+                    ManualLoginSupported.IsChecked = false;
                 }
             }
             IsPreventLoginChange = false;
@@ -393,6 +399,16 @@ namespace AdvancedLauncher.UI.Windows {
                 return;
             }
             Configurations.Add(new ConfigurationViewModel(e.Configuration));
+        }
+
+        private void ManualLoginSupportedChecked(object sender, EventArgs e) {
+            if (IsPreventLoginChange) {
+                return;
+            }
+            LoginData login = null;
+            if (Credentials.TryGetValue(SelectedProfile, out login)) {
+                login.IsManual = ManualLoginSupported.IsChecked.HasValue ? ManualLoginSupported.IsChecked.Value : false;
+            }
         }
 
         private void UsernameChanged(object sender, TextChangedEventArgs e) {

@@ -22,7 +22,6 @@ using System.Windows;
 using AdvancedLauncher.Management;
 using AdvancedLauncher.Management.Internal;
 using AdvancedLauncher.SDK.Management;
-using AdvancedLauncher.Tools;
 using AdvancedLauncher.Tools.Container;
 using AdvancedLauncher.Tools.Execution;
 using AdvancedLauncher.UI.Windows;
@@ -48,7 +47,7 @@ namespace AdvancedLauncher {
 
         static App() {
 #if RELEASE
-            BugTrapBootstrapper.Inject();
+            Tools.BugTrapBootstrapper.Inject();
 #endif
             Kernel = new StandardKernel(new DependencyModule());
             AppDomain.CurrentDomain.UnhandledException += (s, e) => {

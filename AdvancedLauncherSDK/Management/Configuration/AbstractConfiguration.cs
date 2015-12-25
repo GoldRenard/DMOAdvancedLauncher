@@ -152,6 +152,15 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
+        /// Gets <b>True</b> if manual login is available.
+        /// </summary>
+        public virtual bool IsManualLoginSupported {
+            get {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Creates login provider interface.
         /// </summary>
         /// <seealso cref="ILoginProvider"/>

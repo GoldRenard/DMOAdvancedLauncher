@@ -68,6 +68,7 @@
   <Settings_AppLocale_Help>Porque Inativo?</Settings_AppLocale_Help>
   <Settings_Account_User>Username</Settings_Account_User>
   <Settings_Account_Password>Senha</Settings_Account_Password>
+  <Settings_Account_Manual_Auth>Autenticação manual</Settings_Account_Manual_Auth>
   <Settings_SelectGameDir>Por favor, especifique o diretorio onde o jogo esta localizado</Settings_SelectGameDir>
   <Settings_SelectGameDirError>Voce deve especificar a pasta correta do jogo.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Por favor, especifique o diretorio onde o launcher padrao esta localizado</Settings_SelectLauncherDir>

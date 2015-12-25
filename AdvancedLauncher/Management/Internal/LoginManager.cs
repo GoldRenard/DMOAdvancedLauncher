@@ -101,16 +101,24 @@ namespace AdvancedLauncher.Management.Internal {
 
         private async void ShowLoggingInDialog(LoginDialogData loginData) {
             MainWindow MainWindow = App.Kernel.Get<MainWindow>();
-            GameModel model = ProfileManager.CurrentProfile.GameModel;
-            ILoginProvider loginProvider = ConfigurationManager.GetConfiguration(model).CreateLoginProvider();
             MetroDialogSettings settings = new MetroDialogSettings() {
                 ColorScheme = MetroDialogColorScheme.Accented,
                 NegativeButtonText = LanguageManager.Model.CancelButton
             };
             controller = await MainWindow.ShowProgressAsync(LanguageManager.Model.LoginLogIn, String.Empty, true, settings);
+            Login(loginData.Username, loginData.Password, false);
+        }
+
+        private void Login(string userName, string password, bool isManual) {
+            GameModel model = ProfileManager.CurrentProfile.GameModel;
+            ILoginProvider loginProvider = ConfigurationManager.GetConfiguration(model).CreateLoginProvider();
             loginProvider.LoginStateChanged += eventAccessor.OnLoginStateChanged;
             loginProvider.LoginCompleted += eventAccessor.OnLoginCompleted;
-            loginProvider.TryLogin(loginData.Username, loginData.Password);
+            if (isManual) {
+                loginProvider.TryManualLogin(userName, password);
+            } else {
+                loginProvider.TryLogin(userName, password);
+            }
         }
 
         private async void ShowLastSessionDialog(Profile profile) {
@@ -138,10 +146,18 @@ namespace AdvancedLauncher.Management.Internal {
         }
 
         public async void OnLoginCompleted(object sender, LoginCompleteEventArgs e) {
-            try {
-                await controller.CloseAsync();
-            } catch (InvalidOperationException) {
-                // sometimes login dialog wrapper is already closed, check for this
+            if (controller != null) {
+                try {
+                    await controller.CloseAsync();
+                    if (controller.IsCanceled) {
+                        if (LoginCompleted != null) {
+                            LoginCompleted(sender, new LoginCompleteEventArgs(LoginCode.CANCELLED));
+                        }
+                        return;
+                    }
+                } catch (InvalidOperationException) {
+                    // sometimes login dialog wrapper is already closed, check for this
+                }
             }
             if (e.Code == LoginCode.WRONG_USER) {
                 failedLogin.Add(e.UserName);
@@ -154,6 +170,9 @@ namespace AdvancedLauncher.Management.Internal {
         }
 
         public void OnLoginStateChanged(object sender, LoginStateEventArgs e) {
+            if (controller == null) {
+                return;
+            }
             if (e.Code == LoginState.LOGINNING) {
                 controller.SetTitle(LanguageManager.Model.LoginLogIn);
             } else if (e.Code == LoginState.GETTING_DATA) {
@@ -195,6 +214,13 @@ namespace AdvancedLauncher.Management.Internal {
 
         private bool PerformLogin(LoginData credentials) {
             if (!failedLogin.Contains(credentials.User)) {
+                if (credentials.IsManual) {
+                    GameModel model = ProfileManager.CurrentProfile.GameModel;
+                    if (ConfigurationManager.GetConfiguration(model).IsManualLoginSupported) {
+                        Login(credentials.User, PassEncrypt.ConvertToUnsecureString(credentials.SecurePassword), true);
+                        return true;
+                    }
+                }
                 if (credentials.IsCorrect) {
                     LoginDialogData loginData = new LoginDialogData() {
                         Username = credentials.User,

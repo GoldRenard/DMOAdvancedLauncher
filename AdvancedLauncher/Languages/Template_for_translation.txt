@@ -67,6 +67,7 @@
   <Settings_KBLCService>Fix keyboard layout changing</Settings_KBLCService>
   <Settings_Account_User>Username</Settings_Account_User>
   <Settings_Account_Password>Password</Settings_Account_Password>
+  <Settings_Account_Manual_Auth>Manual authentication</Settings_Account_Manual_Auth>
   <Settings_LocaleFix>Fix game locale</Settings_LocaleFix>
   <Settings_SelectGameDir>Please specify the directory where the game is located</Settings_SelectGameDir>
   <Settings_SelectGameDirError>You must specify the correct folder of the game.</Settings_SelectGameDirError>
@@ -103,7 +104,7 @@
   <UpdateInstalling>Installing updates... [{0} / {1}]</UpdateInstalling>
   <UseLastSession>Do you want to use last successful session?</UseLastSession>
   
-  <LoginTry>Try {0}...</LoginTry>
+  <LoginTry>Login attempt {0}...</LoginTry>
   <LoginGettingData>Obtaining data...</LoginGettingData>
   <LoginLogIn>Log in...</LoginLogIn>
   <LoginWasError>was error</LoginWasError>

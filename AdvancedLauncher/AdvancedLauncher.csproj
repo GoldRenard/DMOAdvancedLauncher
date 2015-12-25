@@ -114,6 +114,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -357,6 +358,9 @@
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Windows\AbstractWindowControl.cs" />
+    <Compile Include="UI\Windows\WebWindow.xaml.cs">
+      <DependentUpon>WebWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -455,6 +459,10 @@
     <Page Include="UI\Windows\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Windows\WebWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Windows\MainWindow.xaml">
       <SubType>Designer</SubType>

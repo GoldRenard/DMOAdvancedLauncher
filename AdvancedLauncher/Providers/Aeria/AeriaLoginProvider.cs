@@ -21,15 +21,23 @@ using System.Web;
 using AdvancedLauncher.SDK.Management;
 using AdvancedLauncher.SDK.Model.Events;
 using AdvancedLauncher.Tools;
+using AdvancedLauncher.UI.Windows;
+using Ninject;
 
 namespace AdvancedLauncher.Providers.Aeria {
 
     internal class AeriaLoginProvider : AbstractLoginProvider {
+        private const string AUTH_ENTRY_POINT = "http://www.aeriagames.com/dialog/oauth?response_type=code&client_id=f24233f2506681f0ba2022418e6a5b44050b5216f&https://agoa-dmo.joymax.com/code2token.html&&state=xyz";
+
+        private WebWindow WebWindow;
 
         public AeriaLoginProvider(ILogManager logManager) : base(logManager) {
         }
 
         private void LoginDocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e) {
+            if (IsManual && WebWindow == null) {
+                return;
+            }
             if (LogManager != null) {
                 LogManager.InfoFormat("Document requested: {0}", e.Url.OriginalString);
             }
@@ -37,41 +45,47 @@ namespace AdvancedLauncher.Providers.Aeria {
                 //loginning
                 case "/dialog/oauth":
                     {
-                        if (LoginAttemptNum >= 1) {
-                            OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
-                            return;
-                        }
-                        LoginAttemptNum++;
-
                         bool isFound = true;
                         try {
-                            wb.Document.GetElementById("edit-id").SetAttribute("value", UserId);
-                            wb.Document.GetElementById("edit-pass").SetAttribute("value", PassEncrypt.ConvertToUnsecureString(Password));
+                            if (!string.IsNullOrEmpty(UserId)) {
+                                Browser.Document.GetElementById("edit-id").SetAttribute("value", UserId);
+                                Browser.Document.GetElementById("edit-pass").SetAttribute("value", PassEncrypt.ConvertToUnsecureString(Password));
+                            }
                         } catch {
                             isFound = false;
                         }
-
-                        if (isFound) {
-                            System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("account_login");
-                            if (form != null) {
-                                form.InvokeMember("submit");
+                        if (!IsManual) {
+                            if (LoginAttemptNum >= 1) {
+                                OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
+                                return;
                             }
-                        } else {
-                            OnCompleted(LoginCode.WRONG_PAGE, string.Empty, UserId);
-                            return;
+                            LoginAttemptNum++;
+
+                            if (isFound) {
+                                System.Windows.Forms.HtmlElement form = Browser.Document.GetElementById("account_login");
+                                if (form != null) {
+                                    form.InvokeMember("submit");
+                                }
+                            } else {
+                                OnCompleted(LoginCode.WRONG_PAGE, string.Empty, UserId);
+                                return;
+                            }
                         }
+
                         break;
                     }
                 case "/dialog/oauth/authorize":
                     {
-                        System.Windows.Forms.HtmlElementCollection links = wb.Document.GetElementsByTagName("a");
-                        foreach (System.Windows.Forms.HtmlElement link in links) {
-                            if (link.InnerText.Trim().ToLower().Equals("authorize")) {
-                                link.InvokeMember("click");
-                                break;
+                        if (!IsManual) {
+                            System.Windows.Forms.HtmlElementCollection links = Browser.Document.GetElementsByTagName("a");
+                            foreach (System.Windows.Forms.HtmlElement link in links) {
+                                if (link.InnerText.Trim().ToLower().Equals("authorize")) {
+                                    link.InvokeMember("click");
+                                    break;
+                                }
                             }
+                            OnCompleted(LoginCode.UNKNOWN_URL, string.Empty, UserId);
                         }
-                        OnCompleted(LoginCode.UNKNOWN_URL, string.Empty, UserId);
                         break;
                     }
                 //logged
@@ -82,7 +96,7 @@ namespace AdvancedLauncher.Providers.Aeria {
                     }
                 default:
                     {
-                        if (!e.Url.Host.Contains("facebook")) {
+                        if (!IsManual && !e.Url.Host.Contains("facebook")) {
                             OnCompleted(LoginCode.UNKNOWN_URL, string.Empty, UserId);
                         }
                         break;
@@ -90,18 +104,41 @@ namespace AdvancedLauncher.Providers.Aeria {
             }
         }
 
+        protected override void OnCompleted(LoginCode code, string arguments, string UserId) {
+            if (IsManual && WebWindow != null) {
+                WebWindow.Close();
+                WebWindow = null;
+            }
+            base.OnCompleted(code, arguments, UserId);
+        }
+
         public override void TryLogin(string UserId, SecureString Password) {
             this.UserId = UserId;
             this.Password = Password;
-            if (UserId.Length == 0 || Password.Length == 0) {
-                OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
-                return;
+
+            if (!IsManual) {
+                if (UserId.Length == 0 || Password.Length == 0) {
+                    OnCompleted(LoginCode.WRONG_USER, string.Empty, UserId);
+                    return;
+                }
+            } else {
+                WebWindow = App.Kernel.Get<WebWindow>();
+                WebWindow.Title = App.Kernel.Get<ILanguageManager>().Model.Settings_Account_Manual_Auth;
+                WebWindow.Closed += (s, e) => OnCompleted(LoginCode.CANCELLED, string.Empty, UserId);
+                Browser = WebWindow.Browser;
             }
 
             LoginAttemptNum = 0;
-            wb.DocumentCompleted += LoginDocumentCompleted;
-            wb.Navigate("http://www.aeriagames.com/dialog/oauth?response_type=code&client_id=f24233f2506681f0ba2022418e6a5b44050b5216f&https://agoa-dmo.joymax.com/code2token.html&&state=xyz");
+            Browser.DocumentCompleted += LoginDocumentCompleted;
+            Browser.Navigate(AUTH_ENTRY_POINT);
             OnStateChanged(LoginState.LOGINNING);
+            if (IsManual) {
+                WebWindow.ShowDialog();
+            }
+        }
+
+        private void Browser_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e) {
+            return;
         }
     }
 }

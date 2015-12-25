@@ -46,14 +46,14 @@ namespace AdvancedLauncher.Providers.Korea {
 
                         bool isFound = true;
                         try {
-                            wb.Document.GetElementsByTagName("input").GetElementsByName("Uid")[0].SetAttribute("value", UserId);
-                            wb.Document.GetElementsByTagName("input").GetElementsByName("Password")[0].SetAttribute("value", PassEncrypt.ConvertToUnsecureString(Password));
+                            Browser.Document.GetElementsByTagName("input").GetElementsByName("Uid")[0].SetAttribute("value", UserId);
+                            Browser.Document.GetElementsByTagName("input").GetElementsByName("Password")[0].SetAttribute("value", PassEncrypt.ConvertToUnsecureString(Password));
                         } catch {
                             isFound = false;
                         }
 
                         if (isFound) {
-                            System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("frmLogin");
+                            System.Windows.Forms.HtmlElement form = Browser.Document.GetElementById("frmLogin");
                             if (form != null) {
                                 form.InvokeMember("submit");
                             }
@@ -68,13 +68,13 @@ namespace AdvancedLauncher.Providers.Korea {
                 case "/":
                     {
                         OnStateChanged(LoginState.GETTING_DATA);
-                        wb.Navigate("http://dm.imbc.com/inc/xml/launcher.aspx");
+                        Browser.Navigate("http://dm.imbc.com/inc/xml/launcher.aspx");
                         break;
                     }
                 //getting data
                 case "/inc/xml/launcher.aspx":
                     {
-                        TryParseInfo(wb.DocumentText);
+                        TryParseInfo(Browser.DocumentText);
                         break;
                     }
                 default:
@@ -91,13 +91,13 @@ namespace AdvancedLauncher.Providers.Korea {
             }
 
             LoginAttemptNum = 0;
-            if (wb != null)
-                wb.Dispose();
-            wb = new System.Windows.Forms.WebBrowser() {
+            if (Browser != null)
+                Browser.Dispose();
+            Browser = new System.Windows.Forms.WebBrowser() {
                 ScriptErrorsSuppressed = true
             };
-            wb.DocumentCompleted += LoginDocumentCompleted;
-            wb.Navigate("http://member.imbc.com/Login/Login.aspx");
+            Browser.DocumentCompleted += LoginDocumentCompleted;
+            Browser.Navigate("http://member.imbc.com/Login/Login.aspx");
             OnStateChanged(LoginState.LOGINNING);
         }
 

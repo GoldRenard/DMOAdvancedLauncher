@@ -68,6 +68,7 @@
   <Settings_LocaleFix>Perbaiki permainan locale</Settings_LocaleFix>
   <Settings_Account_User>Nama Pengguna</Settings_Account_User>
   <Settings_Account_Password>Kata Sandi</Settings_Account_Password>
+  <Settings_Account_Manual_Auth>Otentikasi pengguna</Settings_Account_Manual_Auth>
   <Settings_SelectGameDir>Mohon tentukan letak direktori permainan</Settings_SelectGameDir>
   <Settings_SelectGameDirError>Anda harus menentukan direktori permainan yang benar.</Settings_SelectGameDirError>
   <Settings_SelectLauncherDir>Mohon tentukan letak direktori launcher permainan</Settings_SelectLauncherDir>

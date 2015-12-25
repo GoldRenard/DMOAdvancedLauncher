@@ -46,14 +46,14 @@ namespace AdvancedLauncher.Providers.Korea {
 
                         bool isFound = true;
                         try {
-                            wb.Document.GetElementById("security_name").SetAttribute("value", UserId);
-                            wb.Document.GetElementById("security_code").SetAttribute("value", PassEncrypt.ConvertToUnsecureString(Password));
+                            Browser.Document.GetElementById("security_name").SetAttribute("value", UserId);
+                            Browser.Document.GetElementById("security_code").SetAttribute("value", PassEncrypt.ConvertToUnsecureString(Password));
                         } catch {
                             isFound = false;
                         }
 
                         if (isFound) {
-                            System.Windows.Forms.HtmlElement form = wb.Document.GetElementById("login");
+                            System.Windows.Forms.HtmlElement form = Browser.Document.GetElementById("login");
                             if (form != null) {
                                 form.InvokeMember("Click");
                             }
@@ -67,13 +67,13 @@ namespace AdvancedLauncher.Providers.Korea {
                 case "/index.aspx":
                     {
                         OnStateChanged(LoginState.GETTING_DATA);
-                        wb.Navigate("http://www.digimonmasters.com/inc/xml/launcher.aspx");
+                        Browser.Navigate("http://www.digimonmasters.com/inc/xml/launcher.aspx");
                         break;
                     }
                 //getting data
                 case "/inc/xml/launcher.aspx":
                     {
-                        TryParseInfo(wb.DocumentText);
+                        TryParseInfo(Browser.DocumentText);
                         break;
                     }
                 default:
@@ -90,13 +90,13 @@ namespace AdvancedLauncher.Providers.Korea {
             }
 
             LoginAttemptNum = 0;
-            if (wb != null)
-                wb.Dispose();
-            wb = new System.Windows.Forms.WebBrowser() {
+            if (Browser != null)
+                Browser.Dispose();
+            Browser = new System.Windows.Forms.WebBrowser() {
                 ScriptErrorsSuppressed = true
             };
-            wb.DocumentCompleted += LoginDocumentCompleted;
-            wb.Navigate("http://www.digimonmasters.com/help/Login/MemberLogin.aspx");
+            Browser.DocumentCompleted += LoginDocumentCompleted;
+            Browser.Navigate("http://www.digimonmasters.com/help/Login/MemberLogin.aspx");
             OnStateChanged(LoginState.LOGINNING);
         }
 

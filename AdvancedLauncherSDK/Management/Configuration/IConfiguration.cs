@@ -171,6 +171,13 @@ namespace AdvancedLauncher.SDK.Management.Configuration {
         }
 
         /// <summary>
+        /// Gets <b>True</b> if manual login is available.
+        /// </summary>
+        bool IsManualLoginSupported {
+            get;
+        }
+
+        /// <summary>
         /// Converts game parameters to acceptable for game executable
         /// </summary>
         /// <param name="args">Raw parameters</param>

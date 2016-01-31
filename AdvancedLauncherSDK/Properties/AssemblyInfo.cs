@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GoldRenard")]
 [assembly: AssemblyProduct("DMO AdvancedLauncher SDK Library")]
-[assembly: AssemblyCopyright("GoldRenard ©  2015")]
+[assembly: AssemblyCopyright("GoldRenard ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

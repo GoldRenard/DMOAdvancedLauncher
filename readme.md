@@ -42,21 +42,18 @@ Please [send an email](mailto:goldrenard@gmail.com) with your translations.
 - Moreover, launcher can get only ONE digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of launcher. Usually it's a latest hatched Digimon.
 - Long logon process for KDMO IMBC. Error 705 is ok, you should just wait for successful login. If you're getting error 705 10 or more times, check your account data.
 
-## Changelog (Version 3.2.140)
+## Changelog (Version 3.3.178)
 
-#### Bug fixes
- - Fixed app crash caused by account logging in process
- - Fixed app crash caused by instance check process
- - Fixed app crash caused by changing current profile on Manage Profiles page
- - Fixed app crash caused by invalid proxy server settings
- - Game update engine bugfixes and stability improvements
- - Game execution error handling
+ - UI performance improvements
+ - Fixed an app crash caused by *.ico compression
+ - Fixed news date/time format
+ - Manual authentication support (Aeria only)
 
-#### Improvements
- - Español translation (thanks to Darwin Gonzalez)
- - "Search on dmowiki.com" feature
- - Custom Twitter source is back! Now launcher is subscribed for [@dmo_russian](https://twitter.com/dmo_russian) only for RU/UA regions. Rest of World will see [@DMOWiki](https://twitter.com/DMOWiki) twitter by default. Moreover, you can select any other Twitter user. Finally :)
-
+Patch note:
+If you have any issues with Aeria login (like WRONG_PAGE errors), you can try following:
+1. Try to use your email instead of login name
+2. If it doesn't help, try to enable "Manual authentication" option in profile settings. This will redirect you to native Aeria login page just like original launcher.
+ 
 You can read the full changelog [here](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Changelog).
  
 ### License

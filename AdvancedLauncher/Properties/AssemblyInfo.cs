@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GoldRenard")]
 [assembly: AssemblyProduct("DMO AdvancedLauncher")]
-[assembly: AssemblyCopyright("GoldRenard, DragonVs © 2015")]
+[assembly: AssemblyCopyright("GoldRenard, DragonVs © 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
@@ -47,5 +47,5 @@ using System.Windows;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию,
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.2.*")]
+[assembly: AssemblyVersion("3.3.*")]
 [assembly: AssemblyKeyFile("../signkey.snk")]

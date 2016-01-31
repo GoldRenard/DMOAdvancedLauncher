@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ======================================================================
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -57,6 +58,8 @@ namespace AdvancedLauncher.Tools {
             try {
                 stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
             } catch (IOException) {
+                return true;
+            } catch (UnauthorizedAccessException) {
                 return true;
             } finally {
                 if (stream != null)

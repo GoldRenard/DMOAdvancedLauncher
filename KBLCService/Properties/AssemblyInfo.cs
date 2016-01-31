@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GoldRenard")]
 [assembly: AssemblyProduct("DMO Keyboard Layout Changer Service")]
-[assembly: AssemblyCopyright("GoldRenard ©  2015")]
+[assembly: AssemblyCopyright("GoldRenard ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

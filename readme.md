@@ -46,17 +46,17 @@ Please [send an email](mailto:goldrenard@gmail.com) with your translations.
 
  - UI performance improvements
  - Fixed an app crash caused by *.ico compression
- - Fixed news date/time format
+ - News date/time format has been fixed
  - Manual authentication support (Aeria only)
  - Some internal improvements (bugreport functional, repository structure, etc)
 
-Patch note:
+##### Patch note:
 If you have any issues with Aeria login (like WRONG_PAGE errors), you can try following:
+
 1. Try to use your email instead of login name
 2. If it doesn't help, try to enable "Manual authentication" option in profile settings. This will redirect you to native Aeria login page just like original launcher.
- 
 You can read the full changelog [here](https://github.com/GoldRenard/DMOAdvancedLauncher/wiki/Changelog).
- 
+
 ### License
 [GNU GENERAL PUBLIC LICENSE](https://www.gnu.org/copyleft/gpl.html).
 

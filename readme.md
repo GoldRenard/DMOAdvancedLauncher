@@ -42,12 +42,13 @@ Please [send an email](mailto:goldrenard@gmail.com) with your translations.
 - Moreover, launcher can get only ONE digimon of ONE type from website. So if you have two Impmons then only ONE will be added to database of launcher. Usually it's a latest hatched Digimon.
 - Long logon process for KDMO IMBC. Error 705 is ok, you should just wait for successful login. If you're getting error 705 10 or more times, check your account data.
 
-## Changelog (Version 3.3.178)
+## Changelog (Version 3.3.180 hotfix)
 
  - UI performance improvements
  - Fixed an app crash caused by *.ico compression
  - Fixed news date/time format
  - Manual authentication support (Aeria only)
+ - Some internal improvements (bugreport functional, repository structure, etc)
 
 Patch note:
 If you have any issues with Aeria login (like WRONG_PAGE errors), you can try following:

@@ -1,10 +1,11 @@
 ﻿# DMO Advanced Launcher Changelog:
 
-## Version 3.3.178
+## Version 3.3.180 (hotfix)
  - UI performance improvements
  - Fixed an app crash caused by *.ico compression
  - Fixed news date/time format
  - Manual authentication support (Aeria only)
+ - Some internal improvements (bugreport functional, repository structure, etc)
 
 ## Version 3.2.140
 

@@ -92,7 +92,14 @@ namespace AdvancedLauncher.Providers {
             HtmlDocument result = new HtmlDocument();
             result.LoadHtml(resultText);
 
-            int resultCode = Convert.ToInt32(result.DocumentNode.SelectSingleNode("//result").Attributes["value"].Value);
+            HtmlNode resultNode = result.DocumentNode.SelectSingleNode("//result");
+
+            if (resultNode == null) {
+                OnCompleted(LoginCode.UNKNOWN_URL, string.Empty, UserId);
+                return;
+            }
+
+            int resultCode = Convert.ToInt32(resultNode.Attributes["value"].Value);
             string Args = string.Empty;
             if (resultCode == 0) {
                 foreach (HtmlNode node in result.DocumentNode.SelectNodes("//param")) {

@@ -266,12 +266,13 @@ namespace AdvancedLauncher.UI.Controls {
                 status.UserName = tweet["user"]["name"].ToString();
                 status.UserScreenName = tweet["user"]["screen_name"].ToString();
                 status.ProfileImageUrl = tweet["user"]["profile_image_url"].ToString();
-                try {
-                    status.UserScreenName = tweet["retweeted_status"]["user"]["name"].ToString();
-                    status.UserName = tweet["retweeted_status"]["user"]["screen_name"].ToString();
-                    status.RetweetImageUrl = tweet["retweeted_status"]["user"]["profile_image_url"].ToString();
-                } catch {
-                };
+                var retweet = tweet["retweeted_status"];
+                if (retweet != null) {
+                    status.UserScreenName = retweet["user"]["name"].ToString();
+                    status.UserName = retweet["user"]["screen_name"].ToString();
+                    status.RetweetImageUrl = retweet["user"]["profile_image_url"].ToString();
+                }
+
                 status.Status = tweet["text"].ToString();
                 status.StatusId = tweet["id"].ToString();
                 status.StatusDate = ParseDateTime(tweet["created_at"].ToString());

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!-- Bayu Laksana -->
-  <CantOpenLink>Tidak dapat membuka tautan. Cobalah mengganti browser default. Kesalahan: </CantOpenLink>
+  <CantOpenLink>Tidak dapat membuka tautan. Coba ganti peramban bawaan. Kesalahan: </CantOpenLink>
   <Error>Kesalahan</Error>
   <Yes>Ya</Yes>
   <No>Tidak</No>
-  <Console>Console</Console>
+  <Console>Konsol</Console>
   <CreateButton>Buat</CreateButton>
   <DeleteButton>Hapus</DeleteButton>
-  <BrowseButton>Browse</BrowseButton>
+  <BrowseButton>Telusuri</BrowseButton>
   <ApplyButton>Terapkan</ApplyButton>
   <CancelButton>Batal</CancelButton>
   <SendButton>Kirim</SendButton>
@@ -18,14 +18,14 @@
   <DigiRotation>DigiRotation</DigiRotation>
   <PleaseWait>Mohon tunggu</PleaseWait>
   <ErrorOccured>Terjadi kesalahan!</ErrorOccured>
-  <ConnectionError>Periksa koneksi Internet anda.</ConnectionError>
+  <ConnectionError>Periksa koneksi Internet kamu.</ConnectionError>
   <CantGetError>Gagal mendapatkan informasi jarak jauh</CantGetError>
-  <GuildNotFoundError>Guild tidak ditemukan. Periksa pengaturan anda.</GuildNotFoundError>
+  <GuildNotFoundError>Guild tidak ditemukan. Periksa pengaturan kamu.</GuildNotFoundError>
   <GameFilesInUse>Tidak dapat mengakses berkas permainan yang dibutuhkan. Mohon tutup seluruh program yang menggunakannya.</GameFilesInUse>
   <PleaseCloseGame>Mohon tutup permainannya.</PleaseCloseGame>
-  <PleaseSelectGamePath>Mohon pilih lokasi direktori permainan yang benar di pengaturan launcher.</PleaseSelectGamePath>
-  <PleaseSelectLauncherPath>Mohon pilih lokasi direktori launcher permainan di pengaturan.</PleaseSelectLauncherPath>
-  <SearchOnWiki>Cari di dmowiki.com</SearchOnWiki>
+  <PleaseSelectGamePath>Mohon tentukan lokasi direktori permainan yang benar di pengaturan launcher.</PleaseSelectGamePath>
+  <PleaseSelectLauncherPath>Mohon tentukan lokasi direktori launcher permainan yang benar di pengaturan.</PleaseSelectLauncherPath>
+  <SearchOnWiki>Cari di dmowiki.com...</SearchOnWiki>
   
   <MainWindow_NewsTab>BERITA</MainWindow_NewsTab>
   <MainWindow_GalleryTab>GALERI</MainWindow_GalleryTab>
@@ -39,10 +39,10 @@
   <About_Acknowledgments>Ucapan Terima Kasih</About_Acknowledgments>
   <About_Translators>Penerjemah</About_Translators>
   
-  <ManageProfiles>Mengatur profil</ManageProfiles>
+  <ManageProfiles>Mengelola profil</ManageProfiles>
   <Settings>Pengaturan</Settings>
   <Settings_Language>Bahasa</Settings_Language>
-  <Settings_LastProfile>Mustahil untuk menghapus profil terakhir. Launcher setidaknya harus memiliki satu profil.</Settings_LastProfile>
+  <Settings_LastProfile>Tidak mungkin untuk menghapus profil terakhir. Launcher harus memiliki setidaknya satu profil.</Settings_LastProfile>
   <Settings_MainGroup>Profil</Settings_MainGroup>
   <Settings_RotationGroup>DigiRotation</Settings_RotationGroup>
   <Settings_NewsGroup>Berita</Settings_NewsGroup>
@@ -50,112 +50,112 @@
   <Settings_AccountGroup>Akun</Settings_AccountGroup>
   <Settings_ThemeGroup>Tema</Settings_ThemeGroup>
   <Settings_ColorSchemeGroup>Skema warna</Settings_ColorSchemeGroup>
-  <Settings_ConnectionGroup>Connection</Settings_ConnectionGroup>
+  <Settings_ConnectionGroup>Koneksi</Settings_ConnectionGroup>
   <Settings_ProxyGroup>Proxy</Settings_ProxyGroup>
-  <Settings_ProfileNameHint>Tuliskan nama profil</Settings_ProfileNameHint>
+  <Settings_ProfileNameHint>Tulis nama profil</Settings_ProfileNameHint>
   <Settings_SetAsDefaultButton>Jadikan profil default</Settings_SetAsDefaultButton>
   <Settings_RotationGuildHint>Guild untuk Rotation</Settings_RotationGuildHint>
-  <Settings_RotationTamerHint>Tamer untuk Rotation (optional)</Settings_RotationTamerHint>
+  <Settings_RotationTamerHint>Tamer untuk Rotation (opsional)</Settings_RotationTamerHint>
   <Settings_RotationUpdateFREQ>Frekuensi pembaruan (hari)</Settings_RotationUpdateFREQ>
   <Settings_TwitterHint>Twitter URL (JSON-source)</Settings_TwitterHint>
   <Settings_FirstNewsTab>Tab berita pertama</Settings_FirstNewsTab>
-  <Settings_ClientType>Tipe dari klien</Settings_ClientType>
+  <Settings_ClientType>Tipe klien</Settings_ClientType>
   <Settings_GamePath>Path ke permainan</Settings_GamePath>
-  <Settings_LauncherPath>Path ke launcher default</Settings_LauncherPath>
-  <Settings_UpdateEngine>Integrated Update Engine</Settings_UpdateEngine>
+  <Settings_LauncherPath>Path ke launcher asli</Settings_LauncherPath>
+  <Settings_UpdateEngine>Pembaruan Sistem Terintegrasi</Settings_UpdateEngine>
   <Settings_AppLocale_Help>Mengapa tidak aktif?</Settings_AppLocale_Help>
-  <Settings_KBLCService>Perbaiki perubahan tata letak keyboard</Settings_KBLCService>
-  <Settings_LocaleFix>Perbaiki permainan locale</Settings_LocaleFix>
-  <Settings_Account_User>Nama Pengguna</Settings_Account_User>
-  <Settings_Account_Password>Kata Sandi</Settings_Account_Password>
-  <Settings_Account_Manual_Auth>Otentikasi pengguna</Settings_Account_Manual_Auth>
+  <Settings_KBLCService>Perbaiki perubahan susunan keyboard</Settings_KBLCService>
+  <Settings_Account_User>Nama pengguna</Settings_Account_User>
+  <Settings_Account_Password>Kata sandi</Settings_Account_Password>
+  <Settings_Account_Manual_Auth>Otentikasi manual</Settings_Account_Manual_Auth>
+  <Settings_LocaleFix>Perbaiki game locale</Settings_LocaleFix>
   <Settings_SelectGameDir>Mohon tentukan letak direktori permainan</Settings_SelectGameDir>
-  <Settings_SelectGameDirError>Anda harus menentukan direktori permainan yang benar.</Settings_SelectGameDirError>
-  <Settings_SelectLauncherDir>Mohon tentukan letak direktori launcher permainan</Settings_SelectLauncherDir>
-  <Settings_SelectLauncherDirError>Anda harus menentukan direktori launcher permainan yang benar.</Settings_SelectLauncherDirError>
-  <Settings_Proxy_Default>Sistem baku</Settings_Proxy_Default>
+  <Settings_SelectGameDirError>Kamu harus menentukan direktori permainan yang benar.</Settings_SelectGameDirError>
+  <Settings_SelectLauncherDir>Mohon tentukan letak direktori launcher asli</Settings_SelectLauncherDir>
+  <Settings_SelectLauncherDirError>Kamu harus menentukan direktori launcher asli yang benar.</Settings_SelectLauncherDirError>
+  <Settings_Proxy_Default>Bawaan sistem</Settings_Proxy_Default>
   <Settings_Proxy_Authentication>Otentikasi</Settings_Proxy_Authentication>
-  <Settings_Proxy_HostWatermark>Server / port</Settings_Proxy_HostWatermark>
+  <Settings_Proxy_HostWatermark>Host dan port</Settings_Proxy_HostWatermark>
   
-  <AppLocale_FailReasons>Tidak dapat menjalankan permainan melalui AppLocale dikarenakan hal berikut:</AppLocale_FailReasons>
+  <AppLocale_FailReasons>Tidak dapat menjalankan permainan dengan AppLocale dikarenakan:</AppLocale_FailReasons>
   <AppLocale_Error>Microsoft AppLocale Error</AppLocale_Error>
-  <AppLocale_NotInstalled> - Microsoft AppLocale Utility tidak terinstal</AppLocale_NotInstalled>
-  <AppLocale_EALNotInstalled> - Dukungan untuk bahasa Asia Timur tidak terinstal</AppLocale_EALNotInstalled>
-  <AppLocale_FixQuestion>Ingin membuka halaman unduh dan/atau instruksi untuk memperbaiki error ini sekarang?</AppLocale_FixQuestion>
+  <AppLocale_NotInstalled> - Microsoft AppLocale Utility tidak terpasang</AppLocale_NotInstalled>
+  <AppLocale_EALNotInstalled> - Dukungan bahasa untuk Asia Timur tidak terpasang</AppLocale_EALNotInstalled>
+  <AppLocale_FixQuestion>Ingin membuka halaman unduh dan/atau instruksi untuk memperbaiki kesalahan ini sekarang?</AppLocale_FixQuestion>
   
   <RotationLevelText>level</RotationLevelText>
   <RotationDownloading>Mengunduh data...</RotationDownloading>
   <RotationTamer>Tamer</RotationTamer>
   
-  <News>BERITA</News>
-  <NewsPubDate>Tanggal dipublikasi</NewsPubDate>
-  <NewsReadMore>Baca selengkapnya...</NewsReadMore>
-  <NewsTwitterError>Gagal mendapatkan daftar tweets</NewsTwitterError>
+  <News>Berita</News>
+  <NewsPubDate>Tanggal publikasi</NewsPubDate>
+  <NewsReadMore>Selengkapnya...</NewsReadMore>
+  <NewsTwitterError>Gagal mendapatkan daftar tweet</NewsTwitterError>
   <NewsType_Notice>pemberitahuan</NewsType_Notice>
   <NewsType_Event>event</NewsType_Event>
   <NewsType_Patch>patch</NewsType_Patch>
   
   <GameButton_Waiting>MENUNGGU</GameButton_Waiting>
   <GameButton_UpdateGame>PERBARUI PERMAINAN</GameButton_UpdateGame>
-  <UpdateCantGetVersion>Gagal mendapatkan versi permainan.</UpdateCantGetVersion>
+  <UpdateCantGetVersion>Gagal mendapatkan versi dari permainan.</UpdateCantGetVersion>
   <UpdateCantConnect>Tidak dapat menghubungkan ke server pembaruan.</UpdateCantConnect>
   <UpdateDownloading>Mengunduh pembaruan {0} dari {1}... [{2:0.00}MB / {3:0.00}MB]</UpdateDownloading>
-  <UpdateExtracting>Membongkar pembaruan {0} of {1}... [{2} / {3}]</UpdateExtracting>
-  <UpdateInstalling>Menginstal pembaruan... [{0} / {1}]</UpdateInstalling>
-  <UseLastSession>Apakah Anda ingin menggunakan sesi terakhir berhasil?</UseLastSession>
+  <UpdateExtracting>Membongkar pembaruan {0} dari {1}... [{2} / {3}]</UpdateExtracting>
+  <UpdateInstalling>Sedang memasang pembaruan... [{0} / {1}]</UpdateInstalling>
+  <UseLastSession>Apakah kamu ingin menggunakan sesi terakhir yang berhasil?</UseLastSession>
   
-  <LoginTry>Coba {0}...</LoginTry>
-  <LoginGettingData>Mendapatkan data...</LoginGettingData>
+  <LoginTry>Upaya masuk {0}...</LoginTry>
+  <LoginGettingData>Memperoleh data...</LoginGettingData>
   <LoginLogIn>Masuk...</LoginLogIn>
   <LoginWasError>terjadi kesalahan</LoginWasError>
-  <LoginBadAccount>Tidak dapat masuk. Nama pengguna atau kata sandi anda mungkin salah.</LoginBadAccount>
-  <LoginEmptyUsername>Mohon ketikkan nama pengguna anda!</LoginEmptyUsername>
-  <LoginEmptyPassword>Mohon ketikkan kata sandi anda!</LoginEmptyPassword>
-  <LoginWrongPage>Halaman masuk salah atau telah diganti. Hubungi pengembang launcher.</LoginWrongPage>
+  <LoginBadAccount>Tidak dapat masuk. Nama pengguna atau kata sandi kamu mungkin salah.</LoginBadAccount>
+  <LoginEmptyUsername>Tuliskan nama pengguna kamu!</LoginEmptyUsername>
+  <LoginEmptyPassword>Tuliskan kata sandi kamu!</LoginEmptyPassword>
+  <LoginWrongPage>Halaman masuk salah atau telah berubah. Mohon hubungi pengembang launcher.</LoginWrongPage>
   
   <GalleryNoScreenshots>TIDAK ADA SCREENSHOT</GalleryNoScreenshots>
   <GalleryCantOpenImage>Tidak dapat membuka gambar. Kesalahan: </GalleryCantOpenImage>
   
-  <PersonalizationWrongTGA>Bukan gambar-TGA!</PersonalizationWrongTGA>
-  <PersonalizationCantSave>Tidak dapat menyimpan gambar.</PersonalizationCantSave>
-  <PersonalizationCantWrite>Tidak dapat menulis gambar kedalam permainan!</PersonalizationCantWrite>
+  <PersonalizationWrongTGA>Ini bukan TGA-image!</PersonalizationWrongTGA>
+  <PersonalizationCantSave>Tidak dapat menyimpan Gambar.</PersonalizationCantSave>
+  <PersonalizationCantWrite>Tidak dapat menerapkan Gambar ke dalam permainan!</PersonalizationCantWrite>
   <PersonalizationSelectTitle>Pilih Gambar:</PersonalizationSelectTitle>
   <PersonalizationSelectMessage>Klik disini untuk memilih Gambar</PersonalizationSelectMessage>
-  <PersonalizationCurrentTitle>Gambar Saat Ini:</PersonalizationCurrentTitle>
+  <PersonalizationCurrentTitle>Gambar saat ini:</PersonalizationCurrentTitle>
   <PersonalizationSaveButton>Simpan Gambar</PersonalizationSaveButton>
   
   <CommGuildName>Nama Guild</CommGuildName>
-  <CommGuildNameEmpty>Mohon masukkan nama Guild!</CommGuildNameEmpty>
-  <CommWrongGuildName>Nama Guild mengandung karakter yang tidak valid!</CommWrongGuildName>
+  <CommGuildNameEmpty>Mohon masukkan nama guild!</CommGuildNameEmpty>
+  <CommWrongGuildName>Nama guild mengandung karakter yang tidak valid!</CommWrongGuildName>
   
-  <CommSearchingGuild>Mencari guild</CommSearchingGuild>
-  <CommGettingTamer>Mendapatkan Tamer: {0}</CommGettingTamer>
+  <CommSearchingGuild>Sedang mencari guild</CommSearchingGuild>
+  <CommGettingTamer>Memperoleh Tamer: {0}</CommGettingTamer>
   
   <CommTamersTab>TAMERS</CommTamersTab>
   <CommDigimonsTab>DIGIMONS</CommDigimonsTab>
   
-  <CommSelect_Guild>Guild apa yang anda cari</CommSelect_Guild>
-  <CommCheckBox_Detailed>Menerima data yang rinci (panjang)</CommCheckBox_Detailed>
-  <CommButton_Search>Cari sebuah guild</CommButton_Search>
+  <CommSelect_Guild>Guild apa yang kamu cari</CommSelect_Guild>
+  <CommCheckBox_Detailed>Data terperinci (lama)</CommCheckBox_Detailed>
+  <CommButton_Search>Cari guild</CommButton_Search>
   
   <CommGMaster>Master</CommGMaster>
   <CommGBest>Best</CommGBest>
-  <CommGRank>Ranking</CommGRank>
+  <CommGRank>Peringkat</CommGRank>
   <CommGRep>Reputasi</CommGRep>
   <CommGTCnt>Jumlah tamer</CommGTCnt>
   <CommGDCnt>Jumlah digimon</CommGDCnt>
   
   <CommHeader_Type>Tipe</CommHeader_Type>
   <CommHeader_Level>Level</CommHeader_Level>
-  <CommHeader_Ranking>Ranking</CommHeader_Ranking>
+  <CommHeader_Ranking>Peringkat</CommHeader_Ranking>
   <CommHeader_Tamer>Tamer</CommHeader_Tamer>
   <CommHeader_Partner>Partner</CommHeader_Partner>
   <CommHeader_Mercenary>Mercenary</CommHeader_Mercenary>
   <CommHeader_Name>Nama</CommHeader_Name>
   <CommHeader_Size>Ukuran</CommHeader_Size>
-
-  <CheckForUpdates>Memeriksa pembaruan</CheckForUpdates>
-  <UpdateAvailableText>Versi baru {0} tersedia. Log perubahan:</UpdateAvailableText>
+  
+  <CheckForUpdates>Periksa pembaruan</CheckForUpdates>
+  <UpdateAvailableText>Versi baru {0} tersedia. Daftar perubahan:</UpdateAvailableText>
   <UpdateAvailableCaption>Versi baru {0} tersedia</UpdateAvailableCaption>
-  <UpdateDownloadQuestion>Apakah anda ingin mengunduhnya sekarang?</UpdateDownloadQuestion>
+  <UpdateDownloadQuestion>Apakah kamu ingin mengunduhnya sekarang?</UpdateDownloadQuestion>
 </Language>

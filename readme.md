@@ -1,3 +1,5 @@
+# Launcher is outdated and not compatible with newest versions of DMO. This project has been discontinued and not supported anymore, sorry.
+
 ## DMO Advanced Launcher
 
 Hello! We would like to present to you the custom Digimon Masters Online\* launcher. We invested all our effort and soul into its creation. It doesn't look like a default launcher. It is: beautiful, comfortable, functional.
